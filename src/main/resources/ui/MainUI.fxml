@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+         prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar>
+                    <menus>
+                        <Menu mnemonicParsing="false" text="%ui.main.file">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="%ui.main.new_project"/>
+                                <MenuItem mnemonicParsing="false" text="%ui.main.open_project"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="%ui.main.build">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="%ui.main.build_project"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="%ui.main.help">
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="%ui.main.about"/>
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+            </children>
+        </VBox>
+    </top>
+</fx:root>
