@@ -5,6 +5,7 @@ common.yes=是
 common.no=否
 common.next=下一个
 common.previous=上一个
+common.save=保存
 
 ui.main.file=文件
 ui.main.new_project=新建项目
@@ -15,6 +16,18 @@ ui.main.help=帮助
 ui.main.about=关于 Peach
 
 ui.new_project.title=新建项目
-ui.new_project.name=项目名称:
-ui.new_project.path=项目路径:
+ui.new_project.name=项目名称：
+ui.new_project.path=项目路径：
 ui.new_project.choose_path=选择项目路径
+
+ui.mod_info.title=模组设置
+ui.mod_info.general.title=通用设置
+ui.mod_info.display_name=显示名：
+ui.mod_info.id=唯一名：
+ui.mod_info.version=版本号：
+ui.mod_info.advanced.title=高级设置
+ui.mod_info.description=详细信息：
+ui.mod_info.author_name=作者名：
+ui.mod_info.website=网站链接：
+ui.mod_info.logo=图标：
+ui.mod_info.choose_logo=选择图标文件
