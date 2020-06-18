@@ -1,0 +1,20 @@
+common.ok=确认
+common.finish=完成
+common.cancel=取消
+common.yes=是
+common.no=否
+common.next=下一个
+common.previous=上一个
+
+ui.main.file=文件
+ui.main.new_project=新建项目
+ui.main.open_project=打开项目
+ui.main.build=构建
+ui.main.build_project=生成项目
+ui.main.help=帮助
+ui.main.about=关于 Peach
+
+ui.new_project.title=新建项目
+ui.new_project.name=项目名称:
+ui.new_project.path=项目路径:
+ui.new_project.choose_path=选择项目路径

@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
-import com.github.mouse0w0.i18n.source.ClasspathFolderTranslationSource;
+import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import javafx.application.Application;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class Peach {
         LOGGER.info("Locale: {}", Locale.getDefault());
         I18n.setTranslator(Translator.builder()
                 .locale(Locale.getDefault())
-                .source(new ClasspathFolderTranslationSource("lang"))
+                .source(new ClasspathFileTranslationSource("lang"))
                 .build());
         Application.launch(FXApplication.class, args);
     }

@@ -13,8 +13,9 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="%ui.main.file">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="%ui.main.new_project"/>
-                                <MenuItem mnemonicParsing="false" text="%ui.main.open_project"/>
+                                <MenuItem mnemonicParsing="false" onAction="#onNewProject" text="%ui.main.new_project"/>
+                                <MenuItem mnemonicParsing="false" onAction="#onOpenProject"
+                                          text="%ui.main.open_project"/>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="%ui.main.build">
