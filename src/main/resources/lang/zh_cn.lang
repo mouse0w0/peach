@@ -7,6 +7,10 @@ common.next=下一个
 common.previous=上一个
 common.save=保存
 
+ui.welcome.new_project=新建项目
+ui.welcome.open_project=打开项目
+ui.welcome.donate=捐助作者
+
 ui.main.file=文件
 ui.main.new_project=新建项目
 ui.main.open_project=打开项目
@@ -22,9 +26,11 @@ ui.new_project.choose_path=选择项目路径
 
 ui.mod_info.title=模组设置
 ui.mod_info.general.title=通用设置
-ui.mod_info.display_name=显示名：
+ui.mod_info.name=显示名：
 ui.mod_info.id=唯一名：
 ui.mod_info.version=版本号：
+ui.mod_info.mc_version=MC版本：
+ui.mod_info.language=语言：
 ui.mod_info.advanced.title=高级设置
 ui.mod_info.description=详细信息：
 ui.mod_info.author_name=作者名：

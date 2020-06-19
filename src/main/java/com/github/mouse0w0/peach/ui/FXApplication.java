@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class FXApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setScene(new Scene(new MainUI()));
+        primaryStage.setScene(new Scene(new WelcomeUI()));
         primaryStage.setTitle("Peach");
         primaryStage.show();
     }
