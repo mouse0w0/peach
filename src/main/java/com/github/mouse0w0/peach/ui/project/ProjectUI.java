@@ -1,23 +1,18 @@
-package com.github.mouse0w0.peach.ui;
+package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.ui.project.NewProjectUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 
-public class WelcomeUI extends BorderPane {
+public class ProjectUI extends BorderPane {
 
-    @FXML
-    public ListView<String> recentProject;
-
-    public WelcomeUI() {
-        FXUtils.loadFXML(this, "ui/Welcome.fxml");
+    public ProjectUI() {
+        FXUtils.loadFXML(this, "ui/project/Project.fxml");
     }
 
     @FXML

@@ -6,21 +6,21 @@
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
          prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1"
          xmlns:fx="http://javafx.com/fxml/1">
-   <left>
-      <ListView prefWidth="200.0" BorderPane.alignment="CENTER"/>
-   </left>
-   <center>
-      <FlowPane alignment="CENTER" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="CENTER" spacing="10.0">
-               <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNewProject"
-                          text="%ui.welcome.new_project"/>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOpenProject"
-                          text="%ui.welcome.open_project"/>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%ui.welcome.donate"/>
-               </children>
-            </VBox>
+    <left>
+        <ListView fx:id="recentProject" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+    </left>
+    <center>
+        <FlowPane alignment="CENTER" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" minWidth="150.0" spacing="10.0">
+                    <children>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNewProject"
+                                text="%ui.welcome.new_project"/>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOpenProject"
+                                text="%ui.welcome.open_project"/>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%ui.welcome.donate"/>
+                    </children>
+                </VBox>
          </children>
       </FlowPane>
    </center>

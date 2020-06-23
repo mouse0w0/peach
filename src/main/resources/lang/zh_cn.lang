@@ -23,6 +23,7 @@ ui.new_project.title=新建项目
 ui.new_project.name=项目名称：
 ui.new_project.path=项目路径：
 ui.new_project.choose_path=选择项目路径
+ui.new_project.not_empty=项目路径非空，是否确认要在此创建项目。
 
 ui.mod_info.title=模组设置
 ui.mod_info.general.title=通用设置
