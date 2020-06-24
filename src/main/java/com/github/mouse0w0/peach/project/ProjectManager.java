@@ -2,11 +2,11 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectOpenedEvent;
+import com.github.mouse0w0.peach.util.FileUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,7 @@ public class ProjectManager {
 
     public Project createProject(@Nullable String name, @Nonnull Path path) {
         try {
-            if (!Files.exists(path)) {
-                Files.createDirectory(path);
-            }
+            FileUtils.createDirectoriesIfNotExists(path);
             Project project = openProject(path);
             project.setName(name);
             return project;

@@ -39,6 +39,7 @@ public class NewProjectUI extends BorderPane {
 
     public NewProjectUI() {
         FXUtils.loadFXML(this, "ui/project/NewProject.fxml");
+        projectName.setText("untitled");
     }
 
     @FXML
