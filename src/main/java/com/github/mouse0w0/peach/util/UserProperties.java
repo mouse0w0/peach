@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,8 +29,8 @@ public class UserProperties {
 
     private static void load() {
         if (Files.exists(USER_PROPERTIES_FILE)) {
-            try (Reader reader = Files.newBufferedReader(USER_PROPERTIES_FILE)) {
-                instance = JsonUtils.gson().fromJson(reader, UserProperties.class);
+            try {
+                instance = JsonUtils.readJson(USER_PROPERTIES_FILE, UserProperties.class);
             } catch (IOException e) {
                 LOGGER.error("Cannot load user properties!", e);
             }
@@ -45,10 +43,7 @@ public class UserProperties {
 
     private static void save() {
         try {
-            FileUtils.createFileIfNotExists(USER_PROPERTIES_FILE);
-            try (Writer writer = Files.newBufferedWriter(USER_PROPERTIES_FILE)) {
-                JsonUtils.gson().toJson(instance, writer);
-            }
+            JsonUtils.writeJson(USER_PROPERTIES_FILE, instance);
         } catch (IOException e) {
             LOGGER.error("Cannot save user properties!", e);
         }
