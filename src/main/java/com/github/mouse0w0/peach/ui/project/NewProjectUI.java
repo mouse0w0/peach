@@ -52,7 +52,7 @@ public class NewProjectUI extends BorderPane {
 
     @FXML
     public void onFinish() {
-        getScene().getWindow().hide();
+        FXUtils.hideWindow(this);
         doCreateProject();
     }
 
@@ -72,6 +72,6 @@ public class NewProjectUI extends BorderPane {
 
     @FXML
     public void onCancel() {
-        getScene().getWindow().hide();
+        FXUtils.hideWindow(this);
     }
 }

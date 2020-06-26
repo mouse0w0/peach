@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.ui.util;
 
 import com.github.mouse0w0.i18n.I18n;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -39,6 +40,10 @@ public final class FXUtils {
         } catch (ClassNotFoundException e) {
             return null;
         }
+    }
+
+    public static void hideWindow(Node node) {
+        node.getScene().getWindow().hide();
     }
 
     private FXUtils() {

@@ -8,7 +8,7 @@ public class FXApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setScene(new Scene(new WelcomeUI()));
-        primaryStage.setTitle("Peach");
+        primaryStage.setTitle("🍑Peach");
         primaryStage.show();
     }
 }

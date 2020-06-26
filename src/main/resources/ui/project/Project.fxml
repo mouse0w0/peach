@@ -13,9 +13,15 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="%ui.main.file">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#onNewProject" text="%ui.main.new_project"/>
+                                <Menu mnemonicParsing="false" text="%ui.main.new">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#onNewProject"
+                                                  text="%ui.main.new_project"/>
+                                    </items>
+                                </Menu>
                                 <MenuItem mnemonicParsing="false" onAction="#onOpenProject"
                                           text="%ui.main.open_project"/>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="%ui.main.build">
