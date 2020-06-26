@@ -18,6 +18,7 @@ public class JsonFile<T> {
 
     private final Supplier<T> defaultSupplier;
 
+    private boolean loaded;
     private T value;
 
     public JsonFile(Path file, Class<T> type) {
@@ -33,7 +34,6 @@ public class JsonFile<T> {
         this.type = Validate.notNull(type);
         this.gson = Validate.notNull(gson);
         this.defaultSupplier = defaultSupplier;
-        this.value = defaultSupplier != null ? defaultSupplier.get() : null;
     }
 
     public Path getFile() {
@@ -41,6 +41,7 @@ public class JsonFile<T> {
     }
 
     public T get() {
+        if (!loaded) throw new IllegalStateException("File not loaded");
         return value;
     }
 
@@ -51,7 +52,13 @@ public class JsonFile<T> {
             } catch (IOException e) {
                 throw new RuntimeIOException(e);
             }
-        } else value = defaultSupplier != null ? defaultSupplier.get() : null;
+        }
+
+        if (value == null) {
+            value = defaultSupplier != null ? defaultSupplier.get() : null;
+        }
+
+        loaded = true;
     }
 
     public void set(T value) {
