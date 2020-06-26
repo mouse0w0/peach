@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.project;
 
+import com.github.mouse0w0.peach.data.DataHolderImpl;
 import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
@@ -9,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Project {
+public class Project extends DataHolderImpl {
 
     public static final String STORE_FOLDER = ".peach";
 
