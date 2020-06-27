@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.ui.project;
 
-import com.github.mouse0w0.eventbus.Listener;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectOpenedEvent;
 import com.github.mouse0w0.peach.project.Project;
@@ -10,16 +9,14 @@ import java.util.Map;
 
 public class WindowManager {
 
-    private static final WindowManager INSTANCE = new WindowManager();
-
     private final Map<Project, ProjectWindow> projectWindowMap = new HashMap<>();
 
     public static WindowManager getInstance() {
-        return INSTANCE;
+        return Peach.getInstance().getService(WindowManager.class);
     }
 
     public WindowManager() {
-        Peach.getEventBus().register(this);
+        Peach.getEventBus().addListener(this::onOpenedProject);
     }
 
     public ProjectWindow getProjectWindow(Project project) {
@@ -37,8 +34,7 @@ public class WindowManager {
         return window;
     }
 
-    @Listener
-    public void onOpenedProject(ProjectOpenedEvent event) {
+    private void onOpenedProject(ProjectOpenedEvent event) {
         ProjectWindow window = allocateProjectWindow(event.getProject());
         window.getStage().show();
     }

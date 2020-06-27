@@ -7,18 +7,20 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.forge.ForgeProjectService;
+import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
-import com.github.mouse0w0.peach.util.UserProperties;
 import javafx.application.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
-public class Peach {
+public class Peach extends ServiceManagerImpl {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
+
+    private static Peach INSTANCE;
 
     private static final EventBus EVENT_BUS = SimpleEventBus.builder()
             .eventListenerFactory(AsmEventListenerFactory.create()).build();
@@ -27,19 +29,28 @@ public class Peach {
         return EVENT_BUS;
     }
 
+    public static Peach getInstance() {
+        return INSTANCE;
+    }
+
     public static void main(String[] args) {
         LOGGER.info("Locale: {}", Locale.getDefault());
-        initServices();
+        INSTANCE = new Peach();
         Application.launch(FXApplication.class, args);
     }
 
-    private static void initServices() {
-        UserProperties.init();
+    public Peach() {
         I18n.setTranslator(Translator.builder()
                 .locale(Locale.getDefault())
                 .source(new ClasspathFileTranslationSource("lang"))
                 .build());
-        WindowManager.getInstance();
-        ForgeProjectService.getInstance();
+
+        initServices();
+    }
+
+    private void initServices() {
+        registerService(RecentProjectsManager.class, new RecentProjectsManager());
+        registerService(WindowManager.class, new WindowManager());
+        registerService(ForgeProjectService.class, new ForgeProjectService());
     }
 }
