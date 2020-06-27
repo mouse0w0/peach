@@ -22,9 +22,9 @@ public abstract class ServiceManagerImpl implements ServiceManager {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getService(Class<T> classOfT, boolean createIfNeeded) {
-        return (T) services.computeIfAbsent(classOfT, key -> {
+        return (T) (createIfNeeded ? services.computeIfAbsent(classOfT, key -> {
             Supplier<?> serviceFactory = serviceFactories.get(key);
             return serviceFactory != null ? serviceFactory.get() : null;
-        });
+        }) : services.get(classOfT));
     }
 }
