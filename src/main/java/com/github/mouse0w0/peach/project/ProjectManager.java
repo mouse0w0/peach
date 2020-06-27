@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.event.project.ProjectOpenedEvent;
+import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.util.FileUtils;
 
 import javax.annotation.Nonnull;
@@ -39,7 +39,7 @@ public class ProjectManager {
     public Project openProject(@Nonnull Path path) {
         try {
             Project project = new Project(path);
-            Peach.getEventBus().post(new ProjectOpenedEvent(project));
+            Peach.getEventBus().post(new ProjectEvent.Opened(project));
             return project;
         } catch (IOException e) {
             throw new RuntimeException(e);

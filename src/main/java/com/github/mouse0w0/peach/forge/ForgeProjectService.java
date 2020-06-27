@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.forge;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.event.project.ProjectOpenedEvent;
+import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.forge.ModInfoUI;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
@@ -23,7 +23,7 @@ public class ForgeProjectService {
         Peach.getEventBus().addListener(this::onOpenedProject);
     }
 
-    private void onOpenedProject(ProjectOpenedEvent event) {
+    private void onOpenedProject(ProjectEvent.Opened event) {
         Project project = event.getProject();
         Path file = project.getPath().resolve(ForgeProjectInfo.FILE_NAME);
         JsonFile<ForgeProjectInfo> jsonFile = new JsonFile<>(file, ForgeProjectInfo.class, ForgeProjectInfo::new);

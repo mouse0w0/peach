@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.event.project.ProjectOpenedEvent;
+import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class WindowManager {
         return window;
     }
 
-    private void onOpenedProject(ProjectOpenedEvent event) {
+    private void onOpenedProject(ProjectEvent.Opened event) {
         ProjectWindow window = allocateProjectWindow(event.getProject());
         window.getStage().show();
     }

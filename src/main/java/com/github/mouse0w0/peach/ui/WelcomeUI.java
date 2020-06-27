@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.ui;
 import com.github.mouse0w0.eventbus.Listener;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.event.project.ProjectOpenedEvent;
+import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.project.NewProjectUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -35,7 +35,7 @@ public class WelcomeUI extends BorderPane {
     }
 
     @Listener
-    public static void onOpenedProject(ProjectOpenedEvent event) {
+    public static void onOpenedProject(ProjectEvent.Opened event) {
         WELCOME_UI_STAGE.hide();
     }
 
