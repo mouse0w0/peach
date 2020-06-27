@@ -9,7 +9,7 @@ public class ForgeProjectInfo {
 
     public static final Key<JsonFile<ForgeProjectInfo>> KEY = Key.of(ForgeProjectInfo.class);
 
-    public static final String FILE_NAME = "project.forge";
+    public static final String FILE_NAME = "project.forge.json";
 
     private String name = "untitled";
     private String id = "untitled";
