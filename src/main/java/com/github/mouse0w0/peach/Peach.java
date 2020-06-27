@@ -6,6 +6,7 @@ import com.github.mouse0w0.eventbus.asm.AsmEventListenerFactory;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
+import com.github.mouse0w0.peach.forge.ForgeProjectService;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.UserProperties;
@@ -39,5 +40,6 @@ public class Peach {
                 .source(new ClasspathFileTranslationSource("lang"))
                 .build());
         WindowManager.getInstance();
+        ForgeProjectService.getInstance();
     }
 }

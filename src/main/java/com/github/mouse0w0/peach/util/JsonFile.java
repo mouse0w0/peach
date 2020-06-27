@@ -65,7 +65,7 @@ public class JsonFile<T> {
         this.value = value;
     }
 
-    public void save() throws IOException {
+    public void save() {
         try {
             FileUtils.createFileIfNotExists(file);
             try (Writer writer = Files.newBufferedWriter(file)) {
