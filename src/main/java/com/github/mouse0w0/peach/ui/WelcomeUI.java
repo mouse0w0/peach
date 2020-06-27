@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.ui;
 
-import com.github.mouse0w0.eventbus.Listener;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
@@ -18,7 +17,7 @@ import java.io.File;
 
 public class WelcomeUI extends BorderPane {
 
-    private static Stage WELCOME_UI_STAGE;
+    private static Stage stage;
 
     @FXML
     public ListView<String> recentProject;
@@ -27,16 +26,15 @@ public class WelcomeUI extends BorderPane {
         Peach.getEventBus().addListener(WelcomeUI::onOpenedProject);
     }
 
-    public static void show(Stage primaryStage) {
-        WELCOME_UI_STAGE = primaryStage;
-        WELCOME_UI_STAGE.setScene(new Scene(new WelcomeUI()));
-        WELCOME_UI_STAGE.setTitle("🍑Peach");
-        WELCOME_UI_STAGE.show();
+    public static void show() {
+        stage = new Stage();
+        stage.setScene(new Scene(new WelcomeUI()));
+        stage.setTitle("🍑Peach");
+        stage.show();
     }
 
-    @Listener
-    public static void onOpenedProject(ProjectEvent.Opened event) {
-        WELCOME_UI_STAGE.hide();
+    private static void onOpenedProject(ProjectEvent.Opened event) {
+        stage.hide();
     }
 
     public WelcomeUI() {

@@ -6,6 +6,6 @@ import javafx.stage.Stage;
 public class FXApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        WelcomeUI.show(primaryStage);
+        WelcomeUI.show();
     }
 }
