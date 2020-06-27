@@ -7,6 +7,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.forge.ForgeProjectService;
+import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -51,6 +52,7 @@ public class Peach extends ServiceManagerImpl {
     private void initServices() {
         registerService(RecentProjectsManager.class, new RecentProjectsManager());
         registerService(WindowManager.class, new WindowManager());
+        registerService(ProjectManager.class, ProjectManager::new, false);
         registerService(ForgeProjectService.class, new ForgeProjectService());
     }
 }

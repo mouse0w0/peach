@@ -13,12 +13,10 @@ import java.util.List;
 
 public class ProjectManager {
 
-    private static final ProjectManager INSTANCE = new ProjectManager();
-
     private final List<Project> openProjects = new ArrayList<>();
 
     public static ProjectManager getInstance() {
-        return INSTANCE;
+        return Peach.getInstance().getService(ProjectManager.class);
     }
 
     public List<Project> getOpenProjects() {
