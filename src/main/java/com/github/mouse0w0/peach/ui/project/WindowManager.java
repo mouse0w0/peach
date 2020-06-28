@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,10 @@ public class WindowManager {
 
     public WindowManager() {
         Peach.getEventBus().addListener(this::onOpenedProject);
+    }
+
+    public Collection<ProjectWindow> getProjectWindows() {
+        return projectWindowMap.values();
     }
 
     public ProjectWindow getProjectWindow(Project project) {

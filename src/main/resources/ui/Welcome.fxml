@@ -7,7 +7,7 @@
          prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1"
          xmlns:fx="http://javafx.com/fxml/1">
     <left>
-        <ListView fx:id="recentProject" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+        <ListView fx:id="recentProjects" prefWidth="200.0" BorderPane.alignment="CENTER"/>
     </left>
     <center>
         <FlowPane alignment="CENTER" BorderPane.alignment="CENTER">

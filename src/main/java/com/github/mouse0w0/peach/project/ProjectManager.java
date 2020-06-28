@@ -37,6 +37,7 @@ public class ProjectManager {
     public Project openProject(@Nonnull Path path) {
         try {
             Project project = new Project(path);
+            openProjects.add(project);
             Peach.getEventBus().post(new ProjectEvent.Opened(project));
             return project;
         } catch (IOException e) {
