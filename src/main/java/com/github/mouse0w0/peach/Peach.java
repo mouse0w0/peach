@@ -6,6 +6,7 @@ import com.github.mouse0w0.eventbus.asm.AsmEventListenerFactory;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
+import com.github.mouse0w0.peach.event.project.AppEvent;
 import com.github.mouse0w0.peach.forge.ForgeProjectService;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.ServiceManagerImpl;
@@ -47,6 +48,19 @@ public class Peach extends ServiceManagerImpl {
                 .build());
 
         initServices();
+    }
+
+    public void exit() {
+        exit(false);
+    }
+
+    public void exit(boolean force) {
+        getEventBus().post(new AppEvent.Closing());
+
+        if (!force && getEventBus().post(new AppEvent.CanClose())) return;
+
+        getEventBus().post(new AppEvent.WillBeClosed());
+        System.exit(0);
     }
 
     private void initServices() {

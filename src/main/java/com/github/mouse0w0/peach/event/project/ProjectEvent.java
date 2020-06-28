@@ -7,7 +7,7 @@ public class ProjectEvent implements Event {
 
     private final Project project;
 
-    public ProjectEvent(Project project) {
+    protected ProjectEvent(Project project) {
         this.project = project;
     }
 
