@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.event.project;
+package com.github.mouse0w0.peach.event;
 
 import com.github.mouse0w0.eventbus.Cancellable;
 import com.github.mouse0w0.eventbus.Event;
