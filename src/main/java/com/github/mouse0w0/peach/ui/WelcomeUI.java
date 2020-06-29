@@ -82,7 +82,7 @@ public class WelcomeUI extends BorderPane {
             }
         });
         recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
-        recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp));
+        recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
     }
 
     @FXML
