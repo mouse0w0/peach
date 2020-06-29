@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.ui.project;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.project.ProjectManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -24,6 +25,10 @@ public class ProjectWindow {
         stage.setTitle(project.getName());
         stage.setOnShown(event -> Peach.getEventBus().post(new ProjectWindowEvent.Opened(this)));
         stage.setOnHidden(event -> Peach.getEventBus().post(new ProjectWindowEvent.Closed(this)));
+        stage.setOnCloseRequest(event -> {
+            ProjectManager.getInstance().closeProject(project);
+            event.consume();
+        });
     }
 
     public Project getProject() {

@@ -18,6 +18,7 @@ public class WindowManager {
 
     public WindowManager() {
         Peach.getEventBus().addListener(this::onOpenedProject);
+        Peach.getEventBus().addListener(this::onClosedProject);
     }
 
     public Collection<ProjectWindow> getProjectWindows() {
@@ -42,5 +43,10 @@ public class WindowManager {
     private void onOpenedProject(ProjectEvent.Opened event) {
         ProjectWindow window = allocateProjectWindow(event.getProject());
         window.getStage().show();
+    }
+
+    private void onClosedProject(ProjectEvent.Closed event) {
+        ProjectWindow window = getProjectWindow(event.getProject());
+        window.getStage().hide();
     }
 }

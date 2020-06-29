@@ -7,6 +7,8 @@ common.next=下一个
 common.previous=上一个
 common.save=保存
 
+action.file.exit=退出
+
 ui.welcome.new_project=新建项目
 ui.welcome.open_project=打开项目
 ui.welcome.donate=请给我钱
@@ -14,6 +16,7 @@ ui.welcome.donate=请给我钱
 ui.main.file=文件
 ui.main.new_project=新建项目
 ui.main.open_project=打开项目
+ui.main.open_recent=最近打开项目
 ui.main.new=新建...
 ui.main.build=构建
 ui.main.build_project=生成项目

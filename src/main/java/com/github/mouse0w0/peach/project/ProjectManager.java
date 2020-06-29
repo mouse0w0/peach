@@ -13,14 +13,18 @@ import java.util.List;
 
 public class ProjectManager {
 
-    private final List<Project> openProjects = new ArrayList<>();
+    private final List<Project> openedProjects = new ArrayList<>();
 
     public static ProjectManager getInstance() {
         return Peach.getInstance().getService(ProjectManager.class);
     }
 
-    public List<Project> getOpenProjects() {
-        return openProjects;
+    public List<Project> getOpenedProjects() {
+        return openedProjects;
+    }
+
+    public boolean isProjectOpened(Project project) {
+        return openedProjects.contains(project);
     }
 
     public Project createProject(@Nullable String name, @Nonnull Path path) {
@@ -37,11 +41,29 @@ public class ProjectManager {
     public Project openProject(@Nonnull Path path) {
         try {
             Project project = new Project(path);
-            openProjects.add(project);
+            openedProjects.add(project);
             Peach.getEventBus().post(new ProjectEvent.Opened(project));
             return project;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean closeProject(@Nonnull Project project) {
+        if (!project.isOpen()) {
+            return true;
+        }
+
+        Peach.getEventBus().post(new ProjectEvent.ClosingBeforeSave(project));
+        try {
+            project.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Peach.getEventBus().post(new ProjectEvent.Closing(project));
+        openedProjects.remove(project);
+        Peach.getEventBus().post(new ProjectEvent.Closed(project));
+        return true;
     }
 }

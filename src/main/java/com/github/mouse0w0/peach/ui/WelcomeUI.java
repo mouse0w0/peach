@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.Comparator;
 
 public class WelcomeUI extends BorderPane {
 
@@ -38,7 +39,7 @@ public class WelcomeUI extends BorderPane {
         stage.setScene(new Scene(new WelcomeUI()));
         stage.setTitle("🍑Peach");
         stage.setOnHidden(event -> {
-            if (ProjectManager.getInstance().getOpenProjects().isEmpty()) {
+            if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
                 Peach.getInstance().exit();
             }
         });
@@ -52,6 +53,8 @@ public class WelcomeUI extends BorderPane {
     private static void onClosedProject(ProjectWindowEvent.Closed event) {
         if (showWelcomeIfNoProjectOpened) {
             show();
+        } else {
+            Peach.getInstance().exit();
         }
     }
 
@@ -79,6 +82,7 @@ public class WelcomeUI extends BorderPane {
             }
         });
         recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
+        recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp));
     }
 
     @FXML

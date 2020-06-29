@@ -21,6 +21,20 @@ public class ProjectEvent implements Event {
         }
     }
 
+    public static final class ClosingBeforeSave extends ProjectEvent {
+
+        public ClosingBeforeSave(Project project) {
+            super(project);
+        }
+    }
+
+    public static final class Closing extends ProjectEvent {
+
+        public Closing(Project project) {
+            super(project);
+        }
+    }
+
     public static final class Closed extends ProjectEvent {
 
         public Closed(Project project) {

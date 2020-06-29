@@ -22,6 +22,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#onOpenProject"
                                           text="%ui.main.open_project"/>
                                 <SeparatorMenuItem mnemonicParsing="false"/>
+                                <MenuItem mnemonicParsing="false" onAction="#onExit" text="%action.file.exit"/>
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="%ui.main.build">

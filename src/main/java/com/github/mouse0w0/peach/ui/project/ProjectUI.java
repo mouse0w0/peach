@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
@@ -27,5 +28,10 @@ public class ProjectUI extends BorderPane {
         File file = directoryChooser.showDialog(getScene().getWindow());
         if (file == null) return;
         ProjectManager.getInstance().openProject(file.toPath());
+    }
+
+    @FXML
+    public void onExit() {
+        Peach.getInstance().exit();
     }
 }

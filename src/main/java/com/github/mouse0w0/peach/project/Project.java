@@ -17,7 +17,6 @@ public class Project extends DataHolderImpl {
     private static final String NAME_FILE = ".name";
 
     private final Path path;
-
     private final Path nameFile;
 
     private String name;
@@ -31,7 +30,7 @@ public class Project extends DataHolderImpl {
             throw new IllegalArgumentException("Project path must be a directory");
         }
         this.nameFile = path.resolve(STORE_FOLDER + "/" + NAME_FILE);
-        doLoad();
+        loadNameFile();
     }
 
     @Nonnull
@@ -51,13 +50,21 @@ public class Project extends DataHolderImpl {
         this.name = name;
     }
 
-    protected void doLoad() throws IOException {
+    public boolean isOpen() {
+        return ProjectManager.getInstance().isProjectOpened(this);
+    }
+
+    private void loadNameFile() throws IOException {
         if (Files.exists(nameFile)) {
             name = Files.readAllLines(nameFile).stream().findFirst().orElse(null);
         }
     }
 
-    private void doSave() throws IOException {
+    public void save() throws IOException {
+        saveNameFile();
+    }
+
+    private void saveNameFile() throws IOException {
         if (name == null || name.equals(path.getFileName().toString())) {
             Files.deleteIfExists(nameFile);
         } else if (name != null) {
