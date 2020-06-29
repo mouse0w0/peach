@@ -66,4 +66,8 @@ public class ProjectManager {
         Peach.getEventBus().post(new ProjectEvent.Closed(project));
         return true;
     }
+
+    public void closeAllProjects() {
+        getOpenedProjects().forEach(this::closeProject);
+    }
 }

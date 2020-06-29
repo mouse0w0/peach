@@ -11,28 +11,31 @@
             <children>
                 <MenuBar>
                     <menus>
-                        <Menu mnemonicParsing="false" text="%ui.main.file">
+                        <Menu mnemonicParsing="false" text="%action.mainMenu.file">
                             <items>
-                                <Menu mnemonicParsing="false" text="%ui.main.new">
+                                <Menu mnemonicParsing="false" text="%action.mainMenu.file.new">
                                     <items>
                                         <MenuItem mnemonicParsing="false" onAction="#onNewProject"
-                                                  text="%ui.main.new_project"/>
+                                                  text="%action.mainMenu.file.newProject"/>
                                     </items>
                                 </Menu>
                                 <MenuItem mnemonicParsing="false" onAction="#onOpenProject"
-                                          text="%ui.main.open_project"/>
+                                          text="%action.mainMenu.file.openProject"/>
                                 <SeparatorMenuItem mnemonicParsing="false"/>
-                                <MenuItem mnemonicParsing="false" onAction="#onExit" text="%action.file.exit"/>
+                                <MenuItem mnemonicParsing="false" text="%action.mainMenu.file.settings"/>
+                                <MenuItem mnemonicParsing="false" text="%action.mainMenu.file.projectSettings"/>
+                                <SeparatorMenuItem mnemonicParsing="false"/>
+                                <MenuItem mnemonicParsing="false" onAction="#onExit" text="%action.mainMenu.file.exit"/>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="%ui.main.build">
+                        <Menu mnemonicParsing="false" text="%action.mainMenu.build">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="%ui.main.build_project"/>
+                                <MenuItem mnemonicParsing="false" text="%action.mainMenu.build.buildProject"/>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="%ui.main.help">
+                        <Menu mnemonicParsing="false" text="%action.mainMenu.help">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="%ui.main.about"/>
+                                <MenuItem mnemonicParsing="false" text="%action.mainMenu.help.about"/>
                             </items>
                         </Menu>
                     </menus>

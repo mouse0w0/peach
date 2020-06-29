@@ -1,6 +1,9 @@
 package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.data.DataHolderImpl;
+import com.github.mouse0w0.peach.ui.project.ProjectWindow;
+import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.util.FileUtils;
 import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
@@ -48,6 +51,11 @@ public class Project extends DataHolderImpl {
 
     public void setName(@Nullable String name) {
         this.name = name;
+
+        ProjectWindow window = WindowManager.getInstance().getProjectWindow(this);
+        if (window != null) {
+            window.getStage().setTitle(getName());
+        }
     }
 
     public boolean isOpen() {
@@ -68,6 +76,7 @@ public class Project extends DataHolderImpl {
         if (name == null || name.equals(path.getFileName().toString())) {
             Files.deleteIfExists(nameFile);
         } else if (name != null) {
+            FileUtils.createFileIfNotExists(nameFile);
             Files.write(nameFile, name.getBytes(StandardCharsets.UTF_8));
         }
     }

@@ -22,7 +22,7 @@ import java.util.Comparator;
 
 public class WelcomeUI extends BorderPane {
 
-    private static final boolean showWelcomeIfNoProjectOpened = true;
+    private static final boolean showWelcomeIfNoProjectOpened = false;
 
     private static Stage stage;
 
@@ -51,10 +51,9 @@ public class WelcomeUI extends BorderPane {
     }
 
     private static void onClosedProject(ProjectWindowEvent.Closed event) {
-        if (showWelcomeIfNoProjectOpened) {
-            show();
-        } else {
-            Peach.getInstance().exit();
+        if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
+            if (showWelcomeIfNoProjectOpened) show();
+            else Peach.getInstance().exit();
         }
     }
 
