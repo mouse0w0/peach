@@ -65,7 +65,6 @@ public class Peach extends ServiceManagerImpl {
         if (!force && getEventBus().post(new AppEvent.CanClose())) return;
 
         ProjectManager.getInstance().closeAllProjects();
-
         getEventBus().post(new AppEvent.WillBeClosed());
         System.exit(0);
     }

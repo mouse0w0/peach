@@ -1,10 +1,12 @@
 package com.github.mouse0w0.peach.service;
 
+import com.github.mouse0w0.peach.data.DataHolderImpl;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public abstract class ServiceManagerImpl implements ServiceManager {
+public abstract class ServiceManagerImpl extends DataHolderImpl implements ServiceManager {
     private final Map<Class<?>, Object> services = new HashMap<>();
     private final Map<Class<?>, Supplier<?>> serviceFactories = new HashMap<>();
 
