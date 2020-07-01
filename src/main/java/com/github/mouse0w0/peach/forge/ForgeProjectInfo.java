@@ -14,7 +14,7 @@ public class ForgeProjectInfo {
     private String name = "untitled";
     private String id = "untitled";
     private String version = "1.0.0";
-    private String mcVersion;
+    private String mcVersion = "1.12.2";
     private Locale language = Locale.getDefault();
 
     public String getName() {

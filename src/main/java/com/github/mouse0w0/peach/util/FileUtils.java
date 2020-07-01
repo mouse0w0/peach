@@ -1,8 +1,11 @@
 package com.github.mouse0w0.peach.util;
 
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
+import java.util.stream.Stream;
 
 public class FileUtils {
 
@@ -20,5 +23,15 @@ public class FileUtils {
             }
             Files.createFile(path);
         }
+    }
+
+    public static Stream<Path> walk(Collection<Path> paths, FileVisitOption... options) {
+        return paths.stream().flatMap(path -> {
+            try {
+                return Files.walk(path, options);
+            } catch (IOException e) {
+                throw new RuntimeIOException(e);
+            }
+        });
     }
 }

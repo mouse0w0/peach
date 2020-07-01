@@ -16,7 +16,7 @@ public class ProjectWindow {
     public ProjectWindow(Project project) {
         this.project = project;
         this.stage = new Stage();
-        this.projectUI = new ProjectUI();
+        this.projectUI = new ProjectUI(project);
         initStage();
     }
 

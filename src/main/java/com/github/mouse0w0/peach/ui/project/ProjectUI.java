@@ -2,7 +2,11 @@ package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.forge.ForgeProjectInfo;
+import com.github.mouse0w0.peach.forge.generator.ForgeCompiler;
+import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.ui.forge.ModInfoUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
@@ -12,7 +16,10 @@ import java.io.File;
 
 public class ProjectUI extends BorderPane {
 
-    public ProjectUI() {
+    private final Project project;
+
+    public ProjectUI(Project project) {
+        this.project = project;
         FXUtils.loadFXML(this, "ui/project/Project.fxml");
     }
 
@@ -33,5 +40,20 @@ public class ProjectUI extends BorderPane {
     @FXML
     public void onExit() {
         Peach.getInstance().exit();
+    }
+
+    @FXML
+    public void doOpenSettings() {
+
+    }
+
+    @FXML
+    public void doOpenProjectSettings() {
+        ModInfoUI.show(project.getData(ForgeProjectInfo.KEY), getScene().getWindow());
+    }
+
+    @FXML
+    public void doBuild() {
+        new ForgeCompiler(project.getPath(), project.getPath().resolve("build")).run();
     }
 }
