@@ -10,8 +10,10 @@ import com.github.mouse0w0.peach.ui.project.NewProjectUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -60,6 +62,18 @@ public class WelcomeUI extends BorderPane {
     public WelcomeUI() {
         FXUtils.loadFXML(this, "ui/Welcome.fxml");
 
+        ContextMenu recentProjectsMenu = new ContextMenu();
+        MenuItem open = new MenuItem(I18n.translate("common.open"));
+        open.setOnAction(event -> ProjectManager.getInstance().openProject(
+                Paths.get(recentProjects.getSelectionModel().getSelectedItem().getPath())));
+        MenuItem remove = new MenuItem(I18n.translate("common.remove"));
+        remove.setOnAction(event -> {
+            RecentProjectInfo item = recentProjects.getSelectionModel().getSelectedItem();
+            RecentProjectsManager.getInstance().removeRecentProject(item.getPath());
+            recentProjects.getItems().remove(item);
+        });
+        recentProjectsMenu.getItems().addAll(open, remove);
+
         recentProjects.setCellFactory(list -> new ListCell<RecentProjectInfo>() {
 
             {
@@ -75,8 +89,10 @@ public class WelcomeUI extends BorderPane {
                 super.updateItem(item, empty);
                 if (empty) {
                     setText(null);
+                    setContextMenu(null);
                 } else {
                     setText(item.getName() + "\n" + item.getPath());
+                    setContextMenu(recentProjectsMenu);
                 }
             }
         });

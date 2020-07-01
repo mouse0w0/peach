@@ -45,6 +45,10 @@ public class RecentProjectsManager {
         return recentProjects.values();
     }
 
+    public void removeRecentProject(String path) {
+        recentProjects.remove(path);
+    }
+
     private void onOpenedProject(ProjectEvent.Opened event) {
         updateRecentProjectInfo(event.getProject());
     }
