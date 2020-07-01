@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -20,8 +19,7 @@ public class JarUtils {
 
     public static void jar(Path outputFile, Collection<Path> sources) throws IOException {
         FileUtils.createFileIfNotExists(outputFile);
-        try (OutputStream outputStream = Files.newOutputStream(outputFile);
-             JarOutputStream output = new JarOutputStream(outputStream)) {
+        try (JarOutputStream output = new JarOutputStream(Files.newOutputStream(outputFile))) {
             for (Path source : sources) {
                 Path root = Files.isRegularFile(source) ? source.getParent() : source;
                 Iterator<Path> iterator = Files.walk(source).iterator();
