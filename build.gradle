@@ -3,8 +3,10 @@ plugins {
     id 'application'
 }
 
+String buildNumber = 'git rev-list --count HEAD'.execute().text.trim();
+
 group 'com.github.mouse0w0'
-version '0.0.1-SNAPSHOT'
+version "0.0.1.${buildNumber}-SNAPSHOT"
 
 sourceCompatibility = targetCompatibility = 1.8
 mainClassName = 'com.github.mouse0w0.peach.Peach'
@@ -43,7 +45,6 @@ dependencies {
 jar {
     String gitBranch = 'git name-rev --name-only HEAD'.execute().text.trim()
     String gitVersion = 'git rev-parse --short HEAD'.execute().text.trim()
-    String gitCommitCount = 'git rev-list --count HEAD'.execute().text.trim()
     manifest.attributes([
             "Main-Class"              : mainClassName,
             "Implementation-Title"    : rootProject.name,
@@ -51,6 +52,6 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "Git-Branch"              : gitBranch,
             "Git-Version"             : gitVersion,
-            "Git-BuildNumber"         : gitCommitCount
+            "Git-BuildNumber"         : buildNumber
     ])
 }

@@ -12,6 +12,7 @@ import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -25,6 +26,8 @@ public class Peach extends ServiceManagerImpl {
             .eventListenerFactory(AsmEventListenerFactory.create()).build();
 
     private static Peach INSTANCE;
+
+    private final Version version = new Version(getImplementationVersion());
 
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
 
@@ -44,6 +47,10 @@ public class Peach extends ServiceManagerImpl {
                 .build());
         INSTANCE.initServices();
         Application.launch(FXApplication.class, args);
+    }
+
+    public Version getVersion() {
+        return version;
     }
 
     public Path getUserPropertiesPath() {
@@ -69,5 +76,10 @@ public class Peach extends ServiceManagerImpl {
         registerService(WindowManager.class, new WindowManager());
         registerService(ProjectManager.class, ProjectManager::new, false);
         registerService(ForgeProjectService.class, new ForgeProjectService());
+    }
+
+    private String getImplementationVersion() {
+        String version = Peach.class.getPackage().getImplementationVersion();
+        return version != null && !version.isEmpty() ? version : "99.99.999.999999-Indev";
     }
 }
