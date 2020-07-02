@@ -39,7 +39,7 @@ public class WelcomeUI extends BorderPane {
     public static void show() {
         stage = new Stage();
         stage.setScene(new Scene(new WelcomeUI()));
-        stage.setTitle("🍑Peach");
+        stage.setTitle(I18n.translate("ui.welcome.title"));
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
                 Peach.getInstance().exit();

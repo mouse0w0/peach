@@ -22,6 +22,7 @@ action.mainMenu.build.buildProject=生成项目
 action.mainMenu.help=帮助
 action.mainMenu.help.about=关于 Peach
 
+ui.welcome.title=🍑Peach
 ui.welcome.new_project=新建项目
 ui.welcome.open_project=打开项目
 ui.welcome.donate=请给我钱
