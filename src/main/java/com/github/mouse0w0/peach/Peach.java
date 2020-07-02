@@ -15,6 +15,8 @@ import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,13 +24,13 @@ import java.util.Locale;
 
 public class Peach extends ServiceManagerImpl {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
     private static final EventBus EVENT_BUS = SimpleEventBus.builder()
             .eventListenerFactory(AsmEventListenerFactory.create()).build();
 
     private static Peach INSTANCE;
 
     private final Version version = new Version(getImplementationVersion());
-
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
 
     public static EventBus getEventBus() {
@@ -40,7 +42,9 @@ public class Peach extends ServiceManagerImpl {
     }
 
     public static void main(String[] args) {
+        LOGGER.info("Launching application...");
         INSTANCE = new Peach();
+        LOGGER.info("Version: {}", getInstance().getVersion());
         I18n.setTranslator(Translator.builder()
                 .locale(Locale.getDefault())
                 .source(new ClasspathFileTranslationSource("lang"))
