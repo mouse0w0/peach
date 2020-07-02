@@ -18,7 +18,8 @@
                                 text="%ui.welcome.new_project"/>
                         <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOpenProject"
                                 text="%ui.welcome.open_project"/>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="%ui.welcome.donate"/>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#doDonate"
+                                text="%ui.welcome.donate"/>
                     </children>
                 </VBox>
          </children>

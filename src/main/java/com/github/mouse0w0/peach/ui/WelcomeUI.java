@@ -18,7 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
@@ -112,5 +114,16 @@ public class WelcomeUI extends BorderPane {
         File file = directoryChooser.showDialog(getScene().getWindow());
         if (file == null) return;
         ProjectManager.getInstance().openProject(file.toPath());
+    }
+
+    @FXML
+    public void doDonate() {
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
+                desktop.browse(new URI("https://afdian.net/@mouse"));
+            }
+        } catch (Exception ignored) {
+        }
     }
 }
