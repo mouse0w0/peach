@@ -39,3 +39,18 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.1'
 }
+
+jar {
+    String gitBranch = 'git name-rev --name-only HEAD'.execute().text.trim()
+    String gitVersion = 'git rev-parse --short HEAD'.execute().text.trim()
+    String gitCommitCount = 'git rev-list --count HEAD'.execute().text.trim()
+    manifest.attributes([
+            "Main-Class"              : mainClassName,
+            "Implementation-Title"    : rootProject.name,
+            "Implementation-Version"  : project.version,
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "Git-Branch"              : gitBranch,
+            "Git-Version"             : gitVersion,
+            "Git-BuildNumber"         : gitCommitCount
+    ])
+}
