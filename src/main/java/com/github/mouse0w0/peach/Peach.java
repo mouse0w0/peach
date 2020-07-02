@@ -14,16 +14,12 @@ import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
 public class Peach extends ServiceManagerImpl {
-
-    public static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
 
     private static final EventBus EVENT_BUS = SimpleEventBus.builder()
             .eventListenerFactory(AsmEventListenerFactory.create()).build();
@@ -41,7 +37,6 @@ public class Peach extends ServiceManagerImpl {
     }
 
     public static void main(String[] args) {
-        LOGGER.info("Locale: {}", Locale.getDefault());
         INSTANCE = new Peach();
         I18n.setTranslator(Translator.builder()
                 .locale(Locale.getDefault())

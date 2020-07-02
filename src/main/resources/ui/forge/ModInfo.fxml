@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<fx:root type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <Accordion prefHeight="300.0" prefWidth="400.0">
             <panes>
@@ -24,6 +25,8 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES"/>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                     </rowConstraints>
                                     <children>
@@ -36,13 +39,19 @@
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.version"
                                               GridPane.rowIndex="2"/>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.language"
-                                              GridPane.rowIndex="4"/>
+                                              GridPane.rowIndex="6"/>
                                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.mc_version"
                                               GridPane.rowIndex="3"/>
-                                        <ChoiceBox fx:id="mcVersion" prefWidth="150.0" GridPane.columnIndex="1"
+                                        <ChoiceBox fx:id="mcVersion" prefWidth="10000.0" GridPane.columnIndex="1"
                                                    GridPane.rowIndex="3"/>
-                                        <ChoiceBox fx:id="language" prefWidth="150.0" GridPane.columnIndex="1"
-                                                   GridPane.rowIndex="4"/>
+                                        <ChoiceBox fx:id="language" prefWidth="10000.0" GridPane.columnIndex="1"
+                                                   GridPane.rowIndex="6"/>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.author"
+                                              GridPane.rowIndex="5"/>
+                                        <TextField fx:id="author" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.description"
+                                              GridPane.rowIndex="4"/>
+                                        <TextArea fx:id="description" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
                                     </children>
                                 </GridPane>
                             </children>

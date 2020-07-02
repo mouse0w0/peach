@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 
+import java.util.Collections;
 import java.util.Locale;
 
 public class ModInfoUI extends BorderPane {
@@ -29,7 +31,11 @@ public class ModInfoUI extends BorderPane {
     @FXML
     public ChoiceBox<String> mcVersion;
     @FXML
+    public TextField author;
+    @FXML
     public ChoiceBox<Locale> language;
+    @FXML
+    public TextArea description;
 
     public static void show(JsonFile<ForgeProjectInfo> file, Window window) {
         ModInfoUI modInfo = new ModInfoUI(file);
@@ -44,6 +50,8 @@ public class ModInfoUI extends BorderPane {
     public ModInfoUI(JsonFile<ForgeProjectInfo> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/forge/ModInfo.fxml");
+
+        FXUtils.disableTextAreaBlur(description);
 
         language.setConverter(new StringConverter<Locale>() {
             @Override
@@ -67,6 +75,8 @@ public class ModInfoUI extends BorderPane {
         id.setText(info.getId());
         version.setText(info.getVersion());
         mcVersion.setValue(info.getMcVersion());
+        description.setText(info.getDescription());
+        author.setText(info.getFirstAuthor());
         language.setValue(info.getLanguage());
     }
 
@@ -78,6 +88,8 @@ public class ModInfoUI extends BorderPane {
         info.setId(id.getText());
         info.setVersion(version.getText());
         info.setMcVersion(mcVersion.getValue());
+        info.setDescription(description.getText());
+        info.setAuthors(Collections.singletonList(author.getText()));
         info.setLanguage(language.getValue());
         file.save();
     }

@@ -1,8 +1,11 @@
 package com.github.mouse0w0.peach.ui.util;
 
 import com.github.mouse0w0.i18n.I18n;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -44,6 +47,24 @@ public final class FXUtils {
 
     public static void hideWindow(Node node) {
         node.getScene().getWindow().hide();
+    }
+
+    private static final ListChangeListener<Node> DISABLE_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<Node>() {
+        @Override
+        public void onChanged(Change<? extends Node> c) {
+            ScrollPane scrollPane = (ScrollPane) c.getList().get(0);
+            scrollPane.getChildrenUnmodifiable().addListener((ListChangeListener<Node>) change -> {
+                while (change.next()) {
+                    change.getAddedSubList().forEach(node -> node.setCache(false));
+                    change.getRemoved().forEach(node -> node.setCache(true));
+                }
+            });
+            c.getList().removeListener(this);
+        }
+    };
+
+    public static void disableTextAreaBlur(TextArea textArea) {
+        textArea.getChildrenUnmodifiable().addListener(DISABLE_TEXT_AREA_BLUR_LISTENER);
     }
 
     private FXUtils() {

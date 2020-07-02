@@ -3,6 +3,8 @@ package com.github.mouse0w0.peach.forge;
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.util.JsonFile;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 public class ForgeProjectInfo {
@@ -15,6 +17,8 @@ public class ForgeProjectInfo {
     private String id = "untitled";
     private String version = "1.0.0";
     private String mcVersion = "1.12.2";
+    private String description = "";
+    private List<String> authors = Collections.emptyList();
     private Locale language = Locale.getDefault();
 
     public String getName() {
@@ -47,6 +51,26 @@ public class ForgeProjectInfo {
 
     public void setMcVersion(String mcVersion) {
         this.mcVersion = mcVersion;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getAuthors() {
+        return authors;
+    }
+
+    public String getFirstAuthor() {
+        return authors != null && authors.size() >= 1 ? authors.get(0) : null;
+    }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
     }
 
     public Locale getLanguage() {

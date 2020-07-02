@@ -1,9 +1,7 @@
 package com.github.mouse0w0.peach.util;
 
 import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.*;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -25,6 +23,30 @@ public class JsonUtils {
 
     public static JsonPrimitive json(Boolean value) {
         return new JsonPrimitive(value);
+    }
+
+    public static JsonArray json(Iterable<String> elements) {
+        JsonArray array = new JsonArray();
+        for (String element : elements) {
+            array.add(element);
+        }
+        return array;
+    }
+
+    public static JsonArray jsonArray(Iterable<JsonElement> elements) {
+        JsonArray array = new JsonArray();
+        for (JsonElement element : elements) {
+            array.add(element);
+        }
+        return array;
+    }
+
+    public static JsonArray jsonArray(JsonElement... elements) {
+        JsonArray array = new JsonArray();
+        for (JsonElement element : elements) {
+            array.add(element);
+        }
+        return array;
     }
 
     public static Gson gson() {
