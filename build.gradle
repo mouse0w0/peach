@@ -1,11 +1,13 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'com.github.mouse0w0'
-version '1.0.0'
+version '0.0.1-SNAPSHOT'
 
 sourceCompatibility = targetCompatibility = 1.8
+mainClassName = 'com.github.mouse0w0.peach.Peach'
 
 repositories {
     jcenter()
