@@ -1,10 +1,7 @@
 common.ok=确认
-common.finish=完成
 common.cancel=取消
 common.yes=是
 common.no=否
-common.next=下一个
-common.previous=上一个
 common.save=保存
 common.open=打开
 common.remove=移除
@@ -26,6 +23,18 @@ ui.welcome.title=🍑Peach
 ui.welcome.new_project=新建项目
 ui.welcome.open_project=打开项目
 ui.welcome.donate=请给我钱
+
+ui.item_picker.title=请选择……
+ui.item_picker.filter=过滤：
+ui.item_picker.mode.default=默认
+ui.item_picker.mode.ignore_metadata=忽略数据值
+ui.item_picker.mode.ore_dict=矿物词典
+
+ui.wizard.cancel=取消
+ui.wizard.finish=完成
+ui.wizard.next=下一个
+ui.wizard.previous=上一个
+ui.wizard.help=帮助
 
 ui.new_project.title=新建项目
 ui.new_project.name=项目名称：
