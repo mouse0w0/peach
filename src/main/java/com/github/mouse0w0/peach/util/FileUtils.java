@@ -1,6 +1,8 @@
 package com.github.mouse0w0.peach.util;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,5 +35,17 @@ public class FileUtils {
                 throw new RuntimeIOException(e);
             }
         });
+    }
+
+    public static URL toURL(Path path) {
+        try {
+            return path.toUri().toURL();
+        } catch (MalformedURLException e) {
+            throw new Error(e);
+        }
+    }
+
+    public static String toURLString(Path path) {
+        return toURL(path).toString();
     }
 }

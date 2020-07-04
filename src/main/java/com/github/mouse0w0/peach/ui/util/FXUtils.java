@@ -6,9 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Region;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public final class FXUtils {
@@ -17,17 +21,26 @@ public final class FXUtils {
         loadFXML(root, location, I18n.getResourceBundle());
     }
 
+
     public static void loadFXML(Object root, String location, ResourceBundle resources) {
+        loadFXML(root, root, location, resources);
+    }
+
+    public static <T> T loadFXML(Object root, Object controller, String location) {
+        return loadFXML(root, controller, location, I18n.getResourceBundle());
+    }
+
+    public static <T> T loadFXML(Object root, Object controller, String location, ResourceBundle resources) {
         FXMLLoader loader = new FXMLLoader();
         loader.setRoot(root);
-        loader.setController(root);
+        loader.setController(controller);
         ClassLoader classLoader = getClassLoader(getCallerClass());
         loader.setClassLoader(classLoader);
         loader.setLocation(classLoader.getResource(location));
         loader.setResources(resources);
         loader.setCharset(StandardCharsets.UTF_8);
         try {
-            loader.load();
+            return loader.load();
         } catch (IOException e) {
             throw new RuntimeException("Cannot load fxml", e);
         }
@@ -65,6 +78,42 @@ public final class FXUtils {
 
     public static void disableTextAreaBlur(TextArea textArea) {
         textArea.getChildrenUnmodifiable().addListener(DISABLE_TEXT_AREA_BLUR_LISTENER);
+    }
+
+    public static void setFixedSize(Region region, double width, double height) {
+        region.setMinSize(width, height);
+        region.setPrefSize(width, height);
+        region.setMaxSize(width, height);
+    }
+
+    public static void setManagedAndVisible(Node node, boolean value) {
+        node.setManaged(value);
+        node.setVisible(value);
+    }
+
+    private static Object TOOLTIP_BEHAVIOR;
+    private static Field TOOLTIP_HOVERED_NODE;
+
+    static {
+        try {
+            Field behaviorField = Tooltip.class.getDeclaredField("BEHAVIOR");
+            behaviorField.setAccessible(true);
+            TOOLTIP_BEHAVIOR = behaviorField.get(null);
+            TOOLTIP_HOVERED_NODE = TOOLTIP_BEHAVIOR.getClass().getDeclaredField("hoveredNode");
+            TOOLTIP_HOVERED_NODE.setAccessible(true);
+        } catch (ReflectiveOperationException e) {
+            TOOLTIP_BEHAVIOR = null;
+            TOOLTIP_HOVERED_NODE = null;
+        }
+    }
+
+    public static Optional<Node> getTooltipOwnerNode() {
+        if (TOOLTIP_HOVERED_NODE == null) return Optional.empty();
+        try {
+            return Optional.ofNullable((Node) TOOLTIP_HOVERED_NODE.get(TOOLTIP_BEHAVIOR));
+        } catch (IllegalAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private FXUtils() {

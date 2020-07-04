@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.forge.contentPack;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.forge.ItemToken;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
-import com.github.mouse0w0.peach.forge.contentPack.data.OreDictData;
 import com.github.mouse0w0.peach.util.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
@@ -22,8 +22,7 @@ public class ContentManager {
 
     private final Map<String, ContentPack> contentPacks = new HashMap<>();
 
-    private final List<ItemData> itemDataList = new ArrayList<>();
-    private final Map<String, OreDictData> oreDictDataMap = new HashMap<>();
+    private final Map<ItemToken, List<ItemData>> itemTokenMap = new LinkedHashMap<>();
 
     public static ContentManager getInstance() {
         return Peach.getInstance().getService(ContentManager.class);
@@ -38,8 +37,14 @@ public class ContentManager {
                 try {
                     ContentPack contentPack = ContentPack.load(path);
                     contentPacks.put(contentPack.getId(), contentPack);
-                    itemDataList.addAll(contentPack.getItemData());
-                    contentPack.getOreDictionaryData().forEach(oreDictData -> oreDictDataMap.put(oreDictData.getId(), oreDictData));
+                    contentPack.getItemData().forEach(itemData -> {
+                        getItemData(ItemToken.createItemToken(itemData.getId(), itemData.getMetadata())).add(itemData);
+                        getItemData(ItemToken.createIgnoreMetadataToken(itemData.getId())).add(itemData);
+                    });
+                    contentPack.getOreDictionaryData().forEach(oreDictData -> {
+                        List<ItemData> itemData = getItemData(ItemToken.createOreDictToken(oreDictData.getId()));
+                        oreDictData.getEntries().forEach(itemToken -> itemData.addAll(getItemData(itemToken)));
+                    });
                 } catch (IOException e) {
                     LOGGER.warn("Cannot load content pack.", e);
                 }
@@ -57,11 +62,11 @@ public class ContentManager {
         return contentPacks.get(id);
     }
 
-    public List<ItemData> getItemDataList() {
-        return itemDataList;
+    public Map<ItemToken, List<ItemData>> getItemTokenMap() {
+        return itemTokenMap;
     }
 
-    public Map<String, OreDictData> getOreDictDataMap() {
-        return oreDictDataMap;
+    public List<ItemData> getItemData(ItemToken itemToken) {
+        return itemTokenMap.computeIfAbsent(itemToken, key -> new ArrayList<>(1));
     }
 }

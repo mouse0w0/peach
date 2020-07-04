@@ -1,13 +1,15 @@
 package com.github.mouse0w0.peach.forge.contentPack.data;
 
+import com.github.mouse0w0.peach.forge.ItemToken;
+
 import java.util.List;
 
 public class OreDictData {
 
     private String id;
-    private List<OreDictEntry> entries;
+    private List<ItemToken> entries;
 
-    public OreDictData(String id, List<OreDictEntry> entries) {
+    public OreDictData(String id, List<ItemToken> entries) {
         this.id = id;
         this.entries = entries;
     }
@@ -16,7 +18,7 @@ public class OreDictData {
         return id;
     }
 
-    public List<OreDictEntry> getEntries() {
+    public List<ItemToken> getEntries() {
         return entries;
     }
 }
