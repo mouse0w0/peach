@@ -71,14 +71,14 @@ public class ItemView extends ImageView {
 
     public final BooleanProperty playAnimationProperty() {
         if (playAnimation == null) {
-            playAnimation = new SimpleBooleanProperty(this, "playAnimation", true);
+            playAnimation = new SimpleBooleanProperty(this, "playAnimation", false);
             playAnimation.addListener(observable -> update());
         }
         return playAnimation;
     }
 
     public final boolean isPlayAnimation() {
-        return playAnimation == null || playAnimation.get();
+        return playAnimation != null && playAnimation.get();
     }
 
     public final void setPlayAnimation(boolean playAnimation) {
