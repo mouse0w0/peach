@@ -10,6 +10,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -71,11 +72,7 @@ public class ItemView extends ImageView {
     public final BooleanProperty playAnimationProperty() {
         if (playAnimation == null) {
             playAnimation = new SimpleBooleanProperty(this, "playAnimation", true);
-            playAnimation.addListener(observable -> {
-                if (timeline == null) return;
-                if (isPlayAnimation()) timeline.play();
-                else timeline.stop();
-            });
+            playAnimation.addListener(observable -> update());
         }
         return playAnimation;
     }
@@ -90,20 +87,23 @@ public class ItemView extends ImageView {
 
     private void update() {
         itemData = ContentManager.getInstance().getItemData(getItemToken());
-        if (itemData.size() == 1 || !isPlayAnimation()) {
-            ImageCache.Key key = new ImageCache.Key(itemData.get(0).getDisplayImage(), getFitWidth(), getFitHeight());
-            setImage(ImageCache.getImage(key));
-        } else {
-            if (timeline != null) timeline.stop();
+        if (timeline != null) {
+            timeline.stop();
+        }
+
+        if (itemData.size() > 1 && isPlayAnimation()) {
             timeline = new Timeline();
+            ObservableList<KeyFrame> keyFrames = timeline.getKeyFrames();
             timeline.setCycleCount(Timeline.INDEFINITE);
             for (int i = 0; i < itemData.size(); i++) {
                 ItemData itemDatum = itemData.get(i);
                 ImageCache.Key key = new ImageCache.Key(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
-                KeyFrame keyFrame = new KeyFrame(Duration.seconds(i), event -> setImage(ImageCache.getImage(key)));
-                timeline.getKeyFrames().add(keyFrame);
+                keyFrames.add(new KeyFrame(Duration.seconds(i), event -> setImage(ImageCache.getImage(key))));
             }
-            timeline.playFromStart();
+            timeline.play();
+        } else {
+            ImageCache.Key key = new ImageCache.Key(itemData.get(0).getDisplayImage(), getFitWidth(), getFitHeight());
+            setImage(ImageCache.getImage(key));
         }
     }
 }
