@@ -97,18 +97,23 @@ public class ItemView extends ImageView {
         }
 
         if (itemData.size() > 1 && isPlayAnimation()) {
-            timeline = new Timeline();
-            ObservableList<KeyFrame> keyFrames = timeline.getKeyFrames();
-            timeline.setCycleCount(Timeline.INDEFINITE);
-            for (int i = 0; i < itemData.size(); i++) {
-                ItemData itemDatum = itemData.get(i);
-                ImageCache.Key key = new ImageCache.Key(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
-                keyFrames.add(new KeyFrame(Duration.seconds(i), event -> setImage(ImageCache.getImage(key))));
-            }
+            timeline = createTimeline();
             timeline.play();
         } else {
             ImageCache.Key key = new ImageCache.Key(itemData.get(0).getDisplayImage(), getFitWidth(), getFitHeight());
             setImage(ImageCache.getImage(key));
         }
+    }
+
+    private Timeline createTimeline() {
+        Timeline timeline = new Timeline();
+        ObservableList<KeyFrame> keyFrames = timeline.getKeyFrames();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        for (int i = 0; i < itemData.size(); i++) {
+            ItemData itemDatum = itemData.get(i);
+            ImageCache.Key key = new ImageCache.Key(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
+            keyFrames.add(new KeyFrame(Duration.seconds(i), event -> setImage(ImageCache.getImage(key))));
+        }
+        return timeline;
     }
 }
