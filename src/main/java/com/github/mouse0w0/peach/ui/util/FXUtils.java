@@ -91,6 +91,10 @@ public final class FXUtils {
         node.setVisible(value);
     }
 
+    public static void setComputePrefSize(Region region) {
+        region.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+    }
+
     private static Object TOOLTIP_BEHAVIOR;
     private static Field TOOLTIP_HOVERED_NODE;
 

@@ -28,6 +28,10 @@ public class ImageCache {
             this(FileUtils.toURLString(file), width, height, preserveRatio, smooth);
         }
 
+        public Key(String url, double width, double height) {
+            this(url, width, height, true, false);
+        }
+
         public Key(String url, double width, double height, boolean preserveRatio, boolean smooth) {
             this.url = url;
             this.width = width;
