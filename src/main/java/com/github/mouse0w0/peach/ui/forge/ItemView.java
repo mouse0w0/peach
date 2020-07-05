@@ -86,9 +86,14 @@ public class ItemView extends ImageView {
     }
 
     private void update() {
-        itemData = ContentManager.getInstance().getItemData(getItemToken());
         if (timeline != null) {
             timeline.stop();
+        }
+
+        itemData = ContentManager.getInstance().getItemData(getItemToken());
+        if (itemData.size() == 0) {
+            setImage(null);
+            return;
         }
 
         if (itemData.size() > 1 && isPlayAnimation()) {
