@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-         prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1"
+         prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.171"
          xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <VBox BorderPane.alignment="CENTER">
@@ -16,7 +15,9 @@
                                 <Menu mnemonicParsing="false" text="%action.mainMenu.file.new">
                                     <items>
                                         <MenuItem mnemonicParsing="false" onAction="#onNewProject"
-                                                  text="%action.mainMenu.file.newProject"/>
+                                                  text="%action.mainMenu.file.new.newProject"/>
+                                        <MenuItem mnemonicParsing="false" onAction="#onNewElement"
+                                                  text="%action.mainMenu.file.new.newElement"/>
                                     </items>
                                 </Menu>
                                 <MenuItem mnemonicParsing="false" onAction="#onOpenProject"
@@ -46,4 +47,8 @@
             </children>
         </VBox>
     </top>
+    <center>
+        <TabPane fx:id="content" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+                 BorderPane.alignment="CENTER"/>
+    </center>
 </fx:root>

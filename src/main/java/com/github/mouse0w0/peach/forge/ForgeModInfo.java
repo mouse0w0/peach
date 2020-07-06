@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class ForgeProjectInfo {
+public class ForgeModInfo {
 
-    public static final Key<JsonFile<ForgeProjectInfo>> KEY = Key.of(ForgeProjectInfo.class);
+    public static final Key<JsonFile<ForgeModInfo>> KEY = Key.of(ForgeModInfo.class);
 
     public static final String FILE_NAME = "project.forge.json";
 

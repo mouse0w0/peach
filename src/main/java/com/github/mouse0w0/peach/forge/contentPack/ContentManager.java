@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.forge.contentPack;
 
-import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.forge.ForgeModService;
 import com.github.mouse0w0.peach.forge.ItemToken;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -25,7 +25,7 @@ public class ContentManager {
     private final Map<ItemToken, List<ItemData>> itemTokenMap = new LinkedHashMap<>();
 
     public static ContentManager getInstance() {
-        return Peach.getInstance().getService(ContentManager.class);
+        return ForgeModService.getInstance().getContentManager();
     }
 
     public ContentManager() {
@@ -38,11 +38,11 @@ public class ContentManager {
                     ContentPack contentPack = ContentPack.load(path);
                     contentPacks.put(contentPack.getId(), contentPack);
                     contentPack.getItemData().forEach(itemData -> {
-                        getItemData(ItemToken.createItemToken(itemData.getId(), itemData.getMetadata())).add(itemData);
-                        getItemData(ItemToken.createIgnoreMetadataToken(itemData.getId())).add(itemData);
+                        getOrCreateItemData(ItemToken.createItemToken(itemData.getId(), itemData.getMetadata())).add(itemData);
+                        getOrCreateItemData(ItemToken.createIgnoreMetadataToken(itemData.getId())).add(itemData);
                     });
                     contentPack.getOreDictionaryData().forEach(oreDictData -> {
-                        List<ItemData> itemData = getItemData(ItemToken.createOreDictToken(oreDictData.getId()));
+                        List<ItemData> itemData = getOrCreateItemData(ItemToken.createOreDictToken(oreDictData.getId()));
                         oreDictData.getEntries().forEach(itemToken -> itemData.addAll(getItemData(itemToken)));
                     });
                 } catch (IOException e) {
@@ -66,7 +66,11 @@ public class ContentManager {
         return itemTokenMap;
     }
 
+    private List<ItemData> getOrCreateItemData(ItemToken itemToken) {
+        return itemTokenMap.computeIfAbsent(itemToken, $ -> new ArrayList<>());
+    }
+
     public List<ItemData> getItemData(ItemToken itemToken) {
-        return itemTokenMap.computeIfAbsent(itemToken, key -> new ArrayList<>(1));
+        return itemTokenMap.getOrDefault(itemToken, Collections.emptyList());
     }
 }

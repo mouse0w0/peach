@@ -1,4 +1,5 @@
 common.ok=确认
+common.finish=完成
 common.cancel=取消
 common.yes=是
 common.no=否
@@ -9,7 +10,8 @@ common.delete=删除
 
 action.mainMenu.file=文件
 action.mainMenu.file.new=新建...
-action.mainMenu.file.newProject=新建项目
+action.mainMenu.file.new.newProject=新建项目
+action.mainMenu.file.new.newElement=新建模组元素
 action.mainMenu.file.openProject=打开项目
 action.mainMenu.file.settings=设置...
 action.mainMenu.file.projectSettings=项目设置...
@@ -34,7 +36,6 @@ ui.wizard.cancel=取消
 ui.wizard.finish=完成
 ui.wizard.next=下一个
 ui.wizard.previous=上一个
-ui.wizard.help=帮助
 
 ui.new_project.title=新建项目
 ui.new_project.name=项目名称：
@@ -55,3 +56,14 @@ ui.mod_info.advanced.title=高级设置
 ui.mod_info.website=网站链接：
 ui.mod_info.logo=图标：
 ui.mod_info.choose_logo=选择图标文件
+
+ui.new_mod_element.title=新建模组元素
+ui.new_mod_element.name=名称：
+ui.new_mod_element.type=类型：
+
+ui.crafting_recipe.id=配方名：
+ui.crafting_recipe.namespace=命名空间：
+ui.crafting_recipe.group=配方组：
+ui.crafting_recipe.shapeless=无序配方？
+
+mod.element.crafting_recipe=合成配方

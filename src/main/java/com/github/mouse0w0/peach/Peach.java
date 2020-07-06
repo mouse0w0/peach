@@ -7,8 +7,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.event.AppEvent;
-import com.github.mouse0w0.peach.forge.ForgeProjectService;
-import com.github.mouse0w0.peach.forge.contentPack.ContentManager;
+import com.github.mouse0w0.peach.forge.ForgeModService;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.ui.FXApplication;
@@ -80,8 +79,7 @@ public class Peach extends ServiceManagerImpl {
         registerService(RecentProjectsManager.class, new RecentProjectsManager());
         registerService(WindowManager.class, new WindowManager());
         registerService(ProjectManager.class, ProjectManager::new, false);
-        registerService(ForgeProjectService.class, new ForgeProjectService());
-        registerService(ContentManager.class, new ContentManager());
+        registerService(ForgeModService.class, new ForgeModService());
     }
 
     private String getImplementationVersion() {
