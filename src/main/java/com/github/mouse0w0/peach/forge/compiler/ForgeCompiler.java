@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.forge.compiler;
 
 import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.data.Key;
-import com.github.mouse0w0.peach.forge.ForgeProjectInfo;
+import com.github.mouse0w0.peach.forge.ForgeModInfo;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.MainClassTask;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.ModInfoTask;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
-    public static final Key<ForgeProjectInfo> PROJECT_INFO_KEY = Key.of(ForgeProjectInfo.class);
+    public static final Key<ForgeModInfo> PROJECT_INFO_KEY = Key.of(ForgeModInfo.class);
 
     public static final Key<Path> CLASSES_STORE_PATH = Key.of("ClassesStorePath");
     public static final Key<Path> RESOURCES_STORE_PATH = Key.of("ResourcesStorePath");
@@ -117,7 +117,7 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
             FileUtils.createDirectoriesIfNotExists(artifactsStorePath);
             putData(ARTIFACTS_STORE_PATH, artifactsStorePath);
 
-            ForgeProjectInfo projectInfo = JsonUtils.readJson(getSource().resolve(ForgeProjectInfo.FILE_NAME), ForgeProjectInfo.class);
+            ForgeModInfo projectInfo = JsonUtils.readJson(getSource().resolve(ForgeModInfo.FILE_NAME), ForgeModInfo.class);
             putData(PROJECT_INFO_KEY, projectInfo);
 
             putData(ROOT_PACKAGE_NAME, "peach.generated." + projectInfo.getId());
