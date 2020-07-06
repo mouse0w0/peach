@@ -1,15 +1,10 @@
 package com.github.mouse0w0.peach.forge;
 
-import com.github.mouse0w0.peach.data.Key;
-import com.github.mouse0w0.peach.util.JsonFile;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
 public class ForgeModInfo {
-
-    public static final Key<JsonFile<ForgeModInfo>> KEY = Key.of(ForgeModInfo.class);
 
     public static final String FILE_NAME = "project.forge.json";
 

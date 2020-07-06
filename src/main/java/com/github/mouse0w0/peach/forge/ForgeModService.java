@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.forge;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.forge.contentPack.ContentManager;
 import com.github.mouse0w0.peach.forge.element.ElementManager;
@@ -8,7 +9,6 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.forge.ModInfoUI;
 import com.github.mouse0w0.peach.util.JsonFile;
 
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ForgeModService {
@@ -22,6 +22,7 @@ public class ForgeModService {
 
     public ForgeModService() {
         Peach.getEventBus().addListener(this::onOpenedProject);
+        Peach.getEventBus().addListener(this::onOpenedProjectWindow);
     }
 
     public ContentManager getContentManager() {
@@ -32,14 +33,20 @@ public class ForgeModService {
         return elementManager;
     }
 
-    private void onOpenedProject(ProjectWindowEvent.Opened event) {
+    private void onOpenedProject(ProjectEvent.Opened event) {
         Project project = event.getProject();
         Path file = project.getPath().resolve(ForgeModInfo.FILE_NAME);
         JsonFile<ForgeModInfo> jsonFile = new JsonFile<>(file, ForgeModInfo.class, ForgeModInfo::new);
         jsonFile.load();
-        project.putData(ForgeModInfo.KEY, jsonFile);
-        if (!Files.exists(file)) {
-            ModInfoUI.show(jsonFile, event.getWindow().getStage());
+        project.putData(ForgeDataKeys.MOD_INFO_FILE, jsonFile);
+    }
+
+    private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
+        Project project = event.getProject();
+        JsonFile<ForgeModInfo> modInfoFile = project.getData(ForgeDataKeys.MOD_INFO_FILE);
+
+        if (!modInfoFile.exists()) {
+            ModInfoUI.show(modInfoFile, event.getWindow().getStage());
         }
     }
 }
