@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.ui.forge;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.forge.ForgeProjectInfo;
+import com.github.mouse0w0.peach.forge.ForgeModInfo;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;
@@ -20,7 +20,7 @@ import java.util.Locale;
 
 public class ModInfoUI extends BorderPane {
 
-    private final JsonFile<ForgeProjectInfo> file;
+    private final JsonFile<ForgeModInfo> file;
 
     @FXML
     public TextField name;
@@ -37,7 +37,7 @@ public class ModInfoUI extends BorderPane {
     @FXML
     public TextArea description;
 
-    public static void show(JsonFile<ForgeProjectInfo> file, Window window) {
+    public static void show(JsonFile<ForgeModInfo> file, Window window) {
         ModInfoUI modInfo = new ModInfoUI(file);
         Stage stage = new Stage();
         stage.setScene(new Scene(modInfo));
@@ -47,21 +47,24 @@ public class ModInfoUI extends BorderPane {
         stage.showAndWait();
     }
 
-    public ModInfoUI(JsonFile<ForgeProjectInfo> file) {
+    public ModInfoUI(JsonFile<ForgeModInfo> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/forge/ModInfo.fxml");
+
+        mcVersion.getItems().add("1.12.2");
+        mcVersion.setValue("1.12.2");
 
         FXUtils.disableTextAreaBlur(description);
 
         language.setConverter(new StringConverter<Locale>() {
             @Override
             public String toString(Locale object) {
-                return object.getDisplayLanguage() + " (" + object.toLanguageTag() + ")";
+                return object.getDisplayName() + " (" + object.toLanguageTag() + ")";
             }
 
             @Override
             public Locale fromString(String string) {
-                return Locale.forLanguageTag(string.substring(string.indexOf('(') - 1, string.indexOf(')')));
+                throw new UnsupportedOperationException();
             }
         });
         language.getItems().addAll(Locale.getAvailableLocales());
@@ -70,7 +73,7 @@ public class ModInfoUI extends BorderPane {
     }
 
     public void doLoad() {
-        ForgeProjectInfo info = file.get();
+        ForgeModInfo info = file.get();
         name.setText(info.getName());
         id.setText(info.getId());
         version.setText(info.getVersion());
@@ -83,7 +86,7 @@ public class ModInfoUI extends BorderPane {
     @FXML
     public void doSave() {
         FXUtils.hideWindow(this);
-        ForgeProjectInfo info = file.get();
+        ForgeModInfo info = file.get();
         info.setName(name.getText());
         info.setId(id.getText());
         info.setVersion(version.getText());
