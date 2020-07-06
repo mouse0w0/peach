@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.forge.ForgeProjectInfo;
+import com.github.mouse0w0.peach.forge.ForgeModInfo;
 import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.ui.forge.ModInfoUI;
 import com.github.mouse0w0.peach.ui.forge.NewModElementUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 
@@ -19,18 +20,25 @@ public class ProjectUI extends BorderPane {
 
     private final Project project;
 
+    @FXML
+    private TabPane content;
+
     public ProjectUI(Project project) {
         this.project = project;
         FXUtils.loadFXML(this, "ui/project/Project.fxml");
     }
 
+    public TabPane getContent() {
+        return content;
+    }
+
     @FXML
-    public void onNewProject() {
+    private void onNewProject() {
         NewProjectUI.show(getScene().getWindow());
     }
 
     @FXML
-    public void onOpenProject() {
+    private void onOpenProject() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(I18n.translate("ui.main.open_project"));
         File file = directoryChooser.showDialog(getScene().getWindow());
@@ -39,26 +47,26 @@ public class ProjectUI extends BorderPane {
     }
 
     @FXML
-    public void onExit() {
+    private void onExit() {
         Peach.getInstance().exit();
     }
 
     @FXML
-    public void doOpenSettings() {
+    private void doOpenSettings() {
     }
 
     @FXML
-    public void doOpenProjectSettings() {
-        ModInfoUI.show(project.getData(ForgeProjectInfo.KEY), getScene().getWindow());
+    private void doOpenProjectSettings() {
+        ModInfoUI.show(project.getData(ForgeModInfo.KEY), getScene().getWindow());
     }
 
     @FXML
-    public void onNewElement() {
+    private void onNewElement() {
         NewModElementUI.show(getScene().getWindow());
     }
 
     @FXML
-    public void doBuild() {
+    private void doBuild() {
         new ForgeCompiler(project.getPath(), project.getPath().resolve("build")).run();
     }
 }
