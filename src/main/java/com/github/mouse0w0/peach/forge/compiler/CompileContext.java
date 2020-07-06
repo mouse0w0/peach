@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.forge.generator;
+package com.github.mouse0w0.peach.forge.compiler;
 
 import com.github.mouse0w0.peach.data.DataHolder;
 

@@ -1,8 +1,10 @@
-package com.github.mouse0w0.peach.forge.generator;
+package com.github.mouse0w0.peach.forge.compiler;
 
 import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.forge.ForgeProjectInfo;
+import com.github.mouse0w0.peach.forge.compiler.v1_12_2.MainClassTask;
+import com.github.mouse0w0.peach.forge.compiler.v1_12_2.ModInfoTask;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 
@@ -13,6 +15,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
@@ -26,6 +30,8 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
     private final Path source;
     private final Path output;
+
+    private final List<CompileTask> taskList = new ArrayList<>();
 
     public ForgeCompiler(Path source, Path output) {
         this.source = source;
@@ -91,10 +97,11 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
     }
 
     public void run() {
+        doInitialize();
         doCompile();
     }
 
-    private void doCompile() {
+    private void doInitialize() {
         try {
             FileUtils.createDirectoriesIfNotExists(getOutput());
 
@@ -115,12 +122,21 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
             putData(ROOT_PACKAGE_NAME, "peach.generated." + projectInfo.getId());
 
-            MainClassGenerator.generate(this);
-            ModInfoGenerator.generate(this);
+            taskList.add(new MainClassTask());
+            taskList.add(new ModInfoTask());
+            taskList.add(new JarTask());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-            JarGenerator.generate(this);
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+    private void doCompile() {
+        try {
+            for (CompileTask compileTask : taskList) {
+                compileTask.run(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

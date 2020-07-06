@@ -1,20 +1,23 @@
-package com.github.mouse0w0.peach.forge.generator;
+package com.github.mouse0w0.peach.forge.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.forge.ForgeProjectInfo;
+import com.github.mouse0w0.peach.forge.compiler.CompileContext;
+import com.github.mouse0w0.peach.forge.compiler.CompileTask;
+import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
 import com.github.mouse0w0.peach.util.ASMUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class MainClassGenerator {
+public class MainClassTask implements CompileTask {
 
-    public static void generate(CompileContext context) throws IOException {
+    @Override
+    public void run(CompileContext context) throws Exception {
         String packageName = context.getData(ForgeCompiler.ROOT_PACKAGE_NAME);
         ForgeProjectInfo projectInfo = context.getData(ForgeCompiler.PROJECT_INFO_KEY);
         String className = ASMUtils.normalizeClassName(projectInfo.getId());
