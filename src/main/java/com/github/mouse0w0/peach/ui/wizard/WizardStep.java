@@ -8,7 +8,7 @@ public interface WizardStep {
         return getClass().getName();
     }
 
-    Node getNode();
+    Node getContent();
 
     void initialize();
 

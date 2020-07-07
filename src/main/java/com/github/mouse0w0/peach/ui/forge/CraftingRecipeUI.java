@@ -1,8 +1,13 @@
 package com.github.mouse0w0.peach.ui.forge;
 
+import com.github.mouse0w0.peach.forge.ItemStack;
+import com.github.mouse0w0.peach.forge.ItemToken;
+import com.github.mouse0w0.peach.forge.element.CraftingRecipe;
+import com.github.mouse0w0.peach.forge.element.ElementFile;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.ImageCache;
 import com.github.mouse0w0.peach.ui.wizard.WizardStep;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -11,6 +16,8 @@ import javafx.scene.layout.*;
 public class CraftingRecipeUI extends FlowPane implements WizardStep {
 
     private static final ImageCache.Key IMAGE_KEY = new ImageCache.Key("/image/forge/crafting_recipe.png", 560, 312);
+
+    private final ElementFile<CraftingRecipe> file;
 
     @FXML
     private TextField id;
@@ -27,7 +34,8 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
     private ItemView output;
     private Spinner<Integer> outputAmount;
 
-    public CraftingRecipeUI() {
+    public CraftingRecipeUI(ElementFile<CraftingRecipe> file) {
+        this.file = file;
         FXUtils.loadFXML(this, "ui/forge/CraftingRecipe.fxml");
 
         group.setEditable(true);
@@ -44,7 +52,7 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
         for (int i = 0; i < 9; i++) {
             ItemView itemViews = inputs[i] = new ItemView();
             itemViews.setPickOnBounds(true);
-            itemViews.setOnMouseClicked(event -> itemViews.setItemToken(ItemPicker.show(getScene().getWindow()).getSelectedItem()));
+            itemViews.setOnMouseClicked(event -> itemViews.setItem(ItemPicker.show(getScene().getWindow()).getSelectedItem()));
             itemViews.setPlayAnimation(true);
             itemViews.setFitSize(64, 64);
             inputGridPane.add(itemViews, i % 3, i / 3);
@@ -52,7 +60,7 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
 
         output = new ItemView();
         output.setPickOnBounds(true);
-        output.setOnMouseClicked(event -> output.setItemToken(ItemPicker.show(getScene().getWindow()).getSelectedItem()));
+        output.setOnMouseClicked(event -> output.setItem(ItemPicker.show(getScene().getWindow()).getSelectedItem()));
         output.setFitSize(64, 64);
         AnchorPane.setTopAnchor(output, 125d);
         AnchorPane.setLeftAnchor(output, 428d);
@@ -67,13 +75,20 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
     }
 
     @Override
-    public Node getNode() {
+    public Node getContent() {
         return this;
     }
 
     @Override
     public void initialize() {
-
+        CraftingRecipe craftingRecipe = file.get();
+        id.setText(craftingRecipe.getId());
+        namespace.setValue(craftingRecipe.getNamespace());
+        group.setValue(craftingRecipe.getGroup());
+        shapeless.setSelected(craftingRecipe.isShapeless());
+        ArrayUtils.biForEach(inputs, craftingRecipe.getInputs(), ItemView::setItem);
+        output.setItem(craftingRecipe.getOutput().getItem());
+        outputAmount.getValueFactory().setValue(craftingRecipe.getOutput().getAmount());
     }
 
     @Override
@@ -83,7 +98,13 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-
+        CraftingRecipe craftingRecipe = file.get();
+        craftingRecipe.setId(id.getText());
+        craftingRecipe.setNamespace(namespace.getValue());
+        craftingRecipe.setGroup(group.getValue());
+        craftingRecipe.setShapeless(shapeless.isSelected());
+        craftingRecipe.setInputs(ArrayUtils.map(inputs, ItemView::getItem, ItemToken[]::new));
+        craftingRecipe.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
     }
 
     @Override

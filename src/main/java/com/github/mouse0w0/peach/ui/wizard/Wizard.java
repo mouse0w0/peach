@@ -82,7 +82,7 @@ public abstract class Wizard {
         currentStep = 0;
         WizardStep step = getCurrentStep();
         step.initialize();
-        content.setCenter(step.getNode());
+        content.setCenter(step.getContent());
         updateButtons();
     }
 
@@ -140,7 +140,7 @@ public abstract class Wizard {
 
         currentStep--;
         WizardStep step = getCurrentStep();
-        content.setCenter(step.getNode());
+        content.setCenter(step.getContent());
         updateButtons();
     }
 
@@ -160,7 +160,7 @@ public abstract class Wizard {
             currentStep++;
             step = getCurrentStep();
             step.initialize();
-            content.setCenter(step.getNode());
+            content.setCenter(step.getContent());
             updateButtons();
         }
     }

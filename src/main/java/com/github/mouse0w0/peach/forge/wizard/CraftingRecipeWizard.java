@@ -11,7 +11,8 @@ public class CraftingRecipeWizard extends Wizard {
 
     public CraftingRecipeWizard(ElementFile<CraftingRecipe> file) {
         this.file = file;
-        addWizardStep(new CraftingRecipeUI());
+        file.load();
+        addWizardStep(new CraftingRecipeUI(file));
     }
 
     @Override
@@ -20,7 +21,13 @@ public class CraftingRecipeWizard extends Wizard {
         return fileName.substring(0, fileName.indexOf('.'));
     }
 
+
     public ElementFile<CraftingRecipe> getFile() {
         return file;
+    }
+
+    @Override
+    protected void onFinishWizard() {
+        getFile().save();
     }
 }
