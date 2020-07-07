@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.ui.project;
 
+import com.github.mouse0w0.eventbus.Order;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
@@ -17,8 +18,8 @@ public class WindowManager {
     }
 
     public WindowManager() {
-        Peach.getEventBus().addListener(this::onOpenedProject);
-        Peach.getEventBus().addListener(this::onClosedProject);
+        Peach.getEventBus().addListener(Order.LAST, this::onOpenedProject);
+        Peach.getEventBus().addListener(Order.LAST, this::onClosedProject);
     }
 
     public Collection<ProjectWindow> getProjectWindows() {

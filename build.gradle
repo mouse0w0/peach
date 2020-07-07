@@ -29,7 +29,7 @@ dependencies {
 
     compile 'com.github.promeg:tinypinyin:2.0.3'
 
-    compile 'com.github.Mouse0w0:EventBus:2.4.3'
+    compile 'com.github.Mouse0w0:EventBus:2.4.4'
     compile 'com.github.Mouse0w0:Version:1.3.0'
     compile 'com.github.Mouse0w0:i18n:1.0.1'
 
