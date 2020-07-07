@@ -78,10 +78,10 @@ public abstract class Wizard {
         return content;
     }
 
-    protected void initialize() {
+    protected void init() {
         currentStep = 0;
         WizardStep step = getCurrentStep();
-        step.initialize();
+        step.init();
         content.setCenter(step.getContent());
         updateButtons();
     }
@@ -89,7 +89,7 @@ public abstract class Wizard {
     public void addWizardStep(WizardStep step) {
         wizardSteps.add(step);
         if (currentStep == -1) {
-            initialize();
+            init();
         }
     }
 
@@ -159,7 +159,7 @@ public abstract class Wizard {
         } else {
             currentStep++;
             step = getCurrentStep();
-            step.initialize();
+            step.init();
             content.setCenter(step.getContent());
             updateButtons();
         }

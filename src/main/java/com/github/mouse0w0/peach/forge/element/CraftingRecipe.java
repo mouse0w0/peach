@@ -8,7 +8,7 @@ public class CraftingRecipe {
     private String id;
     private String namespace;
     private String group;
-    private ItemToken[] inputs;
+    private ItemToken[] inputs = new ItemToken[9];
     private ItemStack output;
     private boolean shapeless;
 

@@ -80,15 +80,18 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
     }
 
     @Override
-    public void initialize() {
+    public void init() {
         CraftingRecipe craftingRecipe = file.get();
         id.setText(craftingRecipe.getId());
         namespace.setValue(craftingRecipe.getNamespace());
         group.setValue(craftingRecipe.getGroup());
         shapeless.setSelected(craftingRecipe.isShapeless());
         ArrayUtils.biForEach(inputs, craftingRecipe.getInputs(), ItemView::setItem);
-        output.setItem(craftingRecipe.getOutput().getItem());
-        outputAmount.getValueFactory().setValue(craftingRecipe.getOutput().getAmount());
+        ItemStack output = craftingRecipe.getOutput();
+        if (output != null) {
+            this.output.setItem(output.getItem());
+            outputAmount.getValueFactory().setValue(output.getAmount());
+        }
     }
 
     @Override

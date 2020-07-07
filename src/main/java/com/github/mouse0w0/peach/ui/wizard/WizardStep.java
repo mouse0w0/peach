@@ -10,7 +10,7 @@ public interface WizardStep {
 
     Node getContent();
 
-    void initialize();
+    void init();
 
     boolean validate();
 
