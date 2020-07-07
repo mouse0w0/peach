@@ -22,8 +22,16 @@ public class ItemStack {
         return item;
     }
 
+    public void setItem(ItemToken item) {
+        this.item = item;
+    }
+
     public int getAmount() {
         return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     @Override
