@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
@@ -13,8 +14,7 @@ import java.util.List;
 public abstract class Wizard {
 
     private final List<WizardStep> wizardSteps = new ArrayList<>();
-
-    private int currentStep = 0;
+    private int currentStep = -1;
 
     private BorderPane content;
 
@@ -25,24 +25,61 @@ public abstract class Wizard {
     @FXML
     private Button cancel;
 
-    private boolean finished;
+    private boolean ok;
+
+    private final List<Runnable> closedCallbacks = new ArrayList<>();
+
+    public static Tab createTab(Wizard wizard) {
+        Tab tab = new Tab();
+        tab.setContent(wizard.getContent());
+        tab.setText(wizard.getName());
+        tab.setClosable(true);
+        tab.setOnCloseRequest(event -> {
+            event.consume();
+            wizard.cancel();
+        });
+        wizard.addClosedCallback(() -> {
+            if (tab.getTabPane() != null) {
+                tab.getTabPane().getTabs().remove(tab);
+            }
+        });
+        return tab;
+    }
 
     public Wizard() {
         content = FXUtils.loadFXML(null, this, "ui/wizard/Wizard.fxml");
+    }
+
+    public String getName() {
+        return getClass().getName();
+    }
+
+    protected void onFinishWizard() {
+        // empty
+    }
+
+    protected void onCancelWizard() {
+        // empty
+    }
+
+    private void fireClosedCallbacks() {
+        closedCallbacks.forEach(Runnable::run);
+    }
+
+    public void addClosedCallback(Runnable runnable) {
+        closedCallbacks.add(runnable);
+    }
+
+    public void removeClosedCallback(Runnable runnable) {
+        closedCallbacks.remove(runnable);
     }
 
     public Parent getContent() {
         return content;
     }
 
-    public void onFinished() {
-    }
-
-    public void onCancelled() {
-
-    }
-
-    public void initialize() {
+    protected void initialize() {
+        currentStep = 0;
         WizardStep step = getCurrentStep();
         step.initialize();
         content.setCenter(step.getNode());
@@ -51,6 +88,9 @@ public abstract class Wizard {
 
     public void addWizardStep(WizardStep step) {
         wizardSteps.add(step);
+        if (currentStep == -1) {
+            initialize();
+        }
     }
 
     public WizardStep getCurrentStep() {
@@ -83,8 +123,15 @@ public abstract class Wizard {
         getNextButton().setText(isLastStep() ? I18n.translate("ui.wizard.finish") : I18n.translate("ui.wizard.next"));
     }
 
-    public boolean isFinished() {
-        return finished;
+    public boolean isOk() {
+        return ok;
+    }
+
+    public void cancel() {
+        ok = false;
+        onCancelWizard();
+        fireClosedCallbacks();
+        dispose();
     }
 
     @FXML
@@ -105,8 +152,10 @@ public abstract class Wizard {
         step.updateDataModel();
 
         if (isLastStep()) {
-            finished = true;
-            onFinished();
+            ok = true;
+            onFinishWizard();
+            fireClosedCallbacks();
+            dispose();
         } else {
             currentStep++;
             step = getCurrentStep();
@@ -118,8 +167,7 @@ public abstract class Wizard {
 
     @FXML
     private void onCancel() {
-        finished = false;
-        onCancelled();
+        cancel();
     }
 
     public void dispose() {

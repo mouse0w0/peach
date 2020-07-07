@@ -40,6 +40,10 @@ public class JsonFile<T> {
         return file;
     }
 
+    public boolean exists() {
+        return Files.exists(getFile());
+    }
+
     public T get() {
         if (!loaded) throw new IllegalStateException("File not loaded");
         return value;

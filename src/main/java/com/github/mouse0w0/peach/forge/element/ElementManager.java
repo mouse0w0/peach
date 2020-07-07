@@ -1,29 +1,27 @@
 package com.github.mouse0w0.peach.forge.element;
 
+import com.github.mouse0w0.peach.forge.wizard.CraftingRecipeWizard;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ElementManager {
 
-    private final Map<String, Element> elementMap = new LinkedHashMap<>();
+    private final Map<String, ElementDefinition<?>> elementMap = new LinkedHashMap<>();
 
     public ElementManager() {
-        register(Element.builder()
-                .id("crafting_recipe")
-                .translationKey("mod.element.crafting_recipe")
-                .type(CraftingRecipe.class)
-                .build());
+        register(new ElementDefinition<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
     }
 
-    private void register(Element element) {
-        if (elementMap.containsKey(element.getId())) {
+    private <T> void register(ElementDefinition<T> elementDefinition) {
+        if (elementMap.containsKey(elementDefinition.getId())) {
             throw new IllegalArgumentException("Element has been registered.");
         }
-        elementMap.put(element.getId(), element);
+        elementMap.put(elementDefinition.getId(), elementDefinition);
     }
 
-    public Collection<Element> getElements() {
+    public Collection<ElementDefinition<?>> getElements() {
         return elementMap.values();
     }
 }

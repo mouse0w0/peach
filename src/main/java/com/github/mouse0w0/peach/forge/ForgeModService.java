@@ -39,6 +39,9 @@ public class ForgeModService {
         JsonFile<ForgeModInfo> jsonFile = new JsonFile<>(file, ForgeModInfo.class, ForgeModInfo::new);
         jsonFile.load();
         project.putData(ForgeDataKeys.MOD_INFO_FILE, jsonFile);
+
+        project.putData(ForgeDataKeys.SOURCES_PATH, project.getPath().resolve("sources"));
+        project.putData(ForgeDataKeys.RESOURCES_PATH, project.getPath().resolve("resources"));
     }
 
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {

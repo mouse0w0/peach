@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<fx:root alignment="CENTER" type="FlowPane" xmlns="http://javafx.com/javafx/8.0.171"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane hgap="10.0" prefWidth="580.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.crafting_recipe.id"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.crafting_recipe.namespace"
+                      GridPane.rowIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.crafting_recipe.group" GridPane.rowIndex="2"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.crafting_recipe.shapeless"
+                      GridPane.rowIndex="3"/>
+                <RadioButton fx:id="shapeless" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                <TextField fx:id="id" GridPane.columnIndex="1"/>
+                <ChoiceBox fx:id="namespace" prefWidth="10000.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <ComboBox fx:id="group" prefWidth="10000.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <AnchorPane fx:id="recipeView" maxHeight="312.0" maxWidth="560.0" minHeight="312.0" minWidth="560.0"
+                            prefHeight="312.0" prefWidth="560.0" GridPane.columnSpan="2" GridPane.rowIndex="4"/>
+            </children>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </padding>
+        </GridPane>
+    </children>
+</fx:root>
