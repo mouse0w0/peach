@@ -13,6 +13,8 @@ public class WindowManager {
 
     private final Map<Project, ProjectWindow> projectWindowMap = new HashMap<>();
 
+    private ProjectWindow focusedWindow;
+
     public static WindowManager getInstance() {
         return Peach.getInstance().getService(WindowManager.class);
     }
@@ -26,12 +28,12 @@ public class WindowManager {
         return projectWindowMap.values();
     }
 
-    public ProjectWindow getProjectWindow(Project project) {
+    public ProjectWindow getWindow(Project project) {
         return projectWindowMap.get(project);
     }
 
-    public ProjectWindow allocateProjectWindow(Project project) {
-        ProjectWindow window = getProjectWindow(project);
+    public ProjectWindow allocateWindow(Project project) {
+        ProjectWindow window = getWindow(project);
         if (window != null) {
             return window;
         }
@@ -41,13 +43,21 @@ public class WindowManager {
         return window;
     }
 
+    public ProjectWindow getFocusedWindow() {
+        return focusedWindow;
+    }
+
+    void setFocusedWindow(ProjectWindow window) {
+        this.focusedWindow = window;
+    }
+
     private void onOpenedProject(ProjectEvent.Opened event) {
-        ProjectWindow window = allocateProjectWindow(event.getProject());
+        ProjectWindow window = allocateWindow(event.getProject());
         window.getStage().show();
     }
 
     private void onClosedProject(ProjectEvent.Closed event) {
-        ProjectWindow window = getProjectWindow(event.getProject());
+        ProjectWindow window = getWindow(event.getProject());
         window.getStage().hide();
     }
 }

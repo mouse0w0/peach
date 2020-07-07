@@ -52,7 +52,7 @@ public class Project extends DataHolderImpl {
     public void setName(@Nullable String name) {
         this.name = name;
 
-        ProjectWindow window = WindowManager.getInstance().getProjectWindow(this);
+        ProjectWindow window = WindowManager.getInstance().getWindow(this);
         if (window != null) {
             window.getStage().setTitle(getName());
         }

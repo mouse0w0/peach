@@ -25,6 +25,11 @@ public class ProjectWindow {
         stage.setTitle(project.getName());
         stage.setOnShown(event -> Peach.getEventBus().post(new ProjectWindowEvent.Opened(this)));
         stage.setOnHidden(event -> Peach.getEventBus().post(new ProjectWindowEvent.Closed(this)));
+        stage.focusedProperty().addListener(observable -> {
+            if (stage.isFocused()) {
+                WindowManager.getInstance().setFocusedWindow(this);
+            }
+        });
         stage.setOnCloseRequest(event -> {
             ProjectManager.getInstance().closeProject(project);
             event.consume();
