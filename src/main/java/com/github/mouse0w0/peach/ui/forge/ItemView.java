@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ItemView extends ImageView {
 
-    private final ObjectProperty<ItemToken> itemToken = new SimpleObjectProperty<>(this, "itemSelector");
+    private final ObjectProperty<ItemToken> item = new SimpleObjectProperty<>(this, "itemSelector");
 
     private BooleanProperty playAnimation;
 
@@ -29,21 +29,21 @@ public class ItemView extends ImageView {
         initialize();
     }
 
-    public ItemView(ItemToken itemToken) {
-        setItemToken(itemToken);
+    public ItemView(ItemToken item) {
+        setItem(item);
         update();
         initialize();
     }
 
-    public ItemView(ItemToken itemToken, double width, double height) {
+    public ItemView(ItemToken item, double width, double height) {
         setFitSize(width, height);
-        setItemToken(itemToken);
+        setItem(item);
         update();
         initialize();
     }
 
     private void initialize() {
-        itemTokenProperty().addListener(observable -> update());
+        itemProperty().addListener(observable -> update());
         fitWidthProperty().addListener(observable -> update());
         fitHeightProperty().addListener(observable -> update());
     }
@@ -53,16 +53,16 @@ public class ItemView extends ImageView {
         setFitHeight(height);
     }
 
-    public final ObjectProperty<ItemToken> itemTokenProperty() {
-        return itemToken;
+    public final ObjectProperty<ItemToken> itemProperty() {
+        return item;
     }
 
-    public final ItemToken getItemToken() {
-        return itemToken.get();
+    public final ItemToken getItem() {
+        return item.get();
     }
 
-    public final void setItemToken(ItemToken itemToken) {
-        this.itemToken.set(itemToken);
+    public final void setItem(ItemToken item) {
+        this.item.set(item);
     }
 
     public final List<ItemData> getItemData() {
@@ -90,7 +90,7 @@ public class ItemView extends ImageView {
             timeline.stop();
         }
 
-        itemData = ContentManager.getInstance().getItemData(getItemToken());
+        itemData = ContentManager.getInstance().getItemData(getItem());
         if (itemData.size() == 0) {
             setImage(null);
             return;
