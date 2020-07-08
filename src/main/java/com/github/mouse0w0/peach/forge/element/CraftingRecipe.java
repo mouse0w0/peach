@@ -1,15 +1,16 @@
 package com.github.mouse0w0.peach.forge.element;
 
+import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.ItemStack;
-import com.github.mouse0w0.peach.forge.ItemToken;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 
 public class CraftingRecipe {
 
     private String id;
     private String namespace;
     private String group;
-    private ItemToken[] inputs = new ItemToken[9];
-    private ItemStack output;
+    private Item[] inputs = ArrayUtils.fill(new Item[9], Item.AIR);
+    private ItemStack output = ItemStack.EMPTY;
     private boolean shapeless;
 
     public String getId() {
@@ -36,11 +37,11 @@ public class CraftingRecipe {
         this.group = group;
     }
 
-    public ItemToken[] getInputs() {
+    public Item[] getInputs() {
         return inputs;
     }
 
-    public void setInputs(ItemToken[] inputs) {
+    public void setInputs(Item[] inputs) {
         this.inputs = inputs;
     }
 

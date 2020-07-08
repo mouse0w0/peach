@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.ui.forge;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.forge.ItemToken;
+import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.contentPack.ContentManager;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -85,17 +85,17 @@ public class ItemPicker {
     private void initEntries() {
         ObservableList<Node> contentChildren = content.getChildren();
         contentChildren.clear();
-        Predicate<ItemToken> filter;
+        Predicate<Item> filter;
         switch (getSelectedMode()) {
             case DEFAULT:
             default:
-                filter = ItemToken::isStandard;
+                filter = Item::isStandard;
                 break;
             case IGNORE_METADATA:
-                filter = ItemToken::isIgnoreMetadata;
+                filter = Item::isIgnoreMetadata;
                 break;
             case ORE_DICT:
-                filter = ItemToken::isOreDict;
+                filter = Item::isOreDict;
                 break;
         }
         ContentManager.getInstance().getItemTokenMap().keySet()
@@ -110,9 +110,9 @@ public class ItemPicker {
         } else {
             content.getChildren().forEach(node -> {
                 ItemPickerEntry entry = (ItemPickerEntry) node;
-                ItemToken itemToken = entry.getItemToken();
+                Item item = entry.getItem();
                 ItemData itemData = entry.getItemData().get(0);
-                if (itemToken.getId().contains(pattern) || itemData.getDisplayName().contains(pattern)) {
+                if (item.getId().contains(pattern) || itemData.getDisplayName().contains(pattern)) {
                     FXUtils.setManagedAndVisible(node, true);
                 } else {
                     FXUtils.setManagedAndVisible(node, false);
@@ -121,8 +121,8 @@ public class ItemPicker {
         }
     }
 
-    public ItemToken getSelectedItem() {
-        return ((ItemPickerEntry) selectedItem.getSelectedToggle()).getItemToken();
+    public Item getSelectedItem() {
+        return ((ItemPickerEntry) selectedItem.getSelectedToggle()).getItem();
     }
 
     public Mode getSelectedMode() {

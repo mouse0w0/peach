@@ -24,4 +24,15 @@ public class ArrayUtils extends org.apache.commons.lang3.ArrayUtils {
         }
         return result;
     }
+
+    public static <T> T[] fill(T[] t, T value) {
+        return fill(t, 0, t.length, value);
+    }
+
+    public static <T> T[] fill(T[] t, int fromIndex, int toIndex, T value) {
+        for (int i = fromIndex; i < toIndex; i++) {
+            t[i] = value;
+        }
+        return t;
+    }
 }

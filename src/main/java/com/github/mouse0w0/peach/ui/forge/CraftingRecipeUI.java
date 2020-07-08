@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.ui.forge;
 
+import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.ItemStack;
-import com.github.mouse0w0.peach.forge.ItemToken;
 import com.github.mouse0w0.peach.forge.element.CraftingRecipe;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -106,7 +106,7 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
         craftingRecipe.setNamespace(namespace.getValue());
         craftingRecipe.setGroup(group.getValue());
         craftingRecipe.setShapeless(shapeless.isSelected());
-        craftingRecipe.setInputs(ArrayUtils.map(inputs, ItemView::getItem, ItemToken[]::new));
+        craftingRecipe.setInputs(ArrayUtils.map(inputs, ItemView::getItem, Item[]::new));
         craftingRecipe.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
     }
 

@@ -6,24 +6,26 @@ import java.util.Objects;
 
 public class ItemStack {
 
-    private ItemToken item;
+    public static final ItemStack EMPTY = new ItemStack(Item.AIR);
+
+    private Item item;
     private int amount;
 
-    public ItemStack(ItemToken item) {
+    public ItemStack(Item item) {
         this(item, 1);
     }
 
-    public ItemStack(ItemToken item, int amount) {
+    public ItemStack(Item item, int amount) {
         this.item = Validate.notNull(item);
         this.amount = amount;
     }
 
-    public ItemToken getItem() {
+    public Item getItem() {
         return item;
     }
 
-    public void setItem(ItemToken item) {
-        this.item = item;
+    public void setItem(Item item) {
+        this.item = Validate.notNull(item);
     }
 
     public int getAmount() {
@@ -32,6 +34,10 @@ public class ItemStack {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public boolean isEmpty() {
+        return this.equals(EMPTY);
     }
 
     @Override

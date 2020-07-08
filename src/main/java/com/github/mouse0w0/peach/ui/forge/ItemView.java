@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.ui.forge;
 
-import com.github.mouse0w0.peach.forge.ItemToken;
+import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.contentPack.ContentManager;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.ui.util.ImageCache;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ItemView extends ImageView {
 
-    private final ObjectProperty<ItemToken> item = new SimpleObjectProperty<>(this, "itemSelector");
+    private final ObjectProperty<Item> item = new SimpleObjectProperty<>(this, "itemSelector");
 
     private BooleanProperty playAnimation;
 
@@ -29,13 +29,13 @@ public class ItemView extends ImageView {
         initialize();
     }
 
-    public ItemView(ItemToken item) {
+    public ItemView(Item item) {
         setItem(item);
         update();
         initialize();
     }
 
-    public ItemView(ItemToken item, double width, double height) {
+    public ItemView(Item item, double width, double height) {
         setFitSize(width, height);
         setItem(item);
         update();
@@ -53,15 +53,15 @@ public class ItemView extends ImageView {
         setFitHeight(height);
     }
 
-    public final ObjectProperty<ItemToken> itemProperty() {
+    public final ObjectProperty<Item> itemProperty() {
         return item;
     }
 
-    public final ItemToken getItem() {
+    public final Item getItem() {
         return item.get();
     }
 
-    public final void setItem(ItemToken item) {
+    public final void setItem(Item item) {
         this.item.set(item);
     }
 

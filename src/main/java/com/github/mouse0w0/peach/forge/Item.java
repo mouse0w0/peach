@@ -2,27 +2,29 @@ package com.github.mouse0w0.peach.forge;
 
 import org.apache.commons.lang3.Validate;
 
-public class ItemToken {
+public class Item {
 
     public static final int METADATA_WILDCARD = Short.MAX_VALUE;
+
+    public static Item AIR = Item.createItem("minecraft:air", 0);
 
     private String id;
     private int metadata;
     private boolean isOreDict;
 
-    public static ItemToken createItemToken(String id, int metadata) {
-        return new ItemToken(id, metadata, false);
+    public static Item createItem(String id, int metadata) {
+        return new Item(id, metadata, false);
     }
 
-    public static ItemToken createIgnoreMetadataToken(String id) {
-        return new ItemToken(id, METADATA_WILDCARD, false);
+    public static Item createIgnoreMetadata(String id) {
+        return new Item(id, METADATA_WILDCARD, false);
     }
 
-    public static ItemToken createOreDictToken(String id) {
-        return new ItemToken(id, 0, true);
+    public static Item createOreDict(String id) {
+        return new Item(id, 0, true);
     }
 
-    protected ItemToken(String id, int metadata, boolean isOreDict) {
+    protected Item(String id, int metadata, boolean isOreDict) {
         this.id = Validate.notEmpty(id);
         this.metadata = metadata;
         this.isOreDict = isOreDict;
@@ -34,6 +36,10 @@ public class ItemToken {
 
     public int getMetadata() {
         return metadata;
+    }
+
+    public boolean isAir() {
+        return this.equals(AIR);
     }
 
     public boolean isIgnoreMetadata() {
@@ -52,7 +58,7 @@ public class ItemToken {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ItemToken that = (ItemToken) o;
+        Item that = (Item) o;
         return metadata == that.metadata && id.equals(that.id);
     }
 

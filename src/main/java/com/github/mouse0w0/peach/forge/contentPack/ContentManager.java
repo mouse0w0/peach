@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.forge.contentPack;
 
 import com.github.mouse0w0.peach.forge.ForgeModService;
-import com.github.mouse0w0.peach.forge.ItemToken;
+import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.util.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -22,7 +22,7 @@ public class ContentManager {
 
     private final Map<String, ContentPack> contentPacks = new HashMap<>();
 
-    private final Map<ItemToken, List<ItemData>> itemTokenMap = new LinkedHashMap<>();
+    private final Map<Item, List<ItemData>> itemTokenMap = new LinkedHashMap<>();
 
     public static ContentManager getInstance() {
         return ForgeModService.getInstance().getContentManager();
@@ -38,11 +38,11 @@ public class ContentManager {
                     ContentPack contentPack = ContentPack.load(path);
                     contentPacks.put(contentPack.getId(), contentPack);
                     contentPack.getItemData().forEach(itemData -> {
-                        getOrCreateItemData(ItemToken.createItemToken(itemData.getId(), itemData.getMetadata())).add(itemData);
-                        getOrCreateItemData(ItemToken.createIgnoreMetadataToken(itemData.getId())).add(itemData);
+                        getOrCreateItemData(Item.createItem(itemData.getId(), itemData.getMetadata())).add(itemData);
+                        getOrCreateItemData(Item.createIgnoreMetadata(itemData.getId())).add(itemData);
                     });
                     contentPack.getOreDictionaryData().forEach(oreDictData -> {
-                        List<ItemData> itemData = getOrCreateItemData(ItemToken.createOreDictToken(oreDictData.getId()));
+                        List<ItemData> itemData = getOrCreateItemData(Item.createOreDict(oreDictData.getId()));
                         oreDictData.getEntries().forEach(itemToken -> itemData.addAll(getItemData(itemToken)));
                     });
                 } catch (IOException e) {
@@ -62,15 +62,15 @@ public class ContentManager {
         return contentPacks.get(id);
     }
 
-    public Map<ItemToken, List<ItemData>> getItemTokenMap() {
+    public Map<Item, List<ItemData>> getItemTokenMap() {
         return itemTokenMap;
     }
 
-    private List<ItemData> getOrCreateItemData(ItemToken itemToken) {
-        return itemTokenMap.computeIfAbsent(itemToken, $ -> new ArrayList<>());
+    private List<ItemData> getOrCreateItemData(Item item) {
+        return itemTokenMap.computeIfAbsent(item, $ -> new ArrayList<>());
     }
 
-    public List<ItemData> getItemData(ItemToken itemToken) {
-        return itemTokenMap.getOrDefault(itemToken, Collections.emptyList());
+    public List<ItemData> getItemData(Item item) {
+        return itemTokenMap.getOrDefault(item, Collections.emptyList());
     }
 }

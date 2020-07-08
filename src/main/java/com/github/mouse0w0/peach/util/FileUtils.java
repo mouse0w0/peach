@@ -2,10 +2,12 @@ package com.github.mouse0w0.peach.util;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -47,5 +49,13 @@ public class FileUtils {
 
     public static String toURLString(Path path) {
         return toURL(path).toString();
+    }
+
+    public static Path toPath(URL url) {
+        try {
+            return Paths.get(url.toURI());
+        } catch (URISyntaxException e) {
+            throw new Error(e);
+        }
     }
 }

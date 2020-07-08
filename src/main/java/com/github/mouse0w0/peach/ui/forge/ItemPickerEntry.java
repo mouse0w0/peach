@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.ui.forge;
 
-import com.github.mouse0w0.peach.forge.ItemToken;
+import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.scene.control.ToggleButton;
@@ -15,7 +15,7 @@ class ItemPickerEntry extends ToggleButton {
 
     private static final Tooltip TOOLTIP;
 
-    private final ItemToken itemToken;
+    private final Item item;
     private final ItemView itemView;
 
     static {
@@ -24,11 +24,11 @@ class ItemPickerEntry extends ToggleButton {
         TOOLTIP.setOnShowing(event ->
                 FXUtils.getTooltipOwnerNode().ifPresent(node -> {
                             ItemPickerEntry entry = (ItemPickerEntry) node;
-                            ItemToken itemToken = entry.getItemToken();
+                            Item item = entry.getItem();
                             List<ItemData> itemData = entry.getItemData();
                             StringBuilder sb = new StringBuilder();
 
-                            sb.append(itemToken.getId()).append("\n--------------------\n");
+                            sb.append(item.getId()).append("\n--------------------\n");
 
                             for (ItemData itemDatum : itemData) {
                                 sb.append(itemDatum.getDisplayName()).append("\n");
@@ -39,9 +39,9 @@ class ItemPickerEntry extends ToggleButton {
                 ));
     }
 
-    public ItemPickerEntry(ItemToken itemToken, ToggleGroup toggleGroup) {
-        this.itemToken = Validate.notNull(itemToken);
-        itemView = new ItemView(itemToken, 32, 32);
+    public ItemPickerEntry(Item item, ToggleGroup toggleGroup) {
+        this.item = Validate.notNull(item);
+        itemView = new ItemView(item, 32, 32);
         getStyleClass().add("entry");
         setToggleGroup(toggleGroup);
         setGraphic(itemView);
@@ -49,8 +49,8 @@ class ItemPickerEntry extends ToggleButton {
         FXUtils.setFixedSize(this, 32, 32);
     }
 
-    public ItemToken getItemToken() {
-        return itemToken;
+    public Item getItem() {
+        return item;
     }
 
     public List<ItemData> getItemData() {
