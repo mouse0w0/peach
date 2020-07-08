@@ -19,7 +19,7 @@ public class MainClassTask implements CompileTask {
     @Override
     public void run(CompileContext context) throws Exception {
         String packageName = context.getData(ForgeCompiler.ROOT_PACKAGE_NAME);
-        ForgeModInfo projectInfo = context.getData(ForgeCompiler.PROJECT_INFO_KEY);
+        ForgeModInfo projectInfo = context.getData(ForgeCompiler.MOD_INFO_KEY);
         String className = ASMUtils.normalizeClassName(projectInfo.getId());
         String internalClassName = ASMUtils.getInternalName(packageName, className);
 

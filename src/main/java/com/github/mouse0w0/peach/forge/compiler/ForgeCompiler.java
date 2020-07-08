@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.forge.compiler;
 import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.forge.ForgeModInfo;
+import com.github.mouse0w0.peach.forge.compiler.v1_12_2.AssetsInfoTask;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.MainClassTask;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.ModInfoTask;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -20,11 +21,12 @@ import java.util.List;
 
 public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
-    public static final Key<ForgeModInfo> PROJECT_INFO_KEY = Key.of(ForgeModInfo.class);
+    public static final Key<ForgeModInfo> MOD_INFO_KEY = Key.of(ForgeModInfo.class);
 
     public static final Key<Path> CLASSES_STORE_PATH = Key.of("ClassesStorePath");
     public static final Key<Path> RESOURCES_STORE_PATH = Key.of("ResourcesStorePath");
     public static final Key<Path> ARTIFACTS_STORE_PATH = Key.of("ArtifactsStorePath");
+    public static final Key<Path> MOD_ASSETS_STORE_PATH = Key.of("ModAssetsPath");
 
     public static final Key<String> ROOT_PACKAGE_NAME = Key.of("RootPackageName");
 
@@ -117,13 +119,19 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
             FileUtils.createDirectoriesIfNotExists(artifactsStorePath);
             putData(ARTIFACTS_STORE_PATH, artifactsStorePath);
 
-            ForgeModInfo projectInfo = JsonUtils.readJson(getSource().resolve(ForgeModInfo.FILE_NAME), ForgeModInfo.class);
-            putData(PROJECT_INFO_KEY, projectInfo);
+            ForgeModInfo modInfo = JsonUtils.readJson(getSource().resolve(ForgeModInfo.FILE_NAME), ForgeModInfo.class);
+            putData(MOD_INFO_KEY, modInfo);
 
-            putData(ROOT_PACKAGE_NAME, "peach.generated." + projectInfo.getId());
+            Path modAssetsStorePath = resourcesStorePath.resolve("assets/" + modInfo.getId());
+            FileUtils.createDirectoriesIfNotExists(modAssetsStorePath);
+            putData(MOD_ASSETS_STORE_PATH, modAssetsStorePath);
+
+            putData(ROOT_PACKAGE_NAME, "peach.generated." + modInfo.getId());
 
             taskList.add(new MainClassTask());
             taskList.add(new ModInfoTask());
+            taskList.add(new AssetsInfoTask());
+
             taskList.add(new JarTask());
         } catch (IOException e) {
             e.printStackTrace();

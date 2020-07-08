@@ -4,24 +4,20 @@ import com.github.mouse0w0.peach.forge.ForgeModInfo;
 import com.github.mouse0w0.peach.forge.compiler.CompileContext;
 import com.github.mouse0w0.peach.forge.compiler.CompileTask;
 import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
-import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonObject;
 
 import java.nio.file.Path;
 
-public class ModInfoTask implements CompileTask {
-
+public class AssetsInfoTask implements CompileTask {
     @Override
     public void run(CompileContext context) throws Exception {
-        Path path = context.getData(ForgeCompiler.RESOURCES_STORE_PATH).resolve("mcmod.info");
+        Path path = context.getData(ForgeCompiler.RESOURCES_STORE_PATH).resolve("pack.mcmeta");
         ForgeModInfo projectInfo = context.getData(ForgeCompiler.MOD_INFO_KEY);
         JsonObject jo = new JsonObject();
-        jo.addProperty("modid", projectInfo.getId());
-        jo.addProperty("name", projectInfo.getName());
         jo.addProperty("description", projectInfo.getDescription());
-        jo.addProperty("version", projectInfo.getVersion());
-        jo.addProperty("mcversion", projectInfo.getMcVersion());
-        jo.add("authorList", JsonUtils.json(projectInfo.getAuthors()));
-        context.write(path, JsonUtils.jsonArray(jo).toString());
+        jo.addProperty("pack_format", 3);
+        JsonObject jo2 = new JsonObject();
+        jo2.add("pack", jo);
+        context.write(path, jo2.toString());
     }
 }
