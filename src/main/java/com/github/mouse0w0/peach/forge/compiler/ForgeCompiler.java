@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.forge.ForgeModInfo;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.AssetsInfoTask;
+import com.github.mouse0w0.peach.forge.compiler.v1_12_2.ElementTask;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.MainClassTask;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.ModInfoTask;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -22,6 +23,9 @@ import java.util.List;
 public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
     public static final Key<ForgeModInfo> MOD_INFO_KEY = Key.of(ForgeModInfo.class);
+
+    public static final Key<Path> PROJECT_SOURCES_PATH = Key.of("ProjectSourcesPath");
+    public static final Key<Path> PROJECT_RESOURCES_PATH = Key.of("ProjectResourcePath");
 
     public static final Key<Path> CLASSES_STORE_PATH = Key.of("ClassesStorePath");
     public static final Key<Path> RESOURCES_STORE_PATH = Key.of("ResourcesStorePath");
@@ -107,6 +111,12 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
         try {
             FileUtils.createDirectoriesIfNotExists(getOutput());
 
+            Path projectSourcesPath = getSource().resolve("sources");
+            putData(PROJECT_SOURCES_PATH, projectSourcesPath);
+
+            Path projectResourcesPath = getSource().resolve("resources");
+            putData(PROJECT_RESOURCES_PATH, projectResourcesPath);
+
             Path classesStorePath = getOutput().resolve("classes");
             FileUtils.createDirectoriesIfNotExists(classesStorePath);
             putData(CLASSES_STORE_PATH, classesStorePath);
@@ -128,6 +138,7 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
             putData(ROOT_PACKAGE_NAME, "peach.generated." + modInfo.getId());
 
+            taskList.add(new ElementTask());
             taskList.add(new MainClassTask());
             taskList.add(new ModInfoTask());
             taskList.add(new AssetsInfoTask());
