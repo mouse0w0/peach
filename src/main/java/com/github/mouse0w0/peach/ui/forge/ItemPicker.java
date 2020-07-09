@@ -11,16 +11,17 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.apache.commons.lang3.Validate;
 
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
@@ -99,7 +100,7 @@ public class ItemPicker {
                 break;
         }
         ContentManager.getInstance().getItemTokenMap().keySet()
-                .parallelStream().filter(filter).map(itemToken -> new ItemPickerEntry(itemToken, selectedItem))
+                .parallelStream().filter(filter).map(itemToken -> new Entry(itemToken, selectedItem))
                 .sequential().forEach(contentChildren::add);
         selectedItem.selectToggle((Toggle) content.getChildren().get(0));
     }
@@ -109,7 +110,7 @@ public class ItemPicker {
             content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, true));
         } else {
             content.getChildren().forEach(node -> {
-                ItemPickerEntry entry = (ItemPickerEntry) node;
+                Entry entry = (Entry) node;
                 Item item = entry.getItem();
                 ItemData itemData = entry.getItemData().get(0);
                 if (item.getId().contains(pattern) || itemData.getDisplayName().contains(pattern)) {
@@ -122,7 +123,7 @@ public class ItemPicker {
     }
 
     public Item getSelectedItem() {
-        return ((ItemPickerEntry) selectedItem.getSelectedToggle()).getItem();
+        return ((Entry) selectedItem.getSelectedToggle()).getItem();
     }
 
     public Mode getSelectedMode() {
@@ -138,5 +139,60 @@ public class ItemPicker {
     private void onCancel() {
         cancelled = true;
         FXUtils.hideWindow(root);
+    }
+
+    private static class Entry extends ToggleButton {
+
+        private static final Tooltip TOOLTIP;
+
+        private final Item item;
+        private final ItemView itemView;
+
+        static {
+            TOOLTIP = new Tooltip();
+            TOOLTIP.setFont(Font.font(13));
+            TOOLTIP.setOnShowing(event ->
+                    FXUtils.getTooltipOwnerNode().ifPresent(node -> {
+                                Entry entry = (Entry) node;
+                                Item item = entry.getItem();
+                                List<ItemData> itemData = entry.getItemData();
+                                StringBuilder sb = new StringBuilder();
+
+                                sb.append(item.getId()).append("\n--------------------\n");
+
+                                for (ItemData itemDatum : itemData) {
+                                    sb.append(itemDatum.getDisplayName()).append("\n");
+                                }
+
+                                TOOLTIP.setText(sb.substring(0, sb.length() - 1));
+                            }
+                    ));
+        }
+
+        public Entry(Item item, ToggleGroup toggleGroup) {
+            this.item = Validate.notNull(item);
+            itemView = new ItemView(item, 32, 32);
+            getStyleClass().add("entry");
+            setToggleGroup(toggleGroup);
+            setGraphic(itemView);
+            setTooltip(TOOLTIP);
+            FXUtils.setFixedSize(this, 32, 32);
+        }
+
+        public Item getItem() {
+            return item;
+        }
+
+        public List<ItemData> getItemData() {
+            return itemView.getItemData();
+        }
+
+        @Override
+        public void fire() {
+            // we don't toggle from selected to not selected if part of a group
+            if (getToggleGroup() == null || !isSelected()) {
+                super.fire();
+            }
+        }
     }
 }
