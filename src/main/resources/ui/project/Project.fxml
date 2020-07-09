@@ -48,7 +48,7 @@
         </VBox>
     </top>
     <center>
-        <TabPane fx:id="content" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE"
+        <TabPane fx:id="content" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS"
                  BorderPane.alignment="CENTER"/>
     </center>
 </fx:root>
