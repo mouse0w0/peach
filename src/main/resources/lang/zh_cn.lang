@@ -66,4 +66,6 @@ ui.crafting_recipe.namespace=命名空间：
 ui.crafting_recipe.group=配方组：
 ui.crafting_recipe.shapeless=无序配方？
 
+ui.element_view.title=模组元素
+
 mod.element.crafting_recipe=合成配方
