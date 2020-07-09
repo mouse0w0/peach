@@ -5,6 +5,8 @@ import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 public class ProjectWindow {
@@ -44,7 +46,13 @@ public class ProjectWindow {
         return stage;
     }
 
-    public ProjectUI getProjectUI() {
-        return projectUI;
+    public void openTab(Tab tab) {
+        TabPane tabPane = projectUI.getTabPane();
+        tabPane.getTabs().add(tab);
+        tabPane.getSelectionModel().select(tab);
+    }
+
+    public void closeTab(Tab tab) {
+        projectUI.getTabPane().getTabs().remove(tab);
     }
 }

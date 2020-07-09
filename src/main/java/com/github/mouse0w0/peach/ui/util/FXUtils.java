@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 
 import java.io.IOException;
@@ -93,6 +94,13 @@ public final class FXUtils {
 
     public static void setComputePrefSize(Region region) {
         region.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+    }
+
+    public static void setAnchorToZero(Node node) {
+        AnchorPane.setTopAnchor(node, 0D);
+        AnchorPane.setLeftAnchor(node, 0D);
+        AnchorPane.setBottomAnchor(node, 0D);
+        AnchorPane.setRightAnchor(node, 0D);
     }
 
     private static Object TOOLTIP_BEHAVIOR;

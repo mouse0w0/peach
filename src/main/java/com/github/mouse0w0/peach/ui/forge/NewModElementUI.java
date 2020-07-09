@@ -63,8 +63,8 @@ public class NewModElementUI extends BorderPane {
         ElementDefinition<?> definition = type.getValue();
         Path file = project.getData(ForgeProjectDataKeys.SOURCES_PATH).resolve(name.getText() + "." + definition.getId() + ".json");
         ElementFile<?> elementFile = definition.load(file);
-        Wizard wizard = type.getValue().createWizard(elementFile);
-        window.getProjectUI().getContent().getTabs().add(Wizard.createTab(wizard));
+        Wizard wizard = definition.createWizard(elementFile);
+        window.openTab(Wizard.createTab(wizard));
         FXUtils.hideWindow(this);
     }
 

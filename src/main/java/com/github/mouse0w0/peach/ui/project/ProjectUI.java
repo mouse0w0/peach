@@ -16,20 +16,20 @@ import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 
-public class ProjectUI extends BorderPane {
+class ProjectUI extends BorderPane {
 
     private final Project project;
 
     @FXML
-    private TabPane content;
+    private TabPane tabPane;
 
     public ProjectUI(Project project) {
         this.project = project;
         FXUtils.loadFXML(this, "ui/project/Project.fxml");
     }
 
-    public TabPane getContent() {
-        return content;
+    public TabPane getTabPane() {
+        return tabPane;
     }
 
     @FXML
