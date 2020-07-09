@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.forge.ForgeDataKeys;
+import com.github.mouse0w0.peach.forge.ForgeProjectDataKeys;
 import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -57,7 +57,7 @@ public class ProjectUI extends BorderPane {
 
     @FXML
     private void doOpenProjectSettings() {
-        ModInfoUI.show(project.getData(ForgeDataKeys.MOD_INFO_FILE), getScene().getWindow());
+        ModInfoUI.show(project.getData(ForgeProjectDataKeys.MOD_INFO_FILE), getScene().getWindow());
     }
 
     @FXML

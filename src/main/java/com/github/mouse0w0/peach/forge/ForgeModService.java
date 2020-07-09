@@ -38,15 +38,15 @@ public class ForgeModService {
         Path file = project.getPath().resolve(ForgeModInfo.FILE_NAME);
         JsonFile<ForgeModInfo> jsonFile = new JsonFile<>(file, ForgeModInfo.class, ForgeModInfo::new);
         jsonFile.load();
-        project.putData(ForgeDataKeys.MOD_INFO_FILE, jsonFile);
+        project.putData(ForgeProjectDataKeys.MOD_INFO_FILE, jsonFile);
 
-        project.putData(ForgeDataKeys.SOURCES_PATH, project.getPath().resolve("sources"));
-        project.putData(ForgeDataKeys.RESOURCES_PATH, project.getPath().resolve("resources"));
+        project.putData(ForgeProjectDataKeys.SOURCES_PATH, project.getPath().resolve("sources"));
+        project.putData(ForgeProjectDataKeys.RESOURCES_PATH, project.getPath().resolve("resources"));
     }
 
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
         Project project = event.getProject();
-        JsonFile<ForgeModInfo> modInfoFile = project.getData(ForgeDataKeys.MOD_INFO_FILE);
+        JsonFile<ForgeModInfo> modInfoFile = project.getData(ForgeProjectDataKeys.MOD_INFO_FILE);
 
         if (!modInfoFile.exists()) {
             ModInfoUI.show(modInfoFile, event.getWindow().getStage());

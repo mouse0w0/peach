@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.ui.forge;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.forge.ForgeDataKeys;
 import com.github.mouse0w0.peach.forge.ForgeModService;
+import com.github.mouse0w0.peach.forge.ForgeProjectDataKeys;
 import com.github.mouse0w0.peach.forge.element.ElementDefinition;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
 import com.github.mouse0w0.peach.project.Project;
@@ -61,7 +61,7 @@ public class NewModElementUI extends BorderPane {
         ProjectWindow window = WindowManager.getInstance().getFocusedWindow();
         Project project = window.getProject();
         ElementDefinition<?> definition = type.getValue();
-        Path file = project.getData(ForgeDataKeys.SOURCES_PATH).resolve(name.getText() + "." + definition.getId() + ".json");
+        Path file = project.getData(ForgeProjectDataKeys.SOURCES_PATH).resolve(name.getText() + "." + definition.getId() + ".json");
         ElementFile<?> elementFile = definition.load(file);
         Wizard wizard = type.getValue().createWizard(elementFile);
         window.getProjectUI().getContent().getTabs().add(Wizard.createTab(wizard));
