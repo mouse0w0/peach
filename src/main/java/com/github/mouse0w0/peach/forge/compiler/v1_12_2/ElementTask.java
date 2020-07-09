@@ -33,12 +33,10 @@ public class ElementTask implements CompileTask {
                 .iterator();
         while (iterator.hasNext()) {
             Path file = iterator.next();
-            String fileName = file.getFileName().toString();
-            String elementId = fileName.substring(fileName.indexOf('.') + 1, fileName.lastIndexOf('.'));
-            ElementDefinition<?> element = elementManager.getElement(elementId);
+            ElementDefinition<?> element = elementManager.getElement(file);
             ElementFile<?> elementFile = element.load(file);
             elementFile.load();
-            elementGenMap.get(elementId).generate(context, elementFile);
+            elementGenMap.get(element.getId()).generate(context, elementFile);
         }
     }
 }
