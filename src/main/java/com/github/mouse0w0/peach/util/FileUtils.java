@@ -58,4 +58,12 @@ public class FileUtils {
             throw new Error(e);
         }
     }
+
+    public static boolean isEmpty(Path path) throws IOException {
+        return Files.list(path).count() == 0;
+    }
+
+    public static boolean isNotEmpty(Path path) throws IOException {
+        return Files.list(path).count() > 0;
+    }
 }
