@@ -57,7 +57,11 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
         for (int i = 0; i < 9; i++) {
             ItemView itemViews = inputs[i] = new ItemView();
             itemViews.setPickOnBounds(true);
-            itemViews.setOnMouseClicked(event -> itemViews.setItem(ItemPicker.show(getScene().getWindow(), false).getSelectedItem()));
+            itemViews.setOnMouseClicked(event -> {
+                ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), false);
+                if (itemPicker.isCancelled()) return;
+                itemViews.setItem(itemPicker.getSelectedItem());
+            });
             itemViews.setPlayAnimation(true);
             itemViews.setFitSize(64, 64);
             inputGridPane.add(itemViews, i % 3, i / 3);
@@ -65,7 +69,11 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
 
         output = new ItemView();
         output.setPickOnBounds(true);
-        output.setOnMouseClicked(event -> output.setItem(ItemPicker.show(getScene().getWindow(), true).getSelectedItem()));
+        output.setOnMouseClicked(event -> {
+            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), true);
+            if (itemPicker.isCancelled()) return;
+            output.setItem(itemPicker.getSelectedItem());
+        });
         output.setFitSize(64, 64);
         AnchorPane.setTopAnchor(output, 125d);
         AnchorPane.setLeftAnchor(output, 428d);

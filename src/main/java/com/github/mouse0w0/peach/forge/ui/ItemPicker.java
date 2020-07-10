@@ -32,14 +32,10 @@ public class ItemPicker {
 
     @FXML
     private TextField filter;
-
     @FXML
     private ToggleGroup mode;
-
     @FXML
     private FlowPane content;
-
-    private boolean itemOnly;
 
     private ToggleGroup selectedItem = new ToggleGroup();
     private ScheduledFuture<?> filterFuture;
@@ -56,13 +52,6 @@ public class ItemPicker {
         stage.initOwner(window);
         stage.showAndWait();
         return itemPicker;
-    }
-
-    public enum Mode {
-        CANCELLED,
-        DEFAULT,
-        IGNORE_METADATA,
-        ORE_DICT;
     }
 
     public ItemPicker(boolean normalItemOnly) {
@@ -85,7 +74,7 @@ public class ItemPicker {
         if (normalItemOnly) {
             mode.getToggles().forEach(toggle -> {
                 Node node = (Node) toggle;
-                if (!"DEFAULT".equals(node.getAccessibleRoleDescription())) {
+                if (!"default".equals(node.getId())) {
                     node.setDisable(true);
                 }
             });
@@ -99,15 +88,15 @@ public class ItemPicker {
         ObservableList<Node> contentChildren = content.getChildren();
         contentChildren.clear();
         Predicate<Item> filter;
-        switch (getSelectedMode()) {
-            case DEFAULT:
+        switch (((Node) mode.getSelectedToggle()).getId()) {
+            case "default":
             default:
                 filter = Item::isNormal;
                 break;
-            case IGNORE_METADATA:
+            case "ignore-metadata":
                 filter = Item::isIgnoreMetadata;
                 break;
-            case ORE_DICT:
+            case "ore-dict":
                 filter = Item::isOreDict;
                 break;
         }
@@ -134,12 +123,12 @@ public class ItemPicker {
         }
     }
 
-    public Item getSelectedItem() {
-        return ((Entry) selectedItem.getSelectedToggle()).getItem();
+    public boolean isCancelled() {
+        return cancelled;
     }
 
-    public Mode getSelectedMode() {
-        return cancelled ? Mode.CANCELLED : Mode.valueOf(((Node) mode.getSelectedToggle()).getAccessibleRoleDescription());
+    public Item getSelectedItem() {
+        return ((Entry) selectedItem.getSelectedToggle()).getItem();
     }
 
     @FXML
@@ -183,7 +172,7 @@ public class ItemPicker {
 
         public Entry(Item item, ToggleGroup toggleGroup) {
             this.item = Validate.notNull(item);
-            itemView = new ItemView(item, 32, 32);
+            this.itemView = new ItemView(item, 32, 32);
             getStyleClass().add("entry");
             setToggleGroup(toggleGroup);
             setGraphic(itemView);
