@@ -55,7 +55,7 @@ public class ElementViewUI extends ScrollPane {
         Path sourcesPath = project.getData(ForgeProjectDataKeys.SOURCES_PATH);
 
         fileWatcher = new FileWatcher(sourcesPath,
-                SensitivityWatchEventModifier.LOW, ExtendedWatchEventModifier.FILE_TREE);
+                SensitivityWatchEventModifier.HIGH, ExtendedWatchEventModifier.FILE_TREE);
         fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, path ->
                 Platform.runLater(() -> addEntry(path)));
         fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, path ->
