@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.forge.ForgeModInfo;
 import com.github.mouse0w0.peach.forge.compiler.CompileContext;
 import com.github.mouse0w0.peach.forge.compiler.CompileTask;
 import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
-import com.github.mouse0w0.peach.util.ASMUtils;
+import com.github.mouse0w0.peach.forge.util.ASMUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
