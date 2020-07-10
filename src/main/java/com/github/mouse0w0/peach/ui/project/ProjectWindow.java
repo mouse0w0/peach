@@ -55,4 +55,8 @@ public class ProjectWindow {
     public void closeTab(Tab tab) {
         projectUI.getTabPane().getTabs().remove(tab);
     }
+
+    public void requestFocus() {
+        stage.requestFocus();
+    }
 }

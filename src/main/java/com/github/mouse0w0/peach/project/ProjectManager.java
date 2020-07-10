@@ -2,29 +2,32 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
+import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.RuntimeIOException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProjectManager {
 
-    private final List<Project> openedProjects = new ArrayList<>();
+    private final Map<Path, Project> openedProjects = new HashMap<>();
 
     public static ProjectManager getInstance() {
         return Peach.getInstance().getService(ProjectManager.class);
     }
 
-    public List<Project> getOpenedProjects() {
-        return openedProjects;
+    public Collection<Project> getOpenedProjects() {
+        return openedProjects.values();
     }
 
     public boolean isProjectOpened(Project project) {
-        return openedProjects.contains(project);
+        return getOpenedProjects().contains(project);
     }
 
     public Project createProject(@Nullable String name, @Nonnull Path path) {
@@ -39,14 +42,23 @@ public class ProjectManager {
     }
 
     public Project openProject(@Nonnull Path path) {
-        try {
-            Project project = new Project(path);
-            openedProjects.add(project);
-            Peach.getEventBus().post(new ProjectEvent.Opened(project));
-            return project;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!path.isAbsolute()) {
+            throw new IllegalArgumentException("Path must be absolute");
         }
+
+        Project project = openedProjects.get(path);
+        if (project != null) {
+            WindowManager.getInstance().getWindow(project).requestFocus();
+        } else {
+            try {
+                project = new Project(path);
+            } catch (IOException e) {
+                throw new RuntimeIOException(e);
+            }
+            openedProjects.put(path, project);
+            Peach.getEventBus().post(new ProjectEvent.Opened(project));
+        }
+        return project;
     }
 
     public boolean closeProject(@Nonnull Project project) {
@@ -58,7 +70,7 @@ public class ProjectManager {
         try {
             project.save();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeIOException(e);
         }
 
         Peach.getEventBus().post(new ProjectEvent.Closing(project));
