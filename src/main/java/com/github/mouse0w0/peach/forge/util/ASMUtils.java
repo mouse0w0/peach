@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.util;
+package com.github.mouse0w0.peach.forge.util;
 
 public class ASMUtils {
 

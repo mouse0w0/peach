@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.ui.forge;
+package com.github.mouse0w0.peach.forge.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.forge.ForgeModInfo;

@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.forge.wizard;
 
 import com.github.mouse0w0.peach.forge.element.CraftingRecipe;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
-import com.github.mouse0w0.peach.ui.forge.CraftingRecipeUI;
+import com.github.mouse0w0.peach.forge.ui.CraftingRecipeUI;
 import com.github.mouse0w0.peach.ui.wizard.Wizard;
 
 public class CraftingRecipeWizard extends Wizard {
