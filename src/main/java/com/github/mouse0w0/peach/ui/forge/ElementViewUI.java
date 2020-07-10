@@ -15,7 +15,9 @@ import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Control;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.shape.Rectangle;
@@ -32,6 +34,9 @@ public class ElementViewUI extends ScrollPane {
 
     private FlowPane content;
 
+    private Entry openingMenuEntry;
+    private ContextMenu entryMenu;
+
     private FileWatcher fileWatcher;
 
     public ElementViewUI(Project project) {
@@ -39,6 +44,13 @@ public class ElementViewUI extends ScrollPane {
         setFitToWidth(true);
         content = new FlowPane();
         setContent(content);
+
+        entryMenu = new ContextMenu();
+        MenuItem open = new MenuItem(I18n.translate("common.open"));
+        open.setOnAction(event -> openingMenuEntry.openWizard());
+        MenuItem remove = new MenuItem(I18n.translate("common.remove"));
+        remove.setOnAction(event -> openingMenuEntry.delete());
+        entryMenu.getItems().addAll(open, remove);
 
         Path sourcesPath = project.getData(ForgeProjectDataKeys.SOURCES_PATH);
 
@@ -93,6 +105,8 @@ public class ElementViewUI extends ScrollPane {
             setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) openWizard();
             });
+            setOnContextMenuRequested(event -> openingMenuEntry = this);
+            setContextMenu(entryMenu);
         }
 
         public Path getFile() {
@@ -107,6 +121,15 @@ public class ElementViewUI extends ScrollPane {
             ElementFile<?> elementFile = definition.load(file);
             Wizard wizard = definition.createWizard(elementFile);
             WindowManager.getInstance().getWindow(project).openTab(Wizard.createTab(wizard));
+        }
+
+        public void delete() {
+            try {
+                Files.deleteIfExists(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
