@@ -44,7 +44,7 @@ public class ModInfoUI extends BorderPane {
         stage.setTitle(I18n.translate("ui.mod_info.title"));
         stage.initOwner(window);
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.showAndWait();
+        stage.show();
     }
 
     public ModInfoUI(JsonFile<ForgeModInfo> file) {
