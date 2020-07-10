@@ -65,6 +65,7 @@ ui.crafting_recipe.id=配方名：
 ui.crafting_recipe.namespace=命名空间：
 ui.crafting_recipe.group=配方组：
 ui.crafting_recipe.shapeless=无序配方？
+ui.crafting_recipe.warning.id=配方名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
 
 ui.element_view.title=模组元素
 

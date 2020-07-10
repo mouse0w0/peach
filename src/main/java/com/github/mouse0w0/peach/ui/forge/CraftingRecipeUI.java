@@ -1,13 +1,18 @@
 package com.github.mouse0w0.peach.ui.forge;
 
+import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.ItemStack;
 import com.github.mouse0w0.peach.forge.element.CraftingRecipe;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
+import com.github.mouse0w0.peach.forge.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.ImageCache;
+import com.github.mouse0w0.peach.ui.util.Message;
 import com.github.mouse0w0.peach.ui.wizard.WizardStep;
 import com.github.mouse0w0.peach.util.ArrayUtils;
+import com.github.mouse0w0.peach.util.FileUtils;
+import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -82,7 +87,17 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
     @Override
     public void init() {
         CraftingRecipe craftingRecipe = file.get();
-        id.setText(craftingRecipe.getId());
+
+        String recipeId = craftingRecipe.getId();
+        if (Strings.isNullOrEmpty(recipeId)) {
+            String fileName = FileUtils.getFileNameWithoutExtensionName(file.getFile());
+            String standardRecipeId = ModUtils.toRegisterName(fileName);
+            if (ModUtils.REGISTER_NAME.matcher(standardRecipeId).matches()) {
+                recipeId = standardRecipeId;
+            }
+        }
+
+        id.setText(recipeId);
         namespace.setValue(craftingRecipe.getNamespace());
         group.setValue(craftingRecipe.getGroup());
         shapeless.setSelected(craftingRecipe.isShapeless());
@@ -96,6 +111,12 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
 
     @Override
     public boolean validate() {
+        if (!ModUtils.REGISTER_NAME.matcher(id.getText()).matches()) {
+            Message.warning(I18n.translate("ui.crafting_recipe.warning.id"));
+            id.requestFocus();
+            id.selectAll();
+            return false;
+        }
         return true;
     }
 

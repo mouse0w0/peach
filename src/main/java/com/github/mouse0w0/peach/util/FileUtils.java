@@ -66,4 +66,9 @@ public class FileUtils {
     public static boolean isNotEmpty(Path path) throws IOException {
         return Files.list(path).count() > 0;
     }
+
+    public static String getFileNameWithoutExtensionName(Path file) {
+        String fileName = file.getFileName().toString();
+        return fileName.substring(0, fileName.indexOf('.'));
+    }
 }
