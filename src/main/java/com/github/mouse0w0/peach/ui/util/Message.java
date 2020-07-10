@@ -6,12 +6,12 @@ import javafx.scene.control.ButtonType;
 public class Message {
     public static void warning(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING, message, ButtonType.YES);
-        alert.showAndWait();
+        alert.show();
     }
 
     public static void error(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.YES);
-        alert.showAndWait();
+        alert.show();
     }
 
     public static boolean confirm(String message) {
