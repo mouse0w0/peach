@@ -9,6 +9,5 @@
         - **image**：图片文件文件夹。
             - **item**：物品的图片文件夹。
         - **lang**：语言文件文件夹。
-        - **mod.metadata.json**：用于描述模组的元数据文件。
         - **item.json**：储存所有物品。
         - **oreDictionary.json**：储存所有矿物词典。
