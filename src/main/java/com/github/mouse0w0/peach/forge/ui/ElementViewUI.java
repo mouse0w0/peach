@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.SkinUtils;
 import com.github.mouse0w0.peach.ui.wizard.Wizard;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.FileWatcher;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
@@ -54,15 +55,15 @@ public class ElementViewUI extends ScrollPane {
 
         Path sourcesPath = project.getData(ForgeProjectDataKeys.SOURCES_PATH);
 
-        fileWatcher = new FileWatcher(sourcesPath,
-                SensitivityWatchEventModifier.HIGH, ExtendedWatchEventModifier.FILE_TREE);
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, path ->
-                Platform.runLater(() -> addEntry(path)));
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, path ->
-                Platform.runLater(() -> removeEntry(path)));
-        fileWatcher.start();
-
         try {
+            FileUtils.createDirectoriesIfNotExists(sourcesPath);
+            fileWatcher = new FileWatcher(sourcesPath,
+                    SensitivityWatchEventModifier.HIGH, ExtendedWatchEventModifier.FILE_TREE);
+            fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, path ->
+                    Platform.runLater(() -> addEntry(path)));
+            fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, path ->
+                    Platform.runLater(() -> removeEntry(path)));
+            fileWatcher.start();
             Files.walk(sourcesPath).forEach(this::addEntry);
         } catch (IOException ignored) {
         }
