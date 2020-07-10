@@ -39,14 +39,16 @@ public class ItemPicker {
     @FXML
     private FlowPane content;
 
+    private boolean itemOnly;
+
     private ToggleGroup selectedItem = new ToggleGroup();
     private ScheduledFuture<?> filterFuture;
 
     private boolean cancelled;
 
-    public static ItemPicker show(Window window) {
+    public static ItemPicker show(Window window, boolean normalItemOnly) {
         Stage stage = new Stage();
-        ItemPicker itemPicker = new ItemPicker();
+        ItemPicker itemPicker = new ItemPicker(normalItemOnly);
         Scene scene = new Scene(itemPicker.root);
         stage.setScene(scene);
         stage.setTitle(I18n.translate("ui.item_picker.title"));
@@ -63,7 +65,7 @@ public class ItemPicker {
         ORE_DICT;
     }
 
-    public ItemPicker() {
+    public ItemPicker(boolean normalItemOnly) {
         root = FXUtils.loadFXML(null, this, "ui/forge/ItemPicker.fxml");
 
         filter.setOnKeyPressed(event -> {
@@ -79,6 +81,16 @@ public class ItemPicker {
             Runnable runnable = () -> Platform.runLater(() -> filter(pattern));
             filterFuture = ScheduleUtils.schedule(runnable, 500, TimeUnit.MILLISECONDS);
         });
+
+        if (normalItemOnly) {
+            mode.getToggles().forEach(toggle -> {
+                Node node = (Node) toggle;
+                if (!"DEFAULT".equals(node.getAccessibleRoleDescription())) {
+                    node.setDisable(true);
+                }
+            });
+        }
+
         initEntries();
         mode.selectedToggleProperty().addListener(observable -> initEntries());
     }
@@ -90,7 +102,7 @@ public class ItemPicker {
         switch (getSelectedMode()) {
             case DEFAULT:
             default:
-                filter = Item::isStandard;
+                filter = Item::isNormal;
                 break;
             case IGNORE_METADATA:
                 filter = Item::isIgnoreMetadata;

@@ -50,7 +50,7 @@ public class Item {
         return isOreDict;
     }
 
-    public boolean isStandard() {
+    public boolean isNormal() {
         return !isIgnoreMetadata() && !isOreDict();
     }
 
