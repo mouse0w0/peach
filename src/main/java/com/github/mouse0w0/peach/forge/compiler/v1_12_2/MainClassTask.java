@@ -10,8 +10,6 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
-import java.nio.file.Path;
-
 import static org.objectweb.asm.Opcodes.*;
 
 public class MainClassTask implements CompileTask {
@@ -54,7 +52,6 @@ public class MainClassTask implements CompileTask {
         }
         classWriter.visitEnd();
 
-        Path path = context.getData(ForgeCompiler.CLASSES_STORE_PATH).resolve(internalClassName + ".class");
-        context.write(path, classWriter.toByteArray());
+        context.getClassesFiler().write(internalClassName + ".class", classWriter.toByteArray());
     }
 }

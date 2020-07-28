@@ -7,13 +7,10 @@ import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonObject;
 
-import java.nio.file.Path;
-
 public class ModInfoTask implements CompileTask {
 
     @Override
     public void run(CompileContext context) throws Exception {
-        Path path = context.getData(ForgeCompiler.RESOURCES_STORE_PATH).resolve("mcmod.info");
         ForgeModInfo projectInfo = context.getData(ForgeCompiler.MOD_INFO_KEY);
         JsonObject jo = new JsonObject();
         jo.addProperty("modid", projectInfo.getId());
@@ -22,6 +19,6 @@ public class ModInfoTask implements CompileTask {
         jo.addProperty("version", projectInfo.getVersion());
         jo.addProperty("mcversion", projectInfo.getMcVersion());
         jo.add("authorList", JsonUtils.json(projectInfo.getAuthors()));
-        context.write(path, JsonUtils.jsonArray(jo).toString());
+        context.getResourcesFiler().write("mcmod.info", JsonUtils.jsonArray(jo).toString());
     }
 }

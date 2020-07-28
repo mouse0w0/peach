@@ -53,7 +53,7 @@ public class CraftingRecipeGen implements ElementGen<CraftingRecipe> {
             jo.add("key", key);
         }
 
-        context.write(context.getData(ForgeCompiler.MOD_ASSETS_STORE_PATH).resolve("recipes/" + recipe.getId() + ".json"), jo.toString());
+        context.getData(ForgeCompiler.MOD_ASSETS_FILER).write("recipes/" + recipe.getId() + ".json", jo.toString());
     }
 
     private JsonObject json(ItemStack itemStack) {
