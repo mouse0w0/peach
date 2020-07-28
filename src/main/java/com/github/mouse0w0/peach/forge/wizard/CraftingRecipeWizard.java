@@ -21,7 +21,6 @@ public class CraftingRecipeWizard extends Wizard {
         return fileName.substring(0, fileName.indexOf('.'));
     }
 
-
     public ElementFile<CraftingRecipe> getFile() {
         return file;
     }

@@ -83,8 +83,16 @@ public class Filer {
         }
     }
 
+    public void copy(Path source, String target, CopyOption... options) throws IOException {
+        Files.copy(source, root.resolve(target), options);
+    }
+
     public void copy(InputStream in, String target, CopyOption... options) throws IOException {
         Files.copy(in, root.resolve(target), options);
+    }
+
+    public void copy(Path source, Path target, CopyOption... options) throws IOException {
+        Files.copy(source, root.resolve(target), options);
     }
 
     public void copy(InputStream in, Path target, CopyOption... options) throws IOException {
