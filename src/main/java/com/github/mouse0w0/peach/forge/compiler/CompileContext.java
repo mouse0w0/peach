@@ -6,7 +6,7 @@ import java.nio.file.Path;
 
 public interface CompileContext extends DataHolder {
 
-    Path getSource();
+    Path getSourceDirectory();
 
     Path getOutputDirectory();
 

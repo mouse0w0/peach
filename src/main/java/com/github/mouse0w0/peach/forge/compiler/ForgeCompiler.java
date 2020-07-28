@@ -26,7 +26,7 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
     public static final Key<String> ROOT_PACKAGE_NAME = Key.of("RootPackageName");
 
-    private final Path source;
+    private final Path sourceDirectory;
     private final Path outputDirectory;
 
     private Filer classesFiler;
@@ -34,14 +34,14 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
 
     private final List<CompileTask> taskList = new ArrayList<>();
 
-    public ForgeCompiler(Path source, Path outputDirectory) {
-        this.source = source;
+    public ForgeCompiler(Path sourceDirectory, Path outputDirectory) {
+        this.sourceDirectory = sourceDirectory;
         this.outputDirectory = outputDirectory;
     }
 
     @Override
-    public Path getSource() {
-        return source;
+    public Path getSourceDirectory() {
+        return sourceDirectory;
     }
 
     @Override
@@ -68,10 +68,10 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
         try {
             FileUtils.createDirectoriesIfNotExists(getOutputDirectory());
 
-            Path projectSourcesPath = getSource().resolve("sources");
+            Path projectSourcesPath = getSourceDirectory().resolve("sources");
             putData(PROJECT_SOURCES_PATH, projectSourcesPath);
 
-            Path projectResourcesPath = getSource().resolve("resources");
+            Path projectResourcesPath = getSourceDirectory().resolve("resources");
             putData(PROJECT_RESOURCES_PATH, projectResourcesPath);
 
             classesFiler = new Filer(getOutputDirectory().resolve("classes"));
@@ -79,7 +79,7 @@ public class ForgeCompiler extends DataHolderImpl implements CompileContext {
             Path resourcesStorePath = getOutputDirectory().resolve("resources");
             resourcesFiler = new Filer(resourcesStorePath);
 
-            ForgeModInfo modInfo = JsonUtils.readJson(getSource().resolve(ForgeModInfo.FILE_NAME), ForgeModInfo.class);
+            ForgeModInfo modInfo = JsonUtils.readJson(getSourceDirectory().resolve(ForgeModInfo.FILE_NAME), ForgeModInfo.class);
             putData(MOD_INFO_KEY, modInfo);
             putData(ROOT_PACKAGE_NAME, "peach.generated." + modInfo.getId());
             putData(MOD_ASSETS_FILER, new Filer(resourcesStorePath.resolve("assets/" + modInfo.getId())));
