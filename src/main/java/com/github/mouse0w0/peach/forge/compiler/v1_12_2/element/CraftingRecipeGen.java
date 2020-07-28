@@ -18,52 +18,62 @@ public class CraftingRecipeGen implements ElementGen<CraftingRecipe> {
         CraftingRecipe recipe = file.get();
 
         JsonObject jo = new JsonObject();
-        jo.add("result", json(recipe.getOutput()));
+        generateResult(recipe, jo);
 
-        Item[] inputs = recipe.getInputs();
         if (recipe.isShapeless()) {
-            jo.addProperty("type", "forge:ore_shapeless");
-            JsonArray ingredients = new JsonArray();
-            for (Item input : inputs) {
-                if (input != null && !input.isAir()) {
-                    ingredients.add(json(input));
-                }
-            }
-            jo.add("ingredients", ingredients);
+            generateShapeless(recipe, jo);
         } else {
-            jo.addProperty("type", "forge:ore_shaped");
-            JsonArray pattern = new JsonArray();
-            Map<Item, String> keyMap = new HashMap<>();
-            StringBuilder sb = new StringBuilder(10);
-            for (int i = 0; i < 9; i++) {
-                Item input = inputs[i];
-                if (input != null && !input.isAir()) {
-                    sb.append(keyMap.computeIfAbsent(input, $ -> Character.toString((char) ('A' + keyMap.size()))));
-                } else {
-                    sb.append(" ");
-                }
-            }
-            for (int i = 0; i < 3; i++) {
-                pattern.add(sb.substring(i * 3, i * 3 + 3));
-            }
-            jo.add("pattern", pattern);
-
-            JsonObject key = new JsonObject();
-            keyMap.forEach((itemToken, s) -> key.add(s, json(itemToken)));
-            jo.add("key", key);
+            generateShaped(recipe, jo);
         }
 
         context.getData(ForgeCompiler.MOD_ASSETS_FILER).write("recipes/" + recipe.getId() + ".json", jo.toString());
     }
 
-    private JsonObject json(ItemStack itemStack) {
+    private void generateResult(CraftingRecipe recipe, JsonObject jo) {
+        ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
         result.addProperty("item", itemStack.getItem().getId());
         result.addProperty("count", itemStack.getAmount());
-        return result;
+
+        jo.add("result", result);
     }
 
-    private JsonObject json(Item item) {
+    private void generateShaped(CraftingRecipe recipe, JsonObject jo) {
+        jo.addProperty("type", "forge:ore_shaped");
+        JsonArray pattern = new JsonArray();
+        Map<Item, String> keyMap = new HashMap<>();
+        StringBuilder sb = new StringBuilder(10);
+        Item[] inputs = recipe.getInputs();
+        for (int i = 0; i < 9; i++) {
+            Item input = inputs[i];
+            if (input != null && !input.isAir()) {
+                sb.append(keyMap.computeIfAbsent(input, $ -> Character.toString((char) ('A' + keyMap.size()))));
+            } else {
+                sb.append(" ");
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            pattern.add(sb.substring(i * 3, i * 3 + 3));
+        }
+        jo.add("pattern", pattern);
+
+        JsonObject key = new JsonObject();
+        keyMap.forEach((itemToken, s) -> key.add(s, itemToJson(itemToken)));
+        jo.add("key", key);
+    }
+
+    private void generateShapeless(CraftingRecipe recipe, JsonObject jo) {
+        jo.addProperty("type", "forge:ore_shapeless");
+        JsonArray ingredients = new JsonArray();
+        for (Item input : recipe.getInputs()) {
+            if (input != null && !input.isAir()) {
+                ingredients.add(itemToJson(input));
+            }
+        }
+        jo.add("ingredients", ingredients);
+    }
+
+    private JsonObject itemToJson(Item item) {
         JsonObject result = new JsonObject();
         if (item.isOreDict()) {
             result.addProperty("type", "forge:ore_dict");
