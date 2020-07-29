@@ -41,6 +41,22 @@ public class NewModElementUI extends BorderPane {
     public NewModElementUI() {
         FXUtils.loadFXML(this, "ui/forge/NewModElement.fxml");
 
+        name.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case UP:
+                    type.getSelectionModel().selectPrevious();
+                    event.consume();
+                    break;
+                case DOWN:
+                    type.getSelectionModel().selectNext();
+                    event.consume();
+                    break;
+                case ENTER:
+                    onFinish();
+                    break;
+            }
+        });
+
         type.setConverter(new StringConverter<ElementDefinition<?>>() {
             @Override
             public String toString(ElementDefinition<?> object) {
