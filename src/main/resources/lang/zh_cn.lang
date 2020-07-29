@@ -10,8 +10,8 @@ common.delete=删除
 
 action.mainMenu.file=文件
 action.mainMenu.file.new=新建...
-action.mainMenu.file.new.newProject=新建项目
-action.mainMenu.file.new.newElement=新建模组元素
+action.mainMenu.file.new.newProject=项目
+action.mainMenu.file.new.newElement=模组元素
 action.mainMenu.file.openProject=打开项目
 action.mainMenu.file.settings=设置...
 action.mainMenu.file.projectSettings=项目设置...
