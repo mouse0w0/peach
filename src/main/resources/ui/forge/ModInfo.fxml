@@ -4,12 +4,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<fx:root prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/11.0.1"
+<fx:root prefHeight="400.0" prefWidth="600.0" type="BorderPane" xmlns="http://javafx.com/javafx/8.0.171"
          xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <Accordion prefHeight="300.0" prefWidth="400.0">
+        <Accordion fx:id="accordion" prefHeight="300.0" prefWidth="400.0">
             <panes>
-                <TitledPane animated="false" text="%ui.mod_info.general.title">
+                <TitledPane fx:id="general" animated="false" text="%ui.mod_info.general.title">
                     <content>
                         <AnchorPane>
                             <children>

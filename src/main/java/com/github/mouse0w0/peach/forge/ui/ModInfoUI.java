@@ -6,9 +6,7 @@ import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,6 +19,11 @@ import java.util.Locale;
 public class ModInfoUI extends BorderPane {
 
     private final JsonFile<ForgeModInfo> file;
+
+    @FXML
+    public Accordion accordion;
+    @FXML
+    public TitledPane general;
 
     @FXML
     public TextField name;
@@ -50,6 +53,8 @@ public class ModInfoUI extends BorderPane {
     public ModInfoUI(JsonFile<ForgeModInfo> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/forge/ModInfo.fxml");
+
+        accordion.setExpandedPane(general);
 
         mcVersion.getItems().add("1.12.2");
         mcVersion.setValue("1.12.2");
