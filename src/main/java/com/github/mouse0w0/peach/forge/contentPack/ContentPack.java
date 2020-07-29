@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.forge.contentPack;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
+import com.github.mouse0w0.peach.forge.contentPack.data.CreativeTabData;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.forge.contentPack.data.OreDictData;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -21,6 +22,8 @@ public class ContentPack implements Closeable {
 
     private static final TypeToken<List<ItemData>> LIST_ITEM_DATA_TYPE = new TypeToken<List<ItemData>>() {
     };
+    private static final TypeToken<List<CreativeTabData>> LIST_CREATIVE_TAB_DATA_TYPE = new TypeToken<List<CreativeTabData>>() {
+    };
     private static final TypeToken<List<OreDictData>> LIST_ORE_DICT_DATA_TYPE = new TypeToken<List<OreDictData>>() {
     };
 
@@ -29,6 +32,7 @@ public class ContentPack implements Closeable {
     private final ContentPackMetadata metadata;
 
     private List<ItemData> itemData;
+    private List<CreativeTabData> creativeTabData;
     private List<OreDictData> oreDictionaryData;
     private Translator translator;
 
@@ -56,6 +60,7 @@ public class ContentPack implements Closeable {
     private void load() throws IOException {
         itemData = JsonUtils.readJson(getPath("content/" + getId() + "/item.json"), LIST_ITEM_DATA_TYPE);
         itemData.forEach(item -> ItemData.setDisplayImage(item, getPath(String.format("content/%s/image/item/%s_%d.png", getId(), item.getName(), item.getMetadata()))));
+        creativeTabData = JsonUtils.readJson(getPath("content/" + getId() + "/creativeTabs.json"), LIST_CREATIVE_TAB_DATA_TYPE);
         oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
         setLocale(Locale.getDefault());
     }
@@ -95,6 +100,10 @@ public class ContentPack implements Closeable {
 
     public List<ItemData> getItemData() {
         return itemData;
+    }
+
+    public List<CreativeTabData> getCreativeTabData() {
+        return creativeTabData;
     }
 
     public List<OreDictData> getOreDictionaryData() {
