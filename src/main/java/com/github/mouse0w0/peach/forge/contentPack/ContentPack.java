@@ -59,7 +59,7 @@ public class ContentPack implements Closeable {
 
     private void load() throws IOException {
         itemData = JsonUtils.readJson(getPath("content/" + getId() + "/item.json"), LIST_ITEM_DATA_TYPE);
-        itemData.forEach(item -> ItemData.setDisplayImage(item, getPath(String.format("content/%s/image/item/%s_%d.png", getId(), item.getName(), item.getMetadata()))));
+        itemData.forEach(item -> item.setDisplayImage(getPath(String.format("content/%s/image/item/%s_%d.png", getId(), item.getName(), item.getMetadata()))));
         creativeTabData = JsonUtils.readJson(getPath("content/" + getId() + "/creativeTabs.json"), LIST_CREATIVE_TAB_DATA_TYPE);
         oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
         setLocale(Locale.getDefault());
@@ -71,7 +71,8 @@ public class ContentPack implements Closeable {
                 .locale(locale)
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
-        itemData.forEach(item -> ItemData.setDisplayName(item, translator.translate(item.getTranslationKey())));
+        itemData.forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
+        creativeTabData.forEach(creativeTab -> creativeTab.setDisplayName(translator.translate(creativeTab.getTranslationKey())));
     }
 
     public Path getFile() {

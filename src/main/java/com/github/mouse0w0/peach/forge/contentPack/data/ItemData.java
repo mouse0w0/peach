@@ -12,14 +12,6 @@ public class ItemData {
     private transient String displayName;
     private transient Path displayImage;
 
-    public static void setDisplayName(ItemData itemData, String displayName) {
-        itemData.displayName = displayName;
-    }
-
-    public static void setDisplayImage(ItemData itemData, Path displayImage) {
-        itemData.displayImage = displayImage;
-    }
-
     public ItemData(String id, int metadata, String translationKey, boolean block) {
         this.id = id;
         this.metadata = metadata;
@@ -55,7 +47,15 @@ public class ItemData {
         return displayName;
     }
 
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
     public Path getDisplayImage() {
         return displayImage;
+    }
+
+    public void setDisplayImage(Path displayImage) {
+        this.displayImage = displayImage;
     }
 }
