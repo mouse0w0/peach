@@ -11,16 +11,15 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_picker.filter"/>
             <TextField fx:id="filter"/>
-            <RadioButton id="default" accessibleRoleDescription="DEFAULT" mnemonicParsing="false" selected="true"
-                         text="%ui.item_picker.mode.default">
+            <RadioButton id="default" mnemonicParsing="false" selected="true" text="%ui.item_picker.mode.default">
                <toggleGroup>
                   <ToggleGroup fx:id="mode"/>
                </toggleGroup>
             </RadioButton>
-            <RadioButton id="ignore-metadata" accessibleRoleDescription="IGNORE_METADATA" mnemonicParsing="false"
+            <RadioButton id="ignore-metadata" fx:id="ignoreMetadata" mnemonicParsing="false"
                          text="%ui.item_picker.mode.ignore_metadata" toggleGroup="$mode"/>
-            <RadioButton id="ore-dict" accessibleRoleDescription="ORE_DICT" mnemonicParsing="false"
-                         text="%ui.item_picker.mode.ore_dict" toggleGroup="$mode"/>
+            <RadioButton id="ore-dict" fx:id="oreDict" mnemonicParsing="false" text="%ui.item_picker.mode.ore_dict"
+                         toggleGroup="$mode"/>
          </children>
          <padding>
             <Insets bottom="10.0"/>

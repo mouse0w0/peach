@@ -46,7 +46,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
         input = new ItemView();
         input.setPickOnBounds(true);
         input.setOnMouseClicked(event -> {
-            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), false);
+            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), true, false);
             if (itemPicker.isCancelled()) return;
             input.setItem(itemPicker.getSelectedItem());
         });
@@ -59,7 +59,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
         output = new ItemView();
         output.setPickOnBounds(true);
         output.setOnMouseClicked(event -> {
-            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), true);
+            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), false, false);
             if (itemPicker.isCancelled()) return;
             output.setItem(itemPicker.getSelectedItem());
         });

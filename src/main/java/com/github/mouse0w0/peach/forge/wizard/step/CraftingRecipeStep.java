@@ -60,7 +60,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
             ItemView itemViews = inputs[i] = new ItemView();
             itemViews.setPickOnBounds(true);
             itemViews.setOnMouseClicked(event -> {
-                ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), false);
+                ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), true, true);
                 if (itemPicker.isCancelled()) return;
                 itemViews.setItem(itemPicker.getSelectedItem());
             });
@@ -72,7 +72,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         output = new ItemView();
         output.setPickOnBounds(true);
         output.setOnMouseClicked(event -> {
-            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), true);
+            ItemPicker itemPicker = ItemPicker.show(getScene().getWindow(), false, false);
             if (itemPicker.isCancelled()) return;
             output.setItem(itemPicker.getSelectedItem());
         });

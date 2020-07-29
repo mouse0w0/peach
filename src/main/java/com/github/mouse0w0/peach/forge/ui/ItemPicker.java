@@ -32,8 +32,14 @@ public class ItemPicker {
 
     @FXML
     private TextField filter;
+
     @FXML
     private ToggleGroup mode;
+    @FXML
+    private RadioButton ignoreMetadata;
+    @FXML
+    private RadioButton oreDict;
+
     @FXML
     private FlowPane content;
 
@@ -42,9 +48,9 @@ public class ItemPicker {
 
     private boolean cancelled;
 
-    public static ItemPicker show(Window window, boolean normalItemOnly) {
+    public static ItemPicker show(Window window, boolean enableIgnoreMetadata, boolean enableOreDict) {
         Stage stage = new Stage();
-        ItemPicker itemPicker = new ItemPicker(normalItemOnly);
+        ItemPicker itemPicker = new ItemPicker(enableIgnoreMetadata, enableOreDict);
         Scene scene = new Scene(itemPicker.root);
         stage.setScene(scene);
         stage.setTitle(I18n.translate("ui.item_picker.title"));
@@ -54,7 +60,7 @@ public class ItemPicker {
         return itemPicker;
     }
 
-    public ItemPicker(boolean normalItemOnly) {
+    public ItemPicker(boolean enableIgnoreMetadata, boolean enableOreDict) {
         root = FXUtils.loadFXML(null, this, "ui/forge/ItemPicker.fxml");
 
         filter.setOnKeyPressed(event -> {
@@ -71,14 +77,8 @@ public class ItemPicker {
             filterFuture = ScheduleUtils.schedule(runnable, 500, TimeUnit.MILLISECONDS);
         });
 
-        if (normalItemOnly) {
-            mode.getToggles().forEach(toggle -> {
-                Node node = (Node) toggle;
-                if (!"default".equals(node.getId())) {
-                    node.setDisable(true);
-                }
-            });
-        }
+        ignoreMetadata.setDisable(!enableIgnoreMetadata);
+        oreDict.setDisable(!enableOreDict);
 
         initEntries();
         mode.selectedToggleProperty().addListener(observable -> initEntries());
@@ -88,18 +88,9 @@ public class ItemPicker {
         ObservableList<Node> contentChildren = content.getChildren();
         contentChildren.clear();
         Predicate<Item> filter;
-        switch (((Node) mode.getSelectedToggle()).getId()) {
-            case "default":
-            default:
-                filter = Item::isNormal;
-                break;
-            case "ignore-metadata":
-                filter = Item::isIgnoreMetadata;
-                break;
-            case "ore-dict":
-                filter = Item::isOreDict;
-                break;
-        }
+        if (ignoreMetadata.isSelected()) filter = Item::isIgnoreMetadata;
+        else if (oreDict.isSelected()) filter = Item::isOreDict;
+        else filter = Item::isNormal;
         ContentManager.getInstance().getItemTokenMap().keySet()
                 .parallelStream().filter(filter).map(itemToken -> new Entry(itemToken, selectedItem))
                 .sequential().forEach(contentChildren::add);
