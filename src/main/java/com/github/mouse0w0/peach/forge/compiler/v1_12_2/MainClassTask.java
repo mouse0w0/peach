@@ -7,7 +7,6 @@ import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
 import com.github.mouse0w0.peach.forge.util.ASMUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
@@ -38,16 +37,22 @@ public class MainClassTask implements CompileTask {
         {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
             methodVisitor.visitCode();
-            Label label0 = new Label();
-            methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(6, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
             methodVisitor.visitInsn(RETURN);
-            Label label1 = new Label();
-            methodVisitor.visitLabel(label1);
-            methodVisitor.visitLocalVariable("this", ASMUtils.getDescriptor(internalClassName), null, label0, label1, 0);
             methodVisitor.visitMaxs(1, 1);
+            methodVisitor.visitEnd();
+        }
+        {
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "onInit", "(Lnet/minecraftforge/fml/common/event/FMLInitializationEvent;)V", null, null);
+            {
+                annotationVisitor0 = methodVisitor.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventHandler;", true);
+                annotationVisitor0.visitEnd();
+            }
+            methodVisitor.visitCode();
+            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(packageName, "SmeltingRecipes"), "init", "()V", false);
+            methodVisitor.visitInsn(RETURN);
+            methodVisitor.visitMaxs(0, 2);
             methodVisitor.visitEnd();
         }
         classWriter.visitEnd();

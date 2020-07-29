@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.forge.compiler.CompileTask;
 import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.element.CraftingRecipeGen;
 import com.github.mouse0w0.peach.forge.compiler.v1_12_2.element.ElementGen;
+import com.github.mouse0w0.peach.forge.compiler.v1_12_2.element.SmeltingRecipeGen;
 import com.github.mouse0w0.peach.forge.element.ElementDefinition;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
 import com.github.mouse0w0.peach.forge.element.ElementManager;
@@ -24,6 +25,7 @@ public class ElementTask implements CompileTask {
 
     public ElementTask() {
         elementGenMap.put("crafting_recipe", new CraftingRecipeGen());
+        elementGenMap.put("smelting_recipe", new SmeltingRecipeGen());
     }
 
     @Override
@@ -45,7 +47,7 @@ public class ElementTask implements CompileTask {
             loadedElementFiles.put(element, elementFile);
         }
 
-        for (ElementDefinition<?> definition : loadedElementFiles.keySet()) {
+        for (ElementDefinition<?> definition : ElementManager.getInstance().getElements()) {
             elementGenMap.get(definition.getId()).generate(context, loadedElementFiles.get(definition));
         }
     }
