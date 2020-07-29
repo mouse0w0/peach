@@ -5,29 +5,28 @@ import org.apache.commons.lang3.Validate;
 public class Item {
 
     public static final int METADATA_WILDCARD = Short.MAX_VALUE;
+    public static final int ORE_DICTIONARY = Short.MAX_VALUE + 1;
 
     public static Item AIR = Item.createItem("minecraft:air", 0);
 
     private String id;
     private int metadata;
-    private boolean isOreDict;
 
     public static Item createItem(String id, int metadata) {
-        return new Item(id, metadata, false);
+        return new Item(id, metadata);
     }
 
     public static Item createIgnoreMetadata(String id) {
-        return new Item(id, METADATA_WILDCARD, false);
+        return new Item(id, METADATA_WILDCARD);
     }
 
     public static Item createOreDict(String id) {
-        return new Item(id, 0, true);
+        return new Item(id, ORE_DICTIONARY);
     }
 
-    protected Item(String id, int metadata, boolean isOreDict) {
+    protected Item(String id, int metadata) {
         this.id = Validate.notEmpty(id);
         this.metadata = metadata;
-        this.isOreDict = isOreDict;
     }
 
     public String getId() {
@@ -42,16 +41,16 @@ public class Item {
         return this.equals(AIR);
     }
 
+    public boolean isNormal() {
+        return metadata < METADATA_WILDCARD;
+    }
+
     public boolean isIgnoreMetadata() {
         return metadata == METADATA_WILDCARD;
     }
 
     public boolean isOreDict() {
-        return isOreDict;
-    }
-
-    public boolean isNormal() {
-        return !isIgnoreMetadata() && !isOreDict();
+        return metadata == ORE_DICTIONARY;
     }
 
     @Override
