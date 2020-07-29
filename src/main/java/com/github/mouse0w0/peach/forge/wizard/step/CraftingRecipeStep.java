@@ -1,10 +1,12 @@
-package com.github.mouse0w0.peach.forge.ui;
+package com.github.mouse0w0.peach.forge.wizard.step;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.forge.Item;
 import com.github.mouse0w0.peach.forge.ItemStack;
 import com.github.mouse0w0.peach.forge.element.CraftingRecipe;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
+import com.github.mouse0w0.peach.forge.ui.ItemPicker;
+import com.github.mouse0w0.peach.forge.ui.ItemView;
 import com.github.mouse0w0.peach.forge.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.ImageCache;
@@ -18,7 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class CraftingRecipeUI extends FlowPane implements WizardStep {
+public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     private static final ImageCache.Key IMAGE_KEY = new ImageCache.Key("/image/forge/crafting_recipe.png", 560, 312);
 
@@ -39,7 +41,7 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
     private ItemView output;
     private Spinner<Integer> outputAmount;
 
-    public CraftingRecipeUI(ElementFile<CraftingRecipe> file) {
+    public CraftingRecipeStep(ElementFile<CraftingRecipe> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/forge/CraftingRecipe.fxml");
 
@@ -110,10 +112,10 @@ public class CraftingRecipeUI extends FlowPane implements WizardStep {
         group.setValue(craftingRecipe.getGroup());
         shapeless.setSelected(craftingRecipe.isShapeless());
         ArrayUtils.biForEach(inputs, craftingRecipe.getInputs(), ItemView::setItem);
-        ItemStack output = craftingRecipe.getOutput();
-        if (output != null) {
-            this.output.setItem(output.getItem());
-            outputAmount.getValueFactory().setValue(output.getAmount());
+        ItemStack outputItem = craftingRecipe.getOutput();
+        if (outputItem != null) {
+            output.setItem(outputItem.getItem());
+            outputAmount.getValueFactory().setValue(outputItem.getAmount());
         }
     }
 

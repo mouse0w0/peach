@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.forge.wizard;
 
 import com.github.mouse0w0.peach.forge.element.CraftingRecipe;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
-import com.github.mouse0w0.peach.forge.ui.CraftingRecipeUI;
+import com.github.mouse0w0.peach.forge.wizard.step.CraftingRecipeStep;
 import com.github.mouse0w0.peach.ui.wizard.Wizard;
 
 public class CraftingRecipeWizard extends Wizard {
@@ -12,7 +12,7 @@ public class CraftingRecipeWizard extends Wizard {
     public CraftingRecipeWizard(ElementFile<CraftingRecipe> file) {
         this.file = file;
         file.load();
-        addWizardStep(new CraftingRecipeUI(file));
+        addWizardStep(new CraftingRecipeStep(file));
     }
 
     @Override

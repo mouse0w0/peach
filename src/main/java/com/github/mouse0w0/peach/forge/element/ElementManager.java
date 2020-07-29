@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.forge.element;
 
 import com.github.mouse0w0.peach.forge.ForgeModService;
 import com.github.mouse0w0.peach.forge.wizard.CraftingRecipeWizard;
+import com.github.mouse0w0.peach.forge.wizard.SmeltingRecipeWizard;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -18,6 +19,7 @@ public class ElementManager {
 
     public ElementManager() {
         register(new ElementDefinition<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
+        register(new ElementDefinition<>("smelting_recipe", SmeltingRecipe.class, SmeltingRecipe::new, SmeltingRecipeWizard::new));
     }
 
     private <T> void register(ElementDefinition<T> elementDefinition) {

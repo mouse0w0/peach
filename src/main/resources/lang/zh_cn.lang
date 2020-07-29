@@ -61,12 +61,16 @@ ui.new_mod_element.title=新建模组元素
 ui.new_mod_element.name=名称：
 ui.new_mod_element.type=类型：
 
+ui.element_view.title=模组元素
+
+mod.element.crafting_recipe=合成配方
+
 ui.crafting_recipe.id=配方名：
 ui.crafting_recipe.namespace=命名空间：
 ui.crafting_recipe.group=配方组：
 ui.crafting_recipe.shapeless=无序配方？
 ui.crafting_recipe.warning.id=配方名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
 
-ui.element_view.title=模组元素
+mod.element.smelting_recipe=熔炼配方
 
-mod.element.crafting_recipe=合成配方
+ui.smelting_recipe.xp=经验值：
