@@ -4,6 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
@@ -61,6 +62,10 @@ public final class FXUtils {
 
     public static void hideWindow(Node node) {
         node.getScene().getWindow().hide();
+    }
+
+    public static void hideWindow(Scene scene) {
+        scene.getWindow().hide();
     }
 
     private static final ListChangeListener<Node> DISABLE_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<Node>() {

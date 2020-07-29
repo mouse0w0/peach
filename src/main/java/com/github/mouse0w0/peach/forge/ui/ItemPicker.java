@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -25,16 +24,21 @@ import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class ItemPicker {
 
-    private BorderPane root;
+    private static ItemPicker instance;
+
+    private Scene scene;
 
     @FXML
     private TextField filter;
 
     @FXML
     private ToggleGroup mode;
+    @FXML
+    private RadioButton normal;
     @FXML
     private RadioButton ignoreMetadata;
     @FXML
@@ -43,25 +47,30 @@ public class ItemPicker {
     @FXML
     private FlowPane content;
 
-    private ToggleGroup selectedItem = new ToggleGroup();
     private ScheduledFuture<?> filterFuture;
 
+    private Item defaultItem;
+    private ToggleGroup selectedItem = new ToggleGroup();
     private boolean cancelled;
 
-    public static ItemPicker show(Window window, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    private List<Node> cacheNormalEntries;
+    private List<Node> cacheIgnoreMetadataEntries;
+    private List<Node> cacheOreDictEntries;
+
+    public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        if (instance == null) instance = new ItemPicker();
+        instance.init(defaultItem, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
-        ItemPicker itemPicker = new ItemPicker(enableIgnoreMetadata, enableOreDict);
-        Scene scene = new Scene(itemPicker.root);
-        stage.setScene(scene);
+        stage.setScene(instance.scene);
         stage.setTitle(I18n.translate("ui.item_picker.title"));
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(window);
         stage.showAndWait();
-        return itemPicker;
+        return instance.getSelectedItem();
     }
 
-    public ItemPicker(boolean enableIgnoreMetadata, boolean enableOreDict) {
-        root = FXUtils.loadFXML(null, this, "ui/forge/ItemPicker.fxml");
+    private ItemPicker() {
+        scene = new Scene(FXUtils.loadFXML(null, this, "ui/forge/ItemPicker.fxml"));
 
         filter.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -77,60 +86,88 @@ public class ItemPicker {
             filterFuture = ScheduleUtils.schedule(runnable, 500, TimeUnit.MILLISECONDS);
         });
 
-        ignoreMetadata.setDisable(!enableIgnoreMetadata);
-        oreDict.setDisable(!enableOreDict);
-
         initEntries();
         mode.selectedToggleProperty().addListener(observable -> initEntries());
     }
 
+    private void init(Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        this.defaultItem = defaultItem;
+
+        ignoreMetadata.setDisable(!enableIgnoreMetadata);
+        oreDict.setDisable(!enableOreDict);
+
+        if (defaultItem.isOreDict()) oreDict.setSelected(true);
+        else if (defaultItem.isIgnoreMetadata()) ignoreMetadata.setSelected(true);
+        else normal.setSelected(true);
+
+        selectedItem.getToggles()
+                .parallelStream()
+                .filter(toggle -> defaultItem.equals(((Entry) toggle).getItem()))
+                .findAny()
+                .ifPresent(selectedItem::selectToggle);
+    }
+
     private void initEntries() {
         ObservableList<Node> contentChildren = content.getChildren();
-        contentChildren.clear();
-        Predicate<Item> filter;
-        if (ignoreMetadata.isSelected()) filter = Item::isIgnoreMetadata;
-        else if (oreDict.isSelected()) filter = Item::isOreDict;
-        else filter = Item::isNormal;
-        ContentManager.getInstance().getItemTokenMap().keySet()
-                .parallelStream().filter(filter).map(itemToken -> new Entry(itemToken, selectedItem))
-                .sequential().forEach(contentChildren::add);
+        if (ignoreMetadata.isSelected()) {
+            if (cacheIgnoreMetadataEntries == null) {
+                cacheIgnoreMetadataEntries = generateEntries(Item::isIgnoreMetadata);
+            }
+            contentChildren.setAll(cacheIgnoreMetadataEntries);
+        } else if (oreDict.isSelected()) {
+            if (cacheOreDictEntries == null) {
+                cacheOreDictEntries = generateEntries(Item::isOreDict);
+            }
+            contentChildren.setAll(cacheOreDictEntries);
+        } else {
+            if (cacheNormalEntries == null) {
+                cacheNormalEntries = generateEntries(Item::isNormal);
+            }
+            contentChildren.setAll(cacheNormalEntries);
+        }
         selectedItem.selectToggle((Toggle) content.getChildren().get(0));
+    }
+
+    private List<Node> generateEntries(Predicate<Item> filter) {
+        return ContentManager.getInstance().getItemTokenMap().keySet()
+                .parallelStream()
+                .filter(filter)
+                .map(itemToken -> new Entry(itemToken, selectedItem))
+                .sequential()
+                .collect(Collectors.toList());
     }
 
     private void filter(String pattern) {
         if (pattern == null || pattern.isEmpty()) {
             content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, true));
         } else {
-            content.getChildren().forEach(node -> {
-                Entry entry = (Entry) node;
-                Item item = entry.getItem();
-                ItemData itemData = entry.getItemData().get(0);
-                if (item.getId().contains(pattern) || itemData.getDisplayName().contains(pattern)) {
-                    FXUtils.setManagedAndVisible(node, true);
-                } else {
-                    FXUtils.setManagedAndVisible(node, false);
-                }
-            });
+            content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, filterEntry((Entry) node, pattern)));
         }
     }
 
-    public boolean isCancelled() {
-        return cancelled;
+    private boolean filterEntry(Entry entry, String pattern) {
+        if (entry.getItem().getId().contains(pattern)) return true;
+        for (ItemData itemDatum : entry.getItemData()) {
+            if (itemDatum.getDisplayName().contains(pattern)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Item getSelectedItem() {
-        return ((Entry) selectedItem.getSelectedToggle()).getItem();
+        return cancelled ? defaultItem : ((Entry) selectedItem.getSelectedToggle()).getItem();
     }
 
     @FXML
     private void onFinish() {
-        FXUtils.hideWindow(root);
+        FXUtils.hideWindow(scene);
     }
 
     @FXML
     private void onCancel() {
         cancelled = true;
-        FXUtils.hideWindow(root);
+        FXUtils.hideWindow(scene);
     }
 
     private static class Entry extends ToggleButton {
@@ -150,7 +187,12 @@ public class ItemPicker {
                                 List<ItemData> itemData = entry.getItemData();
                                 StringBuilder sb = new StringBuilder();
 
-                                sb.append(item.getId()).append("\n--------------------\n");
+                                sb.append(item.getId());
+                                if (item.isNormal()) {
+                                    sb.append(":").append(item.getMetadata());
+                                }
+
+                                sb.append("\n--------------------\n");
 
                                 for (ItemData itemDatum : itemData) {
                                     sb.append(itemDatum.getDisplayName()).append("\n");
