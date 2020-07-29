@@ -8,6 +8,8 @@ import com.github.mouse0w0.peach.forge.compiler.v1_12_2.element.ElementGen;
 import com.github.mouse0w0.peach.forge.element.ElementDefinition;
 import com.github.mouse0w0.peach.forge.element.ElementFile;
 import com.github.mouse0w0.peach.forge.element.ElementManager;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 public class ElementTask implements CompileTask {
 
+    @SuppressWarnings("rawtypes")
     private final Map<String, ElementGen> elementGenMap = new HashMap<>();
 
     public ElementTask() {
@@ -24,9 +27,12 @@ public class ElementTask implements CompileTask {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run(CompileContext context) throws Exception {
         Path sources = context.getData(ForgeCompiler.PROJECT_SOURCES_PATH);
         ElementManager elementManager = ElementManager.getInstance();
+
+        Multimap<ElementDefinition<?>, ElementFile<?>> loadedElementFiles = HashMultimap.create();
 
         Iterator<Path> iterator = Files.walk(sources)
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
@@ -36,7 +42,11 @@ public class ElementTask implements CompileTask {
             ElementDefinition<?> element = elementManager.getElement(file);
             ElementFile<?> elementFile = element.load(file);
             elementFile.load();
-            elementGenMap.get(element.getId()).generate(context, elementFile);
+            loadedElementFiles.put(element, elementFile);
+        }
+
+        for (ElementDefinition<?> definition : loadedElementFiles.keySet()) {
+            elementGenMap.get(definition.getId()).generate(context, loadedElementFiles.get(definition));
         }
     }
 }

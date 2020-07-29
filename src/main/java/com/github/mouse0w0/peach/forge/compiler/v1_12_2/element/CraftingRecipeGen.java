@@ -12,9 +12,10 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CraftingRecipeGen implements ElementGen<CraftingRecipe> {
+public class CraftingRecipeGen extends ElementGen<CraftingRecipe> {
 
-    public void generate(CompileContext context, ElementFile<CraftingRecipe> file) throws Exception {
+    @Override
+    protected void generate(CompileContext context, ElementFile<CraftingRecipe> file) throws Exception {
         CraftingRecipe recipe = file.get();
 
         JsonObject jo = new JsonObject();
