@@ -33,7 +33,7 @@ public class ContentPack implements Closeable {
     private final FileSystem fileSystem;
     private final ContentPackMetadata metadata;
 
-    private final List<Dependency> dependencies;
+    private final List<ContentPackDependency> dependencies;
 
     private List<ItemData> itemData;
     private List<CreativeTabData> creativeTabData;
@@ -70,17 +70,17 @@ public class ContentPack implements Closeable {
         setLocale(Locale.getDefault());
     }
 
-    private List<Dependency> createDependencies(ContentPackMetadata metadata) {
-        List<Dependency> dependencies = new ArrayList<>();
+    private List<ContentPackDependency> createDependencies(ContentPackMetadata metadata) {
+        List<ContentPackDependency> dependencies = new ArrayList<>();
 
         if (!"minecraft".equals(metadata.getId())) {
-            dependencies.add(new Dependency("minecraft", VersionRange.createFromVersion(metadata.getMcVersion()), true, false, true));
+            dependencies.add(new ContentPackDependency("minecraft", VersionRange.createFromVersion(metadata.getMcVersion()), true, false, true));
         }
 
         String dependenciesString = metadata.getDependencies();
         if (dependenciesString != null) {
             for (String dependency : dependenciesString.split(";")) {
-                dependencies.add(Dependency.parse(dependency));
+                dependencies.add(ContentPackDependency.parse(dependency));
             }
         }
 
@@ -121,7 +121,7 @@ public class ContentPack implements Closeable {
         return metadata.getMcVersion();
     }
 
-    public List<Dependency> getDependencies() {
+    public List<ContentPackDependency> getDependencies() {
         return dependencies;
     }
 

@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.contentPack;
 
 import com.github.mouse0w0.version.VersionRange;
 
-public class Dependency {
+public class ContentPackDependency {
 
     private String id;
     private VersionRange versionRange;
@@ -10,7 +10,7 @@ public class Dependency {
     private boolean before;
     private boolean after;
 
-    public static Dependency parse(String dependencyString) {
+    public static ContentPackDependency parse(String dependencyString) {
         String[] split = dependencyString.split("[:@]", 3);
         String instructions = split[0];
         String id = split[1];
@@ -23,10 +23,10 @@ public class Dependency {
             else if ("after".equals(instruction)) after = true;
         }
 
-        return new Dependency(id, versionRange, required, before, after);
+        return new ContentPackDependency(id, versionRange, required, before, after);
     }
 
-    public Dependency(String id, VersionRange versionRange, boolean required, boolean before, boolean after) {
+    public ContentPackDependency(String id, VersionRange versionRange, boolean required, boolean before, boolean after) {
         this.id = id;
         this.versionRange = versionRange;
         this.required = required;
