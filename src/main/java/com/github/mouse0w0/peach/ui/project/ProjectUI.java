@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.mcmod.ui.ModInfoUI;
 import com.github.mouse0w0.peach.mcmod.ui.NewModElementUI;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.ui.newProject.NewProjectUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;

@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.RecentProjectInfo;
 import com.github.mouse0w0.peach.RecentProjectsManager;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.ui.project.NewProjectUI;
+import com.github.mouse0w0.peach.ui.newProject.NewProjectUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;

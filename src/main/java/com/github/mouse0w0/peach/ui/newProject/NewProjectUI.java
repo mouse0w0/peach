@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.ui.project;
+package com.github.mouse0w0.peach.ui.newProject;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.ProjectManager;
