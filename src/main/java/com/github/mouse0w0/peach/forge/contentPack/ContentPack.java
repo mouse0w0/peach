@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.forge.contentPack.data.CreativeTabData;
 import com.github.mouse0w0.peach.forge.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.forge.contentPack.data.OreDictData;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.github.mouse0w0.version.VersionRange;
 import com.google.common.reflect.TypeToken;
 
 import java.io.Closeable;
@@ -15,6 +16,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +32,8 @@ public class ContentPack implements Closeable {
     private final Path file;
     private final FileSystem fileSystem;
     private final ContentPackMetadata metadata;
+
+    private final List<Dependency> dependencies;
 
     private List<ItemData> itemData;
     private List<CreativeTabData> creativeTabData;
@@ -54,6 +58,7 @@ public class ContentPack implements Closeable {
         this.file = file;
         this.fileSystem = fileSystem;
         this.metadata = metadata;
+        this.dependencies = createDependencies(metadata);
         load();
     }
 
@@ -63,6 +68,23 @@ public class ContentPack implements Closeable {
         creativeTabData = JsonUtils.readJson(getPath("content/" + getId() + "/creativeTabs.json"), LIST_CREATIVE_TAB_DATA_TYPE);
         oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
         setLocale(Locale.getDefault());
+    }
+
+    private List<Dependency> createDependencies(ContentPackMetadata metadata) {
+        List<Dependency> dependencies = new ArrayList<>();
+
+        if (!"minecraft".equals(metadata.getId())) {
+            dependencies.add(new Dependency("minecraft", VersionRange.createFromVersion(metadata.getMcVersion()), true, false, true));
+        }
+
+        String dependenciesString = metadata.getDependencies();
+        if (dependenciesString != null) {
+            for (String dependency : dependenciesString.split(";")) {
+                dependencies.add(Dependency.parse(dependency));
+            }
+        }
+
+        return dependencies;
     }
 
     public void setLocale(Locale locale) {
@@ -97,6 +119,10 @@ public class ContentPack implements Closeable {
 
     public String getMcVersion() {
         return metadata.getMcVersion();
+    }
+
+    public List<Dependency> getDependencies() {
+        return dependencies;
     }
 
     public List<ItemData> getItemData() {
