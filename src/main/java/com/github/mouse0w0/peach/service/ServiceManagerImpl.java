@@ -14,9 +14,8 @@ public abstract class ServiceManagerImpl extends DataHolderImpl implements Servi
         services.putIfAbsent(classOfT, service);
     }
 
-    protected <T> void registerService(Class<T> classOfT, Supplier<T> serviceFactory, boolean preload) {
-        if (preload) registerService(classOfT, serviceFactory.get());
-        else serviceFactories.putIfAbsent(classOfT, serviceFactory);
+    protected <T> void registerServiceFactory(Class<T> classOfT, Supplier<T> serviceFactory) {
+        serviceFactories.putIfAbsent(classOfT, serviceFactory);
     }
 
     @Override

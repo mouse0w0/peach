@@ -78,7 +78,7 @@ public class Peach extends ServiceManagerImpl {
     private void initServices() {
         registerService(RecentProjectsManager.class, new RecentProjectsManager());
         registerService(WindowManager.class, new WindowManager());
-        registerService(ProjectManager.class, ProjectManager::new, false);
+        registerServiceFactory(ProjectManager.class, ProjectManager::new);
         registerService(ForgeModService.class, new ForgeModService());
     }
 
