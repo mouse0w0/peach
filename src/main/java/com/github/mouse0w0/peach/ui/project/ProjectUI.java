@@ -2,10 +2,10 @@ package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.forge.ForgeProjectDataKeys;
-import com.github.mouse0w0.peach.forge.compiler.ForgeCompiler;
-import com.github.mouse0w0.peach.forge.ui.ModInfoUI;
-import com.github.mouse0w0.peach.forge.ui.NewModElementUI;
+import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
+import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
+import com.github.mouse0w0.peach.mcmod.ui.ModInfoUI;
+import com.github.mouse0w0.peach.mcmod.ui.NewModElementUI;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -57,7 +57,7 @@ class ProjectUI extends BorderPane {
 
     @FXML
     private void doOpenProjectSettings() {
-        ModInfoUI.show(project.getData(ForgeProjectDataKeys.MOD_INFO_FILE), getScene().getWindow());
+        ModInfoUI.show(project.getData(McModDataKeys.MOD_SETTINGS), getScene().getWindow());
     }
 
     @FXML
@@ -67,6 +67,6 @@ class ProjectUI extends BorderPane {
 
     @FXML
     private void doBuild() {
-        new ForgeCompiler(project.getPath(), project.getPath().resolve("build")).run();
+        new CompilerImpl(project.getPath(), project.getPath().resolve("build")).run();
     }
 }
