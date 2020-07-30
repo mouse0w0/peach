@@ -9,7 +9,7 @@ import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.data.McModSettings;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.ui.ElementViewUI;
-import com.github.mouse0w0.peach.mcmod.ui.ModInfoUI;
+import com.github.mouse0w0.peach.mcmod.ui.McModSettingsUI;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.util.JsonFile;
@@ -56,7 +56,7 @@ public class McModService {
         JsonFile<McModSettings> modInfoFile = project.getData(McModDataKeys.MOD_SETTINGS);
 
         if (!modInfoFile.exists()) {
-            ModInfoUI.show(modInfoFile, event.getWindow().getStage());
+            McModSettingsUI.show(modInfoFile, event.getWindow().getStage());
         }
 
         Tab elementView = new Tab();

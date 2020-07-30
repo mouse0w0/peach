@@ -16,7 +16,7 @@ import javafx.util.StringConverter;
 import java.util.Collections;
 import java.util.Locale;
 
-public class ModInfoUI extends BorderPane {
+public class McModSettingsUI extends BorderPane {
 
     private final JsonFile<McModSettings> file;
 
@@ -41,7 +41,7 @@ public class ModInfoUI extends BorderPane {
     public TextArea description;
 
     public static void show(JsonFile<McModSettings> file, Window window) {
-        ModInfoUI modInfo = new ModInfoUI(file);
+        McModSettingsUI modInfo = new McModSettingsUI(file);
         Stage stage = new Stage();
         stage.setScene(new Scene(modInfo));
         stage.setTitle(I18n.translate("ui.mod_info.title"));
@@ -50,7 +50,7 @@ public class ModInfoUI extends BorderPane {
         stage.show();
     }
 
-    public ModInfoUI(JsonFile<McModSettings> file) {
+    public McModSettingsUI(JsonFile<McModSettings> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/forge/ModInfo.fxml");
 

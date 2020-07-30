@@ -4,7 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
 import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
-import com.github.mouse0w0.peach.mcmod.ui.ModInfoUI;
+import com.github.mouse0w0.peach.mcmod.ui.McModSettingsUI;
 import com.github.mouse0w0.peach.mcmod.ui.NewModElementUI;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -58,7 +58,7 @@ class ProjectUI extends BorderPane {
 
     @FXML
     private void doOpenProjectSettings() {
-        ModInfoUI.show(project.getData(McModDataKeys.MOD_SETTINGS), getScene().getWindow());
+        McModSettingsUI.show(project.getData(McModDataKeys.MOD_SETTINGS), getScene().getWindow());
     }
 
     @FXML
