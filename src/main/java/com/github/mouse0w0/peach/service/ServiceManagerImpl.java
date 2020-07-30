@@ -10,11 +10,11 @@ public abstract class ServiceManagerImpl extends DataHolderImpl implements Servi
     private final Map<Class<?>, Object> services = new HashMap<>();
     private final Map<Class<?>, Supplier<?>> serviceFactories = new HashMap<>();
 
-    protected <T> void registerService(Class<T> classOfT, T service) {
+    public <T> void registerService(Class<T> classOfT, T service) {
         services.putIfAbsent(classOfT, service);
     }
 
-    protected <T> void registerServiceFactory(Class<T> classOfT, Supplier<T> serviceFactory) {
+    public <T> void registerServiceFactory(Class<T> classOfT, Supplier<T> serviceFactory) {
         serviceFactories.putIfAbsent(classOfT, serviceFactory);
     }
 
