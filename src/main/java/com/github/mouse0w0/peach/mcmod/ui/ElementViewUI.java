@@ -96,7 +96,7 @@ public class ElementViewUI extends ScrollPane {
         public Entry(Path file, ElementDefinition<?> definition) {
             this.file = file;
             this.definition = definition;
-            setSkin(SkinUtils.create(this, FXUtils.loadFXML(null, this, "ui/forge/ElementViewEntry.fxml")));
+            setSkin(SkinUtils.create(this, FXUtils.loadFXML(null, this, "ui/mcmod/ElementViewEntry.fxml")));
 
             String fileName = file.getFileName().toString();
             title.setText(fileName.substring(0, fileName.indexOf('.')));

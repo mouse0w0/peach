@@ -35,7 +35,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
     public SmeltingRecipeStep(ElementFile<SmeltingRecipe> file) {
         this.file = file;
-        FXUtils.loadFXML(this, "ui/forge/SmeltingRecipe.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/SmeltingRecipe.fxml");
 
         xp.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 0.1));
 

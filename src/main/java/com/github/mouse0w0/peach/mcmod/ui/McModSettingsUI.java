@@ -52,7 +52,7 @@ public class McModSettingsUI extends BorderPane {
 
     public McModSettingsUI(JsonFile<McModSettings> file) {
         this.file = file;
-        FXUtils.loadFXML(this, "ui/forge/ModInfo.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/ModInfo.fxml");
 
         accordion.setExpandedPane(general);
 

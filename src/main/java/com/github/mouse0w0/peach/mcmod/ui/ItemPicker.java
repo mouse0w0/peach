@@ -70,7 +70,7 @@ public class ItemPicker {
     }
 
     private ItemPicker() {
-        scene = new Scene(FXUtils.loadFXML(null, this, "ui/forge/ItemPicker.fxml"));
+        scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemPicker.fxml"));
 
         filter.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

@@ -43,7 +43,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     public CraftingRecipeStep(ElementFile<CraftingRecipe> file) {
         this.file = file;
-        FXUtils.loadFXML(this, "ui/forge/CraftingRecipe.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/CraftingRecipe.fxml");
 
         group.setEditable(true);
 

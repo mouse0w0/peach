@@ -43,7 +43,7 @@ public class NewModElementUI extends BorderPane {
     }
 
     public NewModElementUI() {
-        FXUtils.loadFXML(this, "ui/forge/NewModElement.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/NewModElement.fxml");
 
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
