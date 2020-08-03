@@ -96,7 +96,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         if (Strings.isNullOrEmpty(recipeId)) {
             String fileName = FileUtils.getFileNameWithoutExtensionName(file.getFile());
             String standardRecipeId = ModUtils.toRegisterName(fileName);
-            if (ModUtils.REGISTER_NAME.matcher(standardRecipeId).matches()) {
+            if (ModUtils.validRegisterName(standardRecipeId)) {
                 recipeId = standardRecipeId;
             }
         }
@@ -115,7 +115,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public boolean validate() {
-        if (!ModUtils.REGISTER_NAME.matcher(id.getText()).matches()) {
+        if (!ModUtils.validRegisterName(id.getText())) {
             Message.warning(I18n.translate("ui.crafting_recipe.warning.id"));
             id.requestFocus();
             id.selectAll();
