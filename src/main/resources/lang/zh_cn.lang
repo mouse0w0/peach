@@ -60,6 +60,7 @@ ui.mod_info.choose_logo=选择图标文件
 ui.new_mod_element.title=新建模组元素
 ui.new_mod_element.name=名称：
 ui.new_mod_element.type=类型：
+ui.new_mod_element.registry_name=注册名：
 
 ui.element_view.title=模组元素
 

@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.service.McModService;
+import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -15,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -28,6 +30,8 @@ public class NewModElementUI extends BorderPane {
     private TextField name;
     @FXML
     private ChoiceBox<ElementDefinition<?>> type;
+    @FXML
+    private Text registerName;
 
     public static void show(Window window) {
         Stage stage = new Stage();
@@ -56,6 +60,8 @@ public class NewModElementUI extends BorderPane {
                     break;
             }
         });
+        name.textProperty().addListener(observable ->
+                registerName.setText(ModUtils.toRegisterName(name.getText())));
 
         type.setConverter(new StringConverter<ElementDefinition<?>>() {
             @Override
