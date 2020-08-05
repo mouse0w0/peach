@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.project;
 
-import com.github.mouse0w0.peach.service.ServiceManagerImpl;
+import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Project extends ServiceManagerImpl {
+public class Project extends ComponentManagerImpl {
 
     public static final String STORE_FOLDER = ".peach";
 

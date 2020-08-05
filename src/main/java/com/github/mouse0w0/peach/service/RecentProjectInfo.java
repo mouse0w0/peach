@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach;
+package com.github.mouse0w0.peach.service;
 
 public class RecentProjectInfo {
     private String path;

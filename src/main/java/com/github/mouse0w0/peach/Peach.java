@@ -6,10 +6,11 @@ import com.github.mouse0w0.eventbus.asm.AsmEventListenerFactory;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
+import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.event.AppEvent;
 import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.service.ServiceManagerImpl;
+import com.github.mouse0w0.peach.service.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.version.Version;
@@ -22,7 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Locale;
 
-public class Peach extends ServiceManagerImpl {
+public class Peach extends ComponentManagerImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
     private static final EventBus EVENT_BUS = SimpleEventBus.builder()

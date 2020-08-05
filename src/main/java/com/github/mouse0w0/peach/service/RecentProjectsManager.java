@@ -1,5 +1,6 @@
-package com.github.mouse0w0.peach;
+package com.github.mouse0w0.peach.service;
 
+import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.AppEvent;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;

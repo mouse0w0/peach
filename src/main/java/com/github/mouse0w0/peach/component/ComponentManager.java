@@ -1,8 +1,8 @@
-package com.github.mouse0w0.peach.service;
+package com.github.mouse0w0.peach.component;
 
 import com.github.mouse0w0.peach.data.DataHolder;
 
-public interface ServiceManager extends DataHolder {
+public interface ComponentManager extends DataHolder {
 
     default <T> T getService(Class<T> classOfT) {
         return getService(classOfT, true);
