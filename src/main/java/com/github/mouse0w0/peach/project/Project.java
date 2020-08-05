@@ -54,7 +54,7 @@ public class Project extends ServiceManagerImpl {
 
         ProjectWindow window = WindowManager.getInstance().getWindow(this);
         if (window != null) {
-            window.getStage().setTitle(getName());
+            window.getWindow().setTitle(getName());
         }
     }
 

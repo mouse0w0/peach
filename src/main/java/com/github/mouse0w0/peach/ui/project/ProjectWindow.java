@@ -6,24 +6,23 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
 public class ProjectWindow {
 
     private Project project;
     private Stage stage;
-    private ProjectUI projectUI;
+    private ProjectUI content;
 
     public ProjectWindow(Project project) {
         this.project = project;
         this.stage = new Stage();
-        this.projectUI = new ProjectUI(project);
+        this.content = new ProjectUI(project);
         initStage();
     }
 
     private void initStage() {
-        stage.setScene(new Scene(projectUI));
+        stage.setScene(new Scene(content));
         stage.setTitle(project.getName());
         stage.setOnShown(event -> Peach.getEventBus().post(new ProjectWindowEvent.Opened(this)));
         stage.setOnHidden(event -> Peach.getEventBus().post(new ProjectWindowEvent.Closed(this)));
@@ -42,18 +41,25 @@ public class ProjectWindow {
         return project;
     }
 
-    public Stage getStage() {
+    public Stage getWindow() {
         return stage;
     }
 
     public void openTab(Tab tab) {
-        TabPane tabPane = projectUI.getTabPane();
-        tabPane.getTabs().add(tab);
-        tabPane.getSelectionModel().select(tab);
+        addTab(tab);
+        selectTab(tab);
     }
 
-    public void closeTab(Tab tab) {
-        projectUI.getTabPane().getTabs().remove(tab);
+    public void addTab(Tab tab) {
+        content.getTabPane().getTabs().add(tab);
+    }
+
+    public void selectTab(Tab tab) {
+        content.getTabPane().getSelectionModel().select(tab);
+    }
+
+    public void removeTab(Tab tab) {
+        content.getTabPane().getTabs().remove(tab);
     }
 
     public void requestFocus() {

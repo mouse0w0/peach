@@ -53,11 +53,11 @@ public class WindowManager {
 
     private void onOpenedProject(ProjectEvent.Opened event) {
         ProjectWindow window = allocateWindow(event.getProject());
-        window.getStage().show();
+        window.getWindow().show();
     }
 
     private void onClosedProject(ProjectEvent.Closed event) {
         ProjectWindow window = getWindow(event.getProject());
-        window.getStage().hide();
+        window.getWindow().hide();
     }
 }
