@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentManager;
+import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.ui.util.ImageCache;
 import javafx.animation.KeyFrame;
@@ -90,7 +90,7 @@ public class ItemView extends ImageView {
             timeline.stop();
         }
 
-        itemData = ContentManager.getInstance().getItemData(getItem());
+        itemData = ContentPackManager.getInstance().getItemData(getItem());
         if (itemData.size() == 0) {
             setImage(null);
             return;

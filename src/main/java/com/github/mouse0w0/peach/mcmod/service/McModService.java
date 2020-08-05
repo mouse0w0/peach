@@ -4,7 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentManager;
+import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.data.McModSettings;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
@@ -23,7 +23,7 @@ public class McModService {
         return Peach.getInstance().getService(McModService.class);
     }
 
-    private final ContentManager contentManager = new ContentManager();
+    private final ContentPackManager contentManager = new ContentPackManager();
     private final ElementManager elementManager = new ElementManager();
 
     public McModService() {
@@ -31,7 +31,7 @@ public class McModService {
         Peach.getEventBus().addListener(this::onOpenedProjectWindow);
     }
 
-    public ContentManager getContentManager() {
+    public ContentPackManager getContentPackManager() {
         return contentManager;
     }
 

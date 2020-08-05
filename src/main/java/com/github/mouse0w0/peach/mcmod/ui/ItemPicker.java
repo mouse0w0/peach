@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentManager;
+import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.ScheduleUtils;
@@ -129,10 +129,10 @@ public class ItemPicker {
     }
 
     private List<Node> generateEntries(Predicate<Item> filter) {
-        return ContentManager.getInstance().getItemTokenMap().keySet()
+        return ContentPackManager.getInstance().getItemMap().keySet()
                 .parallelStream()
                 .filter(filter)
-                .map(itemToken -> new Entry(itemToken, selectedItem))
+                .map(item -> new Entry(item, selectedItem))
                 .sequential()
                 .collect(Collectors.toList());
     }
