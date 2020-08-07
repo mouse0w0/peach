@@ -21,6 +21,8 @@ public class ModUtils {
             } else if (Pinyin.isChinese(c)) {
                 if (sb.length() != 0) sb.append("_");
                 sb.append(Pinyin.toPinyin(c).toLowerCase());
+            } else if (c == ' ' || c == '\t') {
+                sb.append("_");
             } else {
                 sb.append(c);
             }
