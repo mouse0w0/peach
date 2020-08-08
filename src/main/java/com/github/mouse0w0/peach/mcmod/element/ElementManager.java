@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.mcmod.wizard.CraftingRecipeWizard;
+import com.github.mouse0w0.peach.mcmod.wizard.ItemWizard;
 import com.github.mouse0w0.peach.mcmod.wizard.SmeltingRecipeWizard;
 
 import java.nio.file.Path;
@@ -18,6 +19,7 @@ public class ElementManager {
     }
 
     public ElementManager() {
+        register(new ElementDefinition<>("item", ItemElement.class, ItemElement::new, ItemWizard::new));
         register(new ElementDefinition<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
         register(new ElementDefinition<>("smelting_recipe", SmeltingRecipe.class, SmeltingRecipe::new, SmeltingRecipeWizard::new));
     }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<fx:root alignment="CENTER" type="FlowPane" xmlns="http://javafx.com/javafx/8.0.171"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane hgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="150.0"/>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="150.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_element.register_name"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_element.display_name"
+                      GridPane.rowIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_element.item_group" GridPane.rowIndex="2"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_element.max_stack_size"
+                      GridPane.rowIndex="3"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_element.effect" GridPane.rowIndex="4"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_element.information" GridPane.rowIndex="5"/>
+                <TextField fx:id="registerName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
+                <TextField fx:id="displayName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
+                           GridPane.rowIndex="1"/>
+                <ChoiceBox fx:id="itemGroup" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
+                           GridPane.rowIndex="2"/>
+                <Spinner fx:id="maxStackSize" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
+                         GridPane.rowIndex="3"/>
+                <RadioButton fx:id="effect" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                <TextArea fx:id="information" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0"
+                          GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            </children>
+        </GridPane>
+    </children>
+</fx:root>
