@@ -52,6 +52,9 @@ ui.mod_info.mc_version=MC版本：
 ui.mod_info.author=作者：
 ui.mod_info.language=语言：
 ui.mod_info.description=详细信息：
+
+ui.mod_info.dependency.title=依赖管理
+
 ui.mod_info.advanced.title=高级设置
 ui.mod_info.website=网站链接：
 ui.mod_info.logo=图标：
@@ -70,7 +73,7 @@ ui.item_element.register_name=注册名：
 ui.item_element.display_name=显示名：
 ui.item_element.item_group=创造标签：
 ui.item_element.max_stack_size=最大堆叠数量：
-ui.item_element.effect=附魔效果：
+ui.item_element.effect=发光效果：
 ui.item_element.information=附加信息：
 
 ui.item_element.error.register_name=注册名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
