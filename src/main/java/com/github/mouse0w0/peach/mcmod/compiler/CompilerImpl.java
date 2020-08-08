@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.AssetsInfoTask;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.ElementTask;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.MainClassTask;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.ModInfoTask;
-import com.github.mouse0w0.peach.mcmod.data.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 

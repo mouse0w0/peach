@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.mcmod.data.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;

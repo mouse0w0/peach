@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 import com.github.mouse0w0.peach.mcmod.compiler.CompileContext;
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
 import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
-import com.github.mouse0w0.peach.mcmod.data.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.google.gson.JsonObject;
 
 public class AssetsInfoTask implements CompileTask {

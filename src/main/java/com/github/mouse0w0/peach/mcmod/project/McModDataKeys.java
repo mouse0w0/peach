@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.data;
+package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.util.JsonFile;

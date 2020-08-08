@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
-import com.github.mouse0w0.peach.mcmod.data.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.util.ZipUtils;
 
 import java.nio.file.Path;

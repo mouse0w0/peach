@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;

@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.ui.project;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
-import com.github.mouse0w0.peach.mcmod.data.McModDataKeys;
+import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.ui.McModSettingsUI;
 import com.github.mouse0w0.peach.mcmod.ui.NewModElementUI;
 import com.github.mouse0w0.peach.project.Project;
