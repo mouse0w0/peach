@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.contentPack;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.CreativeTabData;
 import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.contentPack.data.OreDictData;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
@@ -24,7 +24,7 @@ public class ContentPack implements Closeable {
 
     private static final TypeToken<List<ItemData>> LIST_ITEM_DATA_TYPE = new TypeToken<List<ItemData>>() {
     };
-    private static final TypeToken<List<CreativeTabData>> LIST_CREATIVE_TAB_DATA_TYPE = new TypeToken<List<CreativeTabData>>() {
+    private static final TypeToken<List<ItemGroupData>> LIST_CREATIVE_TAB_DATA_TYPE = new TypeToken<List<ItemGroupData>>() {
     };
     private static final TypeToken<List<OreDictData>> LIST_ORE_DICT_DATA_TYPE = new TypeToken<List<OreDictData>>() {
     };
@@ -36,7 +36,7 @@ public class ContentPack implements Closeable {
     private final List<ContentPackDependency> dependencies;
 
     private List<ItemData> itemData;
-    private List<CreativeTabData> creativeTabData;
+    private List<ItemGroupData> itemGroupData;
     private List<OreDictData> oreDictionaryData;
     private Translator translator;
 
@@ -65,7 +65,7 @@ public class ContentPack implements Closeable {
     private void load() throws IOException {
         itemData = JsonUtils.readJson(getPath("content/" + getId() + "/item.json"), LIST_ITEM_DATA_TYPE);
         itemData.forEach(item -> item.setDisplayImage(getPath(String.format("content/%s/image/item/%s_%d.png", getId(), item.getName(), item.getMetadata()))));
-        creativeTabData = JsonUtils.readJson(getPath("content/" + getId() + "/creativeTabs.json"), LIST_CREATIVE_TAB_DATA_TYPE);
+        itemGroupData = JsonUtils.readJson(getPath("content/" + getId() + "/itemGroups.json"), LIST_CREATIVE_TAB_DATA_TYPE);
         oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
         setLocale(Locale.getDefault());
     }
@@ -94,7 +94,7 @@ public class ContentPack implements Closeable {
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
         itemData.forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
-        creativeTabData.forEach(creativeTab -> creativeTab.setDisplayName(translator.translate(creativeTab.getTranslationKey())));
+        itemGroupData.forEach(creativeTab -> creativeTab.setDisplayName(translator.translate(creativeTab.getTranslationKey())));
     }
 
     public Path getFile() {
@@ -129,8 +129,8 @@ public class ContentPack implements Closeable {
         return itemData;
     }
 
-    public List<CreativeTabData> getCreativeTabData() {
-        return creativeTabData;
+    public List<ItemGroupData> getItemGroupData() {
+        return itemGroupData;
     }
 
     public List<OreDictData> getOreDictionaryData() {

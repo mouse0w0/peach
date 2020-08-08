@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.contentPack.data;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 
-public class CreativeTabData {
+public class ItemGroupData {
 
     private String id;
     private String translationKey;
@@ -10,7 +10,7 @@ public class CreativeTabData {
 
     private transient String displayName;
 
-    public CreativeTabData(String id, String translationKey, Item item) {
+    public ItemGroupData(String id, String translationKey, Item item) {
         this.id = id;
         this.translationKey = translationKey;
         this.item = item;
