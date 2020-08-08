@@ -64,13 +64,24 @@ ui.new_mod_element.registry_name=注册名：
 
 ui.element_view.title=模组元素
 
+mod.element.item=物品
+
+ui.item_element.register_name=注册名：
+ui.item_element.display_name=显示名：
+ui.item_element.item_group=创造标签：
+ui.item_element.max_stack_size=最大堆叠数量：
+ui.item_element.effect=附魔效果：
+ui.item_element.information=附加信息：
+
+ui.item_element.error.register_name=注册名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
+
 mod.element.crafting_recipe=合成配方
 
 ui.crafting_recipe.id=配方名：
 ui.crafting_recipe.namespace=命名空间：
 ui.crafting_recipe.group=配方组：
 ui.crafting_recipe.shapeless=无序配方？
-ui.crafting_recipe.warning.id=配方名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
+ui.crafting_recipe.error.id=配方名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
 
 mod.element.smelting_recipe=熔炼配方
 

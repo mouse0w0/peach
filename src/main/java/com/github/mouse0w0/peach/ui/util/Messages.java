@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.ui.util;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-public class Message {
+public class Messages {
     public static void warning(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING, message, ButtonType.YES);
         alert.show();
