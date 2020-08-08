@@ -4,6 +4,9 @@ import com.github.mouse0w0.eventbus.Order;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
+import javafx.stage.PopupWindow;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -11,7 +14,8 @@ import java.util.Map;
 
 public class WindowManager {
 
-    private final Map<Project, ProjectWindow> projectWindowMap = new HashMap<>();
+    private final Map<Project, ProjectWindow> windowMap = new HashMap<>();
+    private final Map<Stage, ProjectWindow> stageToWindowMap = new HashMap<>();
 
     private ProjectWindow focusedWindow;
 
@@ -24,12 +28,25 @@ public class WindowManager {
         Peach.getEventBus().addListener(Order.LAST, this::onClosedProject);
     }
 
-    public Collection<ProjectWindow> getProjectWindows() {
-        return projectWindowMap.values();
+    public Collection<ProjectWindow> getWindows() {
+        return windowMap.values();
     }
 
     public ProjectWindow getWindow(Project project) {
-        return projectWindowMap.get(project);
+        return windowMap.get(project);
+    }
+
+    public ProjectWindow getWindow(Window window) {
+        Window current = window;
+        while (current != null) {
+            ProjectWindow projectWindow = stageToWindowMap.get(window);
+            if (projectWindow != null) return projectWindow;
+
+            if (window instanceof Stage) current = ((Stage) window).getOwner();
+            else if (window instanceof PopupWindow) current = ((PopupWindow) window).getOwnerWindow();
+            else break;
+        }
+        return null;
     }
 
     public ProjectWindow allocateWindow(Project project) {
@@ -39,7 +56,8 @@ public class WindowManager {
         }
 
         window = new ProjectWindow(project);
-        projectWindowMap.putIfAbsent(project, window);
+        windowMap.putIfAbsent(project, window);
+        stageToWindowMap.put(window.getWindow(), window);
         return window;
     }
 
