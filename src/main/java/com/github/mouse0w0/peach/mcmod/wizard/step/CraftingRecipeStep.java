@@ -55,20 +55,18 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         inputGridPane.setVgap(8);
         recipeView.getChildren().add(inputGridPane);
         for (int i = 0; i < 9; i++) {
-            ItemView itemViews = inputs[i] = new ItemView();
+            ItemView itemViews = inputs[i] = new ItemView(64, 64);
             itemViews.setPickOnBounds(true);
             itemViews.setOnMouseClicked(event ->
                     itemViews.setItem(ItemPicker.pick(getScene().getWindow(), itemViews.getItem(), true, true)));
             itemViews.setPlayAnimation(true);
-            itemViews.setFitSize(64, 64);
             inputGridPane.add(itemViews, i % 3, i / 3);
         }
 
-        output = new ItemView();
+        output = new ItemView(64, 64);
         output.setPickOnBounds(true);
         output.setOnMouseClicked(event ->
                 output.setItem(ItemPicker.pick(getScene().getWindow(), output.getItem(), false, false)));
-        output.setFitSize(64, 64);
         AnchorPane.setTopAnchor(output, 125d);
         AnchorPane.setLeftAnchor(output, 428d);
         recipeView.getChildren().add(output);

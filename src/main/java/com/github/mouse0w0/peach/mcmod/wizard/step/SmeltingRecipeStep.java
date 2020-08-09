@@ -43,21 +43,19 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
         recipeView.setBackground(new Background(
                 new BackgroundImage(BACKGROUND.getImage(), null, null, null, null)));
 
-        input = new ItemView();
+        input = new ItemView(64, 64);
         input.setPickOnBounds(true);
         input.setOnMouseClicked(event ->
                 input.setItem(ItemPicker.pick(getScene().getWindow(), input.getItem(), true, false)));
         input.setPlayAnimation(true);
-        input.setFitSize(64, 64);
         AnchorPane.setTopAnchor(input, 52d);
         AnchorPane.setLeftAnchor(input, 120d);
         recipeView.getChildren().add(input);
 
-        output = new ItemView();
+        output = new ItemView(64, 64);
         output.setPickOnBounds(true);
         output.setOnMouseClicked(event ->
                 output.setItem(ItemPicker.pick(getScene().getWindow(), output.getItem(), true, false)));
-        output.setFitSize(64, 64);
         AnchorPane.setTopAnchor(output, 124d);
         AnchorPane.setLeftAnchor(output, 360d);
         recipeView.getChildren().add(output);

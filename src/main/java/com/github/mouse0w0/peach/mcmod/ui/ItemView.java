@@ -26,18 +26,20 @@ public class ItemView extends ImageView {
     private Timeline timeline;
 
     public ItemView() {
-        initialize();
+        this(null, 64, 64);
+    }
+
+    public ItemView(double width, double height) {
+        this(null, width, height);
     }
 
     public ItemView(Item item) {
-        setItem(item);
-        update();
-        initialize();
+        this(item, 64, 64);
     }
 
     public ItemView(Item item, double width, double height) {
-        setFitSize(width, height);
         setItem(item);
+        setFitSize(width, height);
         update();
         initialize();
     }
