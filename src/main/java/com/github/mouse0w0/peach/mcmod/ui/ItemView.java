@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.data.ItemData;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import javafx.animation.KeyFrame;

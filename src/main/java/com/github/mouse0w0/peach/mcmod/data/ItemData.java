@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.contentPack.data;
+package com.github.mouse0w0.peach.mcmod.data;
 
 import java.nio.file.Path;
 

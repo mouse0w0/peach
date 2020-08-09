@@ -2,9 +2,9 @@ package com.github.mouse0w0.peach.mcmod.contentPack;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.OreDictData;
+import com.github.mouse0w0.peach.mcmod.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
+import com.github.mouse0w0.peach.mcmod.data.OreDictData;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.common.reflect.TypeToken;

@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.contentPack.ContentPack;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemGroupData;
+import com.github.mouse0w0.peach.mcmod.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.util.*;

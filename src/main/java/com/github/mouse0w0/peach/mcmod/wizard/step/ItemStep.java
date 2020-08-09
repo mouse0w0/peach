@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemGroupData;
+import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
