@@ -9,13 +9,13 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public class WindowManager {
 
-    private final Map<Project, ProjectWindow> windowMap = new HashMap<>();
-    private final Map<Stage, ProjectWindow> stageToWindowMap = new HashMap<>();
+    private final Map<Project, ProjectWindow> windowMap = new WeakHashMap<>();
+    private final Map<Window, ProjectWindow> stageToWindowMap = new WeakHashMap<>();
 
     private ProjectWindow focusedWindow;
 
@@ -37,16 +37,19 @@ public class WindowManager {
     }
 
     public ProjectWindow getWindow(Window window) {
-        Window current = window;
-        while (current != null) {
-            ProjectWindow projectWindow = stageToWindowMap.get(window);
-            if (projectWindow != null) return projectWindow;
+        ProjectWindow projectWindow = stageToWindowMap.get(window);
+        if (projectWindow != null) return projectWindow;
 
-            if (window instanceof Stage) current = ((Stage) window).getOwner();
-            else if (window instanceof PopupWindow) current = ((PopupWindow) window).getOwnerWindow();
+        Window current = window;
+        do {
+            if (current instanceof Stage) current = ((Stage) current).getOwner();
+            else if (current instanceof PopupWindow) current = ((PopupWindow) current).getOwnerWindow();
             else break;
-        }
-        return null;
+
+            projectWindow = stageToWindowMap.get(current);
+        } while (current != null);
+        stageToWindowMap.put(window, projectWindow);
+        return projectWindow;
     }
 
     public ProjectWindow allocateWindow(Project project) {
