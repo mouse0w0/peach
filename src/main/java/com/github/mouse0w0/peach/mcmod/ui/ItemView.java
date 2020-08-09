@@ -1,9 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
+import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
-import com.github.mouse0w0.peach.ui.util.ImageCache;
+import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.ui.util.CachedImage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
@@ -91,19 +92,22 @@ public class ItemView extends ImageView {
         if (timeline != null) {
             timeline.stop();
         }
+        setImage(null);
 
-        itemData = ContentPackManager.getInstance().getItemData(getItem());
-        if (itemData.size() == 0) {
-            setImage(null);
-            return;
-        }
+        Item item = getItem();
+        if (item == null) return;
 
-        if (itemData.size() > 1 && isPlayAnimation()) {
+        itemData = ContentManager.getInstance(
+                WindowManager.getInstance().getFocusedWindow().getProject()).getItemData(item);
+        if (itemData.size() == 0) return;
+
+        if (isPlayAnimation() && itemData.size() > 1) {
             timeline = createTimeline();
             timeline.play();
         } else {
-            ImageCache.Key key = new ImageCache.Key(itemData.get(0).getDisplayImage(), getFitWidth(), getFitHeight());
-            setImage(ImageCache.getImage(key));
+            ItemData itemDatum = itemData.get(0);
+            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
+            setImage(image.getImage());
         }
     }
 
@@ -113,8 +117,8 @@ public class ItemView extends ImageView {
         timeline.setCycleCount(Timeline.INDEFINITE);
         for (int i = 0; i < itemData.size(); i++) {
             ItemData itemDatum = itemData.get(i);
-            ImageCache.Key key = new ImageCache.Key(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
-            keyFrames.add(new KeyFrame(Duration.seconds(i), event -> setImage(ImageCache.getImage(key))));
+            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
+            keyFrames.add(new KeyFrame(Duration.seconds(i), event -> setImage(image.getImage())));
         }
         return timeline;
     }

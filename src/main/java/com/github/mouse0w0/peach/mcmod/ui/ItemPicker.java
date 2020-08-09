@@ -2,8 +2,10 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
+import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemData;
+import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.ScheduleUtils;
 import javafx.application.Platform;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.apache.commons.lang3.Validate;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +52,8 @@ public class ItemPicker {
 
     private ScheduledFuture<?> filterFuture;
 
+    private Project project;
+
     private Item defaultItem;
     private ToggleGroup selectedItem = new ToggleGroup();
     private boolean cancelled;
@@ -59,7 +64,8 @@ public class ItemPicker {
 
     public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         if (instance == null) instance = new ItemPicker();
-        instance.init(defaultItem, enableIgnoreMetadata, enableOreDict);
+        Project project = WindowManager.getInstance().getWindow(window).getProject();
+        instance.init(project, defaultItem, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
         stage.setScene(instance.scene);
         stage.setTitle(I18n.translate("ui.item_picker.title"));
@@ -90,7 +96,8 @@ public class ItemPicker {
         mode.selectedToggleProperty().addListener(observable -> initEntries());
     }
 
-    private void init(Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    private void init(Project project, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        setProject(project);
         this.defaultItem = defaultItem;
 
         ignoreMetadata.setDisable(!enableIgnoreMetadata);
@@ -105,6 +112,15 @@ public class ItemPicker {
                 .filter(toggle -> defaultItem.equals(((Entry) toggle).getItem()))
                 .findAny()
                 .ifPresent(selectedItem::selectToggle);
+    }
+
+    private void setProject(Project project) {
+        if (this.project == project) return;
+        this.project = project;
+        cacheNormalEntries = null;
+        cacheIgnoreMetadataEntries = null;
+        cacheOreDictEntries = null;
+        initEntries();
     }
 
     private void initEntries() {
@@ -125,16 +141,18 @@ public class ItemPicker {
             }
             contentChildren.setAll(cacheNormalEntries);
         }
-        selectedItem.selectToggle((Toggle) content.getChildren().get(0));
+        if (!contentChildren.isEmpty()) {
+            selectedItem.selectToggle((Toggle) content.getChildren().get(0));
+        }
     }
 
     private List<Node> generateEntries(Predicate<Item> filter) {
-        return ContentPackManager.getInstance().getItemMap().keySet()
+        return project != null ? ContentManager.getInstance(project).getItemMap().keySet()
                 .parallelStream()
                 .filter(filter)
                 .map(item -> new Entry(item, selectedItem))
                 .sequential()
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
     }
 
     private void filter(String pattern) {
