@@ -20,6 +20,10 @@ public class CachedImage {
     private final boolean preserveRatio;
     private final boolean smooth;
 
+    public CachedImage(Path file) {
+        this(FileUtils.toURLString(file), 0, 0, true, false);
+    }
+
     public CachedImage(Path file, double width, double height) {
         this(FileUtils.toURLString(file), width, height, true, false);
     }
