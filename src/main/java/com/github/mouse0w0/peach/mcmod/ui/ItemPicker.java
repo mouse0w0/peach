@@ -69,7 +69,7 @@ public class ItemPicker {
         Stage stage = new Stage();
         stage.setScene(instance.scene);
         stage.setTitle(I18n.translate("ui.item_picker.title"));
-        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(window);
         stage.showAndWait();
         return instance.getSelectedItem();

@@ -38,7 +38,7 @@ public class NewModElementUI extends BorderPane {
         stage.setScene(new Scene(new NewModElementUI()));
         stage.setTitle(I18n.translate("ui.new_mod_element.title"));
         stage.initOwner(window);
-        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
 

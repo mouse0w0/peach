@@ -46,7 +46,7 @@ public class McModSettingsUI extends BorderPane {
         stage.setScene(new Scene(modInfo));
         stage.setTitle(I18n.translate("ui.mod_info.title"));
         stage.initOwner(window);
-        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
