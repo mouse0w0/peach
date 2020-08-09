@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
+import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.ui.McModSettingsUI;
 import com.github.mouse0w0.peach.mcmod.ui.NewModElementUI;
@@ -68,6 +68,6 @@ class ProjectUI extends BorderPane {
 
     @FXML
     private void doBuild() {
-        new CompilerImpl(project.getPath(), project.getPath().resolve("build")).run();
+        new Compiler(project.getPath(), project.getPath().resolve("build")).run();
     }
 }

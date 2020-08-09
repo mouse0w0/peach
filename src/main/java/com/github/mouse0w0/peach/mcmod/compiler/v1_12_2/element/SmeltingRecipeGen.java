@@ -2,8 +2,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.compiler.CompileContext;
-import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
+import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.element.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
@@ -23,8 +22,8 @@ public class SmeltingRecipeGen extends ElementGen<SmeltingRecipe> {
     private GeneratorAdapter adapter;
 
     @Override
-    public void generate(CompileContext context, Collection<ElementFile<SmeltingRecipe>> elementFiles) throws Exception {
-        internalClassName = ASMUtils.getInternalName(context.getData(CompilerImpl.ROOT_PACKAGE_NAME), "SmeltingRecipes");
+    public void generate(Environment environment, Collection<ElementFile<SmeltingRecipe>> elementFiles) throws Exception {
+        internalClassName = ASMUtils.getInternalName(environment.getRootPackageName(), "SmeltingRecipes");
 
         ClassWriter classWriter = new ClassWriter(0);
         MethodVisitor methodVisitor;
@@ -103,18 +102,18 @@ public class SmeltingRecipeGen extends ElementGen<SmeltingRecipe> {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "init", "()V", null, null);
             adapter = new GeneratorAdapter(methodVisitor, ACC_PUBLIC | ACC_STATIC, "init", "()V");
             methodVisitor.visitCode();
-            super.generate(context, elementFiles);
+            super.generate(environment, elementFiles);
             methodVisitor.visitInsn(RETURN);
             methodVisitor.visitMaxs(6, 0);
             methodVisitor.visitEnd();
         }
         classWriter.visitEnd();
 
-        context.getClassesFiler().write(internalClassName + ".class", classWriter.toByteArray());
+        environment.getClassesFiler().write(internalClassName + ".class", classWriter.toByteArray());
     }
 
     @Override
-    protected void generate(CompileContext context, ElementFile<SmeltingRecipe> file) throws Exception {
+    protected void generate(Environment environment, ElementFile<SmeltingRecipe> file) throws Exception {
         SmeltingRecipe smelting = file.get();
         Item input = smelting.getInput();
         adapter.push(input.getId());

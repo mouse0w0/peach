@@ -2,8 +2,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.compiler.CompileContext;
-import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
+import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.element.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.google.gson.JsonArray;
@@ -15,7 +14,7 @@ import java.util.Map;
 public class CraftingRecipeGen extends ElementGen<CraftingRecipe> {
 
     @Override
-    protected void generate(CompileContext context, ElementFile<CraftingRecipe> file) throws Exception {
+    protected void generate(Environment environment, ElementFile<CraftingRecipe> file) throws Exception {
         CraftingRecipe recipe = file.get();
 
         JsonObject jo = new JsonObject();
@@ -27,7 +26,7 @@ public class CraftingRecipeGen extends ElementGen<CraftingRecipe> {
             generateShaped(recipe, jo);
         }
 
-        context.getData(CompilerImpl.MOD_ASSETS_FILER).write("recipes/" + recipe.getId() + ".json", jo.toString());
+        environment.getAssetsFiler().write("recipes/" + recipe.getId() + ".json", jo.toString());
     }
 
     private void generateResult(CraftingRecipe recipe, JsonObject jo) {

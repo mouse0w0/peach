@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
-import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.AssetsInfoTask;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.ElementTask;
@@ -15,7 +14,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompilerImpl extends DataHolderImpl implements CompileContext {
+public class Compiler implements Environment {
 
     public static final Key<McModSettings> MOD_INFO_KEY = Key.of(McModSettings.class);
 
@@ -29,14 +28,24 @@ public class CompilerImpl extends DataHolderImpl implements CompileContext {
     private final Path sourceDirectory;
     private final Path outputDirectory;
 
+    private McModSettings modSettings;
+
     private Filer classesFiler;
     private Filer resourcesFiler;
+    private Filer assetsFiler;
+
+    private String rootPackageName;
 
     private final List<CompileTask> taskList = new ArrayList<>();
 
-    public CompilerImpl(Path sourceDirectory, Path outputDirectory) {
+    public Compiler(Path sourceDirectory, Path outputDirectory) {
         this.sourceDirectory = sourceDirectory;
         this.outputDirectory = outputDirectory;
+    }
+
+    @Override
+    public McModSettings getModSettings() {
+        return modSettings;
     }
 
     @Override
@@ -50,6 +59,11 @@ public class CompilerImpl extends DataHolderImpl implements CompileContext {
     }
 
     @Override
+    public String getRootPackageName() {
+        return rootPackageName;
+    }
+
+    @Override
     public Filer getClassesFiler() {
         return classesFiler;
     }
@@ -57,6 +71,11 @@ public class CompilerImpl extends DataHolderImpl implements CompileContext {
     @Override
     public Filer getResourcesFiler() {
         return resourcesFiler;
+    }
+
+    @Override
+    public Filer getAssetsFiler() {
+        return assetsFiler;
     }
 
     public void run() {
@@ -68,28 +87,21 @@ public class CompilerImpl extends DataHolderImpl implements CompileContext {
         try {
             FileUtils.createDirectoriesIfNotExists(getOutputDirectory());
 
-            Path projectSourcesPath = getSourceDirectory().resolve("sources");
-            putData(PROJECT_SOURCES_PATH, projectSourcesPath);
+            modSettings = JsonUtils.readJson(getSourceDirectory().resolve(McModSettings.FILE_NAME), McModSettings.class);
 
-            Path projectResourcesPath = getSourceDirectory().resolve("resources");
-            putData(PROJECT_RESOURCES_PATH, projectResourcesPath);
+            rootPackageName = "peach.generated." + getModSettings().getId();
 
             classesFiler = new Filer(getOutputDirectory().resolve("classes"));
-
-            Path resourcesStorePath = getOutputDirectory().resolve("resources");
-            resourcesFiler = new Filer(resourcesStorePath);
-
-            McModSettings modInfo = JsonUtils.readJson(getSourceDirectory().resolve(McModSettings.FILE_NAME), McModSettings.class);
-            putData(MOD_INFO_KEY, modInfo);
-            putData(ROOT_PACKAGE_NAME, "peach.generated." + modInfo.getId());
-            putData(MOD_ASSETS_FILER, new Filer(resourcesStorePath.resolve("assets/" + modInfo.getId())));
+            resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));
+            assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getModSettings().getId()));
 
             taskList.add(new ElementTask());
             taskList.add(new MainClassTask());
             taskList.add(new ModInfoTask());
             taskList.add(new AssetsInfoTask());
 
-            taskList.add(new JarTask(getOutputDirectory().resolve("artifacts")));
+            Path outputFile = getOutputDirectory().resolve("artifacts/" + modSettings.getId() + "-" + modSettings.getVersion() + ".jar");
+            taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
         } catch (IOException e) {
             e.printStackTrace();
         }
