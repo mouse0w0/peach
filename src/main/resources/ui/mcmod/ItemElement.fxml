@@ -31,13 +31,13 @@
                 <TextField fx:id="registerName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
                 <TextField fx:id="displayName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
                            GridPane.rowIndex="1"/>
-                <ChoiceBox fx:id="itemGroup" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
-                           GridPane.rowIndex="2"/>
                 <Spinner fx:id="maxStackSize" editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
                          GridPane.rowIndex="3"/>
                 <RadioButton fx:id="effect" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
                 <TextArea fx:id="information" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="300.0"
                           GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <ComboBox fx:id="itemGroup" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
+                          GridPane.rowIndex="2"/>
             </children>
         </GridPane>
     </children>

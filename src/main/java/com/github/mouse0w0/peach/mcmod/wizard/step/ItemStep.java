@@ -1,8 +1,13 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
+import com.github.mouse0w0.peach.mcmod.content.ContentManager;
+import com.github.mouse0w0.peach.mcmod.contentPack.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
+import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.FXValidator;
 import com.github.mouse0w0.peach.ui.wizard.WizardStep;
@@ -22,7 +27,7 @@ public class ItemStep extends FlowPane implements WizardStep {
     @FXML
     private TextField displayName;
     @FXML
-    private ChoiceBox<?> itemGroup;
+    private ComboBox<ItemGroupData> itemGroup;
     @FXML
     private Spinner<Integer> maxStackSize;
     @FXML
@@ -36,6 +41,14 @@ public class ItemStep extends FlowPane implements WizardStep {
         FXUtils.loadFXML(this, "ui/mcmod/ItemElement.fxml");
 
         maxStackSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 64, 64));
+
+        Project project = WindowManager.getInstance().getFocusedWindow().getProject();
+        ContentManager contentManager = ContentManager.getInstance(project);
+
+        itemGroup.setCellFactory(listView -> new ItemGroupCell());
+        itemGroup.getItems().addAll(contentManager.getItemGroupMap().values());
+        itemGroup.setButtonCell(new ItemGroupCell());
+        itemGroup.getSelectionModel().selectFirst();
     }
 
     @Override
@@ -45,13 +58,18 @@ public class ItemStep extends FlowPane implements WizardStep {
 
     @Override
     public void init() {
+        Project project = WindowManager.getInstance().getFocusedWindow().getProject();
+        ContentManager contentManager = ContentManager.getInstance(project);
+
         ItemElement item = file.get();
 
         registerName.setText(Strings.isNullOrEmpty(item.getRegisterName()) ?
                 ModUtils.fileNameToRegisterName(file.getFile()) : item.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(item.getDisplayName()) ?
                 FileUtils.getFileNameWithoutExtensionName(file.getFile()) : item.getDisplayName());
-
+        ItemGroupData itemGroupData = contentManager.getItemGroup(item.getItemGroup());
+        if (itemGroupData != null) itemGroup.getSelectionModel().select(itemGroupData);
+        else itemGroup.getSelectionModel().selectFirst();
         maxStackSize.getValueFactory().setValue(item.getMaxStackSize());
         effect.setSelected(item.isEffect());
         information.setText(item.getInformation());
@@ -70,6 +88,7 @@ public class ItemStep extends FlowPane implements WizardStep {
 
         item.setRegisterName(registerName.getText());
         item.setDisplayName(displayName.getText());
+        item.setItemGroup(itemGroup.getValue().getId());
         item.setMaxStackSize(maxStackSize.getValue());
         item.setEffect(effect.isSelected());
         item.setInformation(information.getText());
