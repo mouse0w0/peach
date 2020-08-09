@@ -7,9 +7,9 @@ import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.FXValidator;
-import com.github.mouse0w0.peach.ui.util.ImageCache;
 import com.github.mouse0w0.peach.ui.wizard.WizardStep;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.google.common.base.Strings;
@@ -20,7 +20,7 @@ import javafx.scene.layout.*;
 
 public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
-    private static final ImageCache.Key IMAGE_KEY = new ImageCache.Key("/image/forge/crafting_recipe.png", 560, 312);
+    private static final CachedImage BACKGROUND = new CachedImage("/image/forge/crafting_recipe.png", 560, 312);
 
     private final ElementFile<CraftingRecipe> file;
 
@@ -46,7 +46,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         group.setEditable(true);
 
         FXUtils.setFixedSize(recipeView, 560, 312);
-        recipeView.setBackground(new Background(new BackgroundImage(ImageCache.getImage(IMAGE_KEY), null, null, null, null)));
+        recipeView.setBackground(new Background(new BackgroundImage(BACKGROUND.getImage(), null, null, null, null)));
 
         GridPane inputGridPane = new GridPane();
         AnchorPane.setTopAnchor(inputGridPane, 52d);

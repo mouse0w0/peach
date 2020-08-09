@@ -5,8 +5,8 @@ import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.element.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
+import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.util.ImageCache;
 import com.github.mouse0w0.peach.ui.wizard.WizardStep;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,7 +19,7 @@ import javafx.scene.layout.FlowPane;
 
 public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
-    private static final ImageCache.Key IMAGE_KEY = new ImageCache.Key("/image/forge/smelting_recipe.png", 560, 312);
+    private static final CachedImage BACKGROUND = new CachedImage("/image/forge/smelting_recipe.png", 560, 312);
 
     private final ElementFile<SmeltingRecipe> file;
 
@@ -41,7 +41,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
         FXUtils.setFixedSize(recipeView, 560, 312);
         recipeView.setBackground(new Background(
-                new BackgroundImage(ImageCache.getImage(IMAGE_KEY), null, null, null, null)));
+                new BackgroundImage(BACKGROUND.getImage(), null, null, null, null)));
 
         input = new ItemView();
         input.setPickOnBounds(true);
