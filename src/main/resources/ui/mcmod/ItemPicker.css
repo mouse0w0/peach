@@ -1,14 +1,14 @@
-.item-picker .entry {
+.item-picker .cell {
     -fx-background-radius: 5;
     -fx-background-insets: 0;
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
-.item-picker .entry:focused {
+.item-picker .cell:focused {
     -fx-background-color: #C0C0C0;
 }
 
-.item-picker .entry:selected {
+.item-picker .cell:selected {
     -fx-background-color: #C0C0C0;
 }

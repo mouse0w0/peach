@@ -92,7 +92,6 @@ public class ItemPicker {
             filterFuture = ScheduleUtils.schedule(runnable, 500, TimeUnit.MILLISECONDS);
         });
 
-        initEntries();
         mode.selectedToggleProperty().addListener(observable -> initEntries());
     }
 
@@ -109,7 +108,7 @@ public class ItemPicker {
 
         selectedItem.getToggles()
                 .parallelStream()
-                .filter(toggle -> defaultItem.equals(((Entry) toggle).getItem()))
+                .filter(toggle -> defaultItem.equals(((Cell) toggle).getItem()))
                 .findAny()
                 .ifPresent(selectedItem::selectToggle);
     }
@@ -150,7 +149,7 @@ public class ItemPicker {
         return project != null ? ContentManager.getInstance(project).getItemMap().keySet()
                 .parallelStream()
                 .filter(filter)
-                .map(item -> new Entry(item, selectedItem))
+                .map(item -> new Cell(item, selectedItem))
                 .sequential()
                 .collect(Collectors.toList()) : Collections.emptyList();
     }
@@ -159,13 +158,13 @@ public class ItemPicker {
         if (pattern == null || pattern.isEmpty()) {
             content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, true));
         } else {
-            content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, filterEntry((Entry) node, pattern)));
+            content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, filterEntry((Cell) node, pattern)));
         }
     }
 
-    private boolean filterEntry(Entry entry, String pattern) {
-        if (entry.getItem().getId().contains(pattern)) return true;
-        for (ItemData itemDatum : entry.getItemData()) {
+    private boolean filterEntry(Cell cell, String pattern) {
+        if (cell.getItem().getId().contains(pattern)) return true;
+        for (ItemData itemDatum : cell.getItemData()) {
             if (itemDatum.getDisplayName().contains(pattern)) {
                 return true;
             }
@@ -174,7 +173,7 @@ public class ItemPicker {
     }
 
     public Item getSelectedItem() {
-        return cancelled ? defaultItem : ((Entry) selectedItem.getSelectedToggle()).getItem();
+        return cancelled ? defaultItem : ((Cell) selectedItem.getSelectedToggle()).getItem();
     }
 
     @FXML
@@ -188,7 +187,7 @@ public class ItemPicker {
         FXUtils.hideWindow(scene);
     }
 
-    private static class Entry extends ToggleButton {
+    private static class Cell extends ToggleButton {
 
         private static final Tooltip TOOLTIP;
 
@@ -200,19 +199,19 @@ public class ItemPicker {
             TOOLTIP.setFont(Font.font(13));
             TOOLTIP.setOnShowing(event ->
                     FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                                Entry entry = (Entry) node;
-                                Item item = entry.getItem();
-                                List<ItemData> itemData = entry.getItemData();
-                                StringBuilder sb = new StringBuilder();
+                        Cell cell = (Cell) node;
+                        Item item = cell.getItem();
+                        List<ItemData> itemData = cell.getItemData();
+                        StringBuilder sb = new StringBuilder();
 
-                                sb.append(item.getId());
-                                if (item.isNormal()) {
-                                    sb.append(":").append(item.getMetadata());
-                                }
+                        sb.append(item.getId());
+                        if (item.isNormal()) {
+                            sb.append(":").append(item.getMetadata());
+                        }
 
-                                sb.append("\n--------------------\n");
+                        sb.append("\n--------------------\n");
 
-                                for (ItemData itemDatum : itemData) {
+                        for (ItemData itemDatum : itemData) {
                                     sb.append(itemDatum.getDisplayName()).append("\n");
                                 }
 
@@ -221,14 +220,13 @@ public class ItemPicker {
                     ));
         }
 
-        public Entry(Item item, ToggleGroup toggleGroup) {
+        public Cell(Item item, ToggleGroup toggleGroup) {
             this.item = Validate.notNull(item);
             this.itemView = new ItemView(item, 32, 32);
-            getStyleClass().add("entry");
+            getStyleClass().add("cell");
             setToggleGroup(toggleGroup);
             setGraphic(itemView);
             setTooltip(TOOLTIP);
-            FXUtils.setFixedSize(this, 32, 32);
         }
 
         public Item getItem() {
