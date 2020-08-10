@@ -18,7 +18,6 @@ public class JsonModelHelper {
             .registerTypeAdapter(Face.class, new Face.Serializer())
             .registerTypeAdapter(Vector3f.class, new Vector3fPersistence())
             .registerTypeAdapter(Vector4f.class, new Vector4fPersistence())
-            .setPrettyPrinting()
             .create();
 
     public static JsonModel load(Path file) throws IOException {
