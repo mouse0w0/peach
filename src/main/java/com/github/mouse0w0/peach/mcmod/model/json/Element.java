@@ -1,29 +1,32 @@
 package com.github.mouse0w0.peach.mcmod.model.json;
 
-import com.google.gson.annotations.SerializedName;
-import org.joml.Vector3i;
-import org.joml.Vector4i;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import org.joml.Vector3f;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 public class Element {
-    private Vector3i from;
-    private Vector3i to;
+    private Vector3f from;
+    private Vector3f to;
     private Rotation rotation;
-    private boolean shade;
+    private boolean shade = true;
     private Map<String, Face> faces;
 
     public static class Rotation {
-        private Vector3i origin;
+        private Vector3f origin;
         private String axis;
-        private double angle;
-        private boolean rescale;
+        private float angle;
+        private boolean rescale = false;
 
-        public Vector3i getOrigin() {
+        public Vector3f getOrigin() {
             return origin;
         }
 
-        public void setOrigin(Vector3i origin) {
+        public void setOrigin(Vector3f origin) {
             this.origin = origin;
         }
 
@@ -35,11 +38,11 @@ public class Element {
             this.axis = axis;
         }
 
-        public double getAngle() {
+        public float getAngle() {
             return angle;
         }
 
-        public void setAngle(double angle) {
+        public void setAngle(float angle) {
             this.angle = angle;
         }
 
@@ -50,71 +53,34 @@ public class Element {
         public void setRescale(boolean rescale) {
             this.rescale = rescale;
         }
-    }
 
-    public static class Face {
-        private Vector4i uv;
-        private String texture;
-        @SerializedName("cullface")
-        private String cullFace;
-        private int rotation;
-        @SerializedName("tintindex")
-        private int tintIndex;
+        public static class Serializer implements JsonSerializer<Rotation> {
 
-        public Vector4i getUv() {
-            return uv;
-        }
-
-        public void setUv(Vector4i uv) {
-            this.uv = uv;
-        }
-
-        public String getTexture() {
-            return texture;
-        }
-
-        public void setTexture(String texture) {
-            this.texture = texture;
-        }
-
-        public String getCullFace() {
-            return cullFace;
-        }
-
-        public void setCullFace(String cullFace) {
-            this.cullFace = cullFace;
-        }
-
-        public int getRotation() {
-            return rotation;
-        }
-
-        public void setRotation(int rotation) {
-            this.rotation = rotation;
-        }
-
-        public int getTintIndex() {
-            return tintIndex;
-        }
-
-        public void setTintIndex(int tintIndex) {
-            this.tintIndex = tintIndex;
+            @Override
+            public JsonElement serialize(Rotation src, Type typeOfSrc, JsonSerializationContext context) {
+                JsonObject root = new JsonObject();
+                root.add("origin", context.serialize(src.getOrigin()));
+                root.addProperty("axis", src.getAxis());
+                root.addProperty("angle", src.getAngle());
+                if (src.isRescale()) root.addProperty("rescale", src.isRescale());
+                return root;
+            }
         }
     }
 
-    public Vector3i getFrom() {
+    public Vector3f getFrom() {
         return from;
     }
 
-    public void setFrom(Vector3i from) {
+    public void setFrom(Vector3f from) {
         this.from = from;
     }
 
-    public Vector3i getTo() {
+    public Vector3f getTo() {
         return to;
     }
 
-    public void setTo(Vector3i to) {
+    public void setTo(Vector3f to) {
         this.to = to;
     }
 
@@ -140,5 +106,20 @@ public class Element {
 
     public void setFaces(Map<String, Face> faces) {
         this.faces = faces;
+    }
+
+    public static class Serializer implements JsonSerializer<Element> {
+
+        @Override
+        public JsonElement serialize(Element src, Type typeOfSrc, JsonSerializationContext context) {
+            JsonObject root = new JsonObject();
+            root.add("from", context.serialize(src.getFrom()));
+            root.add("to", context.serialize(src.getTo()));
+            if (src.getRotation() != null) root.add("rotation", context.serialize(src.getRotation()));
+            if (!src.isShade()) root.addProperty("shade", src.isShade());
+            if (src.getFaces() != null && !src.getFaces().isEmpty())
+                root.add("faces", context.serialize(src.getFaces()));
+            return root;
+        }
     }
 }
