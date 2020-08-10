@@ -38,7 +38,8 @@ public class ContentPackManager {
                 Path file = iterator.next();
                 if (!Files.isRegularFile(file)) continue;
                 try {
-                    loadContentPack(file);
+                    ContentPack contentPack = loadContentPack(file);
+                    LOGGER.info("Loaded content pack: " + contentPack.getId());
                 } catch (IOException e) {
                     LOGGER.warn("Cannot load content pack. " + file, e);
                 }
