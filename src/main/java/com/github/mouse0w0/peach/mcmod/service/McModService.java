@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.contentPack.ContentPack;
 import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.mcmod.ui.ElementViewUI;
@@ -56,6 +57,9 @@ public class McModService {
             contentManager.addContentPack(contentPack);
         }
         project.registerService(ContentManager.class, contentManager);
+
+        ModelManager modelManager = new ModelManager();
+        project.registerService(ModelManager.class, modelManager);
     }
 
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
