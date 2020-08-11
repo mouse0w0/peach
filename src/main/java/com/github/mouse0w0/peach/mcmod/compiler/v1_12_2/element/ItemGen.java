@@ -21,6 +21,7 @@ public class ItemGen extends ElementGen<ItemElement> {
     private ItemsClass itemsClass;
 
     private String itemPackageName;
+    private String namespace;
 
     public static String getItemFieldName(String registerName) {
         return registerName.toUpperCase();
@@ -33,6 +34,7 @@ public class ItemGen extends ElementGen<ItemElement> {
     @Override
     public void generate(Environment environment, Collection<ElementFile<ItemElement>> elementFiles) throws Exception {
         itemPackageName = environment.getRootPackageName() + ".item";
+        namespace = environment.getModSettings().getId();
 
         itemsClass = new ItemsClass(environment.getRootPackageName(), environment.getModSettings().getId());
         itemsClass.visitStart();
@@ -54,8 +56,8 @@ public class ItemGen extends ElementGen<ItemElement> {
         itemsClass.visitItem(item);
         itemGroupsClass.visitItemGroup(item.getItemGroup());
 
-        environment.getRootPackageName();
-        String internalName = ASMUtils.getInternalName(itemPackageName, ItemGen.getItemClassName(item.getRegisterName()));
+        String registerName = item.getRegisterName();
+        String internalName = ASMUtils.getInternalName(itemPackageName, ItemGen.getItemClassName(registerName));
 
         ClassWriter classWriter = new ClassWriter(0);
         MethodVisitor methodVisitor;
@@ -73,11 +75,11 @@ public class ItemGen extends ElementGen<ItemElement> {
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/Item", "<init>", "()V", false);
             methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitLdcInsn("examplemod:example_item");
+            methodVisitor.visitLdcInsn(namespace + ":" + registerName);
             methodVisitor.visitMethodInsn(INVOKEVIRTUAL, internalName, "setRegistryName", "(Ljava/lang/String;)Lnet/minecraftforge/registries/IForgeRegistryEntry;", false);
             methodVisitor.visitInsn(POP);
             methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitLdcInsn("examplemod.example_item");
+            methodVisitor.visitLdcInsn(namespace + "." + registerName);
             methodVisitor.visitMethodInsn(INVOKEVIRTUAL, internalName, "func_77655_b", "(Ljava/lang/String;)Lnet/minecraft/item/Item;", false);
             methodVisitor.visitInsn(POP);
             methodVisitor.visitVarInsn(ALOAD, 0);
