@@ -83,7 +83,6 @@ public abstract class Wizard {
         WizardStep step = getCurrentStep();
         step.init();
         content.setCenter(step.getContent());
-        updateButtons();
     }
 
     public void addWizardStep(WizardStep step) {
@@ -91,6 +90,7 @@ public abstract class Wizard {
         if (currentStep == -1) {
             init();
         }
+        updateButtons();
     }
 
     public WizardStep getCurrentStep() {

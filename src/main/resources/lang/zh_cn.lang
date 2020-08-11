@@ -78,6 +78,9 @@ ui.item_element.information=附加信息：
 
 ui.item_element.error.register_name=注册名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
 
+ui.item_model.model=模型：
+ui.item_model.texture=纹理：
+
 mod.element.crafting_recipe=合成配方
 
 ui.crafting_recipe.id=配方名：
@@ -89,3 +92,6 @@ ui.crafting_recipe.error.id=配方名非法，仅能包含小写字母，数字�
 mod.element.smelting_recipe=熔炼配方
 
 ui.smelting_recipe.xp=经验值：
+
+model.item.generated=默认模型
+model.item.handheld=手持模型

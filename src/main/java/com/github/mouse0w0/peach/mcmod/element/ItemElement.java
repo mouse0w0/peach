@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.mcmod.language.Localizable;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class ItemElement implements Localizable {
@@ -13,8 +14,8 @@ public class ItemElement implements Localizable {
     private boolean effect = false;
     private String information;
 
-    private String model = "buildin";
-    private Map<String, String> textures;
+    private String model = "generated";
+    private Map<String, String> textures = Collections.emptyMap();
 
     public String getRegisterName() {
         return registerName;

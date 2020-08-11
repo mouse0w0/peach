@@ -1,13 +1,11 @@
 package com.github.mouse0w0.peach.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.FileVisitOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -27,6 +25,19 @@ public class FileUtils {
             }
             Files.createFile(path);
         }
+    }
+
+    public static void createParentIfNotExists(Path path) throws IOException {
+        Path parent = path.getParent();
+        if (!Files.exists(parent)) {
+            Files.createDirectories(parent);
+        }
+    }
+
+    public static Path copyIfNotExists(Path source, Path target, CopyOption... options) throws IOException {
+        if (Files.exists(target) && !ArrayUtils.contains(options, StandardCopyOption.REPLACE_EXISTING)) return target;
+        createParentIfNotExists(target);
+        return Files.copy(source, target, options);
     }
 
     public static Stream<Path> walk(Collection<Path> paths, FileVisitOption... options) {
@@ -69,6 +80,11 @@ public class FileUtils {
 
     public static String getFileNameWithoutExtensionName(Path file) {
         String fileName = file.getFileName().toString();
+        return fileName.substring(0, fileName.indexOf('.'));
+    }
+
+    public static String getFileNameWithoutExtensionName(File file) {
+        String fileName = file.getName();
         return fileName.substring(0, fileName.indexOf('.'));
     }
 }

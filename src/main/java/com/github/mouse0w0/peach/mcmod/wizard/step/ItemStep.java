@@ -20,7 +20,7 @@ import javafx.scene.layout.FlowPane;
 
 public class ItemStep extends FlowPane implements WizardStep {
 
-    private final Element<ItemElement> file;
+    private final Element<ItemElement> element;
 
     @FXML
     private TextField registerName;
@@ -35,8 +35,8 @@ public class ItemStep extends FlowPane implements WizardStep {
     @FXML
     private TextArea information;
 
-    public ItemStep(Element<ItemElement> file) {
-        this.file = file;
+    public ItemStep(Element<ItemElement> element) {
+        this.element = element;
 
         FXUtils.loadFXML(this, "ui/mcmod/ItemElement.fxml");
 
@@ -61,12 +61,12 @@ public class ItemStep extends FlowPane implements WizardStep {
         Project project = WindowManager.getInstance().getFocusedWindow().getProject();
         ContentManager contentManager = ContentManager.getInstance(project);
 
-        ItemElement item = file.get();
+        ItemElement item = element.get();
 
         registerName.setText(Strings.isNullOrEmpty(item.getRegisterName()) ?
-                ModUtils.fileNameToRegisterName(file.getFile()) : item.getRegisterName());
+                ModUtils.fileNameToRegisterName(element.getFile()) : item.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(item.getDisplayName()) ?
-                FileUtils.getFileNameWithoutExtensionName(file.getFile()) : item.getDisplayName());
+                FileUtils.getFileNameWithoutExtensionName(element.getFile()) : item.getDisplayName());
         ItemGroupData itemGroupData = contentManager.getItemGroup(item.getItemGroup());
         if (itemGroupData != null) itemGroup.getSelectionModel().select(itemGroupData);
         else itemGroup.getSelectionModel().selectFirst();
@@ -84,7 +84,7 @@ public class ItemStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        ItemElement item = file.get();
+        ItemElement item = element.get();
 
         item.setRegisterName(registerName.getText());
         item.setDisplayName(displayName.getText());

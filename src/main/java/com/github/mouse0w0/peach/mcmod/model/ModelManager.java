@@ -35,6 +35,10 @@ public class ModelManager {
         return itemModels;
     }
 
+    public JsonModel getItemModel(String name) {
+        return itemModels.get(name);
+    }
+
     public void loadItemModel(Path file) throws IOException {
         String modelName = FileUtils.getFileNameWithoutExtensionName(file);
         JsonModel model = JsonModelHelper.load(file);
