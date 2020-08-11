@@ -6,14 +6,14 @@ import com.github.mouse0w0.peach.util.JsonUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class ElementFile<T> {
+public class Element<T> {
     private final Path file;
     private final ElementDefinition<T> definition;
 
     private boolean loaded = false;
     private T element;
 
-    public ElementFile(Path file, ElementDefinition<T> definition) {
+    public Element(Path file, ElementDefinition<T> definition) {
         this.file = file;
         this.definition = definition;
     }

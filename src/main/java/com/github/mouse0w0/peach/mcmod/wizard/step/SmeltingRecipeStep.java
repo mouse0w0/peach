@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
@@ -21,7 +21,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
     private static final CachedImage BACKGROUND = new CachedImage("/image/forge/smelting_recipe.png", 560, 312);
 
-    private final ElementFile<SmeltingRecipe> file;
+    private final Element<SmeltingRecipe> file;
 
     @FXML
     private Spinner<Double> xp;
@@ -33,7 +33,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
     private ItemView output;
     private Spinner<Integer> outputAmount;
 
-    public SmeltingRecipeStep(ElementFile<SmeltingRecipe> file) {
+    public SmeltingRecipeStep(Element<SmeltingRecipe> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/mcmod/SmeltingRecipe.fxml");
 

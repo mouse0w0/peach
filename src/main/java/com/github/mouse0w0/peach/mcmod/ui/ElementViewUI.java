@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.project.Project;
@@ -119,8 +119,8 @@ public class ElementViewUI extends ScrollPane {
         }
 
         public void openWizard() {
-            ElementFile<?> elementFile = definition.load(file);
-            Wizard wizard = definition.createWizard(elementFile);
+            Element<?> element = definition.load(file);
+            Wizard wizard = definition.createWizard(element);
             WindowManager.getInstance().getWindow(project).openTab(Wizard.createTab(wizard));
         }
 

@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.google.common.collect.Multimap;
 
@@ -17,7 +17,7 @@ public interface Environment {
 
     String getRootPackageName();
 
-    Multimap<ElementDefinition<?>, ElementFile<?>> getElements();
+    Multimap<ElementDefinition<?>, Element<?>> getElements();
 
     Filer getClassesFiler();
 

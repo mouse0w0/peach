@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import org.objectweb.asm.AnnotationVisitor;
@@ -22,7 +22,7 @@ public class SmeltingRecipeGen extends ElementGen<SmeltingRecipe> {
     private GeneratorAdapter adapter;
 
     @Override
-    public void generate(Environment environment, Collection<ElementFile<SmeltingRecipe>> elementFiles) throws Exception {
+    public void generate(Environment environment, Collection<Element<SmeltingRecipe>> elements) throws Exception {
         internalClassName = ASMUtils.getInternalName(environment.getRootPackageName(), "SmeltingRecipes");
 
         ClassWriter classWriter = new ClassWriter(0);
@@ -102,7 +102,7 @@ public class SmeltingRecipeGen extends ElementGen<SmeltingRecipe> {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "init", "()V", null, null);
             adapter = new GeneratorAdapter(methodVisitor, ACC_PUBLIC | ACC_STATIC, "init", "()V");
             methodVisitor.visitCode();
-            super.generate(environment, elementFiles);
+            super.generate(environment, elements);
             methodVisitor.visitInsn(RETURN);
             methodVisitor.visitMaxs(6, 0);
             methodVisitor.visitEnd();
@@ -113,7 +113,7 @@ public class SmeltingRecipeGen extends ElementGen<SmeltingRecipe> {
     }
 
     @Override
-    protected void generate(Environment environment, ElementFile<SmeltingRecipe> file) throws Exception {
+    protected void generate(Environment environment, Element<SmeltingRecipe> file) throws Exception {
         SmeltingRecipe smelting = file.get();
         Item input = smelting.getInput();
         adapter.push(input.getId());

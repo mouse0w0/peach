@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.CraftingRecipe;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -22,7 +22,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     private static final CachedImage BACKGROUND = new CachedImage("/image/forge/crafting_recipe.png", 560, 312);
 
-    private final ElementFile<CraftingRecipe> file;
+    private final Element<CraftingRecipe> file;
 
     @FXML
     private TextField id;
@@ -39,7 +39,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
     private ItemView output;
     private Spinner<Integer> outputAmount;
 
-    public CraftingRecipeStep(ElementFile<CraftingRecipe> file) {
+    public CraftingRecipeStep(Element<CraftingRecipe> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/mcmod/CraftingRecipe.fxml");
 

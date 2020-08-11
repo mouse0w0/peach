@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.compiler;
 
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -36,7 +36,7 @@ public class Compiler implements Environment {
 
     private String rootPackageName;
 
-    private Multimap<ElementDefinition<?>, ElementFile<?>> elements;
+    private Multimap<ElementDefinition<?>, Element<?>> elements;
 
     private Filer classesFiler;
     private Filer resourcesFiler;
@@ -70,7 +70,7 @@ public class Compiler implements Environment {
     }
 
     @Override
-    public Multimap<ElementDefinition<?>, ElementFile<?>> getElements() {
+    public Multimap<ElementDefinition<?>, Element<?>> getElements() {
         return elements;
     }
 
@@ -121,11 +121,11 @@ public class Compiler implements Environment {
         }
     }
 
-    private Multimap<ElementDefinition<?>, ElementFile<?>> loadElements() throws IOException {
+    private Multimap<ElementDefinition<?>, Element<?>> loadElements() throws IOException {
         Path sources = getSourceDirectory().resolve("sources");
         ElementManager elementManager = ElementManager.getInstance();
 
-        Multimap<ElementDefinition<?>, ElementFile<?>> elements = HashMultimap.create();
+        Multimap<ElementDefinition<?>, Element<?>> elements = HashMultimap.create();
 
         Iterator<Path> iterator = Files.walk(sources)
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
@@ -133,7 +133,7 @@ public class Compiler implements Environment {
         while (iterator.hasNext()) {
             Path file = iterator.next();
             ElementDefinition<?> element = elementManager.getElement(file);
-            ElementFile<?> elementFile = element.load(file);
+            Element<?> elementFile = element.load(file);
             elementFile.load();
             elements.put(element, elementFile);
         }

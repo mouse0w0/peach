@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.element.CraftingRecipe;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 public class CraftingRecipeGen extends ElementGen<CraftingRecipe> {
 
     @Override
-    protected void generate(Environment environment, ElementFile<CraftingRecipe> file) throws Exception {
+    protected void generate(Environment environment, Element<CraftingRecipe> file) throws Exception {
         CraftingRecipe recipe = file.get();
 
         JsonObject jo = new JsonObject();

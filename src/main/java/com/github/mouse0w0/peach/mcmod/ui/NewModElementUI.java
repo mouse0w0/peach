@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -84,8 +84,8 @@ public class NewModElementUI extends BorderPane {
         Project project = window.getProject();
         ElementDefinition<?> definition = type.getValue();
         Path file = project.getData(McModDataKeys.SOURCES_PATH).resolve(name.getText() + "." + definition.getId() + ".json");
-        ElementFile<?> elementFile = definition.load(file);
-        Wizard wizard = definition.createWizard(elementFile);
+        Element<?> element = definition.load(file);
+        Wizard wizard = definition.createWizard(element);
         window.openTab(Wizard.createTab(wizard));
         FXUtils.hideWindow(this);
     }

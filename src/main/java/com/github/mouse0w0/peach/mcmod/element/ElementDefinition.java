@@ -11,9 +11,9 @@ public class ElementDefinition<T> {
     private String translationKey;
     private Class<T> type;
     private Supplier<T> elementFactory;
-    private Function<ElementFile<T>, Wizard> wizardFactory;
+    private Function<Element<T>, Wizard> wizardFactory;
 
-    public ElementDefinition(String id, Class<T> type, Supplier<T> elementFactory, Function<ElementFile<T>, Wizard> wizardFactory) {
+    public ElementDefinition(String id, Class<T> type, Supplier<T> elementFactory, Function<Element<T>, Wizard> wizardFactory) {
         this.id = id;
         this.translationKey = "mod.element." + id;
         this.type = type;
@@ -33,15 +33,15 @@ public class ElementDefinition<T> {
         return type;
     }
 
-    public ElementFile<T> load(Path file) {
-        return new ElementFile<>(file, this);
+    public Element<T> load(Path file) {
+        return new Element<>(file, this);
     }
 
-    public Wizard createWizard(ElementFile<?> file) {
+    public Wizard createWizard(Element<?> file) {
         if (file.getDefinition() != this) {
             throw new IllegalArgumentException("Cannot create wizard");
         }
-        return wizardFactory.apply((ElementFile<T>) file);
+        return wizardFactory.apply((Element<T>) file);
     }
 
     T createElement() {

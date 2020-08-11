@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -20,7 +20,7 @@ import javafx.scene.layout.FlowPane;
 
 public class ItemStep extends FlowPane implements WizardStep {
 
-    private final ElementFile<ItemElement> file;
+    private final Element<ItemElement> file;
 
     @FXML
     private TextField registerName;
@@ -35,7 +35,7 @@ public class ItemStep extends FlowPane implements WizardStep {
     @FXML
     private TextArea information;
 
-    public ItemStep(ElementFile<ItemElement> file) {
+    public ItemStep(Element<ItemElement> file) {
         this.file = file;
 
         FXUtils.loadFXML(this, "ui/mcmod/ItemElement.fxml");

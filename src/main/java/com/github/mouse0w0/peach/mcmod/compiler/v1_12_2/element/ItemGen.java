@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemGroupsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemsClass;
-import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import com.google.common.base.CaseFormat;
@@ -32,7 +32,7 @@ public class ItemGen extends ElementGen<ItemElement> {
     }
 
     @Override
-    public void generate(Environment environment, Collection<ElementFile<ItemElement>> elementFiles) throws Exception {
+    public void generate(Environment environment, Collection<Element<ItemElement>> elements) throws Exception {
         itemPackageName = environment.getRootPackageName() + ".item";
         namespace = environment.getModSettings().getId();
 
@@ -41,7 +41,7 @@ public class ItemGen extends ElementGen<ItemElement> {
         itemGroupsClass = new ItemGroupsClass(environment.getRootPackageName());
         itemGroupsClass.visitStart();
 
-        super.generate(environment, elementFiles);
+        super.generate(environment, elements);
 
         itemsClass.visitEnd();
         itemsClass.save(environment.getClassesFiler());
@@ -50,7 +50,7 @@ public class ItemGen extends ElementGen<ItemElement> {
     }
 
     @Override
-    protected void generate(Environment environment, ElementFile<ItemElement> file) throws Exception {
+    protected void generate(Environment environment, Element<ItemElement> file) throws Exception {
         ItemElement item = file.get();
 
         itemsClass.visitItem(item);
