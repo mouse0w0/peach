@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -37,6 +38,8 @@ public class Compiler implements Environment {
     private String rootPackageName;
 
     private Multimap<ElementDefinition<?>, Element<?>> elements;
+
+    private ModelManager modelManager;
 
     private Filer classesFiler;
     private Filer resourcesFiler;
@@ -75,6 +78,11 @@ public class Compiler implements Environment {
     }
 
     @Override
+    public ModelManager getModelManager() {
+        return modelManager;
+    }
+
+    @Override
     public Filer getClassesFiler() {
         return classesFiler;
     }
@@ -103,6 +111,8 @@ public class Compiler implements Environment {
             rootPackageName = "peach.generated." + getModSettings().getId();
 
             elements = loadElements();
+
+            modelManager = new ModelManager();
 
             classesFiler = new Filer(getOutputDirectory().resolve("classes"));
             resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));

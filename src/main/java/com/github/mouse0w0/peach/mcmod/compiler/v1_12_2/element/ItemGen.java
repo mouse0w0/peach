@@ -1,10 +1,14 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
 
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
+import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemGroupsClass;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemModelsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemsClass;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
+import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
+import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import com.google.common.base.CaseFormat;
 import org.objectweb.asm.AnnotationVisitor;
@@ -12,13 +16,18 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.commons.GeneratorAdapter;
 
+import java.io.BufferedWriter;
+import java.nio.file.Path;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.objectweb.asm.Opcodes.*;
 
 public class ItemGen extends ElementGen<ItemElement> {
     private ItemGroupsClass itemGroupsClass;
     private ItemsClass itemsClass;
+    private ItemModelsClass itemModelsClass;
 
     private String itemPackageName;
     private String namespace;
@@ -33,13 +42,16 @@ public class ItemGen extends ElementGen<ItemElement> {
 
     @Override
     public void generate(Environment environment, Collection<Element<ItemElement>> elements) throws Exception {
-        itemPackageName = environment.getRootPackageName() + ".item";
+        String packageName = environment.getRootPackageName();
+        itemPackageName = packageName + ".item";
         namespace = environment.getModSettings().getId();
 
-        itemsClass = new ItemsClass(environment.getRootPackageName(), environment.getModSettings().getId());
+        itemsClass = new ItemsClass(packageName, namespace);
         itemsClass.visitStart();
-        itemGroupsClass = new ItemGroupsClass(environment.getRootPackageName());
+        itemGroupsClass = new ItemGroupsClass(packageName);
         itemGroupsClass.visitStart();
+        itemModelsClass = new ItemModelsClass(packageName, namespace);
+        itemModelsClass.visitStart();
 
         super.generate(environment, elements);
 
@@ -47,16 +59,34 @@ public class ItemGen extends ElementGen<ItemElement> {
         itemsClass.save(environment.getClassesFiler());
         itemGroupsClass.visitEnd();
         itemGroupsClass.save(environment.getClassesFiler());
+        itemModelsClass.visitEnd();
+        itemModelsClass.save(environment.getClassesFiler());
     }
 
     @Override
     protected void generate(Environment environment, Element<ItemElement> file) throws Exception {
         ItemElement item = file.get();
 
-        itemsClass.visitItem(item);
-        itemGroupsClass.visitItemGroup(item.getItemGroup());
-
         String registerName = item.getRegisterName();
+        itemsClass.visitItem(registerName);
+        itemGroupsClass.visitItemGroup(item.getItemGroup());
+        itemModelsClass.visitModel(registerName);
+
+        JsonModel model = environment.getModelManager().getItemModel(item.getModel());
+        Map<String, String> textures = new LinkedHashMap<>();
+        item.getTextures().forEach((key, value) -> textures.put(key, namespace + ":" + value));
+        model.setTextures(textures);
+
+        Filer assetsFiler = environment.getAssetsFiler();
+        try (BufferedWriter writer = assetsFiler.newWriter("models", "item", registerName + ".json")) {
+            JsonModelHelper.GSON.toJson(model, writer);
+        }
+
+        for (String texture : item.getTextures().values()) {
+            Path textureFile = getItemTextureFilePath(environment, texture);
+            assetsFiler.copy(textureFile, "textures/" + texture + ".png");
+        }
+
         String internalName = ASMUtils.getInternalName(itemPackageName, ItemGen.getItemClassName(registerName));
 
         ClassWriter classWriter = new ClassWriter(0);
@@ -114,5 +144,9 @@ public class ItemGen extends ElementGen<ItemElement> {
         classWriter.visitEnd();
 
         environment.getClassesFiler().write(internalName + ".class", classWriter.toByteArray());
+    }
+
+    private Path getItemTextureFilePath(Environment environment, String textureName) {
+        return environment.getSourceDirectory().resolve("resources/textures/" + textureName + ".png");
     }
 }

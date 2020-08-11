@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -38,6 +39,12 @@ public class FileUtils {
         if (Files.exists(target) && !ArrayUtils.contains(options, StandardCopyOption.REPLACE_EXISTING)) return target;
         createParentIfNotExists(target);
         return Files.copy(source, target, options);
+    }
+
+    public static long copyIfNotExists(InputStream in, Path target, CopyOption... options) throws IOException {
+        if (Files.exists(target) && !ArrayUtils.contains(options, StandardCopyOption.REPLACE_EXISTING)) return 0;
+        createParentIfNotExists(target);
+        return Files.copy(in, target, options);
     }
 
     public static Stream<Path> walk(Collection<Path> paths, FileVisitOption... options) {

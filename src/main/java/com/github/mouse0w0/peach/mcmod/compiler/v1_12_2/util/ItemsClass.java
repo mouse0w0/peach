@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util;
 
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ItemGen;
-import com.github.mouse0w0.peach.mcmod.element.ItemElement;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import org.objectweb.asm.*;
 
@@ -84,8 +83,7 @@ public class ItemsClass implements Opcodes {
         classWriter.visitEnd();
     }
 
-    public void visitItem(ItemElement item) {
-        String registerName = item.getRegisterName();
+    public void visitItem(String registerName) {
         String itemFieldName = ItemGen.getItemFieldName(registerName);
         String itemInternalName = ASMUtils.getInternalName(packageName + ".item." + ItemGen.getItemClassName(registerName));
         {
