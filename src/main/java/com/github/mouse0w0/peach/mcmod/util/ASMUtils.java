@@ -17,4 +17,8 @@ public class ASMUtils {
     public static String getDescriptor(String internalClassName) {
         return "L" + internalClassName + ";";
     }
+
+    public static String getDescriptor(String packageName, String className) {
+        return "L" + getInternalName(packageName, className) + ";";
+    }
 }

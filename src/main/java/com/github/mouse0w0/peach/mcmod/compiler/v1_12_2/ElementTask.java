@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.CraftingRecipeGen;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ElementGen;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ItemGen;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.SmeltingRecipeGen;
 import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
 import com.github.mouse0w0.peach.mcmod.element.ElementFile;
@@ -23,6 +24,7 @@ public class ElementTask implements CompileTask {
     private final Map<String, ElementGen> elementGenMap = new HashMap<>();
 
     public ElementTask() {
+        elementGenMap.put("item", new ItemGen());
         elementGenMap.put("crafting_recipe", new CraftingRecipeGen());
         elementGenMap.put("smelting_recipe", new SmeltingRecipeGen());
     }

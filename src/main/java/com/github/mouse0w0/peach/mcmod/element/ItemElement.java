@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import java.util.Map;
+
 public class ItemElement {
 
     private String registerName;
@@ -10,7 +12,7 @@ public class ItemElement {
     private String information;
 
     private String model = "buildin";
-    private String texture;
+    private Map<String, String> textures;
 
     public String getRegisterName() {
         return registerName;
@@ -68,11 +70,11 @@ public class ItemElement {
         this.model = model;
     }
 
-    public String getTexture() {
-        return texture;
+    public Map<String, String> getTextures() {
+        return textures;
     }
 
-    public void setTexture(String texture) {
-        this.texture = texture;
+    public void setTextures(Map<String, String> textures) {
+        this.textures = textures;
     }
 }
