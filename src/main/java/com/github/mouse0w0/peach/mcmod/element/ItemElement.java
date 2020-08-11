@@ -1,8 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.mcmod.language.Localizable;
+
 import java.util.Map;
 
-public class ItemElement {
+public class ItemElement implements Localizable {
 
     private String registerName;
     private String displayName;
@@ -76,5 +78,10 @@ public class ItemElement {
 
     public void setTextures(Map<String, String> textures) {
         this.textures = textures;
+    }
+
+    @Override
+    public void getLocalizedText(String namespace, Map<String, String> localizedTexts) {
+        localizedTexts.put("item." + namespace + "." + registerName + ".name", displayName);
     }
 }

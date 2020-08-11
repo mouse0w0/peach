@@ -1,17 +1,21 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
 import com.github.mouse0w0.peach.data.Key;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.AssetsInfoTask;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.ElementTask;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.MainClassTask;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.ModInfoTask;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
+import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
+import com.github.mouse0w0.peach.mcmod.element.ElementFile;
+import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Compiler implements Environment {
@@ -30,11 +34,13 @@ public class Compiler implements Environment {
 
     private McModSettings modSettings;
 
+    private String rootPackageName;
+
+    private Multimap<ElementDefinition<?>, ElementFile<?>> elements;
+
     private Filer classesFiler;
     private Filer resourcesFiler;
     private Filer assetsFiler;
-
-    private String rootPackageName;
 
     private final List<CompileTask> taskList = new ArrayList<>();
 
@@ -61,6 +67,11 @@ public class Compiler implements Environment {
     @Override
     public String getRootPackageName() {
         return rootPackageName;
+    }
+
+    @Override
+    public Multimap<ElementDefinition<?>, ElementFile<?>> getElements() {
+        return elements;
     }
 
     @Override
@@ -91,11 +102,14 @@ public class Compiler implements Environment {
 
             rootPackageName = "peach.generated." + getModSettings().getId();
 
+            elements = loadElements();
+
             classesFiler = new Filer(getOutputDirectory().resolve("classes"));
             resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));
             assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getModSettings().getId()));
 
             taskList.add(new ElementTask());
+            taskList.add(new LanguageTask());
             taskList.add(new MainClassTask());
             taskList.add(new ModInfoTask());
             taskList.add(new AssetsInfoTask());
@@ -105,6 +119,25 @@ public class Compiler implements Environment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Multimap<ElementDefinition<?>, ElementFile<?>> loadElements() throws IOException {
+        Path sources = getSourceDirectory().resolve("sources");
+        ElementManager elementManager = ElementManager.getInstance();
+
+        Multimap<ElementDefinition<?>, ElementFile<?>> elements = HashMultimap.create();
+
+        Iterator<Path> iterator = Files.walk(sources)
+                .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
+                .iterator();
+        while (iterator.hasNext()) {
+            Path file = iterator.next();
+            ElementDefinition<?> element = elementManager.getElement(file);
+            ElementFile<?> elementFile = element.load(file);
+            elementFile.load();
+            elements.put(element, elementFile);
+        }
+        return elements;
     }
 
     private void doCompile() {
