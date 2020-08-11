@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.model.json;
 
 import com.google.gson.JsonElement;
 
-public class Override {
+public class ModelOverride {
     private JsonElement predicate;
     private String model;
 

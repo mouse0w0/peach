@@ -19,7 +19,7 @@ public class JsonModel {
     private Map<String, Transform> display;
     private Map<String, String> textures;
     private List<Element> elements;
-    private List<Override> overrides;
+    private List<ModelOverride> overrides;
 
     public String getParent() {
         return parent;
@@ -69,17 +69,17 @@ public class JsonModel {
         this.elements = elements;
     }
 
-    public List<Override> getOverrides() {
+    public List<ModelOverride> getOverrides() {
         return overrides;
     }
 
-    public void setOverrides(List<Override> overrides) {
+    public void setOverrides(List<ModelOverride> overrides) {
         this.overrides = overrides;
     }
 
     public static class Serializer implements JsonSerializer<JsonModel> {
 
-        @java.lang.Override
+        @Override
         public JsonElement serialize(JsonModel src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject root = new JsonObject();
             if (src.getParent() != null) root.addProperty("parent", src.getParent());
