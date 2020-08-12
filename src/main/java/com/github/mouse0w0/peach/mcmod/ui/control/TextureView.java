@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
+import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
 import com.github.mouse0w0.peach.project.Project;
@@ -9,6 +10,7 @@ import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.input.TransferMode;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +26,14 @@ public class TextureView extends Control {
     protected void initialize() {
         getStyleClass().add("texture-view");
 
+        setOnMouseClicked(event -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(I18n.translate("ui.file_chooser.texture.title"));
+            fileChooser.setInitialDirectory(getTextureFile(getTexture()).toFile().getParentFile());
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(I18n.translate("ui.file_chooser.texture.png"), "*.png"));
+            File file = fileChooser.showOpenDialog(getScene().getWindow());
+            if (file != null) copyTextureFile(file.toPath());
+        });
         setOnDragOver(event -> {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
@@ -33,23 +43,22 @@ public class TextureView extends Control {
 
             event.acceptTransferModes(TransferMode.COPY);
         });
-
         setOnDragDropped(event -> {
             event.consume();
-            try {
-                setTextureFile(event.getDragboard().getFiles().get(0).toPath());
-                event.setDropCompleted(true);
-            } catch (IOException ignored) {
-                ignored.printStackTrace();
-            }
+            event.setDropCompleted(copyTextureFile(event.getDragboard().getFiles().get(0).toPath()));
         });
     }
 
-    private void setTextureFile(Path source) throws IOException {
-        String texture = "items/" + FileUtils.getFileNameWithoutExtensionName(source);
-        Path target = getTextureFile(texture);
-        FileUtils.copyIfNotExists(source, target);
-        setTexture(texture);
+    private boolean copyTextureFile(Path source) {
+        try {
+            String texture = "items/" + FileUtils.getFileNameWithoutExtensionName(source);
+            Path target = getTextureFile(texture);
+            FileUtils.copyIfNotExists(source, target);
+            setTexture(texture);
+            return true;
+        } catch (IOException ignored) {
+            return false;
+        }
     }
 
     private Path getTextureFile(String textureName) {

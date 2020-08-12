@@ -93,5 +93,8 @@ mod.element.smelting_recipe=熔炼配方
 
 ui.smelting_recipe.xp=经验值：
 
+ui.file_chooser.texture.title=选择纹理文件
+ui.file_chooser.texture.png=PNG图像文件
+
 model.item.generated=默认模型
 model.item.handheld=手持模型
