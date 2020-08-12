@@ -5,29 +5,24 @@ import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
-import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
+import com.github.mouse0w0.peach.mcmod.ui.control.TextureView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
-import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.wizard.WizardStep;
-import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ItemModelStep extends FlowPane implements WizardStep {
 
@@ -39,8 +34,7 @@ public class ItemModelStep extends FlowPane implements WizardStep {
     @FXML
     private GridPane content;
 
-    private Map<String, String> textures = new LinkedHashMap<>();
-    private Map<String, ImageView> imageViewMap = new HashMap<>();
+    private Map<String, TextureView> textureViewMap = new HashMap<>();
 
     public ItemModelStep(Element<ItemElement> element) {
         this.element = element;
@@ -72,60 +66,27 @@ public class ItemModelStep extends FlowPane implements WizardStep {
             for (String texture : textures) {
                 content.add(new Text(texture), 0, row);
 
-                BorderPane pane = new BorderPane();
-                FXUtils.setFixedSize(pane, 64, 64);
-                pane.getStyleClass().add("texture");
-                content.add(pane, 1, row);
-
-                ImageView imageView = new ImageView();
-                imageView.setFitWidth(64);
-                imageView.setFitHeight(64);
-                imageViewMap.put(texture, imageView);
-                pane.setCenter(imageView);
-
-                pane.setOnDragOver(event -> {
-                    event.consume();
-                    if (event.getGestureSource() == event.getTarget()) return;
-
-                    List<File> files = event.getDragboard().getFiles();
-                    if (files == null || !files.get(0).getName().endsWith(".png")) return;
-
-                    event.acceptTransferModes(TransferMode.COPY);
-                });
-                pane.setOnDragDropped(event -> {
-                    event.consume();
-                    try {
-                        Path source = event.getDragboard().getFiles().get(0).toPath();
-                        String textureName = "items/" + FileUtils.getFileNameWithoutExtensionName(source);
-                        Path target = getItemTextureFilePath(textureName);
-                        FileUtils.copyIfNotExists(source, target);
-                        setTexture(texture, textureName);
-                        event.setDropCompleted(true);
-                    } catch (IOException ignored) {
-                        ignored.printStackTrace();
-                    }
-                });
+                TextureView textureView = new TextureView();
+                FXUtils.setFixedSize(textureView, 64, 64);
+                textureView.setFitSize(64, 64);
+                content.add(textureView, 1, row);
+                textureViewMap.put(texture, textureView);
 
                 row++;
             }
         });
     }
 
-    private Path getItemTextureFilePath(String textureName) {
-        return project.getData(McModDataKeys.RESOURCES_PATH).resolve("textures/" + textureName + ".png");
-    }
 
     private void clearTextures() {
         ObservableList<Node> children = content.getChildren();
         if (children.size() > 3) children.remove(3, children.size());
 
-        imageViewMap.clear();
-        textures.clear();
+        textureViewMap.clear();
     }
 
     private void setTexture(String texture, String fileName) {
-        imageViewMap.get(texture).setImage(new CachedImage(getItemTextureFilePath(fileName), 64, 64).getImage());
-        textures.put(texture, fileName);
+        textureViewMap.get(texture).setTexture(fileName);
     }
 
     @Override
@@ -152,6 +113,8 @@ public class ItemModelStep extends FlowPane implements WizardStep {
     public void updateDataModel() {
         ItemElement item = element.get();
         item.setModel(model.getValue());
+        Map<String, String> textures = new LinkedHashMap<>();
+        textureViewMap.forEach((key, value) -> textures.put(key, value.getTexture()));
         item.setTextures(textures);
     }
 
