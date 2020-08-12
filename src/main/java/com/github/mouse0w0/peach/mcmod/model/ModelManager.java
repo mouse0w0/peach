@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.RuntimeIOException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,8 +25,8 @@ public class ModelManager {
 
     private void loadBuildInModels() {
         try {
-            loadItemModel(FileUtils.toPath(ModelManager.class.getResource("/model/generated.json")));
-            loadItemModel(FileUtils.toPath(ModelManager.class.getResource("/model/handheld.json")));
+            loadItemModel(ModelManager.class.getResourceAsStream("/model/generated.json"), "generated");
+            loadItemModel(ModelManager.class.getResourceAsStream("/model/handheld.json"), "handheld");
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
@@ -42,6 +43,11 @@ public class ModelManager {
     public void loadItemModel(Path file) throws IOException {
         String modelName = FileUtils.getFileNameWithoutExtensionName(file);
         JsonModel model = JsonModelHelper.load(file);
+        itemModels.put(modelName, model);
+    }
+
+    private void loadItemModel(InputStream in, String modelName) throws IOException {
+        JsonModel model = JsonModelHelper.load(in);
         itemModels.put(modelName, model);
     }
 }
