@@ -54,7 +54,7 @@ public class ItemModelStep extends FlowPane implements WizardStep {
             }
         });
         ModelManager modelManager = ModelManager.getInstance(project);
-        model.getItems().addAll(ModelManager.getInstance(project).getItemModels().keySet());
+        model.getItems().addAll(modelManager.getItemModels().keySet());
         model.valueProperty().addListener(observable -> {
             clearTextures();
 
@@ -68,6 +68,7 @@ public class ItemModelStep extends FlowPane implements WizardStep {
 
                 TextureView textureView = new TextureView();
                 FXUtils.setFixedSize(textureView, 64, 64);
+                textureView.setProject(project);
                 textureView.setFitSize(64, 64);
                 content.add(textureView, 1, row);
                 textureViewMap.put(texture, textureView);
