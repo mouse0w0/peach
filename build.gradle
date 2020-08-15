@@ -35,6 +35,8 @@ dependencies {
     compile 'com.github.mouse0w0:i18n:1.0.2'
 
 //    compile 'org.controlsfx:controlsfx:8.40.17'
+//    compile 'com.dlsc.formsfx:formsfx-core:8.4.0'
+//    compile 'com.dlsc.preferencesfx:preferencesfx-core:8.6.0'
 //    compile 'org.fxmisc.richtext:richtextfx:0.10.5'
 
     compile 'org.ow2.asm:asm-commons:8.0.1'
@@ -42,10 +44,12 @@ dependencies {
 
     compile 'org.slf4j:slf4j-api:1.7.30'
 
-    implementation 'org.slf4j:slf4j-simple:1.7.30'
+    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.13.3'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.4.1'
+
+    testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.30'
 }
 
 jar {

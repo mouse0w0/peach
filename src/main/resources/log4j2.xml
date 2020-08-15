@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <Appenders>
+        <Console name="Console">
+            <PatternLayout pattern="%highlight{[%d{HH:mm:ss}] [%logger{1}/%t] [%level]: %msg%n%xEx}{STYLE=Logback}"/>
+        </Console>
+        <RollingRandomAccessFile name="File" fileName="log/latest.log" filePattern="log/%d{yyyy_MM_dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%logger{1.}/%t] [%level]: %msg%n%xEx"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="99" fileIndex="min"/>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="DebugFile" fileName="log/debug.log"
+                                 filePattern="log/debug-%d{yyyy_MM_dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%logger{1.}/%t] [%level]: %msg%n%xEx"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="200MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5" fileIndex="min"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+    <Loggers>
+        <Root level="ALL">
+            <AppenderRef ref="Console" level="DEBUG"/>
+            <AppenderRef ref="File" level="INFO"/>
+            <AppenderRef ref="DebugFile" level="DEBUG"/>
+        </Root>
+    </Loggers>
+</configuration>
