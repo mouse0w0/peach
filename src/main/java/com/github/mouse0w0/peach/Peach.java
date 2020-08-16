@@ -25,12 +25,7 @@ import java.util.Locale;
 
 public class Peach extends ComponentManagerImpl {
 
-    private static final Logger LOGGER;
-
-    static {
-        System.setProperty("log4j.skipJansi", "false");
-        LOGGER = LoggerFactory.getLogger(Peach.class);
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
 
     private static final EventBus EVENT_BUS = SimpleEventBus.builder()
             .eventListenerFactory(AsmEventListenerFactory.create()).build();
