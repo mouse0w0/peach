@@ -14,13 +14,23 @@ public class Element {
     private Vector3f to;
     private Rotation rotation;
     private boolean shade = true;
-    private Map<String, Face> faces;
+    private Map<Facing, Face> faces;
 
     public static class Rotation {
         private Vector3f origin;
-        private String axis;
+        private Axis axis;
         private float angle;
         private boolean rescale = false;
+
+        public Rotation() {
+        }
+
+        public Rotation(Vector3f origin, Axis axis, float angle, boolean rescale) {
+            this.origin = origin;
+            this.axis = axis;
+            this.angle = angle;
+            this.rescale = rescale;
+        }
 
         public Vector3f getOrigin() {
             return origin;
@@ -30,11 +40,11 @@ public class Element {
             this.origin = origin;
         }
 
-        public String getAxis() {
+        public Axis getAxis() {
             return axis;
         }
 
-        public void setAxis(String axis) {
+        public void setAxis(Axis axis) {
             this.axis = axis;
         }
 
@@ -60,7 +70,7 @@ public class Element {
             public JsonElement serialize(Rotation src, Type typeOfSrc, JsonSerializationContext context) {
                 JsonObject root = new JsonObject();
                 root.add("origin", context.serialize(src.getOrigin()));
-                root.addProperty("axis", src.getAxis());
+                root.add("axis", context.serialize(src.getAxis()));
                 root.addProperty("angle", src.getAngle());
                 if (src.isRescale()) root.addProperty("rescale", src.isRescale());
                 return root;
@@ -100,11 +110,11 @@ public class Element {
         this.shade = shade;
     }
 
-    public Map<String, Face> getFaces() {
+    public Map<Facing, Face> getFaces() {
         return faces;
     }
 
-    public void setFaces(Map<String, Face> faces) {
+    public void setFaces(Map<Facing, Face> faces) {
         this.faces = faces;
     }
 

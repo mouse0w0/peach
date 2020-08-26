@@ -15,6 +15,8 @@ public class JsonModelHelper {
             .registerTypeAdapter(Transform.class, new Transform.Serializer())
             .registerTypeAdapter(Element.class, new Element.Serializer())
             .registerTypeAdapter(Element.Rotation.class, new Element.Rotation.Serializer())
+            .registerTypeAdapter(Axis.class, new Axis.Persistence())
+            .registerTypeAdapter(Facing.class, new Facing.Persistence())
             .registerTypeAdapter(Face.class, new Face.Serializer())
             .registerTypeAdapter(Vector3f.class, new Vector3fPersistence())
             .registerTypeAdapter(Vector4f.class, new Vector4fPersistence())
