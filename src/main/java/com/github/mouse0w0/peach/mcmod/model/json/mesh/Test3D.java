@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -14,8 +15,8 @@ import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
+import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Random;
 
 public class Test3D extends Application {
     public static void main(String[] args) {
@@ -26,23 +27,23 @@ public class Test3D extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        JsonModel model = JsonModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\rail_flat.json"));
+        JsonModel model = JsonModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_flat.json"));
+        TextureMap textureMap = TextureMap.builder().texture("blocks/rail_normal",
+                new Image(Files.newInputStream(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_normal.png")))).build();
         TriangleMesh mesh = new TriangleMesh();
-        MeshGenerator.generate(model.getElements(), new VertexDataConsumer() {
-
+        MeshGenerator.generate(model, textureMap, new VertexDataConsumer() {
             int index = 0;
-            Random random = new Random();
 
             @Override
             public void pos(float x, float y, float z) {
                 mesh.getPoints().addAll(x, y, z);
                 mesh.getFaces().addAll(index, index);
-                mesh.getTexCoords().addAll(random.nextInt(2), random.nextInt(2));
                 index++;
             }
 
             @Override
             public void texCoord(float u, float v) {
+                mesh.getTexCoords().addAll(u, v);
             }
 
             @Override
@@ -59,7 +60,9 @@ public class Test3D extends Application {
         meshView.setScaleZ(200);
         meshView.setTranslateX(250);
         meshView.setTranslateY(250);
-        meshView.setMaterial(new PhongMaterial(Color.WHITE));
+        PhongMaterial material = new PhongMaterial(Color.WHITE);
+        material.setDiffuseMap(textureMap.getImage());
+        meshView.setMaterial(material);
 
         // Create and position camera
         Camera camera = new PerspectiveCamera(false);
@@ -71,12 +74,11 @@ public class Test3D extends Application {
 
         // Build the Scene Graph
         Group root = new Group();
-        root.getChildren().add(camera);
-        root.getChildren().add(meshView);
+        root.getChildren().addAll(camera, new AmbientLight(Color.WHITE), meshView);
 //        root.getChildren().add(new AmbientLight(Color.WHITE));
 
         // Use a SubScene
-        SubScene subScene = new SubScene(root, 500, 500, true, SceneAntialiasing.BALANCED);
+        SubScene subScene = new SubScene(root, 500, 500, true, SceneAntialiasing.DISABLED);
         subScene.setFill(Color.BLACK);
 
         subScene.setCamera(camera);

@@ -25,16 +25,26 @@ public class MeshGenerator {
             {2, 0, 1, 2, 1, 3}, // West
             {7, 5, 4, 7, 4, 6}  // East
     };
+    private static final int[] TEX_COORDS_INDICES = {0, 1, 3, 0, 3, 2};
 
-    public static void generate(List<Element> elements, VertexDataConsumer consumer) {
+    public static void generate(JsonModel model, TextureMap textureMap, VertexDataConsumer consumer) {
+        generate(model.getElements(), model.getTextures(), textureMap, consumer);
+    }
+
+    private static void generate(List<Element> elements, Map<String, String> textures, TextureMap textureMap,
+                                 VertexDataConsumer consumer) {
         for (Element element : elements) {
             Vector3f[] boxPoints = createBoxPoints(element);
 
             for (Map.Entry<Facing, Face> faceEntry : element.getFaces().entrySet()) {
                 Facing facing = faceEntry.getKey();
-                for (int i : VERTEX_DATA_INDICES[facing.ordinal()]) {
-                    Vector3f point = boxPoints[i];
+                Face face = faceEntry.getValue();
+                Vector4f texCoord = createTexCoord(face, textures, textureMap);
+                int[] indices = VERTEX_DATA_INDICES[facing.ordinal()];
+                for (int i = 0; i < 6; i++) {
+                    Vector3f point = boxPoints[indices[i]];
                     consumer.pos(point.x, point.y, point.z);
+                    texCoord(texCoord, TEX_COORDS_INDICES[i], consumer);
                 }
             }
         }
@@ -98,6 +108,35 @@ public class MeshGenerator {
 
         Vector3f origin = rotation.getOrigin().div(16, new Vector3f());
         return matrix.scale(scale).translateLocal(origin).translate(origin.negate());
+    }
+
+    private static Vector4f createTexCoord(Face face, Map<String, String> textures, TextureMap textureMap) {
+        return createTexCoord(textureMap.getTexCoord(getTextureName(face.getTexture(), textures)), face.getUv());
+    }
+
+    private static Vector4f createTexCoord(Vector4f texMapUv, Vector4f faceUv) {
+        return new Vector4f(
+                clamp(faceUv.x / 16, texMapUv.x, texMapUv.w),
+                clamp(faceUv.y / 16, texMapUv.y, texMapUv.w),
+                clamp(faceUv.z / 16, texMapUv.x, texMapUv.w),
+                clamp(faceUv.w / 16, texMapUv.y, texMapUv.w));
+    }
+
+    private static float clamp(float value, float min, float max) {
+        return min + value * (max - min);
+    }
+
+    private static String getTextureName(String name, Map<String, String> textures) {
+        while (name.charAt(0) == '#') {
+            name = textures.get(name.substring(1));
+        }
+        return name;
+    }
+
+    private static void texCoord(Vector4f texCoord, int index, VertexDataConsumer consumer) {
+        float u = (index & 0x2) == 0 ? texCoord.x : texCoord.z;
+        float v = (index & 0x1) == 0 ? texCoord.y : texCoord.w;
+        consumer.texCoord(u, v);
     }
 
     public static void main(String[] args) throws IOException {
