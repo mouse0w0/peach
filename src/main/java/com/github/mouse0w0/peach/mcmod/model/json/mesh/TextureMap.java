@@ -10,19 +10,19 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TextureMap {
-    private final WritableImage image;
+    private final Image image;
     private final Map<String, Vector4f> texCoords;
 
     public static Builder builder() {
         return new Builder();
     }
 
-    private TextureMap(WritableImage image, Map<String, Vector4f> texCoords) {
+    private TextureMap(Image image, Map<String, Vector4f> texCoords) {
         this.image = image;
         this.texCoords = texCoords;
     }
 
-    public WritableImage getImage() {
+    public Image getImage() {
         return image;
     }
 
