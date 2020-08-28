@@ -28,7 +28,7 @@ public class Test3D extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         JsonModel model = JsonModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_flat.json"));
-        TextureMap textureMap = TextureMap.builder().texture("blocks/rail_normal",
+        TextureMapFX textureMap = TextureMapFX.builder().texture("blocks/rail_normal",
                 new Image(Files.newInputStream(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_normal.png")))).build();
         TriangleMesh mesh = new TriangleMesh();
         MeshGenerator.generate(model, textureMap, new VertexDataConsumer() {
