@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.component;
 
 import com.github.mouse0w0.peach.data.DataHolderImpl;
+import com.github.mouse0w0.peach.exception.ServiceException;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -50,7 +51,7 @@ public abstract class ComponentManagerImpl extends DataHolderImpl implements Com
                         try {
                             return implementationClass.newInstance();
                         } catch (ReflectiveOperationException e) {
-                            throw new RuntimeException(e);
+                            throw new ServiceException("Cannot initialize service class " + implementationClass.getName());
                         }
                     };
                     registerServiceFactory(serviceClass, serviceFactory);
@@ -59,7 +60,7 @@ public abstract class ComponentManagerImpl extends DataHolderImpl implements Com
                 }
             }
         } catch (DocumentException | ReflectiveOperationException e) {
-            throw new RuntimeException(e);
+            throw new ServiceException("Cannot load services: " + url, e);
         }
     }
 }
