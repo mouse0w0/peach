@@ -8,11 +8,8 @@ import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.event.AppEvent;
-import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.service.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.FXApplication;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
@@ -78,10 +75,11 @@ public class Peach extends ComponentManagerImpl {
     }
 
     private void initServices() {
-        registerService(RecentProjectsManager.class, new RecentProjectsManager());
-        registerService(WindowManager.class, new WindowManager());
-        registerServiceFactory(ProjectManager.class, ProjectManager::new);
-        registerService(McModService.class, new McModService());
+        registerServices(Peach.class.getResource("/services.xml"));
+//        registerService(RecentProjectsManager.class, new RecentProjectsManager());
+//        registerService(WindowManager.class, new WindowManager());
+//        registerServiceFactory(ProjectManager.class, ProjectManager::new);
+//        registerService(McModService.class, new McModService());
     }
 
     private String getImplementationVersion() {

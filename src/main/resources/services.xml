@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+    <service implementation="com.github.mouse0w0.peach.service.RecentProjectsManager"/>
+    <service implementation="com.github.mouse0w0.peach.ui.project.WindowManager"/>
+    <service implementation="com.github.mouse0w0.peach.project.ProjectManager" lazy="true"/>
+    <service implementation="com.github.mouse0w0.peach.mcmod.service.McModService"/>
+</services>

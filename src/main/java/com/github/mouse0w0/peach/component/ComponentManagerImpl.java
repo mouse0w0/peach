@@ -1,7 +1,12 @@
 package com.github.mouse0w0.peach.component;
 
 import com.github.mouse0w0.peach.data.DataHolderImpl;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -25,5 +30,36 @@ public abstract class ComponentManagerImpl extends DataHolderImpl implements Com
             Supplier<?> serviceFactory = serviceFactories.get(key);
             return serviceFactory != null ? serviceFactory.get() : null;
         }) : services.get(classOfT));
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    protected void registerServices(URL url) {
+        try {
+            SAXReader reader = new SAXReader();
+            Document document = reader.read(url);
+            Element services = document.getRootElement();
+            for (Element service : services.elements("service")) {
+                String implementationName = service.attributeValue("implementation");
+                String interfaceName = service.attributeValue("interface");
+                boolean lazy = "true".equals(service.attributeValue("lazy"));
+
+                Class<?> implementationClass = Class.forName(implementationName);
+                Class serviceClass = interfaceName != null ? Class.forName(interfaceName) : implementationClass;
+                if (lazy) {
+                    Supplier<?> serviceFactory = () -> {
+                        try {
+                            return implementationClass.newInstance();
+                        } catch (ReflectiveOperationException e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
+                    registerServiceFactory(serviceClass, serviceFactory);
+                } else {
+                    registerService(serviceClass, implementationClass.newInstance());
+                }
+            }
+        } catch (DocumentException | ReflectiveOperationException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
