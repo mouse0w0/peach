@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.util;
 
+import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.Validate;
 

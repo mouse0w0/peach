@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
+import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.util.RuntimeIOException;
 
 import java.io.IOException;
 import java.io.InputStream;

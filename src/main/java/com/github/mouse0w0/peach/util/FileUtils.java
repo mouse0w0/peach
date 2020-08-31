@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.util;
 
+import com.github.mouse0w0.peach.exception.RuntimeIOException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

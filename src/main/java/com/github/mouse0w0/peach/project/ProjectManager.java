@@ -2,9 +2,9 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
+import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.util.RuntimeIOException;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
