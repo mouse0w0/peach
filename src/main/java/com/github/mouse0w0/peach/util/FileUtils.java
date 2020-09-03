@@ -63,7 +63,7 @@ public class FileUtils {
         try {
             return path.toUri().toURL();
         } catch (MalformedURLException e) {
-            throw new Error(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -75,7 +75,7 @@ public class FileUtils {
         try {
             return Paths.get(url.toURI());
         } catch (URISyntaxException e) {
-            throw new Error(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -88,12 +88,10 @@ public class FileUtils {
     }
 
     public static String getFileNameWithoutExtensionName(Path file) {
-        String fileName = file.getFileName().toString();
-        return fileName.substring(0, fileName.indexOf('.'));
+        return StringUtils.substringBefore(file.getFileName().toString(), '.');
     }
 
     public static String getFileNameWithoutExtensionName(File file) {
-        String fileName = file.getName();
-        return fileName.substring(0, fileName.indexOf('.'));
+        return StringUtils.substringBefore(file.getName(), '.');
     }
 }
