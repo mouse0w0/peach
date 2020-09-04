@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.geometry;
+package com.github.mouse0w0.peach.util;
 
 public enum EightPos {
     TOP_LEFT(FourPos.TOP, FourPos.LEFT),
