@@ -61,11 +61,15 @@ public class ActionManager {
     }
 
     public void perform(String actionId, javafx.event.ActionEvent event) {
-        getAction(actionId).perform(new ActionEvent(event));
+        getAction(actionId).perform(new ActionEvent(event.getSource()));
     }
 
     public Menu createMenu(ActionGroup group) {
-        Menu menu = new Menu(group.getAppearance().getText());
+        Appearance appearance = group.getAppearance();
+        Menu menu = new Menu();
+        menu.setText(appearance.getText());
+        menu.setDisable(appearance.isDisable());
+        menu.setVisible(appearance.isVisible());
         for (Action child : group.getChildren()) {
             menu.getItems().add(createMenuItem(child));
         }
@@ -78,7 +82,11 @@ public class ActionManager {
         } else if (action instanceof Separator) {
             return new SeparatorMenuItem();
         } else {
-            MenuItem menuItem = new MenuItem(action.getAppearance().getText());
+            Appearance appearance = action.getAppearance();
+            MenuItem menuItem = new MenuItem();
+            menuItem.setText(appearance.getText());
+            menuItem.setDisable(appearance.isDisable());
+            menuItem.setVisible(appearance.isVisible());
             menuItem.setOnAction(event -> action.perform(new ActionEvent(event.getSource())));
             return menuItem;
         }
