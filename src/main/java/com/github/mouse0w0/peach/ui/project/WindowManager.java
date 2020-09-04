@@ -60,7 +60,7 @@ public class WindowManager {
 
         window = new ProjectWindow(project);
         windowMap.putIfAbsent(project, window);
-        stageToWindowMap.put(window.getWindow(), window);
+        stageToWindowMap.put(window.getStage(), window);
         return window;
     }
 
@@ -74,11 +74,11 @@ public class WindowManager {
 
     private void onOpenedProject(ProjectEvent.Opened event) {
         ProjectWindow window = allocateWindow(event.getProject());
-        window.getWindow().show();
+        window.getStage().show();
     }
 
     private void onClosedProject(ProjectEvent.Closed event) {
         ProjectWindow window = getWindow(event.getProject());
-        window.getWindow().hide();
+        window.getStage().hide();
     }
 }

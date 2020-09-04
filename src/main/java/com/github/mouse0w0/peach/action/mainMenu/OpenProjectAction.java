@@ -16,7 +16,7 @@ public class OpenProjectAction extends Action {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(I18n.translate("ui.main.open_project"));
         ProjectWindow window = WindowManager.getInstance().getFocusedWindow();
-        File file = directoryChooser.showDialog(window != null ? window.getWindow() : null);
+        File file = directoryChooser.showDialog(window != null ? window.getStage() : null);
         if (file == null) return;
         ProjectManager.getInstance().openProject(file.toPath());
     }

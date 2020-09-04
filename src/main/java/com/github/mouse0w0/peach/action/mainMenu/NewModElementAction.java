@@ -8,6 +8,6 @@ import com.github.mouse0w0.peach.ui.project.WindowManager;
 public class NewModElementAction extends Action {
     @Override
     public void perform(ActionEvent event) {
-        NewModElementUI.show(WindowManager.getInstance().getFocusedWindow().getWindow());
+        NewModElementUI.show(WindowManager.getInstance().getFocusedWindow().getStage());
     }
 }

@@ -54,7 +54,7 @@ public class Project extends ComponentManagerImpl {
 
         ProjectWindow window = WindowManager.getInstance().getWindow(this);
         if (window != null) {
-            window.getWindow().setTitle(getName());
+            window.getStage().setTitle(getName());
         }
     }
 

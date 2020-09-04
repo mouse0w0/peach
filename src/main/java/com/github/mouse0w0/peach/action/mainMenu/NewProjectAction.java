@@ -10,6 +10,6 @@ public class NewProjectAction extends Action {
     @Override
     public void perform(ActionEvent event) {
         ProjectWindow window = WindowManager.getInstance().getFocusedWindow();
-        NewProjectUI.show(window != null ? window.getWindow() : null);
+        NewProjectUI.show(window != null ? window.getStage() : null);
     }
 }

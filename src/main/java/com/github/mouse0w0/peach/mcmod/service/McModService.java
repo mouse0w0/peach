@@ -68,7 +68,7 @@ public class McModService {
         JsonFile<McModSettings> modInfoFile = project.getData(McModDataKeys.MOD_SETTINGS);
 
         if (!modInfoFile.exists()) {
-            McModSettingsUI.show(modInfoFile, event.getWindow().getWindow());
+            McModSettingsUI.show(modInfoFile, event.getWindow().getStage());
         }
 
         Tab elementView = new Tab();

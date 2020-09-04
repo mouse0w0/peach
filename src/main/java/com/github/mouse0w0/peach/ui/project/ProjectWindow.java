@@ -12,17 +12,19 @@ public class ProjectWindow {
 
     private Project project;
     private Stage stage;
+    private Scene scene;
     private ProjectUI content;
 
     public ProjectWindow(Project project) {
         this.project = project;
         this.stage = new Stage();
         this.content = new ProjectUI(project);
+        this.scene = new Scene(content);
         initStage();
     }
 
     private void initStage() {
-        stage.setScene(new Scene(content));
+        stage.setScene(scene);
         stage.setTitle(project.getName());
         stage.setOnShown(event -> Peach.getEventBus().post(new ProjectWindowEvent.Opened(this)));
         stage.setOnHidden(event -> Peach.getEventBus().post(new ProjectWindowEvent.Closed(this)));
@@ -41,8 +43,12 @@ public class ProjectWindow {
         return project;
     }
 
-    public Stage getWindow() {
+    public Stage getStage() {
         return stage;
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 
     public void openTab(Tab tab) {

@@ -11,6 +11,6 @@ public class OpenProjectSettingsAction extends Action {
     @Override
     public void perform(ActionEvent event) {
         ProjectWindow window = WindowManager.getInstance().getFocusedWindow();
-        McModSettingsUI.show(window.getProject().getData(McModDataKeys.MOD_SETTINGS), window.getWindow());
+        McModSettingsUI.show(window.getProject().getData(McModDataKeys.MOD_SETTINGS), window.getStage());
     }
 }
