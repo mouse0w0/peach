@@ -23,6 +23,8 @@ class ProjectUI extends BorderPane {
         setPrefSize(800, 600);
         setTop(menuBar = createMenuBar());
         setCenter(tabPane = new TabPane());
+
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }
 
     public TabPane getTabPane() {
