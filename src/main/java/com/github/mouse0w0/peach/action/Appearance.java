@@ -1,97 +1,89 @@
 package com.github.mouse0w0.peach.action;
 
+import javafx.beans.property.*;
 import javafx.scene.image.Image;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 public final class Appearance {
 
-    public static final String PROP_TEXT = "text";
-    public static final String PROP_DESCRIPTION = "description";
-    public static final String PROP_ICON = "icon";
-    public static final String PROP_DISABLE = "disable";
-    public static final String PROP_VISIBLE = "visible";
+    private StringProperty text;
+    private StringProperty description;
+    private ObjectProperty<Image> icon;
 
-    private String text;
-    private String description;
-    private Image icon;
+    private BooleanProperty disable;
+    private BooleanProperty visible;
 
-    private boolean disable = false;
-    private boolean visible = true;
-
-    private PropertyChangeSupport changeSupport;
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport == null) {
-            changeSupport = new PropertyChangeSupport(this);
+    public StringProperty textProperty() {
+        if (text == null) {
+            text = new SimpleStringProperty(this, "text");
         }
-        changeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        if (changeSupport != null) {
-            changeSupport.removePropertyChangeListener(listener);
-        }
-    }
-
-    public String getText() {
         return text;
     }
 
-    public void setText(String text) {
-        String oldValue = this.text;
-        this.text = text;
-        firePropertyChange(PROP_TEXT, oldValue, text);
+    public String getText() {
+        return text != null ? text.get() : null;
     }
 
-    public String getDescription() {
+    public void setText(String text) {
+        textProperty().set(text);
+    }
+
+    public StringProperty descriptionProperty() {
+        if (description == null) {
+            description = new SimpleStringProperty(this, "description");
+        }
         return description;
     }
 
-    public void setDescription(String description) {
-        String oldValue = this.description;
-        this.description = description;
-        firePropertyChange(PROP_DESCRIPTION, oldValue, description);
+    public String getDescription() {
+        return description != null ? description.get() : null;
     }
 
-    public Image getIcon() {
+    public void setDescription(String description) {
+        descriptionProperty().set(description);
+    }
+
+    public ObjectProperty<Image> iconProperty() {
+        if (icon == null) {
+            icon = new SimpleObjectProperty<>(this, "icon");
+        }
         return icon;
     }
 
-    public void setIcon(Image icon) {
-        Image oldValue = this.icon;
-        this.icon = icon;
-        firePropertyChange(PROP_ICON, oldValue, icon);
+    public Image getIcon() {
+        return icon != null ? icon.get() : null;
     }
 
-    public boolean isDisable() {
+    public void setIcon(Image icon) {
+        iconProperty().set(icon);
+    }
+
+    public BooleanProperty disableProperty() {
+        if (disable == null) {
+            disable = new SimpleBooleanProperty(this, "disable", false);
+        }
         return disable;
     }
 
-    public void setDisable(boolean disable) {
-        boolean oldValue = this.disable;
-        this.disable = disable;
-        firePropertyChange(PROP_DISABLE, oldValue, disable);
+    public boolean isDisable() {
+        return disable != null && disable.get();
     }
 
-    public boolean isVisible() {
+    public void setDisable(boolean disable) {
+        disableProperty().set(disable);
+    }
+
+    public BooleanProperty visibleProperty() {
+        if (visible == null) {
+            visible = new SimpleBooleanProperty(this, "visible", true);
+        }
         return visible;
     }
 
+    public boolean isVisible() {
+        return visible == null || visible.get();
+    }
+
     public void setVisible(boolean visible) {
-        boolean oldValue = this.visible;
-        this.visible = visible;
-        firePropertyChange(PROP_VISIBLE, oldValue, visible);
-    }
-
-    private void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        if (changeSupport == null || oldValue == newValue) return;
-        changeSupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
-
-    private void firePropertyChange(String propertyName, boolean oldValue, boolean newValue) {
-        if (changeSupport == null || oldValue == newValue) return;
-        changeSupport.firePropertyChange(propertyName, oldValue, newValue);
+        visibleProperty().set(visible);
     }
 }

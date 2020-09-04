@@ -67,9 +67,9 @@ public class ActionManager {
     public Menu createMenu(ActionGroup group) {
         Appearance appearance = group.getAppearance();
         Menu menu = new Menu();
-        menu.setText(appearance.getText());
-        menu.setDisable(appearance.isDisable());
-        menu.setVisible(appearance.isVisible());
+        menu.textProperty().bind(appearance.textProperty());
+        menu.disableProperty().bind(appearance.disableProperty());
+        menu.visibleProperty().bind(appearance.visibleProperty());
         for (Action child : group.getChildren()) {
             menu.getItems().add(createMenuItem(child));
         }
@@ -84,9 +84,9 @@ public class ActionManager {
         } else {
             Appearance appearance = action.getAppearance();
             MenuItem menuItem = new MenuItem();
-            menuItem.setText(appearance.getText());
-            menuItem.setDisable(appearance.isDisable());
-            menuItem.setVisible(appearance.isVisible());
+            menuItem.textProperty().bind(appearance.textProperty());
+            menuItem.disableProperty().bind(appearance.disableProperty());
+            menuItem.visibleProperty().bind(appearance.visibleProperty());
             menuItem.setOnAction(event -> action.perform(new ActionEvent(event.getSource())));
             return menuItem;
         }
