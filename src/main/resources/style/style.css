@@ -1,0 +1,91 @@
+.tab-header-area {
+    -fx-padding: 0;
+}
+
+.tab-header-background {
+    -fx-background-color: linear-gradient(to bottom, derive(-fx-base, 75%) 0%, -fx-outer-border 90%),
+    linear-gradient(to bottom, derive(-fx-base, 46.9%) 2%, derive(-fx-base, -2.1%) 95%);
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.tab {
+    -fx-padding: 0.1em 0.5em 0.1em 0.5em;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-border-insets: 0;
+}
+
+.tab:hover {
+    -fx-background-color: #b5b5b5;
+}
+
+.tab:selected {
+    -fx-background-color: #0096c9;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.tab:selected .tab-close-button {
+    -fx-background-color: white;
+}
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:left {*/
+/*    -fx-border-color: transparent transparent transparent #4b4b4b;*/
+/*    -fx-border-width: 0 0 0 1;*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:left:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #4a7a88 12.5%);*/
+/*}*/
+
+/*.tab-pane:focused> .tab-header-area> .headers-region> .tab:left:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #439eb8 12.5%);*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:right {*/
+/*    -fx-border-color: transparent #4b4b4b transparent transparent ;*/
+/*    -fx-border-width: 0 1 0 0;*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:right:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #4a7a88 12.5%);*/
+/*}*/
+
+/*.tab-pane:focused> .tab-header-area> .headers-region> .tab:right:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #439eb8 12.5%);*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:top {*/
+/*    -fx-background-color: linear-gradient(to bottom, derive(-fx-base,46.9%) 2%, derive(-fx-base,-2.1%) 95%);*/
+/*    -fx-border-color: transparent #4b4b4b transparent transparent;*/
+/*    -fx-border-width: 0 1 0 0;*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:top:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #4a7a88 12.5%);*/
+/*}*/
+
+/*.tab-pane:focused> .tab-header-area> .headers-region> .tab:top:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #439eb8 12.5%);*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:bottom {*/
+/*    -fx-border-color: transparent transparent transparent #4b4b4b;*/
+/*    -fx-border-width: 0 0 0 1;*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:bottom:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #4a7a88 12.5%);*/
+/*}*/
+
+/*.tab-pane:focused> .tab-header-area> .headers-region> .tab:bottom:selected {*/
+/*    -fx-background-color: linear-gradient(to bottom, #515658 87.5%, #439eb8 12.5%);*/
+/*}*/
+
+/*.tab-pane> .tab-header-area> .headers-region> .tab:selected .focus-indicator{*/
+/*    -fx-border-color: transparent;*/
+/*    -fx-border-insets: 0;*/
+/*}*/
