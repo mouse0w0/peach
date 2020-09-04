@@ -8,18 +8,21 @@ common.open=打开
 common.remove=移除
 common.delete=删除
 
-action.mainMenu.file=文件
-action.mainMenu.file.new=新建...
-action.mainMenu.file.new.newProject=项目
-action.mainMenu.file.new.newElement=模组元素
-action.mainMenu.file.openProject=打开项目
-action.mainMenu.file.settings=设置...
-action.mainMenu.file.projectSettings=项目设置...
-action.mainMenu.file.exit=退出
-action.mainMenu.build=构建
-action.mainMenu.build.buildProject=生成项目
-action.mainMenu.help=帮助
-action.mainMenu.help.about=关于 Peach
+group.File.text=文件
+group.New.text=新建...
+action.NewProject.text=项目
+action.NewModElement.text=模组元素
+action.OpenProject.text=打开项目
+action.OpenSettings.text=设置...
+action.OpenProjectSettings.text=项目设置...
+action.Exit.text=退出
+
+group.Build.text=构建
+action.BuildProject.text=生成项目
+
+group.Help.text=帮助
+action.About.text=关于 Peach
+action.Donate.text=捐助作者
 
 ui.welcome.title=🍑Peach
 ui.welcome.new_project=新建项目

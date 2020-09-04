@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <group id="MainMenu">
+        <group id="File">
+            <group id="New">
+                <action id="NewProject" class="com.github.mouse0w0.peach.action.mainMenu.NewProjectAction"/>
+                <action id="NewModElement" class="com.github.mouse0w0.peach.action.mainMenu.NewModElementAction"/>
+            </group>
+            <action id="OpenProject" class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectAction"/>
+            <separator/>
+
+            <action id="OpenSettings"/>
+            <action id="OpenProjectSettings"
+                    class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectSettingsAction"/>
+            <separator/>
+
+            <action id="Exit" class="com.github.mouse0w0.peach.action.mainMenu.ExitAction"/>
+        </group>
+
+        <group id="Build">
+            <action id="BuildProject" class="com.github.mouse0w0.peach.action.mainMenu.BuildProjectAction"/>
+        </group>
+
+        <group id="Help">
+            <action id="About"/>
+            <action id="Donate" class="com.github.mouse0w0.peach.action.mainMenu.DonateAction"/>
+        </group>
+    </group>
+</actions>

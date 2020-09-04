@@ -1,73 +1,45 @@
 package com.github.mouse0w0.peach.ui.project;
 
-import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
-import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
-import com.github.mouse0w0.peach.mcmod.ui.McModSettingsUI;
-import com.github.mouse0w0.peach.mcmod.ui.NewModElementUI;
+import com.github.mouse0w0.peach.action.Action;
+import com.github.mouse0w0.peach.action.ActionGroup;
+import com.github.mouse0w0.peach.action.ActionManager;
+import com.github.mouse0w0.peach.action.IdeGroups;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.ui.newProject.NewProjectUI;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
-import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
-
-import java.io.File;
 
 class ProjectUI extends BorderPane {
 
     private final Project project;
 
-    @FXML
+    private MenuBar menuBar;
+
     private TabPane tabPane;
 
     public ProjectUI(Project project) {
         this.project = project;
-        FXUtils.loadFXML(this, "ui/project/Project.fxml");
+        setPrefSize(800, 600);
+        setTop(menuBar = createMenuBar());
+        setCenter(tabPane = new TabPane());
     }
 
     public TabPane getTabPane() {
         return tabPane;
     }
 
-    @FXML
-    private void onNewProject() {
-        NewProjectUI.show(getScene().getWindow());
-    }
+    private MenuBar createMenuBar() {
+        MenuBar menuBar = new MenuBar();
+        ActionManager actionManager = ActionManager.getInstance();
+        ActionGroup group = (ActionGroup) actionManager.getAction(IdeGroups.MAIN_MENU);
 
-    @FXML
-    private void onOpenProject() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(I18n.translate("ui.main.open_project"));
-        File file = directoryChooser.showDialog(getScene().getWindow());
-        if (file == null) return;
-        ProjectManager.getInstance().openProject(file.toPath());
-    }
+        for (Action child : group.getChildren()) {
+            if (!(child instanceof ActionGroup)) continue;
 
-    @FXML
-    private void onExit() {
-        Peach.getInstance().exit();
-    }
-
-    @FXML
-    private void doOpenSettings() {
-    }
-
-    @FXML
-    private void doOpenProjectSettings() {
-        McModSettingsUI.show(project.getData(McModDataKeys.MOD_SETTINGS), getScene().getWindow());
-    }
-
-    @FXML
-    private void onNewElement() {
-        NewModElementUI.show(getScene().getWindow());
-    }
-
-    @FXML
-    private void doBuild() {
-        new Compiler(project.getPath(), project.getPath().resolve("build")).run();
+            Menu menu = actionManager.createMenu((ActionGroup) child);
+            menuBar.getMenus().add(menu);
+        }
+        return menuBar;
     }
 }

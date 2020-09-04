@@ -2,12 +2,13 @@ package com.github.mouse0w0.peach.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
-import com.github.mouse0w0.peach.ui.newProject.NewProjectUI;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
@@ -15,12 +16,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
-import java.io.File;
-import java.net.URI;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
@@ -103,27 +100,17 @@ public class WelcomeUI extends BorderPane {
     }
 
     @FXML
-    public void onNewProject() {
-        NewProjectUI.show(getScene().getWindow());
+    public void onNewProject(ActionEvent event) {
+        ActionManager.getInstance().perform("NewProject", event);
     }
 
     @FXML
-    public void onOpenProject() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(I18n.translate("ui.main.open_project"));
-        File file = directoryChooser.showDialog(getScene().getWindow());
-        if (file == null) return;
-        ProjectManager.getInstance().openProject(file.toPath());
+    public void onOpenProject(ActionEvent event) {
+        ActionManager.getInstance().perform("OpenProject", event);
     }
 
     @FXML
-    public void doDonate() {
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
-                desktop.browse(new URI("https://afdian.net/@mouse"));
-            }
-        } catch (Exception ignored) {
-        }
+    public void doDonate(ActionEvent event) {
+        ActionManager.getInstance().perform("Donate", event);
     }
 }
