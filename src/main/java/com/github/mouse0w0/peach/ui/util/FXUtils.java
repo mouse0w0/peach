@@ -10,10 +10,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -106,6 +108,15 @@ public final class FXUtils {
         AnchorPane.setLeftAnchor(node, 0D);
         AnchorPane.setBottomAnchor(node, 0D);
         AnchorPane.setRightAnchor(node, 0D);
+    }
+
+    public static Optional<Window> getFocusedWindow() {
+        Iterator<Window> iterator = Window.impl_getWindows();
+        while (iterator.hasNext()) {
+            Window window = iterator.next();
+            if (window.isFocused()) return Optional.of(window);
+        }
+        return Optional.empty();
     }
 
     private static Object TOOLTIP_BEHAVIOR;
