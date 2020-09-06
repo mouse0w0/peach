@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
-import com.github.mouse0w0.peach.ui.wizard.Wizard;
+import com.github.mouse0w0.peach.wizard.Wizard;
 
 import java.nio.file.Path;
 import java.util.function.Function;

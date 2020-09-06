@@ -9,7 +9,7 @@ import com.github.mouse0w0.peach.mcmod.ui.control.TextureView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.wizard.WizardStep;
+import com.github.mouse0w0.peach.wizard.WizardStep;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.ui.wizard;
+package com.github.mouse0w0.peach.wizard;
 
 import javafx.scene.Node;
 

@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.ui.wizard;
+package com.github.mouse0w0.peach.wizard;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.ui.util.FXUtils;

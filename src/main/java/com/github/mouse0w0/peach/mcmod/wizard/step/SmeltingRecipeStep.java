@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.wizard.WizardStep;
+import com.github.mouse0w0.peach.wizard.WizardStep;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;

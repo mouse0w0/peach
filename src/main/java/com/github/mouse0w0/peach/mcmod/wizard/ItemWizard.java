@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ItemElement;
 import com.github.mouse0w0.peach.mcmod.wizard.step.ItemModelStep;
 import com.github.mouse0w0.peach.mcmod.wizard.step.ItemStep;
-import com.github.mouse0w0.peach.ui.wizard.Wizard;
+import com.github.mouse0w0.peach.wizard.Wizard;
 
 public class ItemWizard extends Wizard {
 
