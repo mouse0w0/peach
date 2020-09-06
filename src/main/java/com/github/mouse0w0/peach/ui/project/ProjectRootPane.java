@@ -10,7 +10,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 
-class ProjectUI extends BorderPane {
+class ProjectRootPane extends BorderPane {
 
     private final Project project;
 
@@ -18,7 +18,7 @@ class ProjectUI extends BorderPane {
 
     private TabPane tabPane;
 
-    public ProjectUI(Project project) {
+    public ProjectRootPane(Project project) {
         this.project = project;
         setPrefSize(800, 600);
         setTop(menuBar = createMenuBar());

@@ -13,12 +13,12 @@ public class ProjectWindow {
     private Project project;
     private Stage stage;
     private Scene scene;
-    private ProjectUI content;
+    private ProjectRootPane content;
 
     public ProjectWindow(Project project) {
         this.project = project;
         this.stage = new Stage();
-        this.content = new ProjectUI(project);
+        this.content = new ProjectRootPane(project);
         this.scene = new Scene(content);
         initStage();
     }
