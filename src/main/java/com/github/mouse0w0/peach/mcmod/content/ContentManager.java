@@ -19,6 +19,12 @@ public class ContentManager {
         return project.getService(ContentManager.class);
     }
 
+    public void addContentPacks(Collection<ContentPack> contentPacks) {
+        for (ContentPack contentPack : contentPacks) {
+            addContentPack(contentPack);
+        }
+    }
+
     public void addContentPack(ContentPack contentPack) {
         if (contentPackMap.containsKey(contentPack.getId())) return;
         contentPackMap.put(contentPack.getId(), contentPack);

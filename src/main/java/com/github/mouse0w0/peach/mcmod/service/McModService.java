@@ -5,10 +5,8 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentPack;
 import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
-import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.mcmod.ui.ElementViewUI;
@@ -52,14 +50,7 @@ public class McModService {
         project.putData(McModDataKeys.SOURCES_PATH, project.getPath().resolve("sources"));
         project.putData(McModDataKeys.RESOURCES_PATH, project.getPath().resolve("resources"));
 
-        ContentManager contentManager = new ContentManager();
-        for (ContentPack contentPack : getContentPackManager().getContentPacks()) {
-            contentManager.addContentPack(contentPack);
-        }
-        project.registerService(ContentManager.class, contentManager);
-
-        ModelManager modelManager = new ModelManager();
-        project.registerService(ModelManager.class, modelManager);
+        ContentManager.getInstance(project).addContentPacks(contentPackManager.getContentPacks());
     }
 
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {

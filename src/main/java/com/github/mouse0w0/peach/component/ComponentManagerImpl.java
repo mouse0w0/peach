@@ -2,14 +2,10 @@ package com.github.mouse0w0.peach.component;
 
 import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.exception.ServiceException;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
+import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 
-import java.net.URL;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -34,43 +30,31 @@ public abstract class ComponentManagerImpl extends DataHolderImpl implements Com
         }) : services.get(classOfT));
     }
 
-
-    protected void registerServices(URL url) {
-        try {
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(url);
-            Element services = document.getRootElement();
-            registerServices(services.elements("service"));
-        } catch (DocumentException e) {
-            throw new ServiceException("Cannot load services from " + url, e);
+    protected void initServices(List<ServiceDescriptor> services) {
+        for (ServiceDescriptor service : services) {
+            registerService(service);
         }
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    protected void registerServices(Collection<Element> services) {
-        for (Element service : services) {
-            String implementationName = service.attributeValue("implementation");
-            String interfaceName = service.attributeValue("interface");
-            boolean lazy = "true".equals(service.attributeValue("lazy"));
+    private void registerService(ServiceDescriptor service) {
+        Class<?> implementationClass;
+        try {
+            implementationClass = Class.forName(service.implementationName);
+        } catch (ClassNotFoundException e) {
+            throw new ServiceException("Not found service implementation class " + service.implementationName, e);
+        }
+        Class serviceClass;
+        try {
+            serviceClass = service.interfaceName != null ? Class.forName(service.interfaceName) : implementationClass;
+        } catch (ClassNotFoundException e) {
+            throw new ServiceException("Not found service interface class " + service.implementationName, e);
+        }
 
-            Class<?> implementationClass;
-            try {
-                implementationClass = Class.forName(implementationName);
-            } catch (ClassNotFoundException e) {
-                throw new ServiceException("Not found service implementation class " + implementationName, e);
-            }
-            Class serviceClass;
-            try {
-                serviceClass = interfaceName != null ? Class.forName(interfaceName) : implementationClass;
-            } catch (ClassNotFoundException e) {
-                throw new ServiceException("Not found service interface class " + implementationName, e);
-            }
-
-            if (lazy) {
-                registerServiceFactory(serviceClass, () -> newInstance(implementationClass));
-            } else {
-                registerService(serviceClass, newInstance(implementationClass));
-            }
+        if (service.lazy) {
+            registerServiceFactory(serviceClass, () -> newInstance(implementationClass));
+        } else {
+            registerService(serviceClass, newInstance(implementationClass));
         }
     }
 

@@ -8,29 +8,41 @@ import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.event.AppEvent;
+import com.github.mouse0w0.peach.exception.ServiceException;
+import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
-public class Peach extends ComponentManagerImpl {
+public final class Peach extends ComponentManagerImpl {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
 
     private static final EventBus EVENT_BUS = SimpleEventBus.builder()
             .eventListenerFactory(AsmEventListenerFactory.create()).build();
 
-    private static Peach INSTANCE;
+    private static final Peach INSTANCE = new Peach();
 
     private final Version version = new Version(getImplementationVersion());
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
+
+    private List<ServiceDescriptor> applicationServices;
+    private List<ServiceDescriptor> projectServices;
 
     public static EventBus getEventBus() {
         return EVENT_BUS;
@@ -42,14 +54,17 @@ public class Peach extends ComponentManagerImpl {
 
     public static void main(String[] args) {
         LOGGER.info("Launching application...");
-        INSTANCE = new Peach();
         LOGGER.info("Version: {}", getInstance().getVersion());
         I18n.setTranslator(Translator.builder()
                 .locale(Locale.getDefault())
                 .source(new ClasspathFileTranslationSource("lang"))
                 .build());
-        INSTANCE.initServices();
+        INSTANCE.loadServiceDescriptors();
+        INSTANCE.initServices(INSTANCE.getApplicationServices());
         Application.launch(FXApplication.class, args);
+    }
+
+    private Peach() {
     }
 
     public Version getVersion() {
@@ -58,6 +73,14 @@ public class Peach extends ComponentManagerImpl {
 
     public Path getUserPropertiesPath() {
         return userPropertiesPath;
+    }
+
+    public List<ServiceDescriptor> getApplicationServices() {
+        return applicationServices;
+    }
+
+    public List<ServiceDescriptor> getProjectServices() {
+        return projectServices;
     }
 
     public void exit() {
@@ -74,12 +97,20 @@ public class Peach extends ComponentManagerImpl {
         System.exit(0);
     }
 
-    private void initServices() {
-        registerServices(Peach.class.getResource("/services.xml"));
-//        registerService(RecentProjectsManager.class, new RecentProjectsManager());
-//        registerService(WindowManager.class, new WindowManager());
-//        registerServiceFactory(ProjectManager.class, ProjectManager::new);
-//        registerService(McModService.class, new McModService());
+    private void loadServiceDescriptors() {
+        URL url = Peach.class.getResource("/services.xml");
+        try {
+            SAXReader reader = new SAXReader();
+            Document document = reader.read(url);
+            Element services = document.getRootElement();
+
+            applicationServices = services.elements("applicationService").stream()
+                    .map(ServiceDescriptor::readFromXml).collect(Collectors.toList());
+            projectServices = services.elements("projectService").stream()
+                    .map(ServiceDescriptor::readFromXml).collect(Collectors.toList());
+        } catch (DocumentException e) {
+            throw new ServiceException("Cannot load services from " + url, e);
+        }
     }
 
     private String getImplementationVersion() {
