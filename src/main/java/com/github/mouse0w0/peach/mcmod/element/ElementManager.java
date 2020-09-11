@@ -12,36 +12,36 @@ import java.util.Map;
 
 public class ElementManager {
 
-    private final Map<String, ElementDefinition<?>> elementMap = new LinkedHashMap<>();
+    private final Map<String, ElementType<?>> elementMap = new LinkedHashMap<>();
 
     public static ElementManager getInstance() {
         return McModService.getInstance().getElementManager();
     }
 
     public ElementManager() {
-        register(new ElementDefinition<>("item", ItemElement.class, ItemElement::new, ItemWizard::new));
-        register(new ElementDefinition<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
-        register(new ElementDefinition<>("smelting_recipe", SmeltingRecipe.class, SmeltingRecipe::new, SmeltingRecipeWizard::new));
+        register(new ElementType<>("item", ItemElement.class, ItemElement::new, ItemWizard::new));
+        register(new ElementType<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
+        register(new ElementType<>("smelting_recipe", SmeltingRecipe.class, SmeltingRecipe::new, SmeltingRecipeWizard::new));
     }
 
-    private <T> void register(ElementDefinition<T> elementDefinition) {
-        if (elementMap.containsKey(elementDefinition.getId())) {
+    private <T> void register(ElementType<T> elementType) {
+        if (elementMap.containsKey(elementType.getId())) {
             throw new IllegalArgumentException("Element has been registered.");
         }
-        elementMap.put(elementDefinition.getId(), elementDefinition);
+        elementMap.put(elementType.getId(), elementType);
     }
 
-    public ElementDefinition<?> getElement(String id) {
+    public ElementType<?> getElement(String id) {
         return elementMap.get(id);
     }
 
-    public ElementDefinition<?> getElement(Path file) {
+    public ElementType<?> getElement(Path file) {
         String fileName = file.getFileName().toString();
         String elementId = fileName.substring(fileName.indexOf('.') + 1, fileName.lastIndexOf('.'));
         return elementMap.get(elementId);
     }
 
-    public Collection<ElementDefinition<?>> getElements() {
+    public Collection<ElementType<?>> getElements() {
         return elementMap.values();
     }
 }

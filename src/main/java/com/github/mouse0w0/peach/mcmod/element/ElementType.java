@@ -6,14 +6,14 @@ import java.nio.file.Path;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class ElementDefinition<T> {
+public class ElementType<T> {
     private String id;
     private String translationKey;
     private Class<T> type;
     private Supplier<T> elementFactory;
     private Function<Element<T>, Wizard> wizardFactory;
 
-    public ElementDefinition(String id, Class<T> type, Supplier<T> elementFactory, Function<Element<T>, Wizard> wizardFactory) {
+    public ElementType(String id, Class<T> type, Supplier<T> elementFactory, Function<Element<T>, Wizard> wizardFactory) {
         this.id = id;
         this.translationKey = "mod.element." + id;
         this.type = type;
@@ -38,7 +38,7 @@ public class ElementDefinition<T> {
     }
 
     public Wizard createWizard(Element<?> file) {
-        if (file.getDefinition() != this) {
+        if (file.getType() != this) {
             throw new IllegalArgumentException("Cannot create wizard");
         }
         return wizardFactory.apply((Element<T>) file);

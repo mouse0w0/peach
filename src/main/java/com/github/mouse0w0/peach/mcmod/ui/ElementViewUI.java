@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -72,7 +72,7 @@ public class ElementViewUI extends ScrollPane {
     private void addEntry(Path file) {
         if (!Files.isRegularFile(file)) return;
 
-        ElementDefinition<?> definition = ElementManager.getInstance().getElement(file);
+        ElementType<?> definition = ElementManager.getInstance().getElement(file);
         if (definition == null) return;
 
         content.getChildren().add(new Entry(file, definition));
@@ -84,7 +84,7 @@ public class ElementViewUI extends ScrollPane {
 
     private class Entry extends Control {
         private final Path file;
-        private final ElementDefinition<?> definition;
+        private final ElementType<?> definition;
 
         @FXML
         private Rectangle icon;
@@ -93,7 +93,7 @@ public class ElementViewUI extends ScrollPane {
         @FXML
         private Text description;
 
-        public Entry(Path file, ElementDefinition<?> definition) {
+        public Entry(Path file, ElementType<?> definition) {
             this.file = file;
             this.definition = definition;
             setSkin(SkinUtils.create(this, FXUtils.loadFXML(null, this, "ui/mcmod/ElementViewEntry.fxml")));
@@ -114,7 +114,7 @@ public class ElementViewUI extends ScrollPane {
             return file;
         }
 
-        public ElementDefinition<?> getDefinition() {
+        public ElementType<?> getDefinition() {
             return definition;
         }
 

@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
+import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -29,7 +29,7 @@ public class NewModElementUI extends BorderPane {
     @FXML
     private TextField name;
     @FXML
-    private ChoiceBox<ElementDefinition<?>> type;
+    private ChoiceBox<ElementType<?>> type;
     @FXML
     private Text registerName;
 
@@ -63,14 +63,14 @@ public class NewModElementUI extends BorderPane {
         name.textProperty().addListener(observable ->
                 registerName.setText(ModUtils.toRegisterName(name.getText())));
 
-        type.setConverter(new StringConverter<ElementDefinition<?>>() {
+        type.setConverter(new StringConverter<ElementType<?>>() {
             @Override
-            public String toString(ElementDefinition<?> object) {
+            public String toString(ElementType<?> object) {
                 return I18n.translate(object.getTranslationKey());
             }
 
             @Override
-            public ElementDefinition<?> fromString(String string) {
+            public ElementType<?> fromString(String string) {
                 throw new UnsupportedOperationException();
             }
         });
@@ -82,7 +82,7 @@ public class NewModElementUI extends BorderPane {
     private void onFinish() {
         ProjectWindow window = WindowManager.getInstance().getFocusedWindow();
         Project project = window.getProject();
-        ElementDefinition<?> definition = type.getValue();
+        ElementType<?> definition = type.getValue();
         Path file = project.getData(McModDataKeys.SOURCES_PATH).resolve(name.getText() + "." + definition.getId() + ".json");
         Element<?> element = definition.load(file);
         Wizard wizard = definition.createWizard(element);

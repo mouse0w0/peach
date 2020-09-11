@@ -8,22 +8,22 @@ import java.nio.file.Path;
 
 public class Element<T> {
     private final Path file;
-    private final ElementDefinition<T> definition;
+    private final ElementType<T> type;
 
     private boolean loaded = false;
     private T element;
 
-    public Element(Path file, ElementDefinition<T> definition) {
+    public Element(Path file, ElementType<T> type) {
         this.file = file;
-        this.definition = definition;
+        this.type = type;
     }
 
     public Path getFile() {
         return file;
     }
 
-    public ElementDefinition<T> getDefinition() {
-        return definition;
+    public ElementType<T> getType() {
+        return type;
     }
 
     public boolean isLoaded() {
@@ -40,9 +40,9 @@ public class Element<T> {
     public void load() {
         loaded = true;
         try {
-            element = JsonUtils.readJson(file, getDefinition().getType());
+            element = JsonUtils.readJson(file, getType().getType());
         } catch (IOException e) {
-            element = getDefinition().createElement();
+            element = getType().createElement();
         }
     }
 

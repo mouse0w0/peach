@@ -7,8 +7,8 @@ import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ElementGen;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ItemGen;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.SmeltingRecipeGen;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementDefinition;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.google.common.collect.Multimap;
 
 import java.util.HashMap;
@@ -28,9 +28,9 @@ public class ElementTask implements CompileTask {
     @Override
     @SuppressWarnings("unchecked")
     public void run(Environment environment) throws Exception {
-        Multimap<ElementDefinition<?>, Element<?>> elements = environment.getElements();
+        Multimap<ElementType<?>, Element<?>> elements = environment.getElements();
 
-        for (ElementDefinition<?> definition : ElementManager.getInstance().getElements()) {
+        for (ElementType<?> definition : ElementManager.getInstance().getElements()) {
             elementGenMap.get(definition.getId()).generate(environment, elements.get(definition));
         }
     }
