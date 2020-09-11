@@ -116,13 +116,13 @@ public class MeshGenerator {
 
     private static Vector4f createTexCoord(Vector4f texMapUv, Vector4f faceUv) {
         return new Vector4f(
-                clamp(faceUv.x / 16, texMapUv.x, texMapUv.w),
-                clamp(faceUv.y / 16, texMapUv.y, texMapUv.w),
-                clamp(faceUv.z / 16, texMapUv.x, texMapUv.w),
-                clamp(faceUv.w / 16, texMapUv.y, texMapUv.w));
+                lerp(faceUv.x / 16, texMapUv.x, texMapUv.w),
+                lerp(faceUv.y / 16, texMapUv.y, texMapUv.w),
+                lerp(faceUv.z / 16, texMapUv.x, texMapUv.w),
+                lerp(faceUv.w / 16, texMapUv.y, texMapUv.w));
     }
 
-    private static float clamp(float value, float min, float max) {
+    private static float lerp(float value, float min, float max) {
         return min + value * (max - min);
     }
 
