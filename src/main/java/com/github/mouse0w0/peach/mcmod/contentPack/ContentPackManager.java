@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.contentPack;
 
-import com.github.mouse0w0.peach.mcmod.service.McModService;
+import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.util.FileUtils;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public class ContentPackManager {
     private final Map<String, ContentPack> contentPacks = new HashMap<>();
 
     public static ContentPackManager getInstance() {
-        return McModService.getInstance().getContentPackManager();
+        return Peach.getInstance().getService(ContentPackManager.class);
     }
 
     public ContentPackManager() {

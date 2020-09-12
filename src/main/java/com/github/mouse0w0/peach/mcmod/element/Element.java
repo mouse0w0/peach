@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
-import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 
 import java.io.IOException;
@@ -51,7 +50,6 @@ public class Element<T> {
             throw new IllegalStateException("Element is not loaded");
         }
         try {
-            FileUtils.createFileIfNotExists(file);
             JsonUtils.writeJson(file, element);
         } catch (IOException e) {
             //TODO: show dialog

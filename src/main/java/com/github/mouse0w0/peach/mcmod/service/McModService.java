@@ -24,16 +24,11 @@ public class McModService {
         return Peach.getInstance().getService(McModService.class);
     }
 
-    private final ContentPackManager contentPackManager = new ContentPackManager();
     private final ElementManager elementManager = new ElementManager();
 
     public McModService() {
         Peach.getEventBus().addListener(this::onOpenedProject);
         Peach.getEventBus().addListener(this::onOpenedProjectWindow);
-    }
-
-    public ContentPackManager getContentPackManager() {
-        return contentPackManager;
     }
 
     public ElementManager getElementManager() {
@@ -50,7 +45,7 @@ public class McModService {
         project.putData(McModDataKeys.SOURCES_PATH, project.getPath().resolve("sources"));
         project.putData(McModDataKeys.RESOURCES_PATH, project.getPath().resolve("resources"));
 
-        ContentManager.getInstance(project).addContentPacks(contentPackManager.getContentPacks());
+        ContentManager.getInstance(project).addContentPacks(ContentPackManager.getInstance().getContentPacks());
     }
 
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
