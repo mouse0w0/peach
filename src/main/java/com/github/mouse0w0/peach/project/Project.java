@@ -26,6 +26,7 @@ public class Project extends ComponentManagerImpl {
     private String name;
 
     public Project(@Nonnull Path path) throws IOException {
+        super(Peach.getInstance());
         this.path = Validate.notNull(path);
         if (!Files.exists(path)) {
             throw new IllegalStateException("Project path must be exists");

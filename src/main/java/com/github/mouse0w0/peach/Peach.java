@@ -65,6 +65,7 @@ public final class Peach extends ComponentManagerImpl {
     }
 
     private Peach() {
+        super(null);
     }
 
     public Version getVersion() {
