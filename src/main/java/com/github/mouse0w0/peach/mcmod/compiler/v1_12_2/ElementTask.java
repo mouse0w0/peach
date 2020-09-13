@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ElementGen;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ItemGen;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.SmeltingRecipeGen;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.google.common.collect.Multimap;
 
@@ -30,7 +30,7 @@ public class ElementTask implements CompileTask {
     public void run(Environment environment) throws Exception {
         Multimap<ElementType<?>, Element<?>> elements = environment.getElements();
 
-        for (ElementType<?> definition : ElementManager.getInstance().getElements()) {
+        for (ElementType<?> definition : ElementRegistry.getInstance().getElements()) {
             elementGenMap.get(definition.getId()).generate(environment, elements.get(definition));
         }
     }

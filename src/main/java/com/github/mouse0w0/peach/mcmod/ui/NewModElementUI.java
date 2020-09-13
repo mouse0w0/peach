@@ -2,9 +2,9 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.element.Element;
+import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
-import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
@@ -74,7 +74,7 @@ public class NewModElementUI extends BorderPane {
                 throw new UnsupportedOperationException();
             }
         });
-        type.getItems().addAll(McModService.getInstance().getElementManager().getElements());
+        type.getItems().addAll(ElementRegistry.getInstance().getElements());
         type.setValue(type.getItems().get(0));
     }
 

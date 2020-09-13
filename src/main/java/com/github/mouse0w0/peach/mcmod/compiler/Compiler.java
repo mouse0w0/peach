@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.compiler;
 import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
@@ -133,7 +133,7 @@ public class Compiler implements Environment {
 
     private Multimap<ElementType<?>, Element<?>> loadElements() throws IOException {
         Path sources = getSourceDirectory().resolve("sources");
-        ElementManager elementManager = ElementManager.getInstance();
+        ElementRegistry elementRegistry = ElementRegistry.getInstance();
 
         Multimap<ElementType<?>, Element<?>> elements = HashMultimap.create();
 
@@ -142,7 +142,7 @@ public class Compiler implements Environment {
                 .iterator();
         while (iterator.hasNext()) {
             Path file = iterator.next();
-            ElementType<?> element = elementManager.getElement(file);
+            ElementType<?> element = elementRegistry.getElement(file);
             Element<?> elementFile = element.load(file);
             elementFile.load();
             elements.put(element, elementFile);

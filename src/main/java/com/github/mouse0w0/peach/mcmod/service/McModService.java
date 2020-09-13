@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
-import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.mcmod.ui.ElementViewUI;
@@ -24,15 +23,9 @@ public class McModService {
         return Peach.getInstance().getService(McModService.class);
     }
 
-    private final ElementManager elementManager = new ElementManager();
-
     public McModService() {
         Peach.getEventBus().addListener(this::onOpenedProject);
         Peach.getEventBus().addListener(this::onOpenedProjectWindow);
-    }
-
-    public ElementManager getElementManager() {
-        return elementManager;
     }
 
     private void onOpenedProject(ProjectEvent.Opened event) {

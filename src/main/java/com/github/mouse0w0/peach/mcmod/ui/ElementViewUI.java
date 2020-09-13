@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.project.Project;
@@ -72,7 +72,7 @@ public class ElementViewUI extends ScrollPane {
     private void addEntry(Path file) {
         if (!Files.isRegularFile(file)) return;
 
-        ElementType<?> definition = ElementManager.getInstance().getElement(file);
+        ElementType<?> definition = ElementRegistry.getInstance().getElement(file);
         if (definition == null) return;
 
         content.getChildren().add(new Entry(file, definition));
