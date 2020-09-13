@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<fx:root alignment="CENTER" type="FlowPane" xmlns="http://javafx.com/javafx/8.0.171"
+         xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <GridPane fx:id="content">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="150.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_group.register_name"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_group.display_name" GridPane.rowIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_group.icon" GridPane.rowIndex="2"/>
+                <TextField fx:id="registerName" GridPane.columnIndex="1"/>
+                <TextField fx:id="displayName" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            </children>
+        </GridPane>
+    </children>
+</fx:root>

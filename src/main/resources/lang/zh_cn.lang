@@ -84,6 +84,11 @@ ui.item_element.error.register_name=注册名非法，仅能包含小写字母�
 ui.item_model.model=模型：
 ui.item_model.texture=纹理：
 
+mod.element.item_group=创造标签
+ui.item_group.register_name=注册名：
+ui.item_group.display_name=显示名：
+ui.item_group.icon=图标：
+
 mod.element.crafting_recipe=合成配方
 
 ui.crafting_recipe.id=配方名：

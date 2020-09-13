@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.mcmod.service.McModService;
 import com.github.mouse0w0.peach.mcmod.wizard.CraftingRecipeWizard;
+import com.github.mouse0w0.peach.mcmod.wizard.ItemGroupWizard;
 import com.github.mouse0w0.peach.mcmod.wizard.ItemWizard;
 import com.github.mouse0w0.peach.mcmod.wizard.SmeltingRecipeWizard;
 
@@ -20,6 +21,7 @@ public class ElementManager {
 
     public ElementManager() {
         register(new ElementType<>("item", ItemElement.class, ItemElement::new, ItemWizard::new));
+        register(new ElementType<>("item_group", ItemGroup.class, ItemGroup::new, ItemGroupWizard::new));
         register(new ElementType<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
         register(new ElementType<>("smelting_recipe", SmeltingRecipe.class, SmeltingRecipe::new, SmeltingRecipeWizard::new));
     }
