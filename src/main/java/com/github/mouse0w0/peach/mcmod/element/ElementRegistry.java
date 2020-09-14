@@ -33,17 +33,17 @@ public class ElementRegistry {
         elementMap.put(elementType.getId(), elementType);
     }
 
-    public ElementType<?> getElement(String id) {
+    public ElementType<?> getElementType(String id) {
         return elementMap.get(id);
     }
 
-    public ElementType<?> getElement(Path file) {
+    public ElementType<?> getElementType(Path file) {
         String fileName = file.getFileName().toString();
         String elementId = fileName.substring(fileName.indexOf('.') + 1, fileName.lastIndexOf('.'));
         return elementMap.get(elementId);
     }
-
-    public Collection<ElementType<?>> getElements() {
+    
+    public Collection<ElementType<?>> getElementTypes() {
         return elementMap.values();
     }
 }

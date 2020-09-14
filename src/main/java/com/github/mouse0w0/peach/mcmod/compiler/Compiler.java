@@ -142,7 +142,7 @@ public class Compiler implements Environment {
                 .iterator();
         while (iterator.hasNext()) {
             Path file = iterator.next();
-            ElementType<?> element = elementRegistry.getElement(file);
+            ElementType<?> element = elementRegistry.getElementType(file);
             Element<?> elementFile = element.load(file);
             elementFile.load();
             elements.put(element, elementFile);

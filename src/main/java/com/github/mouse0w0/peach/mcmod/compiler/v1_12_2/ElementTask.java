@@ -30,7 +30,7 @@ public class ElementTask implements CompileTask {
     public void run(Environment environment) throws Exception {
         Multimap<ElementType<?>, Element<?>> elements = environment.getElements();
 
-        for (ElementType<?> definition : ElementRegistry.getInstance().getElements()) {
+        for (ElementType<?> definition : ElementRegistry.getInstance().getElementTypes()) {
             elementGenMap.get(definition.getId()).generate(environment, elements.get(definition));
         }
     }

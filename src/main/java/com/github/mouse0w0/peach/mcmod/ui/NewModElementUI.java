@@ -74,7 +74,7 @@ public class NewModElementUI extends BorderPane {
                 throw new UnsupportedOperationException();
             }
         });
-        type.getItems().addAll(ElementRegistry.getInstance().getElements());
+        type.getItems().addAll(ElementRegistry.getInstance().getElementTypes());
         type.setValue(type.getItems().get(0));
     }
 
