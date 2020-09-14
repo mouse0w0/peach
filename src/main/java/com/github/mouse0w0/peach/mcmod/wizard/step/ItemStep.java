@@ -64,7 +64,7 @@ public class ItemStep extends FlowPane implements WizardStep {
         ItemElement item = element.get();
 
         registerName.setText(Strings.isNullOrEmpty(item.getRegisterName()) ?
-                ModUtils.fileNameToRegisterName(element.getFile()) : item.getRegisterName());
+                ModUtils.forceRegisterName(element.getName()) : item.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(item.getDisplayName()) ?
                 FileUtils.getFileNameWithoutExtensionName(element.getFile()) : item.getDisplayName());
         ItemGroupData itemGroupData = contentManager.getItemGroup(item.getItemGroup());

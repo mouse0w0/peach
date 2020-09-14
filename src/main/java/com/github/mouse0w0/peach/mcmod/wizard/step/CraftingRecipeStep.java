@@ -89,7 +89,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         CraftingRecipe craftingRecipe = file.get();
 
         String id1 = craftingRecipe.getId();
-        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.fileNameToRegisterName(file.getFile());
+        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.forceRegisterName(file.getName());
         id.setText(id1);
 
         namespace.setValue(craftingRecipe.getNamespace());

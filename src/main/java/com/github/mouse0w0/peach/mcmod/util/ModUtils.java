@@ -1,10 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.promeg.pinyinhelper.Pinyin;
 
 import javax.annotation.Nullable;
-import java.nio.file.Path;
 import java.util.regex.Pattern;
 
 public class ModUtils {
@@ -31,12 +29,6 @@ public class ModUtils {
             }
         }
         return sb.toString();
-    }
-
-    @Nullable
-    public static String fileNameToRegisterName(Path file) {
-        String fileName = StringUtils.substringBefore(file.getFileName().toString(), '.');
-        return forceRegisterName(fileName);
     }
 
     @Nullable
