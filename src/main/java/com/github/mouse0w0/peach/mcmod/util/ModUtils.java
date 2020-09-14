@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 public class ModUtils {
 
     public static final Pattern REGISTER_NAME = Pattern.compile("[a-z][a-z0-9_]*");
-    public static final Pattern CLASS_NAME = Pattern.compile("[a-zA-Z][a-zA-Z0-9_$]*");
 
     public static boolean validRegisterName(String name) {
         return REGISTER_NAME.matcher(name).matches();

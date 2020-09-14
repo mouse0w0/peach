@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.wizard.WizardStep;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
@@ -52,7 +51,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
         registerName.setText(Strings.isNullOrEmpty(itemGroup.getRegisterName()) ?
                 ModUtils.forceRegisterName(element.getName()) : itemGroup.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(itemGroup.getDisplayName()) ?
-                FileUtils.getFileNameWithoutExtensionName(element.getFile()) : itemGroup.getDisplayName());
+                element.getName() : itemGroup.getDisplayName());
         icon.setItem(itemGroup.getIcon());
     }
 

@@ -10,7 +10,6 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.FXValidator;
-import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.wizard.WizardStep;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
@@ -66,7 +65,7 @@ public class ItemStep extends FlowPane implements WizardStep {
         registerName.setText(Strings.isNullOrEmpty(item.getRegisterName()) ?
                 ModUtils.forceRegisterName(element.getName()) : item.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(item.getDisplayName()) ?
-                FileUtils.getFileNameWithoutExtensionName(element.getFile()) : item.getDisplayName());
+                element.getName() : item.getDisplayName());
         ItemGroupData itemGroupData = contentManager.getItemGroup(item.getItemGroup());
         if (itemGroupData != null) itemGroup.getSelectionModel().select(itemGroupData);
         else itemGroup.getSelectionModel().selectFirst();
