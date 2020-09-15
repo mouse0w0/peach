@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
+import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -10,12 +11,12 @@ public class Element<T> {
     private final Path file;
     private final ElementType<T> type;
 
-    private boolean loaded = false;
     private T element;
 
     public Element(Path file, ElementType<T> type) {
-        this.file = file;
-        this.type = type;
+        this.file = Validate.notNull(file);
+        this.type = Validate.notNull(type);
+        load();
     }
 
     public Path getFile() {
@@ -30,19 +31,11 @@ public class Element<T> {
         return type;
     }
 
-    public boolean isLoaded() {
-        return loaded;
-    }
-
     public T get() {
-        if (!isLoaded()) {
-            throw new IllegalStateException("Element is not loaded");
-        }
         return element;
     }
 
     public void load() {
-        loaded = true;
         try {
             element = JsonUtils.readJson(file, getType().getType());
         } catch (IOException e) {
@@ -51,9 +44,6 @@ public class Element<T> {
     }
 
     public void save() {
-        if (!isLoaded()) {
-            throw new IllegalStateException("Element is not loaded");
-        }
         try {
             JsonUtils.writeJson(file, element);
         } catch (IOException e) {

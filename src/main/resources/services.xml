@@ -5,10 +5,11 @@
     <applicationService implementation="com.github.mouse0w0.peach.ui.project.WindowManager"/>
     <applicationService implementation="com.github.mouse0w0.peach.project.ProjectManager" lazy="true"/>
 
-    <applicationService implementation="com.github.mouse0w0.peach.mcmod.service.McModService"/>
+    <applicationService implementation="com.github.mouse0w0.peach.mcmod.service.McModProjectListener"/>
     <applicationService implementation="com.github.mouse0w0.peach.mcmod.element.ElementRegistry"/>
     <applicationService implementation="com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager"/>
 
+    <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager"/>
     <projectService implementation="com.github.mouse0w0.peach.mcmod.content.ContentManager"/>
     <projectService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager"/>
 </services>

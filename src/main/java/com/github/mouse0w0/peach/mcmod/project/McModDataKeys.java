@@ -8,6 +8,5 @@ import java.nio.file.Path;
 public interface McModDataKeys {
     Key<JsonFile<McModSettings>> MOD_SETTINGS = Key.of("ModInfoFile");
 
-    Key<Path> SOURCES_PATH = Key.of("SourcesPath");
     Key<Path> RESOURCES_PATH = Key.of("ResourcesPath");
 }

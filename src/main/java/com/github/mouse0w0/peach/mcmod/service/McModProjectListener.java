@@ -4,11 +4,9 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
-import com.github.mouse0w0.peach.mcmod.ui.ElementViewUI;
 import com.github.mouse0w0.peach.mcmod.ui.McModSettingsUI;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
@@ -17,13 +15,13 @@ import javafx.scene.control.Tab;
 
 import java.nio.file.Path;
 
-public class McModService {
+public class McModProjectListener {
 
-    public static McModService getInstance() {
-        return Peach.getInstance().getService(McModService.class);
+    public static McModProjectListener getInstance() {
+        return Peach.getInstance().getService(McModProjectListener.class);
     }
 
-    public McModService() {
+    public McModProjectListener() {
         Peach.getEventBus().addListener(this::onOpenedProject);
         Peach.getEventBus().addListener(this::onOpenedProjectWindow);
     }
@@ -35,10 +33,7 @@ public class McModService {
         jsonFile.load();
         project.putData(McModDataKeys.MOD_SETTINGS, jsonFile);
 
-        project.putData(McModDataKeys.SOURCES_PATH, project.getPath().resolve("sources"));
         project.putData(McModDataKeys.RESOURCES_PATH, project.getPath().resolve("resources"));
-
-        ContentManager.getInstance(project).addContentPacks(ContentPackManager.getInstance().getContentPacks());
     }
 
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
@@ -47,13 +42,13 @@ public class McModService {
         JsonFile<McModSettings> modInfoFile = project.getData(McModDataKeys.MOD_SETTINGS);
 
         if (!modInfoFile.exists()) {
-            McModSettingsUI.show(modInfoFile, event.getWindow().getStage());
+            McModSettingsUI.show(modInfoFile, window.getStage());
         }
 
-        Tab elementView = new Tab();
-        elementView.setClosable(false);
-        elementView.setText(I18n.translate("ui.element_view.title"));
-        elementView.setContent(new ElementViewUI(project));
-        window.openTab(elementView);
+        Tab elementViewTab = new Tab();
+        elementViewTab.setClosable(false);
+        elementViewTab.setText(I18n.translate("ui.element_view.title"));
+        elementViewTab.setContent(ElementManager.getInstance(project).getElementView());
+        window.openTab(elementViewTab);
     }
 }

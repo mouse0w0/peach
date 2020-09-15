@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.contentPack.ContentPack;
+import com.github.mouse0w0.peach.mcmod.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
 import com.github.mouse0w0.peach.project.Project;
@@ -17,6 +18,10 @@ public class ContentManager {
 
     public static ContentManager getInstance(Project project) {
         return project.getService(ContentManager.class);
+    }
+
+    public ContentManager() {
+        addContentPacks(ContentPackManager.getInstance().getContentPacks());
     }
 
     public void addContentPacks(Collection<ContentPack> contentPacks) {

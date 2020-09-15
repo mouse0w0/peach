@@ -39,10 +39,15 @@ public class ElementRegistry {
 
     public ElementType<?> getElementType(Path file) {
         String fileName = file.getFileName().toString();
-        String elementId = fileName.substring(fileName.indexOf('.') + 1, fileName.lastIndexOf('.'));
+
+        int start = fileName.indexOf('.');
+        int end = fileName.lastIndexOf('.');
+        if (start == -1 || end == -1 || start == end) return null;
+        String elementId = fileName.substring(start + 1, end);
+
         return elementMap.get(elementId);
     }
-    
+
     public Collection<ElementType<?>> getElementTypes() {
         return elementMap.values();
     }

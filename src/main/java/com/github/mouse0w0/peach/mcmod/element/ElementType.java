@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.wizard.Wizard;
 
 import java.nio.file.Path;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ElementType<T> {
@@ -11,9 +11,9 @@ public class ElementType<T> {
     private String translationKey;
     private Class<T> type;
     private Supplier<T> elementFactory;
-    private Function<Element<T>, Wizard> wizardFactory;
+    private WizardFactory<T> wizardFactory;
 
-    public ElementType(String id, Class<T> type, Supplier<T> elementFactory, Function<Element<T>, Wizard> wizardFactory) {
+    public ElementType(String id, Class<T> type, Supplier<T> elementFactory, WizardFactory<T> wizardFactory) {
         this.id = id;
         this.translationKey = "mod.element." + id;
         this.type = type;
@@ -33,15 +33,15 @@ public class ElementType<T> {
         return type;
     }
 
-    public Element<T> load(Path file) {
+    public Element<T> createElement(Path file) {
         return new Element<>(file, this);
     }
 
-    public Wizard createWizard(Element<?> file) {
+    public Wizard createWizard(Project project, Element<?> file) {
         if (file.getType() != this) {
             throw new IllegalArgumentException("Cannot create wizard");
         }
-        return wizardFactory.apply((Element<T>) file);
+        return wizardFactory.create(project, (Element<T>) file);
     }
 
     T createElement() {
@@ -50,5 +50,9 @@ public class ElementType<T> {
         } catch (InstantiationException | IllegalAccessException e) {
             throw new UnsupportedOperationException("Cannot create element");
         }
+    }
+
+    public interface WizardFactory<T> {
+        Wizard create(Project project, Element<T> element);
     }
 }

@@ -1,13 +1,25 @@
 package com.github.mouse0w0.peach.mcmod.wizard;
 
 import com.github.mouse0w0.peach.mcmod.element.Element;
+import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.wizard.Wizard;
 
 public abstract class ElementWizard<T> extends Wizard {
-    protected final Element<T> element;
+    private final Project project;
+    private final Element<T> element;
 
-    public ElementWizard(Element<T> element) {
+    public ElementWizard(Project project, Element<T> element) {
+        this.project = project;
         this.element = element;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public Element<T> getElement() {
+        return element;
     }
 
     @Override
@@ -17,6 +29,6 @@ public abstract class ElementWizard<T> extends Wizard {
 
     @Override
     protected void onFinishWizard() {
-        element.save();
+        ElementManager.getInstance(project).saveElement(element);
     }
 }
