@@ -77,7 +77,7 @@ public abstract class ComponentManagerImpl extends DataHolderImpl implements Com
             Object[] instances = ArrayUtils.map(constructor.getParameterTypes(), this::resolveInstance, Object[]::new);
             return (T) constructor.newInstance(instances);
         } catch (ReflectiveOperationException e) {
-            throw new ServiceException("Failed to create the service instance of " + implementationClass.getName());
+            throw new ServiceException("Failed to create the service instance of " + implementationClass.getName(), e);
         }
     }
 
