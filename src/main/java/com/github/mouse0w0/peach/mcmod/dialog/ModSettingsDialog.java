@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.ui;
+package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.project.McModSettings;
@@ -16,7 +16,7 @@ import javafx.util.StringConverter;
 import java.util.Collections;
 import java.util.Locale;
 
-public class McModSettingsUI extends BorderPane {
+public class ModSettingsDialog extends BorderPane {
 
     private final JsonFile<McModSettings> file;
 
@@ -41,18 +41,18 @@ public class McModSettingsUI extends BorderPane {
     public TextArea description;
 
     public static void show(JsonFile<McModSettings> file, Window window) {
-        McModSettingsUI modInfo = new McModSettingsUI(file);
+        ModSettingsDialog modInfo = new ModSettingsDialog(file);
         Stage stage = new Stage();
         stage.setScene(new Scene(modInfo));
-        stage.setTitle(I18n.translate("ui.mod_info.title"));
+        stage.setTitle(I18n.translate("dialog.mod_settings.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
-    public McModSettingsUI(JsonFile<McModSettings> file) {
+    public ModSettingsDialog(JsonFile<McModSettings> file) {
         this.file = file;
-        FXUtils.loadFXML(this, "ui/mcmod/ModInfo.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/ModSettings.fxml");
 
         accordion.setExpandedPane(general);
 

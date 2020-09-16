@@ -19,9 +19,9 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_mod_element.name"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_mod_element.type" GridPane.rowIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_mod_element.registry_name"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.new_element.name"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.new_element.type" GridPane.rowIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.new_element.registry_name"
                       GridPane.rowIndex="2"/>
                 <TextField fx:id="name" GridPane.columnIndex="1"/>
                 <ChoiceBox fx:id="type" prefWidth="10000.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>

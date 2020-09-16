@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.ui;
+package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 
-public class NewModElementUI extends BorderPane {
+public class NewElementDialog extends BorderPane {
 
     private final Project project;
 
@@ -31,16 +31,16 @@ public class NewModElementUI extends BorderPane {
 
     public static void show(Project project, Window window) {
         Stage stage = new Stage();
-        stage.setScene(new Scene(new NewModElementUI(project)));
-        stage.setTitle(I18n.translate("ui.new_mod_element.title"));
+        stage.setScene(new Scene(new NewElementDialog(project)));
+        stage.setTitle(I18n.translate("dialog.new_element.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
 
-    public NewModElementUI(Project project) {
+    public NewElementDialog(Project project) {
         this.project = project;
-        FXUtils.loadFXML(this, "ui/mcmod/NewModElement.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/NewElement.fxml");
 
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {

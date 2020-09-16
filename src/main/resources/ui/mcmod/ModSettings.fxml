@@ -9,7 +9,7 @@
     <center>
         <Accordion fx:id="accordion">
             <panes>
-                <TitledPane fx:id="general" animated="false" text="%ui.mod_info.general.title">
+                <TitledPane fx:id="general" animated="false" text="%dialog.mod_settings.general.title">
                     <content>
                         <AnchorPane>
                             <children>
@@ -30,30 +30,33 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                                     </rowConstraints>
                                     <children>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.name"/>
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.mod_settings.name"/>
                                         <TextField fx:id="name" maxWidth="1.7976931348623157E308"
                                                    GridPane.columnIndex="1"/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.id"
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.mod_settings.id"
                                               GridPane.rowIndex="1"/>
                                         <TextField fx:id="id" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
                                                    GridPane.rowIndex="1"/>
                                         <TextField fx:id="version" maxWidth="1.7976931348623157E308"
                                                    GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.version"
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.mod_settings.version"
                                               GridPane.rowIndex="2"/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.language"
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="%dialog.mod_settings.language"
                                               GridPane.rowIndex="6"/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.mc_version"
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="%dialog.mod_settings.mc_version"
                                               GridPane.rowIndex="3"/>
                                         <ChoiceBox fx:id="mcVersion" maxWidth="1.7976931348623157E308"
                                                    GridPane.columnIndex="1" GridPane.rowIndex="3"/>
                                         <ChoiceBox fx:id="language" maxWidth="1.7976931348623157E308"
                                                    GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.author"
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.mod_settings.author"
                                               GridPane.rowIndex="5"/>
                                         <TextField fx:id="author" maxWidth="1.7976931348623157E308"
                                                    GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-                                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.mod_info.description"
+                                        <Text strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="%dialog.mod_settings.description"
                                               GridPane.rowIndex="4"/>
                                         <TextArea fx:id="description" maxWidth="1.7976931348623157E308"
                                                   GridPane.columnIndex="1" GridPane.rowIndex="4"/>
@@ -63,12 +66,12 @@
                         </AnchorPane>
                     </content>
                 </TitledPane>
-                <TitledPane animated="false" text="%ui.mod_info.dependency.title">
+                <TitledPane animated="false" text="%dialog.mod_settings.dependency.title">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
                     </content>
                 </TitledPane>
-                <TitledPane animated="false" expanded="false" text="%ui.mod_info.advanced.title">
+                <TitledPane animated="false" expanded="false" text="%dialog.mod_settings.advanced.title">
                     <content>
                         <AnchorPane/>
                     </content>
