@@ -7,6 +7,8 @@ import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.FXValidator;
+import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
@@ -77,6 +79,10 @@ public class NewElementDialog extends BorderPane {
 
     @FXML
     private void onFinish() {
+        if (!FXValidator.validate(name, "validate.illegal_file_name", FileUtils::isValidFileName)) {
+            return;
+        }
+
         ElementManager.getInstance(project).createElement(type.getValue(), name.getText());
         FXUtils.hideWindow(this);
     }

@@ -78,8 +78,7 @@ ui.item_element.item_group=创造标签：
 ui.item_element.max_stack_size=最大堆叠数量：
 ui.item_element.effect=发光效果：
 ui.item_element.information=附加信息：
-
-ui.item_element.error.register_name=注册名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
+validate.illegal_register_name=非法的注册名：“%s”。注册名仅能包含小写字母，数字和下划线，并且为小写字母开头。
 
 ui.item_model.model=模型：
 ui.item_model.texture=纹理：
@@ -95,7 +94,7 @@ ui.crafting_recipe.id=配方名：
 ui.crafting_recipe.namespace=命名空间：
 ui.crafting_recipe.group=配方组：
 ui.crafting_recipe.shapeless=无序配方？
-ui.crafting_recipe.error.id=配方名非法，仅能包含小写字母，数字和下划线，并且仅为小写字母开头。
+validate.illegal_recipe_id=非法的配方名：“%s”。配方名仅能包含小写字母，数字和下划线，并且为小写字母开头。
 
 mod.element.smelting_recipe=熔炼配方
 
@@ -106,3 +105,5 @@ ui.file_chooser.texture.png=PNG图像文件
 
 model.item.generated=默认模型
 model.item.handheld=手持模型
+
+validate.illegal_file_name=非法的文件名：“%s”。

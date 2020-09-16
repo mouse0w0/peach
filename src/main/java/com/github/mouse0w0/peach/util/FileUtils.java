@@ -10,9 +10,20 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.Collection;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class FileUtils {
+
+    private static final String FILE_NAME_CHARACTERS = "[^\\s\\\\/:\\*\\?\\\"<>\\|]";
+
+    private static final Pattern FILE_NAME_PATTERN = Pattern.compile(
+            FILE_NAME_CHARACTERS + "(\\x20|" + FILE_NAME_CHARACTERS + ")*" + FILE_NAME_CHARACTERS + "$");
+
+    public static boolean isValidFileName(String fileName) {
+        if (fileName == null || fileName.length() > 255) return false;
+        return FILE_NAME_PATTERN.matcher(fileName).matches();
+    }
 
     public static void createDirectoriesIfNotExists(Path path) throws IOException {
         if (!Files.exists(path)) {
