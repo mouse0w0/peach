@@ -58,7 +58,7 @@ public class NewModElementUI extends BorderPane {
             }
         });
         name.textProperty().addListener(observable ->
-                registerName.setText(ModUtils.toRegisterName(name.getText())));
+                registerName.setText(ModUtils.tryConvertToRegisterName(name.getText())));
 
         type.setConverter(new StringConverter<ElementType<?>>() {
             @Override

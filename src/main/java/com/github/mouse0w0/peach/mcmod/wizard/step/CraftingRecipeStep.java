@@ -89,7 +89,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         CraftingRecipe craftingRecipe = file.get();
 
         String id1 = craftingRecipe.getId();
-        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.forceRegisterName(file.getName());
+        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.toRegisterName(file.getName());
         id.setText(id1);
 
         namespace.setValue(craftingRecipe.getNamespace());
@@ -105,7 +105,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public boolean validate() {
-        if (!FXValidator.validate(id, "ui.item.error.register_name", ModUtils::validRegisterName))
+        if (!FXValidator.validate(id, "ui.item.error.register_name", ModUtils::isValidRegisterName))
             return false;
         return true;
     }

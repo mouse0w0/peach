@@ -9,31 +9,36 @@ public class ModUtils {
 
     public static final Pattern REGISTER_NAME = Pattern.compile("[a-z][a-z0-9_]*");
 
-    public static boolean validRegisterName(String name) {
+    public static boolean isValidRegisterName(String name) {
         return REGISTER_NAME.matcher(name).matches();
     }
 
+    @Nullable
     public static String toRegisterName(String name) {
+        String registerName = tryConvertToRegisterName(name);
+        return isValidRegisterName(registerName) ? registerName : null;
+    }
+
+    public static String tryConvertToRegisterName(String name) {
         StringBuilder sb = new StringBuilder(name.length());
         for (char c : name.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                sb.append(Character.toLowerCase(c));
+            if (isASCII(c)) {
+                if (Character.isWhitespace(c)) {
+                    sb.append("_");
+                } else {
+                    sb.append(Character.toLowerCase(c));
+                }
             } else if (Pinyin.isChinese(c)) {
                 if (sb.length() != 0) sb.append("_");
                 sb.append(Pinyin.toPinyin(c).toLowerCase());
-            } else if (c == ' ' || c == '\t') {
-                sb.append("_");
             } else {
-                sb.append(c);
+                sb.append(Integer.toHexString(c));
             }
         }
         return sb.toString();
     }
 
-    @Nullable
-    public static String forceRegisterName(String name) {
-        if (validRegisterName(name)) return name;
-        String registerName = toRegisterName(name);
-        return validRegisterName(registerName) ? registerName : null;
+    private static boolean isASCII(char c) {
+        return c <= 127;
     }
 }

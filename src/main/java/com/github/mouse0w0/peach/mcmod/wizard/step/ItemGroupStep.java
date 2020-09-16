@@ -49,7 +49,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
     public void init() {
         ItemGroup itemGroup = element.get();
         registerName.setText(Strings.isNullOrEmpty(itemGroup.getRegisterName()) ?
-                ModUtils.forceRegisterName(element.getName()) : itemGroup.getRegisterName());
+                ModUtils.toRegisterName(element.getName()) : itemGroup.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(itemGroup.getDisplayName()) ?
                 element.getName() : itemGroup.getDisplayName());
         icon.setItem(itemGroup.getIcon());

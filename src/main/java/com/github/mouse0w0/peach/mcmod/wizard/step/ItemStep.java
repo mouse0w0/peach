@@ -63,7 +63,7 @@ public class ItemStep extends FlowPane implements WizardStep {
         ItemElement item = element.get();
 
         registerName.setText(Strings.isNullOrEmpty(item.getRegisterName()) ?
-                ModUtils.forceRegisterName(element.getName()) : item.getRegisterName());
+                ModUtils.toRegisterName(element.getName()) : item.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(item.getDisplayName()) ?
                 element.getName() : item.getDisplayName());
         ItemGroupData itemGroupData = contentManager.getItemGroup(item.getItemGroup());
@@ -76,7 +76,7 @@ public class ItemStep extends FlowPane implements WizardStep {
 
     @Override
     public boolean validate() {
-        if (!FXValidator.validate(registerName, "ui.item_element.error.register_name", ModUtils::validRegisterName))
+        if (!FXValidator.validate(registerName, "ui.item_element.error.register_name", ModUtils::isValidRegisterName))
             return false;
         return true;
     }
