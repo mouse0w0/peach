@@ -8,8 +8,9 @@ import java.util.function.Predicate;
 public class FXValidator {
 
     public static boolean validate(TextInputControl control, String message, Predicate<String> validator) {
-        if (validator.test(control.getText())) return true;
-        Messages.error(I18n.translate(message));
+        String text = control.getText();
+        if (validator.test(text)) return true;
+        Messages.error(String.format(I18n.translate(message), text));
         control.requestFocus();
         control.selectAll();
         return false;

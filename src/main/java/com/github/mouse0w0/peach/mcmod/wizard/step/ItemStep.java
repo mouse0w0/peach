@@ -76,7 +76,7 @@ public class ItemStep extends FlowPane implements WizardStep {
 
     @Override
     public boolean validate() {
-        if (!FXValidator.validate(registerName, "ui.item_element.error.register_name", ModUtils::isValidRegisterName))
+        if (!FXValidator.validate(registerName, "validate.illegal_register_name", ModUtils::isValidRegisterName))
             return false;
         return true;
     }

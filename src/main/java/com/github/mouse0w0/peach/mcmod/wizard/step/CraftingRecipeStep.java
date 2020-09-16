@@ -105,7 +105,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public boolean validate() {
-        if (!FXValidator.validate(id, "ui.item.error.register_name", ModUtils::isValidRegisterName))
+        if (!FXValidator.validate(id, "validate.illegal_recipe_id", ModUtils::isValidRegisterName))
             return false;
         return true;
     }
