@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.contentPack;
+package com.github.mouse0w0.peach.mcmod.content.contentPack;
 
 import java.util.List;
 

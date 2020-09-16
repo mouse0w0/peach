@@ -1,10 +1,10 @@
-package com.github.mouse0w0.peach.mcmod.contentPack;
+package com.github.mouse0w0.peach.mcmod.content.contentPack;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
-import com.github.mouse0w0.peach.mcmod.data.ItemData;
-import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.data.OreDictData;
+import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
+import com.github.mouse0w0.peach.mcmod.content.data.OreDictData;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.common.reflect.TypeToken;

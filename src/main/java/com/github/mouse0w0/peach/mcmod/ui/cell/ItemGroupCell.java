@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.cell;
 
-import com.github.mouse0w0.peach.mcmod.data.ItemGroupData;
+import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.ui.ItemView;
 import javafx.scene.control.ListCell;
 
