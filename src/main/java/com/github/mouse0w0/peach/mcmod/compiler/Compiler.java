@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
-import com.github.mouse0w0.peach.data.Key;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
@@ -20,16 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Compiler implements Environment {
-
-    public static final Key<McModSettings> MOD_INFO_KEY = Key.of(McModSettings.class);
-
-    public static final Key<Path> PROJECT_SOURCES_PATH = Key.of("ProjectSourcesPath");
-    public static final Key<Path> PROJECT_RESOURCES_PATH = Key.of("ProjectResourcesPath");
-
-    public static final Key<Filer> MOD_ASSETS_FILER = Key.of("ModAssetsFiler");
-
-    public static final Key<String> ROOT_PACKAGE_NAME = Key.of("RootPackageName");
-
     private final Path sourceDirectory;
     private final Path outputDirectory;
 
