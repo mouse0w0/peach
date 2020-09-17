@@ -15,14 +15,20 @@ import java.util.stream.Stream;
 
 public class FileUtils {
 
-    private static final String FILE_NAME_CHARACTERS = "[^\\s\\\\/:\\*\\?\\\"<>\\|]";
-
     private static final Pattern FILE_NAME_PATTERN = Pattern.compile(
-            FILE_NAME_CHARACTERS + "(\\x20|" + FILE_NAME_CHARACTERS + ")*" + FILE_NAME_CHARACTERS + "$");
+            "[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|]$");
+
+    private static final Pattern FILE_NAME_WITHOUT_EXTENSION = Pattern.compile(
+            "[^\\s\\\\/:\\*\\?\\\"<>\\|\\.](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|\\.])*[^\\s\\\\/:\\*\\?\\\"<>\\|\\.]$");
 
     public static boolean isValidFileName(String fileName) {
         if (fileName == null || fileName.length() > 255) return false;
         return FILE_NAME_PATTERN.matcher(fileName).matches();
+    }
+
+    public static boolean isValidFileNameWithoutExtension(String fileName) {
+        if (fileName == null || fileName.length() > 255) return false;
+        return FILE_NAME_WITHOUT_EXTENSION.matcher(fileName).matches();
     }
 
     public static void createDirectoriesIfNotExists(Path path) throws IOException {

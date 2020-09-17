@@ -79,7 +79,7 @@ public class NewElementDialog extends BorderPane {
 
     @FXML
     private void onFinish() {
-        if (!FXValidator.validate(name, "validate.illegal_file_name", FileUtils::isValidFileName)) {
+        if (!FXValidator.validate(name, "validate.illegal_file_name", FileUtils::isValidFileNameWithoutExtension)) {
             return;
         }
 
