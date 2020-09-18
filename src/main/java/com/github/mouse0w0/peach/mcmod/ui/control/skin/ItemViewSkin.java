@@ -13,6 +13,7 @@ import javafx.scene.control.SkinBase;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ItemViewSkin extends SkinBase<ItemView> {
@@ -66,11 +67,15 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         imageView.setImage(null);
 
         Item item = getItem();
-        if (item == null) return;
+        if (item == null) {
+            itemData = Collections.emptyList();
+        } else {
+            itemData = ContentManager.getInstance(WindowManager.getInstance().getFocusedWindow().getProject()).getItemData(item);
+        }
 
-        itemData = ContentManager.getInstance(
-                WindowManager.getInstance().getFocusedWindow().getProject()).getItemData(item);
-        if (itemData.size() == 0) return;
+        if (itemData.size() == 0) {
+            return;
+        }
 
         if (isPlayAnimation() && itemData.size() > 1) {
             timeline = createTimeline();
