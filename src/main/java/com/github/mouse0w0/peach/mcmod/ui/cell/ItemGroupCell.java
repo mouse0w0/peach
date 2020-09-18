@@ -6,15 +6,21 @@ import javafx.scene.control.ListCell;
 
 public class ItemGroupCell extends ListCell<ItemGroupData> {
 
+    private ItemView itemView = new ItemView(16, 16);
+
+    public ItemGroupCell() {
+        setGraphic(itemView);
+    }
+
     @Override
     protected void updateItem(ItemGroupData item, boolean empty) {
         super.updateItem(item, empty);
         if (empty) {
             setText(null);
-            setGraphic(null);
+            itemView.setItem(null);
         } else {
             setText(item.getDisplayName());
-            setGraphic(new ItemView(item.getItem(), 16, 16));
+            itemView.setItem(item.getItem());
         }
     }
 }
