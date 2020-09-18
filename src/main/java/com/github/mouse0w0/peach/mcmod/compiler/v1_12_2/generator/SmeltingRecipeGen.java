@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
+package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
@@ -16,7 +16,7 @@ import java.util.Collection;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class SmeltingRecipeGen extends ElementGen<SmeltingRecipe> {
+public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
 
     private String internalClassName;
     private GeneratorAdapter adapter;

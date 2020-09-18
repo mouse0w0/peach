@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
+package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CraftingRecipeGen extends ElementGen<CraftingRecipe> {
+public class CraftingRecipeGen extends Generator<CraftingRecipe> {
 
     @Override
     protected void generate(Environment environment, Element<CraftingRecipe> file) throws Exception {

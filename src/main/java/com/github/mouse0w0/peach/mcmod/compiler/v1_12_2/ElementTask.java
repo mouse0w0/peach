@@ -2,10 +2,10 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.CraftingRecipeGen;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ElementGen;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.ItemGen;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element.SmeltingRecipeGen;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.CraftingRecipeGen;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.Generator;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.ItemGen;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.SmeltingRecipeGen;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
@@ -16,22 +16,22 @@ import java.util.Map;
 
 public class ElementTask implements CompileTask {
 
-    @SuppressWarnings("rawtypes")
-    private final Map<String, ElementGen> elementGenMap = new HashMap<>();
+    private final Map<String, Generator<?>> generatorMap = new HashMap<>();
 
     public ElementTask() {
-        elementGenMap.put("item", new ItemGen());
-        elementGenMap.put("crafting_recipe", new CraftingRecipeGen());
-        elementGenMap.put("smelting_recipe", new SmeltingRecipeGen());
+        generatorMap.put("item", new ItemGen());
+        generatorMap.put("crafting_recipe", new CraftingRecipeGen());
+        generatorMap.put("smelting_recipe", new SmeltingRecipeGen());
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void run(Environment environment) throws Exception {
         Multimap<ElementType<?>, Element<?>> elements = environment.getElements();
 
-        for (ElementType<?> definition : ElementRegistry.getInstance().getElementTypes()) {
-            elementGenMap.get(definition.getId()).generate(environment, elements.get(definition));
+        for (ElementType<?> type : ElementRegistry.getInstance().getElementTypes()) {
+            Generator generator = generatorMap.get(type.getId());
+            generator.generate(environment, elements.get(type));
         }
     }
 }

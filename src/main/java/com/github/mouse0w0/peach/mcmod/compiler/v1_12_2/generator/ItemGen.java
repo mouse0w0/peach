@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.element;
+package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class ItemGen extends ElementGen<ItemElement> {
+public class ItemGen extends Generator<ItemElement> {
     private ItemGroupsClass itemGroupsClass;
     private ItemsClass itemsClass;
     private ItemModelsClass itemModelsClass;
