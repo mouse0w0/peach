@@ -11,8 +11,11 @@ import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class ItemGroupStep extends FlowPane implements WizardStep {
 
@@ -34,6 +37,8 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
         FXUtils.loadFXML(this, "ui/mcmod/ItemGroup.fxml");
 
         icon = new ItemView(32, 32);
+        FXUtils.setFixedSize(icon, 32, 32);
+        icon.setBackground(new Background(new BackgroundFill(Color.gray(0.8), null, null)));
         icon.setOnMouseClicked(event ->
                 icon.setItem(ItemPicker.pick(getScene().getWindow(), icon.getItem(), false, false)));
         content.add(icon, 1, 2);
