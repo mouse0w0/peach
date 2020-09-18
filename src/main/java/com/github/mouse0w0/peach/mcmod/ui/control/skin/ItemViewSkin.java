@@ -82,7 +82,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             timeline.play();
         } else {
             ItemData itemDatum = itemData.get(0);
-            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
+            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), 64, 64);
             imageView.setImage(image.getImage());
         }
     }
@@ -93,7 +93,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         timeline.setCycleCount(Timeline.INDEFINITE);
         for (int i = 0; i < itemData.size(); i++) {
             ItemData itemDatum = itemData.get(i);
-            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), getFitWidth(), getFitHeight());
+            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), 64, 64);
             keyFrames.add(new KeyFrame(Duration.seconds(i), event -> imageView.setImage(image.getImage())));
         }
         return timeline;
