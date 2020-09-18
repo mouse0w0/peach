@@ -4,6 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -178,6 +179,7 @@ public class ItemPicker {
 
     @FXML
     private void onFinish() {
+        filter.setText(null);
         FXUtils.hideWindow(scene);
     }
 
@@ -199,19 +201,19 @@ public class ItemPicker {
             TOOLTIP.setFont(Font.font(13));
             TOOLTIP.setOnShowing(event ->
                     FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                        Cell cell = (Cell) node;
-                        Item item = cell.getItem();
-                        List<ItemData> itemData = cell.getItemData();
-                        StringBuilder sb = new StringBuilder();
+                                Cell cell = (Cell) node;
+                                Item item = cell.getItem();
+                                List<ItemData> itemData = cell.getItemData();
+                                StringBuilder sb = new StringBuilder();
 
-                        sb.append(item.getId());
-                        if (item.isNormal()) {
-                            sb.append(":").append(item.getMetadata());
-                        }
+                                sb.append(item.getId());
+                                if (item.isNormal()) {
+                                    sb.append(":").append(item.getMetadata());
+                                }
 
-                        sb.append("\n--------------------\n");
+                                sb.append("\n--------------------\n");
 
-                        for (ItemData itemDatum : itemData) {
+                                for (ItemData itemDatum : itemData) {
                                     sb.append(itemDatum.getDisplayName()).append("\n");
                                 }
 

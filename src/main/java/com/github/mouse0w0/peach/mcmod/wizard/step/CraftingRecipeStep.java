@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
-import com.github.mouse0w0.peach.mcmod.ui.ItemView;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -56,7 +56,6 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         recipeView.getChildren().add(inputGridPane);
         for (int i = 0; i < 9; i++) {
             ItemView itemViews = inputs[i] = new ItemView(64, 64);
-            itemViews.setPickOnBounds(true);
             itemViews.setOnMouseClicked(event ->
                     itemViews.setItem(ItemPicker.pick(getScene().getWindow(), itemViews.getItem(), true, true)));
             itemViews.setPlayAnimation(true);
@@ -64,7 +63,6 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         }
 
         output = new ItemView(64, 64);
-        output.setPickOnBounds(true);
         output.setOnMouseClicked(event ->
                 output.setItem(ItemPicker.pick(getScene().getWindow(), output.getItem(), false, false)));
         AnchorPane.setTopAnchor(output, 125d);

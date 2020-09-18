@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
-import com.github.mouse0w0.peach.mcmod.ui.ItemView;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.wizard.WizardStep;
@@ -34,7 +34,6 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
         FXUtils.loadFXML(this, "ui/mcmod/ItemGroup.fxml");
 
         icon = new ItemView(32, 32);
-        icon.setPickOnBounds(true);
         icon.setOnMouseClicked(event ->
                 icon.setItem(ItemPicker.pick(getScene().getWindow(), icon.getItem(), false, false)));
         content.add(icon, 1, 2);
