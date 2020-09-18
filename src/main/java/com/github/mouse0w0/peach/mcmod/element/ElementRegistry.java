@@ -1,10 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.mcmod.wizard.CraftingRecipeWizard;
-import com.github.mouse0w0.peach.mcmod.wizard.ItemGroupWizard;
-import com.github.mouse0w0.peach.mcmod.wizard.ItemWizard;
-import com.github.mouse0w0.peach.mcmod.wizard.SmeltingRecipeWizard;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -20,10 +16,10 @@ public class ElementRegistry {
     }
 
     public ElementRegistry() {
-        register(new ElementType<>("item", ItemElement.class, ItemElement::new, ItemWizard::new));
-        register(new ElementType<>("item_group", ItemGroup.class, ItemGroup::new, ItemGroupWizard::new));
-        register(new ElementType<>("crafting_recipe", CraftingRecipe.class, CraftingRecipe::new, CraftingRecipeWizard::new));
-        register(new ElementType<>("smelting_recipe", SmeltingRecipe.class, SmeltingRecipe::new, SmeltingRecipeWizard::new));
+        register(ElementTypes.ITEM);
+        register(ElementTypes.ITEM_GROUP);
+        register(ElementTypes.CRAFTING_RECIPE);
+        register(ElementTypes.SMELTING_RECIPE);
     }
 
     public <T> void register(ElementType<T> elementType) {
