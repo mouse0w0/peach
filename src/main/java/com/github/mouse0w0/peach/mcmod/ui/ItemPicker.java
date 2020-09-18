@@ -100,6 +100,8 @@ public class ItemPicker {
         setProject(project);
         this.defaultItem = defaultItem;
 
+        filter.setText(null);
+
         ignoreMetadata.setDisable(!enableIgnoreMetadata);
         oreDict.setDisable(!enableOreDict);
 
@@ -179,7 +181,6 @@ public class ItemPicker {
 
     @FXML
     private void onFinish() {
-        filter.setText(null);
         FXUtils.hideWindow(scene);
     }
 
