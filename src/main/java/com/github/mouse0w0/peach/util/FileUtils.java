@@ -105,10 +105,10 @@ public class FileUtils {
     }
 
     public static String getFileNameWithoutExtensionName(Path file) {
-        return StringUtils.substringBefore(file.getFileName().toString(), '.');
+        return StringUtils.substringBeforeLast(file.getFileName().toString(), '.');
     }
 
     public static String getFileNameWithoutExtensionName(File file) {
-        return StringUtils.substringBefore(file.getName(), '.');
+        return StringUtils.substringBeforeLast(file.getName(), '.');
     }
 }
