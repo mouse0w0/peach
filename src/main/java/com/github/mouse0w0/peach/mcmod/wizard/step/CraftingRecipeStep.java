@@ -20,7 +20,7 @@ import javafx.scene.layout.*;
 
 public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
-    private static final CachedImage BACKGROUND = new CachedImage("/image/forge/crafting_recipe.png", 560, 312);
+    private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/crafting_recipe.png", 560, 312);
 
     private final Element<CraftingRecipe> file;
 

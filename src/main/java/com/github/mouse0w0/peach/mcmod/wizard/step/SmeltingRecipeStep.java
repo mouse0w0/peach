@@ -19,7 +19,7 @@ import javafx.scene.layout.FlowPane;
 
 public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
-    private static final CachedImage BACKGROUND = new CachedImage("/image/forge/smelting_recipe.png", 560, 312);
+    private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/smelting_recipe.png", 560, 312);
 
     private final Element<SmeltingRecipe> file;
 
