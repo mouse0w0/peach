@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;

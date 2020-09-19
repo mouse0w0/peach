@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.wizard;
 
-import com.github.mouse0w0.peach.mcmod.element.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.element.Element;
+import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.wizard.step.CraftingRecipeStep;
 import com.github.mouse0w0.peach.project.Project;
 

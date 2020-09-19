@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemGroupsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemModelsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemsClass;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;

@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.wizard;
 
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.wizard.step.ItemModelStep;
 import com.github.mouse0w0.peach.mcmod.wizard.step.ItemStep;
 import com.github.mouse0w0.peach.project.Project;

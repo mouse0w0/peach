@@ -2,10 +2,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.CraftingRecipeGen;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.Generator;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.ItemGen;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.SmeltingRecipeGen;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
@@ -30,7 +27,7 @@ public class ElementTask implements CompileTask {
         Multimap<ElementType<?>, Element<?>> elements = environment.getElements();
 
         for (ElementType<?> type : ElementRegistry.getInstance().getElementTypes()) {
-            Generator generator = generatorMap.get(type.getId());
+            Generator generator = generatorMap.get(type.getName());
             generator.generate(environment, elements.get(type));
         }
     }

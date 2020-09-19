@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
-import com.github.mouse0w0.peach.mcmod.element.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.element.Element;
+import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

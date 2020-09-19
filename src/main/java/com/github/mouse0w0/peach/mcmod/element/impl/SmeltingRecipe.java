@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.element;
+package com.github.mouse0w0.peach.mcmod.element.impl;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;

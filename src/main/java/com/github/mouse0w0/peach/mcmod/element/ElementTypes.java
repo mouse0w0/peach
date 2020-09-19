@@ -1,5 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.wizard.CraftingRecipeWizard;
 import com.github.mouse0w0.peach.mcmod.wizard.ItemGroupWizard;
 import com.github.mouse0w0.peach.mcmod.wizard.ItemWizard;
