@@ -4,12 +4,14 @@ import com.github.mouse0w0.peach.Peach;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ElementRegistry {
 
     private final Map<String, ElementType<?>> elementMap = new LinkedHashMap<>();
+    private final Map<Class<?>, ElementType<?>> classToElementMap = new HashMap<>();
 
     public static ElementRegistry getInstance() {
         return Peach.getInstance().getService(ElementRegistry.class);
@@ -23,14 +25,20 @@ public class ElementRegistry {
     }
 
     public <T> void register(ElementType<T> elementType) {
-        if (elementMap.containsKey(elementType.getId())) {
+        if (elementMap.containsKey(elementType.getName())) {
             throw new IllegalArgumentException("Element has been registered.");
         }
-        elementMap.put(elementType.getId(), elementType);
+        elementMap.put(elementType.getName(), elementType);
+        classToElementMap.put(elementType.getType(), elementType);
     }
 
-    public ElementType<?> getElementType(String id) {
-        return elementMap.get(id);
+    public ElementType<?> getElementType(String name) {
+        return elementMap.get(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> ElementType<T> getElementType(Class<T> type) {
+        return (ElementType<T>) classToElementMap.get(type);
     }
 
     public ElementType<?> getElementType(Path file) {
@@ -39,9 +47,9 @@ public class ElementRegistry {
         int start = fileName.indexOf('.');
         int end = fileName.lastIndexOf('.');
         if (start == -1 || end == -1 || start == end) return null;
-        String elementId = fileName.substring(start + 1, end);
+        String name = fileName.substring(start + 1, end);
 
-        return elementMap.get(elementId);
+        return getElementType(name);
     }
 
     public Collection<ElementType<?>> getElementTypes() {

@@ -7,22 +7,22 @@ import java.nio.file.Path;
 import java.util.function.Supplier;
 
 public class ElementType<T> {
-    private String id;
+    private String name;
     private String translationKey;
     private Class<T> type;
     private Supplier<T> elementFactory;
     private WizardFactory<T> wizardFactory;
 
-    public ElementType(String id, Class<T> type, Supplier<T> elementFactory, WizardFactory<T> wizardFactory) {
-        this.id = id;
-        this.translationKey = "mod.element." + id;
+    public ElementType(String name, Class<T> type, Supplier<T> elementFactory, WizardFactory<T> wizardFactory) {
+        this.name = name;
+        this.translationKey = "mod.element." + name;
         this.type = type;
         this.elementFactory = elementFactory;
         this.wizardFactory = wizardFactory;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
     public String getTranslationKey() {

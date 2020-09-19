@@ -81,7 +81,7 @@ public final class ElementManager {
     }
 
     public void createElement(ElementType<?> type, String name) {
-        editElement(type.createElement(path.resolve(name + "." + type.getId() + ".json")));
+        editElement(type.createElement(path.resolve(name + "." + type.getName() + ".json")));
     }
 
     public void editElement(Element<?> element) {
