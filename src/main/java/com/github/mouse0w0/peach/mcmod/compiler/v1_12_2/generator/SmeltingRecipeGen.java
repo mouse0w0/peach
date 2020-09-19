@@ -113,8 +113,8 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
     }
 
     @Override
-    protected void generate(Environment environment, Element<SmeltingRecipe> file) throws Exception {
-        SmeltingRecipe smelting = file.get();
+    protected void generate(Environment environment, Element<SmeltingRecipe> element) throws Exception {
+        SmeltingRecipe smelting = element.get();
         Item input = smelting.getInput();
         adapter.push(input.getId());
         adapter.push(input.getMetadata());

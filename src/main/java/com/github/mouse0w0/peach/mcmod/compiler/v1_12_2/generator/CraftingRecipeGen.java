@@ -14,8 +14,8 @@ import java.util.Map;
 public class CraftingRecipeGen extends Generator<CraftingRecipe> {
 
     @Override
-    protected void generate(Environment environment, Element<CraftingRecipe> file) throws Exception {
-        CraftingRecipe recipe = file.get();
+    protected void generate(Environment environment, Element<CraftingRecipe> element) throws Exception {
+        CraftingRecipe recipe = element.get();
 
         JsonObject jo = new JsonObject();
         generateResult(recipe, jo);

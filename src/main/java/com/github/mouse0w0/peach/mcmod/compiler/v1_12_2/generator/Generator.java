@@ -7,11 +7,11 @@ import java.util.Collection;
 
 public abstract class Generator<T> {
 
-    public void generate(Environment environment, Collection<Element<T>> files) throws Exception {
-        for (Element<T> file : files) {
-            generate(environment, file);
+    public void generate(Environment environment, Collection<Element<T>> elements) throws Exception {
+        for (Element<T> element : elements) {
+            generate(environment, element);
         }
     }
 
-    protected abstract void generate(Environment environment, Element<T> file) throws Exception;
+    protected abstract void generate(Environment environment, Element<T> element) throws Exception;
 }

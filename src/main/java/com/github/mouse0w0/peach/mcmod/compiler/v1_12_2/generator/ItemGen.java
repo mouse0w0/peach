@@ -64,8 +64,8 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     @Override
-    protected void generate(Environment environment, Element<ItemElement> file) throws Exception {
-        ItemElement item = file.get();
+    protected void generate(Environment environment, Element<ItemElement> element) throws Exception {
+        ItemElement item = element.get();
 
         String registerName = item.getRegisterName();
         itemsClass.visitItem(registerName);
