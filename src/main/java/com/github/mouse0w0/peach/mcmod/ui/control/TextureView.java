@@ -28,9 +28,11 @@ public class TextureView extends Control {
 
         setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle(I18n.translate("ui.file_chooser.texture.title"));
-            fileChooser.setInitialDirectory(getTextureFile(getTexture()).toFile().getParentFile());
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(I18n.translate("ui.file_chooser.texture.png"), "*.png"));
+            fileChooser.setTitle(I18n.translate("dialog.texture_chooser.title"));
+            Path initialDirectory = getTexturePath();
+            FileUtils.createDirectoriesIfNotExistsSilently(initialDirectory);
+            fileChooser.setInitialDirectory(initialDirectory.toFile());
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
             File file = fileChooser.showOpenDialog(getScene().getWindow());
             if (file != null) copyTextureFile(file.toPath());
         });
@@ -61,8 +63,12 @@ public class TextureView extends Control {
         }
     }
 
+    private Path getTexturePath() {
+        return getProject().getData(McModDataKeys.RESOURCES_PATH).resolve("textures");
+    }
+
     private Path getTextureFile(String textureName) {
-        return getProject().getData(McModDataKeys.RESOURCES_PATH).resolve("textures/" + textureName + ".png");
+        return getTexturePath().resolve(textureName + ".png");
     }
 
     private ObjectProperty<Project> project;

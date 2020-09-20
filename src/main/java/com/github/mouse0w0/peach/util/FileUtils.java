@@ -37,6 +37,13 @@ public class FileUtils {
         }
     }
 
+    public static void createDirectoriesIfNotExistsSilently(Path path) {
+        try {
+            createDirectoriesIfNotExists(path);
+        } catch (IOException ignored) {
+        }
+    }
+
     public static void createFileIfNotExists(Path path) throws IOException {
         Path parent = path.getParent();
         if (!Files.exists(path)) {
