@@ -56,7 +56,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
         StringBuilder sb = new StringBuilder(9);
         for (int i = 0; i < 9; i++) {
             Item input = inputs[i];
-            if (input.isAir()) {
+            if (!input.isAir()) {
                 sb.append(keyMap.computeIfAbsent(input, $ -> (char) ('A' + keyMap.size())));
             } else {
                 sb.append(" ");
