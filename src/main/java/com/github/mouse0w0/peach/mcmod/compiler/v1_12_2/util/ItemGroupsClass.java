@@ -31,17 +31,9 @@ public class ItemGroupsClass implements Opcodes {
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, internalName, null, "java/lang/Object", null);
 
-        classWriter.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(classWriter);
 
-        {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-            methodVisitor.visitCode();
-            methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-            methodVisitor.visitInsn(RETURN);
-            methodVisitor.visitMaxs(1, 1);
-            methodVisitor.visitEnd();
-        }
+        ASMUtils.visitDefaultConstructor(classWriter);
         {
             methodVisitor = classWriter.visitMethod(ACC_PRIVATE | ACC_STATIC, "find", "(Ljava/lang/String;)Lnet/minecraft/creativetab/CreativeTabs;", null, null);
             methodVisitor.visitCode();
@@ -88,16 +80,6 @@ public class ItemGroupsClass implements Opcodes {
         }
     }
 
-    public void visitEnd() {
-        {
-            clinit.visitInsn(RETURN);
-            clinit.visitMaxs(1, 0);
-            clinit.visitEnd();
-        }
-
-        classWriter.visitEnd();
-    }
-
     public void visitItemGroup(String itemGroup) {
         if (visitedItemGroups.contains(itemGroup)) return;
 
@@ -117,6 +99,14 @@ public class ItemGroupsClass implements Opcodes {
     }
 
     public void save(Filer classesFiler) throws IOException {
+        {
+            clinit.visitInsn(RETURN);
+            clinit.visitMaxs(1, 0);
+            clinit.visitEnd();
+        }
+
+        classWriter.visitEnd();
+
         classesFiler.write(internalName + ".class", classWriter.toByteArray());
     }
 }

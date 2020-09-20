@@ -3,7 +3,10 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.ItemGen;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
-import org.objectweb.asm.*;
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import java.io.IOException;
 
@@ -11,12 +14,12 @@ public class ItemModelsClass implements Opcodes {
 
     private final String internalName;
     private final String modid;
-    private final ItemsClass itemsClass;
+    private final ModItemsClass itemsClass;
 
     private ClassWriter classWriter = new ClassWriter(0);
     private MethodVisitor registerModel;
 
-    public ItemModelsClass(String className, String modid, ItemsClass itemsClass) {
+    public ItemModelsClass(String className, String modid, ModItemsClass itemsClass) {
         this.internalName = ASMUtils.getInternalName(className);
         this.modid = modid;
         this.itemsClass = itemsClass;
@@ -29,7 +32,7 @@ public class ItemModelsClass implements Opcodes {
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, internalName, null, "java/lang/Object", null);
 
-        classWriter.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(classWriter);
 
         {
             annotationVisitor0 = classWriter.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventBusSubscriber;", true);
@@ -43,15 +46,7 @@ public class ItemModelsClass implements Opcodes {
         }
         classWriter.visitInnerClass("net/minecraftforge/fml/common/Mod$EventBusSubscriber", "net/minecraftforge/fml/common/Mod", "EventBusSubscriber", ACC_PUBLIC | ACC_STATIC | ACC_ANNOTATION | ACC_ABSTRACT | ACC_INTERFACE);
 
-        {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-            methodVisitor.visitCode();
-            methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-            methodVisitor.visitInsn(RETURN);
-            methodVisitor.visitMaxs(1, 1);
-            methodVisitor.visitEnd();
-        }
+        ASMUtils.visitDefaultConstructor(classWriter);
         {
             registerModel = methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "registerModel", "(Lnet/minecraftforge/client/event/ModelRegistryEvent;)V", null, null);
             {
@@ -63,9 +58,6 @@ public class ItemModelsClass implements Opcodes {
         {
             methodVisitor = classWriter.visitMethod(ACC_PRIVATE | ACC_STATIC, "registerItemModel", "(Lnet/minecraft/item/Item;)V", null, null);
             methodVisitor.visitCode();
-            Label label0 = new Label();
-            methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(19, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitInsn(ICONST_0);
             methodVisitor.visitTypeInsn(NEW, "net/minecraft/client/renderer/block/model/ModelResourceLocation");
@@ -75,13 +67,7 @@ public class ItemModelsClass implements Opcodes {
             methodVisitor.visitLdcInsn("inventory");
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/renderer/block/model/ModelResourceLocation", "<init>", "(Lnet/minecraft/util/ResourceLocation;Ljava/lang/String;)V", false);
             methodVisitor.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/client/model/ModelLoader", "setCustomModelResourceLocation", "(Lnet/minecraft/item/Item;ILnet/minecraft/client/renderer/block/model/ModelResourceLocation;)V", false);
-            Label label1 = new Label();
-            methodVisitor.visitLabel(label1);
-            methodVisitor.visitLineNumber(20, label1);
             methodVisitor.visitInsn(RETURN);
-            Label label2 = new Label();
-            methodVisitor.visitLabel(label2);
-            methodVisitor.visitLocalVariable("item", "Lnet/minecraft/item/Item;", null, label0, label2, 0);
             methodVisitor.visitMaxs(6, 1);
             methodVisitor.visitEnd();
         }
@@ -92,7 +78,7 @@ public class ItemModelsClass implements Opcodes {
         registerModel.visitMethodInsn(INVOKESTATIC, internalName, "registerItemModel", "(Lnet/minecraft/item/Item;)V", false);
     }
 
-    public void visitEnd() {
+    public void save(Filer classesFiler) throws IOException {
         {
             registerModel.visitInsn(RETURN);
             registerModel.visitMaxs(1, 1);
@@ -100,9 +86,7 @@ public class ItemModelsClass implements Opcodes {
         }
 
         classWriter.visitEnd();
-    }
 
-    public void save(Filer classesFiler) throws IOException {
         classesFiler.write(internalName + ".class", classWriter.toByteArray());
     }
 }

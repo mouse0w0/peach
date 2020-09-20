@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
+import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
@@ -21,5 +22,9 @@ public class JavaUtils {
         if (RESERVED_WORDS.contains(identifier)) return false;
 
         return IDENTIFIER_PATTERN.matcher(identifier).matches();
+    }
+
+    public static String lowerUnderscoreToUpperCamel(String s) {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, s);
     }
 }

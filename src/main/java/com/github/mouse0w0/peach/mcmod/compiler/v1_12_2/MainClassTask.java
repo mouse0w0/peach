@@ -24,7 +24,7 @@ public class MainClassTask implements CompileTask {
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, internalClassName, null, "java/lang/Object", null);
 
-        classWriter.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(classWriter);
 
         {
             annotationVisitor0 = classWriter.visitAnnotation("Lnet/minecraftforge/fml/common/Mod;", true);
@@ -32,15 +32,7 @@ public class MainClassTask implements CompileTask {
             annotationVisitor0.visit("version", modSettings.getVersion());
             annotationVisitor0.visitEnd();
         }
-        {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-            methodVisitor.visitCode();
-            methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-            methodVisitor.visitInsn(RETURN);
-            methodVisitor.visitMaxs(1, 1);
-            methodVisitor.visitEnd();
-        }
+        ASMUtils.visitDefaultConstructor(classWriter);
         {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "onInit", "(Lnet/minecraftforge/fml/common/event/FMLInitializationEvent;)V", null, null);
             {

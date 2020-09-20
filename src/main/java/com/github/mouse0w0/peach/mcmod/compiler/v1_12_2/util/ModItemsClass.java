@@ -7,7 +7,7 @@ import org.objectweb.asm.*;
 
 import java.io.IOException;
 
-public class ItemsClass implements Opcodes {
+public class ModItemsClass implements Opcodes {
 
     private final String packageName;
     private final String modid;
@@ -18,7 +18,7 @@ public class ItemsClass implements Opcodes {
     private MethodVisitor registerItem;
     private MethodVisitor clinit;
 
-    public ItemsClass(String packageName, String modid) {
+    public ModItemsClass(String packageName, String modid) {
         this.packageName = packageName;
         this.modid = modid;
         this.internalName = ASMUtils.getInternalName(packageName, "Items");
@@ -35,7 +35,7 @@ public class ItemsClass implements Opcodes {
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, internalName, null, "java/lang/Object", null);
 
-        classWriter.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(classWriter);
 
         {
             annotationVisitor0 = classWriter.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventBusSubscriber;", true);
@@ -46,15 +46,7 @@ public class ItemsClass implements Opcodes {
 
         classWriter.visitInnerClass("net/minecraftforge/fml/common/Mod$EventBusSubscriber", "net/minecraftforge/fml/common/Mod", "EventBusSubscriber", ACC_PUBLIC | ACC_STATIC | ACC_ANNOTATION | ACC_ABSTRACT | ACC_INTERFACE);
 
-        {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-            methodVisitor.visitCode();
-            methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-            methodVisitor.visitInsn(RETURN);
-            methodVisitor.visitMaxs(1, 1);
-            methodVisitor.visitEnd();
-        }
+        ASMUtils.visitDefaultConstructor(classWriter);
         {
             registerItem = methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "registerItem", "(Lnet/minecraftforge/event/RegistryEvent$Register;)V", "(Lnet/minecraftforge/event/RegistryEvent$Register<Lnet/minecraft/item/Item;>;)V", null);
             {
@@ -70,22 +62,6 @@ public class ItemsClass implements Opcodes {
             clinit = methodVisitor = classWriter.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
             methodVisitor.visitCode();
         }
-    }
-
-    public void visitEnd() {
-        {
-            registerItem.visitInsn(RETURN);
-            registerItem.visitMaxs(2, 2);
-            registerItem.visitEnd();
-        }
-
-        {
-            clinit.visitInsn(RETURN);
-            clinit.visitMaxs(2, 0);
-            clinit.visitEnd();
-        }
-
-        classWriter.visitEnd();
     }
 
     public void visitItem(String registerName) {
@@ -111,6 +87,20 @@ public class ItemsClass implements Opcodes {
     }
 
     public void save(Filer classesFiler) throws IOException {
+        {
+            registerItem.visitInsn(RETURN);
+            registerItem.visitMaxs(2, 2);
+            registerItem.visitEnd();
+        }
+
+        {
+            clinit.visitInsn(RETURN);
+            clinit.visitMaxs(2, 0);
+            clinit.visitEnd();
+        }
+
+        classWriter.visitEnd();
+
         classesFiler.write(internalName + ".class", classWriter.toByteArray());
     }
 }

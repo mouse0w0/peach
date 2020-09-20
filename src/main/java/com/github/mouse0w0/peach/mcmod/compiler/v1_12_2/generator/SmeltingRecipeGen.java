@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -27,21 +26,12 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
 
         ClassWriter classWriter = new ClassWriter(0);
         MethodVisitor methodVisitor;
-        AnnotationVisitor annotationVisitor0;
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, internalClassName, null, "java/lang/Object", null);
 
-        classWriter.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(classWriter);
 
-        {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-            methodVisitor.visitCode();
-            methodVisitor.visitVarInsn(ALOAD, 0);
-            methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-            methodVisitor.visitInsn(RETURN);
-            methodVisitor.visitMaxs(1, 1);
-            methodVisitor.visitEnd();
-        }
+        ASMUtils.visitDefaultConstructor(classWriter);
         {
             methodVisitor = classWriter.visitMethod(ACC_PRIVATE | ACC_STATIC, "addSmelting", "(Ljava/lang/String;ILjava/lang/String;IIF)V", null, null);
             methodVisitor.visitCode();

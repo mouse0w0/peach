@@ -4,13 +4,13 @@ import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemGroupsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemModelsClass;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemsClass;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ModItemsClass;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
-import com.google.common.base.CaseFormat;
+import com.github.mouse0w0.peach.mcmod.util.JavaUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -26,7 +26,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class ItemGen extends Generator<ItemElement> {
     private ItemGroupsClass itemGroupsClass;
-    private ItemsClass itemsClass;
+    private ModItemsClass itemsClass;
     private ItemModelsClass itemModelsClass;
 
     private String itemPackageName;
@@ -37,7 +37,7 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     public static String getItemClassName(String registerName) {
-        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, registerName);
+        return JavaUtils.lowerUnderscoreToUpperCamel(registerName);
     }
 
     @Override
@@ -46,18 +46,16 @@ public class ItemGen extends Generator<ItemElement> {
         namespace = environment.getModSettings().getId();
 
         itemPackageName = packageName + ".item";
-        itemsClass = new ItemsClass(itemPackageName, namespace);
+        itemsClass = new ModItemsClass(itemPackageName, namespace);
         itemGroupsClass = new ItemGroupsClass(packageName + ".init.ItemGroups");
         itemModelsClass = new ItemModelsClass(packageName + ".client.item.ItemModels", namespace, itemsClass);
 
         super.generate(environment, elements);
 
-        itemsClass.visitEnd();
-        itemsClass.save(environment.getClassesFiler());
-        itemGroupsClass.visitEnd();
-        itemGroupsClass.save(environment.getClassesFiler());
-        itemModelsClass.visitEnd();
-        itemModelsClass.save(environment.getClassesFiler());
+        Filer classesFiler = environment.getClassesFiler();
+        itemsClass.save(classesFiler);
+        itemGroupsClass.save(classesFiler);
+        itemModelsClass.save(classesFiler);
     }
 
     @Override
@@ -93,7 +91,7 @@ public class ItemGen extends Generator<ItemElement> {
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, internalName, null, "net/minecraft/item/Item", null);
 
-        classWriter.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(classWriter);
 
         {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
