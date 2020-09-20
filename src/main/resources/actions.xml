@@ -4,21 +4,21 @@
         <group id="File">
             <group id="New">
                 <action id="NewProject" class="com.github.mouse0w0.peach.action.mainMenu.NewProjectAction"/>
-                <action id="NewModElement" class="com.github.mouse0w0.peach.action.mainMenu.NewModElementAction"/>
+                <action id="NewModElement" class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
             </group>
             <action id="OpenProject" class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectAction"/>
             <separator/>
 
             <action id="OpenSettings"/>
             <action id="OpenProjectSettings"
-                    class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectSettingsAction"/>
+                    class="com.github.mouse0w0.peach.mcmod.action.OpenProjectSettingsAction"/>
             <separator/>
 
             <action id="Exit" class="com.github.mouse0w0.peach.action.mainMenu.ExitAction"/>
         </group>
 
         <group id="Build">
-            <action id="BuildProject" class="com.github.mouse0w0.peach.action.mainMenu.BuildProjectAction"/>
+            <action id="BuildProject" class="com.github.mouse0w0.peach.mcmod.action.BuildProjectAction"/>
         </group>
 
         <group id="Help">
