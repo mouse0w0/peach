@@ -111,4 +111,32 @@ public class FileUtils {
     public static String getFileNameWithoutExtensionName(File file) {
         return StringUtils.substringBeforeLast(file.getName(), '.');
     }
+
+    public static boolean deleteDirectoryIfPresent(Path path) {
+        return deleteDirectoryIfPresent(path.toFile());
+    }
+
+    public static boolean deleteDirectoryIfPresent(File file) {
+        if (!file.exists()) {
+            return false;
+        }
+        deleteDirectory(file);
+        return true;
+    }
+
+    public static boolean deleteDirectory(Path path) {
+        return deleteDirectory(path.toFile());
+    }
+
+    public static boolean deleteDirectory(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File child : files) {
+                    deleteDirectory(child);
+                }
+            }
+        }
+        return file.delete();
+    }
 }

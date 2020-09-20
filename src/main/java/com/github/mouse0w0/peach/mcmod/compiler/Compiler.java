@@ -107,6 +107,7 @@ public class Compiler implements Environment {
             resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));
             assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getModSettings().getId()));
 
+            taskList.add(new CleanTask());
             taskList.add(new ElementTask());
             taskList.add(new LanguageTask());
             taskList.add(new MainClassTask());
