@@ -34,6 +34,18 @@ public class MainClassTask implements CompileTask {
         }
         ASMUtils.visitDefaultConstructor(classWriter);
         {
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "onPreInit", "(Lnet/minecraftforge/fml/common/event/FMLPreInitializationEvent;)V", null, null);
+            {
+                annotationVisitor0 = methodVisitor.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventHandler;", true);
+                annotationVisitor0.visitEnd();
+            }
+            methodVisitor.visitCode();
+            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(environment.getRootPackageName() + ".itemGroup.ItemGroups"), "init", "()V", false);
+            methodVisitor.visitInsn(RETURN);
+            methodVisitor.visitMaxs(0, 2);
+            methodVisitor.visitEnd();
+        }
+        {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "onInit", "(Lnet/minecraftforge/fml/common/event/FMLInitializationEvent;)V", null, null);
             {
                 annotationVisitor0 = methodVisitor.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventHandler;", true);

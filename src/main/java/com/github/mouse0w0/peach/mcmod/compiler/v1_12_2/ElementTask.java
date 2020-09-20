@@ -17,6 +17,7 @@ public class ElementTask implements CompileTask {
 
     public ElementTask() {
         generatorMap.put("item", new ItemGen());
+        generatorMap.put("item_group", new ItemGroupGen());
         generatorMap.put("crafting_recipe", new CraftingRecipeGen());
         generatorMap.put("smelting_recipe", new SmeltingRecipeGen());
     }
