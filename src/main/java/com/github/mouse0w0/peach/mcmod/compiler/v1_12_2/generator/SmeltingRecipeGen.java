@@ -9,7 +9,6 @@ import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.GeneratorAdapter;
 
 import java.util.Collection;
 
@@ -18,7 +17,7 @@ import static org.objectweb.asm.Opcodes.*;
 public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
 
     private String internalClassName;
-    private GeneratorAdapter adapter;
+    private MethodVisitor init;
 
     @Override
     public void generate(Environment environment, Collection<Element<SmeltingRecipe>> elements) throws Exception {
@@ -89,8 +88,7 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "init", "()V", null, null);
-            adapter = new GeneratorAdapter(methodVisitor, ACC_PUBLIC | ACC_STATIC, "init", "()V");
+            init = methodVisitor = classWriter.visitMethod(ACC_PUBLIC | ACC_STATIC, "init", "()V", null, null);
             methodVisitor.visitCode();
             super.generate(environment, elements);
             methodVisitor.visitInsn(RETURN);
@@ -106,13 +104,13 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
     protected void generate(Environment environment, Element<SmeltingRecipe> element) throws Exception {
         SmeltingRecipe smelting = element.get();
         Item input = smelting.getInput();
-        adapter.push(input.getId());
-        adapter.push(input.getMetadata());
+        ASMUtils.push(init, input.getId());
+        ASMUtils.push(init, input.getMetadata());
         ItemStack output = smelting.getOutput();
-        adapter.push(output.getItem().getId());
-        adapter.push(output.getAmount());
-        adapter.push(output.getItem().getMetadata());
-        adapter.push((float) smelting.getXp());
-        adapter.visitMethodInsn(INVOKESTATIC, internalClassName, "addSmelting", "(Ljava/lang/String;ILjava/lang/String;IIF)V", false);
+        ASMUtils.push(init, output.getItem().getId());
+        ASMUtils.push(init, output.getAmount());
+        ASMUtils.push(init, output.getItem().getMetadata());
+        ASMUtils.push(init, (float) smelting.getXp());
+        init.visitMethodInsn(INVOKESTATIC, internalClassName, "addSmelting", "(Ljava/lang/String;ILjava/lang/String;IIF)V", false);
     }
 }
