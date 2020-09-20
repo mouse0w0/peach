@@ -22,6 +22,11 @@ public class ItemsClass implements Opcodes {
         this.packageName = packageName;
         this.modid = modid;
         this.internalName = ASMUtils.getInternalName(packageName, "Items");
+        visitStart();
+    }
+
+    public String getInternalName() {
+        return internalName;
     }
 
     public void visitStart() {
@@ -85,7 +90,7 @@ public class ItemsClass implements Opcodes {
 
     public void visitItem(String registerName) {
         String itemFieldName = ItemGen.getItemFieldName(registerName);
-        String itemInternalName = ASMUtils.getInternalName(packageName + ".item." + ItemGen.getItemClassName(registerName));
+        String itemInternalName = ASMUtils.getInternalName(packageName, ItemGen.getItemClassName(registerName));
         {
             FieldVisitor fieldVisitor = classWriter.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, itemFieldName, "Lnet/minecraft/item/Item;", null, null);
             fieldVisitor.visitEnd();

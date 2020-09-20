@@ -43,15 +43,12 @@ public class ItemGen extends Generator<ItemElement> {
     @Override
     public void generate(Environment environment, Collection<Element<ItemElement>> elements) throws Exception {
         String packageName = environment.getRootPackageName();
-        itemPackageName = packageName + ".item";
         namespace = environment.getModSettings().getId();
 
-        itemsClass = new ItemsClass(packageName, namespace);
-        itemsClass.visitStart();
-        itemGroupsClass = new ItemGroupsClass(packageName);
-        itemGroupsClass.visitStart();
-        itemModelsClass = new ItemModelsClass(packageName, namespace);
-        itemModelsClass.visitStart();
+        itemPackageName = packageName + ".item";
+        itemsClass = new ItemsClass(itemPackageName, namespace);
+        itemGroupsClass = new ItemGroupsClass(packageName + ".init.ItemGroups");
+        itemModelsClass = new ItemModelsClass(packageName + ".client.item.ItemModels", namespace, itemsClass);
 
         super.generate(environment, elements);
 

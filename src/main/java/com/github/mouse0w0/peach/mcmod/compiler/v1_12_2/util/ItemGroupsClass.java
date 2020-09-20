@@ -10,7 +10,6 @@ import java.util.Set;
 
 public class ItemGroupsClass implements Opcodes {
 
-    private final String packageName;
     private final String internalName;
 
     private ClassWriter classWriter = new ClassWriter(0);
@@ -18,9 +17,9 @@ public class ItemGroupsClass implements Opcodes {
 
     private Set<String> visitedItemGroups = new HashSet<>();
 
-    public ItemGroupsClass(String packageName) {
-        this.packageName = packageName;
-        this.internalName = ASMUtils.getInternalName(packageName, "ItemGroups");
+    public ItemGroupsClass(String className) {
+        this.internalName = ASMUtils.getInternalName(className);
+        visitStart();
     }
 
     public String getInternalName() {

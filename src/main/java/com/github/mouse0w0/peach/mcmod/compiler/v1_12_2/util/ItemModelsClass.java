@@ -10,16 +10,17 @@ import java.io.IOException;
 public class ItemModelsClass implements Opcodes {
 
     private final String internalName;
-    private final String itemsInternalName;
     private final String modid;
+    private final ItemsClass itemsClass;
 
     private ClassWriter classWriter = new ClassWriter(0);
     private MethodVisitor registerModel;
 
-    public ItemModelsClass(String packageName, String modid) {
-        this.internalName = ASMUtils.getInternalName(packageName, "ItemModels");
-        this.itemsInternalName = ASMUtils.getInternalName(packageName, "Items");
+    public ItemModelsClass(String className, String modid, ItemsClass itemsClass) {
+        this.internalName = ASMUtils.getInternalName(className);
         this.modid = modid;
+        this.itemsClass = itemsClass;
+        visitStart();
     }
 
     public void visitStart() {
@@ -87,7 +88,7 @@ public class ItemModelsClass implements Opcodes {
     }
 
     public void visitModel(String registerName) {
-        registerModel.visitFieldInsn(GETSTATIC, itemsInternalName, ItemGen.getItemFieldName(registerName), "Lnet/minecraft/item/Item;");
+        registerModel.visitFieldInsn(GETSTATIC, itemsClass.getInternalName(), ItemGen.getItemFieldName(registerName), "Lnet/minecraft/item/Item;");
         registerModel.visitMethodInsn(INVOKESTATIC, internalName, "registerItemModel", "(Lnet/minecraft/item/Item;)V", false);
     }
 
