@@ -65,7 +65,7 @@ public class ContentPack implements Closeable {
     private void load() throws IOException {
         itemData = JsonUtils.readJson(getPath("content/" + getId() + "/item.json"), LIST_ITEM_DATA_TYPE);
         itemData.forEach(item -> item.setDisplayImage(getPath(String.format("content/%s/image/item/%s_%d.png", getId(), item.getName(), item.getMetadata()))));
-        itemGroupData = JsonUtils.readJson(getPath("content/" + getId() + "/itemGroups.json"), LIST_CREATIVE_TAB_DATA_TYPE);
+        itemGroupData = JsonUtils.readJson(getPath("content/" + getId() + "/itemGroup.json"), LIST_CREATIVE_TAB_DATA_TYPE);
         oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
         setLocale(Locale.getDefault());
     }

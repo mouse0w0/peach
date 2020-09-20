@@ -10,4 +10,5 @@
             - **item**：物品的图片文件夹。
         - **lang**：语言文件文件夹。
         - **item.json**：储存所有物品。
+        - **itemGroup.json**:储存所有创造标签。
         - **oreDictionary.json**：储存所有矿物词典。
