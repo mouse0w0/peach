@@ -66,7 +66,7 @@ public class ItemPicker {
     public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         if (instance == null) instance = new ItemPicker();
         Project project = WindowManager.getInstance().getWindow(window).getProject();
-        instance.init(project, defaultItem, enableIgnoreMetadata, enableOreDict);
+        instance.init(project, defaultItem != null ? defaultItem : Item.AIR, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
         stage.setScene(instance.scene);
         stage.setTitle(I18n.translate("ui.item_picker.title"));
