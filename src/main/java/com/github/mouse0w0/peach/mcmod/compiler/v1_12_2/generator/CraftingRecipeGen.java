@@ -41,25 +41,52 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
     private void generateShaped(CraftingRecipe recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shaped");
         JsonArray pattern = new JsonArray();
-        Map<Item, String> keyMap = new HashMap<>();
-        StringBuilder sb = new StringBuilder(10);
-        Item[] inputs = recipe.getInputs();
-        for (int i = 0; i < 9; i++) {
-            Item input = inputs[i];
-            if (input != null && !input.isAir()) {
-                sb.append(keyMap.computeIfAbsent(input, $ -> Character.toString((char) ('A' + keyMap.size()))));
-            } else {
-                sb.append(" ");
-            }
-        }
-        for (int i = 0; i < 3; i++) {
-            pattern.add(sb.substring(i * 3, i * 3 + 3));
+        Map<Item, Character> keyMap = new HashMap<>();
+        for (String s : getPattern(recipe.getInputs(), keyMap)) {
+            pattern.add(s);
         }
         jo.add("pattern", pattern);
 
         JsonObject key = new JsonObject();
-        keyMap.forEach((itemToken, s) -> key.add(s, itemToJson(itemToken)));
+        keyMap.forEach((itemToken, c) -> key.add(c.toString(), itemToJson(itemToken)));
         jo.add("key", key);
+    }
+
+    private String[] getPattern(Item[] inputs, Map<Item, Character> keyMap) {
+        StringBuilder sb = new StringBuilder(9);
+        for (int i = 0; i < 9; i++) {
+            Item input = inputs[i];
+            if (input.isAir()) {
+                sb.append(keyMap.computeIfAbsent(input, $ -> (char) ('A' + keyMap.size())));
+            } else {
+                sb.append(" ");
+            }
+        }
+
+        String[] pattern = new String[3];
+        for (int i = 0; i < 3; i++) {
+            pattern[i] = sb.substring(i * 3, i * 3 + 3);
+        }
+        return optimizePattern(pattern);
+    }
+
+    public static String[] optimizePattern(String[] pattern) {
+        if ("   ".equals(pattern[0])) {
+            if (pattern[1].charAt(0) == ' ' && pattern[2].charAt(0) == ' ') {
+                return new String[]{pattern[1].substring(1), pattern[2].substring(1)};
+            }
+            if (pattern[1].charAt(2) == ' ' && pattern[2].charAt(2) == ' ') {
+                return new String[]{pattern[1].substring(0, 2), pattern[2].substring(0, 2)};
+            }
+        } else if ("   ".equals(pattern[2])) {
+            if (pattern[0].charAt(0) == ' ' && pattern[1].charAt(0) == ' ') {
+                return new String[]{pattern[0].substring(1), pattern[1].substring(1)};
+            }
+            if (pattern[0].charAt(2) == ' ' && pattern[1].charAt(2) == ' ') {
+                return new String[]{pattern[0].substring(0, 2), pattern[1].substring(0, 2)};
+            }
+        }
+        return pattern;
     }
 
     private void generateShapeless(CraftingRecipe recipe, JsonObject jo) {
