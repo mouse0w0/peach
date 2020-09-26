@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.service;
+package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
@@ -6,8 +6,6 @@ import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.mcmod.dialog.ModSettingsDialog;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
-import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
-import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.util.JsonFile;
