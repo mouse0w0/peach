@@ -18,7 +18,7 @@ public interface Environment {
 
     String getRootPackageName();
 
-    Multimap<ElementType<?>, Element<?>> getElements();
+    Multimap<ElementType<?>, Element> getElements();
 
     ModelManager getModelManager();
 

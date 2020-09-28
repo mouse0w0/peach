@@ -24,9 +24,11 @@ public class Compiler implements Environment {
 
     private McModSettings modSettings;
 
+    private final ElementRegistry elementRegistry = ElementRegistry.getInstance();
+
     private String rootPackageName;
 
-    private Multimap<ElementType<?>, Element<?>> elements;
+    private Multimap<ElementType<?>, Element> elements;
 
     private ModelManager modelManager;
 
@@ -62,7 +64,7 @@ public class Compiler implements Environment {
     }
 
     @Override
-    public Multimap<ElementType<?>, Element<?>> getElements() {
+    public Multimap<ElementType<?>, Element> getElements() {
         return elements;
     }
 
@@ -121,11 +123,10 @@ public class Compiler implements Environment {
         }
     }
 
-    private Multimap<ElementType<?>, Element<?>> loadElements() throws IOException {
+    private Multimap<ElementType<?>, Element> loadElements() throws IOException {
         Path sources = getSourceDirectory().resolve("sources");
-        ElementRegistry elementRegistry = ElementRegistry.getInstance();
 
-        Multimap<ElementType<?>, Element<?>> elements = HashMultimap.create();
+        Multimap<ElementType<?>, Element> elements = HashMultimap.create();
 
         Iterator<Path> iterator = Files.walk(sources)
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
@@ -133,11 +134,26 @@ public class Compiler implements Environment {
         while (iterator.hasNext()) {
             Path file = iterator.next();
             ElementType<?> elementType = elementRegistry.getElementType(file);
-            Element<?> element = elementType.createElement(file);
-            elements.put(elementType, element);
+            elements.put(elementType, loadElement(file));
         }
         return elements;
     }
+
+    @SuppressWarnings("unchecked")
+    private Element loadElement(Path file) {
+        ElementType<?> type = elementRegistry.getElementType(file);
+        if (type == null) {
+            throw new IllegalArgumentException("Cannot load element");
+        }
+        try {
+            Element element = JsonUtils.readJson(file, type.getType());
+            Element.setFile(element, file);
+            return element;
+        } catch (IOException e) {
+            return type.createElement(file);
+        }
+    }
+
 
     private void doCompile() {
         try {

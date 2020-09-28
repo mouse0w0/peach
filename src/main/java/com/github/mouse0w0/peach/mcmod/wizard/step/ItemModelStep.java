@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
@@ -26,7 +25,7 @@ import java.util.Set;
 
 public class ItemModelStep extends FlowPane implements WizardStep {
 
-    private final Element<ItemElement> element;
+    private final ItemElement element;
     private final Project project;
 
     @FXML
@@ -36,7 +35,7 @@ public class ItemModelStep extends FlowPane implements WizardStep {
 
     private Map<String, TextureView> textureViewMap = new HashMap<>();
 
-    public ItemModelStep(Element<ItemElement> element) {
+    public ItemModelStep(ItemElement element) {
         this.element = element;
         this.project = WindowManager.getInstance().getFocusedWindow().getProject();
 
@@ -97,12 +96,10 @@ public class ItemModelStep extends FlowPane implements WizardStep {
 
     @Override
     public void init() {
-        ItemElement item = element.get();
-
-        model.getSelectionModel().select(item.getModel());
+        model.getSelectionModel().select(element.getModel());
         if (model.getSelectionModel().isEmpty()) model.getSelectionModel().select("generated");
 
-        item.getTextures().forEach(this::setTexture);
+        element.getTextures().forEach(this::setTexture);
     }
 
     @Override
@@ -112,11 +109,10 @@ public class ItemModelStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        ItemElement item = element.get();
-        item.setModel(model.getValue());
+        element.setModel(model.getValue());
         Map<String, String> textures = new LinkedHashMap<>();
         textureViewMap.forEach((key, value) -> textures.put(key, value.getTexture()));
-        item.setTextures(textures);
+        element.setTextures(textures);
     }
 
     @Override

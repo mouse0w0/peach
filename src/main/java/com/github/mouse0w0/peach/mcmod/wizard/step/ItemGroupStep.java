@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -19,7 +18,7 @@ import javafx.scene.paint.Color;
 
 public class ItemGroupStep extends FlowPane implements WizardStep {
 
-    private final Element<ItemGroup> element;
+    private final ItemGroup element;
 
     @FXML
     private GridPane content;
@@ -31,7 +30,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
 
     private ItemView icon;
 
-    public ItemGroupStep(Element<ItemGroup> element) {
+    public ItemGroupStep(ItemGroup element) {
         this.element = element;
 
         FXUtils.loadFXML(this, "ui/mcmod/ItemGroup.fxml");
@@ -51,12 +50,11 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
 
     @Override
     public void init() {
-        ItemGroup itemGroup = element.get();
-        registerName.setText(Strings.isNullOrEmpty(itemGroup.getRegisterName()) ?
-                ModUtils.toRegisterName(element.getName()) : itemGroup.getRegisterName());
-        displayName.setText(Strings.isNullOrEmpty(itemGroup.getDisplayName()) ?
-                element.getName() : itemGroup.getDisplayName());
-        icon.setItem(itemGroup.getIcon());
+        registerName.setText(Strings.isNullOrEmpty(element.getRegisterName()) ?
+                ModUtils.toRegisterName(element.getFileName()) : element.getRegisterName());
+        displayName.setText(Strings.isNullOrEmpty(element.getDisplayName()) ?
+                element.getFileName() : element.getDisplayName());
+        icon.setItem(element.getIcon());
     }
 
     @Override
@@ -66,10 +64,9 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        ItemGroup itemGroup = element.get();
-        itemGroup.setRegisterName(registerName.getText());
-        itemGroup.setDisplayName(displayName.getText());
-        itemGroup.setIcon(icon.getItem());
+        element.setRegisterName(registerName.getText());
+        element.setDisplayName(displayName.getText());
+        element.setIcon(icon.getItem());
     }
 
     @Override

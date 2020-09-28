@@ -13,6 +13,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+import java.nio.file.Path;
+
 public class ElementView extends ScrollPane {
 
     private final ElementManager elementManager;
@@ -36,25 +38,26 @@ public class ElementView extends ScrollPane {
         entryMenu.getItems().addAll(open, remove);
 
         elementManager.getElements().forEach(this::addEntry);
-        elementManager.getElements().addListener(new SetChangeListener<Element<?>>() {
+        elementManager.getElements().addListener(new SetChangeListener<Path>() {
             @Override
-            public void onChanged(Change<? extends Element<?>> change) {
+            public void onChanged(Change<? extends Path> change) {
                 if (change.wasAdded()) addEntry(change.getElementAdded());
                 if (change.wasRemoved()) removeEntry(change.getElementRemoved());
             }
         });
     }
 
-    private void addEntry(Element<?> element) {
-        content.getChildren().add(new Entry(element));
+    private void addEntry(Path file) {
+        content.getChildren().add(new Entry(file));
     }
 
-    private void removeEntry(Element<?> element) {
-        content.getChildren().removeIf(node -> ((Entry) node).getElement().equals(element));
+    private void removeEntry(Path file) {
+        content.getChildren().removeIf(node -> ((Entry) node).getFile().equals(file));
     }
 
     private class Entry extends Control {
-        private final Element<?> element;
+        private final Path file;
+        private final ElementType<?> type;
 
         @FXML
         private Rectangle icon;
@@ -63,12 +66,13 @@ public class ElementView extends ScrollPane {
         @FXML
         private Text description;
 
-        public Entry(Element<?> element) {
-            this.element = element;
+        public Entry(Path file) {
+            this.file = file;
+            this.type = ElementRegistry.getInstance().getElementType(file);
             setSkin(SkinUtils.create(this, FXUtils.loadFXML(null, this, "ui/mcmod/ElementViewEntry.fxml")));
 
-            title.setText(element.getName());
-            description.setText(I18n.translate(element.getType().getTranslationKey()));
+            title.setText(ElementHelper.getElementFileName(file));
+            description.setText(I18n.translate(type.getTranslationKey()));
 
             setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) doOpenWizard();
@@ -77,16 +81,16 @@ public class ElementView extends ScrollPane {
             setContextMenu(entryMenu);
         }
 
-        public Element<?> getElement() {
-            return element;
+        public Path getFile() {
+            return file;
         }
 
         public void doOpenWizard() {
-            elementManager.editElement(element);
+            elementManager.editElement(file);
         }
 
         public void doDelete() {
-            elementManager.removeElement(element);
+            elementManager.removeElement(file);
         }
     }
 }

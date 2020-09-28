@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import org.objectweb.asm.ClassWriter;
@@ -20,7 +19,7 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
     private MethodVisitor init;
 
     @Override
-    public void generate(Environment environment, Collection<Element<SmeltingRecipe>> elements) throws Exception {
+    public void generate(Environment environment, Collection<SmeltingRecipe> elements) throws Exception {
         internalClassName = ASMUtils.getInternalName(environment.getRootPackageName(), "SmeltingRecipes");
 
         ClassWriter classWriter = new ClassWriter(0);
@@ -101,8 +100,7 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
     }
 
     @Override
-    protected void generate(Environment environment, Element<SmeltingRecipe> element) throws Exception {
-        SmeltingRecipe smelting = element.get();
+    protected void generate(Environment environment, SmeltingRecipe smelting) throws Exception {
         Item input = smelting.getInput();
         ASMUtils.push(init, input.getId());
         ASMUtils.push(init, input.getMetadata());

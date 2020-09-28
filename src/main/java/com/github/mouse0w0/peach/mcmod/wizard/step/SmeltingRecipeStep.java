@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -21,7 +20,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
     private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/smelting_recipe.png", 560, 312);
 
-    private final Element<SmeltingRecipe> file;
+    private final SmeltingRecipe element;
 
     @FXML
     private Spinner<Double> xp;
@@ -33,8 +32,8 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
     private ItemView output;
     private Spinner<Integer> outputAmount;
 
-    public SmeltingRecipeStep(Element<SmeltingRecipe> file) {
-        this.file = file;
+    public SmeltingRecipeStep(SmeltingRecipe element) {
+        this.element = element;
         FXUtils.loadFXML(this, "ui/mcmod/SmeltingRecipe.fxml");
 
         xp.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 0.1));
@@ -73,10 +72,9 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public void init() {
-        SmeltingRecipe recipe = file.get();
-        xp.getValueFactory().setValue(recipe.getXp());
-        input.setItem(recipe.getInput());
-        ItemStack outputItem = recipe.getOutput();
+        xp.getValueFactory().setValue(element.getXp());
+        input.setItem(element.getInput());
+        ItemStack outputItem = element.getOutput();
         if (outputItem != null) {
             output.setItem(outputItem.getItem());
             outputAmount.getValueFactory().setValue(outputItem.getAmount());
@@ -90,10 +88,9 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        SmeltingRecipe recipe = file.get();
-        recipe.setXp(xp.getValue());
-        recipe.setInput(input.getItem());
-        recipe.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
+        element.setXp(xp.getValue());
+        element.setInput(input.getItem());
+        element.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
     }
 
     @Override

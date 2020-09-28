@@ -24,7 +24,7 @@ public class ElementRegistry {
         register(ElementTypes.SMELTING_RECIPE);
     }
 
-    public <T> void register(ElementType<T> elementType) {
+    public <T extends Element> void register(ElementType<T> elementType) {
         if (elementMap.containsKey(elementType.getName())) {
             throw new IllegalArgumentException("Element has been registered.");
         }
@@ -37,7 +37,7 @@ public class ElementRegistry {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> ElementType<T> getElementType(Class<T> type) {
+    public <T extends Element> ElementType<T> getElementType(Class<T> type) {
         return (ElementType<T>) classToElementMap.get(type);
     }
 

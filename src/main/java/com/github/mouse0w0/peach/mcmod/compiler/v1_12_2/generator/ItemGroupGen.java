@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ModItemGroupsClass;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.util.JavaUtils;
@@ -23,20 +22,19 @@ public class ItemGroupGen extends Generator<ItemGroup> {
     private ModItemGroupsClass itemGroupsClass;
 
     @Override
-    public void generate(Environment environment, Collection<Element<ItemGroup>> elements) throws Exception {
+    protected void before(Environment environment, Collection<ItemGroup> elements) throws Exception {
         namespace = environment.getModSettings().getId();
         packageName = environment.getRootPackageName() + ".itemGroup";
         itemGroupsClass = new ModItemGroupsClass(packageName + ".ItemGroups");
+    }
 
-        super.generate(environment, elements);
-
+    @Override
+    protected void after(Environment environment, Collection<ItemGroup> elements) throws Exception {
         itemGroupsClass.save(environment.getClassesFiler());
     }
 
     @Override
-    protected void generate(Environment environment, Element<ItemGroup> element) throws Exception {
-        ItemGroup itemGroup = element.get();
-
+    protected void generate(Environment environment, ItemGroup itemGroup) throws Exception {
         Item icon = itemGroup.getIcon();
         String internalName = ASMUtils.getInternalName(packageName, JavaUtils.lowerUnderscoreToUpperCamel(itemGroup.getRegisterName()) + "ItemGroup");
 

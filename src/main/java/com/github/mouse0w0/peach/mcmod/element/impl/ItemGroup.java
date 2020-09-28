@@ -1,11 +1,12 @@
 package com.github.mouse0w0.peach.mcmod.element.impl;
 
 import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.language.Localizable;
 
 import java.util.Map;
 
-public class ItemGroup implements Localizable {
+public class ItemGroup extends Element implements Localizable {
 
     private String registerName;
     private String displayName;

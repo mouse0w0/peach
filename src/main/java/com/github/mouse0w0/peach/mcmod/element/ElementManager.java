@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.wizard.Wizard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
@@ -25,8 +26,8 @@ public final class ElementManager {
 
     private final Path path;
 
-    private final ObservableSet<Element<?>> elements = FXCollections.observableSet(new LinkedHashSet<>());
-    private final ObservableSet<Element<?>> unmodifiableElements = FXCollections.unmodifiableObservableSet(elements);
+    private final ObservableSet<Path> elements = FXCollections.observableSet(new LinkedHashSet<>());
+    private final ObservableSet<Path> unmodifiableElements = FXCollections.unmodifiableObservableSet(elements);
 
     private ElementView elementView;
 
@@ -48,9 +49,7 @@ public final class ElementManager {
             while (iterator.hasNext()) {
                 Path file = iterator.next();
                 ElementType<?> elementType = elementRegistry.getElementType(file);
-                if (elementType != null) {
-                    elements.add(elementType.createElement(file));
-                }
+                if (elementType != null) elements.add(file);
             }
         } catch (IOException e) {
             LOGGER.error("Failed to load elements.", e);
@@ -61,31 +60,62 @@ public final class ElementManager {
         return project;
     }
 
-    public ObservableSet<Element<?>> getElements() {
+    public ObservableSet<Path> getElements() {
         return unmodifiableElements;
     }
 
-    public void saveElement(Element<?> element) {
-        elements.add(element);
-        element.save();
-    }
-
-    public void removeElement(Element<?> element) {
-        if (!elements.remove(element)) return;
-
+    @SuppressWarnings("unchecked")
+    public <T extends Element> T loadElement(Path file) {
+        ElementType<?> type = elementRegistry.getElementType(file);
+        if (type == null) {
+            throw new IllegalArgumentException("Cannot load element");
+        }
         try {
-            Files.deleteIfExists(element.getFile());
+            Element element = JsonUtils.readJson(file, type.getType());
+            Element.setFile(element, file);
+            return (T) element;
         } catch (IOException e) {
-            LOGGER.warn("Failed to delete element.", e);
+            return (T) type.createElement(file);
         }
     }
 
-    public void createElement(ElementType<?> type, String name) {
-        editElement(type.createElement(path.resolve(name + "." + type.getName() + ".json")));
+    public void saveElement(Element element) {
+        elements.add(element.getFile());
+        try {
+            JsonUtils.writeJson(element.getFile(), element);
+        } catch (IOException e) {
+            //TODO: show dialog
+        }
     }
 
-    public void editElement(Element<?> element) {
-        Wizard wizard = element.getType().createWizard(project, element);
+    public void removeElement(Path file) {
+        if (!elements.remove(file)) {
+            LOGGER.warn("Try to remove an unmanaged element {}.", file);
+            return;
+        }
+
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException e) {
+            LOGGER.warn("Failed to delete element file.", e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Element> T createElement(ElementType<T> type, String name) {
+        Element element = loadElement(path.resolve(name + "." + type.getName() + ".json"));
+        editElement(element);
+        return (T) element;
+    }
+
+    public void editElement(Path file) {
+        editElement((Element) loadElement(file));
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public void editElement(Element element) {
+        ElementType type = elementRegistry.getElementType(element.getClass());
+        Wizard wizard = type.createWizard(project, element);
         Tab tab = Wizard.createTab(wizard);
         WindowManager.getInstance().getWindow(project).openTab(tab);
     }

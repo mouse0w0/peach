@@ -25,7 +25,7 @@ public class ElementTask implements CompileTask {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public void run(Environment environment) throws Exception {
-        Multimap<ElementType<?>, Element<?>> elements = environment.getElements();
+        Multimap<ElementType<?>, Element> elements = environment.getElements();
 
         for (ElementType<?> type : ElementRegistry.getInstance().getElementTypes()) {
             Generator generator = generatorMap.get(type.getName());

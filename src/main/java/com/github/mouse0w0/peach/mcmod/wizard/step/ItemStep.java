@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -19,7 +18,7 @@ import javafx.scene.layout.FlowPane;
 
 public class ItemStep extends FlowPane implements WizardStep {
 
-    private final Element<ItemElement> element;
+    private final ItemElement element;
 
     @FXML
     private TextField registerName;
@@ -34,7 +33,7 @@ public class ItemStep extends FlowPane implements WizardStep {
     @FXML
     private TextArea information;
 
-    public ItemStep(Element<ItemElement> element) {
+    public ItemStep(ItemElement element) {
         this.element = element;
 
         FXUtils.loadFXML(this, "ui/mcmod/ItemElement.fxml");
@@ -60,18 +59,16 @@ public class ItemStep extends FlowPane implements WizardStep {
         Project project = WindowManager.getInstance().getFocusedWindow().getProject();
         ContentManager contentManager = ContentManager.getInstance(project);
 
-        ItemElement item = element.get();
-
-        registerName.setText(Strings.isNullOrEmpty(item.getRegisterName()) ?
-                ModUtils.toRegisterName(element.getName()) : item.getRegisterName());
-        displayName.setText(Strings.isNullOrEmpty(item.getDisplayName()) ?
-                element.getName() : item.getDisplayName());
-        ItemGroupData itemGroupData = contentManager.getItemGroup(item.getItemGroup());
+        registerName.setText(Strings.isNullOrEmpty(element.getRegisterName()) ?
+                ModUtils.toRegisterName(element.getFileName()) : element.getRegisterName());
+        displayName.setText(Strings.isNullOrEmpty(element.getDisplayName()) ?
+                element.getFileName() : element.getDisplayName());
+        ItemGroupData itemGroupData = contentManager.getItemGroup(element.getItemGroup());
         if (itemGroupData != null) itemGroup.getSelectionModel().select(itemGroupData);
         else itemGroup.getSelectionModel().selectFirst();
-        maxStackSize.getValueFactory().setValue(item.getMaxStackSize());
-        effect.setSelected(item.isEffect());
-        information.setText(item.getInformation());
+        maxStackSize.getValueFactory().setValue(element.getMaxStackSize());
+        effect.setSelected(element.isEffect());
+        information.setText(element.getInformation());
     }
 
     @Override
@@ -83,14 +80,12 @@ public class ItemStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        ItemElement item = element.get();
-
-        item.setRegisterName(registerName.getText());
-        item.setDisplayName(displayName.getText());
-        item.setItemGroup(itemGroup.getValue().getId());
-        item.setMaxStackSize(maxStackSize.getValue());
-        item.setEffect(effect.isSelected());
-        item.setInformation(information.getText());
+        element.setRegisterName(registerName.getText());
+        element.setDisplayName(displayName.getText());
+        element.setItemGroup(itemGroup.getValue().getId());
+        element.setMaxStackSize(maxStackSize.getValue());
+        element.setEffect(effect.isSelected());
+        element.setInformation(information.getText());
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemGroupsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemModelsClass;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ModItemsClass;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
@@ -41,7 +40,7 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     @Override
-    public void generate(Environment environment, Collection<Element<ItemElement>> elements) throws Exception {
+    protected void before(Environment environment, Collection<ItemElement> elements) throws Exception {
         String packageName = environment.getRootPackageName();
         namespace = environment.getModSettings().getId();
 
@@ -49,9 +48,10 @@ public class ItemGen extends Generator<ItemElement> {
         itemsClass = new ModItemsClass(itemPackageName, namespace);
         itemGroupsClass = new ItemGroupsClass(packageName + ".init.ItemGroups");
         itemModelsClass = new ItemModelsClass(packageName + ".client.item.ItemModels", namespace, itemsClass);
+    }
 
-        super.generate(environment, elements);
-
+    @Override
+    protected void after(Environment environment, Collection<ItemElement> elements) throws Exception {
         Filer classesFiler = environment.getClassesFiler();
         itemsClass.save(classesFiler);
         itemGroupsClass.save(classesFiler);
@@ -59,9 +59,7 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     @Override
-    protected void generate(Environment environment, Element<ItemElement> element) throws Exception {
-        ItemElement item = element.get();
-
+    protected void generate(Environment environment, ItemElement item) throws Exception {
         String registerName = item.getRegisterName();
         itemsClass.visitItem(registerName);
         itemGroupsClass.visitItemGroup(item.getItemGroup());

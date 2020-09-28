@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.wizard.Wizard;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-public class ElementType<T> {
+public class ElementType<T extends Element> {
     private String name;
     private String translationKey;
     private Class<T> type;
@@ -33,26 +33,20 @@ public class ElementType<T> {
         return type;
     }
 
-    public Element<T> createElement(Path file) {
-        return new Element<>(file, this);
+    public T createElement(Path file) {
+        T element = elementFactory.get();
+        Element.setFile(element, file);
+        return element;
     }
 
-    public Wizard createWizard(Project project, Element<?> file) {
-        if (file.getType() != this) {
-            throw new IllegalArgumentException("Cannot create wizard");
+    public Wizard createWizard(Project project, T element) {
+        if (element.getClass() != getType()) {
+            throw new IllegalArgumentException("Cannot create wizard for " + element.getClass().getName());
         }
-        return wizardFactory.create(project, (Element<T>) file);
+        return wizardFactory.create(project, element);
     }
 
-    T createElement() {
-        try {
-            return elementFactory != null ? elementFactory.get() : type.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new UnsupportedOperationException("Cannot create element");
-        }
-    }
-
-    public interface WizardFactory<T> {
-        Wizard create(Project project, Element<T> element);
+    public interface WizardFactory<T extends Element> {
+        Wizard create(Project project, T element);
     }
 }

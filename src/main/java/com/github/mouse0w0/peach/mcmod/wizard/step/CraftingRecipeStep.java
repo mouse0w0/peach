@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -22,7 +21,7 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/crafting_recipe.png", 560, 312);
 
-    private final Element<CraftingRecipe> file;
+    private final CraftingRecipe element;
 
     @FXML
     private TextField id;
@@ -39,8 +38,8 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
     private ItemView output;
     private Spinner<Integer> outputAmount;
 
-    public CraftingRecipeStep(Element<CraftingRecipe> file) {
-        this.file = file;
+    public CraftingRecipeStep(CraftingRecipe element) {
+        this.element = element;
         FXUtils.loadFXML(this, "ui/mcmod/CraftingRecipe.fxml");
 
         group.setEditable(true);
@@ -84,17 +83,15 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public void init() {
-        CraftingRecipe craftingRecipe = file.get();
-
-        String id1 = craftingRecipe.getId();
-        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.toRegisterName(file.getName());
+        String id1 = element.getId();
+        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.toRegisterName(this.element.getFileName());
         id.setText(id1);
 
-        namespace.setValue(craftingRecipe.getNamespace());
-        group.setValue(craftingRecipe.getGroup());
-        shapeless.setSelected(craftingRecipe.isShapeless());
-        ArrayUtils.biForEach(inputs, craftingRecipe.getInputs(), ItemView::setItem);
-        ItemStack outputItem = craftingRecipe.getOutput();
+        namespace.setValue(element.getNamespace());
+        group.setValue(element.getGroup());
+        shapeless.setSelected(element.isShapeless());
+        ArrayUtils.biForEach(inputs, element.getInputs(), ItemView::setItem);
+        ItemStack outputItem = element.getOutput();
         if (outputItem != null) {
             output.setItem(outputItem.getItem());
             outputAmount.getValueFactory().setValue(outputItem.getAmount());
@@ -110,13 +107,12 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        CraftingRecipe craftingRecipe = file.get();
-        craftingRecipe.setId(id.getText());
-        craftingRecipe.setNamespace(namespace.getValue());
-        craftingRecipe.setGroup(group.getValue());
-        craftingRecipe.setShapeless(shapeless.isSelected());
-        craftingRecipe.setInputs(ArrayUtils.map(inputs, ItemView::getItem, Item[]::new));
-        craftingRecipe.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
+        element.setId(id.getText());
+        element.setNamespace(namespace.getValue());
+        element.setGroup(group.getValue());
+        element.setShapeless(shapeless.isSelected());
+        element.setInputs(ArrayUtils.map(inputs, ItemView::getItem, Item[]::new));
+        element.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
     }
 
     @Override

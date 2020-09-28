@@ -2,9 +2,10 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
+import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 
-public class CraftingRecipe {
+public class CraftingRecipe extends Element {
 
     private String id;
     private String namespace;

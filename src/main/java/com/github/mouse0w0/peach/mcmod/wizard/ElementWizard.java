@@ -5,11 +5,11 @@ import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.wizard.Wizard;
 
-public abstract class ElementWizard<T> extends Wizard {
+public abstract class ElementWizard<T extends Element> extends Wizard {
     private final Project project;
-    private final Element<T> element;
+    private final T element;
 
-    public ElementWizard(Project project, Element<T> element) {
+    public ElementWizard(Project project, T element) {
         this.project = project;
         this.element = element;
     }
@@ -18,13 +18,13 @@ public abstract class ElementWizard<T> extends Wizard {
         return project;
     }
 
-    public Element<T> getElement() {
+    public T getElement() {
         return element;
     }
 
     @Override
     public String getName() {
-        return element.getName();
+        return element.getFileName();
     }
 
     @Override
