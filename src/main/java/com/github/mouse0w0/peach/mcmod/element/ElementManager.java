@@ -116,7 +116,21 @@ public final class ElementManager {
     public void editElement(Element element) {
         ElementType type = elementRegistry.getElementType(element.getClass());
         Wizard wizard = type.createWizard(project, element);
-        Tab tab = Wizard.createTab(wizard);
+
+        Tab tab = new Tab();
+        tab.setContent(wizard.getContent());
+        tab.setText(wizard.getName());
+        tab.setClosable(true);
+        tab.setOnCloseRequest(event -> {
+            event.consume();
+            wizard.cancel();
+        });
+        wizard.addClosedCallback(() -> {
+            if (tab.getTabPane() != null) {
+                tab.getTabPane().getTabs().remove(tab);
+            }
+        });
+
         WindowManager.getInstance().getWindow(project).openTab(tab);
     }
 

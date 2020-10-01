@@ -5,7 +5,6 @@ import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
 
 import java.util.ArrayList;
@@ -28,23 +27,6 @@ public abstract class Wizard {
     private boolean ok;
 
     private final List<Runnable> closedCallbacks = new ArrayList<>();
-
-    public static Tab createTab(Wizard wizard) {
-        Tab tab = new Tab();
-        tab.setContent(wizard.getContent());
-        tab.setText(wizard.getName());
-        tab.setClosable(true);
-        tab.setOnCloseRequest(event -> {
-            event.consume();
-            wizard.cancel();
-        });
-        wizard.addClosedCallback(() -> {
-            if (tab.getTabPane() != null) {
-                tab.getTabPane().getTabs().remove(tab);
-            }
-        });
-        return tab;
-    }
 
     public Wizard() {
         content = FXUtils.loadFXML(null, this, "ui/wizard/Wizard.fxml");
