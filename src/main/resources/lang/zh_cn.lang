@@ -106,6 +106,7 @@ model.item.generated=默认模型
 model.item.handheld=手持模型
 
 validate.illegal_file_name=非法的文件名：“%s”。
+validate.exists_file=文件已存在：“%s”。
 
 dialog.export_to.title=导出到……
 dialog.export_to.failure=导出失败，请在日志中查看错误详情。

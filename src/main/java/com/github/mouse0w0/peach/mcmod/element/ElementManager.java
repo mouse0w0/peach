@@ -101,11 +101,8 @@ public final class ElementManager {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Element> T createElement(ElementType<T> type, String name) {
-        Element element = loadElement(path.resolve(name + "." + type.getName() + ".json"));
-        editElement(element);
-        return (T) element;
+    public Path getElementFile(ElementType<?> type, String name) {
+        return path.resolve(name + "." + type.getName() + ".json");
     }
 
     public void editElement(Path file) {

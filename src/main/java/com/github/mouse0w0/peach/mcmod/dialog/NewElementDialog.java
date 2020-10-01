@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.FXValidator;
+import com.github.mouse0w0.peach.ui.util.Messages;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -19,6 +20,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class NewElementDialog extends BorderPane {
 
@@ -83,7 +87,15 @@ public class NewElementDialog extends BorderPane {
             return;
         }
 
-        ElementManager.getInstance(project).createElement(type.getValue(), name.getText());
+        ElementManager elementManager = ElementManager.getInstance(project);
+        Path file = elementManager.getElementFile(type.getValue(), name.getText());
+
+        if (Files.exists(file)) {
+            Messages.error(String.format(I18n.translate("validate.exists_file"), file.getFileName()));
+            return;
+        }
+
+        elementManager.editElement(file);
         FXUtils.hideWindow(this);
     }
 
