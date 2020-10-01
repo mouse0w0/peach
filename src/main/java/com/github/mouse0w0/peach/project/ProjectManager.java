@@ -74,7 +74,7 @@ public class ProjectManager {
         }
 
         Peach.getEventBus().post(new ProjectEvent.Closing(project));
-        openedProjects.remove(project);
+        openedProjects.remove(project.getPath());
         Peach.getEventBus().post(new ProjectEvent.Closed(project));
         return true;
     }

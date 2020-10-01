@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.ui;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.action.ActionManager;
+import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
@@ -51,7 +52,7 @@ public class WelcomeUI extends BorderPane {
         stage.hide();
     }
 
-    private static void onClosedProject(ProjectWindowEvent.Closed event) {
+    private static void onClosedProject(ProjectEvent.Closed event) {
         if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
             if (showWelcomeIfNoProjectOpened) show();
             else Peach.getInstance().exit();
