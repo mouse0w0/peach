@@ -89,12 +89,17 @@ public final class Peach extends ComponentManagerImpl {
     }
 
     public void exit(boolean force) {
+        LOGGER.info("Exiting application (force: {}).", force);
         getEventBus().post(new AppEvent.Closing());
 
-        if (!force && getEventBus().post(new AppEvent.CanClose())) return;
+        if (!force && getEventBus().post(new AppEvent.CanClose())) {
+            LOGGER.info("Cancelled exit application.");
+            return;
+        }
 
         ProjectManager.getInstance().closeAllProjects();
         getEventBus().post(new AppEvent.WillBeClosed());
+        LOGGER.info("Exited application.");
         System.exit(0);
     }
 
