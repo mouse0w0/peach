@@ -10,6 +10,8 @@ import java.nio.file.Path;
 
 public interface Environment {
 
+    Logger getLogger();
+
     McModSettings getModSettings();
 
     Path getSourceDirectory();

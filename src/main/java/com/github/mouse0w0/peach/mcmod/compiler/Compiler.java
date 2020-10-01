@@ -22,6 +22,8 @@ public class Compiler implements Environment {
     private final Path sourceDirectory;
     private final Path outputDirectory;
 
+    private final Logger logger = new PrintLogger();
+
     private McModSettings modSettings;
 
     private final ElementRegistry elementRegistry = ElementRegistry.getInstance();
@@ -41,6 +43,11 @@ public class Compiler implements Environment {
     public Compiler(Path sourceDirectory, Path outputDirectory) {
         this.sourceDirectory = sourceDirectory;
         this.outputDirectory = outputDirectory;
+    }
+
+    @Override
+    public Logger getLogger() {
+        return logger;
     }
 
     @Override
@@ -119,7 +126,7 @@ public class Compiler implements Environment {
             Path outputFile = getOutputDirectory().resolve("artifacts/" + modSettings.getId() + "-" + modSettings.getVersion() + ".jar");
             taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
         } catch (IOException e) {
-            e.printStackTrace();
+            getLogger().error("Caught an exception in initializing environment.", e);
         }
     }
 
@@ -161,7 +168,7 @@ public class Compiler implements Environment {
                 compileTask.run(this);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            getLogger().error("Caught an exception in executing task.", e);
         }
     }
 }
