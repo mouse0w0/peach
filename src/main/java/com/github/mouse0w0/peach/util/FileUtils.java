@@ -115,11 +115,11 @@ public class FileUtils {
         return file.getFileName().toString();
     }
 
-    public static String getFileNameWithoutExtensionName(Path file) {
+    public static String getFileNameWithoutExt(Path file) {
         return StringUtils.substringBeforeLast(file.getFileName().toString(), '.');
     }
 
-    public static String getFileNameWithoutExtensionName(File file) {
+    public static String getFileNameWithoutExt(File file) {
         return StringUtils.substringBeforeLast(file.getName(), '.');
     }
 

@@ -41,7 +41,7 @@ public class ModelManager {
     }
 
     public void loadItemModel(Path file) throws IOException {
-        String modelName = FileUtils.getFileNameWithoutExtensionName(file);
+        String modelName = FileUtils.getFileNameWithoutExt(file);
         JsonModel model = JsonModelHelper.load(file);
         itemModels.put(modelName, model);
     }
