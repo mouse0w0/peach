@@ -159,10 +159,15 @@ public class ItemPicker {
 
     private void filter(String pattern) {
         if (pattern == null || pattern.isEmpty()) {
-            content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, true));
+            content.getChildren().forEach(node -> setManagedAndVisible(node, true));
         } else {
-            content.getChildren().forEach(node -> FXUtils.setManagedAndVisible(node, filterEntry((Cell) node, pattern)));
+            content.getChildren().forEach(node -> setManagedAndVisible(node, filterEntry((Cell) node, pattern)));
         }
+    }
+
+    private static void setManagedAndVisible(Node node, boolean value) {
+        node.setManaged(value);
+        node.setVisible(value);
     }
 
     private boolean filterEntry(Cell cell, String pattern) {

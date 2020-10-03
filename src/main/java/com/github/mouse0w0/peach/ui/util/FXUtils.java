@@ -94,11 +94,6 @@ public final class FXUtils {
         region.setMaxSize(width, height);
     }
 
-    public static void setManagedAndVisible(Node node, boolean value) {
-        node.setManaged(value);
-        node.setVisible(value);
-    }
-
     public static void setFitToAnchorPane(Node node) {
         AnchorPane.setTopAnchor(node, 0D);
         AnchorPane.setLeftAnchor(node, 0D);
