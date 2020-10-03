@@ -26,6 +26,15 @@ public final class StringUtils {
         return str;
     }
 
+    public static boolean hasUpperCase(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private StringUtils() {
     }
 }

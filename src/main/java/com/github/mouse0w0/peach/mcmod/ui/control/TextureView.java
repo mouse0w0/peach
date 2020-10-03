@@ -1,11 +1,13 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.mcmod.dialog.RenameDialog;
 import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
@@ -53,9 +55,25 @@ public class TextureView extends Control {
 
     private boolean copyTextureFile(Path source) {
         try {
-            String texture = "items/" + FileUtils.getFileNameWithoutExtensionName(source);
-            Path target = getTextureFile(texture);
-            FileUtils.copyIfNotExists(source, target);
+            String fileName = FileUtils.getFileName(source);
+
+            String fileNameWithoutExt;
+            if (StringUtils.hasUpperCase(fileName)) {
+                RenameDialog dialog = new RenameDialog(String.format(I18n.translate("dialog.rename.message.file"), fileName));
+                dialog.getEditor().setText(fileName.toLowerCase());
+                dialog.getEditor().requestFocus();
+                dialog.getEditor().selectRange(0, fileName.indexOf('.'));
+                fileNameWithoutExt = FileUtils.getFileNameWithoutExt(dialog.showAndWait());
+            } else {
+                fileNameWithoutExt = FileUtils.getFileNameWithoutExt(fileName);
+            }
+
+            if (fileNameWithoutExt.isEmpty()) {
+                return false;
+            }
+
+            String texture = "items/" + fileNameWithoutExt;
+            FileUtils.copyIfNotExists(source, getTextureFile(texture));
             setTexture(texture);
             return true;
         } catch (IOException ignored) {

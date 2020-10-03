@@ -111,12 +111,20 @@ public class FileUtils {
         return Files.list(path).count() > 0;
     }
 
+    public static String getFileName(Path file) {
+        return file.getFileName().toString();
+    }
+
     public static String getFileNameWithoutExtensionName(Path file) {
         return StringUtils.substringBeforeLast(file.getFileName().toString(), '.');
     }
 
     public static String getFileNameWithoutExtensionName(File file) {
         return StringUtils.substringBeforeLast(file.getName(), '.');
+    }
+
+    public static String getFileNameWithoutExt(String fileName) {
+        return StringUtils.substringBeforeLast(fileName, '.');
     }
 
     public static boolean deleteDirectoryIfPresent(Path path) {
