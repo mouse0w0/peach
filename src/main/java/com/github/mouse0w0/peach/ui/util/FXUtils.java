@@ -99,11 +99,7 @@ public final class FXUtils {
         node.setVisible(value);
     }
 
-    public static void setComputePrefSize(Region region) {
-        region.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-    }
-
-    public static void setAnchorToZero(Node node) {
+    public static void setFitToAnchorPane(Node node) {
         AnchorPane.setTopAnchor(node, 0D);
         AnchorPane.setLeftAnchor(node, 0D);
         AnchorPane.setBottomAnchor(node, 0D);
