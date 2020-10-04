@@ -65,3 +65,13 @@ jar {
             "Git-BuildNumber"         : buildNumber
     ])
 }
+
+distributions {
+    main {
+        contents {
+            from('content-pack') { into 'content-pack' }
+            from('license') { into 'license' }
+            from('run.bat')
+        }
+    }
+}
