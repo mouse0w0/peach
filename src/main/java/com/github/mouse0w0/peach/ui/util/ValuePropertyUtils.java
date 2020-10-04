@@ -23,9 +23,13 @@ public final class ValuePropertyUtils {
         register(n -> n instanceof ComboBox, n -> ((ComboBox<?>) n).valueProperty());
         register(n -> n instanceof ChoiceBox, n -> ((ChoiceBox<?>) n).valueProperty());
         register(n -> n instanceof CheckBox, n -> ((CheckBox) n).selectedProperty());
+        register(n -> n instanceof ToggleButton, n -> ((ToggleButton) n).selectedProperty());
         register(n -> n instanceof Slider, n -> ((Slider) n).valueProperty());
         register(n -> n instanceof ColorPicker, n -> ((ColorPicker) n).valueProperty());
         register(n -> n instanceof DatePicker, n -> ((DatePicker) n).valueProperty());
+        register(n -> n instanceof Spinner, n -> ((Spinner<?>) n).getValueFactory().valueProperty());
+
+        // Failed to select items in those controls.
         register(n -> n instanceof ListView, n -> ((ListView<?>) n).itemsProperty());
         register(n -> n instanceof TableView, n -> ((TableView<?>) n).itemsProperty());
     }
