@@ -83,4 +83,9 @@ public class Project extends ComponentManagerImpl {
             Files.write(nameFile, name.getBytes(StandardCharsets.UTF_8));
         }
     }
+
+    @Override
+    public void dispose() {
+        disposeComponents();
+    }
 }

@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.exception.ServiceException;
 import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.util.ArrayUtils;
+import com.github.mouse0w0.peach.util.Disposable;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -96,5 +97,13 @@ public abstract class ComponentManagerImpl extends DataHolderImpl implements Com
         }
 
         return null;
+    }
+
+    protected void disposeComponents() {
+        for (Object service : services.values()) {
+            if (service instanceof Disposable) {
+                ((Disposable) service).dispose();
+            }
+        }
     }
 }
