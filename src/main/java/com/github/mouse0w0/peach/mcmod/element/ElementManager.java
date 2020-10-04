@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.mcmod.event.ElementEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -80,12 +82,18 @@ public final class ElementManager {
     }
 
     public void saveElement(Element element) {
-        elements.add(element.getFile());
+        if (elements.add(element.getFile())) {
+            Peach.getEventBus().post(new ElementEvent.Created(project, element));
+        }
+
         try {
             JsonUtils.writeJson(element.getFile(), element);
         } catch (IOException e) {
+            LOGGER.warn("Failed to save element.", e);
             //TODO: show dialog
         }
+
+        Peach.getEventBus().post(new ElementEvent.Updated(project, element));
     }
 
     public void removeElement(Path file) {
@@ -99,6 +107,8 @@ public final class ElementManager {
         } catch (IOException e) {
             LOGGER.warn("Failed to delete element file.", e);
         }
+
+        Peach.getEventBus().post(new ElementEvent.Deleted(project, file));
     }
 
     public Path getElementFile(ElementType<?> type, String name) {
