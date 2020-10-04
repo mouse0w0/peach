@@ -71,7 +71,7 @@ distributions {
         contents {
             from('content-pack') { into 'content-pack' }
             from('license') { into 'license' }
-            from('run.bat')
+            from('peach.bat')
         }
     }
 }
