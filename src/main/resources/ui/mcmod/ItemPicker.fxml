@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.github.mouse0w0.gridview.GridView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -27,34 +28,21 @@
          </padding>
       </FlowPane>
    </top>
-   <center>
-      <ScrollPane fitToWidth="true" prefHeight="400.0" BorderPane.alignment="CENTER">
-         <content>
-            <AnchorPane>
-               <children>
-                   <FlowPane fx:id="content" prefWidth="660.0" styleClass="content" AnchorPane.leftAnchor="0.0"
-                             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                       <padding>
-                           <Insets top="4.0"/>
-                       </padding>
-                   </FlowPane>
-               </children>
-            </AnchorPane>
-         </content>
-      </ScrollPane>
-   </center>
    <bottom>
       <FlowPane alignment="CENTER_RIGHT" hgap="10.0" BorderPane.alignment="CENTER">
           <children>
               <Button mnemonicParsing="false" onAction="#onFinish" text="%common.ok"/>
               <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%common.cancel"/>
           </children>
-         <padding>
-             <Insets top="10.0"/>
-         </padding>
+          <padding>
+              <Insets top="10.0"/>
+          </padding>
       </FlowPane>
    </bottom>
-   <padding>
-       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-   </padding>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+    </padding>
+    <center>
+        <GridView fx:id="gridView" prefHeight="400.0" prefWidth="660.0" BorderPane.alignment="CENTER"/>
+    </center>
 </BorderPane>

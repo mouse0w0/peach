@@ -1,14 +1,15 @@
-.item-picker .cell {
+.grid-view .grid-cell {
     -fx-background-radius: 5;
     -fx-background-insets: 0;
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
-.item-picker .cell:focused {
+.grid-view .grid-cell:selected,
+.grid-view .grid-cell:focused {
     -fx-background-color: #C0C0C0;
 }
 
-.item-picker .cell:selected {
-    -fx-background-color: #C0C0C0;
+.grid-view .grid-cell .tooltip {
+    -fx-font-size: 13px;
 }

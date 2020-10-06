@@ -44,6 +44,10 @@ public class ContentManager {
         contentPack.getItemGroupData().forEach(itemGroupData -> itemGroupMap.put(itemGroupData.getId(), itemGroupData));
     }
 
+    public Collection<Item> getItems() {
+        return itemMap.keySet();
+    }
+
     public Map<Item, List<ItemData>> getItemMap() {
         return itemMap;
     }

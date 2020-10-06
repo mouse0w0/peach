@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui;
 
+import com.github.mouse0w0.gridview.GridView;
+import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
@@ -9,21 +11,16 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.ScheduleUtils;
+import com.google.common.base.Strings;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.apache.commons.lang3.Validate;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +30,8 @@ import java.util.stream.Collectors;
 public class ItemPicker {
 
     private static ItemPicker instance;
+
+    private ContentManager contentManager;
 
     private Scene scene;
 
@@ -49,19 +48,13 @@ public class ItemPicker {
     private RadioButton oreDict;
 
     @FXML
-    private FlowPane content;
-
-    private ScheduledFuture<?> filterFuture;
-
-    private Project project;
+    private GridView<Item> gridView;
 
     private Item defaultItem;
-    private ToggleGroup selectedItem = new ToggleGroup();
-    private boolean cancelled;
 
-    private List<Node> cacheNormalEntries;
-    private List<Node> cacheIgnoreMetadataEntries;
-    private List<Node> cacheOreDictEntries;
+    private ScheduledFuture<?> updateItemTask;
+
+    private final Tooltip tooltip = createTooltip();
 
     public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         if (instance == null) instance = new ItemPicker();
@@ -79,109 +72,45 @@ public class ItemPicker {
     private ItemPicker() {
         scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemPicker.fxml"));
 
+        gridView.setCellWidth(32);
+        gridView.setCellHeight(32);
+        gridView.setVerticalCellSpacing(0);
+        gridView.setHorizontalCellSpacing(0);
+        gridView.setCellFactory(view -> new GridCell<Item>() {
+            @Override
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setTooltip(null);
+                } else {
+                    setGraphic(new ItemView(item, 32, 32));
+                    setTooltip(tooltip);
+                }
+            }
+        });
+
         filter.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                filter(filter.getText());
+                updateItem();
             }
         });
         filter.textProperty().addListener(observable -> {
-            if (filterFuture != null && !filterFuture.isDone()) {
-                filterFuture.cancel(false);
+            if (updateItemTask != null && !updateItemTask.isDone()) {
+                updateItemTask.cancel(false);
             }
-            String pattern = filter.getText();
-            Runnable runnable = () -> Platform.runLater(() -> filter(pattern));
-            filterFuture = ScheduleUtils.schedule(runnable, 500, TimeUnit.MILLISECONDS);
+            updateItemTask = ScheduleUtils.schedule(() -> Platform.runLater(this::updateItem), 500, TimeUnit.MILLISECONDS);
         });
 
-        mode.selectedToggleProperty().addListener(observable -> initEntries());
+        mode.selectedToggleProperty().addListener(observable -> updateItem());
     }
 
-    private void init(Project project, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        setProject(project);
-        this.defaultItem = defaultItem;
-
-        filter.setText(null);
-
-        ignoreMetadata.setDisable(!enableIgnoreMetadata);
-        oreDict.setDisable(!enableOreDict);
-
-        if (defaultItem.isOreDict()) oreDict.setSelected(true);
-        else if (defaultItem.isIgnoreMetadata()) ignoreMetadata.setSelected(true);
-        else normal.setSelected(true);
-
-        selectedItem.getToggles()
-                .parallelStream()
-                .filter(toggle -> defaultItem.equals(((Cell) toggle).getItem()))
-                .findAny()
-                .ifPresent(selectedItem::selectToggle);
-    }
-
-    private void setProject(Project project) {
-        if (this.project == project) return;
-        this.project = project;
-        cacheNormalEntries = null;
-        cacheIgnoreMetadataEntries = null;
-        cacheOreDictEntries = null;
-        initEntries();
-    }
-
-    private void initEntries() {
-        ObservableList<Node> contentChildren = content.getChildren();
-        if (ignoreMetadata.isSelected()) {
-            if (cacheIgnoreMetadataEntries == null) {
-                cacheIgnoreMetadataEntries = generateEntries(Item::isIgnoreMetadata);
-            }
-            contentChildren.setAll(cacheIgnoreMetadataEntries);
-        } else if (oreDict.isSelected()) {
-            if (cacheOreDictEntries == null) {
-                cacheOreDictEntries = generateEntries(Item::isOreDict);
-            }
-            contentChildren.setAll(cacheOreDictEntries);
-        } else {
-            if (cacheNormalEntries == null) {
-                cacheNormalEntries = generateEntries(Item::isNormal);
-            }
-            contentChildren.setAll(cacheNormalEntries);
-        }
-        if (!contentChildren.isEmpty()) {
-            selectedItem.selectToggle((Toggle) content.getChildren().get(0));
-        }
-    }
-
-    private List<Node> generateEntries(Predicate<Item> filter) {
-        return project != null ? ContentManager.getInstance(project).getItemMap().keySet()
-                .parallelStream()
-                .filter(filter)
-                .map(item -> new Cell(item, selectedItem))
-                .sequential()
-                .collect(Collectors.toList()) : Collections.emptyList();
-    }
-
-    private void filter(String pattern) {
-        if (pattern == null || pattern.isEmpty()) {
-            content.getChildren().forEach(node -> setManagedAndVisible(node, true));
-        } else {
-            content.getChildren().forEach(node -> setManagedAndVisible(node, filterEntry((Cell) node, pattern)));
-        }
-    }
-
-    private static void setManagedAndVisible(Node node, boolean value) {
-        node.setManaged(value);
-        node.setVisible(value);
-    }
-
-    private boolean filterEntry(Cell cell, String pattern) {
-        if (cell.getItem().getId().contains(pattern)) return true;
-        for (ItemData itemDatum : cell.getItemData()) {
-            if (itemDatum.getDisplayName().contains(pattern)) {
-                return true;
-            }
-        }
-        return false;
+    public Item getDefaultItem() {
+        return defaultItem;
     }
 
     public Item getSelectedItem() {
-        return cancelled ? defaultItem : ((Cell) selectedItem.getSelectedToggle()).getItem();
+        return gridView.getSelectionModel().getSelectedItem();
     }
 
     @FXML
@@ -191,66 +120,87 @@ public class ItemPicker {
 
     @FXML
     private void onCancel() {
-        cancelled = true;
+        MultipleSelectionModel<Item> selectionModel = gridView.getSelectionModel();
+        selectionModel.clearSelection();
+        selectionModel.select(defaultItem);
         FXUtils.hideWindow(scene);
     }
 
-    private static class Cell extends ToggleButton {
+    private void init(Project project, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        this.defaultItem = defaultItem;
+        contentManager = ContentManager.getInstance(project);
 
-        private static final Tooltip TOOLTIP;
+//        filter.setText(null);
 
-        private final Item item;
-        private final ItemView itemView;
+        ignoreMetadata.setDisable(!enableIgnoreMetadata);
+        oreDict.setDisable(!enableOreDict);
 
-        static {
-            TOOLTIP = new Tooltip();
-            TOOLTIP.setFont(Font.font(13));
-            TOOLTIP.setOnShowing(event ->
-                    FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                                Cell cell = (Cell) node;
-                                Item item = cell.getItem();
-                                List<ItemData> itemData = cell.getItemData();
-                                StringBuilder sb = new StringBuilder();
+        if (defaultItem.isOreDict()) oreDict.setSelected(true);
+        else if (defaultItem.isIgnoreMetadata()) ignoreMetadata.setSelected(true);
+        else normal.setSelected(true);
 
-                                sb.append(item.getId());
-                                if (item.isNormal()) {
-                                    sb.append(":").append(item.getMetadata());
-                                }
+        updateItem();
 
-                                sb.append("\n--------------------\n");
+        gridView.getSelectionModel().select(defaultItem);
+    }
 
-                                for (ItemData itemDatum : itemData) {
-                                    sb.append(itemDatum.getDisplayName()).append("\n");
-                                }
+    private void updateItem() {
+        List<Item> items = contentManager.getItems()
+                .parallelStream()
+                .filter(buildItemFilter())
+                .collect(Collectors.toList());
+        gridView.getItems().setAll(items);
+    }
 
-                                TOOLTIP.setText(sb.substring(0, sb.length() - 1));
-                            }
-                    ));
+    private Predicate<Item> buildItemFilter() {
+        Predicate<Item> predicate;
+        if (ignoreMetadata.isSelected()) {
+            predicate = Item::isIgnoreMetadata;
+        } else if (oreDict.isSelected()) {
+            predicate = Item::isOreDict;
+        } else {
+            predicate = Item::isNormal;
         }
 
-        public Cell(Item item, ToggleGroup toggleGroup) {
-            this.item = Validate.notNull(item);
-            this.itemView = new ItemView(item, 32, 32);
-            getStyleClass().add("cell");
-            setToggleGroup(toggleGroup);
-            setGraphic(itemView);
-            setTooltip(TOOLTIP);
+        final String pattern = filter.getText();
+        if (!Strings.isNullOrEmpty(pattern)) {
+            predicate = predicate.and(item -> filterItem(item, pattern));
         }
 
-        public Item getItem() {
-            return item;
-        }
+        return predicate;
+    }
 
-        public List<ItemData> getItemData() {
-            return itemView.getItemData();
-        }
-
-        @Override
-        public void fire() {
-            // we don't toggle from selected to not selected if part of a group
-            if (getToggleGroup() == null || !isSelected()) {
-                super.fire();
+    private boolean filterItem(Item item, String pattern) {
+        if (item.getId().contains(pattern)) return true;
+        for (ItemData data : contentManager.getItemData(item)) {
+            if (data.getDisplayName().contains(pattern)) {
+                return true;
             }
         }
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Tooltip createTooltip() {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setOnShowing(event ->
+                FXUtils.getTooltipOwnerNode().ifPresent(node -> {
+                            Item item = ((GridCell<Item>) node).getItem();
+
+                            StringBuilder sb = new StringBuilder();
+
+                            sb.append(item.getId());
+                            if (item.isNormal()) sb.append("#").append(item.getMetadata());
+
+                            sb.append("\n--------------------\n");
+
+                            for (ItemData data : contentManager.getItemData(item)) {
+                                sb.append(data.getDisplayName()).append("\n");
+                            }
+
+                            tooltip.setText(sb.substring(0, sb.length() - 1));
+                        }
+                ));
+        return tooltip;
     }
 }
