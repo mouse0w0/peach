@@ -33,6 +33,7 @@ dependencies {
     compile 'com.github.mouse0w0:eventbus:2.4.4'
     compile 'com.github.mouse0w0:version:1.4.0'
     compile 'com.github.mouse0w0:i18n:1.0.2'
+    compile 'com.github.mouse0w0:gridview:1.0.0'
 
 //    compile 'org.controlsfx:controlsfx:8.40.17'
 //    compile 'com.dlsc.formsfx:formsfx-core:8.4.0'
