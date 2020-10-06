@@ -77,15 +77,17 @@ public class ItemPicker {
         gridView.setVerticalCellSpacing(0);
         gridView.setHorizontalCellSpacing(0);
         gridView.setCellFactory(view -> new GridCell<Item>() {
+            {
+                setTooltip(tooltip);
+            }
+
             @Override
             protected void updateItem(Item item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty) {
                     setGraphic(null);
-                    setTooltip(null);
                 } else {
                     setGraphic(new ItemView(item, 32, 32));
-                    setTooltip(tooltip);
                 }
             }
         });
@@ -186,6 +188,7 @@ public class ItemPicker {
         tooltip.setOnShowing(event ->
                 FXUtils.getTooltipOwnerNode().ifPresent(node -> {
                             Item item = ((GridCell<Item>) node).getItem();
+                    if (item == null) tooltip.hide();
 
                             StringBuilder sb = new StringBuilder();
 
