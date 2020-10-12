@@ -76,35 +76,31 @@ public class ItemPicker {
         gridView.setCellHeight(32);
         gridView.setVerticalCellSpacing(0);
         gridView.setHorizontalCellSpacing(0);
-        gridView.setCellFactory(view -> new GridCell<Item>() {
-            {
-                setTooltip(tooltip);
-            }
+        gridView.setCellFactory(view -> new Cell());
 
-            @Override
-            protected void updateItem(Item item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    setGraphic(new ItemView(item, 32, 32));
-                }
-            }
-        });
+        filter.setOnKeyPressed(event ->
 
-        filter.setOnKeyPressed(event -> {
+        {
             if (event.getCode() == KeyCode.ENTER) {
                 updateItem();
             }
         });
-        filter.textProperty().addListener(observable -> {
-            if (updateItemTask != null && !updateItemTask.isDone()) {
-                updateItemTask.cancel(false);
-            }
-            updateItemTask = ScheduleUtils.schedule(() -> Platform.runLater(this::updateItem), 500, TimeUnit.MILLISECONDS);
-        });
+        filter.textProperty().
 
-        mode.selectedToggleProperty().addListener(observable -> updateItem());
+                addListener(observable ->
+
+                {
+                    if (updateItemTask != null && !updateItemTask.isDone()) {
+                        updateItemTask.cancel(false);
+                    }
+                    updateItemTask = ScheduleUtils.schedule(() -> Platform.runLater(this::updateItem), 500, TimeUnit.MILLISECONDS);
+                });
+
+        mode.selectedToggleProperty().
+
+                addListener(observable ->
+
+                        updateItem());
     }
 
     public Item getDefaultItem() {
@@ -188,7 +184,7 @@ public class ItemPicker {
         tooltip.setOnShowing(event ->
                 FXUtils.getTooltipOwnerNode().ifPresent(node -> {
                             Item item = ((GridCell<Item>) node).getItem();
-                    if (item == null) tooltip.hide();
+                            if (item == null) tooltip.hide();
 
                             StringBuilder sb = new StringBuilder();
 
@@ -205,5 +201,24 @@ public class ItemPicker {
                         }
                 ));
         return tooltip;
+    }
+
+    private class Cell extends GridCell<Item> {
+        private final ItemView itemView = new ItemView(32, 32);
+
+        public Cell() {
+            setGraphic(itemView);
+            setTooltip(tooltip);
+        }
+
+        @Override
+        protected void updateItem(Item item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                itemView.setItem(null);
+            } else {
+                itemView.setItem(item);
+            }
+        }
     }
 }
