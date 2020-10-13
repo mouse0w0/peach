@@ -5,6 +5,7 @@ import com.github.mouse0w0.i18n.source.FileTranslationSource;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.content.data.OreDictData;
+import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.common.reflect.TypeToken;
@@ -64,7 +65,7 @@ public class ContentPack implements Closeable {
 
     private void load() throws IOException {
         itemData = JsonUtils.readJson(getPath("content/" + getId() + "/item.json"), LIST_ITEM_DATA_TYPE);
-        itemData.forEach(item -> item.setDisplayImage(getPath(String.format("content/%s/image/item/%s_%d.png", getId(), item.getName(), item.getMetadata()))));
+        itemData.forEach(item -> item.setDisplayImage(getImage(item)));
         itemGroupData = JsonUtils.readJson(getPath("content/" + getId() + "/itemGroup.json"), LIST_CREATIVE_TAB_DATA_TYPE);
         oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
         setLocale(Locale.getDefault());
@@ -103,6 +104,14 @@ public class ContentPack implements Closeable {
 
     public Path getPath(String first, String... more) {
         return fileSystem.getPath(first, more);
+    }
+
+    public CachedImage getImage(ItemData item) {
+        return new CachedImage(getImageFile(item), 64, 64);
+    }
+
+    public Path getImageFile(ItemData item) {
+        return getPath("content", getId(), "image/item", item.getName() + "_" + item.getMetadata() + ".png");
     }
 
     public ContentPackMetadata getMetadata() {

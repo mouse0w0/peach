@@ -81,9 +81,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             timeline = createTimeline();
             timeline.play();
         } else {
-            ItemData itemDatum = itemData.get(0);
-            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), 64, 64);
-            imageView.setImage(image.getImage());
+            imageView.setImage(itemData.get(0).getDisplayImage().getImage());
         }
     }
 
@@ -92,8 +90,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         ObservableList<KeyFrame> keyFrames = timeline.getKeyFrames();
         timeline.setCycleCount(Timeline.INDEFINITE);
         for (int i = 0; i < itemData.size(); i++) {
-            ItemData itemDatum = itemData.get(i);
-            CachedImage image = new CachedImage(itemDatum.getDisplayImage(), 64, 64);
+            CachedImage image = itemData.get(i).getDisplayImage();
             keyFrames.add(new KeyFrame(Duration.seconds(i), event -> imageView.setImage(image.getImage())));
         }
         return timeline;

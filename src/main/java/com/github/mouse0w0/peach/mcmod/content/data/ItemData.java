@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.content.data;
 
-import java.nio.file.Path;
+import com.github.mouse0w0.peach.ui.util.CachedImage;
 
 public class ItemData {
 
@@ -10,7 +10,7 @@ public class ItemData {
     private boolean block;
 
     private transient String displayName;
-    private transient Path displayImage;
+    private transient CachedImage displayImage;
 
     public ItemData(String id, int metadata, String translationKey, boolean block) {
         this.id = id;
@@ -51,11 +51,11 @@ public class ItemData {
         this.displayName = displayName;
     }
 
-    public Path getDisplayImage() {
+    public CachedImage getDisplayImage() {
         return displayImage;
     }
 
-    public void setDisplayImage(Path displayImage) {
+    public void setDisplayImage(CachedImage displayImage) {
         this.displayImage = displayImage;
     }
 }
