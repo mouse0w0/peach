@@ -159,7 +159,9 @@ public class ContentManager implements Disposable {
 
             Path previewFile = previewCache.resolve(element.getFileName() + ".png");
             ElementRegistry.getInstance().getElementType(ItemElement.class).generatePreview(project, itemElement, previewFile);
-            itemData.setDisplayImage(new CachedImage(previewFile, 64, 64));
+            CachedImage cachedImage = new CachedImage(previewFile, 64, 64);
+            cachedImage.cleanCache();
+            itemData.setDisplayImage(cachedImage);
 
             String modId = mcModDescriptor.getModId();
             Item item = Item.createItem(modId + ":" + itemData.getId(), itemData.getMetadata());

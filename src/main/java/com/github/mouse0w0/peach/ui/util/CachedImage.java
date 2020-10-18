@@ -61,6 +61,10 @@ public class CachedImage {
         return new Image(url, width, height, preserveRatio, smooth, backgroundLoading);
     }
 
+    public void cleanCache() {
+        CACHE.invalidate(this);
+    }
+
     public String getUrl() {
         return url;
     }
