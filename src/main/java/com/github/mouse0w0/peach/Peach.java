@@ -53,15 +53,25 @@ public final class Peach extends ComponentManagerImpl {
     }
 
     public static void main(String[] args) {
+        initUncaughtExceptionHandler();
         LOGGER.info("Launching application...");
         LOGGER.info("Version: {}", getInstance().getVersion());
+        initTranslator();
+        INSTANCE.loadServiceDescriptors();
+        INSTANCE.initServices(INSTANCE.getApplicationServices());
+        Application.launch(FXApplication.class, args);
+    }
+
+    private static void initUncaughtExceptionHandler() {
+        Thread.setDefaultUncaughtExceptionHandler((t, e) ->
+                LOGGER.error("Uncaught exception detected in thread: " + t.getName(), e));
+    }
+
+    private static void initTranslator() {
         I18n.setTranslator(Translator.builder()
                 .locale(Locale.getDefault())
                 .source(new ClasspathFileTranslationSource("lang"))
                 .build());
-        INSTANCE.loadServiceDescriptors();
-        INSTANCE.initServices(INSTANCE.getApplicationServices());
-        Application.launch(FXApplication.class, args);
     }
 
     private Peach() {
