@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.dialog.RenameDialog;
-import com.github.mouse0w0.peach.mcmod.project.McModDataKeys;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
+import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -31,7 +31,7 @@ public class TextureView extends Control {
         setOnMouseClicked(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle(I18n.translate("dialog.texture_chooser.title"));
-            Path initialDirectory = getTexturePath();
+            Path initialDirectory = TextureUtils.getTexturePath(getProject());
             FileUtils.createDirectoriesIfNotExistsSilently(initialDirectory);
             fileChooser.setInitialDirectory(initialDirectory.toFile());
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
@@ -73,20 +73,12 @@ public class TextureView extends Control {
             }
 
             String texture = "items/" + fileNameWithoutExt;
-            FileUtils.copyIfNotExists(source, getTextureFile(texture));
+            FileUtils.copyIfNotExists(source, TextureUtils.getTextureFile(getProject(), texture));
             setTexture(texture);
             return true;
         } catch (IOException ignored) {
             return false;
         }
-    }
-
-    private Path getTexturePath() {
-        return getProject().getData(McModDataKeys.RESOURCES_PATH).resolve("textures");
-    }
-
-    private Path getTextureFile(String textureName) {
-        return getTexturePath().resolve(textureName + ".png");
     }
 
     private ObjectProperty<Project> project;
