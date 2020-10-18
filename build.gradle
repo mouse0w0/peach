@@ -72,7 +72,7 @@ distributions {
         contents {
             from('content-pack') { into 'content-pack' }
             from('license') { into 'license' }
-            from('peach.bat')
+            from('peach.bat', 'CHANGE_LOG.md')
         }
     }
 }
