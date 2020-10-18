@@ -22,12 +22,16 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.lang3.SystemUtils.*;
 
 public final class Peach extends ComponentManagerImpl {
 
@@ -55,7 +59,7 @@ public final class Peach extends ComponentManagerImpl {
     public static void main(String[] args) {
         initUncaughtExceptionHandler();
         LOGGER.info("Launching application...");
-        LOGGER.info("Version: {}", getInstance().getVersion());
+        printSystemInfo();
         initTranslator();
         INSTANCE.loadServiceDescriptors();
         INSTANCE.initServices(INSTANCE.getApplicationServices());
@@ -65,6 +69,20 @@ public final class Peach extends ComponentManagerImpl {
     private static void initUncaughtExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler((t, e) ->
                 LOGGER.error("Uncaught exception detected in thread: " + t.getName(), e));
+    }
+
+    private static void printSystemInfo() {
+        LOGGER.info("----- System Information -----");
+        LOGGER.info("\tApplication Version: {}", getInstance().getVersion());
+        LOGGER.info("\tOperating System: {} ({}) version {}", OS_NAME, OS_ARCH, OS_VERSION);
+        LOGGER.info("\tJava Version: {} ({}), {}", JAVA_VERSION, JAVA_VM_VERSION, JAVA_VENDOR);
+        LOGGER.info("\tJVM Information: {} ({}), {}", JAVA_VM_NAME, JAVA_VM_INFO, JAVA_VM_VENDOR);
+        long maxMemory = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getMax();
+        LOGGER.info("\tMax Heap Memory: {} bytes ({} MB)", maxMemory, maxMemory >> 20);
+        RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+        List<String> jvmFlags = runtimeMXBean.getInputArguments();
+        LOGGER.info("\tJVM Flags ({} totals): {}", jvmFlags.size(), String.join(" ", jvmFlags));
+        LOGGER.info("------------------------------");
     }
 
     private static void initTranslator() {
