@@ -2,13 +2,13 @@ package com.github.mouse0w0.peach.mcmod.content.contentPack;
 
 import com.github.mouse0w0.version.VersionRange;
 
-public class ContentPackDependency {
+public final class ContentPackDependency {
 
-    private String id;
-    private VersionRange versionRange;
-    private boolean required;
-    private boolean before;
-    private boolean after;
+    private final String id;
+    private final VersionRange versionRange;
+    private final boolean required;
+    private final boolean before;
+    private final boolean after;
 
     public static ContentPackDependency parse(String dependencyString) {
         String[] split = dependencyString.split("[:@]", 3);

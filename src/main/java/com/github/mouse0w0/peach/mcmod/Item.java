@@ -9,8 +9,8 @@ public class Item {
 
     public static Item AIR = Item.createItem("minecraft:air", 0);
 
-    private String id;
-    private int metadata;
+    private final String id;
+    private final int metadata;
 
     public static Item createItem(String id, int metadata) {
         return new Item(id, metadata);
