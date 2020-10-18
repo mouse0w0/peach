@@ -44,7 +44,7 @@ public class ItemStep extends FlowPane implements WizardStep {
         ContentManager contentManager = ContentManager.getInstance(project);
 
         itemGroup.setCellFactory(listView -> new ItemGroupCell());
-        itemGroup.getItems().addAll(contentManager.getItemGroupMap().values());
+        itemGroup.getItems().addAll(contentManager.getItemGroups());
         itemGroup.setButtonCell(new ItemGroupCell());
         itemGroup.getSelectionModel().selectFirst();
     }

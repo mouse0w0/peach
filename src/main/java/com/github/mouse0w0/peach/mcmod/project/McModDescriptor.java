@@ -28,6 +28,10 @@ public final class McModDescriptor {
         return project;
     }
 
+    public String getModId() {
+        return settings.get().getId();
+    }
+
     public JsonFile<McModSettings> getSettings() {
         return settings;
     }
