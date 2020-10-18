@@ -3,6 +3,8 @@ package com.github.mouse0w0.peach.util;
 import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,31 +12,25 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 public class JsonFile<T> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonFile.class);
+
     private final Path file;
     private final Class<T> type;
     private final Gson gson;
-
-    private final Supplier<T> defaultSupplier;
 
     private boolean loaded;
     private T value;
 
     public JsonFile(Path file, Class<T> type) {
-        this(file, type, null);
+        this(file, type, JsonUtils.gson());
     }
 
-    public JsonFile(Path file, Class<T> type, Supplier<T> defaultSupplier) {
-        this(file, type, defaultSupplier, JsonUtils.gson());
-    }
-
-    public JsonFile(Path file, Class<T> type, Supplier<T> defaultSupplier, Gson gson) {
+    public JsonFile(Path file, Class<T> type, Gson gson) {
         this.file = Validate.notNull(file);
         this.type = Validate.notNull(type);
         this.gson = Validate.notNull(gson);
-        this.defaultSupplier = defaultSupplier;
     }
 
     public Path getFile() {
@@ -50,7 +46,7 @@ public class JsonFile<T> {
         return value;
     }
 
-    public void load() {
+    public JsonFile<T> load() {
         if (Files.exists(file)) {
             try (Reader reader = Files.newBufferedReader(file)) {
                 value = gson.fromJson(reader, type);
@@ -60,10 +56,15 @@ public class JsonFile<T> {
         }
 
         if (value == null) {
-            value = defaultSupplier != null ? defaultSupplier.get() : null;
+            try {
+                value = type.newInstance();
+            } catch (ReflectiveOperationException e) {
+                LOGGER.error("Cannot new instance for " + type.getName(), e);
+            }
         }
 
         loaded = true;
+        return this;
     }
 
     public void set(T value) {
