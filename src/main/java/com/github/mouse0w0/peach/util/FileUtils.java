@@ -37,10 +37,11 @@ public class FileUtils {
         }
     }
 
-    public static void createDirectoriesIfNotExistsSilently(Path path) {
+    public static void createDirectoriesIfNotExistsSilently(Path path) throws RuntimeIOException {
         try {
             createDirectoriesIfNotExists(path);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            throw new RuntimeIOException(e);
         }
     }
 
@@ -71,6 +72,19 @@ public class FileUtils {
         if (Files.exists(target) && !ArrayUtils.contains(options, StandardCopyOption.REPLACE_EXISTING)) return 0;
         createParentIfNotExists(target);
         return Files.copy(in, target, options);
+    }
+
+    public static Path forceCopy(Path source, Path target) throws IOException {
+        createParentIfNotExists(target);
+        return Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public static Path forceCopySilently(Path source, Path target) throws RuntimeIOException {
+        try {
+            return forceCopy(source, target);
+        } catch (IOException e) {
+            throw new RuntimeIOException(e);
+        }
     }
 
     public static Stream<Path> walk(Collection<Path> paths, FileVisitOption... options) {

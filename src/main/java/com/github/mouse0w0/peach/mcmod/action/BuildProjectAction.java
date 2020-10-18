@@ -9,15 +9,15 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.Messages;
+import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.stage.FileChooser;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
 
 public class BuildProjectAction extends Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(BuildProjectAction.class);
@@ -37,11 +37,12 @@ public class BuildProjectAction extends Action {
         fileChooser.setTitle(I18n.translate("dialog.export_to.title"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Jar", "*.jar"));
         fileChooser.setInitialFileName(fileName);
-        fileChooser.setInitialDirectory(FileUtils.getUserDirectory());
+        fileChooser.setInitialDirectory(SystemUtils.getUserHome());
         File file = fileChooser.showSaveDialog(window.getStage());
         if (file != null) {
             try {
-                Files.copy(compiler.getOutputDirectory().resolve("artifacts/" + fileName), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Path source = compiler.getOutputDirectory().resolve("artifacts/" + fileName);
+                FileUtils.forceCopy(source, file.toPath());
             } catch (IOException e) {
                 LOGGER.error("Failed to export file: " + file, e);
                 Messages.warning("dialog.export_to.failure");
