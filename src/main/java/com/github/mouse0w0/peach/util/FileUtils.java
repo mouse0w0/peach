@@ -74,6 +74,19 @@ public class FileUtils {
         return Files.copy(in, target, options);
     }
 
+    public static long forceCopy(InputStream in, Path target) throws IOException {
+        createParentIfNotExists(target);
+        return Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    public static long forceCopySilently(InputStream in, Path target) throws RuntimeIOException {
+        try (InputStream inputStream = in) {
+            return forceCopy(inputStream, target);
+        } catch (IOException e) {
+            throw new RuntimeIOException(e);
+        }
+    }
+
     public static Path forceCopy(Path source, Path target) throws IOException {
         createParentIfNotExists(target);
         return Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);

@@ -18,8 +18,11 @@ public class ItemPreview implements PreviewGenerator<ItemElement> {
             case "handheld":
                 String layer0 = element.getTextures().get("layer0");
                 Path source = TextureUtils.getTextureFile(project, layer0);
-                if (Files.notExists(source)) source = TextureUtils.getMissingTexture();
-                FileUtils.forceCopySilently(source, outputFile);
+                if (Files.notExists(source)) {
+                    FileUtils.forceCopySilently(TextureUtils.getMissingTexture(), outputFile);
+                } else {
+                    FileUtils.forceCopySilently(source, outputFile);
+                }
                 break;
             default:
                 break;
