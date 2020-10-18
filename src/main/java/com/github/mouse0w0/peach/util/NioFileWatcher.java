@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.function.Consumer;
 
-public class FileWatcher {
+public class NioFileWatcher {
 
     private final Path path;
     private Multimap<WatchEvent.Kind<?>, Consumer<Path>> listeners = HashMultimap.create();
@@ -16,11 +16,11 @@ public class FileWatcher {
 
     private Thread thread;
 
-    public FileWatcher(Path path, WatchEvent.Modifier... modifiers) {
+    public NioFileWatcher(Path path, WatchEvent.Modifier... modifiers) {
         this(path, false, modifiers);
     }
 
-    public FileWatcher(Path path, boolean receiveRepeatedEvent, WatchEvent.Modifier... modifiers) {
+    public NioFileWatcher(Path path, boolean receiveRepeatedEvent, WatchEvent.Modifier... modifiers) {
         this.path = path;
         this.receiveRepeatedEvent = receiveRepeatedEvent;
         this.modifiers = modifiers;
