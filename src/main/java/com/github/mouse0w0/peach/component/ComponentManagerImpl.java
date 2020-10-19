@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.component;
 
-import com.github.mouse0w0.peach.data.DataHolderImpl;
 import com.github.mouse0w0.peach.exception.ServiceException;
 import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.util.ArrayUtils;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public abstract class ComponentManagerImpl extends DataHolderImpl implements ComponentManager {
+public abstract class ComponentManagerImpl implements ComponentManager {
     private final ComponentManager parent;
 
     private final Map<Class<?>, Object> services = new HashMap<>();
