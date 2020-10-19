@@ -6,7 +6,7 @@ plugins {
 String buildNumber = 'git rev-list --count HEAD'.execute().text.trim();
 
 group 'com.github.mouse0w0'
-version "0.0.5.${buildNumber}-SNAPSHOT"
+version "0.0.6.${buildNumber}-SNAPSHOT"
 
 sourceCompatibility = targetCompatibility = 1.8
 mainClassName = 'com.github.mouse0w0.peach.Peach'
