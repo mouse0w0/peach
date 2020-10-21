@@ -18,6 +18,8 @@ import java.util.List;
 
 public class ItemViewSkin extends SkinBase<ItemView> {
 
+    private static final CachedImage MISSING = new CachedImage("/image/mcmod/missing.png", 64, 64);
+
     private final ImageView imageView;
 
     private List<ItemData> itemData;
@@ -74,6 +76,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         }
 
         if (itemData.size() == 0) {
+            imageView.setImage(MISSING.getImage());
             return;
         }
 

@@ -9,7 +9,7 @@ import java.nio.file.Path;
 public class TextureUtils {
 
     public static InputStream getMissingTexture() {
-        return TextureUtils.class.getResourceAsStream("/texture/missing.png");
+        return TextureUtils.class.getResourceAsStream("/image/mcmod/missing.png");
     }
 
     public static Path getTexturePath(Project project) {
