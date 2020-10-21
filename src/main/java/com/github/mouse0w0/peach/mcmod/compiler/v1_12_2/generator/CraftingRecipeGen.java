@@ -29,8 +29,9 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
     private void generateResult(CraftingRecipe recipe, JsonObject jo) {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
-        result.addProperty("item", itemStack.getItem().getId());
+        result.addProperty("item", itemStack.getId());
         result.addProperty("count", itemStack.getAmount());
+        result.addProperty("data", itemStack.getMetadata());
 
         jo.add("result", result);
     }

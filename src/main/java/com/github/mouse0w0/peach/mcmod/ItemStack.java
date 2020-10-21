@@ -28,6 +28,14 @@ public class ItemStack {
         this.item = Validate.notNull(item);
     }
 
+    public String getId() {
+        return item.getId();
+    }
+
+    public int getMetadata() {
+        return item.getMetadata();
+    }
+
     public int getAmount() {
         return amount;
     }
