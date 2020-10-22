@@ -1,22 +1,60 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
-public interface Messager {
+public abstract class Messager {
 
-    void info(String msg);
+    public enum Level {
+        INFO,
+        WARN,
+        ERROR
+    }
 
-    void info(String msg, Object... args);
+    public abstract int getErrorCount();
 
-    void info(String msg, Throwable throwable);
+    public abstract int getWarnCount();
 
-    void warn(String msg);
+    public abstract void log(Level level, String msg, Throwable throwable);
 
-    void warn(String msg, Object... args);
+    public void log(Level level, String msg) {
+        log(level, msg, (Throwable) null);
+    }
 
-    void warn(String msg, Throwable throwable);
+    public void log(Level level, String msg, Object... args) {
+        log(level, String.format(msg, args), (Throwable) null);
+    }
 
-    void error(String msg);
+    public void info(String msg) {
+        log(Level.INFO, msg);
+    }
 
-    void error(String msg, Object... args);
+    public void info(String msg, Object... args) {
+        log(Level.INFO, msg, args);
+    }
 
-    void error(String msg, Throwable throwable);
+    public void info(String msg, Throwable throwable) {
+        log(Level.INFO, msg, throwable);
+    }
+
+    public void warn(String msg) {
+        log(Level.WARN, msg);
+    }
+
+    public void warn(String msg, Object... args) {
+        log(Level.WARN, msg, args);
+    }
+
+    public void warn(String msg, Throwable throwable) {
+        log(Level.WARN, msg, throwable);
+    }
+
+    public void error(String msg) {
+        log(Level.ERROR, msg);
+    }
+
+    public void error(String msg, Object... args) {
+        log(Level.ERROR, msg, args);
+    }
+
+    public void error(String msg, Throwable throwable) {
+        log(Level.ERROR, msg, throwable);
+    }
 }

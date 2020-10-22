@@ -22,7 +22,7 @@ public class Compiler implements Environment {
     private final Path sourceDirectory;
     private final Path outputDirectory;
 
-    private final Messager messager = new PrintMessager();
+    private final Messager messager = new MessagerImpl();
 
     private McModSettings modSettings;
 
