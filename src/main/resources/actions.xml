@@ -21,8 +21,8 @@
         </group>
 
         <group id="Build">
-            <action id="BuildProject"
-                    class="com.github.mouse0w0.peach.mcmod.action.BuildProjectAction"
+            <action id="ExportProject"
+                    class="com.github.mouse0w0.peach.mcmod.action.ExportProjectAction"
                     icon="export"/>
         </group>
 

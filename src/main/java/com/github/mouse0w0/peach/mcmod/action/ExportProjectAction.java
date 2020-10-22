@@ -19,8 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class BuildProjectAction extends Action {
-    private static final Logger LOGGER = LoggerFactory.getLogger(BuildProjectAction.class);
+public class ExportProjectAction extends Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExportProjectAction.class);
 
     @Override
     public void perform(ActionEvent event) {

@@ -18,7 +18,7 @@ action.OpenProjectSettings.text=项目设置...
 action.Exit.text=退出
 
 group.Build.text=构建
-action.BuildProject.text=生成项目
+action.ExportProject.text=导出项目
 
 group.Help.text=帮助
 action.About.text=关于 Peach
