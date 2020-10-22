@@ -20,7 +20,7 @@ class ProjectRootPane extends BorderPane {
 
     public ProjectRootPane(Project project) {
         this.project = project;
-        setPrefSize(800, 600);
+        setPrefSize(820, 600);
         setTop(menuBar = createMenuBar());
         setCenter(tabPane = new TabPane());
 

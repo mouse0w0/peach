@@ -1,63 +1,61 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.gridview.GridView;
+import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.util.SkinUtils;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Control;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.nio.file.Path;
 
-public class ElementView extends ScrollPane {
+public class ElementView extends GridView<Path> {
 
     private final ElementManager elementManager;
 
-    private FlowPane content;
-
-    private Entry openingMenuEntry;
-    private ContextMenu entryMenu;
+    private final ContextMenu cellMenu;
 
     public ElementView(ElementManager elementManager) {
         this.elementManager = elementManager;
-        setFitToWidth(true);
-        content = new FlowPane();
-        setContent(content);
 
-        entryMenu = new ContextMenu();
+        getStylesheets().add("/ui/mcmod/ElementView.css");
+
+        cellMenu = new ContextMenu();
         MenuItem open = new MenuItem(I18n.translate("common.open"));
-        open.setOnAction(event -> openingMenuEntry.doOpenWizard());
+        open.setOnAction(event -> doOpenWizard());
         MenuItem remove = new MenuItem(I18n.translate("common.remove"));
-        remove.setOnAction(event -> openingMenuEntry.doDelete());
-        entryMenu.getItems().addAll(open, remove);
+        remove.setOnAction(event -> doDelete());
+        cellMenu.getItems().addAll(open, remove);
 
-        elementManager.getElements().forEach(this::addEntry);
+        setCellFactory(gridView -> new Cell());
+        setCellSize(200, 74);
+        setCellSpacing(0, 0);
+
         elementManager.getElements().addListener(new SetChangeListener<Path>() {
             @Override
             public void onChanged(Change<? extends Path> change) {
-                if (change.wasAdded()) addEntry(change.getElementAdded());
-                if (change.wasRemoved()) removeEntry(change.getElementRemoved());
+                if (change.wasAdded()) getItems().add(change.getElementAdded());
+                if (change.wasRemoved()) getItems().remove(change.getElementRemoved());
             }
         });
+        getItems().addAll(elementManager.getElements());
     }
 
-    private void addEntry(Path file) {
-        content.getChildren().add(new Entry(file));
+    public void doOpenWizard() {
+        elementManager.editElement(getSelectionModel().getSelectedItem());
     }
 
-    private void removeEntry(Path file) {
-        content.getChildren().removeIf(node -> ((Entry) node).getFile().equals(file));
+    public void doDelete() {
+        elementManager.removeElement(getSelectionModel().getSelectedItem());
     }
 
-    private class Entry extends Control {
-        private final Path file;
-        private final ElementType<?> type;
+    private class Cell extends GridCell<Path> {
+        private final Node content;
 
         @FXML
         private Rectangle icon;
@@ -66,31 +64,28 @@ public class ElementView extends ScrollPane {
         @FXML
         private Text description;
 
-        public Entry(Path file) {
-            this.file = file;
-            this.type = ElementRegistry.getInstance().getElementType(file);
-            setSkin(SkinUtils.create(this, FXUtils.loadFXML(null, this, "ui/mcmod/ElementViewEntry.fxml")));
-
-            title.setText(ElementHelper.getElementFileName(file));
-            description.setText(I18n.translate(type.getTranslationKey()));
+        public Cell() {
+            this.content = FXUtils.loadFXML(null, this, "ui/mcmod/ElementViewCell.fxml");
 
             setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) doOpenWizard();
             });
-            setOnContextMenuRequested(event -> openingMenuEntry = this);
-            setContextMenu(entryMenu);
+            setContextMenu(cellMenu);
         }
 
-        public Path getFile() {
-            return file;
-        }
+        @Override
+        protected void updateItem(Path item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                ElementType<?> type = ElementRegistry.getInstance().getElementType(item);
 
-        public void doOpenWizard() {
-            elementManager.editElement(file);
-        }
+                title.setText(ElementHelper.getElementFileName(item));
+                description.setText(I18n.translate(type.getTranslationKey()));
 
-        public void doDelete() {
-            elementManager.removeElement(file);
+                setGraphic(content);
+            }
         }
     }
 }
