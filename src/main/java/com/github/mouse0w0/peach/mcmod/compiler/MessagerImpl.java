@@ -23,7 +23,7 @@ public class MessagerImpl extends Messager {
 
     @Override
     public int getWarnCount() {
-        return errorCount;
+        return warnCount;
     }
 
     @Override
