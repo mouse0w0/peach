@@ -10,7 +10,7 @@ import java.nio.file.Path;
 
 public interface Environment {
 
-    Logger getLogger();
+    Messager getMessager();
 
     McModSettings getModSettings();
 

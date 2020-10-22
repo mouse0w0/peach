@@ -22,7 +22,7 @@ public class Compiler implements Environment {
     private final Path sourceDirectory;
     private final Path outputDirectory;
 
-    private final Logger logger = new PrintLogger();
+    private final Messager messager = new PrintMessager();
 
     private McModSettings modSettings;
 
@@ -46,8 +46,8 @@ public class Compiler implements Environment {
     }
 
     @Override
-    public Logger getLogger() {
-        return logger;
+    public Messager getMessager() {
+        return messager;
     }
 
     @Override
@@ -126,7 +126,7 @@ public class Compiler implements Environment {
             Path outputFile = getOutputDirectory().resolve("artifacts/" + modSettings.getId() + "-" + modSettings.getVersion() + ".jar");
             taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
         } catch (IOException e) {
-            getLogger().error("Caught an exception in initializing environment.", e);
+            getMessager().error("Caught an exception in initializing environment.", e);
         }
     }
 
@@ -168,7 +168,7 @@ public class Compiler implements Environment {
                 compileTask.run(this);
             }
         } catch (Exception e) {
-            getLogger().error("Caught an exception in executing task.", e);
+            getMessager().error("Caught an exception in executing task.", e);
         }
     }
 }

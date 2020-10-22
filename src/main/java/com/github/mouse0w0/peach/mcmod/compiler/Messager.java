@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
-public interface Logger {
+public interface Messager {
 
     void info(String msg);
 

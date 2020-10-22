@@ -2,14 +2,14 @@ package com.github.mouse0w0.peach.mcmod.compiler;
 
 import java.io.PrintStream;
 
-public class PrintLogger implements Logger {
+public class PrintMessager implements Messager {
     private PrintStream out;
 
-    public PrintLogger() {
+    public PrintMessager() {
         this(System.out);
     }
 
-    public PrintLogger(PrintStream out) {
+    public PrintMessager(PrintStream out) {
         this.out = out;
     }
 
