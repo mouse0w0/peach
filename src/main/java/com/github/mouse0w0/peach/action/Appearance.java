@@ -1,13 +1,15 @@
 package com.github.mouse0w0.peach.action;
 
-import javafx.beans.property.*;
-import javafx.scene.image.Image;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public final class Appearance {
 
     private StringProperty text;
     private StringProperty description;
-    private ObjectProperty<Image> icon;
+    private StringProperty icon;
 
     private BooleanProperty disable;
     private BooleanProperty visible;
@@ -42,18 +44,18 @@ public final class Appearance {
         descriptionProperty().set(description);
     }
 
-    public ObjectProperty<Image> iconProperty() {
+    public StringProperty iconProperty() {
         if (icon == null) {
-            icon = new SimpleObjectProperty<>(this, "icon");
+            icon = new SimpleStringProperty(this, "icon");
         }
         return icon;
     }
 
-    public Image getIcon() {
+    public String getIcon() {
         return icon != null ? icon.get() : null;
     }
 
-    public void setIcon(Image icon) {
+    public void setIcon(String icon) {
         iconProperty().set(icon);
     }
 

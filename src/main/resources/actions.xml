@@ -6,19 +6,24 @@
                 <action id="NewProject" class="com.github.mouse0w0.peach.action.mainMenu.NewProjectAction"/>
                 <action id="NewModElement" class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
             </group>
-            <action id="OpenProject" class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectAction"/>
+            <action id="OpenProject"
+                    class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectAction"
+                    icon="folder-open-outline"/>
             <separator/>
 
             <action id="OpenSettings"/>
             <action id="OpenProjectSettings"
-                    class="com.github.mouse0w0.peach.mcmod.action.OpenProjectSettingsAction"/>
+                    class="com.github.mouse0w0.peach.mcmod.action.OpenProjectSettingsAction"
+                    icon="tune"/>
             <separator/>
 
             <action id="Exit" class="com.github.mouse0w0.peach.action.mainMenu.ExitAction"/>
         </group>
 
         <group id="Build">
-            <action id="BuildProject" class="com.github.mouse0w0.peach.mcmod.action.BuildProjectAction"/>
+            <action id="BuildProject"
+                    class="com.github.mouse0w0.peach.mcmod.action.BuildProjectAction"
+                    icon="export"/>
         </group>
 
         <group id="Help">

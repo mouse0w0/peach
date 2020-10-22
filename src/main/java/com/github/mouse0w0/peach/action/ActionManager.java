@@ -9,7 +9,6 @@ import com.google.common.collect.HashBiMap;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.image.Image;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -82,13 +81,7 @@ public class ActionManager {
         } else if (action instanceof Separator) {
             return new SeparatorMenuItem();
         } else {
-            Appearance appearance = action.getAppearance();
-            MenuItem menuItem = new MenuItem();
-            menuItem.textProperty().bind(appearance.textProperty());
-            menuItem.disableProperty().bind(appearance.disableProperty());
-            menuItem.visibleProperty().bind(appearance.visibleProperty());
-            menuItem.setOnAction(event -> action.perform(new ActionEvent(event.getSource())));
-            return menuItem;
+            return new ActionMenuItem(action);
         }
     }
 
@@ -178,12 +171,11 @@ public class ActionManager {
 
         String icon = element.attributeValue(ICON_ATTR_NAME);
         if (!Strings.isNullOrEmpty(icon)) {
-            appearance.setIcon(new Image(ActionManager.class.getResource(icon).toExternalForm()));
+            appearance.setIcon("/icon/" + icon + ".png");
         }
     }
 
     private String localize(Element element, String id, String attrName) {
         return I18n.translate(element.getName() + "." + id + "." + attrName, element.attributeValue(attrName, ""));
     }
-
 }
