@@ -2,6 +2,8 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
+import com.github.mouse0w0.peach.extension.ExtensionPoint;
+import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -15,6 +17,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Project extends ComponentManagerImpl {
+
+    private static final ExtensionPoint<ServiceDescriptor> PROJECT_SERVICE = ExtensionPoint.of("projectService");
 
     public static final String STORE_FOLDER = ".peach";
 
@@ -36,7 +40,7 @@ public class Project extends ComponentManagerImpl {
         }
         this.nameFile = path.resolve(STORE_FOLDER + "/" + NAME_FILE);
         loadNameFile();
-        initServices(Peach.getInstance().getProjectServices());
+        initServices(PROJECT_SERVICE.getExtensions());
     }
 
     @Nonnull

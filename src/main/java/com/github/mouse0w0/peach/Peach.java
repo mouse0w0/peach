@@ -8,14 +8,15 @@ import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.event.AppEvent;
-import com.github.mouse0w0.peach.exception.ServiceException;
+import com.github.mouse0w0.peach.extension.ExtensionException;
+import com.github.mouse0w0.peach.extension.ExtensionPoint;
+import com.github.mouse0w0.peach.extension.Extensions;
 import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -29,7 +30,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.SystemUtils.*;
 
@@ -45,8 +45,7 @@ public final class Peach extends ComponentManagerImpl {
     private final Version version = new Version(getImplementationVersion());
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
 
-    private List<ServiceDescriptor> applicationServices;
-    private List<ServiceDescriptor> projectServices;
+    private static final ExtensionPoint<ServiceDescriptor> APPLICATION_SERVICE = ExtensionPoint.of("applicationService");
 
     public static EventBus getEventBus() {
         return EVENT_BUS;
@@ -61,8 +60,8 @@ public final class Peach extends ComponentManagerImpl {
         LOGGER.info("Launching application...");
         printSystemInfo();
         initTranslator();
-        INSTANCE.loadServiceDescriptors();
-        INSTANCE.initServices(INSTANCE.getApplicationServices());
+        INSTANCE.initExtensions();
+        INSTANCE.initServices(APPLICATION_SERVICE.getExtensions());
         Application.launch(FXApplication.class, args);
     }
 
@@ -104,14 +103,6 @@ public final class Peach extends ComponentManagerImpl {
         return userPropertiesPath;
     }
 
-    public List<ServiceDescriptor> getApplicationServices() {
-        return applicationServices;
-    }
-
-    public List<ServiceDescriptor> getProjectServices() {
-        return projectServices;
-    }
-
     public void exit() {
         exit(false);
     }
@@ -131,20 +122,17 @@ public final class Peach extends ComponentManagerImpl {
         System.exit(0);
     }
 
-    private void loadServiceDescriptors() {
-        URL url = Peach.class.getResource("/services.xml");
+    private void initExtensions() {
+        URL url = Peach.class.getResource("/application.xml");
+        Element plugin;
         try {
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(url);
-            Element services = document.getRootElement();
-
-            applicationServices = services.elements("applicationService").stream()
-                    .map(ServiceDescriptor::readFromXml).collect(Collectors.toList());
-            projectServices = services.elements("projectService").stream()
-                    .map(ServiceDescriptor::readFromXml).collect(Collectors.toList());
+            plugin = new SAXReader().read(url).getRootElement();
         } catch (DocumentException e) {
-            throw new ServiceException("Cannot load services from " + url, e);
+            throw new ExtensionException("Cannot load extensions from " + url, e);
         }
+
+        Extensions.registerExtensionPoints(plugin.element("extensionPoints"));
+        Extensions.registerExtensions(plugin.element("extensions"));
     }
 
     private String getImplementationVersion() {

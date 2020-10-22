@@ -1,19 +1,12 @@
 package com.github.mouse0w0.peach.plugin;
 
-import org.dom4j.Element;
+import com.github.mouse0w0.peach.extension.Attribute;
 
 public final class ServiceDescriptor {
-
+    @Attribute("interface")
     public String interfaceName;
+    @Attribute("implementation")
     public String implementationName;
-
+    @Attribute("lazy")
     public boolean lazy;
-
-    public static ServiceDescriptor readFromXml(Element element) {
-        ServiceDescriptor service = new ServiceDescriptor();
-        service.implementationName = element.attributeValue("implementation");
-        service.interfaceName = element.attributeValue("interface");
-        service.lazy = "true".equals(element.attributeValue("lazy"));
-        return service;
-    }
 }
