@@ -10,9 +10,9 @@ import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.util.ScheduleUtils;
 import com.google.common.base.Strings;
-import javafx.application.Platform;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,10 +20,9 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 import java.util.List;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -52,7 +51,7 @@ public class ItemPicker {
 
     private Item defaultItem;
 
-    private ScheduledFuture<?> updateItemTask;
+    private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
 
     private final Tooltip tooltip = createTooltip();
 
@@ -78,29 +77,12 @@ public class ItemPicker {
         gridView.setHorizontalCellSpacing(0);
         gridView.setCellFactory(view -> new Cell());
 
-        filter.setOnKeyPressed(event ->
-
-        {
-            if (event.getCode() == KeyCode.ENTER) {
-                updateItem();
-            }
+        filter.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) updateItem();
         });
-        filter.textProperty().
+        filter.textProperty().addListener(observable -> filterTimeline.playFromStart());
 
-                addListener(observable ->
-
-                {
-                    if (updateItemTask != null && !updateItemTask.isDone()) {
-                        updateItemTask.cancel(false);
-                    }
-                    updateItemTask = ScheduleUtils.schedule(() -> Platform.runLater(this::updateItem), 500, TimeUnit.MILLISECONDS);
-                });
-
-        mode.selectedToggleProperty().
-
-                addListener(observable ->
-
-                        updateItem());
+        mode.selectedToggleProperty().addListener(observable -> updateItem());
     }
 
     public Item getDefaultItem() {
