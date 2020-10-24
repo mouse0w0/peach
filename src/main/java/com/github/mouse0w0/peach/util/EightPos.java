@@ -1,28 +1,30 @@
 package com.github.mouse0w0.peach.util;
 
+import javafx.geometry.Side;
+
 public enum EightPos {
-    TOP_LEFT(FourPos.TOP, FourPos.LEFT),
-    TOP_RIGHT(FourPos.TOP, FourPos.RIGHT),
-    BOTTOM_LEFT(FourPos.BOTTOM, FourPos.LEFT),
-    BOTTOM_RIGHT(FourPos.BOTTOM, FourPos.RIGHT),
-    LEFT_TOP(FourPos.LEFT, FourPos.TOP),
-    LEFT_BOTTOM(FourPos.LEFT, FourPos.BOTTOM),
-    RIGHT_TOP(FourPos.RIGHT, FourPos.TOP),
-    RIGHT_BOTTOM(FourPos.RIGHT, FourPos.BOTTOM);
+    TOP_LEFT(Side.TOP, Side.LEFT),
+    TOP_RIGHT(Side.TOP, Side.RIGHT),
+    BOTTOM_LEFT(Side.BOTTOM, Side.LEFT),
+    BOTTOM_RIGHT(Side.BOTTOM, Side.RIGHT),
+    LEFT_TOP(Side.LEFT, Side.TOP),
+    LEFT_BOTTOM(Side.LEFT, Side.BOTTOM),
+    RIGHT_TOP(Side.RIGHT, Side.TOP),
+    RIGHT_BOTTOM(Side.RIGHT, Side.BOTTOM);
 
-    private final FourPos primary;
-    private final FourPos secondary;
+    private final Side primary;
+    private final Side secondary;
 
-    EightPos(FourPos primary, FourPos secondary) {
+    EightPos(Side primary, Side secondary) {
         this.primary = primary;
         this.secondary = secondary;
     }
 
-    public FourPos getPrimary() {
+    public Side getPrimary() {
         return primary;
     }
 
-    public FourPos getSecondary() {
+    public Side getSecondary() {
         return secondary;
     }
 }
