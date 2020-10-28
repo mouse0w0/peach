@@ -24,6 +24,8 @@ class ProjectRootPane extends BorderPane {
         setTop(menuBar = createMenuBar());
         setCenter(tabPane = new TabPane());
 
+        getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }
 
