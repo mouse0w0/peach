@@ -1,7 +1,7 @@
 .menu-bar,
 .tab-pane > .tab-header-area > .tab-header-background {
-    -fx-background-color: #cccccc, #f2f2f2;
-/ / gray 80 %, gray 95 % -fx-background-insets: 0 0 0 0, 0 0 1 0;
+    -fx-background-color: #cccccc, #f2f2f2; /* gray 80%, gray 95% */
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
 .tab-pane > .tab-header-area {
@@ -16,8 +16,8 @@
 }
 
 .tab:hover {
-    -fx-background-color: #d9d9d9, #cccccc;
-/ / gray 80 % -fx-background-insets: 0 0 0 0, 0 0 1 0;
+    -fx-background-color: #d9d9d9, #cccccc; /* gray 80% */
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
 .tab:selected {

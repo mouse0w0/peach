@@ -12,6 +12,5 @@
 
 .grid-view .grid-cell:selected,
 .grid-view .grid-cell:focused {
-    -fx-background-color: #d9d9d9;
-/ / gray 85 %
+    -fx-background-color: #d9d9d9; /* gray 85% */
 }
