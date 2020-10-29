@@ -4,6 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -14,6 +15,7 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Optional;
@@ -38,7 +40,7 @@ public final class FXUtils {
         FXMLLoader loader = new FXMLLoader();
         loader.setRoot(root);
         loader.setController(controller);
-        ClassLoader classLoader = getClassLoader(getCallerClass());
+        ClassLoader classLoader = getClassLoaderOfCaller();
         loader.setClassLoader(classLoader);
         loader.setLocation(classLoader.getResource(location));
         loader.setResources(resources);
@@ -50,16 +52,30 @@ public final class FXUtils {
         }
     }
 
-    private static ClassLoader getClassLoader(Class<?> clazz) {
-        return clazz != null ? clazz.getClassLoader() : Thread.currentThread().getContextClassLoader();
+    private static ClassLoader getClassLoaderOfCaller() {
+        try {
+            return Class.forName(Thread.currentThread().getStackTrace()[3].getClassName()).getClassLoader();
+        } catch (ClassNotFoundException e) {
+            return Thread.currentThread().getContextClassLoader();
+        }
     }
 
-    private static Class<?> getCallerClass() {
-        try {
-            return Class.forName(Thread.currentThread().getStackTrace()[3].getClassName());
-        } catch (ClassNotFoundException e) {
-            return null;
+    public static void addStyleSheet(Scene scene, String resourceName) {
+        ClassLoader classLoader = getClassLoaderOfCaller();
+        URL resource = classLoader.getResource(resourceName);
+        if (resource == null) {
+            throw new NullPointerException("Resource \"" + resourceName + "\" not found");
         }
+        scene.getStylesheets().add(resource.toExternalForm());
+    }
+
+    public static void addStyleSheet(Parent parent, String resourceName) {
+        ClassLoader classLoader = getClassLoaderOfCaller();
+        URL resource = classLoader.getResource(resourceName);
+        if (resource == null) {
+            throw new NullPointerException("Resource \"" + resourceName + "\" not found");
+        }
+        parent.getStylesheets().add(resource.toExternalForm());
     }
 
     public static void hideWindow(Node node) {

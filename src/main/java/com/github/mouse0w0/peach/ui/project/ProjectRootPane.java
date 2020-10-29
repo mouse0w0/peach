@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.action.IdeGroups;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
@@ -20,11 +21,12 @@ class ProjectRootPane extends BorderPane {
 
     public ProjectRootPane(Project project) {
         this.project = project;
+
+        FXUtils.addStyleSheet(this, "style/style.css");
+
         setPrefSize(820, 600);
         setTop(menuBar = createMenuBar());
         setCenter(tabPane = new TabPane());
-
-        getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }

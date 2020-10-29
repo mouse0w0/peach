@@ -1,0 +1,11 @@
+.list-view,
+.list-view:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.list-view:focused .list-cell:focused {
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0;
+}

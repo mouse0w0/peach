@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.ui;
+package com.github.mouse0w0.peach.ui.welcome;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
@@ -61,6 +61,8 @@ public class WelcomeUI extends BorderPane {
 
     public WelcomeUI() {
         FXUtils.loadFXML(this, "ui/Welcome.fxml");
+
+        FXUtils.addStyleSheet(this, "style/welcome.css");
 
         ContextMenu recentProjectsMenu = new ContextMenu();
         MenuItem open = new MenuItem(I18n.translate("common.open"));
