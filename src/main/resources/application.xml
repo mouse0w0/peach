@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
     <extensionPoints>
-        <extensionPoint name="applicationService" beanClass="com.github.mouse0w0.peach.plugin.ServiceDescriptor"/>
-        <extensionPoint name="projectService" beanClass="com.github.mouse0w0.peach.plugin.ServiceDescriptor"/>
+        <extensionPoint name="applicationService" beanClass="com.github.mouse0w0.peach.component.ServiceDescriptor"/>
+        <extensionPoint name="projectService" beanClass="com.github.mouse0w0.peach.component.ServiceDescriptor"/>
         <!--        <extensionPoint name="factory" interface="factory.interface"/>-->
     </extensionPoints>
 

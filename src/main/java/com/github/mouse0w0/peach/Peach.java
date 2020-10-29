@@ -7,11 +7,10 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
+import com.github.mouse0w0.peach.component.ServiceDescriptor;
 import com.github.mouse0w0.peach.event.AppEvent;
 import com.github.mouse0w0.peach.extension.ExtensionException;
-import com.github.mouse0w0.peach.extension.ExtensionPoint;
 import com.github.mouse0w0.peach.extension.Extensions;
-import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.FXApplication;
 import com.github.mouse0w0.version.Version;
@@ -45,8 +44,6 @@ public final class Peach extends ComponentManagerImpl {
     private final Version version = new Version(getImplementationVersion());
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
 
-    private static final ExtensionPoint<ServiceDescriptor> APPLICATION_SERVICE = ExtensionPoint.of("applicationService");
-
     public static EventBus getEventBus() {
         return EVENT_BUS;
     }
@@ -61,7 +58,7 @@ public final class Peach extends ComponentManagerImpl {
         printSystemInfo();
         initTranslator();
         INSTANCE.initExtensions();
-        INSTANCE.initServices(APPLICATION_SERVICE.getExtensions());
+        INSTANCE.initServices(ServiceDescriptor.APPLICATION_SERVICE.getExtensions());
         Application.launch(FXApplication.class, args);
     }
 

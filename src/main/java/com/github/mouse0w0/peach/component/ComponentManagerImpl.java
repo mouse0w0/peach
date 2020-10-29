@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.component;
 
 import com.github.mouse0w0.peach.exception.ServiceException;
-import com.github.mouse0w0.peach.plugin.ServiceDescriptor;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.Disposable;
 
