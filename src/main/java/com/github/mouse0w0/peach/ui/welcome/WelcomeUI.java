@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
+import com.github.mouse0w0.peach.ui.Icons;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +42,7 @@ public class WelcomeUI extends BorderPane {
         stage = new Stage();
         stage.setScene(new Scene(new WelcomeUI()));
         stage.setTitle(I18n.translate("ui.welcome.title"));
+        stage.getIcons().setAll(Icons.PEACH_16X);
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
                 Peach.getInstance().exit();

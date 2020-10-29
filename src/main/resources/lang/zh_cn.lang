@@ -24,7 +24,7 @@ group.Help.text=帮助
 action.About.text=关于 Peach
 action.Donate.text=捐助作者
 
-ui.welcome.title=🍑Peach
+ui.welcome.title=欢迎使用Peach
 ui.welcome.new_project=新建项目
 ui.welcome.open_project=打开项目
 ui.welcome.donate=请给我钱
