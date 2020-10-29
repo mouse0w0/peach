@@ -18,7 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -123,11 +123,16 @@ public class WelcomeUI extends BorderPane {
 
         VBox vBox = new VBox(10, newProject, openProject, donate);
         vBox.setAlignment(Pos.CENTER);
+        StackPane.setAlignment(vBox, Pos.CENTER);
 
-        FlowPane flowPane = new FlowPane(vBox);
-        flowPane.setAlignment(Pos.CENTER);
+        Label version = new Label(Peach.getInstance().getVersion().toString());
+        version.setId("version");
+        StackPane.setAlignment(version, Pos.BOTTOM_RIGHT);
 
-        setCenter(flowPane);
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(vBox, version);
+
+        setCenter(stackPane);
     }
 
     @FXML

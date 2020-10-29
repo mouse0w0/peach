@@ -24,3 +24,8 @@
     -fx-background-color: -fx-background;
     -fx-text-fill: -fx-text-background-color;
 }
+
+#version {
+    -fx-padding: 0.5em;
+    -fx-text-fill: #808080;
+}
