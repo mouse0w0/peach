@@ -11,12 +11,14 @@ import com.github.mouse0w0.peach.service.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.nio.file.Paths;
@@ -28,8 +30,7 @@ public class WelcomeUI extends BorderPane {
 
     private static Stage stage;
 
-    @FXML
-    public ListView<RecentProjectInfo> recentProjects;
+    private ListView<RecentProjectInfo> recentProjects;
 
     static {
         Peach.getEventBus().addListener(WelcomeUI::onOpenedProject);
@@ -39,7 +40,7 @@ public class WelcomeUI extends BorderPane {
     public static void show() {
         stage = new Stage();
         stage.setScene(new Scene(new WelcomeUI()));
-        stage.setTitle(I18n.translate("ui.welcome.title") + " - " + Peach.getInstance().getVersion());
+        stage.setTitle(I18n.translate("ui.welcome.title"));
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
                 Peach.getInstance().exit();
@@ -60,9 +61,9 @@ public class WelcomeUI extends BorderPane {
     }
 
     public WelcomeUI() {
-        FXUtils.loadFXML(this, "ui/Welcome.fxml");
-
         FXUtils.addStyleSheet(this, "style/welcome.css");
+
+        setPrefSize(600, 400);
 
         ContextMenu recentProjectsMenu = new ContextMenu();
         MenuItem open = new MenuItem(I18n.translate("common.open"));
@@ -76,6 +77,8 @@ public class WelcomeUI extends BorderPane {
         });
         recentProjectsMenu.getItems().addAll(open, remove);
 
+        recentProjects = new ListView<>();
+        recentProjects.setPrefWidth(250);
         recentProjects.setCellFactory(list -> new ListCell<RecentProjectInfo>() {
 
             {
@@ -100,15 +103,38 @@ public class WelcomeUI extends BorderPane {
         });
         recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
         recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
+        recentProjects.getSelectionModel().selectFirst();
+        setLeft(recentProjects);
+
+        Button newProject = new Button(
+                I18n.translate("ui.welcome.new_project"),
+                new ImageView(new Image("/icon/plus-thick.png")));
+        newProject.setOnAction(this::doNewProject);
+        Button openProject = new Button(
+                I18n.translate("ui.welcome.open_project"),
+                new ImageView(new Image("/icon/folder-open-outline.png")));
+        openProject.setOnAction(this::doOpenProject);
+        Button donate = new Button(
+                I18n.translate("ui.welcome.donate"),
+                new ImageView(new Image("/icon/gift-outline.png")));
+        donate.setOnAction(this::doDonate);
+
+        VBox vBox = new VBox(10, newProject, openProject, donate);
+        vBox.setAlignment(Pos.CENTER);
+
+        FlowPane flowPane = new FlowPane(vBox);
+        flowPane.setAlignment(Pos.CENTER);
+
+        setCenter(flowPane);
     }
 
     @FXML
-    public void onNewProject(ActionEvent event) {
+    public void doNewProject(ActionEvent event) {
         ActionManager.getInstance().perform("NewProject", event);
     }
 
     @FXML
-    public void onOpenProject(ActionEvent event) {
+    public void doOpenProject(ActionEvent event) {
         ActionManager.getInstance().perform("OpenProject", event);
     }
 

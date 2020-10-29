@@ -9,3 +9,18 @@
     -fx-background-color: -fx-background;
     -fx-background-insets: 0;
 }
+
+.button {
+    -fx-background-color: transparent;
+}
+
+.button:hover,
+.button:focused {
+    -fx-text-fill: #0096c9;
+}
+
+.list-cell:odd {
+    -fx-background: -fx-control-inner-background;
+    -fx-background-color: -fx-background;
+    -fx-text-fill: -fx-text-background-color;
+}
