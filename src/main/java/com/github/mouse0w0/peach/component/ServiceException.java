@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.exception;
+package com.github.mouse0w0.peach.component;
 
 public class ServiceException extends RuntimeException {
     public ServiceException(String message) {
