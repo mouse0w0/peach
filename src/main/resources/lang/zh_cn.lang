@@ -24,6 +24,11 @@ group.Help.text=帮助
 action.About.text=关于 Peach
 action.Donate.text=捐助作者
 
+wizard.cancel=取消
+wizard.finish=完成
+wizard.next=下一个
+wizard.previous=上一个
+
 ui.welcome.title=欢迎使用 Peach
 ui.welcome.new_project=新建项目
 ui.welcome.open_project=打开项目
@@ -34,11 +39,6 @@ ui.item_picker.filter=过滤：
 ui.item_picker.mode.default=默认
 ui.item_picker.mode.ignore_metadata=忽略数据值
 ui.item_picker.mode.ore_dict=矿物词典
-
-ui.wizard.cancel=取消
-ui.wizard.finish=完成
-ui.wizard.next=下一个
-ui.wizard.previous=上一个
 
 ui.new_project.title=新建项目
 ui.new_project.name=项目名称：

@@ -1,11 +1,13 @@
 package com.github.mouse0w0.peach.wizard;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +19,8 @@ public abstract class Wizard {
 
     private BorderPane content;
 
-    @FXML
     private Button previous;
-    @FXML
     private Button next;
-    @FXML
     private Button cancel;
 
     private boolean ok;
@@ -29,7 +28,22 @@ public abstract class Wizard {
     private final List<Runnable> closedCallbacks = new ArrayList<>();
 
     public Wizard() {
-        content = FXUtils.loadFXML(null, this, "ui/wizard/Wizard.fxml");
+        content = new BorderPane();
+        content.setPadding(new Insets(8));
+
+        previous = new Button(I18n.translate("wizard.previous"));
+        previous.setOnAction(event -> onPrevious());
+        next = new Button(I18n.translate("wizard.next"));
+        next.setDefaultButton(true);
+        next.setOnAction(event -> onNext());
+        cancel = new Button(I18n.translate("wizard.cancel"));
+        cancel.setOnAction(event -> onCancel());
+
+        HBox buttonBar = new HBox(8, previous, next, cancel);
+        buttonBar.getStyleClass().add("button-bar");
+        buttonBar.setAlignment(Pos.CENTER_RIGHT);
+
+        content.setBottom(buttonBar);
     }
 
     public String getName() {
@@ -102,7 +116,7 @@ public abstract class Wizard {
     protected void updateButtons() {
         getPreviousButton().setDisable(isFirstStep());
 
-        getNextButton().setText(isLastStep() ? I18n.translate("ui.wizard.finish") : I18n.translate("ui.wizard.next"));
+        getNextButton().setText(isLastStep() ? I18n.translate("wizard.finish") : I18n.translate("wizard.next"));
     }
 
     public boolean isOk() {
