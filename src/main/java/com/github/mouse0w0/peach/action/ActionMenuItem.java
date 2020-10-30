@@ -15,6 +15,9 @@ public class ActionMenuItem extends MenuItem {
 
     public ActionMenuItem(Action action) {
         this.action = action;
+
+        getProperties().put(Action.class, action);
+
         Appearance appearance = action.getAppearance();
         textProperty().bind(appearance.textProperty());
 

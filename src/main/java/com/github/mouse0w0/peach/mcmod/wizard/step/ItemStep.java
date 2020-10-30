@@ -40,7 +40,7 @@ public class ItemStep extends WizardStepBase {
 
         maxStackSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 64, 64));
 
-        Project project = WindowManager.getInstance().getFocusedWindow().getProject();
+        Project project = WindowManager.getInstance().getFocusedProject();
         ContentManager contentManager = ContentManager.getInstance(project);
 
         itemGroup.setCellFactory(listView -> new ItemGroupCell());
@@ -51,7 +51,7 @@ public class ItemStep extends WizardStepBase {
 
     @Override
     public void init() {
-        Project project = WindowManager.getInstance().getFocusedWindow().getProject();
+        Project project = WindowManager.getInstance().getFocusedProject();
         ContentManager contentManager = ContentManager.getInstance(project);
 
         registerName.setText(Strings.isNullOrEmpty(element.getRegisterName()) ?

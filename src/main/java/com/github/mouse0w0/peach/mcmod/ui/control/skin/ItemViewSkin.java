@@ -72,7 +72,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         if (item == null) {
             itemData = Collections.emptyList();
         } else {
-            itemData = ContentManager.getInstance(WindowManager.getInstance().getFocusedWindow().getProject()).getItemData(item);
+            itemData = ContentManager.getInstance(WindowManager.getInstance().getFocusedProject()).getItemData(item);
         }
 
         if (itemData.size() == 0) {

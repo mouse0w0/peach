@@ -84,7 +84,7 @@ public class TextureView extends Control {
     private ObjectProperty<Project> project;
 
     public final Project getProject() {
-        return project == null ? WindowManager.getInstance().getFocusedWindow().getProject() : project.get();
+        return project == null ? WindowManager.getInstance().getFocusedProject() : project.get();
     }
 
     public final void setProject(Project project) {

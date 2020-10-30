@@ -8,8 +8,8 @@ import javafx.beans.property.StringProperty;
 public final class Appearance {
 
     private StringProperty text;
-    private StringProperty description;
     private StringProperty icon;
+    private String description;
 
     private BooleanProperty disable;
     private BooleanProperty visible;
@@ -29,21 +29,6 @@ public final class Appearance {
         textProperty().set(text);
     }
 
-    public StringProperty descriptionProperty() {
-        if (description == null) {
-            description = new SimpleStringProperty(this, "description");
-        }
-        return description;
-    }
-
-    public String getDescription() {
-        return description != null ? description.get() : null;
-    }
-
-    public void setDescription(String description) {
-        descriptionProperty().set(description);
-    }
-
     public StringProperty iconProperty() {
         if (icon == null) {
             icon = new SimpleStringProperty(this, "icon");
@@ -57,6 +42,14 @@ public final class Appearance {
 
     public void setIcon(String icon) {
         iconProperty().set(icon);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public BooleanProperty disableProperty() {

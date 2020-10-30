@@ -37,7 +37,7 @@ public class ItemModelStep extends FlowPane implements WizardStep {
 
     public ItemModelStep(ItemElement element) {
         this.element = element;
-        this.project = WindowManager.getInstance().getFocusedWindow().getProject();
+        this.project = WindowManager.getInstance().getFocusedProject();
 
         FXUtils.loadFXML(this, "ui/mcmod/ItemModel.fxml");
 

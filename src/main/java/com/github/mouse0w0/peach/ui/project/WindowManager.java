@@ -68,6 +68,10 @@ public class WindowManager {
         return focusedWindow;
     }
 
+    public Project getFocusedProject() {
+        return focusedWindow != null ? focusedWindow.getProject() : null;
+    }
+
     void setFocusedWindow(ProjectWindow window) {
         this.focusedWindow = window;
     }
