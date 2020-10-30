@@ -14,22 +14,29 @@ public final class ExtensionBeanFactory<T> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger("Extension");
 
-    private final static Map<Class<?>, AttributeSetter> attributeSetters;
+    private final static Map<Class<?>, AttributeConverter> CONVERTERS;
 
     static {
-        attributeSetters = new HashMap<>();
-        attributeSetters.put(String.class, (bean, field, value) -> field.set(bean, value));
-        attributeSetters.put(Class.class, (bean, field, value) -> field.set(bean, Class.forName(value)));
-        attributeSetters.put(boolean.class, (bean, field, value) -> field.setBoolean(bean, "true".equals(value)));
-        attributeSetters.put(int.class, (bean, field, value) -> field.setInt(bean, Integer.parseInt(value)));
-        attributeSetters.put(float.class, (bean, field, value) -> field.setFloat(bean, Float.parseFloat(value)));
-        attributeSetters.put(double.class, (bean, field, value) -> field.setDouble(bean, Double.parseDouble(value)));
+        CONVERTERS = new HashMap<>();
+        CONVERTERS.put(String.class, value -> value);
+        CONVERTERS.put(boolean.class, "true"::equals);
+        CONVERTERS.put(int.class, Integer::parseInt);
+        CONVERTERS.put(long.class, Long::parseLong);
+        CONVERTERS.put(float.class, Float::parseFloat);
+        CONVERTERS.put(double.class, Double::parseDouble);
+        CONVERTERS.put(Class.class, value -> {
+            try {
+                return Class.forName(value, false, Thread.currentThread().getContextClassLoader());
+            } catch (ClassNotFoundException ignored) {
+                return null;
+            }
+        });
     }
 
     private final Class<T> beanClass;
 
     private final Constructor<T> constructor;
-    private final Map<String, Field> attributes = new HashMap<>();
+    private final Map<String, AttributeDescriptor> attributes = new HashMap<>();
 
     public ExtensionBeanFactory(Class<T> beanClass) {
         this.beanClass = Validate.notNull(beanClass);
@@ -44,14 +51,11 @@ public final class ExtensionBeanFactory<T> {
         for (Field field : beanClass.getDeclaredFields()) {
             Attribute attribute = field.getAnnotation(Attribute.class);
             if (attribute == null) continue;
-
+            String attributeName = attribute.value();
             field.setAccessible(true);
-            attributes.put(attribute.value(), field);
+            AttributeDescriptor descriptor = new AttributeDescriptor(attributeName, field, CONVERTERS.get(field.getType()));
+            attributes.put(attributeName, descriptor);
         }
-    }
-
-    public Class<T> getBeanClass() {
-        return beanClass;
     }
 
     public T newInstance(Element element) {
@@ -59,26 +63,14 @@ public final class ExtensionBeanFactory<T> {
             T bean = constructor.newInstance();
             for (org.dom4j.Attribute attribute : element.attributes()) {
                 String name = attribute.getName();
-                String value = attribute.getValue();
 
-                Field field = attributes.get(name);
-                if (field == null) {
-                    LOGGER.warn("Cannot set the \"{}\" attribute of {}.", name, beanClass);
+                AttributeDescriptor descriptor = attributes.get(name);
+                if (descriptor == null) {
+                    LOGGER.warn("Not found the \"{}\" attribute of {}.", name, beanClass);
                     continue;
                 }
 
-                AttributeSetter setter = attributeSetters.get(field.getType());
-                if (setter == null) {
-                    Class<?> clazz = Class.forName(value);
-                    if (field.getType().isAssignableFrom(clazz)) {
-                        field.set(bean, clazz.getConstructor().newInstance());
-                    } else {
-                        LOGGER.warn("Cannot set the \"{}\" attribute of {}.", name, beanClass);
-                    }
-                    continue;
-                }
-
-                setter.set(bean, field, value);
+                descriptor.set(bean, attribute);
             }
             return bean;
         } catch (ReflectiveOperationException e) {
@@ -86,7 +78,28 @@ public final class ExtensionBeanFactory<T> {
         }
     }
 
-    public interface AttributeSetter {
-        void set(Object bean, Field field, String value) throws ReflectiveOperationException;
+    private static class AttributeDescriptor {
+        private final String name;
+        private final Field field;
+        private final AttributeConverter converter;
+
+        public AttributeDescriptor(String name, Field field, AttributeConverter converter) {
+            this.name = name;
+            this.field = field;
+            this.converter = converter;
+        }
+
+        private void set(Object bean, org.dom4j.Attribute attribute) throws ReflectiveOperationException {
+            if (converter == null) {
+                Class<?> clazz = Class.forName(attribute.getValue());
+                if (field.getType().isAssignableFrom(clazz)) {
+                    field.set(bean, clazz.getConstructor().newInstance());
+                } else {
+                    throw new UnsupportedOperationException("Cannot set the \"" + name + "\" attribute of " + bean.getClass());
+                }
+            } else {
+                field.set(bean, converter.convert(attribute.getValue()));
+            }
+        }
     }
 }
