@@ -14,6 +14,7 @@ import com.google.common.base.Strings;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -54,6 +55,10 @@ public class ItemPicker {
     private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
 
     private final Tooltip tooltip = createTooltip();
+
+    public static Item pick(Node ownerNode, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        return pick(ownerNode.getScene().getWindow(), defaultItem, enableIgnoreMetadata, enableOreDict);
+    }
 
     public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         if (instance == null) instance = new ItemPicker();

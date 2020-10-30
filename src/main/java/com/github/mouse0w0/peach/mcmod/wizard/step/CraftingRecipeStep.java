@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
+import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.dialog.ItemPicker;
@@ -8,16 +9,17 @@ import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.util.FXValidator;
 import com.github.mouse0w0.peach.util.ArrayUtils;
-import com.github.mouse0w0.peach.wizard.WizardStep;
+import com.github.mouse0w0.peach.wizard.WizardStepBase;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.GridPane;
 
-public class CraftingRecipeStep extends FlowPane implements WizardStep {
+public class CraftingRecipeStep extends WizardStepBase {
 
     private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/crafting_recipe.png", 560, 312);
 
@@ -40,7 +42,9 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
 
     public CraftingRecipeStep(CraftingRecipe element) {
         this.element = element;
-        FXUtils.loadFXML(this, "ui/mcmod/CraftingRecipe.fxml");
+        setContent(FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml"));
+
+        register(id, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_recipe_id"));
 
         group.setEditable(true);
 
@@ -56,14 +60,14 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         for (int i = 0; i < 9; i++) {
             ItemView itemViews = inputs[i] = new ItemView(64, 64);
             itemViews.setOnMouseClicked(event ->
-                    itemViews.setItem(ItemPicker.pick(getScene().getWindow(), itemViews.getItem(), true, true)));
+                    itemViews.setItem(ItemPicker.pick(getContent(), itemViews.getItem(), true, true)));
             itemViews.setPlayAnimation(true);
             inputGridPane.add(itemViews, i % 3, i / 3);
         }
 
         output = new ItemView(64, 64);
         output.setOnMouseClicked(event ->
-                output.setItem(ItemPicker.pick(getScene().getWindow(), output.getItem(), false, false)));
+                output.setItem(ItemPicker.pick(getContent(), output.getItem(), false, false)));
         AnchorPane.setTopAnchor(output, 125d);
         AnchorPane.setLeftAnchor(output, 428d);
         recipeView.getChildren().add(output);
@@ -74,11 +78,6 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
         AnchorPane.setTopAnchor(outputAmount, 220d);
         AnchorPane.setLeftAnchor(outputAmount, 408d);
         recipeView.getChildren().add(outputAmount);
-    }
-
-    @Override
-    public Node getContent() {
-        return this;
     }
 
     @Override
@@ -96,13 +95,6 @@ public class CraftingRecipeStep extends FlowPane implements WizardStep {
             output.setItem(outputItem.getItem());
             outputAmount.getValueFactory().setValue(outputItem.getAmount());
         }
-    }
-
-    @Override
-    public boolean validate() {
-        if (!FXValidator.validate(id, "validate.illegal_recipe_id", ModUtils::isValidRegisterName))
-            return false;
-        return true;
     }
 
     @Override

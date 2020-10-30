@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
+import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
@@ -8,15 +9,12 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.util.FXValidator;
-import com.github.mouse0w0.peach.wizard.WizardStep;
+import com.github.mouse0w0.peach.wizard.WizardStepBase;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.FlowPane;
 
-public class ItemStep extends FlowPane implements WizardStep {
+public class ItemStep extends WizardStepBase {
 
     private final ItemElement element;
 
@@ -36,7 +34,9 @@ public class ItemStep extends FlowPane implements WizardStep {
     public ItemStep(ItemElement element) {
         this.element = element;
 
-        FXUtils.loadFXML(this, "ui/mcmod/ItemElement.fxml");
+        setContent(FXUtils.loadFXML(null, this, "ui/mcmod/ItemElement.fxml"));
+
+        register(registerName, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_register_name"));
 
         maxStackSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 64, 64));
 
@@ -47,11 +47,6 @@ public class ItemStep extends FlowPane implements WizardStep {
         itemGroup.getItems().addAll(contentManager.getItemGroups());
         itemGroup.setButtonCell(new ItemGroupCell());
         itemGroup.getSelectionModel().selectFirst();
-    }
-
-    @Override
-    public Node getContent() {
-        return this;
     }
 
     @Override
@@ -69,13 +64,6 @@ public class ItemStep extends FlowPane implements WizardStep {
         maxStackSize.getValueFactory().setValue(element.getMaxStackSize());
         effect.setSelected(element.isEffect());
         information.setText(element.getInformation());
-    }
-
-    @Override
-    public boolean validate() {
-        if (!FXValidator.validate(registerName, "validate.illegal_register_name", ModUtils::isValidRegisterName))
-            return false;
-        return true;
     }
 
     @Override
