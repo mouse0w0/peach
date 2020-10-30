@@ -131,7 +131,7 @@ public class ItemPicker {
 
     private void updateItem() {
         List<Item> items = contentManager.getItems()
-                .parallelStream()
+                .stream() // 10000个元素以下时，串行比并行Stream要好。
                 .filter(buildItemFilter())
                 .collect(Collectors.toList());
         gridView.getItems().setAll(items);
