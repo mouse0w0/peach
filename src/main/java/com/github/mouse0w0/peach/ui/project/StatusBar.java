@@ -22,6 +22,8 @@ public interface StatusBar {
 
     void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position);
 
+    void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position, Anchor anchor);
+
     void addWidget(@NotNull StatusBarWidget widget, Anchor anchor, String anchorId);
 
     void addWidget(@NotNull StatusBarWidget widget, Position position, Anchor anchor, String anchorId);

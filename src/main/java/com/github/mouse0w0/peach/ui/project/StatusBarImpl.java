@@ -76,6 +76,11 @@ public class StatusBarImpl implements StatusBar {
     }
 
     @Override
+    public void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position, Anchor anchor) {
+        addWidget(widget, position, anchor, null);
+    }
+
+    @Override
     public void addWidget(@NotNull StatusBarWidget widget, Anchor anchor, String anchorId) {
         addWidget(widget, Position.RIGHT, anchor, anchorId);
     }
@@ -89,6 +94,8 @@ public class StatusBarImpl implements StatusBar {
         ObservableList<Node> children = getChildren(position);
         WidgetBean anchorWidget = widgetMap.get(anchorId);
 
+        widgetMap.put(id, new WidgetBean(widget, content, position, anchor, anchorId));
+
         if (anchorWidget != null && anchor != null) {
             int anchorIndex = children.indexOf(anchorWidget.getContent());
             if (anchorIndex == -1) {
@@ -97,10 +104,10 @@ public class StatusBarImpl implements StatusBar {
                 children.add(anchor == Anchor.BEFORE ? anchorIndex : anchorIndex + 1, content);
             }
         } else {
-            children.add(content);
+            children.add(anchor == Anchor.BEFORE ? 0 : children.size(), content);
         }
 
-        widgetMap.put(id, new WidgetBean(widget, content, position, anchor, anchorId));
+        widget.install(this);
     }
 
     @Override

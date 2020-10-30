@@ -52,6 +52,10 @@ public class WindowManager {
         return projectWindow;
     }
 
+    public StatusBar getStatusBar(Project project) {
+        return getWindow(project).getStatusBar();
+    }
+
     public ProjectWindow allocateWindow(Project project) {
         ProjectWindow window = getWindow(project);
         if (window != null) {
