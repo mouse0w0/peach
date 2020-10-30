@@ -104,7 +104,7 @@ public class ContentManager implements Disposable {
         return itemData != null ? itemData : Collections.emptyList();
     }
 
-    public List<ItemGroupData> getItemGroups() {
+    public Collection<ItemGroupData> getItemGroups() {
         return itemGroupList;
     }
 
