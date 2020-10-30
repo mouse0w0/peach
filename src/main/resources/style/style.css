@@ -38,5 +38,5 @@
     -fx-background-color: #cccccc, #f2f2f2; /* gray 80%, gray 95% */
     -fx-background-insets: 0 0 0 0, 1 0 0 0;
     -fx-padding: 1 8 0 8;
-    -fx-pref-height: 25px;
+    -fx-pref-height: 1.75em;
 }

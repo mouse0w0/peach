@@ -43,6 +43,7 @@ public class WelcomeUI extends BorderPane {
         stage.setScene(new Scene(new WelcomeUI()));
         stage.setTitle(I18n.translate("ui.welcome.title"));
         stage.getIcons().setAll(Icons.PEACH_16X);
+        stage.setResizable(false);
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
                 Peach.getInstance().exit();
