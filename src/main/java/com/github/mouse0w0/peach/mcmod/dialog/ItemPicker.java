@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.ui;
+package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;

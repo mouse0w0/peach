@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.ItemStack;
+import com.github.mouse0w0.peach.mcmod.dialog.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
-import com.github.mouse0w0.peach.mcmod.ui.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
