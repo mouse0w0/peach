@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.ui.newProject;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.util.Messages;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -58,7 +58,7 @@ public class NewProjectUI extends BorderPane {
     private void doCreateProject() {
         Path path = Paths.get(projectPath.getText());
         try {
-            if (FileUtils.isNotEmpty(path) && !Messages.confirm(I18n.translate("ui.new_project.not_empty"))) return;
+            if (FileUtils.isNotEmpty(path) && !Alerts.confirm(I18n.translate("ui.new_project.not_empty"))) return;
         } catch (IOException ignored) {
         }
         ProjectManager.getInstance().createProject(projectName.getText(), path);

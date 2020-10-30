@@ -8,7 +8,7 @@ import com.github.mouse0w0.peach.mcmod.project.McModSettings;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
-import com.github.mouse0w0.peach.ui.util.Messages;
+import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.stage.FileChooser;
 import org.apache.commons.lang3.SystemUtils;
@@ -45,7 +45,7 @@ public class ExportProjectAction extends Action {
                 FileUtils.forceCopy(source, file.toPath());
             } catch (IOException e) {
                 LOGGER.error("Failed to export file: " + file, e);
-                Messages.warning("dialog.export_to.failure");
+                Alerts.warning("dialog.export_to.failure");
             }
         }
     }

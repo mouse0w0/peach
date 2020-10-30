@@ -6,8 +6,8 @@ import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.util.Messages;
 import com.github.mouse0w0.peach.ui.validation.Validator;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.fxml.FXML;
@@ -96,7 +96,7 @@ public class NewElementDialog extends BorderPane {
         Path file = elementManager.getElementFile(type.getValue(), name.getText());
 
         if (Files.exists(file)) {
-            Messages.error(String.format(I18n.translate("validate.exists_file"), file.getFileName()));
+            Alerts.error(String.format(I18n.translate("validate.exists_file"), file.getFileName()));
             return;
         }
 

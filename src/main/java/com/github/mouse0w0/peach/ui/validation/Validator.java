@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.ui.validation;
 
-import com.github.mouse0w0.peach.ui.util.Messages;
+import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.ValuePropertyUtils;
 import javafx.beans.property.Property;
 import javafx.scene.Node;
@@ -46,7 +46,7 @@ public final class Validator {
         for (Entry entry : invalidEntries) {
             message.append(String.format(entry.getMessage(), entry.getValue())).append("\n");
         }
-        Messages.error(message.toString());
+        Alerts.error(message.toString());
     }
 
     public void focusFirstInvalid() {
