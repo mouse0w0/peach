@@ -14,13 +14,13 @@ public class ProjectWindow {
     private Project project;
     private Stage stage;
     private Scene scene;
-    private ProjectRootPane content;
+    private ProjectRootPane root;
 
     public ProjectWindow(Project project) {
         this.project = project;
         this.stage = new Stage();
-        this.content = new ProjectRootPane(project);
-        this.scene = new Scene(content);
+        this.root = new ProjectRootPane(project);
+        this.scene = new Scene(root);
         initStage();
     }
 
@@ -49,8 +49,8 @@ public class ProjectWindow {
         return stage;
     }
 
-    public Scene getScene() {
-        return scene;
+    public StatusBar getStatusBar() {
+        return root.getStatusBar();
     }
 
     public void openTab(Tab tab) {
@@ -59,15 +59,15 @@ public class ProjectWindow {
     }
 
     public void addTab(Tab tab) {
-        content.getTabPane().getTabs().add(tab);
+        root.getTabPane().getTabs().add(tab);
     }
 
     public void selectTab(Tab tab) {
-        content.getTabPane().getSelectionModel().select(tab);
+        root.getTabPane().getSelectionModel().select(tab);
     }
 
     public void removeTab(Tab tab) {
-        content.getTabPane().getTabs().remove(tab);
+        root.getTabPane().getTabs().remove(tab);
     }
 
     public void requestFocus() {

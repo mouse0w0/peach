@@ -6,33 +6,40 @@ import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.action.IdeGroups;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TabPane;
+import javafx.event.Event;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Window;
 
 class ProjectRootPane extends BorderPane {
 
-    private final Project project;
-
-    private MenuBar menuBar;
-
-    private TabPane tabPane;
+    private final MenuBar menuBar;
+    private final TabPane tabPane;
+    private final StatusBarImpl statusBar;
 
     public ProjectRootPane(Project project) {
-        this.project = project;
-
         FXUtils.addStyleSheet(this, "style/style.css");
 
         setPrefSize(820, 600);
-        setTop(menuBar = createMenuBar());
-        setCenter(tabPane = new TabPane());
+        menuBar = createMenuBar();
+        setTop(menuBar);
+        tabPane = new TabPane();
+        setCenter(tabPane);
+        statusBar = new StatusBarImpl(project);
+        setBottom(statusBar.getContent());
 
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
     }
 
     public TabPane getTabPane() {
         return tabPane;
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
     }
 
     private MenuBar createMenuBar() {
