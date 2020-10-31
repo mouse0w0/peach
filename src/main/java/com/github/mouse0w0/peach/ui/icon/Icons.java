@@ -15,7 +15,7 @@ public interface Icons {
 
         Image Export = load("/icon/export.png");
 
-        Image Donate = load("/icon/gift-outline.png");
+        Image Donate = load("/icon/currency-usd-circle-outline.png");
     }
 
     static Image load(String name) {

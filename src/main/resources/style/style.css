@@ -1,7 +1,18 @@
-.menu-bar,
-.tab-pane > .tab-header-area > .tab-header-background {
-    -fx-background-color: #cccccc, #f2f2f2; /* gray 80%, gray 95% */
+.root {
+    -peach-background-color: #f2f2f2; /* gray 95% */
+    -peach-hover-color: #d9d9d9; /* gray 85% */
+    -peach-border-color: #cccccc; /* gray 80% */
+    -peach-foreground-color: #ffffff;
+}
+
+.menu-bar {
+    -fx-background-color: -peach-border-color, -peach-background-color;
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.tab-pane > .tab-header-area > .tab-header-background {
+    -fx-background-color: -peach-background-color;
+    -fx-background-insets: 0;
 }
 
 .tab-pane > .tab-header-area {
@@ -16,12 +27,12 @@
 }
 
 .tab:hover {
-    -fx-background-color: #d9d9d9, #cccccc; /* gray 80% */
+    -fx-background-color: -peach-hover-color, -peach-border-color;
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
 .tab:selected {
-    -fx-background-color: #0096c9, #ffffff;
+    -fx-background-color: #0096c9, -peach-foreground-color;
     -fx-background-insets: 0 0 0 0, 0 0 4 0;
 }
 
@@ -31,11 +42,11 @@
 }
 
 .tab-pane > .tab-content-area {
-    -fx-background-color: #ffffff;
+    -fx-background-color: -peach-foreground-color;
 }
 
 #status-bar {
-    -fx-background-color: #cccccc, #f2f2f2; /* gray 80%, gray 95% */
+    -fx-background-color: -peach-border-color, -peach-background-color;
     -fx-background-insets: 0 0 0 0, 1 0 0 0;
     -fx-padding: 1 8 0 8;
     -fx-pref-height: 1.75em;
