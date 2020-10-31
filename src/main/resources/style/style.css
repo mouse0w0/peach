@@ -10,7 +10,8 @@
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
-.tab-pane > .tab-header-area > .tab-header-background {
+.tab-pane > .tab-header-area > .tab-header-background,
+.view-pane > .side-bar-area {
     -fx-background-color: -peach-background-color;
     -fx-background-insets: 0;
 }
