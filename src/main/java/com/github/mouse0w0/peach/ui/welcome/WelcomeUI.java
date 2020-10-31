@@ -8,14 +8,13 @@ import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
-import com.github.mouse0w0.peach.ui.Icons;
+import com.github.mouse0w0.peach.ui.icon.Icons;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -42,7 +41,7 @@ public class WelcomeUI extends BorderPane {
         stage = new Stage();
         stage.setScene(new Scene(new WelcomeUI()));
         stage.setTitle(I18n.translate("ui.welcome.title"));
-        stage.getIcons().setAll(Icons.PEACH_16X);
+        stage.getIcons().setAll(Icons.Peach_16x);
         stage.setResizable(false);
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
@@ -111,15 +110,15 @@ public class WelcomeUI extends BorderPane {
 
         Button newProject = new Button(
                 I18n.translate("ui.welcome.new_project"),
-                new ImageView(new Image("/icon/plus-thick.png")));
+                new ImageView(Icons.Action.NewProject));
         newProject.setOnAction(this::doNewProject);
         Button openProject = new Button(
                 I18n.translate("ui.welcome.open_project"),
-                new ImageView(new Image("/icon/folder-open-outline.png")));
+                new ImageView(Icons.Action.OpenProject));
         openProject.setOnAction(this::doOpenProject);
         Button donate = new Button(
                 I18n.translate("ui.welcome.donate"),
-                new ImageView(new Image("/icon/gift-outline.png")));
+                new ImageView(Icons.Action.Donate));
         donate.setOnAction(this::doDonate);
 
         VBox vBox = new VBox(10, newProject, openProject, donate);

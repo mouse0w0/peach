@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.ui.icon.IconManager;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ActionMenuItem extends MenuItem {
@@ -39,7 +39,7 @@ public class ActionMenuItem extends MenuItem {
             if (imageView == null) {
                 imageView = new ImageView();
             }
-            imageView.setImage(new Image(icon, true));
+            imageView.setImage(IconManager.getInstance().getImage(icon));
             setGraphic(imageView);
         }
     }

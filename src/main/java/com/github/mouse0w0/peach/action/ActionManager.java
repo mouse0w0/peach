@@ -171,8 +171,8 @@ public class ActionManager {
         appearance.setDescription(localize(element, id, DESCRIPTION_ATTR_NAME));
 
         String icon = element.attributeValue(ICON_ATTR_NAME);
-        if (!Strings.isNullOrEmpty(icon)) {
-            appearance.setIcon("/icon/" + icon + ".png");
+        if (icon != null && !icon.isEmpty()) {
+            appearance.setIcon(icon);
         }
     }
 
