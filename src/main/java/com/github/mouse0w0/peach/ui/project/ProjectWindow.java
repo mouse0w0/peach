@@ -5,26 +5,27 @@ import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.icon.Icons;
+import com.github.mouse0w0.viewpane.ViewPane;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
 public class ProjectWindow {
 
-    private Project project;
-    private Stage stage;
-    private Scene scene;
-    private ProjectRootPane root;
+    private final Project project;
+    private final Scene scene;
+    private final ProjectRootPane root;
+    private final Stage stage;
 
-    public ProjectWindow(Project project) {
+    ProjectWindow(Project project) {
         this.project = project;
-        this.stage = new Stage();
         this.root = new ProjectRootPane(project);
         this.scene = new Scene(root);
-        initStage();
+        this.stage = createStage();
     }
 
-    private void initStage() {
+    private Stage createStage() {
+        Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle(project.getName());
         stage.getIcons().setAll(Icons.Peach_16x);
@@ -39,6 +40,7 @@ public class ProjectWindow {
             ProjectManager.getInstance().closeProject(project);
             event.consume();
         });
+        return stage;
     }
 
     public Project getProject() {
@@ -47,6 +49,10 @@ public class ProjectWindow {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public ViewPane getViewPane() {
+        return root.getViewPane();
     }
 
     public StatusBar getStatusBar() {

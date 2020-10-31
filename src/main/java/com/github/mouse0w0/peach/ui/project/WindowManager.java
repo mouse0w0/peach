@@ -4,6 +4,7 @@ import com.github.mouse0w0.eventbus.Order;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.view.ViewManager;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -65,6 +66,8 @@ public class WindowManager {
         window = new ProjectWindow(project);
         windowMap.putIfAbsent(project, window);
         stageToWindowMap.put(window.getStage(), window);
+
+        ViewManager.getInstance(project).initialize(window);
         return window;
     }
 

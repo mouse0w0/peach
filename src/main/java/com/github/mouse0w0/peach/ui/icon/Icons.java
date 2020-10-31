@@ -18,6 +18,10 @@ public interface Icons {
         Image Donate = load("/icon/currency-usd-circle-outline.png");
     }
 
+    interface View {
+        Image Explorer = load("/icon/file-cabinet.png");
+    }
+
     static Image load(String name) {
         return new Image(Icons.class.getResource(name).toExternalForm());
     }

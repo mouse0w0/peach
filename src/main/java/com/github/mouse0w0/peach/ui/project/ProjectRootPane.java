@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.action.IdeGroups;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.viewpane.ViewPane;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -20,6 +21,7 @@ class ProjectRootPane extends BorderPane {
     private final Project project;
 
     private final MenuBar menuBar;
+    private final ViewPane viewPane;
     private final TabPane tabPane;
     private final StatusBarImpl statusBar;
 
@@ -28,11 +30,18 @@ class ProjectRootPane extends BorderPane {
 
         FXUtils.addStyleSheet(this, "style/style.css");
 
-        setPrefSize(820, 600);
+        setPrefSize(900, 600);
+
         menuBar = createMenuBar();
         setTop(menuBar);
+
+        viewPane = new ViewPane();
+        setCenter(viewPane);
+
         tabPane = new TabPane();
-        setCenter(tabPane);
+        tabPane.setMinSize(100, 100);
+        viewPane.setCenter(tabPane);
+
         statusBar = new StatusBarImpl(project);
         setBottom(statusBar.getContent());
 
@@ -41,6 +50,10 @@ class ProjectRootPane extends BorderPane {
 
     public Project getProject() {
         return project;
+    }
+
+    public ViewPane getViewPane() {
+        return viewPane;
     }
 
     public TabPane getTabPane() {
