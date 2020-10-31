@@ -89,16 +89,25 @@ public final class ExtensionBeanFactory<T> {
             this.converter = converter;
         }
 
+        @SuppressWarnings({"unchecked", "rawtypes"})
         private void set(Object bean, org.dom4j.Attribute attribute) throws ReflectiveOperationException {
+            String value = attribute.getValue();
+
             if (converter == null) {
-                Class<?> clazz = Class.forName(attribute.getValue());
-                if (field.getType().isAssignableFrom(clazz)) {
+                Class<?> fieldType = field.getType();
+                if (Enum.class.isAssignableFrom(fieldType)) {
+                    field.set(bean, Enum.valueOf((Class) fieldType, value));
+                    return;
+                }
+
+                Class<?> clazz = Class.forName(value);
+                if (fieldType.isAssignableFrom(clazz)) {
                     field.set(bean, clazz.getConstructor().newInstance());
                 } else {
                     throw new UnsupportedOperationException("Cannot set the \"" + name + "\" attribute of " + bean.getClass());
                 }
             } else {
-                field.set(bean, converter.convert(attribute.getValue()));
+                field.set(bean, converter.convert(value));
             }
         }
     }
