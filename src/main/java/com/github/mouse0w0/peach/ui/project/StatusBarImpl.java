@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.peach.project.Project;
-import com.sun.istack.internal.NotNull;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -9,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import org.apache.commons.lang3.Validate;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,27 +66,27 @@ public class StatusBarImpl implements StatusBar {
     }
 
     @Override
-    public void addWidget(@NotNull StatusBarWidget widget) {
+    public void addWidget(@Nonnull StatusBarWidget widget) {
         addWidget(widget, Position.RIGHT, null, null);
     }
 
     @Override
-    public void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position) {
+    public void addWidget(@Nonnull StatusBarWidget widget, @Nonnull Position position) {
         addWidget(widget, position, null, null);
     }
 
     @Override
-    public void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position, Anchor anchor) {
+    public void addWidget(@Nonnull StatusBarWidget widget, @Nonnull Position position, Anchor anchor) {
         addWidget(widget, position, anchor, null);
     }
 
     @Override
-    public void addWidget(@NotNull StatusBarWidget widget, Anchor anchor, String anchorId) {
+    public void addWidget(@Nonnull StatusBarWidget widget, Anchor anchor, String anchorId) {
         addWidget(widget, Position.RIGHT, anchor, anchorId);
     }
 
     @Override
-    public void addWidget(@NotNull StatusBarWidget widget, Position position, Anchor anchor, String anchorId) {
+    public void addWidget(@Nonnull StatusBarWidget widget, Position position, Anchor anchor, String anchorId) {
         String id = Validate.notEmpty(widget.getId(), "id");
         Node content = Validate.notNull(widget.getContent(), "content");
         Validate.notNull(position, "position");

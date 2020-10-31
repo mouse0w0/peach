@@ -1,7 +1,8 @@
 package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.peach.project.Project;
-import com.sun.istack.internal.NotNull;
+
+import javax.annotation.Nonnull;
 
 public interface StatusBar {
     enum Position {
@@ -18,15 +19,15 @@ public interface StatusBar {
 
     boolean hasWidget(String id);
 
-    void addWidget(@NotNull StatusBarWidget widget);
+    void addWidget(@Nonnull StatusBarWidget widget);
 
-    void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position);
+    void addWidget(@Nonnull StatusBarWidget widget, @Nonnull Position position);
 
-    void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position, Anchor anchor);
+    void addWidget(@Nonnull StatusBarWidget widget, @Nonnull Position position, Anchor anchor);
 
-    void addWidget(@NotNull StatusBarWidget widget, Anchor anchor, String anchorId);
+    void addWidget(@Nonnull StatusBarWidget widget, Anchor anchor, String anchorId);
 
-    void addWidget(@NotNull StatusBarWidget widget, Position position, Anchor anchor, String anchorId);
+    void addWidget(@Nonnull StatusBarWidget widget, Position position, Anchor anchor, String anchorId);
 
     boolean removeWidget(String id);
 }
