@@ -1,10 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,33 +44,19 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         return itemData;
     }
 
-    private Item getItem() {
-        return getSkinnable().getItem();
-    }
-
-    private double getFitWidth() {
-        return getSkinnable().getFitWidth();
-    }
-
-    private double getFitHeight() {
-        return getSkinnable().getFitHeight();
-    }
-
-    private boolean isPlayAnimation() {
-        return getSkinnable().isPlayAnimation();
-    }
-
     private void update() {
+        ItemView itemView = getSkinnable();
+
         if (timeline != null) {
             timeline.stop();
         }
         imageView.setImage(null);
 
-        Item item = getItem();
+        Item item = itemView.getItem();
         if (item == null) {
             itemData = Collections.emptyList();
         } else {
-            itemData = ContentManager.getInstance(WindowManager.getInstance().getFocusedProject()).getItemData(item);
+            itemData = itemView.getContentManager().getItemData(item);
         }
 
         if (itemData.size() == 0) {
@@ -80,7 +64,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             return;
         }
 
-        if (isPlayAnimation() && itemData.size() > 1) {
+        if (itemView.isPlayAnimation() && itemData.size() > 1) {
             timeline = createTimeline();
             timeline.play();
         } else {

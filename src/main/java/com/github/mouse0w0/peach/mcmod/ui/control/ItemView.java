@@ -1,20 +1,54 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
+import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.project.WindowManager;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 
 import java.util.List;
 
 public class ItemView extends Control {
 
+    public static final DataFormat ITEM = new DataFormat("peach/item");
+
     public ItemView() {
         getStyleClass().add("item-view");
 
         setPickOnBounds(true);
+
+        setOnDragDetected(event -> {
+            Item item = getItem();
+            if (item == null || item.isAir()) return;
+
+            Dragboard dragboard = startDragAndDrop(TransferMode.LINK);
+
+            ClipboardContent content = new ClipboardContent();
+            content.put(ITEM, item);
+            dragboard.setContent(content);
+        });
+        setOnDragOver(event -> {
+            event.consume();
+            if (event.getGestureSource() == event.getTarget()) return;
+
+            Item item = (Item) event.getDragboard().getContent(ITEM);
+            if (item == null) return;
+
+            event.acceptTransferModes(TransferMode.LINK);
+        });
+        setOnDragDropped(event -> {
+            event.consume();
+            setItem((Item) event.getDragboard().getContent(ITEM));
+            event.setDropCompleted(true);
+        });
     }
 
     public ItemView(double width, double height) {
@@ -105,6 +139,22 @@ public class ItemView extends Control {
 
     public final void setPlayAnimation(boolean playAnimation) {
         playAnimationProperty().set(playAnimation);
+    }
+
+    public ContentManager contentManager;
+
+    public ContentManager getContentManager() {
+        if (contentManager == null) {
+            Project project = WindowManager.getInstance().getFocusedProject();
+            if (project != null) {
+                contentManager = ContentManager.getInstance(project);
+            }
+        }
+        return contentManager;
+    }
+
+    public void setContentManager(ContentManager contentManager) {
+        this.contentManager = contentManager;
     }
 
     @Override

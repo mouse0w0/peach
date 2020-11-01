@@ -2,7 +2,9 @@ package com.github.mouse0w0.peach.mcmod;
 
 import org.apache.commons.lang3.Validate;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     public static final int METADATA_WILDCARD = Short.MAX_VALUE;
     public static final int ORE_DICTIONARY = Short.MAX_VALUE + 1;
