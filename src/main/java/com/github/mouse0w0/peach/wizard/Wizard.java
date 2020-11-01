@@ -30,13 +30,16 @@ public abstract class Wizard {
     public Wizard() {
         content = new BorderPane();
         content.setPadding(new Insets(8));
+        content.getStyleClass().addAll("wizard-pane");
 
         previous = new Button(I18n.translate("wizard.previous"));
+        previous.getStyleClass().addAll(".previous");
         previous.setOnAction(event -> onPrevious());
         next = new Button(I18n.translate("wizard.next"));
         next.setDefaultButton(true);
         next.setOnAction(event -> onNext());
         cancel = new Button(I18n.translate("wizard.cancel"));
+        cancel.setCancelButton(true);
         cancel.setOnAction(event -> onCancel());
 
         HBox buttonBar = new HBox(8, previous, next, cancel);
