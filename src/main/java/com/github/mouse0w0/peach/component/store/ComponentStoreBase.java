@@ -53,12 +53,10 @@ public abstract class ComponentStoreBase implements ComponentStore {
         }
 
         Path file = getStorePath().resolve(storageFile);
-        if (Files.exists(file)) {
-            try {
-                JsonUtils.writeJson(file, component.serialize());
-            } catch (Exception e) {
-                LOGGER.error("An exception has occurred, failed to save component " + component.getClass() + ".", e);
-            }
+        try {
+            JsonUtils.writeJson(file, component.serialize());
+        } catch (Exception e) {
+            LOGGER.error("An exception has occurred, failed to save component " + component.getClass() + ".", e);
         }
     }
 }
