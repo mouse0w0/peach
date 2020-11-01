@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.wizard;
 
+import com.github.mouse0w0.peach.ui.validation.FocusFirstInvalidHandler;
+import com.github.mouse0w0.peach.ui.validation.ShowInvalidDialogHandler;
 import com.github.mouse0w0.peach.ui.validation.Validator;
 import javafx.scene.Node;
 
@@ -7,7 +9,7 @@ import java.util.function.Predicate;
 
 public abstract class WizardStepBase implements WizardStep {
 
-    private final Validator validator = new Validator();
+    private final Validator validator = createDefaultValidator();
 
     private Node content;
 
@@ -28,13 +30,12 @@ public abstract class WizardStepBase implements WizardStep {
         this.content = content;
     }
 
+    protected Validator createDefaultValidator() {
+        return new Validator(ShowInvalidDialogHandler.INSTANCE, FocusFirstInvalidHandler.INSTANCE);
+    }
+
     @Override
     public boolean validate() {
-        if (!validator.validate()) {
-            validator.showInvalidDialog();
-            validator.focusFirstInvalid();
-            return false;
-        }
-        return true;
+        return validator.validate();
     }
 }
