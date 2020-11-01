@@ -122,4 +122,5 @@ dialog.export_to.failure=导出失败，请在日志中查看错误详情。
 dialog.rename.title=重命名为……
 dialog.rename.message.file=重命名文件“%s”为：
 
-view.explorer.text=项目文件
+view.Explorer.text=项目文件
+view.ItemFavorites.text=物品收藏夹

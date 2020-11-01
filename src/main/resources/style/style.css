@@ -52,3 +52,7 @@
     -fx-padding: 1 8 0 8;
     -fx-pref-height: 1.75em;
 }
+
+#item-favorites {
+    -fx-background-color: -peach-foreground-color;
+}

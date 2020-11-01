@@ -20,6 +20,8 @@ public interface Icons {
 
     interface View {
         Image Explorer = load("/icon/file-cabinet.png");
+
+        Image ItemFavorites = load("/icon/bookmark.png");
     }
 
     static Image load(String name) {
