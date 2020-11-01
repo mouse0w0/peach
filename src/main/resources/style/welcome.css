@@ -1,6 +1,13 @@
+.root {
+    -peach-background-color: #f2f2f2; /* gray 95% */
+    -peach-hover-color: #d9d9d9; /* gray 85% */
+    -peach-border-color: #cccccc; /* gray 80% */
+    -peach-foreground-color: #ffffff;
+}
+
 .list-view,
 .list-view:focused {
-    -fx-background-color: transparent;
+    -fx-background-color: -peach-foreground-color;
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
@@ -20,9 +27,7 @@
 }
 
 .list-cell:odd {
-    -fx-background: -fx-control-inner-background;
-    -fx-background-color: -fx-background;
-    -fx-text-fill: -fx-text-background-color;
+    -fx-background-color: -peach-foreground-color;
 }
 
 #version {
