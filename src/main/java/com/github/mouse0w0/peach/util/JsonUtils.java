@@ -13,6 +13,10 @@ import java.nio.file.Path;
 public class JsonUtils {
     private static final Gson GSON = new GsonBuilder().create();
 
+    public static JsonElement toJson(Object src) {
+        return GSON.toJsonTree(src);
+    }
+
     public static JsonPrimitive json(String value) {
         return new JsonPrimitive(value);
     }
@@ -69,6 +73,18 @@ public class JsonUtils {
         try (Reader reader = Files.newBufferedReader(path)) {
             return JsonUtils.gson().fromJson(reader, typeToken.getType());
         }
+    }
+
+    public static <T> T fromJson(JsonElement jsonElement, Class<T> classOfT) {
+        return JsonUtils.gson().fromJson(jsonElement, classOfT);
+    }
+
+    public static <T> T fromJson(JsonElement jsonElement, Type typeOfT) {
+        return JsonUtils.gson().fromJson(jsonElement, typeOfT);
+    }
+
+    public static <T> T fromJson(JsonElement jsonElement, TypeToken<T> typeToken) {
+        return JsonUtils.gson().fromJson(jsonElement, typeToken.getType());
     }
 
     public static void writeJson(Path path, Object object) throws IOException {

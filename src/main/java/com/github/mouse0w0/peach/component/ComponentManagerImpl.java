@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.component;
 
+import com.github.mouse0w0.peach.component.store.ComponentStore;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.Disposable;
 
@@ -15,25 +16,29 @@ public abstract class ComponentManagerImpl implements ComponentManager {
     private final Map<Class<?>, Object> services = new HashMap<>();
     private final Map<Class<?>, Supplier<?>> serviceFactories = new HashMap<>();
 
+    private ComponentStore componentStore;
+
     public ComponentManagerImpl(ComponentManager parent) {
         this.parent = parent;
     }
 
-    public <T> void registerService(Class<T> classOfT, T service) {
-        services.putIfAbsent(classOfT, service);
-    }
-
-    public <T> void registerServiceFactory(Class<T> classOfT, Supplier<T> serviceFactory) {
-        serviceFactories.putIfAbsent(classOfT, serviceFactory);
+    protected ComponentStore getComponentStore() {
+        if (componentStore == null) {
+            componentStore = getService(ComponentStore.class);
+        }
+        return componentStore;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getService(Class<T> classOfT, boolean createIfNeeded) {
-        return (T) (createIfNeeded ? services.computeIfAbsent(classOfT, key -> {
-            Supplier<?> serviceFactory = serviceFactories.get(key);
-            return serviceFactory != null ? serviceFactory.get() : null;
-        }) : services.get(classOfT));
+        T service = (T) services.get(classOfT);
+        if (createIfNeeded && service == null) {
+            Supplier<?> serviceFactory = serviceFactories.get(classOfT);
+            service = serviceFactory != null ? (T) serviceFactory.get() : null;
+            registerService(classOfT, service);
+        }
+        return service;
     }
 
     protected void initServices(List<ServiceDescriptor> services) {
@@ -62,6 +67,18 @@ public abstract class ComponentManagerImpl implements ComponentManager {
         } else {
             registerService(serviceClass, newInstance(implementationClass));
         }
+    }
+
+    protected <T> void registerService(Class<T> classOfT, T service) {
+        if (service instanceof PersistentComponent) {
+            getComponentStore().loadComponent((PersistentComponent) service);
+        }
+
+        services.putIfAbsent(classOfT, service);
+    }
+
+    protected <T> void registerServiceFactory(Class<T> classOfT, Supplier<T> serviceFactory) {
+        serviceFactories.putIfAbsent(classOfT, serviceFactory);
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +111,15 @@ public abstract class ComponentManagerImpl implements ComponentManager {
         }
 
         return null;
+    }
+
+    protected void saveComponents() {
+        ComponentStore componentStore = getComponentStore();
+        for (Object value : services.values()) {
+            if (value instanceof PersistentComponent) {
+                componentStore.saveComponent((PersistentComponent) value);
+            }
+        }
     }
 
     protected void disposeComponents() {

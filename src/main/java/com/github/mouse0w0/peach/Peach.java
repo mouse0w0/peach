@@ -114,7 +114,12 @@ public final class Peach extends ComponentManagerImpl {
         }
 
         ProjectManager.getInstance().closeAllProjects();
+        INSTANCE.saveComponents();
+
         getEventBus().post(new AppEvent.WillBeClosed());
+
+        INSTANCE.dispose();
+
         LOGGER.info("Exited application.");
         System.exit(0);
     }

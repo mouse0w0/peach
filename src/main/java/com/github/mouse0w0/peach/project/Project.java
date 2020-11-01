@@ -75,6 +75,7 @@ public class Project extends ComponentManagerImpl {
 
     public void save() throws IOException {
         saveNameFile();
+        saveComponents();
     }
 
     private void saveNameFile() throws IOException {
