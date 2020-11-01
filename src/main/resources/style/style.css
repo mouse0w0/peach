@@ -53,6 +53,10 @@
     -fx-pref-height: 1.75em;
 }
 
-#item-favorites {
+#item-favorites,
+#item-favorites:focused {
+    -fx-padding: 0;
     -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
 }
