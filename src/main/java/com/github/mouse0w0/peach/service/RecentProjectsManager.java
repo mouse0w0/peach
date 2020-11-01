@@ -58,7 +58,7 @@ public class RecentProjectsManager implements PersistentComponent {
 
     @Override
     public JsonElement serialize() {
-        return JsonUtils.toJson(recentProjects);
+        return JsonUtils.toJson(recentProjects.values());
     }
 
     @Override
