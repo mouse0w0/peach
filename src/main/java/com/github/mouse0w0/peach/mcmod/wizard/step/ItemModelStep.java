@@ -63,15 +63,12 @@ public class ItemModelStep extends FlowPane implements WizardStep {
             Set<String> textures = model.getTextures().keySet();
             int row = 2;
             for (String texture : textures) {
-                content.add(new Text(texture), 0, row);
-
                 TextureView textureView = new TextureView();
                 FXUtils.setFixedSize(textureView, 64, 64);
                 textureView.setProject(project);
                 textureView.setFitSize(64, 64);
-                content.add(textureView, 1, row);
                 textureViewMap.put(texture, textureView);
-
+                content.addRow(row, new Text(texture), textureView);
                 row++;
             }
         });
