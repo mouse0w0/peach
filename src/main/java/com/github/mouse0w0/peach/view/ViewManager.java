@@ -50,7 +50,7 @@ public class ViewManager {
         if (viewPane != null) return;
 
         if (window == null) {
-            throw new IllegalStateException("Cannot initialize ViewManager because window is not initialized");
+            throw new NullPointerException("window");
         }
 
         this.viewPane = window.getViewPane();
@@ -64,7 +64,7 @@ public class ViewManager {
 
             String text = I18n.translate("view." + id + ".text");
             Image icon = IconManager.getInstance().getImage(view.icon);
-            Node content = view.factory.create();
+            Node content = view.factory.createViewContent(project);
 
             EightPos position = view.position;
             if (position == null) {
