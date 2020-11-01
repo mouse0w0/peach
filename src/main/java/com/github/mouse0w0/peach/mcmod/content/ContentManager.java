@@ -70,10 +70,8 @@ public class ContentManager implements Disposable {
 
     private void addItem(ItemData itemData) {
         Item item = Item.createItem(itemData.getId(), itemData.getMetadata());
-        itemList.add(item);
         getOrCreateItemData(item).add(itemData);
         Item ignoreMetadata = Item.createIgnoreMetadata(itemData.getId());
-        itemList.add(ignoreMetadata);
         getOrCreateItemData(ignoreMetadata).add(itemData);
     }
 
@@ -96,7 +94,10 @@ public class ContentManager implements Disposable {
     }
 
     private List<ItemData> getOrCreateItemData(Item item) {
-        return itemMap.computeIfAbsent(item, k -> new ArrayList<>(1));
+        return itemMap.computeIfAbsent(item, k -> {
+            itemList.add(item);
+            return new ArrayList<>(1);
+        });
     }
 
     public List<ItemData> getItemData(Item item) {
@@ -165,10 +166,8 @@ public class ContentManager implements Disposable {
 
             String modId = mcModDescriptor.getModId();
             Item item = Item.createItem(modId + ":" + itemData.getId(), itemData.getMetadata());
-            itemList.add(0, item);
             getOrCreateItemData(item).add(itemData);
             Item ignoreMetadata = Item.createIgnoreMetadata(modId + ":" + itemData.getId());
-            itemList.add(0, ignoreMetadata);
             getOrCreateItemData(ignoreMetadata).add(itemData);
             cachedElement.put(file, new Item[]{item, ignoreMetadata});
         } else if (element instanceof ItemGroup) {
