@@ -7,7 +7,6 @@ import com.google.gson.JsonElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -38,7 +37,7 @@ public abstract class ComponentStoreBase implements ComponentStore {
         if (Files.exists(file)) {
             try {
                 component.deserialize(JsonUtils.readJson(file, JsonElement.class));
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LOGGER.error("An exception has occurred, failed to load component " + component.getClass() + ".", e);
             }
         }
@@ -57,7 +56,7 @@ public abstract class ComponentStoreBase implements ComponentStore {
         if (Files.exists(file)) {
             try {
                 JsonUtils.writeJson(file, component.serialize());
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LOGGER.error("An exception has occurred, failed to save component " + component.getClass() + ".", e);
             }
         }
