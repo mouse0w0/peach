@@ -1,13 +1,10 @@
-.grid-view .grid-cell {
-    -fx-background-radius: 5;
-    -fx-background-insets: 0;
-    -fx-background-color: transparent;
-    -fx-padding: 0;
+.grid-view .grid-cell:hover {
+    -fx-background-color: #d9d9d9;
 }
 
 .grid-view .grid-cell:selected,
 .grid-view .grid-cell:focused {
-    -fx-background-color: #C0C0C0;
+    -fx-background-color: #cccccc;
 }
 
 .grid-view .grid-cell .tooltip {
