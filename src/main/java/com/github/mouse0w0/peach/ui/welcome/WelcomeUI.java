@@ -4,7 +4,6 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
-import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
@@ -51,7 +50,7 @@ public class WelcomeUI extends BorderPane {
         stage.show();
     }
 
-    private static void onOpenedProject(ProjectWindowEvent.Opened event) {
+    private static void onOpenedProject(ProjectEvent.Opened event) {
         stage.hide();
     }
 
