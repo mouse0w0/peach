@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.project.service.WindowStateManager;
 import com.github.mouse0w0.peach.ui.icon.Icons;
 import com.github.mouse0w0.viewpane.ViewPane;
 import javafx.scene.Scene;
@@ -40,6 +41,7 @@ public class ProjectWindow {
             ProjectManager.getInstance().closeProject(project);
             event.consume();
         });
+        WindowStateManager.getInstance(project).register(stage, "MainWindow");
         return stage;
     }
 
