@@ -4,6 +4,7 @@
         <extensionPoint name="applicationService" beanClass="com.github.mouse0w0.peach.component.ServiceDescriptor"/>
         <extensionPoint name="projectService" beanClass="com.github.mouse0w0.peach.component.ServiceDescriptor"/>
 
+        <extensionPoint name="iconProvider" beanClass="com.github.mouse0w0.peach.ui.icon.IconProvider"/>
         <extensionPoint name="view" beanClass="com.github.mouse0w0.peach.view.ViewDescriptor"/>
 
         <!--        <extensionPoint name="factory" interface="factory.interface"/>-->
@@ -31,6 +32,8 @@
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.content.ContentManager"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager"/>
+
+        <iconProvider name="Icons" class="com.github.mouse0w0.peach.ui.icon.Icons"/>
 
         <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView"/>
         <view id="ItemFavorites" icon="Icons.View.ItemFavorites" position="RIGHT_TOP"
