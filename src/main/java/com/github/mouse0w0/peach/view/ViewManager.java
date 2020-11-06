@@ -8,8 +8,6 @@ import com.github.mouse0w0.viewpane.ViewPane;
 import com.github.mouse0w0.viewpane.ViewTab;
 import com.github.mouse0w0.viewpane.geometry.EightPos;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +61,7 @@ public class ViewManager {
             }
 
             String text = I18n.translate("view." + id + ".text");
-            Image icon = IconManager.getInstance().getImage(view.icon);
+            Node icon = IconManager.getInstance().createNode(view.icon);
             Node content = view.factory.createViewContent(project);
 
             EightPos position = view.position;
@@ -72,7 +70,7 @@ public class ViewManager {
                 position = EightPos.LEFT_TOP;
             }
 
-            ViewTab viewTab = new ViewTab(text, new ImageView(icon), content);
+            ViewTab viewTab = new ViewTab(text, icon, content);
             viewTab.getProperties().put(ViewDescriptor.class, view);
 
             viewTabMap.put(id, viewTab);

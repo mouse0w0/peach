@@ -1,7 +1,9 @@
 package com.github.mouse0w0.peach.ui.icon;
 
 import com.github.mouse0w0.peach.Peach;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class IconManager {
         }
     }
 
-    public Image getImage(String icon) {
-        return cacheIcons.get(icon);
+    public Node createNode(String icon) {
+        return new ImageView(cacheIcons.get(icon));
     }
 }
