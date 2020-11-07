@@ -42,6 +42,10 @@ public class IconManager {
         }
     }
 
+    public Image getIcon(String icon) {
+        return cacheIcons.get(icon);
+    }
+
     public Node createNode(String icon) {
         return new ImageView(cacheIcons.get(icon));
     }
