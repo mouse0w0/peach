@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.ui.icon;
 import com.github.mouse0w0.peach.extension.Attribute;
 import com.github.mouse0w0.peach.extension.ExtensionPoint;
 
-public class IconProvider {
-    public static final ExtensionPoint<IconProvider> EXTENSION_POINT = ExtensionPoint.of("iconProvider");
+public class IconSource {
+    public static final ExtensionPoint<IconSource> EXTENSION_POINT = ExtensionPoint.of("iconSource");
 
     @Attribute("name")
     public String name;

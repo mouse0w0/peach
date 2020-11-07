@@ -15,16 +15,16 @@ public class IconManager {
         return Peach.getInstance().getService(IconManager.class);
     }
 
-    private static Map<String, IconProvider> providers = new HashMap<>();
+    private static Map<String, IconSource> providers = new HashMap<>();
     private static Map<String, Image> cacheIcons = new HashMap<>();
 
     public IconManager() {
-        for (IconProvider iconProvider : IconProvider.EXTENSION_POINT.getExtensions()) {
-            if (providers.containsKey(iconProvider.name)) {
-                throw new IllegalStateException("Icon provider \"" + iconProvider.name + "\" has been registered");
+        for (IconSource iconSource : IconSource.EXTENSION_POINT.getExtensions()) {
+            if (providers.containsKey(iconSource.name)) {
+                throw new IllegalStateException("Icon provider \"" + iconSource.name + "\" has been registered");
             }
 
-            loadIcon(iconProvider.clazz, iconProvider.name + ".");
+            loadIcon(iconSource.clazz, iconSource.name + ".");
         }
     }
 
