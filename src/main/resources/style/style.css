@@ -1,8 +1,9 @@
 .root {
+    -peach-foreground-color: #ffffff;
     -peach-background-color: #f2f2f2; /* gray 95% */
     -peach-hover-color: #d9d9d9; /* gray 85% */
     -peach-border-color: #cccccc; /* gray 80% */
-    -peach-foreground-color: #ffffff;
+    -peach-focused-color: #0096c9;
 }
 
 .menu-bar {
@@ -33,7 +34,7 @@
 }
 
 .tab:selected {
-    -fx-background-color: #0096c9, -peach-foreground-color;
+    -fx-background-color: -peach-focused-color, -peach-foreground-color;
     -fx-background-insets: 0 0 0 0, 0 0 4 0;
 }
 
@@ -53,10 +54,27 @@
     -fx-pref-height: 1.75em;
 }
 
+#explorer-view,
+#explorer-view:focused,
 #item-favorites,
 #item-favorites:focused {
     -fx-padding: 0;
     -fx-background-color: -peach-foreground-color;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
+}
+
+#explorer-view .tree-cell:filled:selected {
+    -fx-background-color: -peach-border-color;
+    -fx-text-fill: #000000;
+}
+
+#explorer-view:focused .tree-cell:filled:selected {
+    -fx-background-color: -peach-focused-color, -peach-border-color;
+    -fx-background-insets: 0 0 0 0, 0 0 0 4;
+    -fx-text-fill: #000000;
+}
+
+#explorer-view .tree-cell:filled:selected .arrow {
+    -fx-background-color: #000000;
 }
