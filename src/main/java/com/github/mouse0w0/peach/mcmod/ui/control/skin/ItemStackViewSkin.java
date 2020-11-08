@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.SkinBase;
 import javafx.scene.control.TextField;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -52,6 +53,11 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
             if (event.getClickCount() == 2) {
                 item.show();
                 event.consume();
+            }
+        });
+        amount.addEventHandler(DragEvent.ANY, event -> {
+            if (!event.isConsumed()) {
+                item.fireEvent(event);
             }
         });
 
