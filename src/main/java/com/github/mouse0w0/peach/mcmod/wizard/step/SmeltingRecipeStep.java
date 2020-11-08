@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.dialog.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -42,17 +42,13 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
         recipeView.setBackground(new Background(
                 new BackgroundImage(BACKGROUND.getImage(), null, null, null, null)));
 
-        input = new ItemView(64, 64);
-        input.setOnMouseClicked(event ->
-                input.setItem(ItemPicker.pick(getScene().getWindow(), input.getItem(), true, false)));
+        input = new ItemPicker(64, 64, true, false);
         input.setPlayAnimation(true);
         AnchorPane.setTopAnchor(input, 52d);
         AnchorPane.setLeftAnchor(input, 120d);
         recipeView.getChildren().add(input);
 
-        output = new ItemView(64, 64);
-        output.setOnMouseClicked(event ->
-                output.setItem(ItemPicker.pick(getScene().getWindow(), output.getItem(), true, false)));
+        output = new ItemPicker(64, 64);
         AnchorPane.setTopAnchor(output, 124d);
         AnchorPane.setLeftAnchor(output, 360d);
         recipeView.getChildren().add(output);

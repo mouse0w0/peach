@@ -4,11 +4,8 @@ import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.peach.component.PersistentComponent;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import com.google.common.reflect.TypeToken;
@@ -16,7 +13,6 @@ import com.google.gson.JsonElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.TransferMode;
 
 import javax.annotation.Nonnull;
@@ -28,16 +24,8 @@ public class ItemFavoritesView implements PersistentComponent {
         return project.getService(ItemFavoritesView.class);
     }
 
-    private final ContentManager contentManager;
-
-    private final Tooltip tooltip = createTooltip();
-
     private final ObservableList<Item> items = FXCollections.observableArrayList();
     private GridView<Item> content;
-
-    public ItemFavoritesView(ContentManager contentManager) {
-        this.contentManager = contentManager;
-    }
 
     public Node initViewContent() {
         content = new GridView<>();
@@ -63,31 +51,6 @@ public class ItemFavoritesView implements PersistentComponent {
         return content;
     }
 
-    @SuppressWarnings("unchecked")
-    private Tooltip createTooltip() {
-        Tooltip tooltip = new Tooltip();
-        tooltip.setOnShowing(event ->
-                FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                            Item item = ((GridCell<Item>) node).getItem();
-                            if (item == null) tooltip.hide();
-
-                            StringBuilder sb = new StringBuilder();
-
-                            sb.append(item.getId());
-                            if (item.isNormal()) sb.append("#").append(item.getMetadata());
-
-                            sb.append("\n--------------------\n");
-
-                            for (ItemData data : contentManager.getItemData(item)) {
-                                sb.append(data.getDisplayName()).append("\n");
-                            }
-
-                            tooltip.setText(sb.substring(0, sb.length() - 1));
-                        }
-                ));
-        return tooltip;
-    }
-
     @Nonnull
     @Override
     public String getStorageFile() {
@@ -110,7 +73,6 @@ public class ItemFavoritesView implements PersistentComponent {
 
         public Cell() {
             setGraphic(itemView);
-            setTooltip(tooltip);
         }
 
         @Override

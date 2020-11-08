@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.dialog.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
@@ -58,16 +58,12 @@ public class CraftingRecipeStep extends WizardStepBase {
         inputGridPane.setVgap(8);
         recipeView.getChildren().add(inputGridPane);
         for (int i = 0; i < 9; i++) {
-            ItemView itemViews = inputs[i] = new ItemView(64, 64);
-            itemViews.setOnMouseClicked(event ->
-                    itemViews.setItem(ItemPicker.pick(getContent(), itemViews.getItem(), true, true)));
+            ItemView itemViews = inputs[i] = new ItemPicker(64, 64, true, true);
             itemViews.setPlayAnimation(true);
             inputGridPane.add(itemViews, i % 3, i / 3);
         }
 
-        output = new ItemView(64, 64);
-        output.setOnMouseClicked(event ->
-                output.setItem(ItemPicker.pick(getContent(), output.getItem(), false, false)));
+        output = new ItemPicker(64, 64);
         AnchorPane.setTopAnchor(output, 125d);
         AnchorPane.setLeftAnchor(output, 428d);
         recipeView.getChildren().add(output);

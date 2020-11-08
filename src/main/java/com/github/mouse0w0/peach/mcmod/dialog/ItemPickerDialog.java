@@ -16,7 +16,10 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,9 +30,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ItemPicker {
+public class ItemPickerDialog {
 
-    private static ItemPicker instance;
+    private static ItemPickerDialog instance;
 
     private ContentManager contentManager;
 
@@ -54,14 +57,12 @@ public class ItemPicker {
 
     private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
 
-    private final Tooltip tooltip = createTooltip();
-
     public static Item pick(Node ownerNode, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         return pick(ownerNode.getScene().getWindow(), defaultItem, enableIgnoreMetadata, enableOreDict);
     }
 
     public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        if (instance == null) instance = new ItemPicker();
+        if (instance == null) instance = new ItemPickerDialog();
         Project project = WindowManager.getInstance().getWindow(window).getProject();
         instance.init(project, defaultItem != null ? defaultItem : Item.AIR, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
@@ -73,7 +74,7 @@ public class ItemPicker {
         return instance.getSelectedItem();
     }
 
-    private ItemPicker() {
+    private ItemPickerDialog() {
         scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemPicker.fxml"));
 
         gridView.setCellWidth(32);
@@ -165,37 +166,11 @@ public class ItemPicker {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    private Tooltip createTooltip() {
-        Tooltip tooltip = new Tooltip();
-        tooltip.setOnShowing(event ->
-                FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                            Item item = ((GridCell<Item>) node).getItem();
-                            if (item == null) tooltip.hide();
-
-                            StringBuilder sb = new StringBuilder();
-
-                            sb.append(item.getId());
-                            if (item.isNormal()) sb.append("#").append(item.getMetadata());
-
-                            sb.append("\n--------------------\n");
-
-                            for (ItemData data : contentManager.getItemData(item)) {
-                                sb.append(data.getDisplayName()).append("\n");
-                            }
-
-                            tooltip.setText(sb.substring(0, sb.length() - 1));
-                        }
-                ));
-        return tooltip;
-    }
-
     private class Cell extends GridCell<Item> {
         private final ItemView itemView = new ItemView(32, 32);
 
         public Cell() {
             setGraphic(itemView);
-            setTooltip(tooltip);
         }
 
         @Override

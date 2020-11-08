@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -13,8 +12,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-
-import java.util.List;
 
 public class ItemView extends Control {
 
@@ -35,30 +32,10 @@ public class ItemView extends Control {
             content.put(ITEM, item);
             dragboard.setContent(content);
         });
-        setOnDragOver(event -> {
-            event.consume();
-            if (event.getGestureSource() == event.getTarget()) return;
-
-            Item item = (Item) event.getDragboard().getContent(ITEM);
-            if (item == null) return;
-
-            event.acceptTransferModes(TransferMode.LINK);
-        });
-        setOnDragDropped(event -> {
-            event.consume();
-            setItem((Item) event.getDragboard().getContent(ITEM));
-            event.setDropCompleted(true);
-        });
     }
 
     public ItemView(double width, double height) {
-        this();
-        setFitSize(width, height);
-    }
-
-    public ItemView(Item item) {
-        this();
-        setItem(item);
+        this(Item.AIR, width, height);
     }
 
     public ItemView(Item item, double width, double height) {
@@ -106,7 +83,7 @@ public class ItemView extends Control {
         setFitHeight(height);
     }
 
-    private final ObjectProperty<Item> item = new SimpleObjectProperty<>(this, "item");
+    private final ObjectProperty<Item> item = new SimpleObjectProperty<>(this, "item", Item.AIR);
 
     public final ObjectProperty<Item> itemProperty() {
         return item;
@@ -118,10 +95,6 @@ public class ItemView extends Control {
 
     public final void setItem(Item item) {
         this.item.set(item);
-    }
-
-    public final List<ItemData> getItemData() {
-        return ((ItemViewSkin) getSkin()).getItemData();
     }
 
     private BooleanProperty playAnimation;
@@ -139,6 +112,23 @@ public class ItemView extends Control {
 
     public final void setPlayAnimation(boolean playAnimation) {
         playAnimationProperty().set(playAnimation);
+    }
+
+    private BooleanProperty enableTooltip;
+
+    public BooleanProperty enableTooltipProperty() {
+        if (enableTooltip == null) {
+            enableTooltip = new SimpleBooleanProperty(this, "showTooltip", true);
+        }
+        return enableTooltip;
+    }
+
+    public boolean isEnableTooltip() {
+        return enableTooltip == null || enableTooltip.get();
+    }
+
+    public void setEnableTooltip(boolean enableTooltip) {
+        enableTooltipProperty().set(enableTooltip);
     }
 
     public ContentManager contentManager;
