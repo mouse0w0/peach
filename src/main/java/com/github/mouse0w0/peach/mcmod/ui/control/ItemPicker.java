@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.dialog.ItemPickerDialog;
+import com.github.mouse0w0.peach.mcmod.dialog.ItemChooser;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.input.TransferMode;
@@ -74,6 +74,6 @@ public class ItemPicker extends ItemView {
     }
 
     public void show() {
-        setItem(ItemPickerDialog.pick(this, getItem(), isEnableIgnoreMetadata(), isEnableOreDict()));
+        setItem(ItemChooser.pick(this, getItem(), isEnableIgnoreMetadata(), isEnableOreDict()));
     }
 }

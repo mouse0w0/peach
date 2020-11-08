@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ItemPickerDialog {
+public class ItemChooser {
 
-    private static ItemPickerDialog instance;
+    private static ItemChooser instance;
 
     private ContentManager contentManager;
 
@@ -62,7 +62,7 @@ public class ItemPickerDialog {
     }
 
     public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        if (instance == null) instance = new ItemPickerDialog();
+        if (instance == null) instance = new ItemChooser();
         Project project = WindowManager.getInstance().getWindow(window).getProject();
         instance.init(project, defaultItem != null ? defaultItem : Item.AIR, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
@@ -74,7 +74,7 @@ public class ItemPickerDialog {
         return instance.getSelectedItem();
     }
 
-    private ItemPickerDialog() {
+    private ItemChooser() {
         scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemPicker.fxml"));
 
         gridView.setCellWidth(32);
