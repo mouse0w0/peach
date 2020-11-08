@@ -23,4 +23,8 @@ public final class Key<T> {
     public String getName() {
         return name;
     }
+
+    public T get(DataContext context) {
+        return context.getData(this);
+    }
 }

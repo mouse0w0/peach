@@ -5,8 +5,16 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DataHolderImpl implements DataHolder {
-    private Map<Key<?>, Object> data = new HashMap<>();
+public class DataContextImpl extends DataContextBase {
+
+    private final Map<Key<?>, Object> data = new HashMap<>();
+
+    public DataContextImpl() {
+    }
+
+    public DataContextImpl(DataContext parent) {
+        super(parent);
+    }
 
     @Override
     @SuppressWarnings("unchecked")
@@ -14,7 +22,6 @@ public class DataHolderImpl implements DataHolder {
         return (T) data.get(key);
     }
 
-    @Override
     public <T> void putData(@Nonnull Key<T> key, @Nullable T value) {
         data.put(key, value);
     }
