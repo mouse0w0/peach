@@ -1,47 +1,19 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
-import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
+import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemStackViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 
-public class ItemView extends Control {
+public class ItemStackView extends Control {
 
-    public static final DataFormat ITEM = new DataFormat("peach/item");
-
-    public ItemView() {
-        getStyleClass().add("item-view");
-
-        setPickOnBounds(true);
-
-        setOnDragDetected(event -> {
-            Item item = getItem();
-            if (item == null || item.isAir()) return;
-
-            Dragboard dragboard = startDragAndDrop(TransferMode.LINK);
-
-            ClipboardContent content = new ClipboardContent();
-            content.put(ITEM, item);
-            dragboard.setContent(content);
-        });
-    }
-
-    public ItemView(double width, double height) {
-        this(Item.AIR, width, height);
-    }
-
-    public ItemView(Item item, double width, double height) {
-        this();
-        setItem(item);
-        setFitSize(width, height);
+    public ItemStackView() {
+        getStyleClass().setAll("item-stack-view");
     }
 
     private DoubleProperty fitWidth;
@@ -97,38 +69,40 @@ public class ItemView extends Control {
         this.item.set(item);
     }
 
-    private BooleanProperty playAnimation;
+    private IntegerProperty amount;
 
-    public final BooleanProperty playAnimationProperty() {
-        if (playAnimation == null) {
-            playAnimation = new SimpleBooleanProperty(this, "playAnimation", false);
+    public final IntegerProperty amountProperty() {
+        if (amount == null) {
+            amount = new SimpleIntegerProperty(this, "amount", 1) {
+                @Override
+                public void set(int newValue) {
+                    super.set(Math.min(Math.max(newValue, 1), 127));
+                }
+            };
         }
-        return playAnimation;
+        return amount;
     }
 
-    public final boolean isPlayAnimation() {
-        return playAnimation != null && playAnimation.get();
+    public final int getAmount() {
+        return amount == null ? 1 : amount.get();
     }
 
-    public final void setPlayAnimation(boolean playAnimation) {
-        playAnimationProperty().set(playAnimation);
+    public final void setAmount(int amount) {
+        amountProperty().set(amount);
     }
 
-    private BooleanProperty enableTooltip;
-
-    public BooleanProperty enableTooltipProperty() {
-        if (enableTooltip == null) {
-            enableTooltip = new SimpleBooleanProperty(this, "showTooltip", true);
+    public final void setItemStack(ItemStack itemStack) {
+        if (itemStack == null) {
+            setItem(Item.AIR);
+            setAmount(1);
+        } else {
+            setItem(itemStack.getItem());
+            setAmount(itemStack.getAmount());
         }
-        return enableTooltip;
     }
 
-    public boolean isEnableTooltip() {
-        return enableTooltip == null || enableTooltip.get();
-    }
-
-    public void setEnableTooltip(boolean enableTooltip) {
-        enableTooltipProperty().set(enableTooltip);
+    public final ItemStack getItemStack() {
+        return new ItemStack(getItem(), getAmount());
     }
 
     private ObjectProperty<ContentManager> contentManager;
@@ -154,6 +128,11 @@ public class ItemView extends Control {
 
     @Override
     protected Skin<?> createDefaultSkin() {
-        return new ItemViewSkin(this);
+        return new ItemStackViewSkin(this);
+    }
+
+    @Override
+    public String getUserAgentStylesheet() {
+        return ItemStackView.class.getResource("ItemStackView.css").toExternalForm();
     }
 }

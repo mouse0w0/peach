@@ -2,9 +2,9 @@ package com.github.mouse0w0.peach.mcmod.wizard.step;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
@@ -13,7 +13,10 @@ import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.wizard.WizardStepBase;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -36,9 +39,8 @@ public class CraftingRecipeStep extends WizardStepBase {
     @FXML
     private AnchorPane recipeView;
 
-    private ItemView[] inputs = new ItemView[9];
-    private ItemView output;
-    private Spinner<Integer> outputAmount;
+    private ItemPicker[] inputs = new ItemPicker[9];
+    private ItemStackView output;
 
     public CraftingRecipeStep(CraftingRecipe element) {
         this.element = element;
@@ -63,17 +65,12 @@ public class CraftingRecipeStep extends WizardStepBase {
             inputGridPane.add(itemViews, i % 3, i / 3);
         }
 
-        output = new ItemPicker(64, 64);
-        AnchorPane.setTopAnchor(output, 125d);
-        AnchorPane.setLeftAnchor(output, 428d);
+        output = new ItemStackView();
+        output.setFitSize(64, 64);
+        FXUtils.setFixedSize(output, 72, 72);
+        AnchorPane.setTopAnchor(output, 121d);
+        AnchorPane.setLeftAnchor(output, 424d);
         recipeView.getChildren().add(output);
-
-        outputAmount = new Spinner<>(1, 127, 1);
-        outputAmount.setEditable(true);
-        FXUtils.setFixedSize(outputAmount, 104, 24);
-        AnchorPane.setTopAnchor(outputAmount, 220d);
-        AnchorPane.setLeftAnchor(outputAmount, 408d);
-        recipeView.getChildren().add(outputAmount);
     }
 
     @Override
@@ -86,11 +83,7 @@ public class CraftingRecipeStep extends WizardStepBase {
         group.setValue(element.getGroup());
         shapeless.setSelected(element.isShapeless());
         ArrayUtils.biForEach(inputs, element.getInputs(), ItemView::setItem);
-        ItemStack outputItem = element.getOutput();
-        if (outputItem != null) {
-            output.setItem(outputItem.getItem());
-            outputAmount.getValueFactory().setValue(outputItem.getAmount());
-        }
+        output.setItemStack(element.getOutput());
     }
 
     @Override
@@ -100,7 +93,7 @@ public class CraftingRecipeStep extends WizardStepBase {
         element.setGroup(group.getValue());
         element.setShapeless(shapeless.isSelected());
         element.setInputs(ArrayUtils.map(inputs, ItemView::getItem, Item[]::new));
-        element.setOutput(new ItemStack(output.getItem(), outputAmount.getValue()));
+        element.setOutput(output.getItemStack());
     }
 
     @Override

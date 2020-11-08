@@ -17,8 +17,8 @@ public class TextureViewSkin extends SkinBase<TextureView> {
         super(textureView);
 
         imageView = new ImageView();
-        imageView.fitWidthProperty().bindBidirectional(textureView.fitWidthProperty());
-        imageView.fitHeightProperty().bindBidirectional(textureView.fitHeightProperty());
+        imageView.fitWidthProperty().bind(textureView.fitWidthProperty());
+        imageView.fitHeightProperty().bind(textureView.fitHeightProperty());
         getChildren().add(imageView);
 
         textureView.textureProperty().addListener(observable -> updateImage());

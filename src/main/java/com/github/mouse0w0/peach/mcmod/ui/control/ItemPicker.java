@@ -8,6 +8,10 @@ import javafx.scene.input.TransferMode;
 
 public class ItemPicker extends ItemView {
 
+    public ItemPicker() {
+        initialize();
+    }
+
     public ItemPicker(double width, double height) {
         super(width, height);
         initialize();
@@ -36,7 +40,9 @@ public class ItemPicker extends ItemView {
             setItem((Item) event.getDragboard().getContent(ITEM));
             event.setDropCompleted(true);
         });
-        setOnMouseClicked(event -> show());
+        setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) show();
+        });
     }
 
     private BooleanProperty enableIgnoreMetadata;

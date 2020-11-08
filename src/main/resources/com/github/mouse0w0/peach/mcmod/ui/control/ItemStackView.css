@@ -1,0 +1,18 @@
+@font-face {
+    src: url("/font/Minecraft-Regular.otf");
+}
+
+.item-stack-view {
+
+}
+
+.item-stack-view > .amount {
+    -fx-font-family: Minecraft;
+    -fx-font-size: 32;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(one-pass-box, #3f3f3f, 0, 0, 2, 2);
+}
+
+/*.item-stack-view > .amount > * > .text {*/
+/*    -fx-effect: dropshadow(one-pass-box, #3f3f3f, 0, 0, 2, 2);*/
+/*}*/
