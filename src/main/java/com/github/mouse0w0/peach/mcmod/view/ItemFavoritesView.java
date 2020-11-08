@@ -16,7 +16,9 @@ import javafx.scene.Node;
 import javafx.scene.input.TransferMode;
 
 import javax.annotation.Nonnull;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ItemFavoritesView implements PersistentComponent {
 
@@ -25,6 +27,8 @@ public class ItemFavoritesView implements PersistentComponent {
     }
 
     private final ObservableList<Item> items = FXCollections.observableArrayList();
+    private final Set<Item> itemSet = new HashSet<>();
+
     private GridView<Item> content;
 
     public Node initViewContent() {
@@ -45,7 +49,10 @@ public class ItemFavoritesView implements PersistentComponent {
         });
         content.setOnDragDropped(event -> {
             event.consume();
-            items.add((Item) event.getDragboard().getContent(ItemView.ITEM));
+            Item item = (Item) event.getDragboard().getContent(ItemView.ITEM);
+            if (itemSet.add(item)) {
+                items.add(item);
+            }
             event.setDropCompleted(true);
         });
         return content;
@@ -66,6 +73,7 @@ public class ItemFavoritesView implements PersistentComponent {
     public void deserialize(JsonElement jsonElement) {
         items.addAll(JsonUtils.fromJson(jsonElement, new TypeToken<List<Item>>() {
         }));
+        itemSet.addAll(items);
     }
 
     private class Cell extends GridCell<Item> {
