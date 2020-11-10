@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.view;
 
+import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
 import com.github.mouse0w0.peach.util.NioFileWatcher;
@@ -8,6 +9,7 @@ import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -108,7 +110,10 @@ public class ExplorerView implements Disposable {
     }
 
     private static class Cell extends TreeCell<Path> {
+        private final ImageView imageView = new ImageView();
+
         public Cell() {
+            setGraphic(imageView);
             setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && Files.isRegularFile(getItem())) {
                     try {
@@ -135,10 +140,17 @@ public class ExplorerView implements Disposable {
         @Override
         protected void updateItem(Path item, boolean empty) {
             super.updateItem(item, empty);
+
             if (empty) {
                 setText(null);
+                imageView.setImage(null);
             } else {
-                setText(item.getFileName().toString());
+                for (FileAppearance fileAppearance : FileAppearance.EXTENSION_POINT.getExtensions()) {
+                    if (fileAppearance.accept(item)) {
+                        fileAppearance.apply(item, textProperty(), imageView.imageProperty());
+                        return;
+                    }
+                }
             }
         }
     }

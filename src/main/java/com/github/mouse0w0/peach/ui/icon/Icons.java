@@ -2,6 +2,8 @@ package com.github.mouse0w0.peach.ui.icon;
 
 import javafx.scene.image.Image;
 
+import java.net.URL;
+
 public interface Icons {
 
     Image Peach_16x = load("/icon/peach-16x.png");
@@ -24,7 +26,25 @@ public interface Icons {
         Image ItemFavorites = load("/icon/bookmark.png");
     }
 
+    interface File {
+        Image Folder = load("/icon/file/folder.png");
+
+        Image File = load("/icon/file/file.png");
+
+        Image Json = load("/icon/file/code-json.png");
+
+        Image Sound = load("/icon/file/file-music.png");
+
+        Image Image = load("/icon/file/image.png");
+
+        Image ModElement = load("/icon/file/alpha-e-box.png");
+    }
+
     static Image load(String name) {
-        return new Image(Icons.class.getResource(name).toExternalForm());
+        URL resource = Icons.class.getResource(name);
+        if (resource == null) {
+            throw new NullPointerException("Not found resource: " + name);
+        }
+        return new Image(resource.toExternalForm());
     }
 }

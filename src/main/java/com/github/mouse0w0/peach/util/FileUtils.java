@@ -154,6 +154,14 @@ public class FileUtils {
         return StringUtils.substringBeforeLast(fileName, '.');
     }
 
+    public static String getFileExtension(Path file) {
+        return StringUtils.substringAfterLast(file.getFileName().toString(), '.');
+    }
+
+    public static String getFileExtension(String fileName) {
+        return StringUtils.substringAfterLast(fileName, '.');
+    }
+
     public static boolean deleteDirectoryIfPresent(Path path) {
         return deleteDirectoryIfPresent(path.toFile());
     }
