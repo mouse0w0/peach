@@ -63,7 +63,11 @@ public final class ExtensionContainer<T> {
                 descriptors.sort(Comparator.naturalOrder());
             }
             for (ExtensionDescriptor descriptor : descriptors) {
-                extensions.add((T) descriptor.newInstance());
+                T instance = (T) descriptor.newInstance();
+                if (!type.isAssignableFrom(instance.getClass())) {
+                    throw new ExtensionException(type + " is not assignable from instance " + instance.getClass());
+                }
+                extensions.add(instance);
             }
             this.extensions = ImmutableList.copyOf(extensions);
         }
