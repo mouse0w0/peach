@@ -42,7 +42,7 @@ public final class ExtensionBeanFactory<T> {
         this.beanClass = Validate.notNull(beanClass);
 
         try {
-            constructor = beanClass.getConstructor();
+            constructor = beanClass.getDeclaredConstructor();
             constructor.setAccessible(true);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("Not found the non-parameter constructor of " + beanClass, e);
