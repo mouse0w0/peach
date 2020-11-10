@@ -12,6 +12,7 @@ public final class ExtensionContainer<T> {
     private final String name;
     private final Class<T> type;
     private final boolean beanMode;
+    private final boolean ordered;
 
     private final List<ExtensionDescriptor> descriptors = new ArrayList<>();
 
@@ -20,10 +21,11 @@ public final class ExtensionContainer<T> {
     private ExtensionBeanFactory<?> beanFactory;
 
     @SuppressWarnings("unchecked")
-    ExtensionContainer(String name, Class<T> type, boolean beanMode) {
+    ExtensionContainer(String name, Class<T> type, boolean beanMode, boolean ordered) {
         this.name = name;
         this.type = type;
         this.beanMode = beanMode;
+        this.ordered = ordered;
     }
 
     public String getName() {
@@ -36,6 +38,10 @@ public final class ExtensionContainer<T> {
 
     public boolean isBeanMode() {
         return beanMode;
+    }
+
+    public boolean isOrdered() {
+        return ordered;
     }
 
     public List<ExtensionDescriptor> getDescriptors() {
@@ -53,7 +59,9 @@ public final class ExtensionContainer<T> {
     synchronized void initExtensions() {
         if (this.extensions == null) {
             List<T> extensions = new ArrayList<>(descriptors.size());
-            descriptors.sort(Comparator.naturalOrder());
+            if (ordered) {
+                descriptors.sort(Comparator.naturalOrder());
+            }
             for (ExtensionDescriptor descriptor : descriptors) {
                 extensions.add((T) descriptor.newInstance());
             }

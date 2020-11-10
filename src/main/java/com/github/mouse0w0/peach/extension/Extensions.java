@@ -56,7 +56,9 @@ public final class Extensions {
                 }
             }
 
-            ExtensionContainer<?> container = new ExtensionContainer<>(name, type, beanMode);
+            boolean ordered = "true".equals(extensionPoint.attributeValue("ordered", beanMode ? "false" : "true"));
+
+            ExtensionContainer<?> container = new ExtensionContainer<>(name, type, beanMode, ordered);
             CONTAINERS.put(name, container);
         }
     }
