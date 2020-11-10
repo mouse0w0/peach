@@ -64,17 +64,24 @@
     -fx-background-radius: 0;
 }
 
-#explorer-view .tree-cell:filled:selected {
+#explorer-view .tree-cell {
+    -fx-padding: 0.25em 0 0.25em 0.25em;
+}
+
+#explorer-view .tree-cell:filled:selected,
+#explorer-view .tree-cell:focused {
     -fx-background-color: -peach-border-color;
     -fx-text-fill: #000000;
 }
 
-#explorer-view:focused .tree-cell:filled:selected {
+#explorer-view:focused .tree-cell:filled:selected,
+#explorer-view:focused .tree-cell:focused {
     -fx-background-color: -peach-focused-color, -peach-border-color;
     -fx-background-insets: 0 0 0 0, 0 0 0 4;
     -fx-text-fill: #000000;
 }
 
-#explorer-view .tree-cell:filled:selected .arrow {
+#explorer-view .tree-cell:filled:selected > .tree-disclosure-node > .arrow,
+#explorer-view .tree-cell:focused > .tree-disclosure-node > .arrow {
     -fx-background-color: #000000;
 }
