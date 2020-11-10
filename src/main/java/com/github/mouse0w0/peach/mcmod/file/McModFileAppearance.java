@@ -1,7 +1,9 @@
-package com.github.mouse0w0.peach.file;
+package com.github.mouse0w0.peach.mcmod.file;
 
+import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.ui.icon.Icons;
+import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.image.Image;
@@ -16,7 +18,8 @@ public class McModFileAppearance implements FileAppearance {
 
     @Override
     public void apply(Path file, StringProperty text, ObjectProperty<Image> icon) {
-        text.set(file.getFileName().toString());
+        String fileName = StringUtils.substringBefore(file.getFileName().toString(), '.');
+        text.set(fileName);
         icon.set(Icons.File.ModElement);
     }
 }

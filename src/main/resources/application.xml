@@ -44,6 +44,6 @@
               factory="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView$Factory"/>
 
         <fileAppearance implementation="com.github.mouse0w0.peach.file.CommonFileAppearance" order="LAST"/>
-        <fileAppearance implementation="com.github.mouse0w0.peach.file.McModFileAppearance" order="FIRST"/>
+        <fileAppearance implementation="com.github.mouse0w0.peach.mcmod.file.McModFileAppearance" order="FIRST"/>
     </extensions>
 </plugin>
