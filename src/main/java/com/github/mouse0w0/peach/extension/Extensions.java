@@ -38,23 +38,25 @@ public final class Extensions {
                         " \"beanClass\" and \"interface\" cannot be both null or both non null");
             }
 
-            Class<?> beanClass = null;
-            Class<?> interfaceClass = null;
+            Class<?> type;
+            boolean beanMode;
             if (beanName != null) {
                 try {
-                    beanClass = Class.forName(beanName);
+                    type = Class.forName(beanName);
+                    beanMode = true;
                 } catch (ClassNotFoundException e) {
                     throw new ExtensionException("Not found bean class " + beanName);
                 }
             } else {
                 try {
-                    interfaceClass = Class.forName(interfaceName);
+                    type = Class.forName(interfaceName);
+                    beanMode = false;
                 } catch (ClassNotFoundException e) {
                     throw new ExtensionException("Not found interface class " + interfaceName);
                 }
             }
 
-            ExtensionContainer<?> container = new ExtensionContainer<>(name, beanClass, interfaceClass);
+            ExtensionContainer<?> container = new ExtensionContainer<>(name, type, beanMode);
             CONTAINERS.put(name, container);
         }
     }

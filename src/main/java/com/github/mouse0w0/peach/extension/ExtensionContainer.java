@@ -1,87 +1,78 @@
 package com.github.mouse0w0.peach.extension;
 
+import com.google.common.collect.ImmutableList;
 import org.dom4j.Element;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public final class ExtensionContainer<T> {
 
     private final String name;
-    private final Class<T> beanClass;
-    private final Class<T> interfaceClass;
+    private final Class<T> type;
+    private final boolean beanMode;
+
+    private final List<ExtensionDescriptor> descriptors = new ArrayList<>();
 
     private List<T> extensions;
 
     private ExtensionBeanFactory<?> beanFactory;
 
-    private List<ExtensionImplBean> implBeans;
-
     @SuppressWarnings("unchecked")
-    ExtensionContainer(String name, Class<?> beanClass, Class<?> interfaceClass) {
+    ExtensionContainer(String name, Class<T> type, boolean beanMode) {
         this.name = name;
-        this.beanClass = (Class<T>) beanClass;
-        this.interfaceClass = (Class<T>) interfaceClass;
+        this.type = type;
+        this.beanMode = beanMode;
     }
 
     public String getName() {
         return name;
     }
 
-    public Class<T> getBeanClass() {
-        return beanClass;
+    public Class<T> getType() {
+        return type;
     }
 
-    public Class<T> getInterfaceClass() {
-        return interfaceClass;
+    public boolean isBeanMode() {
+        return beanMode;
+    }
+
+    public List<ExtensionDescriptor> getDescriptors() {
+        return descriptors;
     }
 
     public List<T> getExtensions() {
         if (extensions == null) {
-            extensions = loadExtensions();
+            initExtensions();
         }
         return extensions;
     }
 
     @SuppressWarnings("unchecked")
-    List<T> loadExtensions() {
-        if (implBeans == null) return Collections.emptyList();
-
-        List<T> extensions = new ArrayList<>();
-        implBeans.sort(Comparator.comparing(o -> o.order));
-        for (ExtensionImplBean bean : implBeans) {
-            try {
-                Class<?> implementationClass = Class.forName(bean.implementation);
-                if (!interfaceClass.isAssignableFrom(implementationClass)) {
-                    throw new ExtensionException(implementationClass + " is not implements " + interfaceClass);
-                }
-                T instance = (T) implementationClass.getConstructor().newInstance();
-                extensions.add(instance);
-            } catch (ReflectiveOperationException e) {
-                throw new ExtensionException("Failed to load extension \"" + bean.implementation + "\" to " + name, e);
+    synchronized void initExtensions() {
+        if (this.extensions == null) {
+            List<T> extensions = new ArrayList<>(descriptors.size());
+            descriptors.sort(Comparator.naturalOrder());
+            for (ExtensionDescriptor descriptor : descriptors) {
+                extensions.add((T) descriptor.newInstance());
             }
+            this.extensions = ImmutableList.copyOf(extensions);
         }
-        return extensions;
     }
 
     @SuppressWarnings("unchecked")
     void register(Element element) {
-        if (beanClass != null) {
+        if (beanMode) {
             if (beanFactory == null) {
-                extensions = new ArrayList<>();
-                beanFactory = new ExtensionBeanFactory<>(beanClass);
+                beanFactory = new ExtensionBeanFactory<>(type);
             }
-            extensions.add((T) beanFactory.newInstance(element));
-        } else if (interfaceClass != null) {
-            if (beanFactory == null) {
-                implBeans = new ArrayList<>();
-                beanFactory = new ExtensionBeanFactory<>(ExtensionImplBean.class);
-            }
-            implBeans.add((ExtensionImplBean) beanFactory.newInstance(element));
+            descriptors.add(new ExtensionObjectDescriptor(beanFactory.newInstance(element)));
         } else {
-            throw new ExtensionException("Failed to register extension to " + name);
+            if (beanFactory == null) {
+                beanFactory = new ExtensionBeanFactory<>(ExtensionClassDescriptor.class);
+            }
+            descriptors.add((ExtensionClassDescriptor) beanFactory.newInstance(element));
         }
     }
 }
