@@ -40,7 +40,7 @@ public class MainClassTask implements CompileTask {
                 annotationVisitor0.visitEnd();
             }
             methodVisitor.visitCode();
-            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(environment.getRootPackageName() + ".itemGroup.ItemGroups"), "init", "()V", false);
+            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(environment.getRootPackageName() + ".itemGroup.ModItemGroups"), "init", "()V", false);
             methodVisitor.visitInsn(RETURN);
             methodVisitor.visitMaxs(0, 2);
             methodVisitor.visitEnd();

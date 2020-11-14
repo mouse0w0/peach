@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
+import com.github.mouse0w0.coffeemaker.CoffeeMaker;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
@@ -33,6 +34,8 @@ public class Compiler implements Environment {
     private Multimap<ElementType<?>, Element> elements;
 
     private ModelManager modelManager;
+
+    private CoffeeMaker coffeeMaker;
 
     private Filer classesFiler;
     private Filer resourcesFiler;
@@ -81,6 +84,11 @@ public class Compiler implements Environment {
     }
 
     @Override
+    public CoffeeMaker getCoffeeMaker() {
+        return coffeeMaker;
+    }
+
+    @Override
     public Filer getClassesFiler() {
         return classesFiler;
     }
@@ -111,6 +119,9 @@ public class Compiler implements Environment {
             elements = loadElements();
 
             modelManager = new ModelManager();
+
+            coffeeMaker = new CoffeeMaker();
+            coffeeMaker.loadTemplateFromJar(Compiler.class.getResource("/template/peach-forge-template-1.0.jar"));
 
             classesFiler = new Filer(getOutputDirectory().resolve("classes"));
             resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));

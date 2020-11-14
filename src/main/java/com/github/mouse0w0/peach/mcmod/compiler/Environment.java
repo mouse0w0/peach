@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
+import com.github.mouse0w0.coffeemaker.CoffeeMaker;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
@@ -23,6 +24,8 @@ public interface Environment {
     Multimap<ElementType<?>, Element> getElements();
 
     ModelManager getModelManager();
+
+    CoffeeMaker getCoffeeMaker();
 
     Filer getClassesFiler();
 
