@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.*;
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -110,23 +108,14 @@ public class FileUtils {
         });
     }
 
-    public static URL toURL(Path path) {
+    private static final Pattern WHITESPACE = Pattern.compile("%20");
+
+    public static String toUrlAsString(Path path) {
         try {
-            return path.toUri().toURL();
+            return WHITESPACE.matcher(path.toUri().toURL().toExternalForm())
+                    .replaceAll("\u0020"); // Fix url, convert '%20' to '\u0020' (whitespace)
         } catch (MalformedURLException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    public static String toURLString(Path path) {
-        return toURL(path).toString();
-    }
-
-    public static Path toPath(URL url) {
-        try {
-            return Paths.get(url.toURI());
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException(e);
+            throw new RuntimeException(e);
         }
     }
 

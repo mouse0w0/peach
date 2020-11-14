@@ -4,12 +4,16 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import javafx.scene.image.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class CachedImage {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CachedImage.class);
 
     private static final Cache<CachedImage, Image> CACHE = CacheBuilder.newBuilder().concurrencyLevel(4).build();
 
@@ -21,15 +25,15 @@ public class CachedImage {
     private final boolean smooth;
 
     public CachedImage(Path file) {
-        this(FileUtils.toURLString(file), 0, 0, true, false);
+        this(FileUtils.toUrlAsString(file), 0, 0, true, false);
     }
 
     public CachedImage(Path file, double width, double height) {
-        this(FileUtils.toURLString(file), width, height, true, false);
+        this(FileUtils.toUrlAsString(file), width, height, true, false);
     }
 
     public CachedImage(Path file, double width, double height, boolean preserveRatio, boolean smooth) {
-        this(FileUtils.toURLString(file), width, height, preserveRatio, smooth);
+        this(FileUtils.toUrlAsString(file), width, height, preserveRatio, smooth);
     }
 
     public CachedImage(String url, double width, double height) {
@@ -51,17 +55,18 @@ public class CachedImage {
 
     public Image getImage(boolean backgroundLoading) {
         try {
-            return CACHE.get(this, () -> createImage(backgroundLoading));
-        } catch (ExecutionException ignored) {
-            return null;
+            return CACHE.get(this, () -> newImage(backgroundLoading));
+        } catch (ExecutionException e) {
+            LOGGER.error("Failed to get image " + url + " from cache.", e);
+            return newImage(backgroundLoading);
         }
     }
 
-    private Image createImage(boolean backgroundLoading) {
+    private Image newImage(boolean backgroundLoading) {
         return new Image(url, width, height, preserveRatio, smooth, backgroundLoading);
     }
 
-    public void cleanCache() {
+    public void invalidate() {
         CACHE.invalidate(this);
     }
 
