@@ -36,6 +36,7 @@ dependencies {
     compile 'com.github.mouse0w0:i18n:1.0.2'
     compile 'com.github.mouse0w0:gridview:1.0.0'
     compile 'com.github.mouse0w0:viewpane:8.0.0'
+    compile 'com.github.mouse0w0:coffeemaker:2.0.0'
 
 //    compile 'org.controlsfx:controlsfx:8.40.17'
 //    compile 'com.dlsc.formsfx:formsfx-core:8.4.0'
@@ -44,7 +45,6 @@ dependencies {
 
     compile 'org.ow2.asm:asm-commons:8.0.1'
     compile 'org.ow2.asm:asm-util:8.0.1'
-    compile 'com.github.mouse0w0:coffeemaker:1.0.0'
 
     compile 'org.slf4j:slf4j-api:1.7.30'
 
