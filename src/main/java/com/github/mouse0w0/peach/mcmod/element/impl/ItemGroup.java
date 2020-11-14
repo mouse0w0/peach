@@ -11,6 +11,7 @@ public class ItemGroup extends Element implements Localizable {
     private String registerName;
     private String displayName;
     private Item icon = Item.AIR;
+    private boolean hasSearchBar;
 
     public String getRegisterName() {
         return registerName;
@@ -34,6 +35,14 @@ public class ItemGroup extends Element implements Localizable {
 
     public void setIcon(Item icon) {
         this.icon = icon;
+    }
+
+    public boolean isHasSearchBar() {
+        return hasSearchBar;
+    }
+
+    public void setHasSearchBar(boolean hasSearchBar) {
+        this.hasSearchBar = hasSearchBar;
     }
 
     @Override
