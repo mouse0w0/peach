@@ -12,7 +12,7 @@ public class ItemElement extends Element implements Localizable {
     private String displayName;
     private String itemGroup;
     private int maxStackSize = 64;
-    private boolean effect = false;
+    private boolean hasEffect = false;
     private String information;
 
     private String model = "generated";
@@ -50,12 +50,12 @@ public class ItemElement extends Element implements Localizable {
         this.maxStackSize = maxStackSize;
     }
 
-    public boolean isEffect() {
-        return effect;
+    public boolean isHasEffect() {
+        return hasEffect;
     }
 
-    public void setEffect(boolean effect) {
-        this.effect = effect;
+    public void setHasEffect(boolean hasEffect) {
+        this.hasEffect = hasEffect;
     }
 
     public String getInformation() {

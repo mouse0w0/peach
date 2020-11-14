@@ -62,7 +62,7 @@ public class ItemStep extends WizardStepBase {
         if (itemGroupData != null) itemGroup.getSelectionModel().select(itemGroupData);
         else itemGroup.getSelectionModel().selectFirst();
         maxStackSize.getValueFactory().setValue(element.getMaxStackSize());
-        effect.setSelected(element.isEffect());
+        effect.setSelected(element.isHasEffect());
         information.setText(element.getInformation());
     }
 
@@ -72,7 +72,7 @@ public class ItemStep extends WizardStepBase {
         element.setDisplayName(displayName.getText());
         element.setItemGroup(itemGroup.getValue().getId());
         element.setMaxStackSize(maxStackSize.getValue());
-        element.setEffect(effect.isSelected());
+        element.setHasEffect(effect.isSelected());
         element.setInformation(information.getText());
     }
 
