@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.project.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.common.collect.HashMultimap;
@@ -25,7 +25,7 @@ public class Compiler implements Environment {
 
     private final Messager messager = new MessagerImpl();
 
-    private McModSettings modSettings;
+    private McModMetadata metadata;
 
     private final ElementRegistry elementRegistry = ElementRegistry.getInstance();
 
@@ -54,8 +54,8 @@ public class Compiler implements Environment {
     }
 
     @Override
-    public McModSettings getModSettings() {
-        return modSettings;
+    public McModMetadata getMetadata() {
+        return metadata;
     }
 
     @Override
@@ -112,9 +112,9 @@ public class Compiler implements Environment {
         try {
             FileUtils.createDirectoriesIfNotExists(getOutputDirectory());
 
-            modSettings = JsonUtils.readJson(getSourceDirectory().resolve(McModSettings.FILE_NAME), McModSettings.class);
+            metadata = JsonUtils.readJson(getSourceDirectory().resolve(McModMetadata.FILE_NAME), McModMetadata.class);
 
-            rootPackageName = "peach.generated." + getModSettings().getId();
+            rootPackageName = "peach.generated." + getMetadata().getId();
 
             elements = loadElements();
 
@@ -125,7 +125,7 @@ public class Compiler implements Environment {
 
             classesFiler = new Filer(getOutputDirectory().resolve("classes"));
             resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));
-            assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getModSettings().getId()));
+            assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getMetadata().getId()));
 
             taskList.add(new CleanTask());
             taskList.add(new ElementTask());
@@ -134,7 +134,7 @@ public class Compiler implements Environment {
             taskList.add(new ModInfoTask());
             taskList.add(new AssetsInfoTask());
 
-            Path outputFile = getOutputDirectory().resolve("artifacts/" + modSettings.getId() + "-" + modSettings.getVersion() + ".jar");
+            Path outputFile = getOutputDirectory().resolve("artifacts/" + metadata.getId() + "-" + metadata.getVersion() + ".jar");
             taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
         } catch (IOException e) {
             getMessager().error("Caught an exception in initializing environment.", e);

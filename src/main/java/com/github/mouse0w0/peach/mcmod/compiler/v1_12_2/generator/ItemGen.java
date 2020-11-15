@@ -47,7 +47,7 @@ public class ItemGen extends Generator<ItemElement> {
         templateModItemModels = coffeeMaker.getTemplate("template/client/item/ModItemModels");
 
         String packageName = environment.getRootPackageName();
-        namespace = environment.getModSettings().getId();
+        namespace = environment.getMetadata().getId();
 
         itemPackageName = packageName + ".item";
         modItemsInternalName = ASMUtils.getInternalName(packageName + ".item.ModItems");
@@ -59,7 +59,7 @@ public class ItemGen extends Generator<ItemElement> {
     protected void after(Environment environment, Collection<ItemElement> elements) throws Exception {
         Filer classesFiler = environment.getClassesFiler();
         Map<String, Object> map = new HashMap<>();
-        map.put("modid", environment.getModSettings().getId());
+        map.put("modid", environment.getMetadata().getId());
         map.put("items", items);
         SimpleEvaluator itemsEvaluator = new SimpleEvaluator(map);
 

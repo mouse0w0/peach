@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class McModSettings {
+public class McModMetadata {
 
     public static final String FILE_NAME = "project.forge.json";
 

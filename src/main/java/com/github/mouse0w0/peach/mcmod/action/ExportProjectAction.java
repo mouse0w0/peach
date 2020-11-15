@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
-import com.github.mouse0w0.peach.mcmod.project.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -38,9 +38,9 @@ public class ExportProjectAction extends Action {
             compiler.run();
             return compiler;
         }, Scheduler.computation()).thenAcceptAsync(compiler -> {
-            McModSettings modSettings = compiler.getModSettings();
+            McModMetadata metadata = compiler.getMetadata();
 
-            String fileName = modSettings.getId() + "-" + modSettings.getVersion() + ".jar";
+            String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle(I18n.translate("dialog.export_to.title"));

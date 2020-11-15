@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.mcmod.project.McModSettings;
+import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;
@@ -18,7 +18,7 @@ import java.util.Locale;
 
 public class ModSettingsDialog extends BorderPane {
 
-    private final JsonFile<McModSettings> file;
+    private final JsonFile<McModMetadata> file;
 
     @FXML
     public Accordion accordion;
@@ -40,7 +40,7 @@ public class ModSettingsDialog extends BorderPane {
     @FXML
     public TextArea description;
 
-    public static void show(JsonFile<McModSettings> file, Window window) {
+    public static void show(JsonFile<McModMetadata> file, Window window) {
         ModSettingsDialog modInfo = new ModSettingsDialog(file);
         Stage stage = new Stage();
         stage.setScene(new Scene(modInfo));
@@ -50,7 +50,7 @@ public class ModSettingsDialog extends BorderPane {
         stage.show();
     }
 
-    public ModSettingsDialog(JsonFile<McModSettings> file) {
+    public ModSettingsDialog(JsonFile<McModMetadata> file) {
         this.file = file;
         FXUtils.loadFXML(this, "ui/mcmod/ModSettings.fxml");
 
@@ -78,7 +78,7 @@ public class ModSettingsDialog extends BorderPane {
     }
 
     public void doLoad() {
-        McModSettings info = file.get();
+        McModMetadata info = file.get();
         name.setText(info.getName());
         id.setText(info.getId());
         version.setText(info.getVersion());
@@ -91,7 +91,7 @@ public class ModSettingsDialog extends BorderPane {
     @FXML
     public void doSave() {
         FXUtils.hideWindow(this);
-        McModSettings info = file.get();
+        McModMetadata info = file.get();
         info.setName(name.getText());
         info.setId(id.getText());
         info.setVersion(version.getText());

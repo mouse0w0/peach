@@ -25,7 +25,7 @@ public class ItemGroupGen extends Generator<ItemGroup> {
         CoffeeMaker coffeeMaker = environment.getCoffeeMaker();
         templateItemGroup = coffeeMaker.getTemplate("template/itemGroup/TemplateItemGroup");
         templateModItemGroups = coffeeMaker.getTemplate("template/itemGroup/ModItemGroups");
-        namespace = environment.getModSettings().getId();
+        namespace = environment.getMetadata().getId();
         packageName = environment.getRootPackageName() + ".itemGroup";
     }
 

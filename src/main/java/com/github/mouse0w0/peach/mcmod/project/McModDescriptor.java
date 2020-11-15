@@ -8,7 +8,7 @@ import java.nio.file.Path;
 public final class McModDescriptor {
     private final Project project;
 
-    private final JsonFile<McModSettings> settings;
+    private final JsonFile<McModMetadata> metadata;
 
     private final Path resourcesPath;
 
@@ -19,7 +19,7 @@ public final class McModDescriptor {
     public McModDescriptor(Project project) {
         this.project = project;
 
-        this.settings = new JsonFile<>(project.getPath().resolve(McModSettings.FILE_NAME), McModSettings.class).load();
+        this.metadata = new JsonFile<>(project.getPath().resolve(McModMetadata.FILE_NAME), McModMetadata.class).load();
 
         this.resourcesPath = project.getPath().resolve("resources");
     }
@@ -29,11 +29,11 @@ public final class McModDescriptor {
     }
 
     public String getModId() {
-        return settings.get().getId();
+        return metadata.get().getId();
     }
 
-    public JsonFile<McModSettings> getSettings() {
-        return settings;
+    public JsonFile<McModMetadata> getMetadata() {
+        return metadata;
     }
 
     public Path getResourcesPath() {

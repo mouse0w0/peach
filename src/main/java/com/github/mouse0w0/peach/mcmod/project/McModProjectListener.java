@@ -19,7 +19,7 @@ public final class McModProjectListener {
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
         ProjectWindow window = event.getWindow();
         Project project = window.getProject();
-        JsonFile<McModSettings> modInfoFile = McModDescriptor.getInstance(project).getSettings();
+        JsonFile<McModMetadata> modInfoFile = McModDescriptor.getInstance(project).getMetadata();
 
         if (!modInfoFile.exists()) {
             ModSettingsDialog.show(modInfoFile, window.getStage());
