@@ -13,6 +13,7 @@
     <extensions>
         <applicationService interface="com.github.mouse0w0.peach.component.store.ComponentStore"
                             implementation="com.github.mouse0w0.peach.component.store.AppComponentStore"/>
+        <applicationService implementation="com.github.mouse0w0.peach.data.DataManager"/>
         <applicationService implementation="com.github.mouse0w0.peach.action.ActionManager"/>
         <applicationService implementation="com.github.mouse0w0.peach.ui.project.WindowManager"/>
         <applicationService implementation="com.github.mouse0w0.peach.service.RecentProjectsManager"/>
