@@ -25,15 +25,15 @@ public class CachedImage {
     private final boolean smooth;
 
     public CachedImage(Path file) {
-        this(FileUtils.toUrlAsString(file), 0, 0, true, false);
+        this(FileUtils.toFileSystemUrlAsString(file), 0, 0, true, false);
     }
 
     public CachedImage(Path file, double width, double height) {
-        this(FileUtils.toUrlAsString(file), width, height, true, false);
+        this(FileUtils.toFileSystemUrlAsString(file), width, height, true, false);
     }
 
     public CachedImage(Path file, double width, double height, boolean preserveRatio, boolean smooth) {
-        this(FileUtils.toUrlAsString(file), width, height, preserveRatio, smooth);
+        this(FileUtils.toFileSystemUrlAsString(file), width, height, preserveRatio, smooth);
     }
 
     public CachedImage(String url, double width, double height) {

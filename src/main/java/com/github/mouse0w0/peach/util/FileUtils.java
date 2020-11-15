@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.Collection;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -108,15 +109,38 @@ public class FileUtils {
         });
     }
 
-    private static final Pattern WHITESPACE = Pattern.compile("%20");
+    private static final Pattern URL_TRIPLET = Pattern.compile("%[a-fA-F0-9]{2}");
 
-    public static String toUrlAsString(Path path) {
-        try {
-            return WHITESPACE.matcher(path.toUri().toURL().toExternalForm())
-                    .replaceAll("\u0020"); // Fix url, convert '%20' to '\u0020' (whitespace)
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+    public static String toFileSystemUrlAsString(Path path) {
+        String url = toUrlAsString(path);
+        Matcher matcher = URL_TRIPLET.matcher(url);
+        StringBuilder result = new StringBuilder(url.length());
+        int offset = 0;
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            result.append(url, offset, start)
+                    .append(parseChar(url, start + 1, end));
+            offset = end;
         }
+        result.append(url, offset, url.length());
+        return result.toString();
+    }
+
+    private static String toUrlAsString(Path path) {
+        try {
+            return path.toUri().toURL().toExternalForm();
+        } catch (MalformedURLException e) {
+            throw new IllegalStateException("Failed to convert path to url", e);
+        }
+    }
+
+    private static char parseChar(String s, int start, int end) {
+        int result = 0;
+        for (int i = start; i < end; i++) {
+            result = Character.digit(s.charAt(i), 16) + (result << 4);
+        }
+        return (char) result;
     }
 
     public static boolean isEmpty(Path path) throws IOException {
