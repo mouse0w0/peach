@@ -85,7 +85,7 @@ public class DataManager {
         } else if (o instanceof Scene) {
             return ((Scene) o).getProperties();
         } else if (o instanceof Window) {
-            return ((Stage) o).getProperties();
+            return ((Window) o).getProperties();
         } else if (o instanceof MenuItem) {
             return ((MenuItem) o).getProperties();
         } else {
