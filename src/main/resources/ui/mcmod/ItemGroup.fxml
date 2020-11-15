@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
@@ -15,14 +16,20 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_group.register_name"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_group.display_name" GridPane.rowIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_group.icon" GridPane.rowIndex="2"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.registerName"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.displayName"
+                      GridPane.rowIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.icon" GridPane.rowIndex="3"/>
                 <TextField fx:id="registerName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
                 <TextField fx:id="displayName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
                            GridPane.rowIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.hasSearchBar"
+                      GridPane.rowIndex="2"/>
+                <RadioButton fx:id="hasSearchBar" mnemonicParsing="false" GridPane.columnIndex="1"
+                             GridPane.rowIndex="2"/>
             </children>
         </GridPane>
     </children>

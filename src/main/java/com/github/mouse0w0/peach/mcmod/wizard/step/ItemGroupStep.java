@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.wizard.WizardStep;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -27,6 +28,8 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
     private TextField registerName;
     @FXML
     private TextField displayName;
+    @FXML
+    private RadioButton hasSearchBar;
 
     private ItemView icon;
 
@@ -38,7 +41,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
         icon = new ItemPicker(32, 32);
         FXUtils.setFixedSize(icon, 32, 32);
         icon.setBackground(new Background(new BackgroundFill(Color.gray(0.8), null, null)));
-        content.add(icon, 1, 2);
+        content.add(icon, 1, 3);
     }
 
     @Override
@@ -52,6 +55,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
                 ModUtils.toRegisterName(element.getFileName()) : element.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(element.getDisplayName()) ?
                 element.getFileName() : element.getDisplayName());
+        hasSearchBar.setSelected(element.isHasSearchBar());
         icon.setItem(element.getIcon());
     }
 
@@ -64,6 +68,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
     public void updateDataModel() {
         element.setRegisterName(registerName.getText());
         element.setDisplayName(displayName.getText());
+        element.setHasSearchBar(hasSearchBar.isSelected());
         element.setIcon(icon.getItem());
     }
 
