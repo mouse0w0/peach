@@ -1,6 +1,9 @@
 package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.data.DataManager;
+import com.github.mouse0w0.peach.data.DataProvider;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -23,6 +26,8 @@ public class ProjectWindow {
         this.root = new ProjectRootPane(project);
         this.scene = new Scene(root);
         this.stage = createStage();
+        DataManager.getInstance().registerDataProvider(stage, DataProvider.create(DataKeys.PROJECT, project));
+        WindowStateManager.getInstance(project).register(stage, "MainWindow");
     }
 
     private Stage createStage() {
@@ -41,7 +46,6 @@ public class ProjectWindow {
             ProjectManager.getInstance().closeProject(project);
             event.consume();
         });
-        WindowStateManager.getInstance(project).register(stage, "MainWindow");
         return stage;
     }
 
