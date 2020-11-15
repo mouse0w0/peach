@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 public class CommonFileAppearance implements FileAppearance {
     @Override
-    public boolean accept(Path file) {
+    public boolean isAcceptable(Path file) {
         return true;
     }
 

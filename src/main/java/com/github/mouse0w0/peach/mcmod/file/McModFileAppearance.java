@@ -12,7 +12,7 @@ import java.nio.file.Path;
 
 public class McModFileAppearance implements FileAppearance {
     @Override
-    public boolean accept(Path file) {
+    public boolean isAcceptable(Path file) {
         return ElementRegistry.getInstance().getElementType(file) != null;
     }
 

@@ -146,7 +146,7 @@ public class ExplorerView implements Disposable {
                 imageView.setImage(null);
             } else {
                 for (FileAppearance fileAppearance : FileAppearance.EXTENSION_POINT.getExtensions()) {
-                    if (fileAppearance.accept(item)) {
+                    if (fileAppearance.isAcceptable(item)) {
                         fileAppearance.apply(item, textProperty(), imageView.imageProperty());
                         return;
                     }

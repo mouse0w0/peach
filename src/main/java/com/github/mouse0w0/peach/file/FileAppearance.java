@@ -10,7 +10,7 @@ import java.nio.file.Path;
 public interface FileAppearance {
     ExtensionPoint<FileAppearance> EXTENSION_POINT = ExtensionPoint.of("fileAppearance");
 
-    boolean accept(Path file);
+    boolean isAcceptable(Path file);
 
     void apply(Path file, StringProperty text, ObjectProperty<Image> icon);
 }
