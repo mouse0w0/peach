@@ -7,7 +7,6 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -31,8 +30,6 @@ public class ExportProjectAction extends Action {
         Project project = DataKeys.PROJECT.get(event);
         if (project == null) return;
 
-        ProjectWindow window = WindowManager.getInstance().getWindow(project);
-
         CompletableFuture.supplyAsync(() -> {
             Compiler compiler = new Compiler(project.getPath(), project.getPath().resolve("build"));
             compiler.run();
@@ -47,7 +44,7 @@ public class ExportProjectAction extends Action {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Jar", "*.jar"));
             fileChooser.setInitialFileName(fileName);
             fileChooser.setInitialDirectory(SystemUtils.getUserHome());
-            File file = fileChooser.showSaveDialog(window.getStage());
+            File file = fileChooser.showSaveDialog(WindowManager.getInstance().getStage(project));
             if (file != null) {
                 try {
                     Path source = compiler.getOutputDirectory().resolve("artifacts/" + fileName);

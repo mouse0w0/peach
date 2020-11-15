@@ -53,6 +53,10 @@ public class WindowManager {
         return projectWindow;
     }
 
+    public Stage getStage(Project project) {
+        return getWindow(project).getStage();
+    }
+
     public StatusBar getStatusBar(Project project) {
         return getWindow(project).getStatusBar();
     }
