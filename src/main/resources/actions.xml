@@ -8,6 +8,8 @@
             </group>
             <action id="OpenProject" icon="Icons.Action.OpenProject"
                     class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectAction"/>
+            <action id="CloseProject"
+                    class="com.github.mouse0w0.peach.action.mainMenu.CloseProjectAction"/>
             <separator/>
 
             <action id="OpenSettings"/>
