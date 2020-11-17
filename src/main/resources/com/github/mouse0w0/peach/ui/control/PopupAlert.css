@@ -8,28 +8,31 @@
 }
 
 .popup-alert > .content > .close-button {
+    -fx-padding: 3;
     -fx-background-color: #808080;
-    -fx-shape: "M 0,0 H1 L 4,3 7,0 H8 V1 L 5,4 8,7 V8 H7 L 4,5 1,8 H0 V7 L 3,4 0,1 Z";
-    -fx-scale-shape: false;
-    -fx-effect: dropshadow(two-pass-box, rgba(255, 255, 255, 0.4), 1, 0, 0, 1);
+    -fx-shape: "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z";
+    -fx-min-width: 10;
+    -fx-min-height: 10;
+    -fx-max-width: 10;
+    -fx-max-height: 10;
 }
 
 .popup-alert:error > .content {
-    -fx-background-color: #ebcbd0, #f2dedf;
+    -fx-background-color: #ff9090, #ffa0a0;
     -fx-background-insets: 0, 1;
 }
 
 .popup-alert:warning > .content {
-    -fx-background-color: #f9eac9, #fdf8e4;
+    -fx-background-color: #ffe060, #ffe790;
     -fx-background-insets: 0, 1;
 }
 
 .popup-alert:info > .content {
-    -fx-background-color: #b9e8f0, #d9edf6;
+    -fx-background-color: #40a0ff, #60c0ff;
     -fx-background-insets: 0, 1;
 }
 
 .popup-alert:success > .content {
-    -fx-background-color: #d4e8c5, #def0d8;
+    -fx-background-color: #50e050, #80e080;
     -fx-background-insets: 0, 1;
 }
