@@ -2,13 +2,16 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.ui.icon.IconManager;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import org.apache.commons.lang3.Validate;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -16,6 +19,7 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.net.URL;
 
 public class ActionManager {
@@ -84,6 +88,20 @@ public class ActionManager {
         } else {
             return new ActionMenuItem(action);
         }
+    }
+
+    public Button createButton(@Nonnull Action action) {
+        Validate.notNull(action);
+        if (action instanceof ActionGroup || action instanceof Separator) {
+            throw new IllegalArgumentException("action");
+        }
+
+        Button button = new Button();
+        Appearance appearance = action.getAppearance();
+        button.setText(appearance.getText());
+        button.setGraphic(IconManager.getInstance().createNode(appearance.getIcon()));
+        button.setOnAction(event -> action.perform(new ActionEvent(event.getSource())));
+        return button;
     }
 
     private void registerActions(URL url) {

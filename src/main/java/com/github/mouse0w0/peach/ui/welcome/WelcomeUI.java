@@ -9,8 +9,6 @@ import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.icon.Icons;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -39,7 +37,7 @@ public class WelcomeUI extends BorderPane {
     public static void show() {
         stage = new Stage();
         stage.setScene(new Scene(new WelcomeUI()));
-        stage.setTitle(I18n.translate("ui.welcome.title"));
+        stage.setTitle(I18n.translate("welcome.title"));
         stage.getIcons().setAll(Icons.Peach_16x);
         stage.setResizable(false);
         stage.setOnHidden(event -> {
@@ -107,18 +105,13 @@ public class WelcomeUI extends BorderPane {
         recentProjects.getSelectionModel().selectFirst();
         setLeft(recentProjects);
 
-        Button newProject = new Button(
-                I18n.translate("ui.welcome.new_project"),
-                new ImageView(Icons.Action.NewProject));
-        newProject.setOnAction(this::doNewProject);
-        Button openProject = new Button(
-                I18n.translate("ui.welcome.open_project"),
-                new ImageView(Icons.Action.OpenProject));
-        openProject.setOnAction(this::doOpenProject);
-        Button donate = new Button(
-                I18n.translate("ui.welcome.donate"),
-                new ImageView(Icons.Action.Donate));
-        donate.setOnAction(this::doDonate);
+        ActionManager actionManager = ActionManager.getInstance();
+
+        Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
+        newProject.setText(I18n.translate("welcome.NewProject.text"));
+        newProject.setGraphic(new ImageView(Icons.Action.NewProject));
+        Button openProject = actionManager.createButton(actionManager.getAction("OpenProject"));
+        Button donate = actionManager.createButton(actionManager.getAction("Donate"));
 
         VBox vBox = new VBox(10, newProject, openProject, donate);
         vBox.setAlignment(Pos.CENTER);
@@ -132,20 +125,5 @@ public class WelcomeUI extends BorderPane {
         stackPane.getChildren().addAll(vBox, version);
 
         setCenter(stackPane);
-    }
-
-    @FXML
-    public void doNewProject(ActionEvent event) {
-        ActionManager.getInstance().perform("NewProject", event);
-    }
-
-    @FXML
-    public void doOpenProject(ActionEvent event) {
-        ActionManager.getInstance().perform("OpenProject", event);
-    }
-
-    @FXML
-    public void doDonate(ActionEvent event) {
-        ActionManager.getInstance().perform("Donate", event);
     }
 }

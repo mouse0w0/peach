@@ -38,10 +38,8 @@ wizard.finish=完成
 wizard.next=下一个
 wizard.previous=上一个
 
-ui.welcome.title=欢迎使用 Peach
-ui.welcome.new_project=新建项目
-ui.welcome.open_project=打开项目
-ui.welcome.donate=捐助作者
+welcome.title=欢迎使用 Peach
+welcome.NewProject.text=新建项目
 
 ui.item_picker.title=请选择……
 ui.item_picker.filter=过滤：
