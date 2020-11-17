@@ -8,9 +8,7 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.ui.validation.FocusFirstInvalidHandler;
-import com.github.mouse0w0.peach.ui.validation.ShowInvalidDialogHandler;
-import com.github.mouse0w0.peach.ui.validation.Validator;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -29,8 +27,6 @@ import java.nio.file.Path;
 public class NewElementDialog extends BorderPane {
 
     private final Project project;
-
-    private final Validator validator = new Validator(ShowInvalidDialogHandler.INSTANCE, FocusFirstInvalidHandler.INSTANCE);
 
     @FXML
     private TextField name;
@@ -52,7 +48,11 @@ public class NewElementDialog extends BorderPane {
         this.project = project;
         FXUtils.loadFXML(this, "ui/mcmod/NewElement.fxml");
 
-        validator.register(name, FileUtils::isValidFileNameWithoutExtension, I18n.translate("validate.illegal_file_name"));
+        getStylesheets().add("/style/style.css");
+
+        Validator.registerError(name,
+                FileUtils::isValidFileNameWithoutExtension,
+                I18n.translate("validate.illegal_file_name"));
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
@@ -88,7 +88,7 @@ public class NewElementDialog extends BorderPane {
 
     @FXML
     private void onFinish() {
-        if (!validator.validate()) return;
+        if (!Validator.test(name)) return;
 
         ElementManager elementManager = ElementManager.getInstance(project);
         Path file = elementManager.getElementFile(type.getValue(), name.getText());

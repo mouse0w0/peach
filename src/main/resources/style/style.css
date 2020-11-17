@@ -47,6 +47,20 @@
     -fx-background-color: -peach-foreground-color;
 }
 
+/* Validation */
+.validation-error {
+    -fx-effect: dropshadow(three-pass-box, darkred, 6, 0, 0, 0);
+}
+
+.validation-warning {
+    -fx-effect: dropshadow(three-pass-box, gold, 6, 0, 0, 0);
+}
+
+.validation-error:focused,
+.validation-warning:focused {
+    -fx-effect: null;
+}
+
 #status-bar {
     -fx-background-color: -peach-border-color, -peach-background-color;
     -fx-background-insets: 0 0 0 0, 1 0 0 0;
