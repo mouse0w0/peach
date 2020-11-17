@@ -5,6 +5,8 @@ import com.google.common.collect.MapMaker;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
@@ -68,12 +70,18 @@ public class DataManager {
             }
             return ownerNode != null ? ownerNode : popupWindow.getOwnerWindow();
         } else if (o instanceof MenuItem) {
-//            MenuItem menuItem = (MenuItem) o;
-//            Menu parent = menuItem.getParentMenu();
-//            return parent != null ? parent : menuItem.getParentPopup();
-
-//            Fix cannot get parent popup of Menu.
-            return ((MenuItem) o).getParentPopup();
+            MenuItem menuItem = (MenuItem) o;
+            ContextMenu parentPopup = ((MenuItem) o).getParentPopup();
+            Menu parent = menuItem.getParentMenu();
+            if (parent != null) {
+                // Fix cannot get parent popup of Menu.
+                if (parent.getParentPopup() == null) {
+                    parent.getProperties().put(ContextMenu.class, parentPopup);
+                }
+                return parent;
+            } else {
+                return parentPopup != null ? parentPopup : menuItem.getProperties().get(ContextMenu.class);
+            }
         } else {
             return null;
         }
