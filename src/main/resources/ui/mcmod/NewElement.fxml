@@ -33,7 +33,7 @@
     <bottom>
         <FlowPane alignment="CENTER_RIGHT" hgap="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#onFinish" text="%common.finish"/>
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#onFinish" text="%common.finish"/>
                 <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%common.cancel"/>
             </children>
             <BorderPane.margin>
