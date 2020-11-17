@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.wizard.WizardStepBase;
 import com.google.common.base.Strings;
 import javafx.fxml.FXML;
@@ -36,7 +37,7 @@ public class ItemStep extends WizardStepBase {
 
         setContent(FXUtils.loadFXML(null, this, "ui/mcmod/ItemElement.fxml"));
 
-        register(registerName, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_register_name"));
+        Validator.registerError(registerName, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_register_name"));
 
         maxStackSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 64, 64));
 
@@ -64,6 +65,11 @@ public class ItemStep extends WizardStepBase {
         maxStackSize.getValueFactory().setValue(element.getMaxStackSize());
         effect.setSelected(element.isHasEffect());
         information.setText(element.getInformation());
+    }
+
+    @Override
+    public boolean validate() {
+        return Validator.test(registerName);
     }
 
     @Override

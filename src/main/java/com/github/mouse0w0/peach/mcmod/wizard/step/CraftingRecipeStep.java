@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.wizard.WizardStepBase;
 import com.google.common.base.Strings;
@@ -46,7 +47,7 @@ public class CraftingRecipeStep extends WizardStepBase {
         this.element = element;
         setContent(FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml"));
 
-        register(id, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_recipe_id"));
+        Validator.registerError(id, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_recipe_id"));
 
         group.setEditable(true);
 
@@ -84,6 +85,11 @@ public class CraftingRecipeStep extends WizardStepBase {
         shapeless.setSelected(element.isShapeless());
         ArrayUtils.biForEach(inputs, element.getInputs(), ItemView::setItem);
         output.setItemStack(element.getOutput());
+    }
+
+    @Override
+    public boolean validate() {
+        return Validator.test(id);
     }
 
     @Override
