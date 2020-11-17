@@ -1,0 +1,35 @@
+.popup-alert > .content {
+    -fx-background-color: white;
+    -fx-padding: 0.33em 0.5em 0.33em 0.5em;
+}
+
+.popup-alert > .content > .label {
+    -fx-fill: black;
+}
+
+.popup-alert > .content > .close-button {
+    -fx-background-color: -fx-mark-color;
+    -fx-shape: "M 0,0 H1 L 4,3 7,0 H8 V1 L 5,4 8,7 V8 H7 L 4,5 1,8 H0 V7 L 3,4 0,1 Z";
+    -fx-scale-shape: false;
+    -fx-effect: dropshadow(two-pass-box, rgba(255, 255, 255, 0.4), 1, 0, 0, 1);
+}
+
+.popup-alert:error > .content {
+    -fx-background-color: #ebcbd0, #f2dedf;
+    -fx-background-insets: 0, 1;
+}
+
+.popup-alert:warning > .content {
+    -fx-background-color: #f9eac9, #fdf8e4;
+    -fx-background-insets: 0, 1;
+}
+
+.popup-alert:info > .content {
+    -fx-background-color: #b9e8f0, #d9edf6;
+    -fx-background-insets: 0, 1;
+}
+
+.popup-alert:success > .content {
+    -fx-background-color: #d4e8c5, #def0d8;
+    -fx-background-insets: 0, 1;
+}
