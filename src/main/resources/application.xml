@@ -36,9 +36,9 @@
 
         <iconSource name="Icons" class="com.github.mouse0w0.peach.ui.icon.Icons"/>
 
-        <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ExplorerView"/>
-        <view id="Explorer" icon="Icons.View.Explorer" position="LEFT_TOP"
-              factory="com.github.mouse0w0.peach.mcmod.view.ExplorerView$Factory"/>
+        <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ProjectView"/>
+        <view id="Project" icon="Icons.View.Project" position="LEFT_TOP"
+              factory="com.github.mouse0w0.peach.mcmod.view.ProjectView$Factory"/>
 
         <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView"/>
         <view id="ItemFavorites" icon="Icons.View.ItemFavorites" position="RIGHT_TOP"

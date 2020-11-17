@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ExplorerView implements Disposable {
+public class ProjectView implements Disposable {
     private final Project project;
     private final Path rootPath;
 
@@ -34,11 +34,11 @@ public class ExplorerView implements Disposable {
 
     private NioFileWatcher fileWatcher;
 
-    public static ExplorerView getInstance(Project project) {
-        return project.getService(ExplorerView.class);
+    public static ProjectView getInstance(Project project) {
+        return project.getService(ProjectView.class);
     }
 
-    public ExplorerView(Project project) {
+    public ProjectView(Project project) {
         this.project = project;
         this.rootPath = project.getPath();
     }
@@ -105,7 +105,7 @@ public class ExplorerView implements Disposable {
     public static class Factory implements ViewFactory {
         @Override
         public Node createViewContent(Project project) {
-            return ExplorerView.getInstance(project).initViewContent();
+            return ProjectView.getInstance(project).initViewContent();
         }
     }
 
