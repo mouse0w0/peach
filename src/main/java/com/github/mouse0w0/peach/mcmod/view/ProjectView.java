@@ -45,7 +45,7 @@ public class ProjectView implements Disposable {
 
     public Node initViewContent() {
         treeView = new TreeView<>();
-        treeView.setId("explorer-view");
+        treeView.setId("project-view");
         treeView.setCellFactory(t -> new Cell());
         treeView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
