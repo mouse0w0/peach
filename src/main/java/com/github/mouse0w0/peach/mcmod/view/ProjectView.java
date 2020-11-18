@@ -146,7 +146,7 @@ public class ProjectView implements Disposable {
                 imageView.setImage(null);
             } else {
                 for (FileAppearance fileAppearance : FileAppearance.EXTENSION_POINT.getExtensions()) {
-                    if (fileAppearance.isAcceptable(item)) {
+                    if (fileAppearance.accept(item)) {
                         fileAppearance.apply(item, textProperty(), imageView.imageProperty());
                         return;
                     }
