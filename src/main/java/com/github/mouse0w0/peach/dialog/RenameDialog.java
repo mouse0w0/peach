@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.dialog;
+package com.github.mouse0w0.peach.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
 import javafx.geometry.Insets;

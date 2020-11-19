@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.mcmod.dialog.RenameDialog;
+import com.github.mouse0w0.peach.dialog.RenameDialog;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
 import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
 import com.github.mouse0w0.peach.project.Project;
