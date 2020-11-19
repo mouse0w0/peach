@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.ui.control;
 
 import com.github.mouse0w0.peach.ui.control.skin.PopupAlertSkin;
+import com.github.mouse0w0.peach.ui.util.NotificationLevel;
 import com.sun.javafx.util.Utils;
 import javafx.beans.property.*;
 import javafx.css.PseudoClass;
@@ -20,14 +21,6 @@ public class PopupAlert extends PopupControl {
     public static final PseudoClass INFO = PseudoClass.getPseudoClass("info");
     public static final PseudoClass SUCCESS = PseudoClass.getPseudoClass("success");
 
-    public enum Type {
-        NONE,
-        WARNING,
-        ERROR,
-        INFO,
-        SUCCESS
-    }
-
     public PopupAlert() {
         getStyleClass().setAll("popup-alert");
 
@@ -37,27 +30,27 @@ public class PopupAlert extends PopupControl {
         getContent().setAll(bridge);
     }
 
-    private ObjectProperty<Type> type;
+    private ObjectProperty<NotificationLevel> level;
 
-    public final ObjectProperty<Type> typeProperty() {
-        if (type == null) {
-            type = new SimpleObjectProperty<>(this, "type", Type.NONE);
-            type.addListener((observable, oldValue, newValue) -> {
-                pseudoClassStateChanged(WARNING, newValue == Type.WARNING);
-                pseudoClassStateChanged(ERROR, newValue == Type.ERROR);
-                pseudoClassStateChanged(INFO, newValue == Type.INFO);
-                pseudoClassStateChanged(SUCCESS, newValue == Type.SUCCESS);
+    public final ObjectProperty<NotificationLevel> levelProperty() {
+        if (level == null) {
+            level = new SimpleObjectProperty<>(this, "level", NotificationLevel.NONE);
+            level.addListener((observable, oldValue, newValue) -> {
+                pseudoClassStateChanged(WARNING, newValue == NotificationLevel.WARNING);
+                pseudoClassStateChanged(ERROR, newValue == NotificationLevel.ERROR);
+                pseudoClassStateChanged(INFO, newValue == NotificationLevel.INFO);
+                pseudoClassStateChanged(SUCCESS, newValue == NotificationLevel.SUCCESS);
             });
         }
-        return type;
+        return level;
     }
 
-    public final Type getType() {
-        return type == null ? Type.NONE : type.get();
+    public final NotificationLevel getLevel() {
+        return level == null ? NotificationLevel.NONE : level.get();
     }
 
-    public final void setType(Type type) {
-        typeProperty().set(type);
+    public final void setLevel(NotificationLevel level) {
+        levelProperty().set(level);
     }
 
     private StringProperty text;

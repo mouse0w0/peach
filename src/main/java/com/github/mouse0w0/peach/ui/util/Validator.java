@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.ui.util;
 
 import com.github.mouse0w0.peach.ui.control.PopupAlert;
+import com.google.common.collect.ImmutableList;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
@@ -9,7 +10,7 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -24,7 +25,7 @@ public class Validator {
 
     private final Node node;
     private final Property<?> property;
-    private final List<CheckItem<?>> items = new ArrayList<>(1);
+    private final List<CheckItem<?>> items;
 
     private CheckItem<?> invalidItem;
 
@@ -32,28 +33,36 @@ public class Validator {
         POPUP_ALERT = new PopupAlert();
 
         FOCUSED_LISTENER = (observable, oldValue, newValue) -> {
-            if (newValue) {
-                ReadOnlyProperty<?> focusedProperty = (ReadOnlyProperty<?>) observable;
-                Node bean = (Node) focusedProperty.getBean();
-                Validator validator = getValidator(bean);
-                if (validator == null) return;
+            ReadOnlyProperty<?> focusedProperty = (ReadOnlyProperty<?>) observable;
+            Node bean = (Node) focusedProperty.getBean();
 
+            Validator validator = getValidator(bean);
+            if (validator == null) return;
+
+            if (newValue) {
                 CheckItem<?> item = validator.getInvalidItem();
                 if (item == null) return;
 
-                POPUP_ALERT.setType(item.getAlertType());
+                POPUP_ALERT.setLevel(item.getLevel());
                 POPUP_ALERT.setText(String.format(item.getMessage(), validator.getProperty().getValue()));
                 POPUP_ALERT.show(bean, Side.TOP, 0, -3);
             } else {
                 POPUP_ALERT.hide();
+                validator.test();
             }
         };
     }
 
-    public static <T> Validator registerError(Node node, Predicate<T> predicate, String message) {
-        Validator validator = new Validator(node, predicate, PopupAlert.Type.ERROR, message);
-        validator.register();
-        return validator;
+    public static <T> void error(Node node, Predicate<T> predicate, String message) {
+        new Validator(node, check(predicate, NotificationLevel.ERROR, message)).register();
+    }
+
+    public static <T> void warning(Node node, Predicate<T> predicate, String message) {
+        new Validator(node, check(predicate, NotificationLevel.WARNING, message)).register();
+    }
+
+    public static <T> CheckItem<T> check(Predicate<T> predicate, NotificationLevel level, String message) {
+        return new CheckItem<>(predicate, level, message);
     }
 
     public static boolean test(Node... nodes) {
@@ -79,20 +88,19 @@ public class Validator {
         return result;
     }
 
-    private static Validator getValidator(Node node) {
-        if (!node.hasProperties()) return null;
+    public static Validator getValidator(Node node) {
+        if (!node.hasProperties()) {
+            return null;
+        }
         return (Validator) node.getProperties().get(Validator.class);
     }
 
-    public <T> Validator(Node node, Predicate<T> predicate, PopupAlert.Type type, String message) {
-        this(node);
-        getItems().add(new CheckItem<>(predicate, type, message));
-    }
-
-    public Validator(Node node) {
+    public Validator(Node node, CheckItem<?>... items) {
         this.node = node;
         this.property = ValuePropertyUtils.valueProperty(node)
                 .orElseThrow(() -> new IllegalArgumentException("Not found the value property of " + node.getClass()));
+        Arrays.sort(items);
+        this.items = ImmutableList.copyOf(items);
     }
 
     public Node getNode() {
@@ -128,7 +136,7 @@ public class Validator {
             if (!item.test(property.getValue())) {
                 invalidItem = item;
                 updateStyleClasses();
-                return false;
+                return item.getLevel() == NotificationLevel.ERROR;
             }
         }
         updateStyleClasses();
@@ -137,21 +145,21 @@ public class Validator {
 
     private void updateStyleClasses() {
         CheckItem<?> item = getInvalidItem();
-        PopupAlert.Type type = item == null ? PopupAlert.Type.NONE : item.getAlertType();
+        NotificationLevel type = item == null ? NotificationLevel.NONE : item.getLevel();
         ObservableList<String> styleClass = getNode().getStyleClass();
         styleClass.removeAll(ERROR, WARNING);
-        if (type == PopupAlert.Type.ERROR) styleClass.add(ERROR);
-        else if (type == PopupAlert.Type.WARNING) styleClass.add(WARNING);
+        if (type == NotificationLevel.ERROR) styleClass.add(ERROR);
+        else if (type == NotificationLevel.WARNING) styleClass.add(WARNING);
     }
 
-    public static class CheckItem<T> {
+    public static class CheckItem<T> implements Comparable<CheckItem<T>> {
         private final Predicate<T> predicate;
-        private final PopupAlert.Type alertType;
+        private final NotificationLevel level;
         private final String message;
 
-        public CheckItem(Predicate<T> predicate, PopupAlert.Type alertType, String message) {
+        public CheckItem(Predicate<T> predicate, NotificationLevel level, String message) {
             this.predicate = predicate;
-            this.alertType = alertType;
+            this.level = level;
             this.message = message;
         }
 
@@ -159,8 +167,8 @@ public class Validator {
             return predicate;
         }
 
-        public PopupAlert.Type getAlertType() {
-            return alertType;
+        public NotificationLevel getLevel() {
+            return level;
         }
 
         public String getMessage() {
@@ -169,6 +177,11 @@ public class Validator {
 
         public boolean test(T value) {
             return predicate.test(value);
+        }
+
+        @Override
+        public int compareTo(CheckItem<T> o) {
+            return level.compareTo(o.level);
         }
     }
 }

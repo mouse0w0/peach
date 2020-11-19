@@ -47,7 +47,7 @@ public class CraftingRecipeStep extends WizardStepBase {
         this.element = element;
         setContent(FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml"));
 
-        Validator.registerError(id, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_recipe_id"));
+        Validator.error(id, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_recipe_id"));
 
         group.setEditable(true);
 
