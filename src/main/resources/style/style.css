@@ -99,3 +99,8 @@
 #project-view .tree-cell:focused > .tree-disclosure-node > .arrow {
     -fx-background-color: #000000;
 }
+
+.item-picker:hover,
+.item-stack-view:hover > .item {
+    -fx-background-color: #c5c5c5;
+}
