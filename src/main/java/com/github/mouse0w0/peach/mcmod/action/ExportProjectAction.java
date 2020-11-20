@@ -1,19 +1,17 @@
 package com.github.mouse0w0.peach.mcmod.action;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.Scheduler;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
-import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +37,8 @@ public class ExportProjectAction extends Action {
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle(I18n.translate("dialog.export_to.title"));
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Jar", "*.jar"));
-            fileChooser.setInitialFileName(fileName);
-            fileChooser.setInitialDirectory(SystemUtils.getUserHome());
-            File file = fileChooser.showSaveDialog(WindowManager.getInstance().getStage(project));
+            File file = FileChooserHelper.getInstance().save(null, "mcmod.export", null,
+                    new FileChooser.ExtensionFilter("Jar", "*.jar"));
             if (file != null) {
                 try {
                     Path source = compiler.getOutputDirectory().resolve("artifacts/" + fileName);

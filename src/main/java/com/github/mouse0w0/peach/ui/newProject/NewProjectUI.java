@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.ui.newProject;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -9,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -43,9 +43,7 @@ public class NewProjectUI extends BorderPane {
 
     @FXML
     public void onChooseProjectPath() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(I18n.translate("ui.new_project.choose_path"));
-        File file = directoryChooser.showDialog(getScene().getWindow());
+        File file = FileChooserHelper.getInstance().openDirectory("newProject");
         if (file != null) projectPath.setText(file.toString());
     }
 

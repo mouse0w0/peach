@@ -15,6 +15,7 @@ action.NewProject.description=创建新的项目
 action.NewModElement.text=模组元素
 action.NewModElement.description=创建新的模组元素
 action.OpenProject.text=打开项目
+fileChooser.openProject.title=打开项目
 action.OpenProject.description=打开一个项目
 action.CloseProject.text=关闭项目
 action.CloseProject.description=关闭当前项目
@@ -51,7 +52,7 @@ ui.item_picker.mode.ore_dict=矿物词典
 ui.new_project.title=新建项目
 ui.new_project.name=项目名称：
 ui.new_project.path=项目路径：
-ui.new_project.choose_path=选择项目路径
+fileChooser.newProject.title=选择项目文件夹
 ui.new_project.not_empty=项目路径非空，是否确认要在此创建项目。
 
 dialog.mod_settings.title=模组设置
@@ -109,7 +110,7 @@ mod.element.smelting_recipe=熔炼配方
 
 ui.smelting_recipe.xp=经验值：
 
-dialog.texture_chooser.title=选择纹理文件
+fileChooser.mcmod.texture.title=打开纹理文件
 
 model.item.generated=默认模型
 model.item.handheld=手持模型
@@ -117,7 +118,7 @@ model.item.handheld=手持模型
 validate.illegal_file_name=非法的文件名：“%s”。
 validate.exists_file=文件已存在：“%s”。
 
-dialog.export_to.title=导出到……
+fileChooser.mcmod.export.title=导出Jar文件到
 dialog.export_to.failure=导出失败，请在日志中查看错误详情。
 
 dialog.rename.title=重命名为……

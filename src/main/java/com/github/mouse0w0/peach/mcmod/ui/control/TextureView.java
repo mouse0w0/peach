@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.dialog.RenameDialog;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
 import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -29,14 +30,15 @@ public class TextureView extends Control {
         getStyleClass().add("texture-view");
 
         setOnMouseClicked(event -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle(I18n.translate("dialog.texture_chooser.title"));
             Path initialDirectory = TextureUtils.getTexturePath(getProject());
             FileUtils.createDirectoriesIfNotExistsSilently(initialDirectory);
-            fileChooser.setInitialDirectory(initialDirectory.toFile());
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
-            File file = fileChooser.showOpenDialog(getScene().getWindow());
-            if (file != null) copyTextureFile(file.toPath());
+
+            File file = FileChooserHelper.getInstance().open(this.getScene().getWindow(), "mcmod.texture",
+                    initialDirectory.toFile(),
+                    new FileChooser.ExtensionFilter("PNG", "*.png"));
+            if (file != null) {
+                copyTextureFile(file.toPath());
+            }
         });
         setOnDragOver(event -> {
             event.consume();

@@ -28,6 +28,7 @@
                         implementation="com.github.mouse0w0.peach.component.store.ProjectComponentStore"/>
         <projectService implementation="com.github.mouse0w0.peach.project.service.WindowStateManager"/>
         <projectService implementation="com.github.mouse0w0.peach.view.ViewManager"/>
+        <projectService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
 
         <projectService implementation="com.github.mouse0w0.peach.mcmod.project.McModDescriptor"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager"/>
