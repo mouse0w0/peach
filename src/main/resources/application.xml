@@ -8,6 +8,7 @@
         <extensionPoint name="view" beanClass="com.github.mouse0w0.peach.view.ViewDescriptor"/>
 
         <extensionPoint name="fileAppearance" interface="com.github.mouse0w0.peach.file.FileAppearance"/>
+        <extensionPoint name="fileEditorProvider" interface="com.github.mouse0w0.peach.fileEditor.FileEditorProvider"/>
     </extensionPoints>
 
     <extensions>
@@ -29,6 +30,7 @@
         <projectService implementation="com.github.mouse0w0.peach.project.service.WindowStateManager"/>
         <projectService implementation="com.github.mouse0w0.peach.view.ViewManager"/>
         <projectService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
+        <projectService implementation="com.github.mouse0w0.peach.fileEditor.FileEditorManager"/>
 
         <projectService implementation="com.github.mouse0w0.peach.mcmod.project.McModDescriptor"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager"/>
@@ -47,5 +49,7 @@
 
         <fileAppearance implementation="com.github.mouse0w0.peach.file.CommonFileAppearance" order="LAST"/>
         <fileAppearance implementation="com.github.mouse0w0.peach.mcmod.file.McModFileAppearance" order="FIRST"/>
+
+        <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.ElementFileEditorProvider"/>
     </extensions>
 </plugin>

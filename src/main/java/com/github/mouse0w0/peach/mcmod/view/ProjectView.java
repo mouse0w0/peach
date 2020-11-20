@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.view;
 
-import com.github.mouse0w0.peach.file.FileAppearance;
+import com.github.mouse0w0.peach.file.FileAppearances;
+import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
 import com.github.mouse0w0.peach.util.NioFileWatcher;
@@ -14,7 +15,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -109,19 +109,16 @@ public class ProjectView implements Disposable {
         }
     }
 
-    private static class Cell extends TreeCell<Path> {
+    private class Cell extends TreeCell<Path> {
         private final ImageView imageView = new ImageView();
 
         public Cell() {
             setGraphic(imageView);
             setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && Files.isRegularFile(getItem())) {
-                    try {
-                        Desktop.getDesktop().open(getItem().toFile());
-                    } catch (IOException ignored) {
-                    }
+                Path file = getItem();
+                if (event.getClickCount() == 2 && Files.isRegularFile(file)) {
+                    FileEditorManager.getInstance(project).open(file);
                 }
-
             });
             setOnDragDetected(event -> {
                 MultipleSelectionModel<TreeItem<Path>> selectionModel = getTreeView().getSelectionModel();
@@ -145,12 +142,7 @@ public class ProjectView implements Disposable {
                 setText(null);
                 imageView.setImage(null);
             } else {
-                for (FileAppearance fileAppearance : FileAppearance.EXTENSION_POINT.getExtensions()) {
-                    if (fileAppearance.accept(item)) {
-                        fileAppearance.apply(item, textProperty(), imageView.imageProperty());
-                        return;
-                    }
-                }
+                FileAppearances.apply(item, textProperty(), imageView.imageProperty());
             }
         }
     }
