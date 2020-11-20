@@ -3,13 +3,13 @@
     <group id="MainMenu">
         <group id="File">
             <group id="New">
-                <action id="NewProject" class="com.github.mouse0w0.peach.action.mainMenu.NewProjectAction"/>
+                <action id="NewProject" class="com.github.mouse0w0.peach.action.file.NewProjectAction"/>
                 <action id="NewModElement" class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
             </group>
             <action id="OpenProject" icon="Icons.Action.OpenProject"
-                    class="com.github.mouse0w0.peach.action.mainMenu.OpenProjectAction"/>
+                    class="com.github.mouse0w0.peach.action.file.OpenProjectAction"/>
             <action id="CloseProject"
-                    class="com.github.mouse0w0.peach.action.mainMenu.CloseProjectAction"/>
+                    class="com.github.mouse0w0.peach.action.file.CloseProjectAction"/>
             <separator/>
 
             <action id="OpenSettings"/>
@@ -17,7 +17,7 @@
                     class="com.github.mouse0w0.peach.mcmod.action.OpenProjectSettingsAction"/>
             <separator/>
 
-            <action id="Exit" class="com.github.mouse0w0.peach.action.mainMenu.ExitAction"/>
+            <action id="Exit" class="com.github.mouse0w0.peach.action.file.ExitAction"/>
         </group>
 
         <group id="Build">
@@ -28,7 +28,7 @@
         <group id="Help">
             <action id="About"/>
             <action id="Donate" icon="Icons.Action.Donate"
-                    class="com.github.mouse0w0.peach.action.mainMenu.DonateAction"/>
+                    class="com.github.mouse0w0.peach.action.help.DonateAction"/>
         </group>
     </group>
 </actions>

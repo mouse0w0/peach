@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.action.mainMenu;
+package com.github.mouse0w0.peach.action.help;
 
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;

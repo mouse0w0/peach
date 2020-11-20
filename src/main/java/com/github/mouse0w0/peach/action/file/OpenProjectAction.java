@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.action.mainMenu;
+package com.github.mouse0w0.peach.action.file;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
