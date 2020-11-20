@@ -39,6 +39,7 @@ class ProjectRootPane extends BorderPane {
         setCenter(viewPane);
 
         tabPane = new TabPane();
+        tabPane.setStyle("-fx-open-tab-animation: none; -fx-close-tab-animation: none;");
         tabPane.setMinSize(100, 100);
         viewPane.setCenter(tabPane);
 
