@@ -129,7 +129,7 @@ public class ProjectView implements Disposable, DataProvider {
 
     @Override
     public Object getData(@Nonnull String key) {
-        if (DataKeys.SELECTED_ITEM.is(key)) {
+        if (DataKeys.PATH.is(key) || DataKeys.SELECTED_ITEM.is(key)) {
             return treeView.getSelectionModel().getSelectedItem().getValue();
         } else if (DataKeys.SELECTED_ITEMS.is(key)) {
             return treeView.getSelectionModel().getSelectedItems()
