@@ -65,7 +65,7 @@ public class TextureView extends Control {
                 dialog.getEditor().setText(fileName.toLowerCase());
                 dialog.getEditor().requestFocus();
                 dialog.getEditor().selectRange(0, fileName.indexOf('.'));
-                fileNameWithoutExt = FileUtils.getFileNameWithoutExt(dialog.showAndWait());
+                fileNameWithoutExt = FileUtils.getFileNameWithoutExt(dialog.showAndWait().orElse(""));
             } else {
                 fileNameWithoutExt = FileUtils.getFileNameWithoutExt(fileName);
             }

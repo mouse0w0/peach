@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 public class RenameAction extends Action {
     @Override
@@ -20,11 +21,12 @@ public class RenameAction extends Action {
             String message = String.format(I18n.translate(
                     Files.isRegularFile(path) ? "dialog.rename.message.file" : "dialog.rename.message.folder"), fileName);
             RenameDialog renameDialog = new RenameDialog(message, fileName);
-            String result = renameDialog.showAndWait();
-            if (fileName.equals(result)) return;
-            try {
-                Files.move(path, path.getParent().resolve(result));
-            } catch (IOException ignored) {
+            Optional<String> result = renameDialog.showAndWait();
+            if (result.isPresent()) {
+                try {
+                    Files.move(path, path.getParent().resolve(result.get()));
+                } catch (IOException ignored) {
+                }
             }
         }
     }
