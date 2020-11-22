@@ -126,10 +126,16 @@ public class ActionManager {
     }
 
     private void processActionElement(ActionGroup group, Element element) {
+        String id = element.attributeValue(ID_ATTR_NAME);
+
         String className = element.attributeValue(CLASS_ATTR_NAME);
         if (Strings.isNullOrEmpty(className)) {
-            LOGGER.error("Action element should have specified \"class\" attribute");
+            LOGGER.error("The \"class\" attribute of action \"{}\" should be specified.", id);
             return;
+        }
+
+        if (id == null) {
+            id = StringUtils.substringAfterLast(className, '.');
         }
 
         Action action;
@@ -143,8 +149,6 @@ public class ActionManager {
         if (group != null) {
             group.addChild(action);
         }
-
-        String id = element.attributeValue(ID_ATTR_NAME, StringUtils.substringAfterLast(className, '.'));
 
         processAppearance(element, id, action.getAppearance());
 
