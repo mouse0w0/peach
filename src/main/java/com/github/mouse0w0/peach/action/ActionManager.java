@@ -7,9 +7,11 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.Validate;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -67,12 +69,31 @@ public class ActionManager {
         getAction(actionId).perform(new ActionEvent(event.getSource()));
     }
 
-    public Menu createMenu(ActionGroup group) {
-        Menu menu = new ActionMenu(group);
+    public ActionMenu createMenu(ActionGroup group) {
+        ActionMenu menu = new ActionMenu(group);
+        ObservableList<MenuItem> menuItems = menu.getItems();
         for (Action child : group.getChildren()) {
-            menu.getItems().add(createMenuItem(child));
+            menuItems.add(createMenuItem(child));
         }
         return menu;
+    }
+
+    public ContextMenu createContextMenu(ActionGroup group) {
+        ContextMenu contextMenu = new ContextMenu();
+        contextMenu.getProperties().put(Action.class, group);
+        contextMenu.addEventHandler(WindowEvent.WINDOW_SHOWING, event -> {
+            group.update(new ActionEvent(event.getSource()));
+
+            for (MenuItem item : contextMenu.getItems()) {
+                Action action = (Action) item.getProperties().get(Action.class);
+                action.update(new ActionEvent(item));
+            }
+        });
+        ObservableList<MenuItem> menuItems = contextMenu.getItems();
+        for (Action child : group.getChildren()) {
+            menuItems.add(createMenuItem(child));
+        }
+        return contextMenu;
     }
 
     private MenuItem createMenuItem(Action action) {
