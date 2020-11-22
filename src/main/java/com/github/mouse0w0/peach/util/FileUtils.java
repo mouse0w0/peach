@@ -175,6 +175,17 @@ public class FileUtils {
         return StringUtils.substringAfterLast(fileName, '.');
     }
 
+    public static boolean delete(Path path) {
+        return delete(path.toFile());
+    }
+
+    public static boolean delete(File file) {
+        if (!file.exists()) {
+            return false;
+        }
+        return file.isFile() ? file.delete() : deleteDirectory(file);
+    }
+
     public static boolean deleteDirectoryIfPresent(Path path) {
         return deleteDirectoryIfPresent(path.toFile());
     }
@@ -183,8 +194,7 @@ public class FileUtils {
         if (!file.exists()) {
             return false;
         }
-        deleteDirectory(file);
-        return true;
+        return deleteDirectory(file);
     }
 
     public static boolean deleteDirectory(Path path) {
