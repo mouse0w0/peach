@@ -32,7 +32,7 @@ public class ActionMenu extends Menu {
     }
 
     private void update(Event event) {
-        group.update(new ActionEvent(event));
+        group.update(new ActionEvent(event.getSource()));
 
         for (MenuItem item : getItems()) {
             Action action = (Action) item.getProperties().get(Action.class);
