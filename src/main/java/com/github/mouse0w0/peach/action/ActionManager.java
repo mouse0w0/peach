@@ -10,7 +10,6 @@ import com.google.common.collect.HashBiMap;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import org.apache.commons.lang3.Validate;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -80,7 +79,7 @@ public class ActionManager {
         if (action instanceof ActionGroup) {
             return createMenu((ActionGroup) action);
         } else if (action instanceof Separator) {
-            return new SeparatorMenuItem();
+            return new ActionSeparator(action);
         } else {
             return new ActionMenuItem(action);
         }
