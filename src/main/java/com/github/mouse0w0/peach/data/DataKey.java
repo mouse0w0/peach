@@ -27,6 +27,10 @@ public final class DataKey<T> {
         return name;
     }
 
+    public boolean is(String key) {
+        return name.equals(key);
+    }
+
     @SuppressWarnings("unchecked")
     public T get(DataContext context) {
         return (T) context.getData(name);

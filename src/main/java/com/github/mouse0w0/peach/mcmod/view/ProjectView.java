@@ -1,13 +1,22 @@
 package com.github.mouse0w0.peach.mcmod.view;
 
+import com.github.mouse0w0.peach.action.ActionGroup;
+import com.github.mouse0w0.peach.action.ActionGroups;
+import com.github.mouse0w0.peach.action.ActionManager;
+import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.data.DataManager;
+import com.github.mouse0w0.peach.data.DataProvider;
 import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
 import com.github.mouse0w0.peach.util.NioFileWatcher;
 import com.github.mouse0w0.peach.view.ViewFactory;
+import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -15,6 +24,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -24,11 +34,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ProjectView implements Disposable {
+public class ProjectView implements Disposable, DataProvider {
     private final Project project;
     private final Path rootPath;
 
     private final Map<Path, TreeItem<Path>> itemMap = new HashMap<>();
+
+    private ContextMenu contextMenu;
+    private EventHandler<Event> onContextMenuRequested;
 
     private TreeView<Path> treeView;
 
@@ -48,6 +61,18 @@ public class ProjectView implements Disposable {
         treeView.setId("project-view");
         treeView.setCellFactory(t -> new Cell());
         treeView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        DataManager.getInstance().registerDataProvider(treeView, this);
+
+        ActionManager actionManager = ActionManager.getInstance();
+        ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction(ActionGroups.FILE_POPUP_MENU);
+        contextMenu = actionManager.createContextMenu(filePopupMenu);
+        onContextMenuRequested = new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                contextMenu.getProperties().put(Node.class, event.getSource());
+            }
+        };
 
         TreeItem<Path> root = createTreeItem(rootPath);
         root.setExpanded(true);
@@ -102,6 +127,20 @@ public class ProjectView implements Disposable {
         fileWatcher.stop();
     }
 
+    @Override
+    public Object getData(@Nonnull String key) {
+        if (DataKeys.SELECTED_ITEM.is(key)) {
+            return treeView.getSelectionModel().getSelectedItem().getValue();
+        } else if (DataKeys.SELECTED_ITEMS.is(key)) {
+            return treeView.getSelectionModel().getSelectedItems()
+                    .stream()
+                    .map(TreeItem::getValue)
+                    .collect(ImmutableList.toImmutableList());
+        } else {
+            return null;
+        }
+    }
+
     public static class Factory implements ViewFactory {
         @Override
         public Node createViewContent(Project project) {
@@ -114,6 +153,8 @@ public class ProjectView implements Disposable {
 
         public Cell() {
             setGraphic(imageView);
+            setContextMenu(contextMenu);
+            setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
                 Path file = getItem();
                 if (event.getClickCount() == 2 && Files.isRegularFile(file)) {
