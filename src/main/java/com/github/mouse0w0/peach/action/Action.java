@@ -12,4 +12,8 @@ public abstract class Action {
     }
 
     public abstract void perform(ActionEvent event);
+
+    public void update(ActionEvent event) {
+        // Nothing to do.
+    }
 }

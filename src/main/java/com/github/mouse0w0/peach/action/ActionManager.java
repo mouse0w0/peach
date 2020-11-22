@@ -68,12 +68,7 @@ public class ActionManager {
     }
 
     public Menu createMenu(ActionGroup group) {
-        Appearance appearance = group.getAppearance();
-        Menu menu = new Menu();
-        menu.getProperties().put(Action.class, group);
-        menu.textProperty().bind(appearance.textProperty());
-        menu.disableProperty().bind(appearance.disableProperty());
-        menu.visibleProperty().bind(appearance.visibleProperty());
+        Menu menu = new ActionMenu(group);
         for (Action child : group.getChildren()) {
             menu.getItems().add(createMenuItem(child));
         }

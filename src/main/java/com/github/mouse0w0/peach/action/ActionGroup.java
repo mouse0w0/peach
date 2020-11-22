@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ActionGroup extends Action {
 
-    private List<Action> children = new ArrayList<>();
+    private final List<Action> children = new ArrayList<>();
 
     public List<Action> getChildren() {
         return children;
