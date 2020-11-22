@@ -1,12 +1,12 @@
 package com.github.mouse0w0.peach.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.ui.icon.Icons;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -34,6 +34,7 @@ public class RenameDialog {
     public RenameDialog(String message, String defaultValue) {
         this.defaultValue = defaultValue;
         stage.setTitle(I18n.translate("dialog.rename.title"));
+        stage.getIcons().add(Icons.Peach_16x);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
@@ -43,9 +44,9 @@ public class RenameDialog {
 
         label = new Label(message);
 
-        editor = new TextField();
+        editor = new TextField(defaultValue);
 
-        HBox buttonBar = new HBox(10);
+        HBox buttonBar = new HBox(6);
         buttonBar.setAlignment(Pos.CENTER_RIGHT);
 
         Button ok = new Button(I18n.translate("common.ok"));
@@ -59,7 +60,7 @@ public class RenameDialog {
         });
         buttonBar.getChildren().addAll(ok, cancel);
 
-        vBox.getChildren().addAll(label, editor, new Separator(), buttonBar);
+        vBox.getChildren().addAll(label, editor, buttonBar);
 
         stage.setScene(new Scene(vBox));
         stage.sizeToScene();
