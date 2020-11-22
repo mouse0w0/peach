@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.ui.project;
 
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionGroup;
+import com.github.mouse0w0.peach.action.ActionGroups;
 import com.github.mouse0w0.peach.action.ActionManager;
-import com.github.mouse0w0.peach.action.IdeGroups;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.viewpane.ViewPane;
@@ -68,7 +68,7 @@ class ProjectRootPane extends BorderPane {
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup group = (ActionGroup) actionManager.getAction(IdeGroups.MAIN_MENU);
+        ActionGroup group = (ActionGroup) actionManager.getAction(ActionGroups.MAIN_MENU);
 
         for (Action child : group.getChildren()) {
             if (!(child instanceof ActionGroup)) continue;
