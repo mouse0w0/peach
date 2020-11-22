@@ -35,6 +35,13 @@ action.About.text=关于 Peach
 action.Donate.text=捐助作者
 action.Donate.description=前往开发者的爱发电主页
 
+action.Cut.text=剪切
+action.Copy.text=复制
+action.Paste.text=贴粘
+action.Rename.text=重命名
+action.Delete.text=删除
+action.ShowInExplorer.text=在资源管理器中显示
+
 wizard.cancel=取消
 wizard.finish=完成
 wizard.next=下一个
@@ -121,8 +128,13 @@ validate.exists_file=文件已存在：“%s”。
 fileChooser.mcmod.export.title=导出Jar文件到
 dialog.export_to.failure=导出失败，请在日志中查看错误详情。
 
-dialog.rename.title=重命名为……
+dialog.delete.title=删除
+dialog.delete.message.file=删除“%s”文件？
+dialog.delete.message.files=删除“%s”等%d个文件？
+
+dialog.rename.title=重命名
 dialog.rename.message.file=重命名文件“%s”为：
+dialog.rename.message.folder=重命名文件夹“%s”为：
 
 view.Project.text=项目
 view.ItemFavorites.text=物品收藏夹
