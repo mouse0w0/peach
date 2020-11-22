@@ -29,6 +29,7 @@ public class ActionManager {
     private static final String ACTION_ELEMENT_NAME = "action";
     private static final String GROUP_ELEMENT_NAME = "group";
     private static final String SEPARATOR_ELEMENT_NAME = "separator";
+    private static final String REFERENCE_ELEMENT_NAME = "reference";
 
     private static final String ID_ATTR_NAME = "id";
     private static final String CLASS_ATTR_NAME = "class";
@@ -118,6 +119,10 @@ public class ActionManager {
             processGroupElement(group, element);
         } else if (SEPARATOR_ELEMENT_NAME.equals(name)) {
             processSeparatorElement(group, element);
+        } else if (REFERENCE_ELEMENT_NAME.equals(name)) {
+            processReferenceElement(group, element);
+        } else {
+            LOGGER.error("Undefined element name: \"{}\".", name);
         }
     }
 
@@ -176,6 +181,24 @@ public class ActionManager {
         Separator separator = Separator.getInstance();
         if (group != null) {
             group.addChild(separator);
+        }
+    }
+
+    private void processReferenceElement(ActionGroup group, Element element) {
+        String id = element.attributeValue(ID_ATTR_NAME);
+        if (id == null) {
+            LOGGER.error("The id of reference is null.");
+            return;
+        }
+
+        Action action = getAction(id);
+        if (action == null) {
+            LOGGER.error("Not found action by id \"{}\".", id);
+            return;
+        }
+
+        if (group != null) {
+            group.addChild(action);
         }
     }
 

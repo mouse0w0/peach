@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
+    <group id="New">
+        <action id="NewProject" class="com.github.mouse0w0.peach.action.file.NewProjectAction"/>
+        <action id="NewModElement" class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
+    </group>
+
     <group id="MainMenu">
         <group id="File">
-            <group id="New">
-                <action id="NewProject" class="com.github.mouse0w0.peach.action.file.NewProjectAction"/>
-                <action id="NewModElement" class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
-            </group>
+            <reference id="New"/>
             <action id="OpenProject" icon="Icons.Action.OpenProject"
                     class="com.github.mouse0w0.peach.action.file.OpenProjectAction"/>
             <action id="CloseProject"
