@@ -38,11 +38,7 @@
                         <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                             <children>
                                 <TextField fx:id="projectPath" prefWidth="10000.0"/>
-                                <Button mnemonicParsing="false" onAction="#onChooseProjectPath" text="...">
-                                    <tooltip>
-                                        <Tooltip text="%ui.new_project.choose_path"/>
-                                    </tooltip>
-                                </Button>
+                                <Button mnemonicParsing="false" onAction="#onChooseProjectPath" text="..."/>
                             </children>
                         </HBox>
                     </children>
