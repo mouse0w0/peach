@@ -31,7 +31,7 @@ dependencies {
 
     compile 'com.github.promeg:tinypinyin:2.0.3'
 
-    compile 'com.github.mouse0w0:eventbus:2.4.4'
+    compile 'com.github.mouse0w0:eventbus:2.5.1'
     compile 'com.github.mouse0w0:version:1.4.0'
     compile 'com.github.mouse0w0:i18n:1.0.2'
     compile 'com.github.mouse0w0:gridview:1.0.0'
