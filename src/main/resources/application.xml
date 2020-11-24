@@ -18,6 +18,7 @@
         <applicationService implementation="com.github.mouse0w0.peach.action.ActionManager"/>
         <applicationService implementation="com.github.mouse0w0.peach.ui.project.WindowManager"/>
         <applicationService implementation="com.github.mouse0w0.peach.service.RecentProjectsManager"/>
+        <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <applicationService implementation="com.github.mouse0w0.peach.project.ProjectManager" lazy="true"/>
         <applicationService implementation="com.github.mouse0w0.peach.ui.icon.IconManager" lazy="true"/>
 

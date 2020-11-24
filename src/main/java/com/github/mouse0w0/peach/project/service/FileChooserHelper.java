@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.project.service;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.PersistentComponent;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonElement;
@@ -23,7 +23,7 @@ public class FileChooserHelper implements PersistentComponent {
     private final Map<String, File> initialDirectories = new HashMap<>();
 
     public static FileChooserHelper getInstance() {
-        return getInstance(WindowManager.getInstance().getFocusedProject());
+        return Peach.getInstance().getService(FileChooserHelper.class);
     }
 
     public static FileChooserHelper getInstance(Project project) {
