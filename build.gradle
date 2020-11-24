@@ -5,18 +5,9 @@ plugins {
 
 String buildNumber = 'git rev-list --count HEAD'.execute().text.trim();
 
-group 'com.github.mouse0w0'
 version "0.0.6.${buildNumber}-SNAPSHOT"
 
-sourceCompatibility = targetCompatibility = 1.8
 mainClassName = 'com.github.mouse0w0.peach.Peach'
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-    mavenLocal()
-}
 
 dependencies {
     compile project('peach-controls')
@@ -82,6 +73,19 @@ distributions {
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+allprojects {
+    group 'com.github.mouse0w0'
+
+    sourceCompatibility = targetCompatibility = 1.8
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+        mavenLocal()
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
 }
