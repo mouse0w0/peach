@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.dialog.RenameDialog;
+import com.github.mouse0w0.peach.dialog.TextInputDialog;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
 import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
@@ -61,10 +62,10 @@ public class TextureView extends Control {
 
             String fileNameWithoutExt;
             if (StringUtils.hasUpperCase(fileName)) {
-                RenameDialog dialog = new RenameDialog(String.format(I18n.translate("dialog.rename.message.file"), fileName));
-                dialog.getEditor().setText(fileName.toLowerCase());
-                dialog.getEditor().requestFocus();
-                dialog.getEditor().selectRange(0, fileName.indexOf('.'));
+                TextInputDialog dialog = new TextInputDialog(String.format(I18n.translate("dialog.rename.message.file"), fileName),
+                        fileName.toLowerCase());
+                dialog.setTitle(I18n.translate("dialog.rename.title"));
+                Platform.runLater(() -> dialog.getEditor().selectRange(0, fileName.lastIndexOf('.')));
                 fileNameWithoutExt = FileUtils.getFileNameWithoutExt(dialog.showAndWait().orElse(""));
             } else {
                 fileNameWithoutExt = FileUtils.getFileNameWithoutExt(fileName);

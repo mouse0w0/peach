@@ -1,7 +1,5 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,34 +10,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-public class RenameDialog extends MyDialog<Path> {
-
-    private final Path source;
+public class TextInputDialog extends MyDialog<String> {
 
     private final Label label;
     private final TextField editor;
 
-    public RenameDialog(Path source) {
-        this(source, FileUtils.getFileName(source));
+    public TextInputDialog() {
+        this(null);
     }
 
-    public RenameDialog(Path source, String text) {
+    public TextInputDialog(String message) {
+        this(message, "");
+    }
+
+    public TextInputDialog(String message, String text) {
         super(ButtonType.OK, ButtonType.CANCEL);
-        this.source = source;
-
-        setTitle(I18n.translate("dialog.rename.title"));
-
-        boolean isFile = Files.isRegularFile(source);
 
         VBox vBox = new VBox(10);
         vBox.setMinSize(300, Region.USE_COMPUTED_SIZE);
         vBox.setPadding(new Insets(10));
 
-        label = new Label(String.format(I18n.translate(
-                isFile ? "dialog.rename.message.file" : "dialog.rename.message.folder"), FileUtils.getFileName(source)));
+        label = new Label(message);
         editor = new TextField(text);
 
         vBox.getChildren().addAll(label, editor, getButtonBar());
@@ -47,17 +38,13 @@ public class RenameDialog extends MyDialog<Path> {
         setScene(new Scene(vBox));
         setResultConverter(buttonType -> {
             ButtonBar.ButtonData data = buttonType == null ? null : buttonType.getButtonData();
-            return data == ButtonBar.ButtonData.OK_DONE ? getSource().getParent().resolve(editor.getText()) : null;
+            return data == ButtonBar.ButtonData.OK_DONE ? editor.getText() : null;
         });
 
         Platform.runLater(() -> {
             editor.requestFocus();
-            editor.selectRange(0, isFile ? editor.getText().lastIndexOf('.') : editor.getLength());
+            editor.selectAll();
         });
-    }
-
-    public Path getSource() {
-        return source;
     }
 
     public Label getLabel() {
