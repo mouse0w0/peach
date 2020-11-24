@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    compile project('peach-controls')
+
     compile 'com.google.guava:guava:29.0-jre'
     compile 'org.apache.commons:commons-lang3:3.10'
     compile 'commons-io:commons-io:2.6'
