@@ -12,8 +12,8 @@ public class Alert extends MyDialog<ButtonType> {
     private final Label label;
 
     public static boolean confirm(String title, String text) {
-        Alert alert = new Alert(title, text, ButtonType.YES, ButtonType.NO);
-        return alert.showAndWait().orElse(ButtonType.NO) == ButtonType.YES;
+        Alert alert = new Alert(title, text, ButtonType.OK, ButtonType.CANCEL);
+        return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
     }
 
     public Alert(String title, String text, ButtonType... buttonTypes) {
