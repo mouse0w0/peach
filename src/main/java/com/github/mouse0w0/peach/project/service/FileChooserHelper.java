@@ -4,9 +4,8 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.PersistentComponent;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.util.JsonUtils;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -92,12 +91,16 @@ public class FileChooserHelper implements PersistentComponent {
 
     @Override
     public JsonElement serialize() {
-        return JsonUtils.toJson(initialDirectories);
+        JsonObject object = new JsonObject();
+        initialDirectories.forEach((k, v) -> object.addProperty(k, v.getAbsolutePath()));
+        return object;
     }
 
     @Override
     public void deserialize(JsonElement jsonElement) {
-        initialDirectories.putAll(JsonUtils.fromJson(jsonElement, new TypeToken<Map<String, File>>() {
-        }));
+        JsonObject object = jsonElement.getAsJsonObject();
+        for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
+            initialDirectories.put(entry.getKey(), new File(entry.getValue().getAsString()));
+        }
     }
 }
