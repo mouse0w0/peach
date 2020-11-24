@@ -130,7 +130,10 @@ dialog.export_to.failure=导出失败，请在日志中查看错误详情。
 
 dialog.delete.title=删除
 dialog.delete.message.file=删除“%s”文件？
-dialog.delete.message.files=删除“%s”等%d个文件？
+dialog.delete.message.files=删除“%1$s”等%2$s个文件？
+dialog.delete.message.folder=删除“%s”文件夹？
+dialog.delete.message.folders=删除“%1$s”等%3$s个文件夹？
+dialog.delete.message.fileAndFolder=删除“%1$s”等%2$s个文件和%3$s个文件夹？
 
 dialog.rename.title=重命名
 dialog.rename.message.file=重命名文件“%s”为：

@@ -4,9 +4,10 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
-import com.github.mouse0w0.peach.ui.util.Alerts;
+import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.util.FileUtils;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -21,17 +22,32 @@ public class DeleteAction extends Action {
 
         List<Path> paths = (List<Path>) items;
 
-        String message;
-        if (paths.size() == 1) {
-            message = String.format(I18n.translate("dialog.delete.message0"), paths.get(0).getFileName());
-        } else {
-            message = String.format(I18n.translate("dialog.delete.message1"), paths.get(0).getFileName(), paths.size());
+        int fileCount = 0, folderCount = 0;
+        for (Path path : paths) {
+            if (Files.isRegularFile(path)) {
+                fileCount++;
+            } else if (Files.isDirectory(path)) {
+                folderCount++;
+            }
         }
 
-        if (!Alerts.confirm(message)) return;
+        String translationKey;
+        if (fileCount != 0 && folderCount != 0) {
+            translationKey = "dialog.delete.message.fileAndFolder";
+        } else {
+            if (fileCount > 0) {
+                translationKey = fileCount == 1 ? "dialog.delete.message.file" : "dialog.delete.message.files";
+            } else {
+                translationKey = folderCount == 1 ? "dialog.delete.message.folder" : "dialog.delete.message.folders";
+            }
+        }
 
-        for (Path path : paths) {
-            FileUtils.delete(path);
+        String message = String.format(I18n.translate(translationKey), FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
+
+        if (Alert.confirm(I18n.translate("dialog.delete.title"), message)) {
+            for (Path path : paths) {
+                FileUtils.delete(path);
+            }
         }
     }
 }
