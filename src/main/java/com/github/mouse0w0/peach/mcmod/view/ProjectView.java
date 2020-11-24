@@ -15,6 +15,7 @@ import com.github.mouse0w0.peach.view.ViewFactory;
 import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,14 +84,14 @@ public class ProjectView implements Disposable, DataProvider {
             Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    addPath(file);
+                    addPath(file, false);
                     return FileVisitResult.CONTINUE;
                 }
 
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     if (!rootPath.equals(dir)) {
-                        addPath(dir);
+                        addPath(dir, false);
                     }
                     return FileVisitResult.CONTINUE;
                 }
@@ -98,7 +100,7 @@ public class ProjectView implements Disposable, DataProvider {
         }
 
         fileWatcher = new NioFileWatcher(rootPath, SensitivityWatchEventModifier.LOW, ExtendedWatchEventModifier.FILE_TREE);
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, this::addPath);
+        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, path -> addPath(path, true));
         fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, path -> {
             TreeItem<Path> treeItem = itemMap.get(path);
             TreeItem<Path> parent = treeItem.getParent();
@@ -109,11 +111,16 @@ public class ProjectView implements Disposable, DataProvider {
         return treeView;
     }
 
-    private void addPath(Path path) {
+    private void addPath(Path path, boolean sorted) {
         Path parentPath = path.getParent();
         TreeItem<Path> parent = itemMap.get(parentPath);
         if (parent == null) throw new IllegalStateException("Parent not found");
-        parent.getChildren().add(createTreeItem(path));
+
+        ObservableList<TreeItem<Path>> children = parent.getChildren();
+        children.add(createTreeItem(path));
+        if (sorted) {
+            children.sort(Comparator.comparing(TreeItem::getValue));
+        }
     }
 
     private TreeItem<Path> createTreeItem(Path path) {
