@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.ui.newProject;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.control.FilePicker;
-import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.fxml.FXML;
@@ -49,7 +49,7 @@ public class NewProjectUI extends BorderPane {
         Path folder = path.toPath();
         if (folder == null) return; // TODO: show alert
         if (FileUtils.isNotEmpty(folder)) {
-            if (!Alerts.confirm(I18n.translate("dialog.newProject.notEmpty"))) return;
+            if (!Alert.confirm(I18n.translate("dialog.newProject.notEmpty"))) return;
         }
         ProjectManager.getInstance().createProject(name.getText(), folder);
     }

@@ -127,6 +127,11 @@ model.item.handheld=手持模型
 fileChooser.mcmod.export.title=导出Jar文件到
 dialog.export_to.failure=导出失败，请在日志中查看错误详情。
 
+dialog.error.title=错误
+dialog.warning.title=警告
+dialog.confirm.title=确认
+dialog.info.title=消息
+
 dialog.delete.title=删除
 dialog.delete.message.file=删除“%s”文件？
 dialog.delete.message.files=删除“%1$s”等%2$s个文件？

@@ -3,11 +3,11 @@ package com.github.mouse0w0.peach.mcmod.action;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
-import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.Scheduler;
 import javafx.application.Platform;
@@ -45,7 +45,7 @@ public class ExportProjectAction extends Action {
                     FileUtils.forceCopy(source, file.toPath());
                 } catch (IOException e) {
                     LOGGER.error("Failed to export file: " + file, e);
-                    Alerts.warning("dialog.export_to.failure");
+                    Alert.warning("dialog.export_to.failure");
                 }
             }
         }, Platform::runLater);
