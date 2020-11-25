@@ -23,8 +23,9 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_project.name"/>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_project.path" GridPane.rowIndex="1"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newProject.name"/>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newProject.path"
+                              GridPane.rowIndex="1"/>
                         <TextField fx:id="name" text="untitled" GridPane.columnIndex="1"/>
                         <FilePicker fx:id="path" type="OPEN_DIRECTORY" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     </children>

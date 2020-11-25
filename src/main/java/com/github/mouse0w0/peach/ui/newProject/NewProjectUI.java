@@ -28,7 +28,7 @@ public class NewProjectUI extends BorderPane {
         NewProjectUI newProject = new NewProjectUI();
         Stage stage = new Stage();
         stage.setScene(new Scene(newProject));
-        stage.setTitle(I18n.translate("ui.new_project.title"));
+        stage.setTitle(I18n.translate("dialog.newProject.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
@@ -49,7 +49,7 @@ public class NewProjectUI extends BorderPane {
         Path folder = path.toPath();
         if (folder == null) return; // TODO: show alert
         if (FileUtils.isNotEmpty(folder)) {
-            if (!Alerts.confirm(I18n.translate("ui.new_project.not_empty"))) return;
+            if (!Alerts.confirm(I18n.translate("dialog.newProject.notEmpty"))) return;
         }
         ProjectManager.getInstance().createProject(name.getText(), folder);
     }

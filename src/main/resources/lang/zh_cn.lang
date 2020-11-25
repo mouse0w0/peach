@@ -56,11 +56,11 @@ dialog.itemChooser.mode.default=默认
 dialog.itemChooser.mode.ignoreMetadata=忽略数据值
 dialog.itemChooser.mode.oreDict=矿物词典
 
-ui.new_project.title=新建项目
-ui.new_project.name=项目名称：
-ui.new_project.path=项目路径：
+dialog.newProject.title=新建项目
+dialog.newProject.name=项目名称：
+dialog.newProject.path=项目路径：
+dialog.newProject.notEmpty=项目文件夹非空，是否确认要在此创建项目？
 fileChooser.newProject.title=选择项目文件夹
-ui.new_project.not_empty=项目路径非空，是否确认要在此创建项目。
 
 dialog.mod_settings.title=模组设置
 dialog.mod_settings.general.title=通用设置
