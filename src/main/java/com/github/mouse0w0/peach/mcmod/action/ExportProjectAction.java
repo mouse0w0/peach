@@ -37,7 +37,7 @@ public class ExportProjectAction extends Action {
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 
-            File file = FileChooserHelper.getInstance().save(null, "mcmod.export", null,
+            File file = FileChooserHelper.getInstance().save(null, "mcmod.export", null, fileName,
                     new FileChooser.ExtensionFilter("Jar", "*.jar"));
             if (file != null) {
                 try {

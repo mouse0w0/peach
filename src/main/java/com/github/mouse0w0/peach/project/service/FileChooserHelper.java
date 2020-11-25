@@ -79,9 +79,10 @@ public class FileChooserHelper implements PersistentComponent {
         return file;
     }
 
-    public File save(Window owner, String id, File initialDirectory, FileChooser.ExtensionFilter... filters) {
+    public File save(Window owner, String id, File initialDirectory, String initialFileName, FileChooser.ExtensionFilter... filters) {
         Validate.notNull(id);
         FileChooser fileChooser = createFileChooser(id, initialDirectory, filters);
+        fileChooser.setInitialFileName(initialFileName);
         File file = fileChooser.showSaveDialog(owner);
         if (file != null) {
             initialDirectories.put(id, file.getParentFile());
