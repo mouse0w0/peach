@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.ui.newProject;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
+import com.github.mouse0w0.peach.ui.control.FilePicker;
 import com.github.mouse0w0.peach.ui.util.Alerts;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -14,17 +15,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class NewProjectUI extends BorderPane {
 
     @FXML
-    public TextField projectName;
+    private TextField name;
     @FXML
-    public TextField projectPath;
+    private FilePicker path;
 
     public static void show(Window window) {
         NewProjectUI newProject = new NewProjectUI();
@@ -38,13 +36,7 @@ public class NewProjectUI extends BorderPane {
 
     public NewProjectUI() {
         FXUtils.loadFXML(this, "ui/project/NewProject.fxml");
-        projectName.setText("untitled");
-    }
-
-    @FXML
-    public void onChooseProjectPath() {
-        File file = FileChooserHelper.getInstance().openDirectory("newProject");
-        if (file != null) projectPath.setText(file.toString());
+        FileChooserHelper.getInstance().register(path, "newProject");
     }
 
     @FXML
@@ -54,12 +46,12 @@ public class NewProjectUI extends BorderPane {
     }
 
     private void doCreateProject() {
-        Path path = Paths.get(projectPath.getText());
-        try {
-            if (FileUtils.isNotEmpty(path) && !Alerts.confirm(I18n.translate("ui.new_project.not_empty"))) return;
-        } catch (IOException ignored) {
+        Path folder = path.toPath();
+        if (folder == null) return; // TODO: show alert
+        if (FileUtils.isNotEmpty(folder)) {
+            if (!Alerts.confirm(I18n.translate("ui.new_project.not_empty"))) return;
         }
-        ProjectManager.getInstance().createProject(projectName.getText(), path);
+        ProjectManager.getInstance().createProject(name.getText(), folder);
     }
 
     @FXML

@@ -1,28 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.github.mouse0w0.peach.ui.control.FilePicker?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
-    <bottom>
-        <FlowPane alignment="CENTER_RIGHT" hgap="10.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button defaultButton="true" mnemonicParsing="false" onAction="#onFinish" text="%common.finish"/>
-                <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%common.cancel"/>
-            </children>
-            <BorderPane.margin>
-                <Insets/>
-            </BorderPane.margin>
-        </FlowPane>
-    </bottom>
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
     <center>
-        <VBox BorderPane.alignment="CENTER">
+        <VBox spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <GridPane hgap="10.0">
+                <GridPane fx:id="gridPane" hgap="10.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES"/>
                         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0"/>
@@ -34,20 +25,17 @@
                     <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_project.name"/>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.new_project.path" GridPane.rowIndex="1"/>
-                        <TextField fx:id="projectName" GridPane.columnIndex="1"/>
-                        <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <children>
-                                <TextField fx:id="projectPath" prefWidth="10000.0"/>
-                                <Button mnemonicParsing="false" onAction="#onChooseProjectPath" text="..."/>
-                            </children>
-                        </HBox>
+                        <TextField fx:id="name" text="untitled" GridPane.columnIndex="1"/>
+                        <FilePicker fx:id="path" type="OPEN_DIRECTORY" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     </children>
                 </GridPane>
-                <Separator prefWidth="200.0">
-                    <VBox.margin>
-                        <Insets bottom="10.0" top="10.0"/>
-                    </VBox.margin>
-                </Separator>
+                <FlowPane alignment="CENTER_RIGHT" hgap="10.0">
+                    <children>
+                        <Button defaultButton="true" mnemonicParsing="false" onAction="#onFinish"
+                                text="%common.finish"/>
+                        <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%common.cancel"/>
+                    </children>
+                </FlowPane>
             </children>
         </VBox>
     </center>
