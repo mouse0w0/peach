@@ -38,7 +38,9 @@ public class FileUtils {
 
     public static void createDirectoriesIfNotExistsSilently(Path path) throws RuntimeIOException {
         try {
-            createDirectoriesIfNotExists(path);
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            }
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
