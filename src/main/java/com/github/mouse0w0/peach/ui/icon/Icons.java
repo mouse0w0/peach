@@ -37,6 +37,8 @@ public interface Icons {
 
         Image Image = load("/icon/file/image.png");
 
+        Image Forge = load("/icon/file/forge.png");
+
         Image ModElement = load("/icon/file/alpha-e-box.png");
     }
 
