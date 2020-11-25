@@ -143,12 +143,20 @@ public class FileUtils {
         return (char) result;
     }
 
-    public static boolean isEmpty(Path path) throws IOException {
-        return Files.list(path).count() == 0;
+    public static boolean isEmpty(Path path) {
+        try {
+            return Files.list(path).count() == 0;
+        } catch (IOException e) {
+            throw new RuntimeIOException(e);
+        }
     }
 
-    public static boolean isNotEmpty(Path path) throws IOException {
-        return Files.list(path).count() > 0;
+    public static boolean isNotEmpty(Path path) {
+        try {
+            return Files.list(path).count() > 0;
+        } catch (IOException e) {
+            throw new RuntimeIOException(e);
+        }
     }
 
     public static String getFileName(Path file) {
