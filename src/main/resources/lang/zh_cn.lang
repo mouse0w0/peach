@@ -62,22 +62,22 @@ dialog.newProject.path=项目路径：
 dialog.newProject.notEmpty=项目文件夹非空，是否确认要在此创建项目？
 fileChooser.newProject.title=选择项目文件夹
 
-dialog.mod_settings.title=模组设置
-dialog.mod_settings.general.title=通用设置
-dialog.mod_settings.name=显示名：
-dialog.mod_settings.id=唯一名：
-dialog.mod_settings.version=版本号：
-dialog.mod_settings.mc_version=MC版本：
-dialog.mod_settings.author=作者：
-dialog.mod_settings.language=语言：
-dialog.mod_settings.description=详细信息：
+dialog.modMetadata.title=模组设置
+dialog.modMetadata.general.title=通用设置
+dialog.modMetadata.name=显示名：
+dialog.modMetadata.id=唯一名：
+dialog.modMetadata.version=版本号：
+dialog.modMetadata.mc_version=MC版本：
+dialog.modMetadata.author=作者：
+dialog.modMetadata.language=语言：
+dialog.modMetadata.description=详细信息：
 
-dialog.mod_settings.dependency.title=依赖管理
+dialog.modMetadata.dependency.title=依赖管理
 
-dialog.mod_settings.advanced.title=高级设置
-dialog.mod_settings.website=网站链接：
-dialog.mod_settings.logo=图标：
-dialog.mod_settings.choose_logo=选择图标文件
+dialog.modMetadata.advanced.title=高级设置
+dialog.modMetadata.website=网站链接：
+dialog.modMetadata.logo=图标：
+dialog.modMetadata.choose_logo=选择图标文件
 
 dialog.new_element.title=新建模组元素
 dialog.new_element.name=名称：

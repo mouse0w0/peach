@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.project;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
-import com.github.mouse0w0.peach.mcmod.dialog.ModSettingsDialog;
+import com.github.mouse0w0.peach.mcmod.dialog.ModMetadataDialog;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
@@ -22,7 +22,7 @@ public final class McModProjectListener {
         JsonFile<McModMetadata> modInfoFile = McModDescriptor.getInstance(project).getMetadata();
 
         if (!modInfoFile.exists()) {
-            ModSettingsDialog.show(modInfoFile, window.getStage());
+            ModMetadataDialog.show(modInfoFile, window.getStage());
         }
 
         Tab elementViewTab = new Tab();

@@ -16,7 +16,7 @@ import javafx.util.StringConverter;
 import java.util.Collections;
 import java.util.Locale;
 
-public class ModSettingsDialog extends BorderPane {
+public class ModMetadataDialog extends BorderPane {
 
     private final JsonFile<McModMetadata> file;
 
@@ -41,18 +41,18 @@ public class ModSettingsDialog extends BorderPane {
     public TextArea description;
 
     public static void show(JsonFile<McModMetadata> file, Window window) {
-        ModSettingsDialog modInfo = new ModSettingsDialog(file);
+        ModMetadataDialog modInfo = new ModMetadataDialog(file);
         Stage stage = new Stage();
         stage.setScene(new Scene(modInfo));
-        stage.setTitle(I18n.translate("dialog.mod_settings.title"));
+        stage.setTitle(I18n.translate("dialog.modMetadata.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
-    public ModSettingsDialog(JsonFile<McModMetadata> file) {
+    public ModMetadataDialog(JsonFile<McModMetadata> file) {
         this.file = file;
-        FXUtils.loadFXML(this, "ui/mcmod/ModSettings.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/ModMetadata.fxml");
 
         accordion.setExpandedPane(general);
 
