@@ -79,10 +79,12 @@ dialog.modMetadata.website=网站链接：
 dialog.modMetadata.logo=图标：
 dialog.modMetadata.choose_logo=选择图标文件
 
-dialog.new_element.title=新建模组元素
-dialog.new_element.name=名称：
-dialog.new_element.type=类型：
-dialog.new_element.registry_name=注册名：
+dialog.newElement.title=新建模组元素
+dialog.newElement.name=名称：
+dialog.newElement.type=类型：
+dialog.newElement.registry_name=注册名：
+validate.illegalFileName=非法的文件名：“%s”。
+validate.existsFile=文件“%s”已存在。
 
 ui.element_view.title=模组元素
 
@@ -121,9 +123,6 @@ fileChooser.mcmod.texture.title=打开纹理文件
 
 model.item.generated=默认模型
 model.item.handheld=手持模型
-
-validate.illegal_file_name=非法的文件名：“%s”。
-validate.exists_file=文件已存在：“%s”。
 
 fileChooser.mcmod.export.title=导出Jar文件到
 dialog.export_to.failure=导出失败，请在日志中查看错误详情。

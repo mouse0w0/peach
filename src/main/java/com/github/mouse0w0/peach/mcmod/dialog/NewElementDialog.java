@@ -38,7 +38,7 @@ public class NewElementDialog extends BorderPane {
     public static void show(Project project, Window window) {
         Stage stage = new Stage();
         stage.setScene(new Scene(new NewElementDialog(project)));
-        stage.setTitle(I18n.translate("dialog.new_element.title"));
+        stage.setTitle(I18n.translate("dialog.newElement.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
@@ -52,7 +52,7 @@ public class NewElementDialog extends BorderPane {
 
         Validator.error(name,
                 FileUtils::isValidFileNameWithoutExtension,
-                I18n.translate("validate.illegal_file_name"));
+                I18n.translate("validate.illegalFileName"));
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
@@ -94,7 +94,7 @@ public class NewElementDialog extends BorderPane {
         Path file = elementManager.getElementFile(type.getValue(), name.getText());
 
         if (Files.exists(file)) {
-            Alerts.error(String.format(I18n.translate("validate.exists_file"), file.getFileName()));
+            Alerts.error(String.format(I18n.translate("validate.existsFile"), file.getFileName()));
             return;
         }
 
