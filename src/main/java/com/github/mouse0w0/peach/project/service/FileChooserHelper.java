@@ -4,8 +4,12 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.PersistentComponent;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.FilePicker;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.StringProperty;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -19,7 +23,11 @@ import java.util.Map;
 
 public class FileChooserHelper implements PersistentComponent {
 
+    public static final String FILE_CHOOSER_ID = "FileChooserId";
+
     private final Map<String, File> initialDirectories = new HashMap<>();
+
+    private final InvalidationListener textInvalidationListener = this::onTextInvalidate;
 
     public static FileChooserHelper getInstance() {
         return Peach.getInstance().getService(FileChooserHelper.class);
@@ -27,6 +35,28 @@ public class FileChooserHelper implements PersistentComponent {
 
     public static FileChooserHelper getInstance(Project project) {
         return project.getService(FileChooserHelper.class);
+    }
+
+    public void register(FilePicker filePicker, String id) {
+        filePicker.textProperty().addListener(textInvalidationListener);
+        filePicker.getProperties().put(FILE_CHOOSER_ID, id);
+        filePicker.setTitle(I18n.translate("fileChooser." + id + ".title"));
+        File initialDirectory = initialDirectories.get(id);
+        if (initialDirectory != null) {
+            filePicker.setInitialDirectory(initialDirectory);
+        }
+    }
+
+    private void onTextInvalidate(Observable observable) {
+        StringProperty textProperty = (StringProperty) observable;
+        FilePicker filePicker = (FilePicker) textProperty.getBean();
+        File file = filePicker.toFile();
+        if (file != null) {
+            String id = (String) filePicker.getProperties().get(FILE_CHOOSER_ID);
+            File parentFile = file.getParentFile();
+            initialDirectories.put(id, parentFile);
+            filePicker.setInitialDirectory(parentFile);
+        }
     }
 
     public File open(Window owner, String id, File initialDirectory, FileChooser.ExtensionFilter... filters) {
