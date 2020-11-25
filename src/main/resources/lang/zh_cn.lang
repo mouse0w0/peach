@@ -50,11 +50,11 @@ wizard.previous=上一个
 welcome.title=欢迎使用 Peach
 welcome.NewProject.text=新建项目
 
-ui.item_picker.title=请选择……
-ui.item_picker.filter=过滤：
-ui.item_picker.mode.default=默认
-ui.item_picker.mode.ignore_metadata=忽略数据值
-ui.item_picker.mode.ore_dict=矿物词典
+dialog.itemChooser.title=请选择……
+dialog.itemChooser.filter=过滤：
+dialog.itemChooser.mode.default=默认
+dialog.itemChooser.mode.ignoreMetadata=忽略数据值
+dialog.itemChooser.mode.oreDict=矿物词典
 
 ui.new_project.title=新建项目
 ui.new_project.name=项目名称：

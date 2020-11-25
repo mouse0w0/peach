@@ -67,7 +67,7 @@ public class ItemChooser {
         instance.init(project, defaultItem != null ? defaultItem : Item.AIR, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
         stage.setScene(instance.scene);
-        stage.setTitle(I18n.translate("ui.item_picker.title"));
+        stage.setTitle(I18n.translate("dialog.itemChooser.title"));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(window);
         stage.showAndWait();
@@ -75,7 +75,7 @@ public class ItemChooser {
     }
 
     private ItemChooser() {
-        scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemPicker.fxml"));
+        scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemChooser.fxml"));
 
         gridView.setCellWidth(32);
         gridView.setCellHeight(32);

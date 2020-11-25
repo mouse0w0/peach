@@ -5,22 +5,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<BorderPane styleClass="item-picker" stylesheets="@ItemPicker.css" xmlns="http://javafx.com/javafx/8.0.171"
+<BorderPane styleClass="item-chooser" stylesheets="@ItemChooser.css" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <FlowPane hgap="10.0" vgap="5.0" BorderPane.alignment="CENTER">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_picker.filter"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.itemChooser.filter"/>
                 <TextField fx:id="filter"/>
                 <RadioButton id="default" fx:id="normal" mnemonicParsing="false" selected="true"
-                             text="%ui.item_picker.mode.default">
+                             text="%dialog.itemChooser.mode.default">
                     <toggleGroup>
                         <ToggleGroup fx:id="mode"/>
                     </toggleGroup>
                 </RadioButton>
                 <RadioButton id="ignore-metadata" fx:id="ignoreMetadata" mnemonicParsing="false"
-                             text="%ui.item_picker.mode.ignore_metadata" toggleGroup="$mode"/>
-                <RadioButton id="ore-dict" fx:id="oreDict" mnemonicParsing="false" text="%ui.item_picker.mode.ore_dict"
+                             text="%dialog.itemChooser.mode.ignoreMetadata" toggleGroup="$mode"/>
+                <RadioButton id="ore-dict" fx:id="oreDict" mnemonicParsing="false"
+                             text="%dialog.itemChooser.mode.oreDict"
                              toggleGroup="$mode"/>
             </children>
          <padding>
