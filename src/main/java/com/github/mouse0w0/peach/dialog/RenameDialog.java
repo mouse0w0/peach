@@ -38,8 +38,8 @@ public class RenameDialog extends MyDialog<Path> {
         vBox.setMinSize(300, Region.USE_COMPUTED_SIZE);
         vBox.setPadding(new Insets(10));
 
-        label = new Label(String.format(I18n.translate(
-                isFile ? "dialog.rename.message.file" : "dialog.rename.message.folder"), FileUtils.getFileName(source)));
+        label = new Label(I18n.format(
+                isFile ? "dialog.rename.message.file" : "dialog.rename.message.folder", FileUtils.getFileName(source)));
         editor = new TextField(text);
 
         vBox.getChildren().addAll(label, editor, getButtonBar());

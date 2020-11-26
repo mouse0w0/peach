@@ -42,7 +42,7 @@ public class DeleteAction extends Action {
             }
         }
 
-        String message = String.format(I18n.translate(translationKey), FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
+        String message = I18n.format(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
 
         if (Alert.confirm(I18n.translate("dialog.delete.title"), message)) {
             for (Path path : paths) {

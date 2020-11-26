@@ -94,7 +94,7 @@ public class NewElementDialog extends BorderPane {
         Path file = elementManager.getElementFile(type.getValue(), name.getText());
 
         if (Files.exists(file)) {
-            Alert.error(String.format(I18n.translate("validate.existsFile"), file.getFileName()));
+            Alert.error(I18n.format("validate.existsFile", file.getFileName()));
             return;
         }
 
