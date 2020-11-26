@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.view;
+package com.github.mouse0w0.peach.view;
 
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionGroups;
@@ -11,7 +11,6 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
 import com.github.mouse0w0.peach.util.NioFileWatcher;
-import com.github.mouse0w0.peach.view.ViewFactory;
 import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
