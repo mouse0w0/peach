@@ -142,6 +142,7 @@ dialog.delete.message.fileAndFolder=删除“%1$s”等%2$s个文件和%3$s个�
 dialog.rename.title=重命名
 dialog.rename.message.file=重命名文件“%s”为：
 dialog.rename.message.folder=重命名文件夹“%s”为：
+dialog.rename.error.fileAlreadyExists=文件“%s”已存在。
 
 view.Project.text=项目
 view.ItemFavorites.text=物品收藏夹
