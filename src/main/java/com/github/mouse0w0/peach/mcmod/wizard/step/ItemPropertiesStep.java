@@ -15,7 +15,7 @@ import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class ItemStep extends WizardStepBase {
+public class ItemPropertiesStep extends WizardStepBase {
 
     private final ItemElement element;
 
@@ -32,10 +32,10 @@ public class ItemStep extends WizardStepBase {
     @FXML
     private TextArea information;
 
-    public ItemStep(ItemElement element) {
+    public ItemPropertiesStep(ItemElement element) {
         this.element = element;
 
-        setContent(FXUtils.loadFXML(null, this, "ui/mcmod/ItemElement.fxml"));
+        setContent(FXUtils.loadFXML(null, this, "ui/mcmod/ItemProperties.fxml"));
 
         Validator.error(registerName, ModUtils::isValidRegisterName, I18n.translate("validate.illegalRegisterName"));
 

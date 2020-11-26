@@ -19,15 +19,16 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemElement.registerName"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemElement.displayName"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemProperties.registerName"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemProperties.displayName"
                       GridPane.rowIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemElement.itemGroup"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemProperties.itemGroup"
                       GridPane.rowIndex="2"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemElement.maxStackSize"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemProperties.maxStackSize"
                       GridPane.rowIndex="3"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemElement.effect" GridPane.rowIndex="4"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemElement.information"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemProperties.effect"
+                      GridPane.rowIndex="4"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemProperties.information"
                       GridPane.rowIndex="5"/>
                 <TextField fx:id="registerName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
                 <TextField fx:id="displayName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"

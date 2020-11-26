@@ -93,12 +93,12 @@ validate.illegalRegisterName=非法的注册名：“%s”。注册名以小写�
 
 mod.element.item=物品
 
-wizard.itemElement.registerName=注册名：
-wizard.itemElement.displayName=显示名：
-wizard.itemElement.itemGroup=创造标签：
-wizard.itemElement.maxStackSize=最大堆叠数量：
-wizard.itemElement.effect=发光效果：
-wizard.itemElement.information=附加信息：
+wizard.itemProperties.registerName=注册名：
+wizard.itemProperties.displayName=显示名：
+wizard.itemProperties.itemGroup=创造标签：
+wizard.itemProperties.maxStackSize=最大堆叠数量：
+wizard.itemProperties.effect=发光效果：
+wizard.itemProperties.information=附加信息：
 
 wizard.itemModel.model=模型：
 wizard.itemModel.texture=纹理：
