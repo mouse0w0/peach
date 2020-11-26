@@ -12,7 +12,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import javafx.util.StringConverter;
 
 import java.io.File;
 
@@ -84,8 +83,7 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
         }
 
         if (file != null) {
-            StringConverter<File> converter = filePicker.getConverter();
-            filePicker.setText(converter != null ? converter.toString(file) : file.getAbsolutePath());
+            filePicker.setFile(file);
         }
     }
 

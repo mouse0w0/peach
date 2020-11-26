@@ -9,6 +9,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
@@ -27,6 +29,20 @@ public class FilePicker extends Control {
         getStyleClass().setAll("file-picker");
 
         setFocusTraversable(false);
+
+        addEventHandler(DragEvent.DRAG_OVER, event -> {
+            event.consume();
+            if (event.getGestureSource() == event.getTarget()) return;
+
+            if (event.getDragboard().hasFiles()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+        addEventHandler(DragEvent.DRAG_DROPPED, event -> {
+            event.consume();
+            setFile(event.getDragboard().getFiles().get(0));
+            event.setDropCompleted(true);
+        });
     }
 
     // Properties
@@ -96,6 +112,19 @@ public class FilePicker extends Control {
     public final Path toPath() {
         File file = toFile();
         return file != null ? file.toPath() : null;
+    }
+
+    public final void setFile(File file) {
+        if (file == null) {
+            setText("");
+        } else {
+            StringConverter<File> converter = getConverter();
+            setText(converter != null ? converter.toString(file) : file.getAbsolutePath());
+        }
+    }
+
+    public final void setPath(Path path) {
+        setFile(path.toFile());
     }
 
     private StringProperty promptText;
