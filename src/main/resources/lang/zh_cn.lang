@@ -133,6 +133,16 @@ dialog.warning.title=警告
 dialog.confirm.title=确认
 dialog.info.title=消息
 
+dialog.button.apply=应用
+dialog.button.ok=确认
+dialog.button.cancel=取消
+dialog.button.close=关闭
+dialog.button.yes=是
+dialog.button.no=否
+dialog.button.finish=完成
+dialog.button.next=下一个
+dialog.button.previous=上一个
+
 dialog.delete.title=删除
 dialog.delete.message.file=删除“%s”文件？
 dialog.delete.message.files=删除“%1$s”等%2$s个文件？
