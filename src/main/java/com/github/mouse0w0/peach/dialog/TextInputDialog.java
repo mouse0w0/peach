@@ -15,16 +15,13 @@ public class TextInputDialog extends MyDialog<String> {
     private final Label label;
     private final TextField editor;
 
-    public TextInputDialog() {
-        this(null);
+    public TextInputDialog(String title, String message) {
+        this(title, message, "");
     }
 
-    public TextInputDialog(String message) {
-        this(message, "");
-    }
-
-    public TextInputDialog(String message, String text) {
+    public TextInputDialog(String title, String message, String text) {
         super(ButtonType.OK, ButtonType.CANCEL);
+        setTitle(title);
 
         VBox vBox = new VBox(10);
         vBox.setMinSize(300, Region.USE_COMPUTED_SIZE);

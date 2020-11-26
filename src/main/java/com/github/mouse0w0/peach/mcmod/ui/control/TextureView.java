@@ -62,9 +62,8 @@ public class TextureView extends Control {
 
             String fileNameWithoutExt;
             if (StringUtils.hasUpperCase(fileName)) {
-                TextInputDialog dialog = new TextInputDialog(I18n.format("dialog.rename.message.file", fileName),
-                        fileName.toLowerCase());
-                dialog.setTitle(I18n.translate("dialog.rename.title"));
+                TextInputDialog dialog = new TextInputDialog(I18n.translate("dialog.rename.title"),
+                        I18n.format("dialog.rename.message.file", fileName), fileName.toLowerCase());
                 Platform.runLater(() -> dialog.getEditor().selectRange(0, fileName.lastIndexOf('.')));
                 fileNameWithoutExt = FileUtils.getFileNameWithoutExt(dialog.showAndWait().orElse(""));
             } else {
