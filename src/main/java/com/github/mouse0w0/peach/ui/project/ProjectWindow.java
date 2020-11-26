@@ -14,7 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
-public class ProjectWindow {
+import javax.annotation.Nonnull;
+
+public class ProjectWindow implements DataProvider {
 
     private final Project project;
     private final Scene scene;
@@ -26,7 +28,7 @@ public class ProjectWindow {
         this.root = new ProjectRootPane(project);
         this.scene = new Scene(root);
         this.stage = createStage();
-        DataManager.getInstance().registerDataProvider(stage, DataProvider.create(DataKeys.PROJECT, project));
+        DataManager.getInstance().registerDataProvider(stage, this);
         WindowStateManager.getInstance(project).register(stage, "MainWindow");
     }
 
@@ -84,5 +86,13 @@ public class ProjectWindow {
 
     public void requestFocus() {
         stage.requestFocus();
+    }
+
+    @Override
+    public Object getData(@Nonnull String key) {
+        if (DataKeys.PROJECT.is(key)) {
+            return project;
+        }
+        return null;
     }
 }
