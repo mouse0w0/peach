@@ -21,19 +21,14 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProjectView implements Disposable, DataProvider {
@@ -155,7 +150,7 @@ public class ProjectView implements Disposable, DataProvider {
         }
     }
 
-    private class Cell extends TreeCell<Path> {
+    private class Cell extends TreeCell<Path> implements DataProvider {
         private final ImageView imageView = new ImageView();
 
         public Cell() {
@@ -180,6 +175,28 @@ public class ProjectView implements Disposable, DataProvider {
                 content.putFiles(files);
                 dragboard.setContent(content);
             });
+            addEventHandler(DragEvent.DRAG_OVER, event -> {
+                event.consume();
+                if (event.getGestureSource() == event.getTarget()) return;
+
+                if (event.getDragboard().hasFiles()) {
+                    event.acceptTransferModes(TransferMode.COPY);
+                }
+            });
+            addEventHandler(DragEvent.DRAG_DROPPED, event -> {
+                event.consume();
+                Dragboard dragboard = event.getDragboard();
+                Clipboard systemClipboard = Clipboard.getSystemClipboard();
+                ClipboardContent content = new ClipboardContent();
+                for (DataFormat dataFormat : systemClipboard.getContentTypes()) {
+                    content.put(dataFormat, systemClipboard.getContent(dataFormat));
+                }
+                systemClipboard.setContent(Collections.singletonMap(DataFormat.FILES, dragboard.getFiles()));
+                ActionManager.getInstance().perform("Paste", event);
+                systemClipboard.setContent(content);
+                event.setDropCompleted(true);
+            });
+            DataManager.getInstance().registerDataProvider(this, this);
         }
 
         @Override
@@ -192,6 +209,11 @@ public class ProjectView implements Disposable, DataProvider {
             } else {
                 FileAppearances.apply(item, textProperty(), imageView.imageProperty());
             }
+        }
+
+        @Override
+        public Object getData(@Nonnull String key) {
+            return DataKeys.PATH.is(key) ? getItem() : null;
         }
     }
 }
