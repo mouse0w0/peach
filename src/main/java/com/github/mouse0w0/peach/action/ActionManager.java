@@ -65,7 +65,7 @@ public class ActionManager {
         return registeredActions.get(actionId);
     }
 
-    public void perform(String actionId, javafx.event.ActionEvent event) {
+    public void perform(String actionId, javafx.event.Event event) {
         getAction(actionId).perform(new ActionEvent(event.getSource()));
     }
 
