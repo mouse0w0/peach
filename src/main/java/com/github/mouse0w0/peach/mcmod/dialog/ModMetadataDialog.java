@@ -2,7 +2,9 @@ package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
+import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -54,6 +56,8 @@ public class ModMetadataDialog extends BorderPane {
         this.file = file;
         FXUtils.loadFXML(this, "ui/mcmod/ModMetadata.fxml");
 
+        Validator.error(id, ModUtils::isValidModId, I18n.translate("validate.illegalModId"));
+
         accordion.setExpandedPane(general);
 
         mcVersion.getItems().add("1.12.2");
@@ -90,16 +94,18 @@ public class ModMetadataDialog extends BorderPane {
 
     @FXML
     public void doSave() {
-        FXUtils.hideWindow(this);
-        McModMetadata info = file.get();
-        info.setName(name.getText());
-        info.setId(id.getText());
-        info.setVersion(version.getText());
-        info.setMcVersion(mcVersion.getValue());
-        info.setDescription(description.getText());
-        info.setAuthors(Collections.singletonList(author.getText()));
-        info.setLanguage(language.getValue());
-        file.save();
+        if (Validator.test(id)) {
+            FXUtils.hideWindow(this);
+            McModMetadata info = file.get();
+            info.setName(name.getText());
+            info.setId(id.getText());
+            info.setVersion(version.getText());
+            info.setMcVersion(mcVersion.getValue());
+            info.setDescription(description.getText());
+            info.setAuthors(Collections.singletonList(author.getText()));
+            info.setLanguage(language.getValue());
+            file.save();
+        }
     }
 
     @FXML
