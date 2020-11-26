@@ -155,5 +155,12 @@ dialog.rename.message.file=重命名文件“%s”为：
 dialog.rename.message.folder=重命名文件夹“%s”为：
 dialog.rename.error.fileAlreadyExists=文件“%s”已存在。
 
+dialog.paste.title=贴粘
+dialog.paste.message=“%1$s”已包含同名文件“%2$s”。
+dialog.button.overwrite=覆盖
+dialog.button.skip=跳过
+dialog.button.overwriteAll=覆盖所有
+dialog.button.skipAll=跳过所有
+
 view.Project.text=项目
 view.ItemFavorites.text=物品收藏夹
