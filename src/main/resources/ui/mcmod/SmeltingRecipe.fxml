@@ -17,7 +17,7 @@
                 <RowConstraints vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.smelting_recipe.xp"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.smeltingRecipe.xp"/>
                 <AnchorPane fx:id="recipeView" maxHeight="312.0" maxWidth="560.0" minHeight="312.0" minWidth="560.0"
                             prefHeight="312.0" prefWidth="560.0" GridPane.columnSpan="2" GridPane.rowIndex="1"/>
                 <Spinner editable="true" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" fx:id="xp"/>

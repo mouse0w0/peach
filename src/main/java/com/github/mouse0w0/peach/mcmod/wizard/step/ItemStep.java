@@ -37,7 +37,7 @@ public class ItemStep extends WizardStepBase {
 
         setContent(FXUtils.loadFXML(null, this, "ui/mcmod/ItemElement.fxml"));
 
-        Validator.error(registerName, ModUtils::isValidRegisterName, I18n.translate("validate.illegal_register_name"));
+        Validator.error(registerName, ModUtils::isValidRegisterName, I18n.translate("validate.illegalRegisterName"));
 
         maxStackSize.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 64, 64));
 

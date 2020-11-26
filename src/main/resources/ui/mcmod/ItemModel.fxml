@@ -17,9 +17,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_model.model"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemModel.model"/>
                 <ChoiceBox fx:id="model" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%ui.item_model.texture" GridPane.columnSpan="2"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemModel.texture" GridPane.columnSpan="2"
                       GridPane.rowIndex="1"/>
             </children>
         </GridPane>

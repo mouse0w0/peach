@@ -27,7 +27,7 @@ public final class McModProjectListener {
 
         Tab elementViewTab = new Tab();
         elementViewTab.setClosable(false);
-        elementViewTab.setText(I18n.translate("ui.element_view.title"));
+        elementViewTab.setText(I18n.translate("tab.elementView.title"));
         elementViewTab.setContent(ElementManager.getInstance(project).getElementView());
         window.openTab(elementViewTab);
     }

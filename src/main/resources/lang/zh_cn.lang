@@ -86,20 +86,21 @@ dialog.newElement.registry_name=注册名：
 validate.illegalFileName=非法的文件名：“%s”。
 validate.existsFile=文件“%s”已存在。
 
-ui.element_view.title=模组元素
+tab.elementView.title=模组元素
+
+validate.illegalRegisterName=非法的注册名：“%s”。注册名以小写字母开头，仅含小写字母，数字和下划线。
 
 mod.element.item=物品
 
-ui.item_element.register_name=注册名：
-ui.item_element.display_name=显示名：
-ui.item_element.item_group=创造标签：
-ui.item_element.max_stack_size=最大堆叠数量：
-ui.item_element.effect=发光效果：
-ui.item_element.information=附加信息：
-validate.illegal_register_name=非法的注册名：“%s”。注册名仅能包含小写字母，数字和下划线，并且为小写字母开头。
+wizard.itemElement.registerName=注册名：
+wizard.itemElement.displayName=显示名：
+wizard.itemElement.itemGroup=创造标签：
+wizard.itemElement.maxStackSize=最大堆叠数量：
+wizard.itemElement.effect=发光效果：
+wizard.itemElement.information=附加信息：
 
-ui.item_model.model=模型：
-ui.item_model.texture=纹理：
+wizard.itemModel.model=模型：
+wizard.itemModel.texture=纹理：
 
 mod.element.item_group=创造标签
 wizard.itemGroup.registerName=注册名：
@@ -109,15 +110,14 @@ wizard.itemGroup.icon=图标：
 
 mod.element.crafting_recipe=合成配方
 
-ui.crafting_recipe.id=配方名：
-ui.crafting_recipe.namespace=命名空间：
-ui.crafting_recipe.group=配方组：
-ui.crafting_recipe.shapeless=无序配方？
-validate.illegal_recipe_id=非法的配方名：“%s”。配方名仅能包含小写字母，数字和下划线，并且为小写字母开头。
+wizard.craftingRecipe.registerName=注册名：
+wizard.craftingRecipe.namespace=命名空间：
+wizard.craftingRecipe.group=配方组：
+wizard.craftingRecipe.shapeless=无序配方？
 
 mod.element.smelting_recipe=熔炼配方
 
-ui.smelting_recipe.xp=经验值：
+wizard.smeltingRecipe.xp=经验值：
 
 fileChooser.mcmod.texture.title=打开纹理文件
 
