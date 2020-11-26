@@ -136,7 +136,7 @@ public class Validator {
             if (!item.test(property.getValue())) {
                 invalidItem = item;
                 updateStyleClasses();
-                return item.getLevel() == NotificationLevel.ERROR;
+                return item.getLevel() != NotificationLevel.ERROR;
             }
         }
         updateStyleClasses();
