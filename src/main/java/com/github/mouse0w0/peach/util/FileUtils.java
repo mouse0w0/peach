@@ -212,12 +212,10 @@ public class FileUtils {
     }
 
     public static boolean deleteDirectory(File file) {
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-                for (File child : files) {
-                    deleteDirectory(child);
-                }
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File child : files) {
+                deleteDirectory(child);
             }
         }
         return file.delete();
