@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.ui.control;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.TextInputDialog;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.TextureViewSkin;
-import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -31,7 +31,7 @@ public class TextureView extends Control {
         getStyleClass().add("texture-view");
 
         setOnMouseClicked(event -> {
-            Path initialDirectory = TextureUtils.getTexturePath(getProject());
+            Path initialDirectory = ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES);
             FileUtils.createDirectoriesIfNotExistsSilently(initialDirectory);
 
             File file = FileChooserHelper.getInstance().open(this.getScene().getWindow(), "mcmod.texture",
@@ -75,7 +75,7 @@ public class TextureView extends Control {
             }
 
             String texture = "items/" + fileNameWithoutExt;
-            FileUtils.copyIfNotExists(source, TextureUtils.getTextureFile(getProject(), texture));
+            FileUtils.copyIfNotExists(source, ResourceUtils.getTextureFile(getProject(), texture));
             setTexture(texture);
             return true;
         } catch (IOException ignored) {

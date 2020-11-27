@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
 import com.github.mouse0w0.peach.mcmod.ui.control.TextureView;
-import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import javafx.scene.control.SkinBase;
@@ -31,7 +31,7 @@ public class TextureViewSkin extends SkinBase<TextureView> {
     }
 
     private Path getTextureFile(String textureName) {
-        return TextureUtils.getTextureFile(getProject(), textureName);
+        return ResourceUtils.getTextureFile(getProject(), textureName);
     }
 
     public Project getProject() {

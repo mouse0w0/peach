@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element.preview;
 
 import com.github.mouse0w0.peach.mcmod.element.PreviewGenerator;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
-import com.github.mouse0w0.peach.mcmod.util.TextureUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 
@@ -17,9 +17,9 @@ public class ItemPreview implements PreviewGenerator<ItemElement> {
             case "generated":
             case "handheld":
                 String layer0 = element.getTextures().get("layer0");
-                Path source = TextureUtils.getTextureFile(project, layer0);
+                Path source = ResourceUtils.getTextureFile(project, layer0);
                 if (Files.notExists(source)) {
-                    FileUtils.forceCopySilently(TextureUtils.getMissingTexture(), outputFile);
+                    FileUtils.forceCopySilently(ResourceUtils.getMissingTexture(), outputFile);
                 } else {
                     FileUtils.forceCopySilently(source, outputFile);
                 }
