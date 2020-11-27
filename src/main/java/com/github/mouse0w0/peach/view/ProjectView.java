@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 import javafx.collections.ObservableList;
+import javafx.css.PseudoClass;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -32,6 +33,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProjectView implements Disposable, DataProvider {
+    public static final PseudoClass DROP_HOVER = PseudoClass.getPseudoClass("drop-hover");
+
     private final Project project;
     private final Path rootPath;
 
@@ -176,7 +179,7 @@ public class ProjectView implements Disposable, DataProvider {
                 content.putFiles(files);
                 dragboard.setContent(content);
             });
-            addEventHandler(DragEvent.DRAG_OVER, event -> {
+            setOnDragOver(event -> {
                 event.consume();
                 if (event.getGestureSource() == event.getTarget()) return;
 
@@ -184,7 +187,7 @@ public class ProjectView implements Disposable, DataProvider {
                     event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                 }
             });
-            addEventHandler(DragEvent.DRAG_DROPPED, event -> {
+            setOnDragDropped(event -> {
                 event.consume();
                 Dragboard dragboard = event.getDragboard();
                 Clipboard systemClipboard = Clipboard.getSystemClipboard();
@@ -195,6 +198,14 @@ public class ProjectView implements Disposable, DataProvider {
                 event.setDropCompleted(true);
                 requestFocus();
             });
+            setOnDragEntered(event -> {
+                if (event.getGestureSource() == event.getTarget()) return;
+
+                if (event.getDragboard().hasFiles()) {
+                    pseudoClassStateChanged(DROP_HOVER, true);
+                }
+            });
+            setOnDragExited(event -> pseudoClassStateChanged(DROP_HOVER, false));
             DataManager.getInstance().registerDataProvider(this, this);
         }
 

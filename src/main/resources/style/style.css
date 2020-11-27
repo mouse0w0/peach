@@ -85,19 +85,24 @@
 #project-view .tree-cell:filled:selected,
 #project-view .tree-cell:focused {
     -fx-background-color: -peach-border-color;
-    -fx-text-fill: #000000;
+    -fx-text-fill: black;
 }
 
 #project-view:focused .tree-cell:filled:selected,
 #project-view:focused .tree-cell:focused {
     -fx-background-color: -peach-focused-color, -peach-border-color;
     -fx-background-insets: 0 0 0 0, 0 0 0 4;
-    -fx-text-fill: #000000;
+    -fx-text-fill: black;
 }
 
 #project-view .tree-cell:filled:selected > .tree-disclosure-node > .arrow,
 #project-view .tree-cell:focused > .tree-disclosure-node > .arrow {
-    -fx-background-color: #000000;
+    -fx-background-color: black;
+}
+
+#project-view .tree-cell:drop-hover {
+    -fx-background-color: -peach-focused-color;
+    -fx-text-fill: white;
 }
 
 .item-picker:hover,
