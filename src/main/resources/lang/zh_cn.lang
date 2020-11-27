@@ -126,7 +126,7 @@ model.item.generated=默认模型
 model.item.handheld=手持模型
 
 fileChooser.mcmod.export.title=导出Jar文件到
-dialog.export_to.failure=导出失败，请在日志中查看错误详情。
+mcmod.export.failure=导出失败，请在日志中查看错误详情。
 
 dialog.error.title=错误
 dialog.warning.title=警告

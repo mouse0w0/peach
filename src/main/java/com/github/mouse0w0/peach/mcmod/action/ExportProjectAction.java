@@ -45,7 +45,7 @@ public class ExportProjectAction extends Action {
                     FileUtils.forceCopy(source, file.toPath());
                 } catch (IOException e) {
                     LOGGER.error("Failed to export file: " + file, e);
-                    Alert.warning("dialog.export_to.failure");
+                    Alert.warning("mcmod.export.failure");
                 }
             }
         }, Platform::runLater);
