@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.dialog;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonBar;
@@ -27,6 +28,9 @@ public class TextInputDialog extends MyDialog<String> {
         vBox.setPadding(new Insets(10));
 
         label = new Label(message);
+        label.managedProperty().bind(Bindings.createBooleanBinding(
+                () -> label.getText() != null || label.getGraphic() != null,
+                label.textProperty(), label.graphicProperty()));
         editor = new TextField(text);
 
         vBox.getChildren().addAll(label, editor, getButtonBar());

@@ -143,6 +143,14 @@ dialog.button.finish=完成
 dialog.button.next=下一个
 dialog.button.previous=上一个
 
+action.NewFile.text=新建文件
+dialog.newFile.title=新建文件
+dialog.newFile.error.alreadyExists=文件“%s”已存在。
+
+action.NewDirectory.text=新建文件夹
+dialog.newDirectory.title=新建文件夹
+dialog.newDirectory.error.alreadyExists=文件夹“%s”已存在。
+
 dialog.delete.title=删除
 dialog.delete.message.file=删除“%s”文件？
 dialog.delete.message.files=删除“%1$s”等%2$s个文件？
