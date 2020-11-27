@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.data.DataProvider;
 import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.ClipboardUtils;
 import com.github.mouse0w0.peach.util.Disposable;
 import com.github.mouse0w0.peach.util.NioFileWatcher;
 import com.google.common.collect.ImmutableList;
@@ -165,8 +166,9 @@ public class ProjectView implements Disposable, DataProvider {
             setOnDragDetected(event -> {
                 MultipleSelectionModel<TreeItem<Path>> selectionModel = getTreeView().getSelectionModel();
                 if (selectionModel.isEmpty()) return;
-                Dragboard dragboard = startDragAndDrop(TransferMode.ANY);
+                Dragboard dragboard = startDragAndDrop(TransferMode.COPY_OR_MOVE);
                 ClipboardContent content = new ClipboardContent();
+                content.put(ClipboardUtils.TRANSFER_MODE, ClipboardUtils.TRANSFER_MODE_MOVE);
                 List<File> files = selectionModel.getSelectedItems()
                         .stream()
                         .map(treeItem -> treeItem.getValue().toFile())
@@ -179,21 +181,19 @@ public class ProjectView implements Disposable, DataProvider {
                 if (event.getGestureSource() == event.getTarget()) return;
 
                 if (event.getDragboard().hasFiles()) {
-                    event.acceptTransferModes(TransferMode.COPY);
+                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                 }
             });
             addEventHandler(DragEvent.DRAG_DROPPED, event -> {
                 event.consume();
                 Dragboard dragboard = event.getDragboard();
                 Clipboard systemClipboard = Clipboard.getSystemClipboard();
-                ClipboardContent content = new ClipboardContent();
-                for (DataFormat dataFormat : systemClipboard.getContentTypes()) {
-                    content.put(dataFormat, systemClipboard.getContent(dataFormat));
-                }
+                ClipboardContent content = ClipboardUtils.copyOf(systemClipboard);
                 systemClipboard.setContent(Collections.singletonMap(DataFormat.FILES, dragboard.getFiles()));
                 ActionManager.getInstance().perform("Paste", event);
                 systemClipboard.setContent(content);
                 event.setDropCompleted(true);
+                requestFocus();
             });
             DataManager.getInstance().registerDataProvider(this, this);
         }

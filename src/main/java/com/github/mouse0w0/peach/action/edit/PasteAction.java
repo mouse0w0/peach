@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
+import com.github.mouse0w0.peach.util.ClipboardUtils;
 import javafx.scene.input.Clipboard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +34,12 @@ public class PasteAction extends Action {
 
         Path folder = Files.isDirectory(path) ? path : path.getParent();
 
+        Clipboard clipboard = Clipboard.getSystemClipboard();
         List<File> files = Clipboard.getSystemClipboard().getFiles();
         boolean multiple = files.size() > 1;
         boolean overwriteAll = false;
         boolean skipAll = false;
+        boolean move = ClipboardUtils.hasTransferMode(clipboard, ClipboardUtils.TRANSFER_MODE_MOVE);
         for (File file : files) {
             Path source = file.toPath();
             Path target = folder.resolve(file.getName());
@@ -56,9 +59,17 @@ public class PasteAction extends Action {
                             overwriteAll = true;
                         }
                     }
-                    Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+                    if (move) {
+                        Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
+                    } else {
+                        Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+                    }
                 } else {
-                    Files.copy(source, target);
+                    if (move) {
+                        Files.move(source, target);
+                    } else {
+                        Files.copy(source, target);
+                    }
                 }
             } catch (IOException e) {
                 LOGGER.error("Failed to paste file because an exception has occurred.", e);

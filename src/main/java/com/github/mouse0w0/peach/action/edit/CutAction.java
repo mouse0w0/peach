@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.action.edit;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.util.ClipboardUtils;
 import com.google.common.collect.ImmutableList;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -22,6 +23,7 @@ public class CutAction extends Action {
             ClipboardContent content = new ClipboardContent();
             List<File> files = items.stream().map(item -> ((Path) item).toFile()).collect(ImmutableList.toImmutableList());
             content.putFiles(files);
+            content.put(ClipboardUtils.TRANSFER_MODE, ClipboardUtils.TRANSFER_MODE_MOVE);
             clipboard.setContent(content);
         }
     }
