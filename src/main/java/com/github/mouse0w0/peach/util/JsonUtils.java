@@ -10,12 +10,8 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class JsonUtils {
+public final class JsonUtils {
     private static final Gson GSON = new GsonBuilder().create();
-
-    public static JsonElement toJson(Object src) {
-        return GSON.toJsonTree(src);
-    }
 
     public static JsonPrimitive json(String value) {
         return new JsonPrimitive(value);
@@ -57,20 +53,24 @@ public class JsonUtils {
         return GSON;
     }
 
-    public static <T> T readJson(Path path, Class<T> classOfT) throws IOException {
-        try (Reader reader = Files.newBufferedReader(path)) {
+    public static JsonElement toJson(Object src) {
+        return GSON.toJsonTree(src);
+    }
+
+    public static <T> T readJson(Path file, Class<T> classOfT) throws IOException {
+        try (Reader reader = Files.newBufferedReader(file)) {
             return JsonUtils.gson().fromJson(reader, classOfT);
         }
     }
 
-    public static <T> T readJson(Path path, Type typeOfT) throws IOException {
-        try (Reader reader = Files.newBufferedReader(path)) {
+    public static <T> T readJson(Path file, Type typeOfT) throws IOException {
+        try (Reader reader = Files.newBufferedReader(file)) {
             return JsonUtils.gson().fromJson(reader, typeOfT);
         }
     }
 
-    public static <T> T readJson(Path path, TypeToken<T> typeToken) throws IOException {
-        try (Reader reader = Files.newBufferedReader(path)) {
+    public static <T> T readJson(Path file, TypeToken<T> typeToken) throws IOException {
+        try (Reader reader = Files.newBufferedReader(file)) {
             return JsonUtils.gson().fromJson(reader, typeToken.getType());
         }
     }
@@ -87,10 +87,13 @@ public class JsonUtils {
         return JsonUtils.gson().fromJson(jsonElement, typeToken.getType());
     }
 
-    public static void writeJson(Path path, Object object) throws IOException {
-        FileUtils.createFileIfNotExists(path);
-        try (Writer writer = Files.newBufferedWriter(path)) {
+    public static void writeJson(Path file, Object object) throws IOException {
+        FileUtils.createFileIfNotExists(file);
+        try (Writer writer = Files.newBufferedWriter(file)) {
             JsonUtils.gson().toJson(object, writer);
         }
+    }
+
+    private JsonUtils() {
     }
 }
