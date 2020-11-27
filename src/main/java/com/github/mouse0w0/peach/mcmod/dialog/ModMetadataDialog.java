@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
-import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,7 +20,7 @@ import java.util.Locale;
 
 public class ModMetadataDialog extends BorderPane {
 
-    private final JsonFile<McModMetadata> file;
+    private final McModDescriptor descriptor;
 
     @FXML
     public Accordion accordion;
@@ -42,8 +42,8 @@ public class ModMetadataDialog extends BorderPane {
     @FXML
     public TextArea description;
 
-    public static void show(JsonFile<McModMetadata> file, Window window) {
-        ModMetadataDialog modInfo = new ModMetadataDialog(file);
+    public static void show(McModDescriptor descriptor, Window window) {
+        ModMetadataDialog modInfo = new ModMetadataDialog(descriptor);
         Stage stage = new Stage();
         stage.setScene(new Scene(modInfo));
         stage.setTitle(I18n.translate("dialog.modMetadata.title"));
@@ -52,8 +52,8 @@ public class ModMetadataDialog extends BorderPane {
         stage.show();
     }
 
-    public ModMetadataDialog(JsonFile<McModMetadata> file) {
-        this.file = file;
+    public ModMetadataDialog(McModDescriptor descriptor) {
+        this.descriptor = descriptor;
         FXUtils.loadFXML(this, "ui/mcmod/ModMetadata.fxml");
 
         Validator.error(id, ModUtils::isValidModId, I18n.translate("validate.illegalModId"));
@@ -82,29 +82,29 @@ public class ModMetadataDialog extends BorderPane {
     }
 
     public void doLoad() {
-        McModMetadata info = file.get();
-        name.setText(info.getName());
-        id.setText(info.getId());
-        version.setText(info.getVersion());
-        mcVersion.setValue(info.getMcVersion());
-        description.setText(info.getDescription());
-        author.setText(info.getFirstAuthor());
-        language.setValue(info.getLanguage());
+        McModMetadata metadata = descriptor.getMetadata();
+        name.setText(metadata.getName());
+        id.setText(metadata.getId());
+        version.setText(metadata.getVersion());
+        mcVersion.setValue(metadata.getMcVersion());
+        description.setText(metadata.getDescription());
+        author.setText(metadata.getFirstAuthor());
+        language.setValue(metadata.getLanguage());
     }
 
     @FXML
     public void doSave() {
         if (Validator.test(id)) {
             FXUtils.hideWindow(this);
-            McModMetadata info = file.get();
-            info.setName(name.getText());
-            info.setId(id.getText());
-            info.setVersion(version.getText());
-            info.setMcVersion(mcVersion.getValue());
-            info.setDescription(description.getText());
-            info.setAuthors(Collections.singletonList(author.getText()));
-            info.setLanguage(language.getValue());
-            file.save();
+            McModMetadata metadata = descriptor.getMetadata();
+            metadata.setName(name.getText());
+            metadata.setId(id.getText());
+            metadata.setVersion(version.getText());
+            metadata.setMcVersion(mcVersion.getValue());
+            metadata.setDescription(description.getText());
+            metadata.setAuthors(Collections.singletonList(author.getText()));
+            metadata.setLanguage(language.getValue());
+            descriptor.saveMetadata();
         }
     }
 

@@ -13,8 +13,6 @@ public class OpenProjectSettingsAction extends Action {
     public void perform(ActionEvent event) {
         Project project = DataKeys.PROJECT.get(event);
         if (project == null) return;
-        ModMetadataDialog.show(
-                McModDescriptor.getInstance(project).getMetadata(),
-                WindowManager.getInstance().getStage(project));
+        ModMetadataDialog.show(McModDescriptor.getInstance(project), WindowManager.getInstance().getStage(project));
     }
 }

@@ -1,14 +1,21 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.util.JsonFile;
+import com.github.mouse0w0.peach.util.Disposable;
+import com.github.mouse0w0.peach.util.JsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
-public final class McModDescriptor {
+public final class McModDescriptor implements Disposable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(McModDescriptor.class);
+
     private final Project project;
 
-    private final JsonFile<McModMetadata> metadata;
+    private final Path metadataFile;
+    private McModMetadata metadata;
 
     private final Path resourcesPath;
 
@@ -19,7 +26,13 @@ public final class McModDescriptor {
     public McModDescriptor(Project project) {
         this.project = project;
 
-        this.metadata = new JsonFile<>(project.getPath().resolve(McModMetadata.FILE_NAME), McModMetadata.class).load();
+        this.metadataFile = project.getPath().resolve(McModMetadata.FILE_NAME);
+        try {
+            this.metadata = JsonUtils.readJson(metadataFile, McModMetadata.class);
+        } catch (IOException e) {
+            LOGGER.error("Failed to read metadata.", e);
+            this.metadata = new McModMetadata();
+        }
 
         this.resourcesPath = project.getPath().resolve("resources");
     }
@@ -29,14 +42,31 @@ public final class McModDescriptor {
     }
 
     public String getModId() {
-        return metadata.get().getId();
+        return metadata.getId();
     }
 
-    public JsonFile<McModMetadata> getMetadata() {
+    public Path getMetadataFile() {
+        return metadataFile;
+    }
+
+    public McModMetadata getMetadata() {
         return metadata;
+    }
+
+    public void saveMetadata() {
+        try {
+            JsonUtils.writeJson(metadataFile, metadata);
+        } catch (IOException e) {
+            LOGGER.error("Failed to write metadata.", e);
+        }
     }
 
     public Path getResourcesPath() {
         return resourcesPath;
+    }
+
+    @Override
+    public void dispose() {
+        saveMetadata();
     }
 }

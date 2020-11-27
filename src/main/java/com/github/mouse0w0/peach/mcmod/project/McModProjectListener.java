@@ -7,8 +7,9 @@ import com.github.mouse0w0.peach.mcmod.dialog.ModMetadataDialog;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
-import com.github.mouse0w0.peach.util.JsonFile;
 import javafx.scene.control.Tab;
+
+import java.nio.file.Files;
 
 public final class McModProjectListener {
 
@@ -19,10 +20,10 @@ public final class McModProjectListener {
     private void onOpenedProjectWindow(ProjectWindowEvent.Opened event) {
         ProjectWindow window = event.getWindow();
         Project project = window.getProject();
-        JsonFile<McModMetadata> modInfoFile = McModDescriptor.getInstance(project).getMetadata();
+        McModDescriptor descriptor = McModDescriptor.getInstance(project);
 
-        if (!modInfoFile.exists()) {
-            ModMetadataDialog.show(modInfoFile, window.getStage());
+        if (Files.notExists(descriptor.getMetadataFile())) {
+            ModMetadataDialog.show(descriptor, window.getStage());
         }
 
         Tab elementViewTab = new Tab();
