@@ -43,6 +43,7 @@ public class PasteAction extends Action {
         for (File file : files) {
             Path source = file.toPath();
             Path target = folder.resolve(file.getName());
+            if (source.equals(target)) continue;
             try {
                 if (Files.exists(target)) {
                     if (skipAll) continue;
