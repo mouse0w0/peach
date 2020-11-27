@@ -7,6 +7,9 @@ public class PasteDialog extends Alert {
     public static final ButtonType OVERWRITE =
             new ButtonType("dialog.button.overwrite", ButtonBar.ButtonData.OK_DONE);
 
+    public static final ButtonType RENAME =
+            new ButtonType("dialog.button.rename", ButtonBar.ButtonData.APPLY);
+
     public static final ButtonType SKIP =
             new ButtonType("dialog.button.skip", ButtonBar.ButtonData.CANCEL_CLOSE);
 
@@ -20,9 +23,9 @@ public class PasteDialog extends Alert {
         super(title, text);
         getButtonBar().setButtonOrder(ButtonBar.BUTTON_ORDER_NONE);
         if (multiple) {
-            getButtons().setAll(OVERWRITE, SKIP, OVERWRITE_ALL, SKIP_ALL);
+            getButtons().setAll(OVERWRITE, RENAME, SKIP, OVERWRITE_ALL, SKIP_ALL);
         } else {
-            getButtons().setAll(OVERWRITE, SKIP);
+            getButtons().setAll(OVERWRITE, RENAME, SKIP);
         }
     }
 }
