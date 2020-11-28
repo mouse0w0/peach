@@ -336,7 +336,7 @@ public class MyDialog<R> implements EventTarget {
             setResultAndClose(cancelButton, false);
         }
 
-        stage.close();
+        stage.hide();
 
         closing = false;
     }
