@@ -6,7 +6,7 @@ import com.github.mouse0w0.coffeemaker.template.Field;
 import com.github.mouse0w0.coffeemaker.template.Template;
 import com.github.mouse0w0.peach.mcmod.compiler.Environment;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.util.ItemGroupsClass;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
@@ -18,15 +18,17 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class ItemGen extends Generator<ItemElement> {
+
+    private static final String ITEM_GROUP_DESCRIPTOR = "Lnet/minecraft/creativetab/CreativeTabs;";
+
     private final List<Field> items = new ArrayList<>();
+    private final List<ItemGroupDef> itemGroups = new ArrayList<>();
 
     private Template templateItem;
-    private Template templateModItems;
-    private Template templateModItemModels;
 
     private String modItemsInternalName;
     private String modItemModelsInternalName;
-    private ItemGroupsClass itemGroupsClass;
+    private String itemGroupsInternalName;
 
     private String itemPackageName;
     private String namespace;
@@ -41,10 +43,7 @@ public class ItemGen extends Generator<ItemElement> {
 
     @Override
     protected void before(Environment environment, Collection<ItemElement> elements) throws Exception {
-        CoffeeMaker coffeeMaker = environment.getCoffeeMaker();
-        templateItem = coffeeMaker.getTemplate("template/item/TemplateItem");
-        templateModItems = coffeeMaker.getTemplate("template/item/ModItems");
-        templateModItemModels = coffeeMaker.getTemplate("template/client/item/ModItemModels");
+        templateItem = environment.getCoffeeMaker().getTemplate("template/item/TemplateItem");
 
         String packageName = environment.getRootPackageName();
         namespace = environment.getMetadata().getId();
@@ -52,27 +51,28 @@ public class ItemGen extends Generator<ItemElement> {
         itemPackageName = packageName + ".item";
         modItemsInternalName = ASMUtils.getInternalName(packageName + ".item.ModItems");
         modItemModelsInternalName = ASMUtils.getInternalName(packageName + ".client.item.ModItemModels");
-        itemGroupsClass = new ItemGroupsClass(packageName + ".init.ItemGroups");
+        itemGroupsInternalName = ASMUtils.getInternalName(packageName + ".init.ItemGroups");
     }
 
     @Override
     protected void after(Environment environment, Collection<ItemElement> elements) throws Exception {
+        CoffeeMaker coffeeMaker = environment.getCoffeeMaker();
         Filer classesFiler = environment.getClassesFiler();
+
         Map<String, Object> map = new HashMap<>();
         map.put("modid", environment.getMetadata().getId());
         map.put("items", items);
         SimpleEvaluator itemsEvaluator = new SimpleEvaluator(map);
+        classesFiler.write(modItemsInternalName + ".class",
+                coffeeMaker.getTemplate("template/item/ModItems")
+                        .process(modItemsInternalName, itemsEvaluator));
+        classesFiler.write(modItemModelsInternalName + ".class",
+                coffeeMaker.getTemplate("template/client/item/ModItemModels")
+                        .process(modItemModelsInternalName, itemsEvaluator));
 
-        {
-            byte[] bytes = templateModItems.process(modItemsInternalName, itemsEvaluator);
-            classesFiler.write(modItemsInternalName + ".class", bytes);
-        }
-        {
-            byte[] bytes = templateModItemModels.process(modItemModelsInternalName, itemsEvaluator);
-            classesFiler.write(modItemModelsInternalName + ".class", bytes);
-        }
-
-        itemGroupsClass.save(classesFiler);
+        classesFiler.write(itemGroupsInternalName + ".class",
+                coffeeMaker.getTemplate("template/init/ItemGroups")
+                        .process(itemGroupsInternalName, new SimpleEvaluator(itemGroups)));
     }
 
     @Override
@@ -81,12 +81,15 @@ public class ItemGen extends Generator<ItemElement> {
         String internalName = ASMUtils.getInternalName(itemPackageName, ItemGen.getItemClassName(registerName));
         items.add(new Field(modItemsInternalName, ItemGen.getItemFieldName(registerName), ASMUtils.getDescriptor(internalName)));
 
-        itemGroupsClass.visitItemGroup(item.getItemGroup());
+        String itemGroup = item.getItemGroup();
+        ItemGroupDef itemGroupDef = new ItemGroupDef(itemGroup,
+                new Field(itemGroupsInternalName, itemGroup.toUpperCase(), ITEM_GROUP_DESCRIPTOR));
+        itemGroups.add(itemGroupDef);
 
         Map<String, Object> map = new HashMap<>();
         map.put("registerName", namespace + ":" + item.getRegisterName());
         map.put("translationKey", namespace + "." + item.getRegisterName());
-        map.put("itemGroup", new Field(itemGroupsClass.getInternalName(), item.getItemGroup().toUpperCase(), "Lnet/minecraft/creativetab/CreativeTabs;"));
+        map.put("itemGroup", itemGroupDef.field);
         map.put("maxStackSize", item.getMaxStackSize());
         map.put("hasEffect", item.isHasEffect());
 
