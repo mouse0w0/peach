@@ -15,8 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
-public class PasteContext {
+public class PasteContext implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PasteContext.class);
 
@@ -28,16 +29,24 @@ public class PasteContext {
     private final boolean multiple;
     private final boolean move;
 
+    private final Function<Path, Path> renameHandler;
+
     private boolean overwriteAll = false;
     private boolean skipAll = false;
 
     public PasteContext(List<Path> files, Path folder, boolean move) {
+        this(files, folder, move, null);
+    }
+
+    public PasteContext(List<Path> files, Path folder, boolean move, Function<Path, Path> renameHandler) {
         this.files = files;
         this.folder = folder;
         this.multiple = files.size() > 1;
         this.move = move;
+        this.renameHandler = renameHandler;
     }
 
+    @Override
     public void run() {
         for (Path file : files) {
             handle(file, folder.resolve(file.getFileName()));
@@ -78,7 +87,7 @@ public class PasteContext {
                 } else if (buttonType == PasteDialog.OVERWRITE_ALL) {
                     overwriteAll = true;
                 } else if (buttonType == PasteDialog.RENAME) {
-                    target = new RenameDialog(target).showAndWait().orElse(target);
+                    target = rename(target);
                     continue;
                 }
                 forceCopyOrMove(source, target);
@@ -86,6 +95,14 @@ public class PasteContext {
         }
 
         copyOrMove(source, target);
+    }
+
+    private Path rename(Path target) {
+        if (renameHandler == null) {
+            return new RenameDialog(target).showAndWait().orElse(target);
+        } else {
+            return renameHandler.apply(target);
+        }
     }
 
     private void forceCopyOrMove(Path source, Path target) throws IOException {
