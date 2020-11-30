@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
-import com.github.mouse0w0.peach.mcmod.compiler.Environment;
+import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import org.objectweb.asm.AnnotationVisitor;
@@ -13,10 +13,10 @@ import static org.objectweb.asm.Opcodes.*;
 public class MainClassTask implements CompileTask {
 
     @Override
-    public void run(Environment environment) throws Exception {
-        McModMetadata modSettings = environment.getMetadata();
+    public void run(Compiler compiler) throws Exception {
+        McModMetadata modSettings = compiler.getMetadata();
         String className = ASMUtils.normalizeClassName(modSettings.getId());
-        String internalClassName = ASMUtils.getInternalName(environment.getRootPackageName(), className);
+        String internalClassName = ASMUtils.getInternalName(compiler.getRootPackageName(), className);
 
         ClassWriter classWriter = new ClassWriter(0);
         MethodVisitor methodVisitor;
@@ -40,7 +40,7 @@ public class MainClassTask implements CompileTask {
                 annotationVisitor0.visitEnd();
             }
             methodVisitor.visitCode();
-            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(environment.getRootPackageName() + ".itemGroup.ModItemGroups"), "init", "()V", false);
+            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(compiler.getRootPackageName() + ".itemGroup.ModItemGroups"), "init", "()V", false);
             methodVisitor.visitInsn(RETURN);
             methodVisitor.visitMaxs(0, 2);
             methodVisitor.visitEnd();
@@ -52,13 +52,13 @@ public class MainClassTask implements CompileTask {
                 annotationVisitor0.visitEnd();
             }
             methodVisitor.visitCode();
-            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(environment.getRootPackageName(), "SmeltingRecipes"), "init", "()V", false);
+            methodVisitor.visitMethodInsn(INVOKESTATIC, ASMUtils.getInternalName(compiler.getRootPackageName(), "SmeltingRecipes"), "init", "()V", false);
             methodVisitor.visitInsn(RETURN);
             methodVisitor.visitMaxs(0, 2);
             methodVisitor.visitEnd();
         }
         classWriter.visitEnd();
 
-        environment.getClassesFiler().write(internalClassName + ".class", classWriter.toByteArray());
+        compiler.getClassesFiler().write(internalClassName + ".class", classWriter.toByteArray());
     }
 }

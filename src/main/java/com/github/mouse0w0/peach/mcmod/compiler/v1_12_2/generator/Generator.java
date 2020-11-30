@@ -1,26 +1,26 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
-import com.github.mouse0w0.peach.mcmod.compiler.Environment;
+import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 
 import java.util.Collection;
 
 public abstract class Generator<T> {
 
-    public void generate(Environment environment, Collection<T> elements) throws Exception {
-        before(environment, elements);
+    public void generate(Compiler compiler, Collection<T> elements) throws Exception {
+        before(compiler, elements);
         for (T element : elements) {
-            generate(environment, element);
+            generate(compiler, element);
         }
-        after(environment, elements);
+        after(compiler, elements);
     }
 
-    protected void before(Environment environment, Collection<T> elements) throws Exception {
+    protected void before(Compiler compiler, Collection<T> elements) throws Exception {
         // Nothing to do
     }
 
-    protected void after(Environment environment, Collection<T> elements) throws Exception {
+    protected void after(Compiler compiler, Collection<T> elements) throws Exception {
         // Nothing to do
     }
 
-    protected abstract void generate(Environment environment, T element) throws Exception;
+    protected abstract void generate(Compiler compiler, T element) throws Exception;
 }

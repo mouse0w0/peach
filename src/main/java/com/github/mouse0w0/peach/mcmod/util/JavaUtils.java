@@ -27,4 +27,12 @@ public class JavaUtils {
     public static String lowerUnderscoreToUpperCamel(String s) {
         return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, s);
     }
+
+    public static String lowerUnderscoreToLowerCamel(String s) {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, s);
+    }
+
+    public static String lowerUnderscoreToUpperUnderscore(String s) {
+        return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, s);
+    }
 }

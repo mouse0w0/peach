@@ -1,10 +1,11 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
 import com.github.mouse0w0.coffeemaker.CoffeeMaker;
-import com.github.mouse0w0.coffeemaker.evaluator.SimpleEvaluator;
+import com.github.mouse0w0.coffeemaker.evaluator.Evaluator;
+import com.github.mouse0w0.coffeemaker.evaluator.LocalVar;
 import com.github.mouse0w0.coffeemaker.template.Field;
 import com.github.mouse0w0.coffeemaker.template.Template;
-import com.github.mouse0w0.peach.mcmod.compiler.Environment;
+import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
@@ -33,20 +34,12 @@ public class ItemGen extends Generator<ItemElement> {
     private String itemPackageName;
     private String namespace;
 
-    public static String getItemFieldName(String registerName) {
-        return registerName.toUpperCase();
-    }
-
-    public static String getItemClassName(String registerName) {
-        return JavaUtils.lowerUnderscoreToUpperCamel(registerName);
-    }
-
     @Override
-    protected void before(Environment environment, Collection<ItemElement> elements) throws Exception {
-        templateItem = environment.getCoffeeMaker().getTemplate("template/item/TemplateItem");
+    protected void before(Compiler compiler, Collection<ItemElement> elements) throws Exception {
+        templateItem = compiler.getCoffeeMaker().getTemplate("template/item/TemplateItem");
 
-        String packageName = environment.getRootPackageName();
-        namespace = environment.getMetadata().getId();
+        String packageName = compiler.getRootPackageName();
+        namespace = compiler.getMetadata().getId();
 
         itemPackageName = packageName + ".item";
         modItemsInternalName = ASMUtils.getInternalName(packageName + ".item.ModItems");
@@ -55,64 +48,67 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     @Override
-    protected void after(Environment environment, Collection<ItemElement> elements) throws Exception {
-        CoffeeMaker coffeeMaker = environment.getCoffeeMaker();
-        Filer classesFiler = environment.getClassesFiler();
+    protected void after(Compiler compiler, Collection<ItemElement> elements) throws Exception {
+        CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
+        Filer classesFiler = compiler.getClassesFiler();
 
         Map<String, Object> map = new HashMap<>();
-        map.put("modid", environment.getMetadata().getId());
+        map.put("modid", compiler.getMetadata().getId());
         map.put("items", items);
-        SimpleEvaluator itemsEvaluator = new SimpleEvaluator(map);
-        classesFiler.write(modItemsInternalName + ".class",
-                coffeeMaker.getTemplate("template/item/ModItems")
-                        .process(modItemsInternalName, itemsEvaluator));
-        classesFiler.write(modItemModelsInternalName + ".class",
-                coffeeMaker.getTemplate("template/client/item/ModItemModels")
-                        .process(modItemModelsInternalName, itemsEvaluator));
+        Evaluator evaluator = compiler.getEvaluator();
+        try (LocalVar localVar = evaluator.pushLocalVar()) {
+            localVar.put("items", items);
+            localVar.put("itemGroups", itemGroups);
 
-        classesFiler.write(itemGroupsInternalName + ".class",
-                coffeeMaker.getTemplate("template/init/ItemGroups")
-                        .process(itemGroupsInternalName, new SimpleEvaluator(itemGroups)));
+            classesFiler.write(modItemsInternalName + ".class",
+                    coffeeMaker.getTemplate("template/item/ModItems")
+                            .process(modItemsInternalName, evaluator));
+            classesFiler.write(modItemModelsInternalName + ".class",
+                    coffeeMaker.getTemplate("template/client/item/ModItemModels")
+                            .process(modItemModelsInternalName, evaluator));
+            classesFiler.write(itemGroupsInternalName + ".class",
+                    coffeeMaker.getTemplate("template/init/ItemGroups")
+                            .process(itemGroupsInternalName, evaluator));
+        }
     }
 
     @Override
-    protected void generate(Environment environment, ItemElement item) throws Exception {
+    protected void generate(Compiler compiler, ItemElement item) throws Exception {
         String registerName = item.getRegisterName();
-        String internalName = ASMUtils.getInternalName(itemPackageName, ItemGen.getItemClassName(registerName));
-        items.add(new Field(modItemsInternalName, ItemGen.getItemFieldName(registerName), ASMUtils.getDescriptor(internalName)));
+        String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(registerName));
+        items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(registerName), ASMUtils.getDescriptor(internalName)));
 
         String itemGroup = item.getItemGroup();
         ItemGroupDef itemGroupDef = new ItemGroupDef(itemGroup,
                 new Field(itemGroupsInternalName, itemGroup.toUpperCase(), ITEM_GROUP_DESCRIPTOR));
         itemGroups.add(itemGroupDef);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("registerName", namespace + ":" + item.getRegisterName());
-        map.put("translationKey", namespace + "." + item.getRegisterName());
-        map.put("itemGroup", itemGroupDef.field);
-        map.put("maxStackSize", item.getMaxStackSize());
-        map.put("hasEffect", item.isHasEffect());
+        Evaluator evaluator = compiler.getEvaluator();
+        try (LocalVar localVar = evaluator.pushLocalVar()) {
+            localVar.put("item", item);
+            localVar.put("ITEM_GROUPS_CLASS", itemGroupsInternalName);
 
-        byte[] bytes = templateItem.process(internalName, new SimpleEvaluator(map));
-        environment.getClassesFiler().write(internalName + ".class", bytes);
+            compiler.getClassesFiler().write(internalName + ".class",
+                    templateItem.process(internalName, evaluator));
+        }
 
-        JsonModel model = environment.getModelManager().getItemModel(item.getModel());
+        JsonModel model = compiler.getModelManager().getItemModel(item.getModel());
         Map<String, String> textures = new LinkedHashMap<>();
         item.getTextures().forEach((key, value) -> textures.put(key, namespace + ":" + value));
         model.setTextures(textures);
 
-        Filer assetsFiler = environment.getAssetsFiler();
+        Filer assetsFiler = compiler.getAssetsFiler();
         try (BufferedWriter writer = assetsFiler.newWriter("models", "item", registerName + ".json")) {
             JsonModelHelper.GSON.toJson(model, writer);
         }
 
         for (String texture : item.getTextures().values()) {
-            Path textureFile = getItemTextureFilePath(environment, texture);
+            Path textureFile = getItemTextureFilePath(compiler, texture);
             assetsFiler.copy(textureFile, "textures/" + texture + ".png");
         }
     }
 
-    private Path getItemTextureFilePath(Environment environment, String textureName) {
-        return environment.getSourceDirectory().resolve("resources/textures/" + textureName + ".png");
+    private Path getItemTextureFilePath(Compiler compiler, String textureName) {
+        return compiler.getSourceDirectory().resolve("resources/textures/" + textureName + ".png");
     }
 }

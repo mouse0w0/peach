@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
-import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
+import com.github.mouse0w0.peach.mcmod.compiler.CompilerImpl;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
@@ -29,7 +29,7 @@ public class ExportProjectAction extends Action {
         if (project == null) return;
 
         CompletableFuture.supplyAsync(() -> {
-            Compiler compiler = new Compiler(project.getPath(), project.getPath().resolve("build"));
+            CompilerImpl compiler = new CompilerImpl(project.getPath(), project.getPath().resolve("build"));
             compiler.run();
             return compiler;
         }, Scheduler.computation()).thenAcceptAsync(compiler -> {

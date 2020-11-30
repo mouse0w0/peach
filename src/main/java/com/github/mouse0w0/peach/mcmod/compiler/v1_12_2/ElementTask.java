@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
-import com.github.mouse0w0.peach.mcmod.compiler.Environment;
+import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
@@ -24,12 +24,12 @@ public class ElementTask implements CompileTask {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void run(Environment environment) throws Exception {
-        Multimap<ElementType<?>, Element> elements = environment.getElements();
+    public void run(Compiler compiler) throws Exception {
+        Multimap<ElementType<?>, Element> elements = compiler.getElements();
 
         for (ElementType<?> type : ElementRegistry.getInstance().getElementTypes()) {
             Generator generator = generatorMap.get(type.getName());
-            generator.generate(environment, elements.get(type));
+            generator.generate(compiler, elements.get(type));
         }
     }
 }

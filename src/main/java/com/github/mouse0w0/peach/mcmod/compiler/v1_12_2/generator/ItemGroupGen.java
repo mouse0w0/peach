@@ -1,55 +1,55 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
 import com.github.mouse0w0.coffeemaker.CoffeeMaker;
-import com.github.mouse0w0.coffeemaker.evaluator.SimpleEvaluator;
+import com.github.mouse0w0.coffeemaker.evaluator.Evaluator;
+import com.github.mouse0w0.coffeemaker.evaluator.LocalVar;
 import com.github.mouse0w0.coffeemaker.template.Template;
-import com.github.mouse0w0.peach.mcmod.compiler.Environment;
+import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.util.JavaUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ItemGroupGen extends Generator<ItemGroup> {
 
-    private final List<String> itemGroupClasses = new ArrayList<>();
+    private final List<String> classes = new ArrayList<>();
 
     private Template templateItemGroup;
     private Template templateModItemGroups;
 
-    private String namespace;
     private String packageName;
 
     @Override
-    protected void before(Environment environment, Collection<ItemGroup> elements) throws Exception {
-        CoffeeMaker coffeeMaker = environment.getCoffeeMaker();
+    protected void before(Compiler compiler, Collection<ItemGroup> elements) throws Exception {
+        CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
         templateItemGroup = coffeeMaker.getTemplate("template/itemGroup/TemplateItemGroup");
         templateModItemGroups = coffeeMaker.getTemplate("template/itemGroup/ModItemGroups");
-        namespace = environment.getMetadata().getId();
-        packageName = environment.getRootPackageName() + ".itemGroup";
+        packageName = compiler.getRootPackageName() + ".itemGroup";
     }
 
     @Override
-    protected void after(Environment environment, Collection<ItemGroup> elements) throws Exception {
+    protected void after(Compiler compiler, Collection<ItemGroup> elements) throws Exception {
         String internalName = ASMUtils.getInternalName(packageName + ".ModItemGroups");
-        Map<String, Object> map = Collections.singletonMap("itemGroupClasses", itemGroupClasses);
-        byte[] bytes = templateModItemGroups.process(internalName, new SimpleEvaluator(map));
-        environment.getClassesFiler().write(internalName + ".class", bytes);
+        Evaluator evaluator = compiler.getEvaluator();
+        try (LocalVar localVar = evaluator.pushLocalVar()) {
+            localVar.put("classes", classes);
+            compiler.getClassesFiler().write(internalName + ".class",
+                    templateModItemGroups.process(internalName, evaluator));
+        }
     }
 
     @Override
-    protected void generate(Environment environment, ItemGroup itemGroup) throws Exception {
+    protected void generate(Compiler compiler, ItemGroup itemGroup) throws Exception {
         String internalName = ASMUtils.getInternalName(packageName, JavaUtils.lowerUnderscoreToUpperCamel(itemGroup.getRegisterName()) + "ItemGroup");
-
-        itemGroupClasses.add(internalName);
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("registerName", itemGroup.getRegisterName());
-        map.put("translationKey", "itemGroup." + namespace + "." + itemGroup.getRegisterName());
-        map.put("icon", itemGroup.getIcon());
-        map.put("hasSearchBar", itemGroup.isHasSearchBar());
-
-        byte[] bytes = templateItemGroup.process(internalName, new SimpleEvaluator(map));
-        environment.getClassesFiler().write(internalName + ".class", bytes);
+        classes.add(internalName);
+        Evaluator evaluator = compiler.getEvaluator();
+        try (LocalVar localVar = evaluator.pushLocalVar()) {
+            localVar.put("itemGroup", itemGroup);
+            compiler.getClassesFiler().write(internalName + ".class",
+                    templateItemGroup.process(internalName, evaluator));
+        }
     }
 }
