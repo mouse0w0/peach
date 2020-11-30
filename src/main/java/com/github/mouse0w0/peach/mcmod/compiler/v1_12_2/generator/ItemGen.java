@@ -109,6 +109,6 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     private Path getItemTextureFilePath(Compiler compiler, String textureName) {
-        return compiler.getSourceDirectory().resolve("resources/textures/" + textureName + ".png");
+        return compiler.getProjectStructure().getTextures().resolve(textureName + ".png");
     }
 }

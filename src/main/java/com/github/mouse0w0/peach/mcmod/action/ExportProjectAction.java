@@ -42,7 +42,7 @@ public class ExportProjectAction extends Action {
                     new FileChooser.ExtensionFilter("Jar", "*.jar"));
             if (file != null) {
                 try {
-                    Path source = compiler.getOutputDirectory().resolve("artifacts/" + fileName);
+                    Path source = compiler.getOutputFolder().resolve("artifacts/" + fileName);
                     FileUtils.forceCopy(source, file.toPath());
                 } catch (IOException e) {
                     LOGGER.error("Failed to export file: " + file, e);

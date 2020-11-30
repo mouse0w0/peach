@@ -22,8 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public final class CompilerImpl implements Compiler {
-    private final Path sourceDirectory;
-    private final Path outputDirectory;
+    private final ProjectStructure projectStructure;
+    private final Path outputFolder;
 
     private final Messager messager = new MessagerImpl();
 
@@ -46,9 +46,9 @@ public final class CompilerImpl implements Compiler {
 
     private final List<CompileTask> taskList = new ArrayList<>();
 
-    public CompilerImpl(Path sourceDirectory, Path outputDirectory) {
-        this.sourceDirectory = sourceDirectory;
-        this.outputDirectory = outputDirectory;
+    public CompilerImpl(Path sourceFolder, Path outputFolder) {
+        this.projectStructure = new ProjectStructure(sourceFolder);
+        this.outputFolder = outputFolder;
     }
 
     @Override
@@ -62,13 +62,18 @@ public final class CompilerImpl implements Compiler {
     }
 
     @Override
-    public Path getSourceDirectory() {
-        return sourceDirectory;
+    public Path getSourceFolder() {
+        return projectStructure.getRoot();
     }
 
     @Override
-    public Path getOutputDirectory() {
-        return outputDirectory;
+    public ProjectStructure getProjectStructure() {
+        return projectStructure;
+    }
+
+    @Override
+    public Path getOutputFolder() {
+        return outputFolder;
     }
 
     @Override
@@ -118,9 +123,9 @@ public final class CompilerImpl implements Compiler {
 
     private void doInitialize() {
         try {
-            FileUtils.createDirectoriesIfNotExists(getOutputDirectory());
+            FileUtils.createDirectoriesIfNotExists(getOutputFolder());
 
-            metadata = JsonUtils.readJson(getSourceDirectory().resolve(McModMetadata.FILE_NAME), McModMetadata.class);
+            metadata = JsonUtils.readJson(getSourceFolder().resolve(McModMetadata.FILE_NAME), McModMetadata.class);
 
             rootPackageName = "peach.generated." + getMetadata().getId();
 
@@ -133,8 +138,8 @@ public final class CompilerImpl implements Compiler {
             evaluator = new AviatorEvaluator();
             evaluator.getEnv().put("metadata", metadata);
 
-            classesFiler = new Filer(getOutputDirectory().resolve("classes"));
-            resourcesFiler = new Filer(getOutputDirectory().resolve("resources"));
+            classesFiler = new Filer(getOutputFolder().resolve("classes"));
+            resourcesFiler = new Filer(getOutputFolder().resolve("resources"));
             assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getMetadata().getId()));
 
             taskList.add(new CleanTask());
@@ -144,7 +149,7 @@ public final class CompilerImpl implements Compiler {
             taskList.add(new ModInfoTask());
             taskList.add(new AssetsInfoTask());
 
-            Path outputFile = getOutputDirectory().resolve("artifacts/" + metadata.getId() + "-" + metadata.getVersion() + ".jar");
+            Path outputFile = getOutputFolder().resolve("artifacts/" + metadata.getId() + "-" + metadata.getVersion() + ".jar");
             taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
         } catch (Exception e) {
             getMessager().error("Caught an exception when initializing compiler.", e);
@@ -152,7 +157,7 @@ public final class CompilerImpl implements Compiler {
     }
 
     private Multimap<ElementType<?>, Element> loadElements() throws IOException {
-        Path sources = getSourceDirectory().resolve("sources");
+        Path sources = getProjectStructure().getSources();
 
         Multimap<ElementType<?>, Element> elements = HashMultimap.create();
 

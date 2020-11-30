@@ -16,9 +16,11 @@ public interface Compiler {
 
     McModMetadata getMetadata();
 
-    Path getSourceDirectory();
+    Path getSourceFolder();
 
-    Path getOutputDirectory();
+    ProjectStructure getProjectStructure();
+
+    Path getOutputFolder();
 
     String getRootPackageName();
 
