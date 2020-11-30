@@ -54,15 +54,11 @@ public class Validator {
     }
 
     public static <T> void error(Node node, Predicate<T> predicate, String message) {
-        new Validator(node, check(predicate, NotificationLevel.ERROR, message)).register();
+        new Validator(node, new CheckItem<>(predicate, NotificationLevel.ERROR, message)).register();
     }
 
     public static <T> void warning(Node node, Predicate<T> predicate, String message) {
-        new Validator(node, check(predicate, NotificationLevel.WARNING, message)).register();
-    }
-
-    public static <T> CheckItem<T> check(Predicate<T> predicate, NotificationLevel level, String message) {
-        return new CheckItem<>(predicate, level, message);
+        new Validator(node, new CheckItem<>(predicate, NotificationLevel.WARNING, message)).register();
     }
 
     public static boolean test(Node... nodes) {
@@ -150,38 +146,5 @@ public class Validator {
         styleClass.removeAll(ERROR, WARNING);
         if (type == NotificationLevel.ERROR) styleClass.add(ERROR);
         else if (type == NotificationLevel.WARNING) styleClass.add(WARNING);
-    }
-
-    public static class CheckItem<T> implements Comparable<CheckItem<T>> {
-        private final Predicate<T> predicate;
-        private final NotificationLevel level;
-        private final String message;
-
-        public CheckItem(Predicate<T> predicate, NotificationLevel level, String message) {
-            this.predicate = predicate;
-            this.level = level;
-            this.message = message;
-        }
-
-        public Predicate<T> getPredicate() {
-            return predicate;
-        }
-
-        public NotificationLevel getLevel() {
-            return level;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public boolean test(T value) {
-            return predicate.test(value);
-        }
-
-        @Override
-        public int compareTo(CheckItem<T> o) {
-            return level.compareTo(o.level);
-        }
     }
 }
