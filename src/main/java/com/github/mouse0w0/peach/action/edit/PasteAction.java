@@ -28,6 +28,6 @@ public class PasteAction extends Action {
         final List<Path> files = clipboard.getFiles().stream().map(File::toPath).collect(Collectors.toList());
         final Path folder = Files.isDirectory(path) ? path : path.getParent();
         final boolean move = ClipboardUtils.hasTransferMode(clipboard, ClipboardUtils.TRANSFER_MODE_MOVE);
-        new PasteContext(files, folder, move).run();
+        new PasteExecutor(files, folder, move).run();
     }
 }

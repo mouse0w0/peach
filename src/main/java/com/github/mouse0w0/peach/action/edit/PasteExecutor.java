@@ -17,9 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 
-public class PasteContext implements Runnable {
+public class PasteExecutor implements Runnable {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PasteContext.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PasteExecutor.class);
 
     private static final CopyOption[] REPLACE_EXISTING = {StandardCopyOption.REPLACE_EXISTING};
 
@@ -34,11 +34,11 @@ public class PasteContext implements Runnable {
     private boolean overwriteAll = false;
     private boolean skipAll = false;
 
-    public PasteContext(List<Path> files, Path folder, boolean move) {
+    public PasteExecutor(List<Path> files, Path folder, boolean move) {
         this(files, folder, move, null);
     }
 
-    public PasteContext(List<Path> files, Path folder, boolean move, Function<Path, Path> renameHandler) {
+    public PasteExecutor(List<Path> files, Path folder, boolean move, Function<Path, Path> renameHandler) {
         this.files = files;
         this.folder = folder;
         this.multiple = files.size() > 1;
