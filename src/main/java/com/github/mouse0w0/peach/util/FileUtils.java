@@ -64,13 +64,13 @@ public class FileUtils {
     }
 
     public static Path copyIfNotExists(Path source, Path target, CopyOption... options) throws IOException {
-        if (Files.exists(target) && !ArrayUtils.contains(options, StandardCopyOption.REPLACE_EXISTING)) return target;
+        if (Files.exists(target)) return target;
         createParentIfNotExists(target);
         return Files.copy(source, target, options);
     }
 
     public static long copyIfNotExists(InputStream in, Path target, CopyOption... options) throws IOException {
-        if (Files.exists(target) && !ArrayUtils.contains(options, StandardCopyOption.REPLACE_EXISTING)) return 0;
+        if (Files.exists(target)) return 0;
         createParentIfNotExists(target);
         return Files.copy(in, target, options);
     }
