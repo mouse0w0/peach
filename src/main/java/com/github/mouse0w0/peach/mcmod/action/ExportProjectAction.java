@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.action;
 
+import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
@@ -45,7 +46,7 @@ public class ExportProjectAction extends Action {
                     FileUtils.forceCopy(source, file.toPath());
                 } catch (IOException e) {
                     LOGGER.error("Failed to export file: " + file, e);
-                    Alert.warning("mcmod.export.failure");
+                    Alert.warning(I18n.translate("mcmod.export.failure"));
                 }
             }
         }, Platform::runLater);
