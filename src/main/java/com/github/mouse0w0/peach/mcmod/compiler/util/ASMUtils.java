@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.util;
+package com.github.mouse0w0.peach.mcmod.compiler.util;
 
 
 import org.objectweb.asm.ClassVisitor;
