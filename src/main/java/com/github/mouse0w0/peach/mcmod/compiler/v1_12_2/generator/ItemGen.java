@@ -8,11 +8,11 @@ import com.github.mouse0w0.coffeemaker.template.Template;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
+import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
-import com.github.mouse0w0.peach.mcmod.util.JavaUtils;
 
 import java.io.BufferedWriter;
 import java.nio.file.Path;

@@ -6,8 +6,8 @@ import com.github.mouse0w0.coffeemaker.evaluator.LocalVar;
 import com.github.mouse0w0.coffeemaker.template.Template;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
+import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
-import com.github.mouse0w0.peach.mcmod.util.JavaUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
