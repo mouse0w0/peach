@@ -15,7 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Function;
 
 public class PasteExecutor implements Runnable {
 
@@ -29,21 +28,14 @@ public class PasteExecutor implements Runnable {
     private final boolean multiple;
     private final boolean move;
 
-    private final Function<Path, Path> renameHandler;
-
     private boolean overwriteAll = false;
     private boolean skipAll = false;
 
     public PasteExecutor(List<Path> files, Path folder, boolean move) {
-        this(files, folder, move, null);
-    }
-
-    public PasteExecutor(List<Path> files, Path folder, boolean move, Function<Path, Path> renameHandler) {
         this.files = files;
         this.folder = folder;
         this.multiple = files.size() > 1;
         this.move = move;
-        this.renameHandler = renameHandler;
     }
 
     @Override
@@ -87,22 +79,15 @@ public class PasteExecutor implements Runnable {
                 } else if (buttonType == PasteDialog.OVERWRITE_ALL) {
                     overwriteAll = true;
                 } else if (buttonType == PasteDialog.RENAME) {
-                    target = rename(target);
-                    continue;
+                    target = new RenameDialog(target).showAndWait().orElse(null);
+                    if (target == null) return;
+                    else continue;
                 }
                 forceCopyOrMove(source, target);
             }
         }
 
         copyOrMove(source, target);
-    }
-
-    private Path rename(Path target) {
-        if (renameHandler == null) {
-            return new RenameDialog(target).showAndWait().orElse(target);
-        } else {
-            return renameHandler.apply(target);
-        }
     }
 
     private void forceCopyOrMove(Path source, Path target) throws IOException {
