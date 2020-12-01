@@ -10,8 +10,9 @@ public class ItemGroup extends Element implements Localizable {
 
     private String registerName;
     private String displayName;
-    private Item icon = Item.AIR;
     private boolean hasSearchBar;
+    private String background;
+    private Item icon = Item.AIR;
 
     public String getRegisterName() {
         return registerName;
@@ -29,20 +30,28 @@ public class ItemGroup extends Element implements Localizable {
         this.displayName = displayName;
     }
 
-    public Item getIcon() {
-        return icon;
-    }
-
-    public void setIcon(Item icon) {
-        this.icon = icon;
-    }
-
     public boolean isHasSearchBar() {
         return hasSearchBar;
     }
 
     public void setHasSearchBar(boolean hasSearchBar) {
         this.hasSearchBar = hasSearchBar;
+    }
+
+    public String getBackground() {
+        return background;
+    }
+
+    public void setBackground(String background) {
+        this.background = background;
+    }
+
+    public Item getIcon() {
+        return icon;
+    }
+
+    public void setIcon(Item icon) {
+        this.icon = icon;
     }
 
     @Override

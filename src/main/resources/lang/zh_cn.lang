@@ -107,6 +107,7 @@ mod.element.item_group=创造标签
 wizard.itemGroup.registerName=注册名：
 wizard.itemGroup.displayName=显示名：
 wizard.itemGroup.hasSearchBar=启用搜索栏：
+wizard.itemGroup.background=背景图：
 wizard.itemGroup.icon=图标：
 
 mod.element.crafting_recipe=合成配方

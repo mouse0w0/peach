@@ -8,6 +8,6 @@ public class ItemGroupWizard extends ElementWizard<ItemGroup> {
 
     public ItemGroupWizard(Project project, ItemGroup element) {
         super(project, element);
-        addWizardStep(new ItemGroupStep(element));
+        addWizardStep(new ItemGroupStep(project, element));
     }
 }

@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
+import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,11 @@ public class ItemGroupGen extends Generator<ItemGroup> {
             localVar.put("itemGroup", itemGroup);
             compiler.getClassesFiler().write(internalName + ".class",
                     templateItemGroup.process(internalName, evaluator));
+        }
+
+        String background = itemGroup.getBackground();
+        if (!Strings.isNullOrEmpty(background)) {
+            compiler.getAssetsFiler().copy(compiler.getProjectStructure().getTextures().resolve(background), "textures/" + background);
         }
     }
 }
