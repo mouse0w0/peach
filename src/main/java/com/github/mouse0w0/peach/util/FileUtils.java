@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 
 public class FileUtils {
 
+    public static final CopyOption[] REPLACE_EXISTING = {StandardCopyOption.REPLACE_EXISTING};
+
     private static final Pattern FILE_NAME_PATTERN = Pattern.compile(
             "[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|]$");
 
@@ -63,6 +65,16 @@ public class FileUtils {
         }
     }
 
+    public static Path copySafely(Path source, Path target, CopyOption... options) throws IOException {
+        createParentIfNotExists(target);
+        return Files.copy(source, target, options);
+    }
+
+    public static long copySafely(InputStream in, Path target, CopyOption... options) throws IOException {
+        createParentIfNotExists(target);
+        return Files.copy(in, target, options);
+    }
+
     public static Path copyIfNotExists(Path source, Path target, CopyOption... options) throws IOException {
         if (Files.exists(target)) return target;
         createParentIfNotExists(target);
@@ -77,7 +89,7 @@ public class FileUtils {
 
     public static long forceCopy(InputStream in, Path target) throws IOException {
         createParentIfNotExists(target);
-        return Files.copy(in, target, StandardCopyOption.REPLACE_EXISTING);
+        return Files.copy(in, target, REPLACE_EXISTING);
     }
 
     public static long forceCopySilently(InputStream in, Path target) throws RuntimeIOException {
@@ -90,7 +102,7 @@ public class FileUtils {
 
     public static Path forceCopy(Path source, Path target) throws IOException {
         createParentIfNotExists(target);
-        return Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+        return Files.copy(source, target, REPLACE_EXISTING);
     }
 
     public static Path forceCopySilently(Path source, Path target) throws RuntimeIOException {
