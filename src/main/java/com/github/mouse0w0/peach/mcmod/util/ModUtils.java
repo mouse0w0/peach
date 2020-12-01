@@ -7,15 +7,14 @@ import java.util.regex.Pattern;
 
 public class ModUtils {
 
-    public static final Pattern MOD_ID = Pattern.compile("[a-z][a-z0-9_]{0,63}");
-    public static final Pattern REGISTER_NAME = Pattern.compile("[a-z][a-z0-9_]*");
+    public static final Pattern IDENTIFIER = Pattern.compile("[a-z][a-z0-9_]{0,63}");
 
     public static boolean isValidModId(String modId) {
-        return MOD_ID.matcher(modId).matches();
+        return IDENTIFIER.matcher(modId).matches();
     }
 
     public static boolean isValidRegisterName(String name) {
-        return REGISTER_NAME.matcher(name).matches();
+        return IDENTIFIER.matcher(name).matches();
     }
 
     @Nullable
