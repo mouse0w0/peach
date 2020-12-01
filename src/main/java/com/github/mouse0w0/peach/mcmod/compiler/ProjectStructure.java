@@ -19,10 +19,10 @@ public final class ProjectStructure {
         this.sources = root.resolve("sources");
 
         this.resources = root.resolve("resources");
-        this.blockStates = root.resolve("blockstates");
-        this.lang = root.resolve("lang");
-        this.models = root.resolve("models");
-        this.textures = root.resolve("textures");
+        this.blockStates = resources.resolve("blockstates");
+        this.lang = resources.resolve("lang");
+        this.models = resources.resolve("models");
+        this.textures = resources.resolve("textures");
     }
 
     public Path getRoot() {
