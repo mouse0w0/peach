@@ -60,8 +60,9 @@ public class WelcomeUI extends BorderPane {
     }
 
     public WelcomeUI() {
-        FXUtils.addStyleSheet(this, "style/welcome.css");
+        FXUtils.addStyleSheet(this, "style/style.css");
 
+        setId("welcome");
         setPrefSize(600, 400);
 
         ContextMenu recentProjectsMenu = new ContextMenu();
@@ -77,6 +78,7 @@ public class WelcomeUI extends BorderPane {
         recentProjectsMenu.getItems().addAll(open, remove);
 
         recentProjects = new ListView<>();
+        recentProjects.setId("recent-projects");
         recentProjects.setPrefWidth(250);
         recentProjects.setCellFactory(list -> new ListCell<RecentProjectInfo>() {
 

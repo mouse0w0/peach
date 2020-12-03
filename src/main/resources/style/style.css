@@ -6,6 +6,37 @@
     -peach-focused-color: #0096c9;
 }
 
+/* Welcome */
+#welcome > #recent-projects,
+#welcome > #recent-projects:focused {
+    -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+#welcome > #recent-projects:focused .list-cell:focused {
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0;
+}
+
+#welcome > #recent-projects:focused .list-cell:odd {
+    -fx-background-color: -peach-foreground-color;
+}
+
+#welcome .button {
+    -fx-background-color: transparent;
+}
+
+#welcome .button:hover,
+#welcome .button:focused {
+    -fx-text-fill: #0096c9;
+}
+
+#welcome #version {
+    -fx-padding: 0.5em;
+    -fx-text-fill: #808080;
+}
+
 .menu-bar {
     -fx-background-color: -peach-border-color, -peach-background-color;
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
