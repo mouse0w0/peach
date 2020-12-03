@@ -109,3 +109,7 @@
 .item-stack-view:hover > .item {
     -fx-background-color: #c5c5c5;
 }
+
+.wizard > .button-bar > .button {
+    -fx-min-width: 50;
+}

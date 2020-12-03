@@ -30,10 +30,10 @@ public abstract class Wizard {
     public Wizard() {
         content = new BorderPane();
         content.setPadding(new Insets(8));
-        content.getStyleClass().addAll("wizard-pane");
+        content.getStyleClass().add("wizard");
 
         previous = new Button(I18n.translate("wizard.previous"));
-        previous.getStyleClass().addAll(".previous");
+        previous.getStyleClass().add("previous");
         previous.setOnAction(event -> onPrevious());
         next = new Button(I18n.translate("wizard.next"));
         next.setDefaultButton(true);
