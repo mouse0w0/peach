@@ -1,10 +1,7 @@
 package com.github.mouse0w0.peach.ui.control;
 
 import com.github.mouse0w0.peach.ui.control.skin.FilePickerSkin;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
@@ -142,6 +139,23 @@ public class FilePicker extends Control {
 
     public final void setPromptText(String value) {
         promptTextProperty().set(value);
+    }
+
+    private BooleanProperty editable;
+
+    public final BooleanProperty editableProperty() {
+        if (editable == null) {
+            editable = new SimpleBooleanProperty(this, "editable", true);
+        }
+        return editable;
+    }
+
+    public final boolean isEditable() {
+        return editable == null || editable.get();
+    }
+
+    public final void setEditable(boolean editable) {
+        editableProperty().set(editable);
     }
 
     private StringProperty title;

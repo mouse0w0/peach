@@ -29,6 +29,7 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
         editor.getStyleClass().setAll("editor");
         editor.textProperty().bindBidirectional(filePicker.textProperty());
         editor.promptTextProperty().bind(filePicker.promptTextProperty());
+        editor.editableProperty().bind(filePicker.editableProperty());
         editor.focusedProperty().addListener(observable ->
                 pseudoClassStateChanged(FOCUSED, editor.isFocused()));
 
