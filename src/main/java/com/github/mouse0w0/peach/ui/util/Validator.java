@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class Validator {
+public final class Validator {
 
     public static final String WARNING = "validation-warning";
     public static final String ERROR = "validation-error";
@@ -54,11 +54,25 @@ public class Validator {
     }
 
     public static <T> void error(Node node, Predicate<T> predicate, String message) {
-        new Validator(node, new CheckItem<>(predicate, NotificationLevel.ERROR, message)).register();
+        register(node, new CheckItem<>(predicate, NotificationLevel.ERROR, message));
     }
 
     public static <T> void warning(Node node, Predicate<T> predicate, String message) {
-        new Validator(node, new CheckItem<>(predicate, NotificationLevel.WARNING, message)).register();
+        register(node, new CheckItem<>(predicate, NotificationLevel.WARNING, message));
+    }
+
+    public static void register(Node node, CheckItem<?>... items) {
+        Validator validator = new Validator(node, items);
+        node.getProperties().put(Validator.class, validator);
+        node.focusedProperty().addListener(FOCUSED_LISTENER);
+    }
+
+    public static void unregister(Node node) {
+        Validator validator = getValidator(node);
+        if (validator != null) {
+            node.getProperties().remove(Validator.class);
+            node.focusedProperty().removeListener(FOCUSED_LISTENER);
+        }
     }
 
     public static boolean test(Node... nodes) {
@@ -91,7 +105,7 @@ public class Validator {
         return (Validator) node.getProperties().get(Validator.class);
     }
 
-    public Validator(Node node, CheckItem<?>... items) {
+    private Validator(Node node, CheckItem<?>... items) {
         this.node = node;
         this.property = ValuePropertyUtils.valueProperty(node)
                 .orElseThrow(() -> new IllegalArgumentException("Not found the value property of " + node.getClass()));
@@ -113,16 +127,6 @@ public class Validator {
 
     public CheckItem<?> getInvalidItem() {
         return invalidItem;
-    }
-
-    public void register() {
-        node.getProperties().put(Validator.class, this);
-        node.focusedProperty().addListener(FOCUSED_LISTENER);
-    }
-
-    public void unregister() {
-        node.getProperties().remove(Validator.class);
-        node.focusedProperty().removeListener(FOCUSED_LISTENER);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

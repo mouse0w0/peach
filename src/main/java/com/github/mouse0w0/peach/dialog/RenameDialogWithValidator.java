@@ -9,7 +9,7 @@ public class RenameDialogWithValidator extends RenameDialog {
 
     public RenameDialogWithValidator(Path source, String text, CheckItem<? super String> checkItem) {
         super(source, text);
-        new Validator(getEditor(), checkItem).register();
+        Validator.register(getEditor(), checkItem);
     }
 
     @Override
