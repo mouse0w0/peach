@@ -2,12 +2,12 @@ package com.github.mouse0w0.peach.ui.util;
 
 import java.util.function.Predicate;
 
-public class CheckItem<T> implements Comparable<CheckItem<T>> {
+public class Check<T> implements Comparable<Check<T>> {
     private final Predicate<T> predicate;
     private final NotificationLevel level;
     private final String message;
 
-    public CheckItem(Predicate<T> predicate, NotificationLevel level, String message) {
+    public Check(Predicate<T> predicate, NotificationLevel level, String message) {
         this.predicate = predicate;
         this.level = level;
         this.message = message;
@@ -30,7 +30,7 @@ public class CheckItem<T> implements Comparable<CheckItem<T>> {
     }
 
     @Override
-    public int compareTo(CheckItem<T> o) {
+    public int compareTo(Check<T> o) {
         return level.compareTo(o.level);
     }
 }

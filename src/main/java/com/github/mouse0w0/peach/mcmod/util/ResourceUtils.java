@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.dialog.RenameDialogWithValidator;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.util.CheckItem;
+import com.github.mouse0w0.peach.ui.util.Check;
 import com.github.mouse0w0.peach.ui.util.NotificationLevel;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -51,7 +51,7 @@ public class ResourceUtils {
             String fileName = target.getFileName().toString();
             if (StringUtils.hasUpperCase(fileName)) {
                 target = new RenameDialogWithValidator(target, fileName.toLowerCase(),
-                        new CheckItem<>(s -> !StringUtils.hasUpperCase(s), NotificationLevel.ERROR, I18n.translate("")))
+                        new Check<>(s -> !StringUtils.hasUpperCase(s), NotificationLevel.ERROR, I18n.translate("")))
                         .showAndWait().orElse(null);
                 if (target == null) return null;
             } else if (Files.exists(target)) {
@@ -63,7 +63,7 @@ public class ResourceUtils {
                     return FileUtils.forceCopy(source, target);
                 } else if (buttonType == PasteDialog.RENAME) {
                     target = new RenameDialogWithValidator(target, fileName.toLowerCase(),
-                            new CheckItem<>(s -> !StringUtils.hasUpperCase(s), NotificationLevel.ERROR, I18n.translate("")))
+                            new Check<>(s -> !StringUtils.hasUpperCase(s), NotificationLevel.ERROR, I18n.translate("")))
                             .showAndWait().orElse(null);
                     if (target == null) return null;
                 } else {

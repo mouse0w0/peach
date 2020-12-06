@@ -25,9 +25,9 @@ public final class Validator {
 
     private final Node node;
     private final Property<?> property;
-    private final List<CheckItem<?>> items;
+    private final List<Check<?>> checks;
 
-    private CheckItem<?> invalidItem;
+    private Check<?> invalidCheck;
 
     static {
         POPUP_ALERT = new PopupAlert();
@@ -40,7 +40,7 @@ public final class Validator {
             if (validator == null) return;
 
             if (newValue) {
-                CheckItem<?> item = validator.getInvalidItem();
+                Check<?> item = validator.getInvalidCheck();
                 if (item == null) return;
 
                 POPUP_ALERT.setLevel(item.getLevel());
@@ -54,15 +54,15 @@ public final class Validator {
     }
 
     public static <T> void error(Node node, Predicate<T> predicate, String message) {
-        register(node, new CheckItem<>(predicate, NotificationLevel.ERROR, message));
+        register(node, new Check<>(predicate, NotificationLevel.ERROR, message));
     }
 
     public static <T> void warning(Node node, Predicate<T> predicate, String message) {
-        register(node, new CheckItem<>(predicate, NotificationLevel.WARNING, message));
+        register(node, new Check<>(predicate, NotificationLevel.WARNING, message));
     }
 
-    public static void register(Node node, CheckItem<?>... items) {
-        Validator validator = new Validator(node, items);
+    public static void register(Node node, Check<?>... checks) {
+        Validator validator = new Validator(node, checks);
         node.getProperties().put(Validator.class, validator);
         node.focusedProperty().addListener(FOCUSED_LISTENER);
     }
@@ -105,12 +105,12 @@ public final class Validator {
         return (Validator) node.getProperties().get(Validator.class);
     }
 
-    private Validator(Node node, CheckItem<?>... items) {
+    private Validator(Node node, Check<?>... checks) {
         this.node = node;
         this.property = ValuePropertyUtils.valueProperty(node)
                 .orElseThrow(() -> new IllegalArgumentException("Not found the value property of " + node.getClass()));
-        Arrays.sort(items);
-        this.items = ImmutableList.copyOf(items);
+        Arrays.sort(checks);
+        this.checks = ImmutableList.copyOf(checks);
     }
 
     public Node getNode() {
@@ -121,20 +121,20 @@ public final class Validator {
         return property;
     }
 
-    public List<CheckItem<?>> getItems() {
-        return items;
+    public List<Check<?>> getChecks() {
+        return checks;
     }
 
-    public CheckItem<?> getInvalidItem() {
-        return invalidItem;
+    public Check<?> getInvalidCheck() {
+        return invalidCheck;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public boolean test() {
-        invalidItem = null;
-        for (CheckItem item : getItems()) {
+        invalidCheck = null;
+        for (Check item : getChecks()) {
             if (!item.test(property.getValue())) {
-                invalidItem = item;
+                invalidCheck = item;
                 updateStyleClasses();
                 return item.getLevel() != NotificationLevel.ERROR;
             }
@@ -144,7 +144,7 @@ public final class Validator {
     }
 
     private void updateStyleClasses() {
-        CheckItem<?> item = getInvalidItem();
+        Check<?> item = getInvalidCheck();
         NotificationLevel type = item == null ? NotificationLevel.NONE : item.getLevel();
         ObservableList<String> styleClass = getNode().getStyleClass();
         styleClass.removeAll(ERROR, WARNING);
