@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.wizard.step;
+package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
 
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;

@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.fileEditor;
 
+import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.wizard.Wizard;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -10,15 +11,18 @@ import java.nio.file.Path;
 
 public class WizardFileEditor implements FileEditor {
 
+    private final Project project;
     private final Path file;
     private final Wizard wizard;
 
     private String name;
     private Image icon;
 
-    public WizardFileEditor(@Nonnull Path file, @Nonnull Wizard wizard) {
+    public WizardFileEditor(@Nonnull Project project, @Nonnull Path file, @Nonnull Wizard wizard) {
+        this.project = Validate.notNull(project);
         this.file = Validate.notNull(file);
         this.wizard = Validate.notNull(wizard);
+        wizard.addClosedCallback(() -> FileEditorManager.getInstance(project).close(this));
     }
 
     @Override
@@ -53,6 +57,7 @@ public class WizardFileEditor implements FileEditor {
 
     @Override
     public void dispose() {
+        wizard.cancel();
         wizard.dispose();
     }
 }

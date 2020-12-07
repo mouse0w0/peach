@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.wizard.Wizard;
 
 import java.nio.file.Path;
 
@@ -9,14 +9,14 @@ public class ElementType<T extends Element> {
     private final String name;
     private final String translationKey;
     private final Class<T> type;
-    private final WizardFactory<T> wizardFactory;
+    private final ElementEditorFactory<T> elementEditorFactory;
     private final PreviewGenerator<T> previewGenerator;
 
-    public ElementType(String name, Class<T> type, WizardFactory<T> wizardFactory, PreviewGenerator<T> previewGenerator) {
+    public ElementType(String name, Class<T> type, ElementEditorFactory<T> elementEditorFactory, PreviewGenerator<T> previewGenerator) {
         this.name = name;
         this.translationKey = "mod.element." + name;
         this.type = type;
-        this.wizardFactory = wizardFactory;
+        this.elementEditorFactory = elementEditorFactory;
         this.previewGenerator = previewGenerator;
     }
 
@@ -42,11 +42,11 @@ public class ElementType<T extends Element> {
         }
     }
 
-    public Wizard createWizard(Project project, T element) {
+    public FileEditor createFileEditor(Project project, T element) {
         if (element.getClass() != getType()) {
             throw new IllegalArgumentException("Cannot create wizard for " + element.getClass().getName());
         }
-        return wizardFactory.create(project, element);
+        return elementEditorFactory.create(project, element);
     }
 
     public void generatePreview(Project project, T element, Path outputFile) {
@@ -54,9 +54,5 @@ public class ElementType<T extends Element> {
             throw new IllegalArgumentException("Cannot generate preview for " + element.getClass().getName());
         }
         previewGenerator.generate(project, element, outputFile);
-    }
-
-    public interface WizardFactory<T extends Element> {
-        Wizard create(Project project, T element);
     }
 }

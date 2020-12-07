@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.wizard;
 
 import com.github.mouse0w0.i18n.I18n;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -23,7 +22,7 @@ public abstract class Wizard {
     private Button next;
     private Button cancel;
 
-    private boolean ok;
+    private boolean cancelled;
 
     private final List<Runnable> closedCallbacks = new ArrayList<>();
 
@@ -122,18 +121,18 @@ public abstract class Wizard {
         getNextButton().setText(isLastStep() ? I18n.translate("wizard.finish") : I18n.translate("wizard.next"));
     }
 
-    public boolean isOk() {
-        return ok;
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public void cancel() {
-        ok = false;
+        if (cancelled) return;
+        cancelled = true;
         onCancelWizard();
         fireClosedCallbacks();
         dispose();
     }
 
-    @FXML
     private void onPrevious() {
         if (isFirstStep()) return;
 
@@ -143,7 +142,6 @@ public abstract class Wizard {
         updateButtons();
     }
 
-    @FXML
     private void onNext() {
         WizardStep step = getCurrentStep();
         if (!step.validate()) return;
@@ -151,7 +149,6 @@ public abstract class Wizard {
         step.updateDataModel();
 
         if (isLastStep()) {
-            ok = true;
             onFinishWizard();
             fireClosedCallbacks();
             dispose();
@@ -164,7 +161,6 @@ public abstract class Wizard {
         }
     }
 
-    @FXML
     private void onCancel() {
         cancel();
     }

@@ -1,15 +1,13 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.mcmod.event.ElementEvent;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.github.mouse0w0.peach.wizard.Wizard;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableSet;
-import javafx.scene.control.Tab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,29 +114,7 @@ public final class ElementManager {
     }
 
     public void editElement(Path file) {
-        editElement((Element) loadElement(file));
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public void editElement(Element element) {
-        ElementType type = elementRegistry.getElementType(element.getClass());
-        Wizard wizard = type.createWizard(project, element);
-
-        Tab tab = new Tab();
-        tab.setContent(wizard.getContent());
-        tab.setText(wizard.getName());
-        tab.setClosable(true);
-        tab.setOnCloseRequest(event -> {
-            event.consume();
-            wizard.cancel();
-        });
-        wizard.addClosedCallback(() -> {
-            if (tab.getTabPane() != null) {
-                tab.getTabPane().getTabs().remove(tab);
-            }
-        });
-
-        WindowManager.getInstance().getWindow(project).openTab(tab);
+        FileEditorManager.getInstance(project).open(file);
     }
 
     public ElementView getElementView() {
