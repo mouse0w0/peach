@@ -16,8 +16,8 @@ import java.util.function.Predicate;
 
 public final class Validator {
 
-    public static final String WARNING = "validation-warning";
-    public static final String ERROR = "validation-error";
+    public static final String WARNING = "warning";
+    public static final String ERROR = "error";
 
     private static final PopupAlert POPUP_ALERT;
 
@@ -144,11 +144,14 @@ public final class Validator {
     }
 
     private void updateStyleClasses() {
-        Check<?> item = getInvalidCheck();
-        NotificationLevel type = item == null ? NotificationLevel.NONE : item.getLevel();
+        Check<?> invalidCheck = getInvalidCheck();
+        NotificationLevel level = invalidCheck == null ? NotificationLevel.NONE : invalidCheck.getLevel();
         ObservableList<String> styleClass = getNode().getStyleClass();
         styleClass.removeAll(ERROR, WARNING);
-        if (type == NotificationLevel.ERROR) styleClass.add(ERROR);
-        else if (type == NotificationLevel.WARNING) styleClass.add(WARNING);
+        if (level == NotificationLevel.ERROR) {
+            styleClass.add(ERROR);
+        } else if (level == NotificationLevel.WARNING) {
+            styleClass.add(WARNING);
+        }
     }
 }

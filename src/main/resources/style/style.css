@@ -79,16 +79,16 @@
 }
 
 /* Validation */
-.validation-error {
+.error {
     -fx-effect: dropshadow(three-pass-box, darkred, 6, 0, 0, 0);
 }
 
-.validation-warning {
+.warning {
     -fx-effect: dropshadow(three-pass-box, gold, 6, 0, 0, 0);
 }
 
-.validation-error:focused,
-.validation-warning:focused {
+.error:focused,
+.warning:focused {
     -fx-effect: null;
 }
 
