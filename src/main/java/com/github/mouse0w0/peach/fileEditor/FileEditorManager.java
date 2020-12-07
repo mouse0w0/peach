@@ -73,7 +73,7 @@ public class FileEditorManager {
         tab.setClosable(true);
         tab.setOnCloseRequest(event -> {
             event.consume();
-            close(fileEditor);
+            close(file);
         });
 
         openedFiles.put(file, tab);
