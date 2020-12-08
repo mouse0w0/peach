@@ -20,6 +20,7 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
 
     private final Button finish;
     private final Button cancel;
+    private final Button apply;
 
     public BaseFileEditorEx(@Nonnull Project project, @Nonnull Path file) {
         super(file);
@@ -37,8 +38,11 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
         cancel = new Button(I18n.translate("dialog.button.cancel"));
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> cancel());
+        apply = new Button(I18n.translate("dialog.button.apply"));
+        apply.getStyleClass().add("apply");
+        apply.setOnAction(event -> apply());
 
-        HBox buttonBar = new HBox(9, finish, cancel);
+        HBox buttonBar = new HBox(9, finish, cancel, apply);
         buttonBar.getStyleClass().add("button-bar");
         buttonBar.setAlignment(Pos.CENTER_RIGHT);
         root.setBottom(buttonBar);
@@ -61,33 +65,43 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
         // Nothing to do
     }
 
-    public void finish() {
+    public final void finish() {
         if (validate()) {
             onFinished();
             FileEditorManager.getInstance(getProject()).close(getFile());
         }
     }
 
-    public void cancel() {
+    public final void cancel() {
         onCancelled();
         FileEditorManager.getInstance(getProject()).close(getFile());
     }
 
-    public Button getFinishButton() {
+    public final void apply() {
+        if (validate()) {
+            onFinished();
+        }
+    }
+
+    public final Button getFinishButton() {
         return finish;
     }
 
-    public Button getCancelButton() {
+    public final Button getCancelButton() {
         return cancel;
     }
 
-    public Project getProject() {
+    public final Button getApplyButton() {
+        return apply;
+    }
+
+    public final Project getProject() {
         return project;
     }
 
     @Nonnull
     @Override
-    public Node getNode() {
+    public final Node getNode() {
         return root;
     }
 }
