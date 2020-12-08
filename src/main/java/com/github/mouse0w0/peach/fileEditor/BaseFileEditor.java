@@ -12,7 +12,7 @@ public abstract class BaseFileEditor implements FileEditor {
     private String name;
     private Image icon;
 
-    public BaseFileEditor(Path file) {
+    public BaseFileEditor(@Nonnull Path file) {
         this.file = Validate.notNull(file);
     }
 
