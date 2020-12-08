@@ -22,7 +22,7 @@ public class WizardFileEditor extends BaseFileEditor {
 
     @Nonnull
     @Override
-    public Node getContent() {
+    public Node getNode() {
         return wizard.getContent();
     }
 

@@ -59,7 +59,7 @@ public class FileEditorManager {
         FileEditor fileEditor = provider.create(project, file);
 
         ImageView imageView = new ImageView();
-        Tab tab = new Tab(null, fileEditor.getContent());
+        Tab tab = new Tab(null, fileEditor.getNode());
         tab.getProperties().put(FileEditor.class, fileEditor);
         tab.setGraphic(imageView);
 

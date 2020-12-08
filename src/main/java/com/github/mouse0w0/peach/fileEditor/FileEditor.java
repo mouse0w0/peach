@@ -17,5 +17,5 @@ public interface FileEditor extends Disposable {
     Path getFile();
 
     @Nonnull
-    Node getContent();
+    Node getNode();
 }
