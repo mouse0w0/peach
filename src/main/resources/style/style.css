@@ -141,6 +141,15 @@
     -fx-background-color: #c5c5c5;
 }
 
+.image-picker {
+    -fx-background-color: -peach-background-color;
+}
+
+.image-picker:hover {
+    -fx-background-color: -peach-hover-color;
+}
+
+.file-editor > .button-bar > .button,
 .wizard > .button-bar > .button {
     -fx-min-width: 50;
 }

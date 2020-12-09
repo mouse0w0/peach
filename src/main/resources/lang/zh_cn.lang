@@ -91,18 +91,6 @@ tab.elementView.title=模组元素
 validate.illegalModId=非法的模组唯一名：“%s”。模组唯一名以小写字母开头，仅含小写字母和数字。
 validate.illegalRegisterName=非法的注册名：“%s”。注册名以小写字母开头，仅含小写字母，数字和下划线。
 
-mod.element.item=物品
-
-wizard.itemProperties.registerName=注册名：
-wizard.itemProperties.displayName=显示名：
-wizard.itemProperties.itemGroup=创造标签：
-wizard.itemProperties.maxStackSize=最大堆叠数量：
-wizard.itemProperties.effect=发光效果：
-wizard.itemProperties.information=附加信息：
-
-wizard.itemModel.model=模型：
-wizard.itemModel.texture=纹理：
-
 mod.element.item_group=创造标签
 wizard.itemGroup.registerName=注册名：
 wizard.itemGroup.displayName=显示名：
@@ -122,9 +110,6 @@ mod.element.smelting_recipe=熔炼配方
 wizard.smeltingRecipe.xp=经验值：
 
 fileChooser.mcmod.texture.title=打开纹理文件
-
-model.item.generated=默认模型
-model.item.handheld=手持模型
 
 fileChooser.mcmod.export.title=导出Jar文件到
 mcmod.export.failure=导出失败，请在日志中查看错误详情。
@@ -174,3 +159,18 @@ dialog.button.skipAll=跳过所有
 
 view.Project.text=项目
 view.ItemFavorites.text=物品收藏夹
+
+mod.element.item=物品
+
+item.properties.title=属性
+item.properties.identifier=唯一名
+item.properties.displayName=显示名
+item.properties.itemGroup=创造标签
+item.properties.maxStackSize=最大堆叠数量
+item.properties.hasEffect=发光效果
+item.properties.information=附加信息
+item.appearance.title=外观
+item.appearance.model=模型
+item.model.generated=默认模型
+item.model.handheld=手持模型
+item.appearance.texture=纹理
