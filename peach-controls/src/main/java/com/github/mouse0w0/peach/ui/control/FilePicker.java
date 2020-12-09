@@ -9,7 +9,9 @@ import javafx.scene.control.Skin;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 import java.io.File;
@@ -239,6 +241,45 @@ public class FilePicker extends Control {
 
     public final void setSelectedExtensionFilter(FileChooser.ExtensionFilter filter) {
         selectedExtensionFilterProperty().set(filter);
+    }
+
+    public void showDialog() {
+        FilePicker.Type type = getType();
+        File oldFile = toFile();
+        Window owner = getScene().getWindow();
+        File file = null;
+        if (type == FilePicker.Type.OPEN_DIRECTORY) {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setTitle(getTitle());
+            if (oldFile == null) {
+                directoryChooser.setInitialDirectory(getInitialDirectory());
+            } else {
+                directoryChooser.setInitialDirectory(oldFile.getParentFile());
+            }
+            file = directoryChooser.showDialog(owner);
+        } else {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle(getTitle());
+            if (oldFile == null) {
+                fileChooser.setInitialDirectory(getInitialDirectory());
+                fileChooser.setInitialFileName(getInitialFileName());
+            } else {
+                fileChooser.setInitialDirectory(oldFile.getParentFile());
+                fileChooser.setInitialFileName(oldFile.getName());
+            }
+            fileChooser.getExtensionFilters().setAll(getExtensionFilters());
+            fileChooser.setSelectedExtensionFilter(getSelectedExtensionFilter());
+
+            if (type == FilePicker.Type.OPEN_FILE) {
+                file = fileChooser.showOpenDialog(owner);
+            } else if (type == FilePicker.Type.SAVE_FILE) {
+                file = fileChooser.showSaveDialog(owner);
+            }
+        }
+
+        if (file != null) {
+            setFile(file);
+        }
     }
 
     @Override

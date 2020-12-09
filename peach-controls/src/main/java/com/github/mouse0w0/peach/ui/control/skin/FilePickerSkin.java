@@ -9,11 +9,6 @@ import javafx.scene.Cursor;
 import javafx.scene.control.SkinBase;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Window;
-
-import java.io.File;
 
 public class FilePickerSkin extends SkinBase<FilePicker> {
     private static final PseudoClass FOCUSED = PseudoClass.getPseudoClass("focused");
@@ -42,50 +37,10 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
         openChooserBtn.setCursor(Cursor.HAND);
         openChooserBtn.setOnMousePressed(event -> {
             event.consume();
-            showDialog();
+            getSkinnable().showDialog();
         });
 
         getChildren().addAll(editor, openChooserBtn);
-    }
-
-    protected void showDialog() {
-        FilePicker filePicker = getSkinnable();
-        FilePicker.Type type = filePicker.getType();
-        File oldFile = filePicker.toFile();
-        Window owner = filePicker.getScene().getWindow();
-        File file = null;
-        if (type == FilePicker.Type.OPEN_DIRECTORY) {
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle(filePicker.getTitle());
-            if (oldFile == null) {
-                directoryChooser.setInitialDirectory(filePicker.getInitialDirectory());
-            } else {
-                directoryChooser.setInitialDirectory(oldFile.getParentFile());
-            }
-            file = directoryChooser.showDialog(owner);
-        } else {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle(filePicker.getTitle());
-            if (oldFile == null) {
-                fileChooser.setInitialDirectory(filePicker.getInitialDirectory());
-                fileChooser.setInitialFileName(filePicker.getInitialFileName());
-            } else {
-                fileChooser.setInitialDirectory(oldFile.getParentFile());
-                fileChooser.setInitialFileName(oldFile.getName());
-            }
-            fileChooser.setSelectedExtensionFilter(filePicker.getSelectedExtensionFilter());
-            fileChooser.getExtensionFilters().setAll(filePicker.getExtensionFilters());
-
-            if (type == FilePicker.Type.OPEN_FILE) {
-                file = fileChooser.showOpenDialog(owner);
-            } else if (type == FilePicker.Type.SAVE_FILE) {
-                file = fileChooser.showSaveDialog(owner);
-            }
-        }
-
-        if (file != null) {
-            filePicker.setFile(file);
-        }
     }
 
     @Override
