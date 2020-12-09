@@ -1,0 +1,25 @@
+.form-view > .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.form-view > .scroll-pane > .viewport {
+    -fx-background-color: white;
+}
+
+.form-view > .scroll-pane > .viewport > * > .group-box {
+    -fx-padding: 2em;
+    -fx-spacing: 1em;
+}
+
+.form-group > .content {
+    -fx-background-color: white;
+}
+
+.form-group > .content > .grid {
+    -fx-padding: 0.75em 0.75em 0.75em 0;
+    -fx-vgap: 0.75em;
+}
+
+.form-element > .label {
+    -fx-padding: 0.25em 0.25em 0.25em 0.75em;
+}
