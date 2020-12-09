@@ -7,12 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 
 public class FilePicker extends Control {
 
@@ -31,9 +33,16 @@ public class FilePicker extends Control {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
 
-            if (event.getDragboard().hasFiles()) {
-                event.acceptTransferModes(TransferMode.COPY);
-            }
+            Dragboard dragboard = event.getDragboard();
+            if (!dragboard.hasFiles()) return;
+
+            List<File> files = dragboard.getFiles();
+            if (files.size() != 1) return;
+
+            File file = files.get(0);
+            if (!Utils.checkExtensions(file, extensionFilters)) return;
+
+            event.acceptTransferModes(TransferMode.COPY);
         });
         addEventHandler(DragEvent.DRAG_DROPPED, event -> {
             event.consume();
@@ -232,7 +241,6 @@ public class FilePicker extends Control {
         selectedExtensionFilterProperty().set(filter);
     }
 
-    // Overrides
     @Override
     protected Skin<?> createDefaultSkin() {
         return new FilePickerSkin(this);
