@@ -56,7 +56,7 @@ public class ResourceUtils {
                 if (target == null) return null;
             } else if (Files.exists(target)) {
                 ButtonType buttonType = new Alert(I18n.translate("dialog.paste.title"),
-                        I18n.format("dialog.paste.message", source.getParent(), source.getFileName()),
+                        I18n.format("dialog.paste.message", target.getParent(), target.getFileName()),
                         PasteDialog.OVERWRITE, PasteDialog.RENAME, ButtonType.CANCEL)
                         .showAndWait().orElse(ButtonType.CANCEL);
                 if (buttonType == PasteDialog.OVERWRITE) {
