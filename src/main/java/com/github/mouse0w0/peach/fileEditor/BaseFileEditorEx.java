@@ -16,36 +16,15 @@ import java.nio.file.Path;
 public abstract class BaseFileEditorEx extends BaseFileEditor {
     private final Project project;
 
-    private final BorderPane root;
+    private Node root;
 
-    private final Button finish;
-    private final Button cancel;
-    private final Button apply;
+    private Button finish;
+    private Button cancel;
+    private Button apply;
 
     public BaseFileEditorEx(@Nonnull Project project, @Nonnull Path file) {
         super(file);
         this.project = Validate.notNull(project);
-
-        root = new BorderPane();
-        root.setPadding(new Insets(9));
-        root.getStyleClass().add("file-editor");
-
-        root.setCenter(getContent());
-
-        finish = new Button(I18n.translate("dialog.button.finish"));
-        finish.setDefaultButton(true);
-        finish.setOnAction(event -> finish());
-        cancel = new Button(I18n.translate("dialog.button.cancel"));
-        cancel.setCancelButton(true);
-        cancel.setOnAction(event -> cancel());
-        apply = new Button(I18n.translate("dialog.button.apply"));
-        apply.getStyleClass().add("apply");
-        apply.setOnAction(event -> apply());
-
-        HBox buttonBar = new HBox(9, finish, cancel, apply);
-        buttonBar.getStyleClass().add("button-bar");
-        buttonBar.setAlignment(Pos.CENTER_RIGHT);
-        root.setBottom(buttonBar);
     }
 
     protected abstract Node getContent();
@@ -101,7 +80,34 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
 
     @Nonnull
     @Override
-    public final Node getNode() {
+    public Node getNode() {
+        if (root == null) {
+            root = createNode();
+        }
+        return root;
+    }
+
+    protected Node createNode() {
+        BorderPane root = new BorderPane();
+        root.setPadding(new Insets(9));
+        root.getStyleClass().add("file-editor");
+
+        root.setCenter(getContent());
+
+        finish = new Button(I18n.translate("dialog.button.finish"));
+        finish.setDefaultButton(true);
+        finish.setOnAction(event -> finish());
+        cancel = new Button(I18n.translate("dialog.button.cancel"));
+        cancel.setCancelButton(true);
+        cancel.setOnAction(event -> cancel());
+        apply = new Button(I18n.translate("dialog.button.apply"));
+        apply.getStyleClass().add("apply");
+        apply.setOnAction(event -> apply());
+
+        HBox buttonBar = new HBox(9, finish, cancel, apply);
+        buttonBar.getStyleClass().add("button-bar");
+        buttonBar.setAlignment(Pos.CENTER_RIGHT);
+        root.setBottom(buttonBar);
         return root;
     }
 }
