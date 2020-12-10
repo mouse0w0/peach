@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class TexturesElement extends Element {
+public class ModelTextureElement extends Element {
     private static final FileChooser.ExtensionFilter PNG_FILTER = new FileChooser.ExtensionFilter("PNG", "*.png");
 
     private final TextureHandler textureHandler;
@@ -21,7 +21,7 @@ public class TexturesElement extends Element {
 
     private final Map<String, ImagePicker> textureMap = new HashMap<>();
 
-    public TexturesElement(TextureHandler textureHandler) {
+    public ModelTextureElement(TextureHandler textureHandler) {
         this.textureHandler = textureHandler;
 
         editor = new GridPane();
@@ -69,25 +69,25 @@ public class TexturesElement extends Element {
     }
 
     public Map<String, String> getTextures() {
-        TextureHandler converter = getTextureHandler();
+        TextureHandler handler = getTextureHandler();
         Map<String, String> textures = new HashMap<>();
-        textureMap.forEach((key, imagePicker) -> textures.put(key, converter.toString(imagePicker.getFile())));
+        textureMap.forEach((key, imagePicker) -> textures.put(key, handler.toString(imagePicker.getFile())));
         return textures;
     }
 
     public void setTextures(Map<String, String> textures) {
-        TextureHandler converter = getTextureHandler();
+        TextureHandler handler = getTextureHandler();
         textures.forEach((key, texture) -> {
             ImagePicker imagePicker = textureMap.get(key);
-            if (imagePicker != null) imagePicker.setFile(converter.fromString(texture));
+            if (imagePicker != null) imagePicker.setFile(handler.fromString(texture));
         });
     }
 
     @Override
     public boolean validate() {
-        TextureHandler converter = getTextureHandler();
+        TextureHandler handler = getTextureHandler();
         for (ImagePicker imagePicker : textureMap.values()) {
-            File newFile = converter.copy(imagePicker.getFile());
+            File newFile = handler.copy(imagePicker.getFile());
             if (newFile == null) return false;
             imagePicker.setFile(newFile);
         }

@@ -12,8 +12,9 @@ import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
+import com.github.mouse0w0.peach.mcmod.ui.form.ItemPickerElement;
+import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureElement;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureHandler;
-import com.github.mouse0w0.peach.mcmod.ui.form.TexturesElement;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -40,7 +41,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
     // Appearance
     private ChoiceBoxElement<String> model;
-    private TexturesElement textures;
+    private ModelTextureElement textures;
 
     public ItemEditor(@Nonnull Project project, @Nonnull ItemElement element) {
         super(project, element);
@@ -104,7 +105,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         });
         model.getItems().addAll(ModelManager.getInstance(getProject()).getItemModels().keySet());
 
-        textures = new TexturesElement(TextureHandler.of(
+        textures = new ModelTextureElement(TextureHandler.of(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
         textures.setText(I18n.translate("item.appearance.texture"));
