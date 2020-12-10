@@ -7,10 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -42,7 +39,7 @@ public class ImagePicker extends Control {
             event.setDropCompleted(true);
         });
         addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.isMiddleButtonDown()) setFile(null);
+            if (event.getButton() == MouseButton.MIDDLE) setFile(null);
             else showFileChooser();
         });
     }
