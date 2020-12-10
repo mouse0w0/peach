@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.dialog.ItemChooser;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.TransferMode;
 
 public class ItemPicker extends ItemView {
@@ -41,7 +42,11 @@ public class ItemPicker extends ItemView {
             event.setDropCompleted(true);
         });
         setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) show();
+            if (event.getButton() == MouseButton.MIDDLE) {
+                setItem(Item.AIR);
+            } else if (event.getClickCount() == 2) {
+                show();
+            }
         });
     }
 
