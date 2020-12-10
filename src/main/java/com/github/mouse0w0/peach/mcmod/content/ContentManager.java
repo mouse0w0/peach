@@ -28,7 +28,7 @@ public class ContentManager implements Disposable {
 
     private final Path previewCache;
 
-    private final Map<String, ContentPack> contentPackMap = new LinkedHashMap<>();
+    private final Map<String, ContentPack> contentPacks = new LinkedHashMap<>();
 
     private final List<Item> itemList = new ArrayList<>();
     private final Map<Item, List<ItemData>> itemMap = new HashMap<>();
@@ -61,11 +61,11 @@ public class ContentManager implements Disposable {
     }
 
     public void addContentPack(ContentPack contentPack) {
-        if (contentPackMap.containsKey(contentPack.getId())) return;
-        contentPackMap.put(contentPack.getId(), contentPack);
-        contentPack.getItemData().forEach(this::addItem);
-        contentPack.getOreDictionaryData().forEach(this::addOreDict);
-        contentPack.getItemGroupData().forEach(this::addItemGroup);
+        if (contentPacks.containsKey(contentPack.getId())) return;
+        contentPacks.put(contentPack.getId(), contentPack);
+        contentPack.getData(ItemData.class).forEach(this::addItem);
+        contentPack.getData(OreDictData.class).forEach(this::addOreDict);
+        contentPack.getData(ItemGroupData.class).forEach(this::addItemGroup);
     }
 
     private void addItem(ItemData itemData) {

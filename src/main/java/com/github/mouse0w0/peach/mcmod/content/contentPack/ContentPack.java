@@ -8,7 +8,8 @@ import com.github.mouse0w0.peach.mcmod.content.data.OreDictData;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
-import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 
 import java.io.Closeable;
 import java.io.FileNotFoundException;
@@ -17,18 +18,9 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class ContentPack implements Closeable {
-
-    private static final TypeToken<List<ItemData>> LIST_ITEM_DATA_TYPE = new TypeToken<List<ItemData>>() {
-    };
-    private static final TypeToken<List<ItemGroupData>> LIST_CREATIVE_TAB_DATA_TYPE = new TypeToken<List<ItemGroupData>>() {
-    };
-    private static final TypeToken<List<OreDictData>> LIST_ORE_DICT_DATA_TYPE = new TypeToken<List<OreDictData>>() {
-    };
 
     private final Path file;
     private final FileSystem fileSystem;
@@ -36,9 +28,8 @@ public class ContentPack implements Closeable {
 
     private final List<ContentPackDependency> dependencies;
 
-    private List<ItemData> itemData;
-    private List<ItemGroupData> itemGroupData;
-    private List<OreDictData> oreDictionaryData;
+    private final Map<Class<?>, List<?>> data = new HashMap<>();
+
     private Translator translator;
 
     public static ContentPack load(Path file) throws IOException {
@@ -59,19 +50,31 @@ public class ContentPack implements Closeable {
         this.file = file;
         this.fileSystem = fileSystem;
         this.metadata = metadata;
-        this.dependencies = createDependencies(metadata);
+        this.dependencies = resolveDependencies(metadata);
         load();
     }
 
     private void load() throws IOException {
-        itemData = JsonUtils.readJson(getPath("content/" + getId() + "/item.json"), LIST_ITEM_DATA_TYPE);
-        itemData.forEach(item -> item.setDisplayImage(getImage(item)));
-        itemGroupData = JsonUtils.readJson(getPath("content/" + getId() + "/itemGroup.json"), LIST_CREATIVE_TAB_DATA_TYPE);
-        oreDictionaryData = JsonUtils.readJson(getPath("content/" + getId() + "/oreDictionary.json"), LIST_ORE_DICT_DATA_TYPE);
+        load(ItemData.class, "item.json");
+        load(ItemGroupData.class, "itemGroup.json");
+        load(OreDictData.class, "oreDictionary.json");
+        getData(ItemData.class).forEach(item -> item.setDisplayImage(getImage(item)));
         setLocale(Locale.getDefault());
     }
 
-    private List<ContentPackDependency> createDependencies(ContentPackMetadata metadata) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private void load(Class<?> clazz, String fileName) throws IOException {
+        Path file = getPath("content/" + getId() + "/" + fileName);
+        if (!Files.exists(file)) return;
+        JsonArray elements = JsonUtils.readJson(file, JsonArray.class);
+        List dataList = new ArrayList<>(elements.size());
+        for (JsonElement element : elements) {
+            dataList.add(JsonUtils.fromJson(element, clazz));
+        }
+        data.put(clazz, dataList);
+    }
+
+    private List<ContentPackDependency> resolveDependencies(ContentPackMetadata metadata) {
         List<ContentPackDependency> dependencies = new ArrayList<>();
 
         if (!"minecraft".equals(metadata.getId())) {
@@ -94,8 +97,8 @@ public class ContentPack implements Closeable {
                 .locale(locale)
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
-        itemData.forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
-        itemGroupData.forEach(creativeTab -> creativeTab.setDisplayName(translator.translate(creativeTab.getTranslationKey())));
+        getData(ItemData.class).forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
+        getData(ItemGroupData.class).forEach(creativeTab -> creativeTab.setDisplayName(translator.translate(creativeTab.getTranslationKey())));
     }
 
     public Path getFile() {
@@ -134,16 +137,10 @@ public class ContentPack implements Closeable {
         return dependencies;
     }
 
-    public List<ItemData> getItemData() {
-        return itemData;
-    }
-
-    public List<ItemGroupData> getItemGroupData() {
-        return itemGroupData;
-    }
-
-    public List<OreDictData> getOreDictionaryData() {
-        return oreDictionaryData;
+    @SuppressWarnings("unchecked")
+    public <T> List<T> getData(Class<T> clazz) {
+        List<?> dataList = data.get(clazz);
+        return dataList != null ? (List<T>) dataList : Collections.emptyList();
     }
 
     @Override
