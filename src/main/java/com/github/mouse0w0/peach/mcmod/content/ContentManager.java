@@ -155,7 +155,7 @@ public class ContentManager implements Disposable {
         removeElement(file);
         if (element instanceof ItemElement) {
             ItemElement itemElement = (ItemElement) element;
-            ItemData itemData = new ItemData(itemElement.getRegisterName(), 0, null, false);
+            ItemData itemData = new ItemData(itemElement.getIdentifier(), 0, null, false);
             itemData.setDisplayName(itemElement.getDisplayName());
 
             Path previewFile = previewCache.resolve(element.getFileName() + ".png");

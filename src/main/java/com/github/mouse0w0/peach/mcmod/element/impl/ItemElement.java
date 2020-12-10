@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ItemElement extends Element implements Localizable {
 
-    private String registerName;
+    private String identifier;
     private String displayName;
     private String itemGroup;
     private int maxStackSize = 64;
@@ -18,12 +18,12 @@ public class ItemElement extends Element implements Localizable {
     private String model = "generated";
     private Map<String, String> textures = Collections.emptyMap();
 
-    public String getRegisterName() {
-        return registerName;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setRegisterName(String registerName) {
-        this.registerName = registerName;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getDisplayName() {

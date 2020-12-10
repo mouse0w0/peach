@@ -74,7 +74,7 @@ public class ItemGen extends Generator<ItemElement> {
 
     @Override
     protected void generate(Compiler compiler, ItemElement item) throws Exception {
-        String registerName = item.getRegisterName();
+        String registerName = item.getIdentifier();
         String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(registerName));
         items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(registerName), ASMUtils.getDescriptor(internalName)));
 

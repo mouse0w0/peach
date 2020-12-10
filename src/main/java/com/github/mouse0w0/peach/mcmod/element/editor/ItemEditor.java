@@ -122,7 +122,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
     @Override
     protected void initialize(ItemElement element) {
-        identifier.setValue(element.getRegisterName());
+        identifier.setValue(element.getIdentifier());
         displayName.setValue(element.getDisplayName());
         itemGroup.setValue(contentManager.getItemGroup(element.getItemGroup()));
         maxStackSize.setValue(element.getMaxStackSize());
@@ -134,7 +134,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
     @Override
     protected void updateDataModel(ItemElement element) {
-        element.setRegisterName(identifier.getValue());
+        element.setIdentifier(identifier.getValue());
         element.setDisplayName(displayName.getValue());
         element.setItemGroup(itemGroup.getValue().getId());
         element.setMaxStackSize(maxStackSize.getValue());
