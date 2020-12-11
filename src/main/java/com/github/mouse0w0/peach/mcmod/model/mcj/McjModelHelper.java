@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.json;
+package com.github.mouse0w0.peach.mcmod.model.mcj;
 
 import com.google.gson.*;
 import org.joml.Vector3f;
@@ -9,33 +9,33 @@ import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class JsonModelHelper {
+public class McjModelHelper {
     public static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(JsonModel.class, new JsonModel.Serializer())
-            .registerTypeAdapter(Transform.class, new Transform.Serializer())
-            .registerTypeAdapter(Element.class, new Element.Serializer())
-            .registerTypeAdapter(Element.Rotation.class, new Element.Rotation.Serializer())
-            .registerTypeAdapter(Axis.class, new Axis.Persistence())
-            .registerTypeAdapter(Facing.class, new Facing.Persistence())
-            .registerTypeAdapter(Face.class, new Face.Serializer())
+            .registerTypeAdapter(McjModel.class, new McjModel.Serializer())
+            .registerTypeAdapter(McjTransform.class, new McjTransform.Serializer())
+            .registerTypeAdapter(McjElement.class, new McjElement.Serializer())
+            .registerTypeAdapter(McjElement.Rotation.class, new McjElement.Rotation.Serializer())
+            .registerTypeAdapter(McjAxis.class, new McjAxis.Persistence())
+            .registerTypeAdapter(McjFacing.class, new McjFacing.Persistence())
+            .registerTypeAdapter(McjFace.class, new McjFace.Serializer())
             .registerTypeAdapter(Vector3f.class, new Vector3fPersistence())
             .registerTypeAdapter(Vector4f.class, new Vector4fPersistence())
             .create();
 
-    public static JsonModel load(Path file) throws IOException {
+    public static McjModel load(Path file) throws IOException {
         try (BufferedReader reader = Files.newBufferedReader(file)) {
             return load(reader);
         }
     }
 
-    public static JsonModel load(InputStream inputStream) throws IOException {
+    public static McjModel load(InputStream inputStream) throws IOException {
         try (InputStreamReader reader = new InputStreamReader(inputStream)) {
             return load(reader);
         }
     }
 
-    public static JsonModel load(Reader reader) {
-        return GSON.fromJson(reader, JsonModel.class);
+    public static McjModel load(Reader reader) {
+        return GSON.fromJson(reader, McjModel.class);
     }
 
     private static class Vector3fPersistence implements JsonSerializer<Vector3f>, JsonDeserializer<Vector3f> {

@@ -1,7 +1,7 @@
-package com.github.mouse0w0.peach.mcmod.model.json.mesh;
+package com.github.mouse0w0.peach.mcmod.model.mcj.mesh;
 
-import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
-import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
+import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
+import com.github.mouse0w0.peach.mcmod.model.mcj.McjModelHelper;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.*;
@@ -27,7 +27,7 @@ public class Test3D extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        JsonModel model = JsonModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_flat.json"));
+        McjModel model = McjModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_flat.json"));
         TextureMapFX textureMap = TextureMapFX.builder().texture("blocks/rail_normal",
                 new Image(Files.newInputStream(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\mesh\\rail_normal.png")))).build();
         TriangleMesh mesh = new TriangleMesh();

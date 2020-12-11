@@ -11,8 +11,8 @@ import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
-import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
-import com.github.mouse0w0.peach.mcmod.model.json.JsonModelHelper;
+import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
+import com.github.mouse0w0.peach.mcmod.model.mcj.McjModelHelper;
 
 import java.io.BufferedWriter;
 import java.nio.file.Path;
@@ -92,14 +92,14 @@ public class ItemGen extends Generator<ItemElement> {
                     templateItem.process(internalName, evaluator));
         }
 
-        JsonModel model = compiler.getModelManager().getItemModel(item.getModel());
+        McjModel model = compiler.getModelManager().getItemModel(item.getModel());
         Map<String, String> textures = new LinkedHashMap<>();
         item.getTextures().forEach((key, value) -> textures.put(key, namespace + ":" + value));
         model.setTextures(textures);
 
         Filer assetsFiler = compiler.getAssetsFiler();
         try (BufferedWriter writer = assetsFiler.newWriter("models", "item", registerName + ".json")) {
-            JsonModelHelper.GSON.toJson(model, writer);
+            McjModelHelper.GSON.toJson(model, writer);
         }
 
         for (String texture : item.getTextures().values()) {

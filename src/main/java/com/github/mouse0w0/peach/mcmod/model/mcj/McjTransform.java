@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.json;
+package com.github.mouse0w0.peach.mcmod.model.mcj;
 
 import com.google.gson.*;
 import org.joml.Vector3f;
@@ -6,7 +6,7 @@ import org.joml.Vector3f;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-public class Transform {
+public class McjTransform {
 
     public static final Vector3f TRANSLATION_DEFAULT = new Vector3f(0.0F, 0.0F, 0.0F);
     public static final Vector3f ROTATION_DEFAULT = new Vector3f(0.0F, 0.0F, 0.0F);
@@ -16,11 +16,11 @@ public class Transform {
     private Vector3f rotation;
     private Vector3f scale;
 
-    public Transform() {
+    public McjTransform() {
         this(TRANSLATION_DEFAULT, ROTATION_DEFAULT, SCALE_DEFAULT);
     }
 
-    public Transform(Vector3f translation, Vector3f rotation, Vector3f scale) {
+    public McjTransform(Vector3f translation, Vector3f rotation, Vector3f scale) {
         this.translation = translation;
         this.rotation = rotation;
         this.scale = scale;
@@ -54,7 +54,7 @@ public class Transform {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Transform transform = (Transform) o;
+        McjTransform transform = (McjTransform) o;
         return translation.equals(transform.translation) &&
                 rotation.equals(transform.rotation) &&
                 scale.equals(transform.scale);
@@ -65,12 +65,12 @@ public class Transform {
         return Objects.hash(translation, rotation, scale);
     }
 
-    public static class Serializer implements JsonSerializer<Transform> {
+    public static class Serializer implements JsonSerializer<McjTransform> {
 
-        private static final Transform TRANSFORM_DEFAULT = new Transform();
+        private static final McjTransform TRANSFORM_DEFAULT = new McjTransform();
 
         @Override
-        public JsonElement serialize(Transform src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(McjTransform src, Type typeOfSrc, JsonSerializationContext context) {
             if (src.equals(TRANSFORM_DEFAULT)) return JsonNull.INSTANCE;
 
             JsonObject root = new JsonObject();

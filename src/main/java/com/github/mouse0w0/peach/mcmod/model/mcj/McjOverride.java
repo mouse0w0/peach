@@ -1,8 +1,8 @@
-package com.github.mouse0w0.peach.mcmod.model.json;
+package com.github.mouse0w0.peach.mcmod.model.mcj;
 
 import com.google.gson.JsonElement;
 
-public class ModelOverride {
+public class McjOverride {
     private JsonElement predicate;
     private String model;
 

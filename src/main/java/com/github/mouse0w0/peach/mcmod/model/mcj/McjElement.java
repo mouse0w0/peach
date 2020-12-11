@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.json;
+package com.github.mouse0w0.peach.mcmod.model.mcj;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,23 +9,23 @@ import org.joml.Vector3f;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-public class Element {
+public class McjElement {
     private Vector3f from;
     private Vector3f to;
     private Rotation rotation;
     private boolean shade = true;
-    private Map<Facing, Face> faces;
+    private Map<McjFacing, McjFace> faces;
 
     public static class Rotation {
         private Vector3f origin;
-        private Axis axis;
+        private McjAxis axis;
         private float angle;
         private boolean rescale = false;
 
         public Rotation() {
         }
 
-        public Rotation(Vector3f origin, Axis axis, float angle, boolean rescale) {
+        public Rotation(Vector3f origin, McjAxis axis, float angle, boolean rescale) {
             this.origin = origin;
             this.axis = axis;
             this.angle = angle;
@@ -40,11 +40,11 @@ public class Element {
             this.origin = origin;
         }
 
-        public Axis getAxis() {
+        public McjAxis getAxis() {
             return axis;
         }
 
-        public void setAxis(Axis axis) {
+        public void setAxis(McjAxis axis) {
             this.axis = axis;
         }
 
@@ -110,18 +110,18 @@ public class Element {
         this.shade = shade;
     }
 
-    public Map<Facing, Face> getFaces() {
+    public Map<McjFacing, McjFace> getFaces() {
         return faces;
     }
 
-    public void setFaces(Map<Facing, Face> faces) {
+    public void setFaces(Map<McjFacing, McjFace> faces) {
         this.faces = faces;
     }
 
-    public static class Serializer implements JsonSerializer<Element> {
+    public static class Serializer implements JsonSerializer<McjElement> {
 
         @Override
-        public JsonElement serialize(Element src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(McjElement src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject root = new JsonObject();
             root.add("from", context.serialize(src.getFrom()));
             root.add("to", context.serialize(src.getTo()));

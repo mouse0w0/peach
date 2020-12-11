@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.json;
+package com.github.mouse0w0.peach.mcmod.model.mcj;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -10,16 +10,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-public class JsonModel {
+public class McjModel {
     private String parent;
     @SerializedName("ambientocclusion")
     private boolean ambientOcclusion = true;
     @SerializedName("gui_light")
     private String guiLight;
-    private Map<String, Transform> display;
+    private Map<String, McjTransform> display;
     private Map<String, String> textures;
-    private List<Element> elements;
-    private List<ModelOverride> overrides;
+    private List<McjElement> elements;
+    private List<McjOverride> overrides;
 
     public String getParent() {
         return parent;
@@ -45,11 +45,11 @@ public class JsonModel {
         this.guiLight = guiLight;
     }
 
-    public Map<String, Transform> getDisplay() {
+    public Map<String, McjTransform> getDisplay() {
         return display;
     }
 
-    public void setDisplay(Map<String, Transform> display) {
+    public void setDisplay(Map<String, McjTransform> display) {
         this.display = display;
     }
 
@@ -61,26 +61,26 @@ public class JsonModel {
         this.textures = textures;
     }
 
-    public List<Element> getElements() {
+    public List<McjElement> getElements() {
         return elements;
     }
 
-    public void setElements(List<Element> elements) {
+    public void setElements(List<McjElement> elements) {
         this.elements = elements;
     }
 
-    public List<ModelOverride> getOverrides() {
+    public List<McjOverride> getOverrides() {
         return overrides;
     }
 
-    public void setOverrides(List<ModelOverride> overrides) {
+    public void setOverrides(List<McjOverride> overrides) {
         this.overrides = overrides;
     }
 
-    public static class Serializer implements JsonSerializer<JsonModel> {
+    public static class Serializer implements JsonSerializer<McjModel> {
 
         @Override
-        public JsonElement serialize(JsonModel src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(McjModel src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject root = new JsonObject();
             if (src.getParent() != null) root.addProperty("parent", src.getParent());
             if (!src.isAmbientOcclusion()) root.addProperty("ambientocclusion", src.isAmbientOcclusion());

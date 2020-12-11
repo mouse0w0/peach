@@ -10,9 +10,8 @@ import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.model.json.JsonModel;
+import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
-import com.github.mouse0w0.peach.mcmod.ui.form.ItemPickerElement;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureElement;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureHandler;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -110,7 +109,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
         textures.setText(I18n.translate("item.appearance.texture"));
         model.valueProperty().addListener(observable -> {
-            JsonModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
+            McjModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
             textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);
         });
 
