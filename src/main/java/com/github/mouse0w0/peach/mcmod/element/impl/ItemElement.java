@@ -84,6 +84,6 @@ public class ItemElement extends Element implements Localizable {
 
     @Override
     public void getLocalizedText(String namespace, Map<String, String> localizedTexts) {
-        localizedTexts.put("item." + namespace + "." + registerName + ".name", displayName);
+        localizedTexts.put("item." + namespace + "." + identifier + ".name", displayName);
     }
 }
