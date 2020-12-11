@@ -53,12 +53,15 @@ public final class Peach extends ComponentManagerImpl {
     }
 
     public static void main(String[] args) {
+        LOGGER.info("Initializing application...");
         initUncaughtExceptionHandler();
-        LOGGER.info("Launching application...");
         printSystemInfo();
         initTranslator();
+        LOGGER.info("Initializing extensions.");
         INSTANCE.initExtensions();
+        LOGGER.info("Initializing application services.");
         INSTANCE.initServices(ServiceDescriptor.APPLICATION_SERVICE.getExtensions());
+        LOGGER.info("Initializing JavaFX.");
         Application.launch(FXApplication.class, args);
     }
 

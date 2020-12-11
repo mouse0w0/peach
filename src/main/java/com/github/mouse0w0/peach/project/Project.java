@@ -17,7 +17,6 @@ import java.nio.file.Path;
 
 public class Project extends ComponentManagerImpl {
 
-
     public static final String STORE_FOLDER = ".peach";
 
     private static final String NAME_FILE = ".name";

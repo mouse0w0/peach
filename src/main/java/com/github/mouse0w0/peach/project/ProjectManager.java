@@ -43,7 +43,7 @@ public class ProjectManager {
 
     public Project openProject(@Nonnull Path path) {
         if (!path.isAbsolute()) {
-            throw new IllegalArgumentException("Path must be absolute");
+            throw new IllegalArgumentException("The path must be absolute, path: " + path);
         }
 
         Project project = openedProjects.get(path);
