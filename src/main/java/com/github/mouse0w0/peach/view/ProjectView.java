@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.data.DataProvider;
+import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.project.Project;
@@ -15,6 +16,9 @@ import com.github.mouse0w0.peach.util.NioFileWatcher;
 import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.Event;
@@ -27,8 +31,9 @@ import javafx.scene.input.*;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardWatchEventKinds;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,11 +44,26 @@ public class ProjectView implements Disposable, DataProvider {
     private final Path rootPath;
 
     private final Map<Path, TreeItem<Path>> itemMap = new HashMap<>();
+    private final Map<Path, TreeItem<Path>> expandedItemMap = new HashMap<>();
+
+    private final InvalidationListener expandedListener = new InvalidationListener() {
+        @Override
+        @SuppressWarnings("unchecked")
+        public void invalidated(Observable observable) {
+            BooleanProperty expanded = (BooleanProperty) observable;
+            TreeItem<Path> item = (TreeItem<Path>) expanded.getBean();
+            if (expanded.get()) {
+                expand(item);
+            }
+        }
+    };
+
+    private Comparator<TreeItem<Path>> comparator = Comparator.comparing(TreeItem::getValue);
+
+    private TreeView<Path> treeView;
 
     private ContextMenu contextMenu;
     private EventHandler<Event> onContextMenuRequested;
-
-    private TreeView<Path> treeView;
 
     private NioFileWatcher fileWatcher;
 
@@ -54,6 +74,14 @@ public class ProjectView implements Disposable, DataProvider {
     public ProjectView(Project project) {
         this.project = project;
         this.rootPath = project.getPath();
+    }
+
+    public Comparator<TreeItem<Path>> getComparator() {
+        return comparator;
+    }
+
+    public void setComparator(Comparator<TreeItem<Path>> comparator) {
+        this.comparator = comparator;
     }
 
     public Node initViewContent() {
@@ -78,53 +106,55 @@ public class ProjectView implements Disposable, DataProvider {
         root.setExpanded(true);
         treeView.setRoot(root);
 
-        try {
-            Files.walkFileTree(rootPath, new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    addPath(file, false);
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                    if (!rootPath.equals(dir)) {
-                        addPath(dir, false);
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-            });
-        } catch (IOException ignored) {
-        }
-
         fileWatcher = new NioFileWatcher(rootPath, SensitivityWatchEventModifier.LOW, ExtendedWatchEventModifier.FILE_TREE);
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, path -> addPath(path, true));
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, path -> {
-            TreeItem<Path> treeItem = itemMap.get(path);
-            TreeItem<Path> parent = treeItem.getParent();
-            if (parent == null) throw new IllegalStateException("Cannot delete root");
-            parent.getChildren().remove(treeItem);
-        });
+        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, this::onFileCreate);
+        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, this::onFileDelete);
         fileWatcher.start();
         return treeView;
     }
 
-    private void addPath(Path path, boolean sorted) {
+    private TreeItem<Path> createTreeItem(Path path) {
+        TreeItem<Path> treeItem = new TreeItem<>(path);
+        if (Files.isDirectory(path)) {
+            treeItem.expandedProperty().addListener(expandedListener);
+            treeItem.getChildren().add(new TreeItem<>());
+        }
+        itemMap.put(path, treeItem);
+        return treeItem;
+    }
+
+    private void expand(TreeItem<Path> item) {
+        Path path = item.getValue();
+        if (expandedItemMap.containsKey(path)) return;
+
+        ObservableList<TreeItem<Path>> children = item.getChildren();
+        children.clear();
+
+        try {
+            Files.list(path).forEach(child -> children.add(createTreeItem(child)));
+        } catch (IOException e) {
+            throw new RuntimeIOException(e);
+        }
+
+        children.sort(comparator);
+        expandedItemMap.put(path, item);
+    }
+
+    private void onFileCreate(Path path) {
         Path parentPath = path.getParent();
-        TreeItem<Path> parent = itemMap.get(parentPath);
-        if (parent == null) throw new IllegalStateException("Parent not found");
+        TreeItem<Path> parent = expandedItemMap.get(parentPath);
+        if (parent == null) return; // Parent not expanded.
 
         ObservableList<TreeItem<Path>> children = parent.getChildren();
         children.add(createTreeItem(path));
-        if (sorted) {
-            children.sort(Comparator.comparing(TreeItem::getValue));
-        }
+        children.sort(comparator);
     }
 
-    private TreeItem<Path> createTreeItem(Path path) {
-        TreeItem<Path> treeItem = new TreeItem<>(path);
-        itemMap.put(path, treeItem);
-        return treeItem;
+    private void onFileDelete(Path path) {
+        TreeItem<Path> treeItem = itemMap.get(path);
+        TreeItem<Path> parent = treeItem.getParent();
+        if (parent == null) return;
+        parent.getChildren().remove(treeItem);
     }
 
     @Override
