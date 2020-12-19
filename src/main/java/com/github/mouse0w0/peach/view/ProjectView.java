@@ -58,7 +58,12 @@ public class ProjectView implements Disposable, DataProvider {
         }
     };
 
-    private Comparator<TreeItem<Path>> comparator = Comparator.comparing(TreeItem::getValue);
+    private Comparator<TreeItem<Path>> comparator = Comparator.comparing(TreeItem::getValue, (o1, o2) -> {
+        boolean isDir1 = Files.isDirectory(o1);
+        boolean isDir2 = Files.isDirectory(o2);
+        if (isDir1 == isDir2) return o1.compareTo(o2);
+        else return isDir1 ? -1 : 1;
+    });
 
     private TreeView<Path> treeView;
 
