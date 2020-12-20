@@ -157,8 +157,8 @@ public class ProjectView implements Disposable, DataProvider {
 
     private void onFileDelete(Path path) {
         TreeItem<Path> treeItem = itemMap.get(path);
+        if (treeItem == null) return;
         TreeItem<Path> parent = treeItem.getParent();
-        if (parent == null) return;
         parent.getChildren().remove(treeItem);
     }
 
