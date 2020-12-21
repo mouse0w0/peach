@@ -149,6 +149,10 @@
     -fx-background-color: -peach-hover-color;
 }
 
+.file-editor > .button-bar {
+    -fx-padding: 0.75em;
+}
+
 .file-editor > .button-bar > .button,
 .wizard > .button-bar > .button {
     -fx-min-width: 50;

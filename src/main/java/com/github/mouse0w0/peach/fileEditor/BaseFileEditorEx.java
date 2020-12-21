@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.fileEditor;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.Project;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -89,7 +88,6 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
 
     protected Node createNode() {
         BorderPane root = new BorderPane();
-        root.setPadding(new Insets(9));
         root.getStyleClass().add("file-editor");
 
         root.setCenter(getContent());
