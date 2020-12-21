@@ -5,9 +5,12 @@ import com.google.common.collect.Multimap;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-public class NioFileWatcher {
+public class NioFileWatcher implements Runnable {
+
+    private static final AtomicInteger NEXT_ID = new AtomicInteger();
 
     private final Path path;
     private Multimap<WatchEvent.Kind<?>, Consumer<Path>> listeners = HashMultimap.create();
@@ -55,7 +58,7 @@ public class NioFileWatcher {
     }
 
     public void start() {
-        thread = new Thread(this::run);
+        thread = new Thread(this, "Nio File Watcher - " + NEXT_ID.getAndIncrement());
         thread.setDaemon(true);
         thread.start();
     }
@@ -64,7 +67,7 @@ public class NioFileWatcher {
         thread.interrupt();
     }
 
-    private void run() {
+    public void run() {
         try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
             WatchKey key = path.register(watchService,
                     listeners.keySet().toArray(new WatchEvent.Kind[0]),
