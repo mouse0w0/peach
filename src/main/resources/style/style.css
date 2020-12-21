@@ -157,3 +157,8 @@
 .wizard > .button-bar > .button {
     -fx-min-width: 50;
 }
+
+.form-view > .scroll-pane > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
