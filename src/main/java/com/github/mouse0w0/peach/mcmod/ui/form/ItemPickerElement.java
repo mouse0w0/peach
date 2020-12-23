@@ -124,6 +124,8 @@ public class ItemPickerElement extends ValueElement<Item> {
     protected Node createDefaultEditor() {
         ItemPicker itemPicker = new ItemPicker();
         itemPicker.itemProperty().bindBidirectional(valueProperty());
+        itemPicker.maxWidthProperty().bind(itemPicker.fitWidthProperty());
+        itemPicker.maxHeightProperty().bind(itemPicker.fitHeightProperty());
         return itemPicker;
     }
 }
