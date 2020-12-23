@@ -4,10 +4,3 @@ plugins {
 }
 
 version '1.0.0'
-
-repositories {
-    jcenter()
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-    mavenLocal()
-}

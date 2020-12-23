@@ -31,7 +31,7 @@ dependencies {
     compile 'com.github.mouse0w0:viewpane:8.0.0'
     compile 'com.github.mouse0w0:coffeemaker:3.0.0'
 
-//    compile 'org.controlsfx:controlsfx:8.40.17'
+    compile 'org.controlsfx:controlsfx:8.40.17'
 //    compile 'com.dlsc.formsfx:formsfx-core:8.4.0'
 //    compile 'com.dlsc.preferencesfx:preferencesfx-core:8.6.0'
 //    compile 'org.fxmisc.richtext:richtextfx:0.10.5'
