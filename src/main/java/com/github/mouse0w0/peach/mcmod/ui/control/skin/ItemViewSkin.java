@@ -33,7 +33,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
                 FXUtils.getTooltipOwnerNode().ifPresent(node -> {
                             ItemView itemView = (ItemView) node;
                             Item item = itemView.getItem();
-                            if (!itemView.isEnableTooltip() || item == null) tooltip.hide();
+                            if (!itemView.isEnableTooltip() || item == null) return;
 
                             StringBuilder sb = new StringBuilder();
 
