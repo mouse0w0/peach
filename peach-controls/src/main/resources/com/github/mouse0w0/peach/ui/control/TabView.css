@@ -1,0 +1,51 @@
+.tag-view > .flow {
+    -fx-hgap: 0.5em;
+    -fx-vgap: 0.25em;
+}
+
+.tag-view > .flow > .add-button {
+    -fx-background-color: #e6e6e6;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 1.75em;
+    -fx-pref-height: 1.75em;
+}
+
+.tag-view > .flow > .add-button:hover {
+    -fx-background-color: #d9d9d9;
+}
+
+.tag-view > .flow > .add-button > .add {
+    -fx-background-color: black;
+    -fx-shape: "M 19 13 H 13 V 19 H 11 V 13 H 5 V 11 H 11 V 5 H 13 V 11 H 19 V 13 Z";
+    -fx-pref-width: 1em;
+    -fx-pref-height: 1em;
+    -fx-max-width: 1em;
+    -fx-max-height: 1em;
+}
+
+.tag-cell {
+    -fx-background-color: #e6e6e6;
+    -fx-background-radius: 1.75em 1.75em 1.75em 1.75em;
+    -fx-padding: 0 0 0 0.5em;
+}
+
+.tag-cell:hover,
+.tag-cell > .remove-button:hover {
+    -fx-background-color: #d9d9d9;
+}
+
+.tag-cell > .remove-button {
+    -fx-background-color: #e6e6e6;
+    -fx-background-radius: 50%;
+    -fx-pref-width: 1.75em;
+    -fx-pref-height: 1.75em;
+}
+
+.tag-cell > .remove-button > .remove {
+    -fx-background-color: black;
+    -fx-shape: "M 19 6.41 L 17.59 5 L 12 10.59 L 6.41 5 L 5 6.41 L 10.59 12 L 5 17.59 L 6.41 19 L 12 13.41 L 17.59 19 L 19 17.59 L 13.41 12 L 19 6.41 Z";
+    -fx-pref-width: 1em;
+    -fx-pref-height: 1em;
+    -fx-max-width: 1em;
+    -fx-max-height: 1em;
+}
