@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.i18n.I18n;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -14,8 +15,8 @@ public final class ToolType {
     public static final ToolType SHOVEL = of("shovel");
     public static final ToolType HOE = of("hoe"); // TODO
 
-    public static Map<String, ToolType> getToolTypes() {
-        return TOOL_TYPES;
+    public static Collection<ToolType> getToolTypes() {
+        return TOOL_TYPES.values();
     }
 
     public static ToolType of(String name) {

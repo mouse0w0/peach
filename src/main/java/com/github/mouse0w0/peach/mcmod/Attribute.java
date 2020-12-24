@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.i18n.I18n;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -21,8 +22,8 @@ public final class Attribute {
     public static final Attribute REACH_DISTANCE = of("generic.reachDistance");
     public static final Attribute SWIM_SPEED = of("forge.swimSpeed");
 
-    public static Map<String, Attribute> getAttributes() {
-        return ATTRIBUTES;
+    public static Collection<Attribute> getAttributes() {
+        return ATTRIBUTES.values();
     }
 
     public static Attribute of(String name) {

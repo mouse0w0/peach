@@ -1,15 +1,16 @@
 package com.github.mouse0w0.peach.mcmod;
 
+import com.github.mouse0w0.i18n.I18n;
+
 public class AttributeModifier {
+    public static final AttributeModifier[] EMPTY_ARRAY = new AttributeModifier[0];
+
+    private final String attribute;
+    private final double amount;
+    private final Operation operation;
+
     public enum Operation {
         ADD, MULTIPLY_BASE, MULTIPLY_TOTAL
-    }
-
-    private String attribute;
-    private double amount;
-    private Operation operation;
-
-    public AttributeModifier() {
     }
 
     public AttributeModifier(String attribute, double amount, Operation operation) {
@@ -22,24 +23,24 @@ public class AttributeModifier {
         return attribute;
     }
 
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
-    }
-
     public double getAmount() {
         return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 
     public Operation getOperation() {
         return operation;
     }
 
-    public void setOperation(Operation operation) {
-        this.operation = operation;
+    public String toLocalizedText() {
+        final String localizedAttribute = I18n.translate("attribute." + attribute);
+        final double value = operation == null || operation == Operation.ADD ? amount : amount * 100.0D;
+        if (operation == Operation.MULTIPLY_BASE) {
+            return I18n.format("attributeModifier.text.multiple_base", localizedAttribute, value);
+        } else if (operation == Operation.MULTIPLY_TOTAL) {
+            return I18n.format("attributeModifier.text.multiple_total", localizedAttribute, value);
+        } else {
+            return I18n.format("attributeModifier.text.add", localizedAttribute, value);
+        }
     }
 
     @Override

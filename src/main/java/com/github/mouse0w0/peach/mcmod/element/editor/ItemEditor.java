@@ -6,14 +6,19 @@ import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Group;
 import com.github.mouse0w0.peach.form.element.*;
+import com.github.mouse0w0.peach.mcmod.EnchantmentType;
+import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
+import com.github.mouse0w0.peach.mcmod.ItemType;
+import com.github.mouse0w0.peach.mcmod.UseAnimation;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
-import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureElement;
-import com.github.mouse0w0.peach.mcmod.ui.form.TextureHandler;
+import com.github.mouse0w0.peach.mcmod.ui.cell.ItemTypeCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.UseAnimationCell;
+import com.github.mouse0w0.peach.mcmod.ui.form.*;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -33,8 +38,22 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     // Properties
     private TextFieldElement identifier;
     private TextFieldElement displayName;
+    private ComboBoxElement<ItemType> itemType;
     private ComboBoxElement<ItemGroupData> itemGroup;
     private SpinnerElement<Integer> maxStackSize;
+    private SpinnerElement<Integer> durability;
+    private SpinnerElement<Double> destroySpeed;
+    private RadioButtonElement canDestroyAnyBlock;
+    private ToolAttributesElement toolAttributes;
+    private AttributeModifiersElement attributeModifiers;
+    private SpinnerElement<Integer> enchantability;
+    private CheckComboBoxElement<EnchantmentType> acceptableEnchantments;
+    private ChoiceBoxElement<EquipmentSlot> equipmentSlot;
+    private ItemPickerElement repairItem;
+    private ItemPickerElement recipeRemain;
+    private ComboBoxElement<UseAnimation> useAnimation;
+    private SpinnerElement<Integer> useDuration;
+    private SpinnerElement<Integer> fuelBurnTime;
     private RadioButtonElement hasEffect;
     private TextAreaElement information;
 
@@ -64,17 +83,104 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         displayName.setText(I18n.translate("item.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
+        itemType = new ComboBoxElement<>();
+        itemType.setText(I18n.translate("item.properties.itemType"));
+        itemType.setCellFactory(view -> new ItemTypeCell());
+        itemType.setButtonCell(new ItemTypeCell());
+        itemType.getItems().setAll(ItemType.values());
+        itemType.setColSpan(ColSpan.HALF);
+
         itemGroup = new ComboBoxElement<>();
         itemGroup.setText(I18n.translate("item.properties.itemGroup"));
         itemGroup.setCellFactory(view -> new ItemGroupCell());
         itemGroup.setButtonCell(new ItemGroupCell());
-        itemGroup.getItems().addAll(contentManager.getItemGroups());
-        itemGroup.getSelectionModel().selectFirst();
+        itemGroup.getItems().setAll(contentManager.getItemGroups());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new SpinnerElement<>(1, 64, 64);
         maxStackSize.setText(I18n.translate("item.properties.maxStackSize"));
         maxStackSize.setColSpan(ColSpan.HALF);
+
+        durability = new SpinnerElement<>(0, Integer.MAX_VALUE, 0);
+        durability.setText(I18n.translate("item.properties.durability"));
+        durability.setColSpan(ColSpan.HALF);
+
+        destroySpeed = new SpinnerElement<>(0.0, Float.MAX_VALUE, 0.0);
+        destroySpeed.setText(I18n.translate("item.properties.destroySpeed"));
+        destroySpeed.setColSpan(ColSpan.HALF);
+
+        canDestroyAnyBlock = new RadioButtonElement();
+        canDestroyAnyBlock.setText(I18n.translate("item.properties.canDestroyAnyBlock"));
+        canDestroyAnyBlock.setColSpan(ColSpan.HALF);
+
+        toolAttributes = new ToolAttributesElement();
+        toolAttributes.setText(I18n.translate("item.properties.toolAttributes"));
+        toolAttributes.setColSpan(ColSpan.HALF);
+
+        attributeModifiers = new AttributeModifiersElement();
+        attributeModifiers.setText(I18n.translate("item.properties.attributeModifiers"));
+        attributeModifiers.setColSpan(ColSpan.HALF);
+
+        enchantability = new SpinnerElement<>(0, Integer.MAX_VALUE, 0);
+        enchantability.setText(I18n.translate("item.properties.enchantability"));
+        enchantability.setColSpan(ColSpan.HALF);
+
+        acceptableEnchantments = new CheckComboBoxElement<>();
+        acceptableEnchantments.setText(I18n.translate("item.properties.acceptableEnchantments"));
+        acceptableEnchantments.getItems().setAll(EnchantmentType.values());
+        acceptableEnchantments.setConverter(new StringConverter<EnchantmentType>() {
+            @Override
+            public String toString(EnchantmentType object) {
+                return object.getLocalizedName();
+            }
+
+            @Override
+            public EnchantmentType fromString(String string) {
+                throw new UnsupportedOperationException();
+            }
+        });
+        acceptableEnchantments.setColSpan(ColSpan.HALF);
+
+        equipmentSlot = new ChoiceBoxElement<>();
+        equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
+        equipmentSlot.setConverter(new StringConverter<EquipmentSlot>() {
+            @Override
+            public String toString(EquipmentSlot object) {
+                return object.getLocalizedName();
+            }
+
+            @Override
+            public EquipmentSlot fromString(String string) {
+                throw new UnsupportedOperationException();
+            }
+        });
+        equipmentSlot.getItems().setAll(EquipmentSlot.values());
+        equipmentSlot.setColSpan(ColSpan.HALF);
+
+        repairItem = new ItemPickerElement();
+        repairItem.setText(I18n.translate("item.properties.repairItem"));
+        repairItem.setFitSize(32, 32);
+        repairItem.setColSpan(ColSpan.HALF);
+
+        recipeRemain = new ItemPickerElement();
+        recipeRemain.setText(I18n.translate("item.properties.recipeRemain"));
+        recipeRemain.setFitSize(32, 32);
+        recipeRemain.setColSpan(ColSpan.HALF);
+
+        useAnimation = new ComboBoxElement<>();
+        useAnimation.setText(I18n.translate("item.properties.useAnimation"));
+        useAnimation.setCellFactory(view -> new UseAnimationCell());
+        useAnimation.setButtonCell(new UseAnimationCell());
+        useAnimation.getItems().setAll(UseAnimation.values());
+        useAnimation.setColSpan(ColSpan.HALF);
+
+        useDuration = new SpinnerElement<>(0, Integer.MAX_VALUE, 0);
+        useDuration.setText(I18n.translate("item.properties.useDuration"));
+        useDuration.setColSpan(ColSpan.HALF);
+
+        fuelBurnTime = new SpinnerElement<>(0, Integer.MAX_VALUE, 0);
+        fuelBurnTime.setText(I18n.translate("item.properties.fuelBurnTime"));
+        fuelBurnTime.setColSpan(ColSpan.HALF);
 
         hasEffect = new RadioButtonElement();
         hasEffect.setText(I18n.translate("item.properties.hasEffect"));
@@ -83,7 +189,18 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         information = new TextAreaElement();
         information.setText(I18n.translate("item.properties.information"));
 
-        properties.getElements().addAll(identifier, displayName, itemGroup, maxStackSize, hasEffect, information);
+        properties.getElements().addAll(
+                identifier, displayName,
+                itemType, itemGroup,
+                maxStackSize, durability,
+                destroySpeed, canDestroyAnyBlock,
+                toolAttributes, attributeModifiers,
+                enchantability, acceptableEnchantments,
+                equipmentSlot, fuelBurnTime,
+                repairItem, recipeRemain,
+                useAnimation, useDuration,
+                hasEffect,
+                information);
 
         Group appearance = new Group();
         appearance.setText(I18n.translate("item.appearance.title"));
@@ -124,8 +241,22 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     protected void initialize(ItemElement element) {
         identifier.setValue(element.getIdentifier());
         displayName.setValue(element.getDisplayName());
+        itemType.setValue(element.getItemType());
         itemGroup.setValue(contentManager.getItemGroup(element.getItemGroup()));
         maxStackSize.setValue(element.getMaxStackSize());
+        durability.setValue(element.getDurability());
+        destroySpeed.setValue(element.getDestroySpeed());
+        canDestroyAnyBlock.setValue(element.isCanDestroyAnyBlock());
+        toolAttributes.setValue(element.getToolAttributes());
+        attributeModifiers.setValue(element.getAttributeModifiers());
+        enchantability.setValue(element.getEnchantability());
+        acceptableEnchantments.setValue(element.getAcceptableEnchantments());
+        equipmentSlot.setValue(element.getEquipmentSlot());
+        repairItem.setValue(element.getRepairItem());
+        recipeRemain.setValue(element.getRecipeRemain());
+        useAnimation.setValue(element.getUseAnimation());
+        useDuration.setValue(element.getUseDuration());
+        fuelBurnTime.setValue(element.getFuelBurnTime());
         hasEffect.setValue(element.isHasEffect());
         information.setValue(element.getInformation());
         model.setValue(element.getModel());
@@ -136,8 +267,22 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     protected void updateDataModel(ItemElement element) {
         element.setIdentifier(identifier.getValue());
         element.setDisplayName(displayName.getValue());
+        element.setItemType(itemType.getValue());
         element.setItemGroup(itemGroup.getValue().getId());
         element.setMaxStackSize(maxStackSize.getValue());
+        element.setDurability(durability.getValue());
+        element.setDestroySpeed(destroySpeed.getValue());
+        element.setCanDestroyAnyBlock(canDestroyAnyBlock.getValue());
+        element.setToolAttributes(toolAttributes.getValue());
+        element.setAttributeModifiers(attributeModifiers.getValue());
+        element.setEnchantability(enchantability.getValue());
+        element.setAcceptableEnchantments(acceptableEnchantments.getValue(EnchantmentType[]::new));
+        element.setEquipmentSlot(equipmentSlot.getValue());
+        element.setRepairItem(repairItem.getValue());
+        element.setRecipeRemain(recipeRemain.getValue());
+        element.setUseAnimation(useAnimation.getValue());
+        element.setUseDuration(useDuration.getValue());
+        element.setFuelBurnTime(fuelBurnTime.getValue());
         element.setHasEffect(hasEffect.getValue());
         element.setInformation(information.getValue());
         element.setModel(model.getValue());

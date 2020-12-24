@@ -1,15 +1,14 @@
 package com.github.mouse0w0.peach.mcmod;
 
+import com.github.mouse0w0.i18n.I18n;
+
 import java.util.Objects;
 
 public class ToolAttribute {
     public static final ToolAttribute[] EMPTY_ARRAY = new ToolAttribute[0];
 
-    private String type;
-    private int level;
-
-    public ToolAttribute() {
-    }
+    private final String type;
+    private final int level;
 
     public ToolAttribute(String type, int level) {
         this.type = type;
@@ -20,16 +19,13 @@ public class ToolAttribute {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public String toLocalizedText() {
+        String localizedType = I18n.translate("toolType." + type);
+        return I18n.format("toolAttribute.text", localizedType, level);
     }
 
     @Override
@@ -47,7 +43,7 @@ public class ToolAttribute {
 
     @Override
     public String toString() {
-        return "ToolDefinition{" +
+        return "ToolAttribute{" +
                 "type='" + type + '\'' +
                 ", level=" + level +
                 '}';
