@@ -52,7 +52,7 @@ public class TagViewSkin<T> extends SkinBase<TagView<T>> {
 
             int newIndex = newValue.intValue();
             if (newIndex != -1) {
-                TagCell<T> cell = getCell(oldIndex);
+                TagCell<T> cell = getCell(newIndex);
                 if (cell != null) cell.startEdit();
             }
         });
