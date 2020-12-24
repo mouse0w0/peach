@@ -25,6 +25,7 @@ public class TagViewSkin<T> extends SkinBase<TagView<T>> {
 
         flow = new FlowPane();
         flow.getStyleClass().add("flow");
+        flow.setPrefWrapLength(-1);
         getChildren().add(flow);
 
         StackPane add = new StackPane();
@@ -133,13 +134,33 @@ public class TagViewSkin<T> extends SkinBase<TagView<T>> {
     }
 
     @Override
+    protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + flow.minWidth(-1) + rightInset;
+    }
+
+    @Override
+    protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + flow.minHeight(width - leftInset - rightInset) + bottomInset;
+    }
+
+    @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         return leftInset + flow.prefWidth(-1) + rightInset;
     }
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return topInset + flow.prefHeight(-1) + bottomInset;
+        return topInset + flow.prefHeight(width - leftInset - rightInset) + bottomInset;
+    }
+
+    @Override
+    protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + flow.maxWidth(-1) + rightInset;
+    }
+
+    @Override
+    protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + flow.maxHeight(width - leftInset - rightInset) + bottomInset;
     }
 
     @Override

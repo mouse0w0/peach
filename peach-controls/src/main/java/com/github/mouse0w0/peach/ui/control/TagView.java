@@ -11,6 +11,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.SelectionModel;
@@ -237,6 +238,11 @@ public class TagView<T> extends Control {
     @SuppressWarnings("unchecked")
     public final Node getAddButton() {
         return ((TagViewSkin<T>) getSkin()).getAddButton();
+    }
+
+    @Override
+    public Orientation getContentBias() {
+        return Orientation.HORIZONTAL;
     }
 
     @Override
