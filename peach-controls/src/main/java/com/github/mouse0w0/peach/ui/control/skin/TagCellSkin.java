@@ -27,6 +27,10 @@ public class TagCellSkin<T> extends LabeledSkinBase<TagCell<T>, BehaviorBase<Tag
         removeBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             if (event.isPrimaryButtonDown()) {
                 TagCell<T> tagCell = getSkinnable();
+                if (tagCell.isEditing()) {
+                    tagCell.cancelEdit();
+                }
+
                 TagView<T> tagView = tagCell.getTagView();
                 if (tagView != null) {
                     tagView.fireEvent(new TagView.TagEvent<>(
