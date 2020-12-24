@@ -78,9 +78,10 @@ public class TagViewSkin<T> extends SkinBase<TagView<T>> {
                     cellList.get(i).updateItem(i);
                 }
             } else {
-                final int size = c.getList().size();
-                if (c.wasAdded()) createCell(size - cellList.size());
-                for (int i = c.getFrom(); i < size + c.getRemovedSize(); i++) {
+                final int itemCount = c.getList().size();
+                final int newCellCount = itemCount - cellList.size();
+                if (newCellCount > 0) createCell(newCellCount);
+                for (int i = c.getFrom(); i < itemCount - newCellCount; i++) {
                     cellList.get(i).updateItem(i);
                 }
             }
@@ -91,25 +92,13 @@ public class TagViewSkin<T> extends SkinBase<TagView<T>> {
         final TagView<T> skinnable = getSkinnable();
         final Function<TagView<T>, TagCell<T>> cellFactory = skinnable.getCellFactory();
         for (int i = 0; i < count; i++) {
-            int index = cellList.size();
-            TagCell<T> cell = cellFactory != null ? cellFactory.apply(skinnable) : createDefaultCell();
+            final int index = cellList.size();
+            final TagCell<T> cell = cellFactory != null ? cellFactory.apply(skinnable) : createDefaultCell();
             cell.updateTagView(skinnable);
             cell.updateIndex(index);
             flow.getChildren().add(index, cell);
             cellList.add(cell);
         }
-    }
-
-    private TagCell<T> createCell() {
-        final TagView<T> skinnable = getSkinnable();
-        final Function<TagView<T>, TagCell<T>> cellFactory = skinnable.getCellFactory();
-        final TagCell<T> cell = cellFactory != null ? cellFactory.apply(skinnable) : createDefaultCell();
-        final int index = cellList.size();
-        cell.updateTagView(skinnable);
-        cell.updateIndex(index);
-        flow.getChildren().add(index, cell);
-        cellList.add(cell);
-        return cell;
     }
 
     private TagCell<T> createDefaultCell() {
