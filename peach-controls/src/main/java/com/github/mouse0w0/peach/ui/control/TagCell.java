@@ -61,8 +61,8 @@ public class TagCell<T> extends IndexedCell<T> {
                 T newItem = items.get(newIndex);
                 if (oldIndex != newIndex || isItemChanged(oldItem, newItem)) {
                     updateItem(newItem, newItem == null);
-                    return;
                 }
+                return;
             }
         }
         updateItem(null, true);
