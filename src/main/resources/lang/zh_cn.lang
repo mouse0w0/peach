@@ -181,7 +181,6 @@ item.properties.useDuration=使用时长
 item.properties.toolAttributes=工具属性
 item.properties.attributeModifiers=属性修饰
 item.properties.fuelBurnTime=燃料燃烧时间
-item.properties.hasEffect=发光效果
 item.properties.information=附加信息
 
 item.appearance.title=外观
@@ -189,6 +188,7 @@ item.appearance.model=模型
 item.model.generated=默认模型
 item.model.handheld=手持模型
 item.appearance.texture=纹理
+item.appearance.hasEffect=发光效果
 item.appearance.armorTexture=盔甲纹理
 
 toolType.axe=斧

@@ -54,12 +54,12 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     private ComboBoxElement<UseAnimation> useAnimation;
     private SpinnerElement<Integer> useDuration;
     private SpinnerElement<Integer> fuelBurnTime;
-    private RadioButtonElement hasEffect;
     private TextAreaElement information;
 
     // Appearance
     private ChoiceBoxElement<String> model;
     private ModelTextureElement textures;
+    private RadioButtonElement hasEffect;
 
     public ItemEditor(@Nonnull Project project, @Nonnull ItemElement element) {
         super(project, element);
@@ -182,10 +182,6 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         fuelBurnTime.setText(I18n.translate("item.properties.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
-        hasEffect = new RadioButtonElement();
-        hasEffect.setText(I18n.translate("item.properties.hasEffect"));
-        hasEffect.setColSpan(ColSpan.HALF);
-
         information = new TextAreaElement();
         information.setText(I18n.translate("item.properties.information"));
 
@@ -199,7 +195,6 @@ public class ItemEditor extends ElementEditor<ItemElement> {
                 equipmentSlot, fuelBurnTime,
                 repairItem, recipeRemain,
                 useAnimation, useDuration,
-                hasEffect,
                 information);
 
         Group appearance = new Group();
@@ -230,7 +225,11 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);
         });
 
-        appearance.getElements().addAll(model, textures);
+        hasEffect = new RadioButtonElement();
+        hasEffect.setText(I18n.translate("item.appearance.hasEffect"));
+        hasEffect.setColSpan(ColSpan.HALF);
+
+        appearance.getElements().addAll(model, textures, hasEffect);
 
         form.getGroups().addAll(properties, appearance);
 
