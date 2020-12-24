@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.form.Group;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -164,6 +165,11 @@ public class FormViewSkin extends SkinBase<FormView> {
         }
 
         @Override
+        public Orientation getContentBias() {
+            return Orientation.HORIZONTAL;
+        }
+
+        @Override
         protected double computePrefWidth(double height) {
             final DisplayMode displayMode = element.getDisplayMode();
             if (displayMode == DisplayMode.VERTICAL) {
@@ -177,13 +183,20 @@ public class FormViewSkin extends SkinBase<FormView> {
 
         @Override
         protected double computePrefHeight(double width) {
+            final double leftInset = snappedLeftInset();
+            final double rightInset = snappedRightInset();
+            final double topInset = snappedTopInset();
+            final double bottomInset = snappedBottomInset();
+            final double contentWidth = width - leftInset - rightInset;
             final DisplayMode displayMode = element.getDisplayMode();
             if (displayMode == DisplayMode.VERTICAL) {
-                return snappedTopInset() + label.prefHeight(-1) + editor.prefWidth(-1) + snappedBottomInset();
+                return topInset + label.prefHeight(contentWidth) + editor.prefHeight(contentWidth) + bottomInset;
             } else if (displayMode == DisplayMode.EDITOR_ONLY) {
-                return snappedTopInset() + editor.prefWidth(-1) + snappedBottomInset();
+                return topInset + editor.prefHeight(contentWidth) + bottomInset;
             } else {
-                return snappedTopInset() + Math.max(label.prefHeight(-1), editor.prefHeight(-1)) + snappedBottomInset();
+                final double cellWidth = contentWidth / element.getColSpan().getSpan();
+                final double labelWidth = cellWidth * 2;
+                return topInset + Math.max(label.prefHeight(labelWidth), editor.prefHeight(contentWidth - labelWidth)) + bottomInset;
             }
         }
 
@@ -195,7 +208,6 @@ public class FormViewSkin extends SkinBase<FormView> {
             final double height = getHeight();
             final double contentWidth = width - x - snappedRightInset();
             final double contentHeight = height - y - snappedBottomInset();
-
             final DisplayMode displayMode = element.getDisplayMode();
             if (displayMode == DisplayMode.VERTICAL) {
                 final double labelHeight = label.prefHeight(-1);
@@ -204,8 +216,8 @@ public class FormViewSkin extends SkinBase<FormView> {
             } else if (displayMode == DisplayMode.EDITOR_ONLY) {
                 layoutInArea(editor, x, y, contentWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
             } else {
-                final double cellWidth = width / element.getColSpan().getSpan();
-                final double labelWidth = cellWidth * 2 - x;
+                final double cellWidth = contentWidth / element.getColSpan().getSpan();
+                final double labelWidth = cellWidth * 2;
                 layoutInArea(label, x, y, labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
                 layoutInArea(editor, x + labelWidth, y, contentWidth - labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
             }
