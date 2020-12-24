@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.ui.util;
 
 import com.github.mouse0w0.i18n.I18n;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -20,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 
 public final class FXUtils {
 
@@ -115,6 +117,19 @@ public final class FXUtils {
         AnchorPane.setLeftAnchor(node, 0D);
         AnchorPane.setBottomAnchor(node, 0D);
         AnchorPane.setRightAnchor(node, 0D);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getProperty(Node node, Object key) {
+        if (!node.hasProperties()) return null;
+        ObservableMap<Object, Object> properties = node.getProperties();
+        return (T) properties.get(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getOrComputeProperty(Node node, Object key, Function<Object, Object> mappingFunction) {
+        ObservableMap<Object, Object> properties = node.getProperties();
+        return (T) properties.computeIfAbsent(key, mappingFunction);
     }
 
     public static Optional<Window> getFocusedWindow() {
