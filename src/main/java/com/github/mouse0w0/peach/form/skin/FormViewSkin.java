@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.form.DisplayMode;
 import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Group;
+import com.github.mouse0w0.peach.ui.util.ScrollPanes;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
@@ -32,6 +33,7 @@ public class FormViewSkin extends SkinBase<FormView> {
 
         scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
+        ScrollPanes.fixVerticalScroll(scrollPane);
         getChildren().add(scrollPane);
 
         content = new VBox();
