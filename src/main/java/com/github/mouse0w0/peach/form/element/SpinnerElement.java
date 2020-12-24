@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.form.element;
 
+import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -11,18 +12,22 @@ public class SpinnerElement<T extends Number> extends ValueElement<T> {
 
     public SpinnerElement(int min, int max, int initialValue) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue));
+        Spinners.setupIntegerEditor((Spinner<Integer>) getSpinner(), initialValue);
     }
 
     public SpinnerElement(int min, int max, int initialValue, int amountToStepBy) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue, amountToStepBy));
+        Spinners.setupIntegerEditor((Spinner<Integer>) getSpinner(), initialValue);
     }
 
     public SpinnerElement(double min, double max, double initialValue) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, initialValue));
+        Spinners.setupDoubleEditor((Spinner<Double>) getSpinner(), initialValue);
     }
 
     public SpinnerElement(double min, double max, double initialValue, double amountToStepBy) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, initialValue, amountToStepBy));
+        Spinners.setupDoubleEditor((Spinner<Double>) getSpinner(), initialValue);
     }
 
     public SpinnerElement(SpinnerValueFactory<T> valueFactory) {

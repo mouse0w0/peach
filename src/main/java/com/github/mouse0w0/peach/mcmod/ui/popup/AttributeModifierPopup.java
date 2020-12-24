@@ -4,6 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.ui.control.TagCell;
+import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
@@ -51,9 +52,8 @@ public class AttributeModifierPopup extends PopOver {
         operation.getItems().addAll(AttributeModifier.Operation.values());
         grid.addRow(1, new Text(I18n.translate("attributeModifier.operation")), operation);
 
-        amount = new Spinner<>(Double.MIN_VALUE, Double.MAX_VALUE, 0);
+        amount = Spinners.create(Double.MIN_VALUE, Double.MAX_VALUE, 0);
         amount.setPrefWidth(150);
-        amount.setEditable(true);
         grid.addRow(2, new Text(I18n.translate("attributeModifier.amount")), amount);
 
         setOnHiding(event -> cell.commitEdit(new AttributeModifier(attribute.getValue().getName(), amount.getValue(), operation.getValue())));

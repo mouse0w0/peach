@@ -4,6 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ToolType;
 import com.github.mouse0w0.peach.ui.control.TagCell;
+import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
@@ -45,9 +46,8 @@ public class ToolAttributePopup extends PopOver {
         type.getItems().addAll(ToolType.getToolTypes());
         grid.addRow(0, new Text(I18n.translate("toolAttribute.type")), type);
 
-        level = new Spinner<>(0, Integer.MAX_VALUE, 0);
+        level = Spinners.create(0, Integer.MAX_VALUE, 0);
         level.setPrefWidth(150);
-        level.setEditable(true);
         grid.addRow(1, new Text(I18n.translate("toolAttribute.level")), level);
 
         setOnHiding(event -> cell.commitEdit(new ToolAttribute(type.getValue().getName(), level.getValue())));
