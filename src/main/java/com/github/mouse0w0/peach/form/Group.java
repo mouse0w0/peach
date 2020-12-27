@@ -83,13 +83,13 @@ public class Group {
 
     public final BooleanProperty collapsibleProperty() {
         if (collapsible == null) {
-            collapsible = new SimpleBooleanProperty(this, "collapsible", true);
+            collapsible = new SimpleBooleanProperty(this, "collapsible", false);
         }
         return collapsible;
     }
 
     public final boolean isCollapsible() {
-        return collapsible == null || collapsible.get();
+        return collapsible != null && collapsible.get();
     }
 
     public final void setCollapsible(boolean collapsible) {
