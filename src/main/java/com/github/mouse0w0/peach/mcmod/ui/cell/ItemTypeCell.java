@@ -6,6 +6,7 @@ import javafx.scene.control.ListCell;
 public class ItemTypeCell extends ListCell<ItemType> {
     @Override
     protected void updateItem(ItemType item, boolean empty) {
+        super.updateItem(item, empty);
         if (empty) {
             setText(null);
         } else {
