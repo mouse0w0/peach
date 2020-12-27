@@ -114,7 +114,7 @@ public abstract class Element {
 
     public final BooleanProperty disableProperty() {
         if (disable == null) {
-            return new SimpleBooleanProperty(this, "disable", false);
+            disable = new SimpleBooleanProperty(this, "disable", false);
         }
         return disable;
     }
@@ -129,7 +129,7 @@ public abstract class Element {
 
     public final BooleanProperty visibleProperty() {
         if (visible == null) {
-            return new SimpleBooleanProperty(this, "visible", true);
+            visible = new SimpleBooleanProperty(this, "visible", true);
         }
         return visible;
     }
