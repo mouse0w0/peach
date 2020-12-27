@@ -113,7 +113,7 @@ public class Group {
 
     public final BooleanProperty visibleProperty() {
         if (visible == null) {
-            return new SimpleBooleanProperty(this, "visible", true);
+            visible = new SimpleBooleanProperty(this, "visible", true);
         }
         return visible;
     }
