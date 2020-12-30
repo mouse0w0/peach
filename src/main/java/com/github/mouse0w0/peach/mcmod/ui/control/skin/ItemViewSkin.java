@@ -13,7 +13,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ItemViewSkin extends SkinBase<ItemView> {
@@ -83,7 +82,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         ItemRef item = itemView.getItem();
         if (item == null) {
-            itemData = Collections.emptyList();
+            itemData = itemView.getContentManager().getItemData(ItemRef.AIR);
         } else {
             itemData = itemView.getContentManager().getItemData(item);
         }
