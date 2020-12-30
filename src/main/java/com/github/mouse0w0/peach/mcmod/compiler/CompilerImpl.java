@@ -183,7 +183,7 @@ public final class CompilerImpl implements Compiler {
             Element.setFile(element, file);
             return element;
         } catch (IOException e) {
-            return type.createElement(file);
+            return type.newInstance(file);
         }
     }
 

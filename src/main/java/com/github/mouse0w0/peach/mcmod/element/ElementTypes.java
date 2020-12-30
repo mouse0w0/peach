@@ -10,14 +10,26 @@ import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.element.preview.ItemPreview;
 
-public class ElementTypes {
-
+public final class ElementTypes {
     public static final ElementType<Item> ITEM =
-            new ElementType<>("item", Item.class, ItemEditor::new, new ItemPreview());
+            ElementType.builder("item", Item.class)
+                    .createdHandler((element, file, identifier, name) -> {
+                        element.setIdentifier(identifier);
+                        element.setDisplayName(name);
+                    })
+                    .editorFactory(ItemEditor::new)
+                    .previewGenerator(new ItemPreview())
+                    .build();
     public static final ElementType<ItemGroup> ITEM_GROUP =
-            new ElementType<>("item_group", ItemGroup.class, new ItemGroupEditorFactory(), null);
+            ElementType.builder("item_group", ItemGroup.class)
+                    .editorFactory(new ItemGroupEditorFactory())
+                    .build();
     public static final ElementType<CraftingRecipe> CRAFTING_RECIPE =
-            new ElementType<>("crafting_recipe", CraftingRecipe.class, new CraftingRecipeEditorFactory(), null);
+            ElementType.builder("crafting_recipe", CraftingRecipe.class)
+                    .editorFactory(new CraftingRecipeEditorFactory())
+                    .build();
     public static final ElementType<SmeltingRecipe> SMELTING_RECIPE =
-            new ElementType<>("smelting_recipe", SmeltingRecipe.class, new SmeltingRecipeEditorFactory(), null);
+            ElementType.builder("smelting_recipe", SmeltingRecipe.class)
+                    .editorFactory(new SmeltingRecipeEditorFactory())
+                    .build();
 }

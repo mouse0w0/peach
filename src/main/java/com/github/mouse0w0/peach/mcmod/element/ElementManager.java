@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.mcmod.event.ElementEvent;
+import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -77,7 +78,7 @@ public final class ElementManager {
             Element.setFile(element, file);
             return (T) element;
         } catch (IOException e) {
-            return (T) type.createElement(file);
+            return (T) type.newInstance(file);
         }
     }
 
@@ -119,7 +120,7 @@ public final class ElementManager {
             return;
         }
 
-        saveElement(type.createElement(file));
+        saveElement(type.create(file, ModUtils.toIdentifier(name), name));
 
         FileEditorManager.getInstance(project).open(file);
     }

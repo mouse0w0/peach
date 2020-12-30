@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.project.Project;
+import org.apache.commons.lang3.Validate;
 
 import java.nio.file.Path;
 
@@ -9,14 +10,16 @@ public class ElementType<T extends Element> {
     private final String name;
     private final String translationKey;
     private final Class<T> type;
-    private final ElementEditorFactory<T> elementEditorFactory;
+    private final ElementCreatedHandler<T> createdHandler;
+    private final ElementEditorFactory<T> editorFactory;
     private final PreviewGenerator<T> previewGenerator;
 
-    public ElementType(String name, Class<T> type, ElementEditorFactory<T> elementEditorFactory, PreviewGenerator<T> previewGenerator) {
+    public ElementType(String name, Class<T> type, ElementCreatedHandler<T> createdHandler, ElementEditorFactory<T> editorFactory, PreviewGenerator<T> previewGenerator) {
         this.name = name;
         this.translationKey = "mod.element." + name;
         this.type = type;
-        this.elementEditorFactory = elementEditorFactory;
+        this.createdHandler = createdHandler;
+        this.editorFactory = editorFactory;
         this.previewGenerator = previewGenerator;
     }
 
@@ -32,7 +35,15 @@ public class ElementType<T extends Element> {
         return type;
     }
 
-    public T createElement(Path file) {
+    public T create(Path file, String identifier, String name) {
+        T instance = newInstance(file);
+        if (createdHandler != null) {
+            createdHandler.onCreated(instance, file, identifier, name);
+        }
+        return instance;
+    }
+
+    public T newInstance(Path file) {
         try {
             T element = type.newInstance();
             Element.setFile(element, file);
@@ -46,7 +57,7 @@ public class ElementType<T extends Element> {
         if (element.getClass() != getType()) {
             throw new IllegalArgumentException("Cannot create wizard for " + element.getClass().getName());
         }
-        return elementEditorFactory.create(project, element);
+        return editorFactory.create(project, element);
     }
 
     public void generatePreview(Project project, T element, Path outputFile) {
@@ -54,5 +65,42 @@ public class ElementType<T extends Element> {
             throw new IllegalArgumentException("Cannot generate preview for " + element.getClass().getName());
         }
         previewGenerator.generate(project, element, outputFile);
+    }
+
+
+    public static <T extends Element> Builder<T> builder(String name, Class<T> type) {
+        return new Builder<>(name, type);
+    }
+
+    public static final class Builder<T extends Element> {
+        private final String name;
+        private final Class<T> type;
+        private ElementCreatedHandler<T> createdHandler;
+        private ElementEditorFactory<T> editorFactory;
+        private PreviewGenerator<T> previewGenerator;
+
+        private Builder(String name, Class<T> type) {
+            this.name = Validate.notEmpty(name);
+            this.type = Validate.notNull(type);
+        }
+
+        public Builder<T> createdHandler(ElementCreatedHandler<T> createdHandler) {
+            this.createdHandler = createdHandler;
+            return this;
+        }
+
+        public Builder<T> editorFactory(ElementEditorFactory<T> editorFactory) {
+            this.editorFactory = editorFactory;
+            return this;
+        }
+
+        public Builder<T> previewGenerator(PreviewGenerator<T> previewGenerator) {
+            this.previewGenerator = previewGenerator;
+            return this;
+        }
+
+        public ElementType<T> build() {
+            return new ElementType<>(name, type, createdHandler, editorFactory, previewGenerator);
+        }
     }
 }
