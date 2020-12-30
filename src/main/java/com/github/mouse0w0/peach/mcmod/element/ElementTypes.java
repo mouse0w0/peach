@@ -25,11 +25,11 @@ public final class ElementTypes {
                     .editorFactory(new ItemGroupEditorFactory())
                     .build();
     public static final ElementType<CraftingRecipe> CRAFTING_RECIPE =
-            ElementType.builder("crafting_recipe", CraftingRecipe.class)
+            ElementType.builder("crafting", CraftingRecipe.class)
                     .editorFactory(new CraftingRecipeEditorFactory())
                     .build();
     public static final ElementType<SmeltingRecipe> SMELTING_RECIPE =
-            ElementType.builder("smelting_recipe", SmeltingRecipe.class)
+            ElementType.builder("smelting", SmeltingRecipe.class)
                     .editorFactory(new SmeltingRecipeEditorFactory())
                     .build();
 }

@@ -98,14 +98,14 @@ wizard.itemGroup.hasSearchBar=启用搜索栏：
 wizard.itemGroup.background=背景图：
 wizard.itemGroup.icon=图标：
 
-mod.element.crafting_recipe=合成配方
+mod.element.crafting=合成配方
 
 wizard.craftingRecipe.registerName=注册名：
 wizard.craftingRecipe.namespace=命名空间：
 wizard.craftingRecipe.group=配方组：
 wizard.craftingRecipe.shapeless=无序配方？
 
-mod.element.smelting_recipe=熔炼配方
+mod.element.smelting=熔炼配方
 
 wizard.smeltingRecipe.xp=经验值：
 
