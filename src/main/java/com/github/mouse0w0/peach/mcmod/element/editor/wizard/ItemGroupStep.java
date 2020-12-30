@@ -74,7 +74,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
     @Override
     public void init() {
         registerName.setText(Strings.isNullOrEmpty(element.getRegisterName()) ?
-                ModUtils.toRegisterName(element.getFileName()) : element.getRegisterName());
+                ModUtils.toIdentifier(element.getFileName()) : element.getRegisterName());
         displayName.setText(Strings.isNullOrEmpty(element.getDisplayName()) ?
                 element.getFileName() : element.getDisplayName());
         hasSearchBar.setSelected(element.isHasSearchBar());

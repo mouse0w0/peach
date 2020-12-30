@@ -89,7 +89,7 @@ validate.existsFile=文件“%s”已存在。
 tab.elementView.title=模组元素
 
 validate.illegalModId=非法的模组唯一名：“%s”。模组唯一名以小写字母开头，仅含小写字母和数字。
-validate.illegalRegisterName=非法的注册名：“%s”。注册名以小写字母开头，仅含小写字母，数字和下划线。
+validate.illegalIdentifier=非法的唯一名：“%s”。注册名以小写字母开头，仅含小写字母，数字和下划线。
 
 mod.element.item_group=创造标签
 wizard.itemGroup.registerName=注册名：

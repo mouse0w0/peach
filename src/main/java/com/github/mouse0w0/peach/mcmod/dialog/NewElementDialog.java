@@ -62,7 +62,7 @@ public class NewElementDialog extends BorderPane {
             }
         });
         name.textProperty().addListener(observable ->
-                registerName.setText(ModUtils.tryConvertToRegisterName(name.getText())));
+                registerName.setText(ModUtils.tryConvertToIdentifier(name.getText())));
 
         type.setConverter(new StringConverter<ElementType<?>>() {
             @Override

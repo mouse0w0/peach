@@ -5,27 +5,23 @@ import com.github.promeg.pinyinhelper.Pinyin;
 import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 
-public class ModUtils {
+public final class ModUtils {
 
     public static final Pattern IDENTIFIER = Pattern.compile("[a-z][a-z0-9_]{0,63}");
 
-    public static boolean isValidModId(String modId) {
-        return IDENTIFIER.matcher(modId).matches();
-    }
-
-    public static boolean isValidRegisterName(String name) {
-        return IDENTIFIER.matcher(name).matches();
+    public static boolean isValidIdentifier(String identifier) {
+        return identifier != null && IDENTIFIER.matcher(identifier).matches();
     }
 
     @Nullable
-    public static String toRegisterName(String name) {
-        String registerName = tryConvertToRegisterName(name);
-        return isValidRegisterName(registerName) ? registerName : null;
+    public static String toIdentifier(String s) {
+        String registerName = tryConvertToIdentifier(s);
+        return isValidIdentifier(registerName) ? registerName : null;
     }
 
-    public static String tryConvertToRegisterName(String name) {
-        StringBuilder sb = new StringBuilder(name.length());
-        for (char c : name.toCharArray()) {
+    public static String tryConvertToIdentifier(String s) {
+        StringBuilder sb = new StringBuilder(s.length());
+        for (char c : s.toCharArray()) {
             if (isASCII(c)) {
                 if (Character.isWhitespace(c)) {
                     sb.append("_");

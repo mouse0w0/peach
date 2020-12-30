@@ -56,7 +56,7 @@ public class ModMetadataDialog extends BorderPane {
         this.descriptor = descriptor;
         FXUtils.loadFXML(this, "ui/mcmod/ModMetadata.fxml");
 
-        Validator.error(id, ModUtils::isValidModId, I18n.translate("validate.illegalModId"));
+        Validator.error(id, ModUtils::isValidIdentifier, I18n.translate("validate.illegalModId"));
 
         accordion.setExpandedPane(general);
 

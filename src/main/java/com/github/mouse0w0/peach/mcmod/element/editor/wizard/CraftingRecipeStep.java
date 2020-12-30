@@ -47,7 +47,7 @@ public class CraftingRecipeStep extends WizardStepBase {
         this.element = element;
         setContent(FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml"));
 
-        Validator.error(id, ModUtils::isValidRegisterName, I18n.translate("validate.illegalRegisterName"));
+        Validator.error(id, ModUtils::isValidIdentifier, I18n.translate("validate.illegalIdentifier"));
 
         group.setEditable(true);
 
@@ -77,7 +77,7 @@ public class CraftingRecipeStep extends WizardStepBase {
     @Override
     public void init() {
         String id1 = element.getId();
-        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.toRegisterName(this.element.getFileName());
+        if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.toIdentifier(this.element.getFileName());
         id.setText(id1);
 
         namespace.setValue(element.getNamespace());

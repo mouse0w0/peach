@@ -82,7 +82,7 @@ public class ItemEditor extends ElementEditor<Item> {
         properties.setText(I18n.translate("item.properties.title"));
 
         identifier = new TextFieldField();
-        identifier.getChecks().add(new Check<>(ModUtils::isValidRegisterName, NotificationLevel.ERROR, I18n.translate("validate.illegalRegisterName")));
+        identifier.getChecks().add(new Check<>(ModUtils::isValidIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalIdentifier")));
         identifier.setText(I18n.translate("item.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 
