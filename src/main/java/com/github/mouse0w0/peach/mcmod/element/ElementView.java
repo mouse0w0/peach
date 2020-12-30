@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class ElementView extends GridView<Path> {
     }
 
     public void doOpenWizard() {
-        elementManager.editElement(getSelectionModel().getSelectedItem());
+        FileEditorManager.getInstance(elementManager.getProject()).open(getSelectionModel().getSelectedItem());
     }
 
     public void doDelete() {

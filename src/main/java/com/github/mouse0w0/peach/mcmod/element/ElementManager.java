@@ -1,6 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.mcmod.event.ElementEvent;
 import com.github.mouse0w0.peach.project.Project;
@@ -109,11 +111,16 @@ public final class ElementManager {
         Peach.getEventBus().post(new ElementEvent.Deleted(project, file));
     }
 
-    public Path getElementFile(ElementType<?> type, String name) {
-        return path.resolve(name + "." + type.getName() + ".json");
-    }
+    public void createAndEditElement(ElementType<?> type, String name) {
+        Path file = path.resolve(name + "." + type.getName() + ".json");
 
-    public void editElement(Path file) {
+        if (Files.exists(file)) {
+            Alert.error(I18n.format("validate.existsFile", file.getFileName()));
+            return;
+        }
+
+        saveElement(type.createElement(file));
+
         FileEditorManager.getInstance(project).open(file);
     }
 
