@@ -1,20 +1,20 @@
 package com.github.mouse0w0.peach.mcmod.element.impl;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 
 public class SmeltingRecipe extends Element {
 
-    private Item input;
+    private ItemRef input;
     private ItemStack output;
     private double xp;
 
-    public Item getInput() {
+    public ItemRef getInput() {
         return input;
     }
 
-    public void setInput(Item input) {
+    public void setInput(ItemRef input) {
         this.input = input;
     }
 

@@ -10,7 +10,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
-import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.Item;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModelHelper;
 
@@ -18,7 +18,7 @@ import java.io.BufferedWriter;
 import java.nio.file.Path;
 import java.util.*;
 
-public class ItemGen extends Generator<ItemElement> {
+public class ItemGen extends Generator<Item> {
 
     private static final String ITEM_GROUP_DESCRIPTOR = "Lnet/minecraft/creativetab/CreativeTabs;";
 
@@ -35,7 +35,7 @@ public class ItemGen extends Generator<ItemElement> {
     private String namespace;
 
     @Override
-    protected void before(Compiler compiler, Collection<ItemElement> elements) throws Exception {
+    protected void before(Compiler compiler, Collection<Item> elements) throws Exception {
         templateItem = compiler.getCoffeeMaker().getTemplate("template/item/TemplateItem");
 
         String packageName = compiler.getRootPackageName();
@@ -48,7 +48,7 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     @Override
-    protected void after(Compiler compiler, Collection<ItemElement> elements) throws Exception {
+    protected void after(Compiler compiler, Collection<Item> elements) throws Exception {
         CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
         Filer classesFiler = compiler.getClassesFiler();
 
@@ -73,7 +73,7 @@ public class ItemGen extends Generator<ItemElement> {
     }
 
     @Override
-    protected void generate(Compiler compiler, ItemElement item) throws Exception {
+    protected void generate(Compiler compiler, Item item) throws Exception {
         String registerName = item.getIdentifier();
         String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(registerName));
         items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(registerName), ASMUtils.getDescriptor(internalName)));

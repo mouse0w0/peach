@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.mcmod.language.Localizable;
 import java.util.Collections;
 import java.util.Map;
 
-public class ItemElement extends Element implements Localizable {
+public class Item extends Element implements Localizable {
 
     private String identifier;
     private String displayName;
@@ -21,8 +21,8 @@ public class ItemElement extends Element implements Localizable {
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
     private int enchantability = 0;
     private EnchantmentType[] acceptableEnchantments = EnchantmentType.EMPTY_ARRAY;
-    private Item repairItem;
-    private Item recipeRemain;
+    private ItemRef repairItem;
+    private ItemRef recipeRemain;
     private EquipmentSlot equipmentSlot = EquipmentSlot.MAINHAND;
     private UseAnimation useAnimation = UseAnimation.NONE;
     private int useDuration = 0;
@@ -129,19 +129,19 @@ public class ItemElement extends Element implements Localizable {
         this.acceptableEnchantments = acceptableEnchantments;
     }
 
-    public Item getRepairItem() {
+    public ItemRef getRepairItem() {
         return repairItem;
     }
 
-    public void setRepairItem(Item repairItem) {
+    public void setRepairItem(ItemRef repairItem) {
         this.repairItem = repairItem;
     }
 
-    public Item getRecipeRemain() {
+    public ItemRef getRecipeRemain() {
         return recipeRemain;
     }
 
-    public void setRecipeRemain(Item recipeRemain) {
+    public void setRecipeRemain(ItemRef recipeRemain) {
         this.recipeRemain = recipeRemain;
     }
 

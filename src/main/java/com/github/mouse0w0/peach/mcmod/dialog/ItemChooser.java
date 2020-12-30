@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.dialog;
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -51,20 +51,20 @@ public class ItemChooser {
     private RadioButton oreDict;
 
     @FXML
-    private GridView<Item> gridView;
+    private GridView<ItemRef> gridView;
 
-    private Item defaultItem;
+    private ItemRef defaultItem;
 
     private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
 
-    public static Item pick(Node ownerNode, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    public static ItemRef pick(Node ownerNode, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         return pick(ownerNode.getScene().getWindow(), defaultItem, enableIgnoreMetadata, enableOreDict);
     }
 
-    public static Item pick(Window window, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    public static ItemRef pick(Window window, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         if (instance == null) instance = new ItemChooser();
         Project project = WindowManager.getInstance().getWindow(window).getProject();
-        instance.init(project, defaultItem != null ? defaultItem : Item.AIR, enableIgnoreMetadata, enableOreDict);
+        instance.init(project, defaultItem != null ? defaultItem : ItemRef.AIR, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
         stage.setScene(instance.scene);
         stage.setTitle(I18n.translate("dialog.itemChooser.title"));
@@ -91,11 +91,11 @@ public class ItemChooser {
         mode.selectedToggleProperty().addListener(observable -> updateItem());
     }
 
-    public Item getDefaultItem() {
+    public ItemRef getDefaultItem() {
         return defaultItem;
     }
 
-    public Item getSelectedItem() {
+    public ItemRef getSelectedItem() {
         return gridView.getSelectionModel().getSelectedItem();
     }
 
@@ -106,13 +106,13 @@ public class ItemChooser {
 
     @FXML
     private void onCancel() {
-        MultipleSelectionModel<Item> selectionModel = gridView.getSelectionModel();
+        MultipleSelectionModel<ItemRef> selectionModel = gridView.getSelectionModel();
         selectionModel.clearSelection();
         selectionModel.select(defaultItem);
         FXUtils.hideWindow(scene);
     }
 
-    private void init(Project project, Item defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
         contentManager = ContentManager.getInstance(project);
 
@@ -131,21 +131,21 @@ public class ItemChooser {
     }
 
     private void updateItem() {
-        List<Item> items = contentManager.getItems()
+        List<ItemRef> items = contentManager.getItems()
                 .stream() // 10000个元素以下时，串行比并行Stream要好。
                 .filter(buildItemFilter())
                 .collect(Collectors.toList());
         gridView.getItems().setAll(items);
     }
 
-    private Predicate<Item> buildItemFilter() {
-        Predicate<Item> predicate;
+    private Predicate<ItemRef> buildItemFilter() {
+        Predicate<ItemRef> predicate;
         if (ignoreMetadata.isSelected()) {
-            predicate = Item::isIgnoreMetadata;
+            predicate = ItemRef::isIgnoreMetadata;
         } else if (oreDict.isSelected()) {
-            predicate = Item::isOreDict;
+            predicate = ItemRef::isOreDict;
         } else {
-            predicate = Item::isNormal;
+            predicate = ItemRef::isNormal;
         }
 
         final String pattern = filter.getText();
@@ -156,7 +156,7 @@ public class ItemChooser {
         return predicate;
     }
 
-    private boolean filterItem(Item item, String pattern) {
+    private boolean filterItem(ItemRef item, String pattern) {
         if (item.getId().contains(pattern)) return true;
         for (ItemData data : contentManager.getItemData(item)) {
             if (data.getDisplayName().contains(pattern)) {
@@ -166,7 +166,7 @@ public class ItemChooser {
         return false;
     }
 
-    private class Cell extends GridCell<Item> {
+    private class Cell extends GridCell<ItemRef> {
         private final ItemView itemView = new ItemView(32, 32);
 
         public Cell() {
@@ -174,7 +174,7 @@ public class ItemChooser {
         }
 
         @Override
-        protected void updateItem(Item item, boolean empty) {
+        protected void updateItem(ItemRef item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 itemView.setItem(null);

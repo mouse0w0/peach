@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.form.field.ValueField;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import javafx.beans.property.BooleanProperty;
@@ -10,21 +10,21 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 
-public class ItemPickerField extends ValueField<Item> {
-    private final ObjectProperty<Item> value = new SimpleObjectProperty<>(this, "value");
+public class ItemPickerField extends ValueField<ItemRef> {
+    private final ObjectProperty<ItemRef> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
-    public ObjectProperty<Item> valueProperty() {
+    public ObjectProperty<ItemRef> valueProperty() {
         return value;
     }
 
     @Override
-    public Item getValue() {
+    public ItemRef getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(Item value) {
+    public void setValue(ItemRef value) {
         valueProperty().setValue(value);
     }
 

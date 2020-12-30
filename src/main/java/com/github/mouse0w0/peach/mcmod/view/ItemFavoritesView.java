@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.view;
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.peach.component.PersistentComponent;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -26,10 +26,10 @@ public class ItemFavoritesView implements PersistentComponent {
         return project.getService(ItemFavoritesView.class);
     }
 
-    private final ObservableList<Item> items = FXCollections.observableArrayList();
-    private final Set<Item> itemSet = new HashSet<>();
+    private final ObservableList<ItemRef> items = FXCollections.observableArrayList();
+    private final Set<ItemRef> itemSet = new HashSet<>();
 
-    private GridView<Item> content;
+    private GridView<ItemRef> content;
 
     public Node initViewContent() {
         content = new GridView<>();
@@ -42,14 +42,14 @@ public class ItemFavoritesView implements PersistentComponent {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
 
-            Item item = (Item) event.getDragboard().getContent(ItemView.ITEM);
+            ItemRef item = (ItemRef) event.getDragboard().getContent(ItemView.ITEM);
             if (item == null) return;
 
             event.acceptTransferModes(TransferMode.LINK);
         });
         content.setOnDragDropped(event -> {
             event.consume();
-            Item item = (Item) event.getDragboard().getContent(ItemView.ITEM);
+            ItemRef item = (ItemRef) event.getDragboard().getContent(ItemView.ITEM);
             if (itemSet.add(item)) {
                 items.add(item);
             }
@@ -71,12 +71,12 @@ public class ItemFavoritesView implements PersistentComponent {
 
     @Override
     public void deserialize(JsonElement jsonElement) {
-        items.addAll(JsonUtils.fromJson(jsonElement, new TypeToken<List<Item>>() {
+        items.addAll(JsonUtils.fromJson(jsonElement, new TypeToken<List<ItemRef>>() {
         }));
         itemSet.addAll(items);
     }
 
-    private class Cell extends GridCell<Item> {
+    private class Cell extends GridCell<ItemRef> {
         private final ItemView itemView = new ItemView(32, 32);
 
         public Cell() {
@@ -84,7 +84,7 @@ public class ItemFavoritesView implements PersistentComponent {
         }
 
         @Override
-        protected void updateItem(Item item, boolean empty) {
+        protected void updateItem(ItemRef item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 itemView.setItem(null);

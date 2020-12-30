@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemStackViewSkin;
@@ -55,17 +55,17 @@ public class ItemStackView extends Control {
         setFitHeight(height);
     }
 
-    private final ObjectProperty<Item> item = new SimpleObjectProperty<>(this, "item", Item.AIR);
+    private final ObjectProperty<ItemRef> item = new SimpleObjectProperty<>(this, "item", ItemRef.AIR);
 
-    public final ObjectProperty<Item> itemProperty() {
+    public final ObjectProperty<ItemRef> itemProperty() {
         return item;
     }
 
-    public final Item getItem() {
+    public final ItemRef getItem() {
         return item.get();
     }
 
-    public final void setItem(Item item) {
+    public final void setItem(ItemRef item) {
         this.item.set(item);
     }
 
@@ -93,7 +93,7 @@ public class ItemStackView extends Control {
 
     public final void setItemStack(ItemStack itemStack) {
         if (itemStack == null) {
-            setItem(Item.AIR);
+            setItem(ItemRef.AIR);
             setAmount(1);
         } else {
             setItem(itemStack.getItem());

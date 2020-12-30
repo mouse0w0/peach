@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.impl;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.util.ArrayUtils;
@@ -10,7 +10,7 @@ public class CraftingRecipe extends Element {
     private String id;
     private String namespace;
     private String group;
-    private Item[] inputs = ArrayUtils.fill(new Item[9], Item.AIR);
+    private ItemRef[] inputs = ArrayUtils.fill(new ItemRef[9], ItemRef.AIR);
     private ItemStack output = ItemStack.EMPTY;
     private boolean shapeless;
 
@@ -38,11 +38,11 @@ public class CraftingRecipe extends Element {
         this.group = group;
     }
 
-    public Item[] getInputs() {
+    public ItemRef[] getInputs() {
         return inputs;
     }
 
-    public void setInputs(Item[] inputs) {
+    public void setInputs(ItemRef[] inputs) {
         this.inputs = inputs;
     }
 

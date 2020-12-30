@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.impl;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.language.Localizable;
 
@@ -12,7 +12,7 @@ public class ItemGroup extends Element implements Localizable {
     private String displayName;
     private boolean hasSearchBar;
     private String background;
-    private Item icon = Item.AIR;
+    private ItemRef icon = ItemRef.AIR;
 
     public String getRegisterName() {
         return registerName;
@@ -46,11 +46,11 @@ public class ItemGroup extends Element implements Localizable {
         this.background = background;
     }
 
-    public Item getIcon() {
+    public ItemRef getIcon() {
         return icon;
     }
 
-    public void setIcon(Item icon) {
+    public void setIcon(ItemRef icon) {
         this.icon = icon;
     }
 

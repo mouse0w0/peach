@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
@@ -39,7 +39,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
     private void generateShaped(CraftingRecipe recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shaped");
         JsonArray pattern = new JsonArray();
-        Map<Item, Character> keyMap = new HashMap<>();
+        Map<ItemRef, Character> keyMap = new HashMap<>();
         for (String s : getPattern(recipe.getInputs(), keyMap)) {
             pattern.add(s);
         }
@@ -50,10 +50,10 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
         jo.add("key", key);
     }
 
-    private String[] getPattern(Item[] inputs, Map<Item, Character> keyMap) {
+    private String[] getPattern(ItemRef[] inputs, Map<ItemRef, Character> keyMap) {
         StringBuilder sb = new StringBuilder(9);
         for (int i = 0; i < 9; i++) {
-            Item input = inputs[i];
+            ItemRef input = inputs[i];
             if (!input.isAir()) {
                 sb.append(keyMap.computeIfAbsent(input, $ -> (char) ('A' + keyMap.size())));
             } else {
@@ -90,7 +90,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
     private void generateShapeless(CraftingRecipe recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shapeless");
         JsonArray ingredients = new JsonArray();
-        for (Item input : recipe.getInputs()) {
+        for (ItemRef input : recipe.getInputs()) {
             if (input != null && !input.isAir()) {
                 ingredients.add(itemToJson(input));
             }
@@ -98,7 +98,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
         jo.add("ingredients", ingredients);
     }
 
-    private JsonObject itemToJson(Item item) {
+    private JsonObject itemToJson(ItemRef item) {
         JsonObject result = new JsonObject();
         if (item.isOreDict()) {
             result.addProperty("type", "forge:ore_dict");

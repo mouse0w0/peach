@@ -6,25 +6,25 @@ import java.util.Objects;
 
 public class ItemStack {
 
-    public static final ItemStack EMPTY = new ItemStack(Item.AIR);
+    public static final ItemStack EMPTY = new ItemStack(ItemRef.AIR);
 
-    private Item item;
+    private ItemRef item;
     private int amount;
 
-    public ItemStack(Item item) {
+    public ItemStack(ItemRef item) {
         this(item, 1);
     }
 
-    public ItemStack(Item item, int amount) {
+    public ItemStack(ItemRef item, int amount) {
         this.item = Validate.notNull(item);
         this.amount = amount;
     }
 
-    public Item getItem() {
+    public ItemRef getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
+    public void setItem(ItemRef item) {
         this.item = Validate.notNull(item);
     }
 

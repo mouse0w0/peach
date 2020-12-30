@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.ui.util.CachedImage;
@@ -31,8 +31,8 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         Tooltip tooltip = new Tooltip();
         tooltip.setOnShowing(event ->
                 FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                            ItemView itemView = (ItemView) node;
-                            Item item = itemView.getItem();
+                    ItemView itemView = (ItemView) node;
+                    ItemRef item = itemView.getItem();
                             if (!itemView.isEnableTooltip() || item == null) return;
 
                             StringBuilder sb = new StringBuilder();
@@ -81,7 +81,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         }
         imageView.setImage(null);
 
-        Item item = itemView.getItem();
+        ItemRef item = itemView.getItem();
         if (item == null) {
             itemData = Collections.emptyList();
         } else {

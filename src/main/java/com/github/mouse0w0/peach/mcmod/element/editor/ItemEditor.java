@@ -12,7 +12,7 @@ import com.github.mouse0w0.peach.mcmod.ItemType;
 import com.github.mouse0w0.peach.mcmod.UseAnimation;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.Item;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
@@ -30,7 +30,7 @@ import javafx.util.StringConverter;
 
 import javax.annotation.Nonnull;
 
-public class ItemEditor extends ElementEditor<ItemElement> {
+public class ItemEditor extends ElementEditor<Item> {
 
     private final ContentManager contentManager;
 
@@ -69,7 +69,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     private RadioButtonField alwaysEdible;
     private ItemPickerField foodContainer;
 
-    public ItemEditor(@Nonnull Project project, @Nonnull ItemElement element) {
+    public ItemEditor(@Nonnull Project project, @Nonnull Item element) {
         super(project, element);
         contentManager = ContentManager.getInstance(getProject());
     }
@@ -269,7 +269,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     }
 
     @Override
-    protected void initialize(ItemElement element) {
+    protected void initialize(Item element) {
         identifier.setValue(element.getIdentifier());
         displayName.setValue(element.getDisplayName());
         itemType.setValue(element.getItemType());
@@ -295,7 +295,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     }
 
     @Override
-    protected void updateDataModel(ItemElement element) {
+    protected void updateDataModel(Item element) {
         element.setIdentifier(identifier.getValue());
         element.setDisplayName(displayName.getValue());
         element.setItemType(itemType.getValue());

@@ -2,14 +2,14 @@ package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.eventbus.Listener;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.contentPack.ContentPack;
 import com.github.mouse0w0.peach.mcmod.content.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.content.data.OreDictData;
 import com.github.mouse0w0.peach.mcmod.element.*;
-import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.Item;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.event.ElementEvent;
 import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
@@ -30,8 +30,8 @@ public class ContentManager implements Disposable {
 
     private final Map<String, ContentPack> contentPacks = new LinkedHashMap<>();
 
-    private final List<Item> itemList = new ArrayList<>();
-    private final Map<Item, List<ItemData>> itemMap = new HashMap<>();
+    private final List<ItemRef> itemList = new ArrayList<>();
+    private final Map<ItemRef, List<ItemData>> itemMap = new HashMap<>();
 
     private final List<ItemGroupData> itemGroupList = new ArrayList<>();
     private final Map<String, ItemGroupData> itemGroupMap = new HashMap<>();
@@ -69,14 +69,14 @@ public class ContentManager implements Disposable {
     }
 
     private void addItem(ItemData itemData) {
-        Item item = Item.createItem(itemData.getId(), itemData.getMetadata());
+        ItemRef item = ItemRef.createItem(itemData.getId(), itemData.getMetadata());
         getOrCreateItemData(item).add(itemData);
-        Item ignoreMetadata = Item.createIgnoreMetadata(itemData.getId());
+        ItemRef ignoreMetadata = ItemRef.createIgnoreMetadata(itemData.getId());
         getOrCreateItemData(ignoreMetadata).add(itemData);
     }
 
     private void addOreDict(OreDictData oreDictData) {
-        List<ItemData> itemData = getOrCreateItemData(Item.createOreDict(oreDictData.getId()));
+        List<ItemData> itemData = getOrCreateItemData(ItemRef.createOreDict(oreDictData.getId()));
         oreDictData.getEntries().forEach(itemToken -> itemData.addAll(getItemData(itemToken)));
     }
 
@@ -85,22 +85,22 @@ public class ContentManager implements Disposable {
         itemGroupMap.put(itemGroupData.getId(), itemGroupData);
     }
 
-    public Collection<Item> getItems() {
+    public Collection<ItemRef> getItems() {
         return itemList;
     }
 
-    public Map<Item, List<ItemData>> getItemMap() {
+    public Map<ItemRef, List<ItemData>> getItemMap() {
         return itemMap;
     }
 
-    private List<ItemData> getOrCreateItemData(Item item) {
+    private List<ItemData> getOrCreateItemData(ItemRef item) {
         return itemMap.computeIfAbsent(item, k -> {
             itemList.add(item);
             return new ArrayList<>(1);
         });
     }
 
-    public List<ItemData> getItemData(Item item) {
+    public List<ItemData> getItemData(ItemRef item) {
         List<ItemData> itemData = itemMap.get(item);
         return itemData != null ? itemData : Collections.emptyList();
     }
@@ -138,8 +138,8 @@ public class ContentManager implements Disposable {
         if (!cachedElement.containsKey(file)) return;
         ElementType<?> type = ElementRegistry.getInstance().getElementType(file);
         if (type == ElementTypes.ITEM) {
-            Item[] items = (Item[]) cachedElement.remove(file);
-            for (Item item : items) {
+            ItemRef[] items = (ItemRef[]) cachedElement.remove(file);
+            for (ItemRef item : items) {
                 itemList.remove(item);
                 itemMap.remove(item);
             }
@@ -153,23 +153,23 @@ public class ContentManager implements Disposable {
     private void updateElement(Element element) {
         Path file = element.getFile();
         removeElement(file);
-        if (element instanceof ItemElement) {
-            ItemElement itemElement = (ItemElement) element;
+        if (element instanceof Item) {
+            Item itemElement = (Item) element;
             ItemData itemData = new ItemData(itemElement.getIdentifier(), 0, null, false);
             itemData.setDisplayName(itemElement.getDisplayName());
 
             Path previewFile = previewCache.resolve(element.getFileName() + ".png");
-            ElementRegistry.getInstance().getElementType(ItemElement.class).generatePreview(project, itemElement, previewFile);
+            ElementRegistry.getInstance().getElementType(Item.class).generatePreview(project, itemElement, previewFile);
             CachedImage cachedImage = new CachedImage(previewFile, 64, 64);
             cachedImage.invalidate();
             itemData.setDisplayImage(cachedImage);
 
             String modId = mcModDescriptor.getModId();
-            Item item = Item.createItem(modId + ":" + itemData.getId(), itemData.getMetadata());
+            ItemRef item = ItemRef.createItem(modId + ":" + itemData.getId(), itemData.getMetadata());
             getOrCreateItemData(item).add(itemData);
-            Item ignoreMetadata = Item.createIgnoreMetadata(modId + ":" + itemData.getId());
+            ItemRef ignoreMetadata = ItemRef.createIgnoreMetadata(modId + ":" + itemData.getId());
             getOrCreateItemData(ignoreMetadata).add(itemData);
-            cachedElement.put(file, new Item[]{item, ignoreMetadata});
+            cachedElement.put(file, new ItemRef[]{item, ignoreMetadata});
         } else if (element instanceof ItemGroup) {
             ItemGroup itemGroup = (ItemGroup) element;
             ItemGroupData itemGroupData = new ItemGroupData(itemGroup.getRegisterName(), null, itemGroup.getIcon());

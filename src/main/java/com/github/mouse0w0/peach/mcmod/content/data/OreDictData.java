@@ -1,15 +1,15 @@
 package com.github.mouse0w0.peach.mcmod.content.data;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 
 import java.util.List;
 
 public class OreDictData {
 
     private String id;
-    private List<Item> entries;
+    private List<ItemRef> entries;
 
-    public OreDictData(String id, List<Item> entries) {
+    public OreDictData(String id, List<ItemRef> entries) {
         this.id = id;
         this.entries = entries;
     }
@@ -18,7 +18,7 @@ public class OreDictData {
         return id;
     }
 
-    public List<Item> getEntries() {
+    public List<ItemRef> getEntries() {
         return entries;
     }
 }

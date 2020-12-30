@@ -4,29 +4,29 @@ import org.apache.commons.lang3.Validate;
 
 import java.io.Serializable;
 
-public class Item implements Serializable {
+public class ItemRef implements Serializable {
 
     public static final int METADATA_WILDCARD = Short.MAX_VALUE;
     public static final int ORE_DICTIONARY = Short.MAX_VALUE + 1;
 
-    public static Item AIR = Item.createItem("minecraft:air", 0);
+    public static ItemRef AIR = ItemRef.createItem("minecraft:air", 0);
 
     private final String id;
     private final int metadata;
 
-    public static Item createItem(String id, int metadata) {
-        return new Item(id, metadata);
+    public static ItemRef createItem(String id, int metadata) {
+        return new ItemRef(id, metadata);
     }
 
-    public static Item createIgnoreMetadata(String id) {
-        return new Item(id, METADATA_WILDCARD);
+    public static ItemRef createIgnoreMetadata(String id) {
+        return new ItemRef(id, METADATA_WILDCARD);
     }
 
-    public static Item createOreDict(String id) {
-        return new Item(id, ORE_DICTIONARY);
+    public static ItemRef createOreDict(String id) {
+        return new ItemRef(id, ORE_DICTIONARY);
     }
 
-    protected Item(String id, int metadata) {
+    protected ItemRef(String id, int metadata) {
         this.id = Validate.notEmpty(id);
         this.metadata = metadata;
     }
@@ -59,7 +59,7 @@ public class Item implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Item that = (Item) o;
+        ItemRef that = (ItemRef) o;
         return metadata == that.metadata && id.equals(that.id);
     }
 

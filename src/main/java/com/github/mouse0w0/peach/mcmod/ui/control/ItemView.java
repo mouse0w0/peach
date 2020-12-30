@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
@@ -23,7 +23,7 @@ public class ItemView extends Control {
         setPickOnBounds(true);
 
         setOnDragDetected(event -> {
-            Item item = getItem();
+            ItemRef item = getItem();
             if (item == null || item.isAir()) return;
 
             Dragboard dragboard = startDragAndDrop(TransferMode.LINK);
@@ -35,10 +35,10 @@ public class ItemView extends Control {
     }
 
     public ItemView(double width, double height) {
-        this(Item.AIR, width, height);
+        this(ItemRef.AIR, width, height);
     }
 
-    public ItemView(Item item, double width, double height) {
+    public ItemView(ItemRef item, double width, double height) {
         this();
         setItem(item);
         setFitSize(width, height);
@@ -83,17 +83,17 @@ public class ItemView extends Control {
         setFitHeight(height);
     }
 
-    private final ObjectProperty<Item> item = new SimpleObjectProperty<>(this, "item", Item.AIR);
+    private final ObjectProperty<ItemRef> item = new SimpleObjectProperty<>(this, "item", ItemRef.AIR);
 
-    public final ObjectProperty<Item> itemProperty() {
+    public final ObjectProperty<ItemRef> itemProperty() {
         return item;
     }
 
-    public final Item getItem() {
+    public final ItemRef getItem() {
         return item.get();
     }
 
-    public final void setItem(Item item) {
+    public final void setItem(ItemRef item) {
         this.item.set(item);
     }
 
