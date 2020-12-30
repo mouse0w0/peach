@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ModelTextureElement extends Element {
+public class ModelTextureField extends Element {
     private static final FileChooser.ExtensionFilter PNG_FILTER = new FileChooser.ExtensionFilter("PNG", "*.png");
 
     private final TextureHandler textureHandler;
@@ -21,7 +21,7 @@ public class ModelTextureElement extends Element {
 
     private final Map<String, ImagePicker> textureMap = new HashMap<>();
 
-    public ModelTextureElement(TextureHandler textureHandler) {
+    public ModelTextureField(TextureHandler textureHandler) {
         this.textureHandler = textureHandler;
 
         editor = new GridPane();

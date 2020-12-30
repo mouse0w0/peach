@@ -1,11 +1,11 @@
-package com.github.mouse0w0.peach.form.element;
+package com.github.mouse0w0.peach.form.field;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 
-public class TextFieldElement extends ValueElement<String> {
+public class TextFieldField extends ValueField<String> {
     private final StringProperty value = new SimpleStringProperty(this, "value");
 
     @Override

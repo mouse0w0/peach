@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form.element;
+package com.github.mouse0w0.peach.form.field;
 
 import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.ui.control.PopupAlert;
@@ -12,7 +12,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 
-public abstract class ValueElement<T> extends Element {
+public abstract class ValueField<T> extends Element {
     public static final String WARNING = "warning";
     public static final String ERROR = "error";
 
@@ -33,7 +33,7 @@ public abstract class ValueElement<T> extends Element {
         FOCUSED_LISTENER = (observable, oldValue, newValue) -> {
             ReadOnlyProperty<?> focusedProperty = (ReadOnlyProperty<?>) observable;
             Node bean = (Node) focusedProperty.getBean();
-            ValueElement<?> element = getElement(bean);
+            ValueField<?> element = getElement(bean);
             if (element == null) return;
 
             if (newValue) {
@@ -50,8 +50,8 @@ public abstract class ValueElement<T> extends Element {
         };
     }
 
-    private static ValueElement<?> getElement(Node node) {
-        return node.hasProperties() ? (ValueElement<?>) node.getProperties().get(Element.class) : null;
+    private static ValueField<?> getElement(Node node) {
+        return node.hasProperties() ? (ValueField<?>) node.getProperties().get(Element.class) : null;
     }
 
     public abstract Property<T> valueProperty();

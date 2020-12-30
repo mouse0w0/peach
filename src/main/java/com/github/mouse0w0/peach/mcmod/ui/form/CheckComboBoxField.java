@@ -12,7 +12,7 @@ import org.controlsfx.control.IndexedCheckModel;
 
 import java.util.function.IntFunction;
 
-public class CheckComboBoxElement<T> extends Element {
+public class CheckComboBoxField<T> extends Element {
 
     public ObservableList<T> getItems() {
         return getCheckComboBox().getItems();

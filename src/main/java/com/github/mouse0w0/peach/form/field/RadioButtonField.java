@@ -1,11 +1,11 @@
-package com.github.mouse0w0.peach.form.element;
+package com.github.mouse0w0.peach.form.field;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 
-public class RadioButtonElement extends ValueElement<Boolean> {
+public class RadioButtonField extends ValueField<Boolean> {
     private final BooleanProperty value = new SimpleBooleanProperty(this, "value");
 
     @Override

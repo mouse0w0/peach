@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form.element;
+package com.github.mouse0w0.peach.form.field;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -8,7 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.util.StringConverter;
 
-public class ChoiceBoxElement<T> extends ValueElement<T> {
+public class ChoiceBoxField<T> extends ValueField<T> {
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
 
     @Override

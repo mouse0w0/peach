@@ -8,12 +8,12 @@ import javafx.scene.Node;
 
 import java.io.File;
 
-public class TextureElement extends Element {
+public class TextureField extends Element {
     private final ObjectProperty<File> value = new SimpleObjectProperty<>(this, "value");
 
     private final TextureHandler textureHandler;
 
-    public TextureElement(TextureHandler textureHandler) {
+    public TextureField(TextureHandler textureHandler) {
         this.textureHandler = textureHandler;
     }
 

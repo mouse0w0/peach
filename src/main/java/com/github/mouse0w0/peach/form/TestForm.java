@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.form.element.ComboBoxElement;
-import com.github.mouse0w0.peach.form.element.SpinnerElement;
-import com.github.mouse0w0.peach.form.element.TextFieldElement;
+import com.github.mouse0w0.peach.form.field.ComboBoxField;
+import com.github.mouse0w0.peach.form.field.SpinnerField;
+import com.github.mouse0w0.peach.form.field.TextFieldField;
 import com.github.mouse0w0.peach.ui.util.Check;
 import com.github.mouse0w0.peach.ui.util.NotificationLevel;
 import javafx.application.Application;
@@ -19,22 +19,22 @@ public class TestForm extends Application {
         properties.setCollapsible(false);
         form.getGroups().add(properties);
 
-        TextFieldElement firstName = new TextFieldElement();
+        TextFieldField firstName = new TextFieldField();
         firstName.setText("First Name");
         firstName.setPromptText("First Name");
         firstName.getChecks().add(new Check<>(s -> s != null && s.length() > 0, NotificationLevel.ERROR, "Text cannot be empty."));
         firstName.setColSpan(ColSpan.HALF);
 
-        TextFieldElement lastName = new TextFieldElement();
+        TextFieldField lastName = new TextFieldField();
         lastName.setText("Last Name");
         lastName.setPromptText("Last Name");
         lastName.setColSpan(ColSpan.HALF);
 
-        SpinnerElement<Integer> age = new SpinnerElement<>(0, 255, 1);
+        SpinnerField<Integer> age = new SpinnerField<>(0, 255, 1);
         age.setText("Age");
         age.setColSpan(ColSpan.HALF);
 
-        ComboBoxElement<String> sex = new ComboBoxElement<>();
+        ComboBoxField<String> sex = new ComboBoxField<>();
         sex.setText("Sex");
         sex.setValue("Man");
         sex.getItems().addAll("Man", "Woman");

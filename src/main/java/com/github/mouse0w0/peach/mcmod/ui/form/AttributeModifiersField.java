@@ -11,7 +11,7 @@ import javafx.scene.Node;
 
 import java.util.concurrent.TimeUnit;
 
-public class AttributeModifiersElement extends Element {
+public class AttributeModifiersField extends Element {
 
     public AttributeModifier[] getValue() {
         return getTagView().getItems().toArray(AttributeModifier.EMPTY_ARRAY);

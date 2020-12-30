@@ -1,11 +1,11 @@
-package com.github.mouse0w0.peach.form.element;
+package com.github.mouse0w0.peach.form.field;
 
 import com.github.mouse0w0.peach.ui.control.FilePicker;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 
-public class FilePickerElement extends ValueElement<String> {
+public class FilePickerField extends ValueField<String> {
     private final StringProperty value = new SimpleStringProperty(this, "value");
 
     @Override

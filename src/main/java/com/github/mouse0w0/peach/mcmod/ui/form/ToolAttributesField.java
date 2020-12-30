@@ -11,7 +11,7 @@ import javafx.scene.Node;
 
 import java.util.concurrent.TimeUnit;
 
-public class ToolAttributesElement extends Element {
+public class ToolAttributesField extends Element {
 
     public ToolAttribute[] getValue() {
         return getTagView().getItems().toArray(ToolAttribute.EMPTY_ARRAY);

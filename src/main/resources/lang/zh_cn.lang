@@ -180,16 +180,25 @@ item.properties.useAnimation=使用动画
 item.properties.useDuration=使用时长
 item.properties.toolAttributes=工具属性
 item.properties.attributeModifiers=属性修饰
-item.properties.fuelBurnTime=燃料燃烧时间
 item.properties.information=附加信息
 
 item.appearance.title=外观
 item.appearance.model=模型
-item.model.generated=默认模型
-item.model.handheld=手持模型
 item.appearance.texture=纹理
 item.appearance.hasEffect=发光效果
 item.appearance.armorTexture=盔甲纹理
+
+item.extra.title=额外属性
+item.fuel.fuelBurnTime=燃料燃烧时间
+item.armor.equipmentSound=装备音效
+item.food.hunger=饥饿回复值
+item.food.saturation=饱食度
+item.food.isWolfFood=狼的食物
+item.food.alwaysEdible=总是可使用
+item.food.foodContainer=食物容器
+
+item.model.generated=默认模型
+item.model.handheld=手持模型
 
 toolType.axe=斧
 toolType.pickaxe=镐
