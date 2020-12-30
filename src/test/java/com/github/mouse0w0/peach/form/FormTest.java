@@ -9,7 +9,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class TestForm extends Application {
+public class FormTest extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Form form = new Form();
