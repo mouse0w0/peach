@@ -37,9 +37,26 @@ public class TextureField extends Element {
         setValue(textureHandler.fromString(texture));
     }
 
+    public void setFitSize(double fitWidth, double fitHeight) {
+        getImagePicker().setFitSize(fitWidth, fitHeight);
+    }
+
+    public void setMaxSize(double maxWidth, double maxHeight) {
+        getImagePicker().setMaxSize(maxWidth, maxHeight);
+    }
+
+    public ImagePicker getImagePicker() {
+        return (ImagePicker) getEditor();
+    }
+
     @Override
     public boolean validate() {
-        File newFile = textureHandler.copy(getValue());
+        File file = getValue();
+        if (file == null) {
+            return true;
+        }
+
+        File newFile = textureHandler.copy(file);
         if (newFile != null) {
             setValue(newFile);
             return true;
