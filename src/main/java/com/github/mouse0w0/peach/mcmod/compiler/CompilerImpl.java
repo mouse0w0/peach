@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.compiler;
 
 import com.github.mouse0w0.coffeemaker.CoffeeMaker;
 import com.github.mouse0w0.coffeemaker.evaluator.Evaluator;
-import com.github.mouse0w0.coffeemaker.evaluator.aviator.AviatorEvaluator;
+import com.github.mouse0w0.coffeemaker.evaluator.nashorn.NashornEvaluator;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
@@ -38,7 +38,7 @@ public final class CompilerImpl implements Compiler {
     private ModelManager modelManager;
 
     private CoffeeMaker coffeeMaker;
-    private AviatorEvaluator evaluator;
+    private Evaluator evaluator;
 
     private Filer classesFiler;
     private Filer resourcesFiler;
@@ -135,7 +135,7 @@ public final class CompilerImpl implements Compiler {
 
             coffeeMaker = new CoffeeMaker();
             coffeeMaker.loadTemplateFromJar(CompilerImpl.class.getResource("/template/peach-forge-template-1.0.jar"));
-            evaluator = new AviatorEvaluator();
+            evaluator = new NashornEvaluator();
             evaluator.getEnv().put("metadata", metadata);
 
             classesFiler = new Filer(getOutputFolder().resolve("classes"));
