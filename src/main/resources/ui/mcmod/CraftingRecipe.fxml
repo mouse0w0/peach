@@ -33,7 +33,8 @@
                       GridPane.rowIndex="3"/>
                 <RadioButton fx:id="shapeless" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
                 <AnchorPane fx:id="recipeView" maxHeight="312.0" maxWidth="560.0" minHeight="312.0" minWidth="560.0"
-                            prefHeight="312.0" prefWidth="560.0" GridPane.columnSpan="2" GridPane.rowIndex="4"/>
+                            prefHeight="312.0" prefWidth="560.0" styleClass="minecraft-style" GridPane.columnSpan="2"
+                            GridPane.rowIndex="4"/>
             </children>
             <padding>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>

@@ -136,17 +136,26 @@
     -fx-text-fill: white;
 }
 
-.item-picker:hover,
-.item-stack-view:hover > .item {
-    -fx-background-color: #c5c5c5;
-}
-
-.image-picker {
+.image-picker,
+.item-picker,
+.item-stack-view > .item {
     -fx-background-color: -peach-background-color;
 }
 
-.image-picker:hover {
+.image-picker:hover,
+.item-picker:hover,
+.item-stack-view:hover > .item {
     -fx-background-color: -peach-hover-color;
+}
+
+.minecraft-style .item-picker,
+.minecraft-style .item-stack-view > .item {
+    -fx-background-color: transparent;
+}
+
+.minecraft-style .item-picker:hover,
+.minecraft-style .item-stack-view:hover > .item {
+    -fx-background-color: #c5c5c5;
 }
 
 .file-editor > .button-bar {
