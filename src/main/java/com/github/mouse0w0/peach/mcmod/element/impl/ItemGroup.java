@@ -8,18 +8,18 @@ import java.util.Map;
 
 public class ItemGroup extends Element implements Localizable {
 
-    private String registerName;
+    private String identifier;
     private String displayName;
     private boolean hasSearchBar;
     private String background;
     private ItemRef icon = ItemRef.AIR;
 
-    public String getRegisterName() {
-        return registerName;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setRegisterName(String registerName) {
-        this.registerName = registerName;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getDisplayName() {
@@ -56,6 +56,6 @@ public class ItemGroup extends Element implements Localizable {
 
     @Override
     public void getLocalizedText(String namespace, Map<String, String> localizedTexts) {
-        localizedTexts.put("itemGroup." + namespace + "." + getRegisterName(), getDisplayName());
+        localizedTexts.put("itemGroup." + namespace + "." + getIdentifier(), getDisplayName());
     }
 }

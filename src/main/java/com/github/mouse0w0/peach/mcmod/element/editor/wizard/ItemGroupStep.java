@@ -42,7 +42,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
     private GridPane content;
 
     @FXML
-    private TextField registerName;
+    private TextField identifier;
     @FXML
     private TextField displayName;
     @FXML
@@ -73,8 +73,8 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
 
     @Override
     public void init() {
-        registerName.setText(Strings.isNullOrEmpty(element.getRegisterName()) ?
-                ModUtils.toIdentifier(element.getFileName()) : element.getRegisterName());
+        identifier.setText(Strings.isNullOrEmpty(element.getIdentifier()) ?
+                ModUtils.toIdentifier(element.getFileName()) : element.getIdentifier());
         displayName.setText(Strings.isNullOrEmpty(element.getDisplayName()) ?
                 element.getFileName() : element.getDisplayName());
         hasSearchBar.setSelected(element.isHasSearchBar());
@@ -113,7 +113,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
 
     @Override
     public void updateDataModel() {
-        element.setRegisterName(registerName.getText());
+        element.setIdentifier(identifier.getText());
         element.setDisplayName(displayName.getText());
         element.setHasSearchBar(hasSearchBar.isSelected());
         element.setBackground(background.getText());

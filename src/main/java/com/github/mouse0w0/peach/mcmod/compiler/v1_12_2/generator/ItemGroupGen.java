@@ -44,7 +44,7 @@ public class ItemGroupGen extends Generator<ItemGroup> {
 
     @Override
     protected void generate(Compiler compiler, ItemGroup itemGroup) throws Exception {
-        String internalName = ASMUtils.getInternalName(packageName, JavaUtils.lowerUnderscoreToUpperCamel(itemGroup.getRegisterName()) + "ItemGroup");
+        String internalName = ASMUtils.getInternalName(packageName, JavaUtils.lowerUnderscoreToUpperCamel(itemGroup.getIdentifier()) + "ItemGroup");
         classes.add(internalName);
         Evaluator evaluator = compiler.getEvaluator();
         try (LocalVar localVar = evaluator.pushLocalVar()) {

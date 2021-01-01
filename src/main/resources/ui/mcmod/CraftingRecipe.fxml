@@ -22,7 +22,7 @@
                 <RowConstraints vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.craftingRecipe.registerName"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.craftingRecipe.identifier"/>
                 <TextField fx:id="id" GridPane.columnIndex="1"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.craftingRecipe.namespace"
                       GridPane.rowIndex="1"/>

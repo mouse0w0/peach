@@ -23,7 +23,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
             generateShaped(recipe, jo);
         }
 
-        compiler.getAssetsFiler().write("recipes/" + recipe.getId() + ".json", jo.toString());
+        compiler.getAssetsFiler().write("recipes/" + recipe.getIdentifier() + ".json", jo.toString());
     }
 
     private void generateResult(CraftingRecipe recipe, JsonObject jo) {

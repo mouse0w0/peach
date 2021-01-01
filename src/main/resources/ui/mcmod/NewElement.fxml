@@ -22,11 +22,11 @@
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newElement.name"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newElement.type" GridPane.rowIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newElement.registry_name"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newElement.identifier"
                       GridPane.rowIndex="2"/>
                 <TextField fx:id="name" GridPane.columnIndex="1"/>
                 <ChoiceBox fx:id="type" prefWidth="10000.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <Text fx:id="registerName" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1"
+                <Text fx:id="identifier" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1"
                       GridPane.rowIndex="2"/>
             </children>
         </GridPane>

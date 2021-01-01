@@ -76,7 +76,7 @@ public class CraftingRecipeStep extends WizardStepBase {
 
     @Override
     public void init() {
-        String id1 = element.getId();
+        String id1 = element.getIdentifier();
         if (Strings.isNullOrEmpty(id1)) id1 = ModUtils.toIdentifier(this.element.getFileName());
         id.setText(id1);
 
@@ -94,7 +94,7 @@ public class CraftingRecipeStep extends WizardStepBase {
 
     @Override
     public void updateDataModel() {
-        element.setId(id.getText());
+        element.setIdentifier(id.getText());
         element.setNamespace(namespace.getValue());
         element.setGroup(group.getValue());
         element.setShapeless(shapeless.isSelected());

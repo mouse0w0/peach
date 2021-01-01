@@ -15,8 +15,8 @@ public final class ModUtils {
 
     @Nullable
     public static String toIdentifier(String s) {
-        String registerName = tryConvertToIdentifier(s);
-        return isValidIdentifier(registerName) ? registerName : null;
+        String identifier = tryConvertToIdentifier(s);
+        return isValidIdentifier(identifier) ? identifier : null;
     }
 
     public static String tryConvertToIdentifier(String s) {

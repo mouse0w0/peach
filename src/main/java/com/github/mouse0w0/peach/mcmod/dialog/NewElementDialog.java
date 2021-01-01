@@ -29,7 +29,7 @@ public class NewElementDialog extends BorderPane {
     @FXML
     private ChoiceBox<ElementType<?>> type;
     @FXML
-    private Text registerName;
+    private Text identifier;
 
     public static void show(Project project, Window window) {
         Stage stage = new Stage();
@@ -62,7 +62,7 @@ public class NewElementDialog extends BorderPane {
             }
         });
         name.textProperty().addListener(observable ->
-                registerName.setText(ModUtils.tryConvertToIdentifier(name.getText())));
+                identifier.setText(ModUtils.tryConvertToIdentifier(name.getText())));
 
         type.setConverter(new StringConverter<ElementType<?>>() {
             @Override

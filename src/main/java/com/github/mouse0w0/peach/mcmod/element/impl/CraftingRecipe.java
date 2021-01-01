@@ -7,19 +7,19 @@ import com.github.mouse0w0.peach.util.ArrayUtils;
 
 public class CraftingRecipe extends Element {
 
-    private String id;
+    private String identifier;
     private String namespace;
     private String group;
     private ItemRef[] inputs = ArrayUtils.fill(new ItemRef[9], ItemRef.AIR);
     private ItemStack output = ItemStack.EMPTY;
     private boolean shapeless;
 
-    public String getId() {
-        return id;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getNamespace() {

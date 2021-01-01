@@ -82,17 +82,17 @@ dialog.modMetadata.choose_logo=选择图标文件
 dialog.newElement.title=新建模组元素
 dialog.newElement.name=名称：
 dialog.newElement.type=类型：
-dialog.newElement.registry_name=注册名：
+dialog.newElement.identifier=唯一名：
 validate.illegalFileName=非法的文件名：“%s”。
 validate.existsFile=文件“%s”已存在。
 
 tab.elementView.title=模组元素
 
 validate.illegalModId=非法的模组唯一名：“%s”。模组唯一名以小写字母开头，仅含小写字母和数字。
-validate.illegalIdentifier=非法的唯一名：“%s”。注册名以小写字母开头，仅含小写字母，数字和下划线。
+validate.illegalIdentifier=非法的唯一名：“%s”。唯一名以小写字母开头，仅含小写字母，数字和下划线。
 
 mod.element.item_group=创造标签
-wizard.itemGroup.registerName=注册名：
+wizard.itemGroup.identifier=唯一名：
 wizard.itemGroup.displayName=显示名：
 wizard.itemGroup.hasSearchBar=启用搜索栏：
 wizard.itemGroup.background=背景图：
@@ -100,7 +100,7 @@ wizard.itemGroup.icon=图标：
 
 mod.element.crafting=合成配方
 
-wizard.craftingRecipe.registerName=注册名：
+wizard.craftingRecipe.identifier=唯一名：
 wizard.craftingRecipe.namespace=命名空间：
 wizard.craftingRecipe.group=配方组：
 wizard.craftingRecipe.shapeless=无序配方？

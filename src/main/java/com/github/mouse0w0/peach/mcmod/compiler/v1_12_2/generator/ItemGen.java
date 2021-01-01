@@ -74,9 +74,9 @@ public class ItemGen extends Generator<Item> {
 
     @Override
     protected void generate(Compiler compiler, Item item) throws Exception {
-        String registerName = item.getIdentifier();
-        String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(registerName));
-        items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(registerName), ASMUtils.getDescriptor(internalName)));
+        String identifier = item.getIdentifier();
+        String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(identifier));
+        items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(identifier), ASMUtils.getDescriptor(internalName)));
 
         String itemGroup = item.getItemGroup();
         ItemGroupDef itemGroupDef = new ItemGroupDef(itemGroup,
@@ -98,7 +98,7 @@ public class ItemGen extends Generator<Item> {
         model.setTextures(textures);
 
         Filer assetsFiler = compiler.getAssetsFiler();
-        try (BufferedWriter writer = assetsFiler.newWriter("models", "item", registerName + ".json")) {
+        try (BufferedWriter writer = assetsFiler.newWriter("models", "item", identifier + ".json")) {
             McjModelHelper.GSON.toJson(model, writer);
         }
 

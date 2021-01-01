@@ -21,8 +21,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.registerName"/>
-                <TextField fx:id="registerName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.identifier"/>
+                <TextField fx:id="identifier" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.displayName"
                       GridPane.rowIndex="1"/>
                 <TextField fx:id="displayName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"

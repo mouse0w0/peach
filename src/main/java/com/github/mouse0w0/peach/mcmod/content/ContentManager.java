@@ -172,7 +172,7 @@ public class ContentManager implements Disposable {
             cachedElement.put(file, new ItemRef[]{item, ignoreMetadata});
         } else if (element instanceof ItemGroup) {
             ItemGroup itemGroup = (ItemGroup) element;
-            ItemGroupData itemGroupData = new ItemGroupData(itemGroup.getRegisterName(), null, itemGroup.getIcon());
+            ItemGroupData itemGroupData = new ItemGroupData(itemGroup.getIdentifier(), null, itemGroup.getIcon());
             itemGroupData.setDisplayName(itemGroup.getDisplayName());
 
             itemGroupList.add(0, itemGroupData);
