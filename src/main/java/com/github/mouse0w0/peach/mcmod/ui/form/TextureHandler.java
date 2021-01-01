@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ public interface TextureHandler {
         return new TextureHandler() {
             @Override
             public File fromString(String texture) {
-                return new File(root.resolve(texture + ".png").toString());
+                return Strings.isNullOrEmpty(texture) ? null : new File(root.resolve(texture + ".png").toString());
             }
 
             @Override
@@ -48,7 +49,7 @@ public interface TextureHandler {
         return new TextureHandler() {
             @Override
             public File fromString(String texture) {
-                return new File(root.resolve(texture).toString());
+                return Strings.isNullOrEmpty(texture) ? null : new File(root.resolve(texture).toString());
             }
 
             @Override
