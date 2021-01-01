@@ -28,6 +28,7 @@ public class ResourceUtils {
     public static final String TEXTURES = "resources/textures";
     public static final String BLOCK_TEXTURES = TEXTURES + "/blocks";
     public static final String ITEM_TEXTURES = TEXTURES + "/items";
+    public static final String ARMOR_TEXTURES = TEXTURES + "/armors";
     public static final String GUI_TEXTURES = TEXTURES + "/gui";
 
     public static Path getResourcePath(Project project, String resource) {
