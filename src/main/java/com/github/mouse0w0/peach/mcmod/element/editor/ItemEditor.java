@@ -24,6 +24,7 @@ import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.Check;
 import com.github.mouse0w0.peach.ui.util.NotificationLevel;
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
 import javafx.util.StringConverter;
@@ -60,6 +61,7 @@ public class ItemEditor extends ElementEditor<Item> {
     private ChoiceBoxField<String> model;
     private ModelTextureField textures;
     private RadioButtonField hasEffect;
+    private TextureField armorTexture;
 
     // Extra
     private SpinnerField<Integer> fuelBurnTime;
@@ -161,6 +163,7 @@ public class ItemEditor extends ElementEditor<Item> {
             }
         });
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
+        equipmentSlot.getSelectionModel().selectFirst();
         equipmentSlot.setColSpan(ColSpan.HALF);
 
         repairItem = new ItemPickerField();
@@ -230,7 +233,17 @@ public class ItemEditor extends ElementEditor<Item> {
         hasEffect.setText(I18n.translate("item.appearance.hasEffect"));
         hasEffect.setColSpan(ColSpan.HALF);
 
-        appearance.getElements().addAll(model, textures, hasEffect);
+        armorTexture = new TextureField(TextureHandler.ofKeepExtension(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
+        armorTexture.setFitSize(128, 64);
+        armorTexture.setMaxSize(128, 64);
+        armorTexture.setText(I18n.translate("item.appearance.armorTexture"));
+        armorTexture.visibleProperty().bind(Bindings.createBooleanBinding(
+                () -> equipmentSlot.getValue().getType() == EquipmentSlot.Type.ARMOR,
+                equipmentSlot.valueProperty()));
+
+        appearance.getElements().addAll(model, textures, hasEffect, armorTexture);
 
         Group extra = new Group();
         extra.setText(I18n.translate("item.extra.title"));
@@ -261,7 +274,13 @@ public class ItemEditor extends ElementEditor<Item> {
         alwaysEdible.setColSpan(ColSpan.HALF);
         alwaysEdible.visibleProperty().bind(isFood);
 
-        extra.getElements().addAll(fuelBurnTime, hunger, saturation, isWolfFood, alwaysEdible);
+        foodContainer = new ItemPickerField();
+        foodContainer.setText(I18n.translate("item.food.foodContainer"));
+        foodContainer.setFitSize(32, 32);
+        foodContainer.setColSpan(ColSpan.HALF);
+        foodContainer.visibleProperty().bind(isFood);
+
+        extra.getElements().addAll(fuelBurnTime, hunger, saturation, isWolfFood, alwaysEdible, foodContainer);
 
         form.getGroups().addAll(properties, appearance, extra);
 
@@ -269,55 +288,71 @@ public class ItemEditor extends ElementEditor<Item> {
     }
 
     @Override
-    protected void initialize(Item element) {
-        identifier.setValue(element.getIdentifier());
-        displayName.setValue(element.getDisplayName());
-        itemType.setValue(element.getItemType());
-        itemGroup.setValue(contentManager.getItemGroup(element.getItemGroup()));
-        maxStackSize.setValue(element.getMaxStackSize());
-        durability.setValue(element.getDurability());
-        destroySpeed.setValue(element.getDestroySpeed());
-        canDestroyAnyBlock.setValue(element.isCanDestroyAnyBlock());
-        toolAttributes.setValue(element.getToolAttributes());
-        attributeModifiers.setValue(element.getAttributeModifiers());
-        enchantability.setValue(element.getEnchantability());
-        acceptableEnchantments.setValue(element.getAcceptableEnchantments());
-        equipmentSlot.setValue(element.getEquipmentSlot());
-        repairItem.setValue(element.getRepairItem());
-        recipeRemain.setValue(element.getRecipeRemain());
-        useAnimation.setValue(element.getUseAnimation());
-        useDuration.setValue(element.getUseDuration());
-        fuelBurnTime.setValue(element.getFuelBurnTime());
-        hasEffect.setValue(element.isHasEffect());
-        information.setValue(element.getInformation());
-        model.setValue(element.getModel());
-        textures.setTextures(element.getTextures());
+    protected void initialize(Item item) {
+        identifier.setValue(item.getIdentifier());
+        displayName.setValue(item.getDisplayName());
+        itemType.setValue(item.getItemType());
+        itemGroup.setValue(contentManager.getItemGroup(item.getItemGroup()));
+        maxStackSize.setValue(item.getMaxStackSize());
+        durability.setValue(item.getDurability());
+        destroySpeed.setValue(item.getDestroySpeed());
+        canDestroyAnyBlock.setValue(item.isCanDestroyAnyBlock());
+        toolAttributes.setValue(item.getToolAttributes());
+        attributeModifiers.setValue(item.getAttributeModifiers());
+        enchantability.setValue(item.getEnchantability());
+        acceptableEnchantments.setValue(item.getAcceptableEnchantments());
+        equipmentSlot.setValue(item.getEquipmentSlot());
+        repairItem.setValue(item.getRepairItem());
+        recipeRemain.setValue(item.getRecipeRemain());
+        useAnimation.setValue(item.getUseAnimation());
+        useDuration.setValue(item.getUseDuration());
+        information.setValue(item.getInformation());
+
+        model.setValue(item.getModel());
+        textures.setTextures(item.getTextures());
+        hasEffect.setValue(item.isHasEffect());
+        armorTexture.setTexture(item.getArmorTexture());
+
+        fuelBurnTime.setValue(item.getFuelBurnTime());
+        hunger.setValue(item.getHunger());
+        saturation.setValue(item.getSaturation());
+        isWolfFood.setValue(item.isWolfFood());
+        alwaysEdible.setValue(item.isAlwaysEdible());
+        foodContainer.setValue(item.getFoodContainer());
     }
 
     @Override
-    protected void updateDataModel(Item element) {
-        element.setIdentifier(identifier.getValue());
-        element.setDisplayName(displayName.getValue());
-        element.setItemType(itemType.getValue());
-        element.setItemGroup(itemGroup.getValue().getId());
-        element.setMaxStackSize(maxStackSize.getValue());
-        element.setDurability(durability.getValue());
-        element.setDestroySpeed(destroySpeed.getValue());
-        element.setCanDestroyAnyBlock(canDestroyAnyBlock.getValue());
-        element.setToolAttributes(toolAttributes.getValue());
-        element.setAttributeModifiers(attributeModifiers.getValue());
-        element.setEnchantability(enchantability.getValue());
-        element.setAcceptableEnchantments(acceptableEnchantments.getValue(EnchantmentType[]::new));
-        element.setEquipmentSlot(equipmentSlot.getValue());
-        element.setRepairItem(repairItem.getValue());
-        element.setRecipeRemain(recipeRemain.getValue());
-        element.setUseAnimation(useAnimation.getValue());
-        element.setUseDuration(useDuration.getValue());
-        element.setFuelBurnTime(fuelBurnTime.getValue());
-        element.setHasEffect(hasEffect.getValue());
-        element.setInformation(information.getValue());
-        element.setModel(model.getValue());
-        element.setTextures(textures.getTextures());
+    protected void updateDataModel(Item item) {
+        item.setIdentifier(identifier.getValue());
+        item.setDisplayName(displayName.getValue());
+        item.setItemType(itemType.getValue());
+        item.setItemGroup(itemGroup.getValue().getId());
+        item.setMaxStackSize(maxStackSize.getValue());
+        item.setDurability(durability.getValue());
+        item.setDestroySpeed(destroySpeed.getValue());
+        item.setCanDestroyAnyBlock(canDestroyAnyBlock.getValue());
+        item.setToolAttributes(toolAttributes.getValue());
+        item.setAttributeModifiers(attributeModifiers.getValue());
+        item.setEnchantability(enchantability.getValue());
+        item.setAcceptableEnchantments(acceptableEnchantments.getValue(EnchantmentType[]::new));
+        item.setEquipmentSlot(equipmentSlot.getValue());
+        item.setRepairItem(repairItem.getValue());
+        item.setRecipeRemain(recipeRemain.getValue());
+        item.setUseAnimation(useAnimation.getValue());
+        item.setUseDuration(useDuration.getValue());
+        item.setInformation(information.getValue());
+
+        item.setModel(model.getValue());
+        item.setTextures(textures.getTextures());
+        item.setHasEffect(hasEffect.getValue());
+        item.setArmorTexture(armorTexture.getTexture());
+
+        item.setFuelBurnTime(fuelBurnTime.getValue());
+        item.setHunger(hunger.getValue());
+        item.setSaturation(saturation.getValue());
+        item.setWolfFood(isWolfFood.getValue());
+        item.setAlwaysEdible(alwaysEdible.getValue());
+        item.setFoodContainer(foodContainer.getValue());
     }
 
     @Override

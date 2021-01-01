@@ -14,24 +14,31 @@ public class Item extends Element implements Localizable {
     private ItemType itemType = ItemType.NORMAL;
     private String itemGroup;
     private int maxStackSize = 64;
-    private int durability = 0;
-    private double destroySpeed = 0;
-    private boolean canDestroyAnyBlock = false;
+    private int durability;
+    private double destroySpeed;
+    private boolean canDestroyAnyBlock;
     private ToolAttribute[] toolAttributes = ToolAttribute.EMPTY_ARRAY;
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
-    private int enchantability = 0;
+    private int enchantability;
     private EnchantmentType[] acceptableEnchantments = EnchantmentType.EMPTY_ARRAY;
-    private ItemRef repairItem;
-    private ItemRef recipeRemain;
+    private ItemRef repairItem = ItemRef.AIR;
+    private ItemRef recipeRemain = ItemRef.AIR;
     private EquipmentSlot equipmentSlot = EquipmentSlot.MAINHAND;
     private UseAnimation useAnimation = UseAnimation.NONE;
-    private int useDuration = 0;
-    private int fuelBurnTime = 0;
-    private boolean hasEffect = false;
+    private int useDuration;
     private String information;
 
     private String model = "generated";
     private Map<String, String> textures = Collections.emptyMap();
+    private boolean hasEffect = false;
+    private String armorTexture;
+
+    private int fuelBurnTime;
+    private double hunger;
+    private double saturation;
+    private boolean isWolfFood;
+    private boolean alwaysEdible;
+    private ItemRef foodContainer = ItemRef.AIR;
 
     public String getIdentifier() {
         return identifier;
@@ -207,6 +214,54 @@ public class Item extends Element implements Localizable {
 
     public void setTextures(Map<String, String> textures) {
         this.textures = textures;
+    }
+
+    public String getArmorTexture() {
+        return armorTexture;
+    }
+
+    public void setArmorTexture(String armorTexture) {
+        this.armorTexture = armorTexture;
+    }
+
+    public double getHunger() {
+        return hunger;
+    }
+
+    public void setHunger(double hunger) {
+        this.hunger = hunger;
+    }
+
+    public double getSaturation() {
+        return saturation;
+    }
+
+    public void setSaturation(double saturation) {
+        this.saturation = saturation;
+    }
+
+    public boolean isWolfFood() {
+        return isWolfFood;
+    }
+
+    public void setWolfFood(boolean wolfFood) {
+        isWolfFood = wolfFood;
+    }
+
+    public boolean isAlwaysEdible() {
+        return alwaysEdible;
+    }
+
+    public void setAlwaysEdible(boolean alwaysEdible) {
+        this.alwaysEdible = alwaysEdible;
+    }
+
+    public ItemRef getFoodContainer() {
+        return foodContainer;
+    }
+
+    public void setFoodContainer(ItemRef foodContainer) {
+        this.foodContainer = foodContainer;
     }
 
     @Override
