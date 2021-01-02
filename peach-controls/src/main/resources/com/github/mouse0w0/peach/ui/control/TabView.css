@@ -49,3 +49,7 @@
     -fx-max-width: 1em;
     -fx-max-height: 1em;
 }
+
+.tag-view:disabled {
+    -fx-opacity: 0.4;
+}

@@ -6,6 +6,7 @@ import javafx.scene.control.ListCell;
 public class UseAnimationCell extends ListCell<UseAnimation> {
     @Override
     protected void updateItem(UseAnimation item, boolean empty) {
+        super.updateItem(item, empty);
         if (empty) {
             setText(null);
         } else {
