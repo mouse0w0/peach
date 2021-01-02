@@ -98,6 +98,9 @@ public class ItemEditor extends ElementEditor<Item> {
         itemType.setButtonCell(new ItemTypeCell());
         itemType.getItems().setAll(ItemType.values());
         itemType.setColSpan(ColSpan.HALF);
+        BooleanBinding isFood = itemType.valueProperty().isEqualTo(ItemType.FOOD);
+        BooleanBinding isArmor = itemType.valueProperty().isEqualTo(ItemType.ARMOR);
+        BooleanBinding isArmorOrFood = isArmor.or(isFood);
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setText(I18n.translate("item.properties.itemGroup"));
@@ -109,22 +112,36 @@ public class ItemEditor extends ElementEditor<Item> {
         maxStackSize = new SpinnerField<>(1, 64, 64);
         maxStackSize.setText(I18n.translate("item.properties.maxStackSize"));
         maxStackSize.setColSpan(ColSpan.HALF);
+        maxStackSize.disableProperty().bind(Bindings.createBooleanBinding(() -> {
+            ItemType type = itemType.getValue();
+            if (type == ItemType.NORMAL || type == ItemType.FOOD) {
+                maxStackSize.setValue(64);
+                return false;
+            } else {
+                maxStackSize.setValue(1);
+                return true;
+            }
+        }, itemType.valueProperty()));
 
         durability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         durability.setText(I18n.translate("item.properties.durability"));
         durability.setColSpan(ColSpan.HALF);
+        durability.disableProperty().bind(isFood);
 
         destroySpeed = new SpinnerField<>(0.0, Float.MAX_VALUE, 0.0);
         destroySpeed.setText(I18n.translate("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
+        destroySpeed.disableProperty().bind(isArmorOrFood);
 
         canDestroyAnyBlock = new RadioButtonField();
         canDestroyAnyBlock.setText(I18n.translate("item.properties.canDestroyAnyBlock"));
         canDestroyAnyBlock.setColSpan(ColSpan.HALF);
+        canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
 
         toolAttributes = new ToolAttributesField();
         toolAttributes.setText(I18n.translate("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
+        toolAttributes.disableProperty().bind(isArmorOrFood);
 
         attributeModifiers = new AttributeModifiersField();
         attributeModifiers.setText(I18n.translate("item.properties.attributeModifiers"));
@@ -132,6 +149,7 @@ public class ItemEditor extends ElementEditor<Item> {
         enchantability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         enchantability.setText(I18n.translate("item.properties.enchantability"));
         enchantability.setColSpan(ColSpan.HALF);
+        enchantability.disableProperty().bind(isFood);
 
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setText(I18n.translate("item.properties.acceptableEnchantments"));
@@ -148,6 +166,7 @@ public class ItemEditor extends ElementEditor<Item> {
             }
         });
         acceptableEnchantments.setColSpan(ColSpan.HALF);
+        acceptableEnchantments.disableProperty().bind(isFood);
 
         equipmentSlot = new ChoiceBoxField<>();
         equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
@@ -170,6 +189,7 @@ public class ItemEditor extends ElementEditor<Item> {
         repairItem.setText(I18n.translate("item.properties.repairItem"));
         repairItem.setFitSize(32, 32);
         repairItem.setColSpan(ColSpan.HALF);
+        repairItem.disableProperty().bind(isFood);
 
         recipeRemain = new ItemPickerField();
         recipeRemain.setText(I18n.translate("item.properties.recipeRemain"));
@@ -186,6 +206,16 @@ public class ItemEditor extends ElementEditor<Item> {
         useDuration = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         useDuration.setText(I18n.translate("item.properties.useDuration"));
         useDuration.setColSpan(ColSpan.HALF);
+
+        isFood.addListener(observable -> {
+            if (isFood.get()) {
+                useAnimation.setValue(UseAnimation.EAT);
+                useDuration.setValue(32);
+            } else {
+                useAnimation.setValue(UseAnimation.NONE);
+                useDuration.setValue(0);
+            }
+        });
 
         information = new TextAreaField();
         information.setText(I18n.translate("item.properties.information"));
@@ -239,9 +269,7 @@ public class ItemEditor extends ElementEditor<Item> {
         armorTexture.setFitSize(128, 64);
         armorTexture.setMaxSize(128, 64);
         armorTexture.setText(I18n.translate("item.appearance.armorTexture"));
-        armorTexture.visibleProperty().bind(Bindings.createBooleanBinding(
-                () -> equipmentSlot.getValue().getType() == EquipmentSlot.Type.ARMOR,
-                equipmentSlot.valueProperty()));
+        armorTexture.visibleProperty().bind(isArmor);
 
         appearance.getElements().addAll(model, textures, hasEffect, armorTexture);
 
@@ -251,8 +279,6 @@ public class ItemEditor extends ElementEditor<Item> {
         fuelBurnTime = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         fuelBurnTime.setText(I18n.translate("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
-
-        BooleanBinding isFood = itemType.valueProperty().isEqualTo(ItemType.FOOD);
 
         hunger = new SpinnerField<>(0.0, 20.0, 0.0);
         hunger.setText(I18n.translate("item.food.hunger"));
