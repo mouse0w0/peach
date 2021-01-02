@@ -30,6 +30,7 @@ public class ToolAttributesField extends Element {
     protected Node createDefaultEditor() {
         ToolAttributePopup popup = new ToolAttributePopup();
         TagView<ToolAttribute> tagView = new TagView<>();
+        tagView.disableProperty().bind(disableProperty());
         tagView.setCellFactory(view -> new ToolAttributeCell(popup));
         tagView.setOnAdd(event -> {
             tagView.getItems().add(event.getIndex(), new ToolAttribute("axe", 0));

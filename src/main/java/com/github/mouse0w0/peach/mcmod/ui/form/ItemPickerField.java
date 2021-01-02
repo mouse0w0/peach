@@ -126,6 +126,7 @@ public class ItemPickerField extends ValueField<ItemRef> {
         itemPicker.itemProperty().bindBidirectional(valueProperty());
         itemPicker.maxWidthProperty().bind(itemPicker.fitWidthProperty());
         itemPicker.maxHeightProperty().bind(itemPicker.fitHeightProperty());
+        itemPicker.disableProperty().bind(disableProperty());
         return itemPicker;
     }
 }
