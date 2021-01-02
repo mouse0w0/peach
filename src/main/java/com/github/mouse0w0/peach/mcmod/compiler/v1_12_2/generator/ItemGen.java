@@ -5,6 +5,7 @@ import com.github.mouse0w0.coffeemaker.evaluator.Evaluator;
 import com.github.mouse0w0.coffeemaker.evaluator.LocalVar;
 import com.github.mouse0w0.coffeemaker.template.Field;
 import com.github.mouse0w0.coffeemaker.template.Template;
+import com.github.mouse0w0.peach.mcmod.ItemType;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
@@ -25,7 +26,7 @@ public class ItemGen extends Generator<Item> {
     private final List<Field> items = new ArrayList<>();
     private final List<ItemGroupDef> itemGroups = new ArrayList<>();
 
-    private Template templateItem;
+    private final Map<ItemType, Template> templates = new EnumMap<>(ItemType.class);
 
     private String modItemsInternalName;
     private String modItemModelsInternalName;
@@ -36,7 +37,12 @@ public class ItemGen extends Generator<Item> {
 
     @Override
     protected void before(Compiler compiler, Collection<Item> elements) throws Exception {
-        templateItem = compiler.getCoffeeMaker().getTemplate("template/item/TemplateItem");
+        CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
+        templates.put(ItemType.NORMAL, coffeeMaker.getTemplate("template/item/TemplateItem"));
+        templates.put(ItemType.SWORD, coffeeMaker.getTemplate("template/item/TemplateSword"));
+        templates.put(ItemType.TOOL, coffeeMaker.getTemplate("template/item/TemplateTool"));
+        templates.put(ItemType.ARMOR, coffeeMaker.getTemplate("template/item/TemplateArmor"));
+        templates.put(ItemType.FOOD, coffeeMaker.getTemplate("template/item/TemplateFood"));
 
         String packageName = compiler.getRootPackageName();
         namespace = compiler.getMetadata().getId();
@@ -89,7 +95,7 @@ public class ItemGen extends Generator<Item> {
             localVar.put("ITEM_GROUPS_CLASS", itemGroupsInternalName);
 
             compiler.getClassesFiler().write(internalName + ".class",
-                    templateItem.process(internalName, evaluator));
+                    templates.get(item.getItemType()).process(internalName, evaluator));
         }
 
         McjModel model = compiler.getModelManager().getItemModel(item.getModel());
@@ -102,13 +108,14 @@ public class ItemGen extends Generator<Item> {
             McjModelHelper.GSON.toJson(model, writer);
         }
 
+        Path texturesPath = compiler.getProjectStructure().getTextures();
         for (String texture : item.getTextures().values()) {
-            Path textureFile = getItemTextureFilePath(compiler, texture);
-            assetsFiler.copy(textureFile, "textures/" + texture + ".png");
+            assetsFiler.copy(texturesPath.resolve(texture + ".png"), "textures/" + texture + ".png");
         }
-    }
 
-    private Path getItemTextureFilePath(Compiler compiler, String textureName) {
-        return compiler.getProjectStructure().getTextures().resolve(textureName + ".png");
+        if (item.getItemType() == ItemType.ARMOR) {
+            String armorTexture = item.getArmorTexture();
+            assetsFiler.copy(texturesPath.resolve(armorTexture), "textures/" + armorTexture);
+        }
     }
 }
