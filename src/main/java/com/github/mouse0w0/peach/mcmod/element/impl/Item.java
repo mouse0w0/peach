@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.language.Localizable;
+import com.google.common.base.Strings;
 
 import java.util.Collections;
 import java.util.Map;
@@ -267,5 +268,13 @@ public class Item extends Element implements Localizable {
     @Override
     public void getLocalizedText(String namespace, Map<String, String> localizedTexts) {
         localizedTexts.put("item." + namespace + "." + identifier + ".name", displayName);
+
+        if (!Strings.isNullOrEmpty(information)) {
+            String prefix = "item." + namespace + "." + identifier + ".tooltip.";
+            String[] split = information.split("\n");
+            for (int i = 0; i < split.length; i++) {
+                localizedTexts.put(prefix + i, split[i]);
+            }
+        }
     }
 }
