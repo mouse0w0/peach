@@ -23,6 +23,7 @@ public interface TextureHandler {
 
             @Override
             public String toString(File file) {
+                if (file == null) return null;
                 String s = root.relativize(file.toPath()).toString().replace('\\', '/');
                 return s.substring(0, s.length() - ".png".length());
             }
@@ -54,7 +55,7 @@ public interface TextureHandler {
 
             @Override
             public String toString(File file) {
-                return root.relativize(file.toPath()).toString().replace('\\', '/');
+                return file == null ? null : root.relativize(file.toPath()).toString().replace('\\', '/');
             }
 
             @Override
