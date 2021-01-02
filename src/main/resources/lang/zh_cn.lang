@@ -194,7 +194,7 @@ item.armor.equipmentSound=装备音效
 item.food.hunger=饥饿回复值
 item.food.saturation=饱食度
 item.food.isWolfFood=狼的食物
-item.food.alwaysEdible=总是可使用
+item.food.alwaysEdible=总是可食用
 item.food.foodContainer=食物容器
 
 item.model.generated=默认模型
