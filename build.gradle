@@ -67,6 +67,7 @@ distributions {
     main {
         contents {
             from('content-pack') { into 'content-pack' }
+            from('template') { into 'template' }
             from('license') { into 'license' }
             from('peach.bat', 'CHANGE_LOG.md')
         }

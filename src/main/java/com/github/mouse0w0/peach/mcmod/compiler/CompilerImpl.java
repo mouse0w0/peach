@@ -17,6 +17,7 @@ import com.google.common.collect.Multimap;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -134,7 +135,7 @@ public final class CompilerImpl implements Compiler {
             modelManager = new ModelManager();
 
             coffeeMaker = new CoffeeMaker();
-            coffeeMaker.loadTemplateFromJar(CompilerImpl.class.getResource("/template/peach-forge-template-1.0.jar"));
+            coffeeMaker.loadTemplateFromJar(Paths.get("template/peach-forge-template-1.0.jar"));
             evaluator = new NashornEvaluator();
             evaluator.getEnv().put("metadata", metadata);
 
