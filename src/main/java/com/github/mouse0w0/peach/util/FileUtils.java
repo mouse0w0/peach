@@ -232,4 +232,12 @@ public class FileUtils {
         }
         return file.delete();
     }
+
+    public static Path toPath(File file) {
+        return file != null ? file.toPath() : null;
+    }
+
+    public static File toFile(Path path) {
+        return path != null ? path.toFile() : null;
+    }
 }
