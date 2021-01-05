@@ -18,18 +18,18 @@ public interface TextureHandler {
         return new TextureHandler() {
             @Override
             public File fromString(String texture) {
-                return Strings.isNullOrEmpty(texture) ? null : new File(root.resolve(texture + ".png").toString());
+                return Strings.isNullOrEmpty(texture) ? null : new File(root.resolve(texture).toString());
             }
 
             @Override
             public String toString(File file) {
-                if (file == null) return null;
-                String s = root.relativize(file.toPath()).toString().replace('\\', '/');
-                return s.substring(0, s.length() - ".png".length());
+                return file == null ? null : root.relativize(file.toPath()).toString().replace('\\', '/');
             }
 
             @Override
             public File copy(File file) {
+                if (file == null) return null;
+
                 Path myFile = file.toPath();
 
                 if (myFile.startsWith(root)) return file;
@@ -46,20 +46,24 @@ public interface TextureHandler {
         };
     }
 
-    static TextureHandler ofKeepExtension(Path root, Path store) {
+    static TextureHandler ofWithoutExt(Path root, Path store) {
         return new TextureHandler() {
             @Override
             public File fromString(String texture) {
-                return Strings.isNullOrEmpty(texture) ? null : new File(root.resolve(texture).toString());
+                return Strings.isNullOrEmpty(texture) ? null : new File(root.resolve(texture + ".png").toString());
             }
 
             @Override
             public String toString(File file) {
-                return file == null ? null : root.relativize(file.toPath()).toString().replace('\\', '/');
+                if (file == null) return null;
+                String s = root.relativize(file.toPath()).toString().replace('\\', '/');
+                return s.substring(0, s.length() - ".png".length());
             }
 
             @Override
             public File copy(File file) {
+                if (file == null) return null;
+
                 Path myFile = file.toPath();
 
                 if (myFile.startsWith(root)) return file;

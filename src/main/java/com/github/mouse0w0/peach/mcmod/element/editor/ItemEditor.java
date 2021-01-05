@@ -250,7 +250,7 @@ public class ItemEditor extends ElementEditor<Item> {
         });
         model.getItems().addAll(ModelManager.getInstance(getProject()).getItemModels().keySet());
 
-        textures = new ModelTextureField(TextureHandler.of(
+        textures = new ModelTextureField(TextureHandler.ofWithoutExt(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
         textures.setText(I18n.translate("item.appearance.texture"));
@@ -263,7 +263,7 @@ public class ItemEditor extends ElementEditor<Item> {
         hasEffect.setText(I18n.translate("item.appearance.hasEffect"));
         hasEffect.setColSpan(ColSpan.HALF);
 
-        armorTexture = new TextureField(TextureHandler.ofKeepExtension(
+        armorTexture = new TextureField(TextureHandler.of(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
         armorTexture.setFitSize(128, 64);
