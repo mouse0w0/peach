@@ -182,7 +182,6 @@ public class ItemEditor extends ElementEditor<Item> {
             }
         });
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
-        equipmentSlot.getSelectionModel().selectFirst();
         equipmentSlot.setColSpan(ColSpan.HALF);
 
         repairItem = new ItemPickerField();

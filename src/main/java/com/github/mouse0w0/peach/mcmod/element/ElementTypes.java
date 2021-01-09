@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.element.editor.CraftingRecipeEditorFactory;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemEditor;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemGroupEditorFactory;
@@ -16,6 +17,8 @@ public final class ElementTypes {
                     .createdHandler((element, file, identifier, name) -> {
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
+//                        element.setItemGroup(""); TODO: Specify a default item group.
+                        element.setEquipmentSlot(EquipmentSlot.MAINHAND);
                     })
                     .editorFactory(ItemEditor::new)
                     .previewGenerator(new ItemPreview())
