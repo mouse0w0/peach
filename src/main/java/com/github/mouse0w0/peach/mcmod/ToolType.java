@@ -13,7 +13,7 @@ public final class ToolType {
     public static final ToolType AXE = of("axe");
     public static final ToolType PICKAXE = of("pickaxe");
     public static final ToolType SHOVEL = of("shovel");
-    public static final ToolType HOE = of("hoe"); // TODO
+    public static final ToolType HOE = of("hoe");
 
     public static Collection<ToolType> getToolTypes() {
         return TOOL_TYPES.values();
