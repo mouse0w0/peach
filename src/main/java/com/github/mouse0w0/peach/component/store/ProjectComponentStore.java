@@ -48,8 +48,10 @@ public class ProjectComponentStore extends ComponentStoreBase {
         try {
             if (name == null || name.equals(project.getPath().getFileName().toString())) {
                 Files.deleteIfExists(nameFile);
+                projectName = null;
             } else {
                 Files.write(nameFile, name.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
+                projectName = name;
             }
         } catch (IOException e) {
             LOGGER.error("Failed to save project name file.", e);
