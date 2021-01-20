@@ -2,9 +2,10 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
-import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -14,7 +15,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProjectManager {
+public final class ProjectManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectManager.class);
 
     private final Map<Path, Project> openedProjects = new HashMap<>();
 
@@ -49,15 +51,18 @@ public class ProjectManager {
         Project project = openedProjects.get(path);
         if (project != null) {
             WindowManager.getInstance().getWindow(project).requestFocus();
-        } else {
-            try {
-                project = new Project(path);
-            } catch (IOException e) {
-                throw new RuntimeIOException(e);
-            }
-            openedProjects.put(path, project);
-            Peach.getEventBus().post(new ProjectEvent.Opened(project));
+            return project;
         }
+
+        try {
+            project = new Project(path);
+        } catch (IOException e) {
+            LOGGER.error("Failed to open the project.", e);
+            // TODO: error report
+        }
+        openedProjects.put(path, project);
+        Peach.getEventBus().post(new ProjectEvent.Opened(project));
+        LOGGER.info("Opened project: {}.", project.getName());
         return project;
     }
 
@@ -70,14 +75,17 @@ public class ProjectManager {
         try {
             project.save();
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            LOGGER.error("Failed to save the project.", e);
+            // TODO: error report
         }
 
+        LOGGER.info("Closing project: {}", project.getName());
         Peach.getEventBus().post(new ProjectEvent.Closing(project));
 
         project.dispose();
         openedProjects.remove(project.getPath());
 
+        LOGGER.info("Closed project: {}", project.getName());
         Peach.getEventBus().post(new ProjectEvent.Closed(project));
         return true;
     }
