@@ -3,28 +3,19 @@ package com.github.mouse0w0.peach.project;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.component.ServiceDescriptor;
+import com.github.mouse0w0.peach.component.store.ProjectComponentStore;
 import com.github.mouse0w0.peach.ui.project.ProjectWindow;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
-import com.github.mouse0w0.peach.util.FileUtils;
 import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Project extends ComponentManagerImpl {
-
-    public static final String STORE_FOLDER = ".peach";
-
-    private static final String NAME_FILE = ".name";
-
+public final class Project extends ComponentManagerImpl {
     private final Path path;
-    private final Path nameFile;
-
-    private String name;
 
     public Project(@Nonnull Path path) throws IOException {
         super(Peach.getInstance());
@@ -35,8 +26,6 @@ public class Project extends ComponentManagerImpl {
         if (!Files.isDirectory(path)) {
             throw new IllegalArgumentException("Project path must be a directory");
         }
-        this.nameFile = path.resolve(STORE_FOLDER + "/" + NAME_FILE);
-        loadNameFile();
         initServices(ServiceDescriptor.PROJECT_SERVICE.getExtensions());
     }
 
@@ -47,14 +36,15 @@ public class Project extends ComponentManagerImpl {
 
     @Nonnull
     public String getName() {
-        if (name == null) {
-            return path.getFileName().toString();
+        String name = getComponentStore().getProjectName();
+        if (name != null) {
+            return name;
         }
-        return name;
+        return path.getFileName().toString();
     }
 
     public void setName(@Nullable String name) {
-        this.name = name;
+        getComponentStore().setProjectName(name);
 
         ProjectWindow window = WindowManager.getInstance().getWindow(this);
         if (window != null) {
@@ -62,28 +52,17 @@ public class Project extends ComponentManagerImpl {
         }
     }
 
+    @Override
+    protected ProjectComponentStore getComponentStore() {
+        return (ProjectComponentStore) super.getComponentStore();
+    }
+
     public boolean isOpen() {
         return ProjectManager.getInstance().isProjectOpened(this);
     }
 
-    private void loadNameFile() throws IOException {
-        if (Files.exists(nameFile)) {
-            name = Files.readAllLines(nameFile).stream().findFirst().orElse(null);
-        }
-    }
-
     public void save() throws IOException {
-        saveNameFile();
         saveComponents();
-    }
-
-    private void saveNameFile() throws IOException {
-        if (name == null || name.equals(path.getFileName().toString())) {
-            Files.deleteIfExists(nameFile);
-        } else if (name != null) {
-            FileUtils.createFileIfNotExists(nameFile);
-            Files.write(nameFile, name.getBytes(StandardCharsets.UTF_8));
-        }
     }
 
     @Override
