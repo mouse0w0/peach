@@ -5,7 +5,6 @@ import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import javafx.collections.SetChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
@@ -37,14 +36,14 @@ public class ElementView extends GridView<Path> {
         setCellSize(200, 74);
         setCellSpacing(0, 0);
 
-        elementManager.getElements().addListener(new SetChangeListener<Path>() {
-            @Override
-            public void onChanged(Change<? extends Path> change) {
-                if (change.wasAdded()) getItems().add(change.getElementAdded());
-                if (change.wasRemoved()) getItems().remove(change.getElementRemoved());
-            }
-        });
-        getItems().addAll(elementManager.getElements());
+//        elementManager.getElements().addListener(new SetChangeListener<Path>() {
+//            @Override
+//            public void onChanged(Change<? extends Path> change) {
+//                if (change.wasAdded()) getItems().add(change.getElementAdded());
+//                if (change.wasRemoved()) getItems().remove(change.getElementRemoved());
+//            }
+//        });
+//        getItems().addAll(elementManager.getElements());
     }
 
     public void doOpenWizard() {

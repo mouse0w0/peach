@@ -4,8 +4,9 @@ import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -27,6 +28,7 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -34,7 +36,7 @@ public class ItemChooser {
 
     private static ItemChooser instance;
 
-    private ContentManager contentManager;
+    private Map<ItemRef, List<ItemData>> itemMap;
 
     private Scene scene;
 
@@ -114,7 +116,7 @@ public class ItemChooser {
 
     private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
-        contentManager = ContentManager.getInstance(project);
+        this.itemMap = IndexManager.getInstance(project).getIndex(StandardIndexes.ITEMS);
 
 //        filter.setText(null);
 
@@ -131,7 +133,7 @@ public class ItemChooser {
     }
 
     private void updateItem() {
-        List<ItemRef> items = contentManager.getItems()
+        List<ItemRef> items = itemMap.keySet()
                 .stream() // 10000个元素以下时，串行比并行Stream要好。
                 .filter(buildItemFilter())
                 .collect(Collectors.toList());
@@ -158,7 +160,7 @@ public class ItemChooser {
 
     private boolean filterItem(ItemRef item, String pattern) {
         if (item.getId().contains(pattern)) return true;
-        for (ItemData data : contentManager.getItemData(item)) {
+        for (ItemData data : itemMap.get(item)) {
             if (data.getDisplayName().contains(pattern)) {
                 return true;
             }

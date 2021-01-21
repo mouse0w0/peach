@@ -10,9 +10,10 @@ import com.github.mouse0w0.peach.mcmod.EnchantmentType;
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.ItemType;
 import com.github.mouse0w0.peach.mcmod.UseAnimation;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.element.impl.Item;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
@@ -33,7 +34,7 @@ import javax.annotation.Nonnull;
 
 public class ItemEditor extends ElementEditor<Item> {
 
-    private final ContentManager contentManager;
+    private final IndexManager indexManager;
 
     private Form form;
 
@@ -73,7 +74,7 @@ public class ItemEditor extends ElementEditor<Item> {
 
     public ItemEditor(@Nonnull Project project, @Nonnull Item element) {
         super(project, element);
-        contentManager = ContentManager.getInstance(getProject());
+        indexManager = IndexManager.getInstance(project);
     }
 
     @Override
@@ -106,7 +107,7 @@ public class ItemEditor extends ElementEditor<Item> {
         itemGroup.setText(I18n.translate("item.properties.itemGroup"));
         itemGroup.setCellFactory(view -> new ItemGroupCell());
         itemGroup.setButtonCell(new ItemGroupCell());
-        itemGroup.getItems().setAll(contentManager.getItemGroups());
+        itemGroup.getItems().setAll(IndexManager.getInstance(getProject()).getIndex(StandardIndexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new SpinnerField<>(1, 64, 64);
@@ -317,7 +318,7 @@ public class ItemEditor extends ElementEditor<Item> {
         identifier.setValue(item.getIdentifier());
         displayName.setValue(item.getDisplayName());
         itemType.setValue(item.getItemType());
-        itemGroup.setValue(contentManager.getItemGroup(item.getItemGroup()));
+        itemGroup.setValue(indexManager.getIndex(StandardIndexes.ITEM_GROUPS).get(item.getItemGroup()));
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
         destroySpeed.setValue(item.getDestroySpeed());

@@ -25,7 +25,7 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
         item.itemProperty().bindBidirectional(control.itemProperty());
         item.fitWidthProperty().bind(control.fitWidthProperty());
         item.fitHeightProperty().bind(control.fitHeightProperty());
-        item.contentManagerProperty().bind(control.contentManagerProperty());
+        item.itemMapProperty().bind(control.itemMapProperty());
         item.maxWidthProperty().bind(control.fitWidthProperty());
         item.maxHeightProperty().bind(control.fitHeightProperty());
 

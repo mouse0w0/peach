@@ -41,7 +41,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
                             sb.append("\n--------------------\n");
 
-                            for (ItemData data : itemView.getContentManager().getItemData(item)) {
+                            for (ItemData data : itemView.getItemMap().get(item)) {
                                 sb.append(data.getDisplayName()).append("\n");
                             }
 
@@ -82,9 +82,9 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         ItemRef item = itemView.getItem();
         if (item == null) {
-            itemData = itemView.getContentManager().getItemData(ItemRef.AIR);
+            itemData = itemView.getItemMap().get(ItemRef.AIR);
         } else {
-            itemData = itemView.getContentManager().getItemData(item);
+            itemData = itemView.getItemMap().get(item);
         }
 
         if (itemData.size() == 0) {

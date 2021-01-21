@@ -1,7 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
+import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.project.WindowManager;
@@ -12,6 +14,9 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+
+import java.util.List;
+import java.util.Map;
 
 public class ItemView extends Control {
 
@@ -131,25 +136,27 @@ public class ItemView extends Control {
         enableTooltipProperty().set(enableTooltip);
     }
 
-    private ObjectProperty<ContentManager> contentManager;
+    private ObjectProperty<Map<ItemRef, List<ItemData>>> itemMap;
 
-    public final ObjectProperty<ContentManager> contentManagerProperty() {
-        if (contentManager == null) {
-            Project project = WindowManager.getInstance().getFocusedProject();
-            contentManager = new SimpleObjectProperty<>(this, "contentManager",
-                    project != null ? ContentManager.getInstance(project) : null);
+    public final ObjectProperty<Map<ItemRef, List<ItemData>>> itemMapProperty() {
+        if (itemMap == null) {
+            itemMap = new SimpleObjectProperty<>(this, "itemMap", getDefaultItemMap());
         }
-        return contentManager;
+        return itemMap;
     }
 
-    public final ContentManager getContentManager() {
-        return contentManager == null ?
-                ContentManager.getInstance(WindowManager.getInstance().getFocusedProject()) :
-                contentManager.get();
+    public final Map<ItemRef, List<ItemData>> getItemMap() {
+        return itemMap == null ? getDefaultItemMap() : itemMap.get();
     }
 
-    public final void setContentManager(ContentManager contentManager) {
-        contentManagerProperty().set(contentManager);
+    public final void setItemMap(Map<ItemRef, List<ItemData>> itemMap) {
+        itemMapProperty().set(itemMap);
+    }
+
+    private Map<ItemRef, List<ItemData>> getDefaultItemMap() {
+        Project project = WindowManager.getInstance().getFocusedProject();
+        if (project == null) return null;
+        return IndexManager.getInstance(project).getIndex(StandardIndexes.ITEMS);
     }
 
     @Override

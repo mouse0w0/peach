@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.form.field.ValueField;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.ContentManager;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -102,18 +101,6 @@ public class ItemPickerField extends ValueField<ItemRef> {
 
     public void setEnableTooltip(boolean enableTooltip) {
         getItemPicker().setEnableTooltip(enableTooltip);
-    }
-
-    public ObjectProperty<ContentManager> contentManagerProperty() {
-        return getItemPicker().contentManagerProperty();
-    }
-
-    public ContentManager getContentManager() {
-        return getItemPicker().getContentManager();
-    }
-
-    public void setContentManager(ContentManager contentManager) {
-        getItemPicker().setContentManager(contentManager);
     }
 
     public ItemPicker getItemPicker() {
