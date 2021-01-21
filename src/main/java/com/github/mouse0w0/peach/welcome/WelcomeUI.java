@@ -91,6 +91,7 @@ public class WelcomeUI extends BorderPane {
         recentProjects.setCellFactory(list -> new Cell());
         recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
         recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
+        recentProjects.getSelectionModel().selectFirst();
         DataManager.getInstance().registerDataProvider(recentProjects, key -> {
             if (DataKeys.SELECTED_ITEM.is(key)) return recentProjects.getSelectionModel().getSelectedItem();
             else if (DataKeys.SELECTED_ITEMS.is(key)) return recentProjects.getSelectionModel().getSelectedItems();
@@ -121,7 +122,6 @@ public class WelcomeUI extends BorderPane {
     private class Cell extends ListCell<RecentProjectInfo> {
 
         public Cell() {
-            setContextMenu(contextMenu);
             setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
                 if (isEmpty()) return;
@@ -135,8 +135,10 @@ public class WelcomeUI extends BorderPane {
         protected void updateItem(RecentProjectInfo item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
+                setContextMenu(null);
                 setText(null);
             } else {
+                setContextMenu(contextMenu);
                 setText(item.getName() + "\n" + item.getPath());
             }
         }
