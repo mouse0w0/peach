@@ -252,7 +252,10 @@ public class FilePicker extends Control {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             directoryChooser.setTitle(getTitle());
             if (oldFile == null) {
-                directoryChooser.setInitialDirectory(getInitialDirectory());
+                File initialDirectory = getInitialDirectory();
+                if (initialDirectory == null || initialDirectory.isDirectory()) {
+                    directoryChooser.setInitialDirectory(getInitialDirectory());
+                }
             } else {
                 directoryChooser.setInitialDirectory(oldFile.getParentFile());
             }
@@ -261,7 +264,10 @@ public class FilePicker extends Control {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle(getTitle());
             if (oldFile == null) {
-                fileChooser.setInitialDirectory(getInitialDirectory());
+                File initialDirectory = getInitialDirectory();
+                if (initialDirectory == null || initialDirectory.isDirectory()) {
+                    fileChooser.setInitialDirectory(initialDirectory);
+                }
                 fileChooser.setInitialFileName(getInitialFileName());
             } else {
                 fileChooser.setInitialDirectory(oldFile.getParentFile());
