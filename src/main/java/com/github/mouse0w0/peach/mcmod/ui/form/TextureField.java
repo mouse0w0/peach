@@ -41,10 +41,6 @@ public class TextureField extends Element {
         getImagePicker().setFitSize(fitWidth, fitHeight);
     }
 
-    public void setMaxSize(double maxWidth, double maxHeight) {
-        getImagePicker().setMaxSize(maxWidth, maxHeight);
-    }
-
     public ImagePicker getImagePicker() {
         return (ImagePicker) getEditor();
     }
@@ -68,6 +64,8 @@ public class TextureField extends Element {
     protected Node createDefaultEditor() {
         ImagePicker imagePicker = new ImagePicker();
         imagePicker.fileProperty().bindBidirectional(valueProperty());
+        imagePicker.maxWidthProperty().bind(imagePicker.fitWidthProperty());
+        imagePicker.maxHeightProperty().bind(imagePicker.fitHeightProperty());
         imagePicker.disableProperty().bind(disableProperty());
         return imagePicker;
     }

@@ -267,7 +267,6 @@ public class ItemEditor extends ElementEditor<Item> {
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
         armorTexture.setFitSize(128, 64);
-        armorTexture.setMaxSize(128, 64);
         armorTexture.setText(I18n.translate("item.appearance.armorTexture"));
         armorTexture.visibleProperty().bind(isArmor);
 
