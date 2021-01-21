@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.content.data;
 
-import com.github.mouse0w0.peach.ui.util.CachedImage;
+import com.github.mouse0w0.peach.javafx.util.CachedImage;
 
 public class ItemData {
 

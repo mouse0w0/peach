@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.ui.icon.IconManager;
+import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;

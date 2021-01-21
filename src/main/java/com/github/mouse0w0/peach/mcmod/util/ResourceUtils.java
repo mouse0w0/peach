@@ -5,9 +5,9 @@ import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.dialog.RenameDialogWithValidator;
+import com.github.mouse0w0.peach.javafx.util.Check;
+import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.util.Check;
-import com.github.mouse0w0.peach.ui.util.NotificationLevel;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 

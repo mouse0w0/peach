@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.action;
 
-import com.github.mouse0w0.peach.ui.icon.IconManager;
+import com.github.mouse0w0.peach.icon.IconManager;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.event.Event;

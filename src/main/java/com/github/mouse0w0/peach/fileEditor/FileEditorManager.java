@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.fileEditor;
 
 import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.wm.WindowManager;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

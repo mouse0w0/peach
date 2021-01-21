@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.mcmod.dialog.NewElementDialog;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.wm.WindowManager;
 
 public class NewModElementAction extends Action {
     @Override

@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.peach.ui.icon.Icons;
+import com.github.mouse0w0.peach.icon.Icons;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;

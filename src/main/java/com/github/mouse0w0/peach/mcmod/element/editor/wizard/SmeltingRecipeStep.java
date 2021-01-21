@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
 
+import com.github.mouse0w0.peach.javafx.util.CachedImage;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
-import com.github.mouse0w0.peach.ui.util.CachedImage;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.wizard.WizardStep;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

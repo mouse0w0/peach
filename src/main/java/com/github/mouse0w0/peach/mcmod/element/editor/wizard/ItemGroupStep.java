@@ -1,6 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
 
 import com.github.mouse0w0.peach.dialog.Alert;
+import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -8,8 +10,6 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
-import com.github.mouse0w0.peach.ui.control.FilePicker;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.wizard.WizardStep;
 import com.google.common.base.Strings;

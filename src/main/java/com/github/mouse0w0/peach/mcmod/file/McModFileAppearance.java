@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.file;
 
 import com.github.mouse0w0.peach.file.FileAppearance;
+import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
-import com.github.mouse0w0.peach.ui.icon.Icons;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.property.ObjectProperty;

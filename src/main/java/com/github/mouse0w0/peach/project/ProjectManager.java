@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.wm.WindowManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

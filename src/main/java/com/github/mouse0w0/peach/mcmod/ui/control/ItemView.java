@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.wm.WindowManager;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;

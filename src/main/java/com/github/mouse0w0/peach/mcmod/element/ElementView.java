@@ -4,7 +4,7 @@ import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;

@@ -4,8 +4,8 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.component.ServiceDescriptor;
 import com.github.mouse0w0.peach.component.store.ProjectComponentStore;
-import com.github.mouse0w0.peach.ui.project.ProjectWindow;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.wm.ProjectWindow;
+import com.github.mouse0w0.peach.wm.WindowManager;
 import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;

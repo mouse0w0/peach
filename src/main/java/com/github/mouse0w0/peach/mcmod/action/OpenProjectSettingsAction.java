@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.mcmod.dialog.ModMetadataDialog;
 import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.WindowManager;
+import com.github.mouse0w0.peach.wm.WindowManager;
 
 public class OpenProjectSettingsAction extends Action {
     @Override

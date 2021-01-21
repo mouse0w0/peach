@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.file;
 
-import com.github.mouse0w0.peach.ui.icon.Icons;
+import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;

@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
+import com.github.mouse0w0.peach.javafx.util.CachedImage;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
-import com.github.mouse0w0.peach.ui.util.CachedImage;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;

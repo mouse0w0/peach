@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.form.Element;
-import com.github.mouse0w0.peach.ui.control.ImagePicker;
+import com.github.mouse0w0.peach.javafx.control.ImagePicker;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;

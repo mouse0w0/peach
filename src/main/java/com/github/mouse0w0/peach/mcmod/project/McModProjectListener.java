@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.mcmod.dialog.ModMetadataDialog;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.project.ProjectWindow;
+import com.github.mouse0w0.peach.wm.ProjectWindow;
 import javafx.scene.control.Tab;
 
 import java.nio.file.Files;

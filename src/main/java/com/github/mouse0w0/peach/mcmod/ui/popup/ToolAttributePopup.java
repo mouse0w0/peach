@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.ui.popup;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.javafx.control.TagCell;
+import com.github.mouse0w0.peach.javafx.util.Spinners;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ToolType;
-import com.github.mouse0w0.peach.ui.control.TagCell;
-import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
