@@ -10,6 +10,9 @@ import com.github.mouse0w0.peach.mcmod.element.impl.Item;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.element.preview.ItemPreview;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
+import com.github.mouse0w0.peach.project.ProjectManager;
 
 public final class ElementTypes {
     public static final ElementType<Item> ITEM =
@@ -17,8 +20,15 @@ public final class ElementTypes {
                     .createdHandler((element, file, identifier, name) -> {
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
-//                        element.setItemGroup(""); TODO: Specify a default item group.
                         element.setEquipmentSlot(EquipmentSlot.MAINHAND);
+                        ProjectManager.getInstance().getProject(file).ifPresent(project ->
+                                element.setItemGroup(
+                                        IndexManager.getInstance(project)
+                                                .getIndex(StandardIndexes.ITEM_GROUPS)
+                                                .keySet()
+                                                .stream()
+                                                .findFirst()
+                                                .orElse(null)));
                     })
                     .editorFactory(ItemEditor::new)
                     .previewGenerator(new ItemPreview())
