@@ -40,6 +40,7 @@ public class FileEditorManager {
 
         if (openedFiles.containsKey(file)) {
             focusFileEditor(file);
+            return;
         }
 
         for (FileEditorProvider provider : FileEditorProvider.EXTENSION_POINT.getExtensions()) {
