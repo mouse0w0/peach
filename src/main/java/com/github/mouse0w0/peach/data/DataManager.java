@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -82,6 +83,8 @@ public class DataManager {
             } else {
                 return parentPopup != null ? parentPopup : menuItem.getProperties().get(ContextMenu.class);
             }
+        } else if (o instanceof Tab) {
+            return ((Tab) o).getTabPane();
         } else {
             return null;
         }
@@ -96,6 +99,8 @@ public class DataManager {
             return ((Window) o).getProperties();
         } else if (o instanceof MenuItem) {
             return ((MenuItem) o).getProperties();
+        } else if (o instanceof Tab) {
+            return ((Tab) o).getProperties();
         } else {
             return null;
         }
