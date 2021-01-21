@@ -2,17 +2,24 @@ package com.github.mouse0w0.peach.welcome;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
+import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -28,6 +35,9 @@ public class WelcomeUI extends BorderPane {
     private static Stage stage;
 
     private ListView<RecentProjectInfo> recentProjects;
+
+    private final ContextMenu contextMenu;
+    private final EventHandler<Event> onContextMenuRequested;
 
     static {
         Peach.getEventBus().addListener(WelcomeUI::onOpenedProject);
@@ -65,49 +75,28 @@ public class WelcomeUI extends BorderPane {
         setId("welcome");
         setPrefSize(600, 400);
 
-        ContextMenu recentProjectsMenu = new ContextMenu();
-        MenuItem open = new MenuItem(I18n.translate("common.open"));
-        open.setOnAction(event -> ProjectManager.getInstance().openProject(
-                Paths.get(recentProjects.getSelectionModel().getSelectedItem().getPath())));
-        MenuItem remove = new MenuItem(I18n.translate("common.remove"));
-        remove.setOnAction(event -> {
-            RecentProjectInfo item = recentProjects.getSelectionModel().getSelectedItem();
-            RecentProjectsManager.getInstance().removeRecentProject(item.getPath());
-            recentProjects.getItems().remove(item);
-        });
-        recentProjectsMenu.getItems().addAll(open, remove);
+        ActionManager actionManager = ActionManager.getInstance();
+        ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction("RecentProjectsListViewPopupMenu");
+        contextMenu = actionManager.createContextMenu(filePopupMenu);
+        onContextMenuRequested = new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                contextMenu.getProperties().put(Node.class, event.getSource());
+            }
+        };
 
         recentProjects = new ListView<>();
         recentProjects.setId("recent-projects");
         recentProjects.setPrefWidth(250);
-        recentProjects.setCellFactory(list -> new ListCell<RecentProjectInfo>() {
-
-            {
-                setOnMouseClicked(event -> {
-                    if (!isEmpty() && event.getClickCount() == 2) {
-                        ProjectManager.getInstance().openProject(Paths.get(getItem().getPath()));
-                    }
-                });
-            }
-
-            @Override
-            protected void updateItem(RecentProjectInfo item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                    setContextMenu(null);
-                } else {
-                    setText(item.getName() + "\n" + item.getPath());
-                    setContextMenu(recentProjectsMenu);
-                }
-            }
-        });
+        recentProjects.setCellFactory(list -> new Cell());
         recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
         recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
-        recentProjects.getSelectionModel().selectFirst();
+        DataManager.getInstance().registerDataProvider(recentProjects, key -> {
+            if (DataKeys.SELECTED_ITEM.is(key)) return recentProjects.getSelectionModel().getSelectedItem();
+            else if (DataKeys.SELECTED_ITEMS.is(key)) return recentProjects.getSelectionModel().getSelectedItems();
+            else return null;
+        });
         setLeft(recentProjects);
-
-        ActionManager actionManager = ActionManager.getInstance();
 
         Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
         newProject.setText(I18n.translate("welcome.NewProject.text"));
@@ -127,5 +116,29 @@ public class WelcomeUI extends BorderPane {
         stackPane.getChildren().addAll(vBox, version);
 
         setCenter(stackPane);
+    }
+
+    private class Cell extends ListCell<RecentProjectInfo> {
+
+        public Cell() {
+            setContextMenu(contextMenu);
+            setOnContextMenuRequested(onContextMenuRequested);
+            setOnMouseClicked(event -> {
+                if (isEmpty()) return;
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                    ProjectManager.getInstance().openProject(Paths.get(getItem().getPath()));
+                }
+            });
+        }
+
+        @Override
+        protected void updateItem(RecentProjectInfo item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setText(null);
+            } else {
+                setText(item.getName() + "\n" + item.getPath());
+            }
+        }
     }
 }

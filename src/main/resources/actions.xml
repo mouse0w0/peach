@@ -57,4 +57,11 @@
         <action id="ShowInExplorer"
                 class="com.github.mouse0w0.peach.action.file.ShowInExplorerAction"/>
     </group>
+
+    <group id="RecentProjectsListViewPopupMenu">
+        <action id="RPOpenProject"
+                class="com.github.mouse0w0.peach.welcome.action.RPOpenProjectAction"/>
+        <action id="RPRemoveProject"
+                class="com.github.mouse0w0.peach.welcome.action.RPRemoveProjectAction"/>
+    </group>
 </actions>
