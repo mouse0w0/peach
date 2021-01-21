@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.exception;
+package com.github.mouse0w0.peach.util;
 
 import java.io.IOException;
 

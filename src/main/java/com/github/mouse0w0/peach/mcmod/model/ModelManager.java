@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
-import com.github.mouse0w0.peach.exception.RuntimeIOException;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModelHelper;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.RuntimeIOException;
 
 import java.io.IOException;
 import java.io.InputStream;
