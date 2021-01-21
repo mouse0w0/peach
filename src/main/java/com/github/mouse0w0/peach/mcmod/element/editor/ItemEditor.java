@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Group;
 import com.github.mouse0w0.peach.form.field.*;
-import com.github.mouse0w0.peach.javafx.util.Check;
+import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.github.mouse0w0.peach.mcmod.EnchantmentType;
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;

@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.action.edit;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
-import com.github.mouse0w0.peach.util.ClipboardUtils;
+import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import javafx.scene.input.Clipboard;
 
 import java.io.File;

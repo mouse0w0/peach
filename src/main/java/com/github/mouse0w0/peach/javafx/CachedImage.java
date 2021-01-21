@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.javafx.util;
+package com.github.mouse0w0.peach.javafx;
 
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.cache.Cache;

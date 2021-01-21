@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.content.contentPack;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
-import com.github.mouse0w0.peach.javafx.util.CachedImage;
+import com.github.mouse0w0.peach.javafx.CachedImage;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import com.github.mouse0w0.peach.mcmod.content.data.OreDictData;

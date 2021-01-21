@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.javafx.util.CachedImage;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
-import com.github.mouse0w0.peach.javafx.util.Validator;
+import com.github.mouse0w0.peach.javafx.CachedImage;
+import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.javafx.Validator;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;

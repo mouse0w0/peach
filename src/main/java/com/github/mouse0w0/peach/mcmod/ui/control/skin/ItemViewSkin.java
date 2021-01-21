@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
-import com.github.mouse0w0.peach.javafx.util.CachedImage;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
+import com.github.mouse0w0.peach.javafx.CachedImage;
+import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;

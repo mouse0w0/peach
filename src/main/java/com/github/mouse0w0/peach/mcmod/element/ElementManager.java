@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
-import com.github.mouse0w0.peach.javafx.util.CachedImage;
+import com.github.mouse0w0.peach.javafx.CachedImage;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;

@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionGroups;
 import com.github.mouse0w0.peach.action.ActionManager;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
+import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.viewpane.ViewPane;
 import javafx.event.Event;

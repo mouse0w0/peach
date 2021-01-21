@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
 
 import com.github.mouse0w0.peach.dialog.Alert;
+import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;

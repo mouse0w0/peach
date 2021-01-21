@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.dialog;
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
+import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;

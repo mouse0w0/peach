@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.javafx;
 
-import com.github.mouse0w0.peach.javafx.welcome.WelcomeUI;
+import com.github.mouse0w0.peach.welcome.WelcomeUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

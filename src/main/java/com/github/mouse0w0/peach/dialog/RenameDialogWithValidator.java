@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.peach.javafx.util.Check;
-import com.github.mouse0w0.peach.javafx.util.Validator;
+import com.github.mouse0w0.peach.javafx.Check;
+import com.github.mouse0w0.peach.javafx.Validator;
 
 import java.nio.file.Path;
 

@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.util;
+package com.github.mouse0w0.peach.javafx;
 
 
 import javafx.scene.input.Clipboard;
