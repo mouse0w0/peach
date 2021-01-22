@@ -69,10 +69,11 @@ public final class ProjectManager {
         } catch (IOException e) {
             LOGGER.error("Failed to open the project.", e);
             // TODO: error report
+            return null;
         }
         openedProjects.put(path, project);
         Peach.getEventBus().post(new ProjectEvent.Opened(project));
-        LOGGER.info("Opened project: {}.", project.getName());
+        LOGGER.info("Opened project: {}", project.getName());
         return project;
     }
 
