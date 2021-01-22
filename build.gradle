@@ -24,7 +24,7 @@ dependencies {
 
     compile 'com.github.promeg:tinypinyin:2.0.3'
 
-    compile 'com.github.mouse0w0:eventbus:2.5.1'
+    compile 'com.github.mouse0w0:eventbus:2.6.0'
     compile 'com.github.mouse0w0:version:1.4.0'
     compile 'com.github.mouse0w0:i18n:1.1.0'
     compile 'com.github.mouse0w0:gridview:1.0.0'
@@ -36,8 +36,7 @@ dependencies {
 //    compile 'com.dlsc.preferencesfx:preferencesfx-core:8.6.0'
 //    compile 'org.fxmisc.richtext:richtextfx:0.10.5'
 
-    compile 'org.ow2.asm:asm-commons:8.0.1'
-    compile 'org.ow2.asm:asm-util:8.0.1'
+    compile 'org.ow2.asm:asm-commons:9.0'
 
     compile 'org.slf4j:slf4j-api:1.7.30'
 
