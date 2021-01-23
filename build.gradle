@@ -19,10 +19,7 @@ dependencies {
     compile 'org.joml:joml:1.10.0'
     compile 'com.google.code.gson:gson:2.8.6'
     compile 'org.dom4j:dom4j:2.1.3'
-
-//    compile 'it.unimi.dsi:fastutil:8.4.2'
-
-    compile 'com.github.promeg:tinypinyin:2.0.3'
+    compile 'com.github.sps.junidecode:junidecode:0.3'
 
     compile 'com.github.mouse0w0:eventbus:2.6.0'
     compile 'com.github.mouse0w0:version:1.4.0'

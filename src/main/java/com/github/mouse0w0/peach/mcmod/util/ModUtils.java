@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import com.github.promeg.pinyinhelper.Pinyin;
+import gcardone.junidecode.Junidecode;
 
 import javax.annotation.Nullable;
 import java.util.regex.Pattern;
@@ -20,6 +20,7 @@ public final class ModUtils {
     }
 
     public static String tryConvertToIdentifier(String s) {
+        s = Junidecode.unidecode(s).trim();
         StringBuilder sb = new StringBuilder(s.length());
         for (char c : s.toCharArray()) {
             if (isASCII(c)) {
@@ -28,9 +29,6 @@ public final class ModUtils {
                 } else {
                     sb.append(Character.toLowerCase(c));
                 }
-            } else if (Pinyin.isChinese(c)) {
-                if (sb.length() != 0) sb.append("_");
-                sb.append(Pinyin.toPinyin(c).toLowerCase());
             } else {
                 sb.append(Integer.toHexString(c));
             }
