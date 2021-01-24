@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
+import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -10,6 +11,7 @@ import com.github.mouse0w0.peach.wm.WindowManager;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
@@ -19,13 +21,40 @@ import java.util.List;
 import java.util.Map;
 
 public class ItemView extends Control {
+    private static final Tooltip TOOLTIP = createTooltip();
 
     public static final DataFormat ITEM = new DataFormat("peach/item");
+
+    private static Tooltip createTooltip() {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setOnShowing(event ->
+                FXUtils.getTooltipOwnerNode().ifPresent(node -> {
+                            ItemView itemView = (ItemView) node;
+                            ItemRef item = itemView.getItem();
+                            if (!itemView.isEnableTooltip() || item == null) return;
+
+                            StringBuilder sb = new StringBuilder();
+
+                            sb.append(item.getId());
+                            if (item.isNormal()) sb.append("#").append(item.getMetadata());
+
+                            sb.append("\n--------------------\n");
+
+                            for (ItemData data : itemView.getItemMap().get(item)) {
+                                sb.append(data.getDisplayName()).append("\n");
+                            }
+
+                            tooltip.setText(sb.substring(0, sb.length() - 1));
+                        }
+                ));
+        return tooltip;
+    }
 
     public ItemView() {
         getStyleClass().add("item-view");
 
         setPickOnBounds(true);
+        setTooltip(TOOLTIP);
 
         setOnDragDetected(event -> {
             ItemRef item = getItem();
@@ -123,7 +152,7 @@ public class ItemView extends Control {
 
     public BooleanProperty enableTooltipProperty() {
         if (enableTooltip == null) {
-            enableTooltip = new SimpleBooleanProperty(this, "showTooltip", true);
+            enableTooltip = new SimpleBooleanProperty(this, "enableTooltip", true);
         }
         return enableTooltip;
     }

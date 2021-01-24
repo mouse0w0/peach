@@ -26,7 +26,7 @@ public class ItemPicker extends ItemView {
     }
 
     private void initialize() {
-        getStyleClass().setAll("item-picker");
+        getStyleClass().add("item-picker");
         setOnDragOver(event -> {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
