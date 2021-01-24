@@ -78,6 +78,10 @@
     -fx-background-color: -peach-foreground-color;
 }
 
+.tooltip {
+    -fx-font-size: 1em;
+}
+
 /* Validation */
 .error {
     -fx-effect: dropshadow(three-pass-box, darkred, 6, 0, 0, 0);
@@ -135,6 +139,17 @@
     -fx-background-color: -peach-focused-color;
     -fx-text-fill: white;
 }
+
+/*.item-view .tooltip {*/
+/*    -fx-background: none;*/
+/*    -fx-text-fill: white;*/
+/*    -fx-background-color: #100001f0, #100001f0, #5000ff50, #100001f0;*/
+/*    -fx-background-radius: 0;*/
+/*    -fx-background-insets: 4 0 4 0, 0 4 0 4, 4 4 4 4, 8 8 8 8;*/
+/*    -fx-padding: 12px;*/
+/*    -fx-effect: none;*/
+/*    -fx-font-size: 16px;*/
+/*}*/
 
 .image-picker,
 .item-picker,
