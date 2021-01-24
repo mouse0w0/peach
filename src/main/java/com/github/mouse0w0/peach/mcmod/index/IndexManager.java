@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
 import com.github.mouse0w0.peach.project.Project;
-import org.apache.commons.collections4.map.CompositeMap;
 import org.apache.commons.lang3.Validate;
 
 import java.util.*;
@@ -9,7 +8,7 @@ import java.util.*;
 public final class IndexManager {
 
     private final List<IndexProvider> providers = new ArrayList<>();
-    private final Map<Index<?, ?>, Map<?, ?>> indexes = new HashMap<>();
+    private final Map<Index<?>, Object> indexes = new HashMap<>();
 
     public static IndexManager getInstance(Project project) {
         return project.getService(IndexManager.class);
@@ -26,15 +25,11 @@ public final class IndexManager {
     }
 
     @SuppressWarnings("unchecked")
-    public <K, V> Map<K, V> getIndex(Index<K, V> index) {
-        return (Map<K, V>) indexes.computeIfAbsent(index, this::createIndex);
+    public <T> T getIndex(Index<T> index) {
+        return (T) indexes.computeIfAbsent(index, this::compose);
     }
 
-    private <K, V> Map<K, V> createIndex(Index<K, V> index) {
-        CompositeMap<K, V> map = new CompositeMap<>();
-        for (IndexProvider provider : providers) {
-            map.addComposited(provider.getIndex(index));
-        }
-        return map;
+    private <T> T compose(Index<T> index) {
+        return index.compose(providers.stream().map(provider -> provider.getIndex(index)));
     }
 }

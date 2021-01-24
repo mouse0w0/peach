@@ -3,12 +3,11 @@ package com.github.mouse0w0.peach.mcmod.index;
 import org.apache.commons.lang3.Validate;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class IndexProvider implements Comparable<IndexProvider> {
 
-    private final Map<Index<?, ?>, Map<?, ?>> indexes = new HashMap<>();
+    private final Map<Index<?>, Object> indexes = new HashMap<>();
 
     private final String name;
     private final int priority;
@@ -31,12 +30,8 @@ public class IndexProvider implements Comparable<IndexProvider> {
     }
 
     @SuppressWarnings("unchecked")
-    public final <K, V> Map<K, V> getIndex(Index<K, V> index) {
-        return (Map<K, V>) indexes.computeIfAbsent(index, this::createIndex);
-    }
-
-    protected <K, V> Map<K, V> createIndex(Index<K, V> index) {
-        return new LinkedHashMap<>();
+    public final <T> T getIndex(Index<T> index) {
+        return (T) indexes.computeIfAbsent(index, Index::create);
     }
 
     @Override

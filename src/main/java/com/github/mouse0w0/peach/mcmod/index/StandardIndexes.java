@@ -7,6 +7,6 @@ import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 import java.util.List;
 
 public interface StandardIndexes {
-    Index<ItemRef, List<ItemData>> ITEMS = Index.of("ITEMS");
-    Index<String, ItemGroupData> ITEM_GROUPS = Index.of("ITEM_GROUPS");
+    LinkedMapIndex<ItemRef, List<ItemData>> ITEMS = new LinkedMapIndex<>("ITEMS");
+    LinkedMapIndex<String, ItemGroupData> ITEM_GROUPS = new LinkedMapIndex<>("ITEM_GROUPS");
 }
