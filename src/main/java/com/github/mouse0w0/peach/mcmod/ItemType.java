@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod;
 import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
-public enum ItemType {
+public enum ItemType implements Localizable {
     NORMAL,
     SWORD,
     TOOL,
@@ -20,7 +20,7 @@ public enum ItemType {
         return translationKey;
     }
 
-    public String getLocalizedName() {
+    public String getLocalizedText() {
         return I18n.translate(translationKey);
     }
 }

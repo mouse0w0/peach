@@ -19,8 +19,7 @@ import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
-import com.github.mouse0w0.peach.mcmod.ui.cell.ItemTypeCell;
-import com.github.mouse0w0.peach.mcmod.ui.cell.UseAnimationCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.*;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -95,8 +94,8 @@ public class ItemEditor extends ElementEditor<Item> {
 
         itemType = new ComboBoxField<>();
         itemType.setText(I18n.translate("item.properties.itemType"));
-        itemType.setCellFactory(view -> new ItemTypeCell());
-        itemType.setButtonCell(new ItemTypeCell());
+        itemType.setCellFactory(LocalizableCell.factory());
+        itemType.setButtonCell(new LocalizableCell<>());
         itemType.getItems().setAll(ItemType.values());
         itemType.setColSpan(ColSpan.HALF);
         BooleanBinding isFood = itemType.valueProperty().isEqualTo(ItemType.FOOD);
@@ -198,8 +197,8 @@ public class ItemEditor extends ElementEditor<Item> {
 
         useAnimation = new ComboBoxField<>();
         useAnimation.setText(I18n.translate("item.properties.useAnimation"));
-        useAnimation.setCellFactory(view -> new UseAnimationCell());
-        useAnimation.setButtonCell(new UseAnimationCell());
+        useAnimation.setCellFactory(LocalizableCell.factory());
+        useAnimation.setButtonCell(new LocalizableCell<>());
         useAnimation.getItems().setAll(UseAnimation.values());
         useAnimation.setColSpan(ColSpan.HALF);
 
