@@ -2,11 +2,11 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.language.Localizable;
+import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 
 import java.util.Map;
 
-public class ItemGroup extends Element implements Localizable {
+public class ItemGroup extends Element implements LocalizableElement {
 
     private String identifier;
     private String displayName;
@@ -55,7 +55,7 @@ public class ItemGroup extends Element implements Localizable {
     }
 
     @Override
-    public void getLocalizedText(String namespace, Map<String, String> localizedTexts) {
-        localizedTexts.put("itemGroup." + namespace + "." + getIdentifier(), getDisplayName());
+    public void getTranslation(String namespace, Map<String, String> translation) {
+        translation.put("itemGroup." + namespace + "." + getIdentifier(), getDisplayName());
     }
 }
