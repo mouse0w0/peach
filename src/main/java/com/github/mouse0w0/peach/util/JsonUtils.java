@@ -57,40 +57,40 @@ public final class JsonUtils {
         return GSON.toJsonTree(src);
     }
 
+    public static <T> T fromJson(JsonElement jsonElement, Class<T> classOfT) {
+        return gson().fromJson(jsonElement, classOfT);
+    }
+
+    public static <T> T fromJson(JsonElement jsonElement, Type typeOfT) {
+        return gson().fromJson(jsonElement, typeOfT);
+    }
+
+    public static <T> T fromJson(JsonElement jsonElement, TypeToken<T> typeToken) {
+        return gson().fromJson(jsonElement, typeToken.getType());
+    }
+
     public static <T> T readJson(Path file, Class<T> classOfT) throws IOException {
         try (Reader reader = Files.newBufferedReader(file)) {
-            return JsonUtils.gson().fromJson(reader, classOfT);
+            return gson().fromJson(reader, classOfT);
         }
     }
 
     public static <T> T readJson(Path file, Type typeOfT) throws IOException {
         try (Reader reader = Files.newBufferedReader(file)) {
-            return JsonUtils.gson().fromJson(reader, typeOfT);
+            return gson().fromJson(reader, typeOfT);
         }
     }
 
     public static <T> T readJson(Path file, TypeToken<T> typeToken) throws IOException {
         try (Reader reader = Files.newBufferedReader(file)) {
-            return JsonUtils.gson().fromJson(reader, typeToken.getType());
+            return gson().fromJson(reader, typeToken.getType());
         }
-    }
-
-    public static <T> T fromJson(JsonElement jsonElement, Class<T> classOfT) {
-        return JsonUtils.gson().fromJson(jsonElement, classOfT);
-    }
-
-    public static <T> T fromJson(JsonElement jsonElement, Type typeOfT) {
-        return JsonUtils.gson().fromJson(jsonElement, typeOfT);
-    }
-
-    public static <T> T fromJson(JsonElement jsonElement, TypeToken<T> typeToken) {
-        return JsonUtils.gson().fromJson(jsonElement, typeToken.getType());
     }
 
     public static void writeJson(Path file, Object object) throws IOException {
         FileUtils.createFileIfNotExists(file);
         try (Writer writer = Files.newBufferedWriter(file)) {
-            JsonUtils.gson().toJson(object, writer);
+            gson().toJson(object, writer);
         }
     }
 
