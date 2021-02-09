@@ -95,6 +95,10 @@ public abstract class Wizard {
         return wizardSteps.get(currentStep);
     }
 
+    public int getStepCount() {
+        return wizardSteps.size();
+    }
+
     public boolean isFirstStep() {
         return currentStep == 0;
     }
@@ -116,6 +120,7 @@ public abstract class Wizard {
     }
 
     protected void updateButtons() {
+        getPreviousButton().setVisible(getStepCount() != 1);
         getPreviousButton().setDisable(isFirstStep());
 
         getNextButton().setText(isLastStep() ? I18n.translate("wizard.finish") : I18n.translate("wizard.next"));
