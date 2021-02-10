@@ -88,7 +88,7 @@ public final class FXUtils {
         scene.getWindow().hide();
     }
 
-    private static final ListChangeListener<Node> DISABLE_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<Node>() {
+    private static final ListChangeListener<Node> FIX_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<Node>() {
         @Override
         public void onChanged(Change<? extends Node> c) {
             ScrollPane scrollPane = (ScrollPane) c.getList().get(0);
@@ -102,8 +102,11 @@ public final class FXUtils {
         }
     };
 
-    public static void disableTextAreaBlur(TextArea textArea) {
-        textArea.getChildrenUnmodifiable().addListener(DISABLE_TEXT_AREA_BLUR_LISTENER);
+    /**
+     * Fix {@link TextArea} content blur.
+     */
+    public static void fixTextAreaBlur(TextArea textArea) {
+        textArea.getChildrenUnmodifiable().addListener(FIX_TEXT_AREA_BLUR_LISTENER);
     }
 
     public static void setFixedSize(Region region, double width, double height) {

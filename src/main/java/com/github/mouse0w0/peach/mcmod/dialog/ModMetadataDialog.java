@@ -63,7 +63,7 @@ public class ModMetadataDialog extends BorderPane {
         mcVersion.getItems().add("1.12.2");
         mcVersion.setValue("1.12.2");
 
-        FXUtils.disableTextAreaBlur(description);
+        FXUtils.fixTextAreaBlur(description);
 
         language.setConverter(new StringConverter<Locale>() {
             @Override
