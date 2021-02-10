@@ -21,6 +21,8 @@ public abstract class Element {
     private StringProperty id;
     private ObservableList<String> styleClass;
 
+    private ReadOnlyBooleanWrapper valid;
+
     private Node editor;
 
     public Element() {
@@ -163,6 +165,25 @@ public abstract class Element {
 
         }
         return styleClass;
+    }
+
+    private ReadOnlyBooleanWrapper validPropertyImpl() {
+        if (valid == null) {
+            valid = new ReadOnlyBooleanWrapper(this, "valid", true);
+        }
+        return valid;
+    }
+
+    public final ReadOnlyBooleanProperty validProperty() {
+        return validPropertyImpl().getReadOnlyProperty();
+    }
+
+    public final boolean isValid() {
+        return valid == null || valid.get();
+    }
+
+    protected final void setValid(boolean valid) {
+        validPropertyImpl().set(valid);
     }
 
     public boolean validate() {

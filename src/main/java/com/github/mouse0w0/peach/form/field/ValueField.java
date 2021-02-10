@@ -24,7 +24,6 @@ public abstract class ValueField<T> extends Element {
 
     private ObservableList<Check<? super T>> checks;
     private SortedList<Check<? super T>> sortedChecks;
-    private ReadOnlyBooleanWrapper valid;
     private ReadOnlyObjectWrapper<Check<? super T>> invalidCheck;
 
     static {
@@ -83,21 +82,6 @@ public abstract class ValueField<T> extends Element {
         return checks;
     }
 
-    private ReadOnlyBooleanWrapper validPropertyImpl() {
-        if (valid == null) {
-            valid = new ReadOnlyBooleanWrapper(this, "valid", true);
-        }
-        return valid;
-    }
-
-    public final ReadOnlyBooleanProperty validProperty() {
-        return validPropertyImpl().getReadOnlyProperty();
-    }
-
-    public final boolean isValid() {
-        return valid == null || valid.get();
-    }
-
     private ReadOnlyObjectWrapper<Check<? super T>> invalidCheckPropertyImpl() {
         if (invalidCheck == null) {
             invalidCheck = new ReadOnlyObjectWrapper<>(this, "invalidCheck");
@@ -136,7 +120,7 @@ public abstract class ValueField<T> extends Element {
             invalidCheckPropertyImpl().set(null);
         }
         updateStyleClass();
-        validPropertyImpl().set(valid);
+        setValid(valid);
         return valid;
     }
 
