@@ -205,7 +205,7 @@ item.model.handheld=手持模型
 
 toolType.axe=斧
 toolType.pickaxe=镐
-toolType.shovel=铲
+toolType.shovel=锹
 toolType.hoe=锄
 
 toolAttribute.text=%s %d级
