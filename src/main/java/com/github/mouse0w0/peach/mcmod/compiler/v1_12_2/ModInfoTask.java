@@ -17,7 +17,7 @@ public class ModInfoTask implements CompileTask {
         jo.addProperty("description", modSettings.getDescription());
         jo.addProperty("version", modSettings.getVersion());
         jo.addProperty("mcversion", modSettings.getMcVersion());
-        jo.add("authorList", JsonUtils.json(modSettings.getAuthors()));
+        jo.add("authorList", JsonUtils.jsonStringArray(modSettings.getAuthors()));
         compiler.getResourcesFiler().write("mcmod.info", JsonUtils.jsonArray(jo).toString());
     }
 }
