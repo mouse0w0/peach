@@ -1,10 +1,14 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.google.gson.*;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.regex.Pattern;
 
+@JsonAdapter(Identifier.TypeAdapter.class)
 public final class Identifier implements Comparable<Identifier> {
     public static final Pattern PATTERN = Pattern.compile("[a-z][a-z0-9_]*:[a-z][a-z0-9_]*");
     private static final Pattern NAME_PATTERN = Pattern.compile("[a-z][a-z0-9_]*");
@@ -83,13 +87,21 @@ public final class Identifier implements Comparable<Identifier> {
         return result == 0 ? name.compareTo(o.name) : result;
     }
 
-    public static class Serializer implements JsonDeserializer<Identifier>, JsonSerializer<Identifier> {
-        public Identifier deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) {
-            return new Identifier(jsonElement.getAsString());
+    public static final class TypeAdapter extends com.google.gson.TypeAdapter<Identifier> {
+        @Override
+        public void write(JsonWriter out, Identifier value) throws IOException {
+            if (value == null) out.nullValue();
+            else out.value(value.toString());
         }
 
-        public JsonElement serialize(Identifier identifier, Type type, JsonSerializationContext context) {
-            return new JsonPrimitive(identifier.toString());
+        @Override
+        public Identifier read(JsonReader in) throws IOException {
+            if (in.peek() == JsonToken.NULL) {
+                in.nextNull();
+                return null;
+            } else {
+                return new Identifier(in.nextString());
+            }
         }
     }
 }
