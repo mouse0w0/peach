@@ -14,7 +14,7 @@ import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 
 public class ToolAttributePopup extends PopOver {
-    private final ChoiceBox<ToolType> type;
+    private final ChoiceBox<String> type;
     private final Spinner<Integer> level;
 
     private TagCell<ToolAttribute> cell;
@@ -32,14 +32,14 @@ public class ToolAttributePopup extends PopOver {
 
         type = new ChoiceBox<>();
         type.setPrefWidth(150);
-        type.setConverter(new StringConverter<ToolType>() {
+        type.setConverter(new StringConverter<String>() {
             @Override
-            public String toString(ToolType object) {
-                return object.getLocalizedName();
+            public String toString(String object) {
+                return ToolType.getLocalizedName(object);
             }
 
             @Override
-            public ToolType fromString(String string) {
+            public String fromString(String string) {
                 throw new UnsupportedOperationException();
             }
         });
@@ -50,14 +50,14 @@ public class ToolAttributePopup extends PopOver {
         level.setPrefWidth(150);
         grid.addRow(1, new Text(I18n.translate("toolAttribute.level")), level);
 
-        setOnHiding(event -> cell.commitEdit(new ToolAttribute(type.getValue().getName(), level.getValue())));
+        setOnHiding(event -> cell.commitEdit(new ToolAttribute(type.getValue(), level.getValue())));
     }
 
     public void edit(TagCell<ToolAttribute> cell) {
         this.cell = cell;
 
         ToolAttribute toolAttribute = cell.getItem();
-        type.setValue(ToolType.of(toolAttribute.getType()));
+        type.setValue(toolAttribute.getType());
         level.getValueFactory().setValue(toolAttribute.getLevel());
 
         show(cell);

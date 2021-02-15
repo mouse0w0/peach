@@ -32,7 +32,7 @@ public class AttributeModifier {
     }
 
     public String toLocalizedText() {
-        final String localizedAttribute = I18n.translate("attribute." + attribute);
+        final String localizedAttribute = Attribute.getLocalizedName(attribute);
         final double value = operation == null || operation == Operation.ADD ? amount : amount * 100.0D;
         if (operation == Operation.MULTIPLY_BASE) {
             return I18n.format("attributeModifier.text.multiple_base", localizedAttribute, value);

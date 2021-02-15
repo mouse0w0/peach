@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.javafx.control.TagView;
+import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
 import com.github.mouse0w0.peach.mcmod.ui.popup.AttributeModifierPopup;
@@ -33,7 +34,7 @@ public class AttributeModifiersField extends Element {
         tagView.setCellFactory(view -> new AttributeModifierCell(popup));
         tagView.setOnAdd(event -> {
             tagView.getItems().add(event.getIndex(),
-                    new AttributeModifier("generic.maxHealth", 0, AttributeModifier.Operation.ADD));
+                    new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
             Scheduler.computation().schedule(() ->
                     Platform.runLater(() -> tagView.edit(event.getIndex())), 100, TimeUnit.MILLISECONDS);
         });

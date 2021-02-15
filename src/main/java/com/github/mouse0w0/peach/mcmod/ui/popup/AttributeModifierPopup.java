@@ -14,7 +14,7 @@ import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 
 public class AttributeModifierPopup extends PopOver {
-    private final ChoiceBox<Attribute> attribute;
+    private final ChoiceBox<String> attribute;
     private final ChoiceBox<AttributeModifier.Operation> operation;
     private final Spinner<Double> amount;
 
@@ -34,14 +34,14 @@ public class AttributeModifierPopup extends PopOver {
         attribute = new ChoiceBox<>();
         attribute.setPrefWidth(150);
         attribute.getItems().addAll(Attribute.getAttributes());
-        attribute.setConverter(new StringConverter<Attribute>() {
+        attribute.setConverter(new StringConverter<String>() {
             @Override
-            public String toString(Attribute object) {
-                return object.getLocalizedName();
+            public String toString(String object) {
+                return Attribute.getLocalizedName(object);
             }
 
             @Override
-            public Attribute fromString(String string) {
+            public String fromString(String string) {
                 throw new UnsupportedOperationException();
             }
         });
@@ -56,14 +56,14 @@ public class AttributeModifierPopup extends PopOver {
         amount.setPrefWidth(150);
         grid.addRow(2, new Text(I18n.translate("attributeModifier.amount")), amount);
 
-        setOnHiding(event -> cell.commitEdit(new AttributeModifier(attribute.getValue().getName(), amount.getValue(), operation.getValue())));
+        setOnHiding(event -> cell.commitEdit(new AttributeModifier(attribute.getValue(), amount.getValue(), operation.getValue())));
     }
 
     public void edit(TagCell<AttributeModifier> cell) {
         this.cell = cell;
 
         AttributeModifier attributeModifier = cell.getItem();
-        attribute.setValue(Attribute.of(attributeModifier.getAttribute()));
+        attribute.setValue(attributeModifier.getAttribute());
         operation.setValue(attributeModifier.getOperation());
         amount.getValueFactory().setValue(attributeModifier.getAmount());
 
