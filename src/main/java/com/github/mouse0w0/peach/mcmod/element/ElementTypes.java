@@ -1,14 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
-import com.github.mouse0w0.peach.mcmod.element.editor.CraftingRecipeEditorFactory;
-import com.github.mouse0w0.peach.mcmod.element.editor.ItemEditor;
-import com.github.mouse0w0.peach.mcmod.element.editor.ItemGroupEditorFactory;
-import com.github.mouse0w0.peach.mcmod.element.editor.SmeltingRecipeEditorFactory;
-import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
-import com.github.mouse0w0.peach.mcmod.element.impl.Item;
-import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
-import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.editor.*;
+import com.github.mouse0w0.peach.mcmod.element.impl.*;
 import com.github.mouse0w0.peach.mcmod.element.preview.ItemPreview;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
@@ -35,10 +29,17 @@ public final class ElementTypes {
                     .build();
     public static final ElementType<ItemGroup> ITEM_GROUP =
             ElementType.builder("item_group", ItemGroup.class)
+                    .createdHandler((element, file, identifier, name) -> {
+                        element.setIdentifier(identifier);
+                        element.setDisplayName(name);
+                    })
                     .editorFactory(new ItemGroupEditorFactory())
                     .build();
     public static final ElementType<CraftingRecipe> CRAFTING_RECIPE =
             ElementType.builder("crafting", CraftingRecipe.class)
+                    .createdHandler((element, file, identifier, name) -> {
+                        element.setIdentifier(identifier);
+                    })
                     .editorFactory(new CraftingRecipeEditorFactory())
                     .build();
     public static final ElementType<SmeltingRecipe> SMELTING_RECIPE =
