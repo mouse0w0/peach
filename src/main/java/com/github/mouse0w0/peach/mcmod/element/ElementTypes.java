@@ -33,17 +33,17 @@ public final class ElementTypes {
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
                     })
-                    .editorFactory(new ItemGroupEditorFactory())
+                    .editorFactory(ItemGroupEditor::new)
                     .build();
     public static final ElementType<CraftingRecipe> CRAFTING_RECIPE =
             ElementType.builder("crafting", CraftingRecipe.class)
                     .createdHandler((element, file, identifier, name) -> {
                         element.setIdentifier(identifier);
                     })
-                    .editorFactory(new CraftingRecipeEditorFactory())
+                    .editorFactory(CraftingRecipeEditor::new)
                     .build();
     public static final ElementType<SmeltingRecipe> SMELTING_RECIPE =
             ElementType.builder("smelting", SmeltingRecipe.class)
-                    .editorFactory(new SmeltingRecipeEditorFactory())
+                    .editorFactory(SmeltingRecipeEditor::new)
                     .build();
 }

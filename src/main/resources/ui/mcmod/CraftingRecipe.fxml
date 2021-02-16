@@ -23,7 +23,7 @@
             </rowConstraints>
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.craftingRecipe.identifier"/>
-                <TextField fx:id="id" GridPane.columnIndex="1"/>
+                <TextField fx:id="identifier" GridPane.columnIndex="1"/>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.craftingRecipe.namespace"
                       GridPane.rowIndex="1"/>
                 <ChoiceBox fx:id="namespace" prefWidth="10000.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>

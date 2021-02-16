@@ -4,8 +4,7 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<fx:root alignment="CENTER" type="FlowPane" xmlns="http://javafx.com/javafx/8.0.171"
-         xmlns:fx="http://javafx.com/fxml/1">
+<FlowPane alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <GridPane hgap="50.0" prefWidth="580.0">
             <columnConstraints>
@@ -28,4 +27,4 @@
             </padding>
         </GridPane>
     </children>
-</fx:root>
+</FlowPane>

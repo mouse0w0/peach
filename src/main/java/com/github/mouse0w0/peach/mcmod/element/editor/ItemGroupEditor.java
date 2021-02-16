@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
+package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.javafx.FXUtils;
@@ -6,13 +6,10 @@ import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.wizard.WizardStep;
-import com.google.common.base.Strings;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
@@ -25,18 +22,15 @@ import javafx.scene.paint.Color;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.nio.file.Path;
 
 import static com.github.mouse0w0.peach.mcmod.util.ResourceUtils.GUI_TEXTURES;
 import static com.github.mouse0w0.peach.mcmod.util.ResourceUtils.TEXTURES;
 
-public class ItemGroupStep extends FlowPane implements WizardStep {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ItemGroupStep.class);
-
-    private final Project project;
-    private final ItemGroup element;
+public class ItemGroupEditor extends ElementEditor<ItemGroup> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ItemGroupEditor.class);
 
     @FXML
     private GridPane content;
@@ -52,11 +46,13 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
 
     private ItemView icon;
 
-    public ItemGroupStep(Project project, ItemGroup element) {
-        this.project = project;
-        this.element = element;
+    public ItemGroupEditor(@Nonnull Project project, @Nonnull ItemGroup element) {
+        super(project, element);
+    }
 
-        FXUtils.loadFXML(this, "ui/mcmod/ItemGroup.fxml");
+    @Override
+    protected Node getContent() {
+        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml");
 
         icon = new ItemPicker(32, 32);
         FXUtils.setFixedSize(icon, 32, 32);
@@ -64,26 +60,29 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
         content.add(icon, 1, 4);
 
         FileChooserHelper.getInstance().register(background, "mcmod.itemGroupBackground");
+        return root;
     }
 
     @Override
-    public Node getContent() {
-        return this;
-    }
-
-    @Override
-    public void init() {
-        identifier.setText(Strings.isNullOrEmpty(element.getIdentifier()) ?
-                ModUtils.toIdentifier(element.getFileName()) : element.getIdentifier());
-        displayName.setText(Strings.isNullOrEmpty(element.getDisplayName()) ?
-                element.getFileName() : element.getDisplayName());
+    protected void initialize(ItemGroup element) {
+        identifier.setText(element.getIdentifier());
+        displayName.setText(element.getDisplayName());
         hasSearchBar.setSelected(element.isHasSearchBar());
         background.setText(element.getBackground());
         icon.setItem(element.getIcon());
     }
 
     @Override
-    public boolean validate() {
+    protected void updateDataModel(ItemGroup element) {
+        element.setIdentifier(identifier.getText());
+        element.setDisplayName(displayName.getText());
+        element.setHasSearchBar(hasSearchBar.isSelected());
+        element.setBackground(background.getText());
+        element.setIcon(icon.getItem());
+    }
+
+    @Override
+    protected boolean validate() {
         return handleBackground();
     }
 
@@ -91,7 +90,7 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
         Path file = background.toPath();
         if (file == null || !file.isAbsolute()) return true;
 
-        Path textures = ResourceUtils.getResourcePath(project, TEXTURES);
+        Path textures = ResourceUtils.getResourcePath(getProject(), TEXTURES);
         if (file.startsWith(textures)) {
             background.setText(ResourceUtils.relativize(textures, file));
         } else {
@@ -108,20 +107,6 @@ public class ItemGroupStep extends FlowPane implements WizardStep {
     }
 
     private Path resolveTextureFile(Path source) {
-        return ResourceUtils.getResourcePath(project, GUI_TEXTURES).resolve(FileUtils.getFileName(source));
-    }
-
-    @Override
-    public void updateDataModel() {
-        element.setIdentifier(identifier.getText());
-        element.setDisplayName(displayName.getText());
-        element.setHasSearchBar(hasSearchBar.isSelected());
-        element.setBackground(background.getText());
-        element.setIcon(icon.getItem());
-    }
-
-    @Override
-    public void dispose() {
-
+        return ResourceUtils.getResourcePath(getProject(), GUI_TEXTURES).resolve(FileUtils.getFileName(source));
     }
 }

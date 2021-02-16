@@ -1,11 +1,11 @@
-package com.github.mouse0w0.peach.mcmod.element.editor.wizard;
+package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.javafx.CachedImage;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
-import com.github.mouse0w0.peach.wizard.WizardStep;
+import com.github.mouse0w0.peach.project.Project;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
@@ -15,24 +15,25 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.FlowPane;
 
-public class SmeltingRecipeStep extends FlowPane implements WizardStep {
+import javax.annotation.Nonnull;
 
+public class SmeltingRecipeEditor extends ElementEditor<SmeltingRecipe> {
     private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/smelting_recipe.png", 560, 312);
-
-    private final SmeltingRecipe element;
 
     @FXML
     private Spinner<Double> xp;
-
     @FXML
     private AnchorPane recipeView;
-
     private ItemPicker input;
     private ItemStackView output;
 
-    public SmeltingRecipeStep(SmeltingRecipe element) {
-        this.element = element;
-        FXUtils.loadFXML(this, "ui/mcmod/SmeltingRecipe.fxml");
+    public SmeltingRecipeEditor(@Nonnull Project project, @Nonnull SmeltingRecipe element) {
+        super(project, element);
+    }
+
+    @Override
+    protected Node getContent() {
+        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/SmeltingRecipe.fxml");
 
         xp.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 0.1));
 
@@ -52,27 +53,19 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
         AnchorPane.setTopAnchor(output, 120d);
         AnchorPane.setLeftAnchor(output, 356d);
         recipeView.getChildren().add(output);
+
+        return root;
     }
 
     @Override
-    public Node getContent() {
-        return this;
-    }
-
-    @Override
-    public void init() {
+    protected void initialize(SmeltingRecipe element) {
         xp.getValueFactory().setValue(element.getXp());
         input.setItem(element.getInput());
         output.setItemStack(element.getOutput());
     }
 
     @Override
-    public boolean validate() {
-        return true;
-    }
-
-    @Override
-    public void updateDataModel() {
+    protected void updateDataModel(SmeltingRecipe element) {
         element.setXp(xp.getValue());
         element.setInput(input.getItem());
         element.setOutput(output.getItemStack());
@@ -80,6 +73,7 @@ public class SmeltingRecipeStep extends FlowPane implements WizardStep {
 
     @Override
     public void dispose() {
+        super.dispose();
         input.setPlayAnimation(false);
     }
 }
