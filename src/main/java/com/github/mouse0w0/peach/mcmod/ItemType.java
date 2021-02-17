@@ -16,10 +16,6 @@ public enum ItemType implements Localizable {
         this.translationKey = "itemType." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
     }
 
-    public String getTranslationKey() {
-        return translationKey;
-    }
-
     public String getLocalizedText() {
         return I18n.translate(translationKey);
     }

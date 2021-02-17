@@ -18,6 +18,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
+import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.*;
@@ -153,34 +154,14 @@ public class ItemEditor extends ElementEditor<Item> {
 
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setText(I18n.translate("item.properties.acceptableEnchantments"));
+        acceptableEnchantments.setConverter(new LocalizableConverter<>());
         acceptableEnchantments.getItems().setAll(EnchantmentType.values());
-        acceptableEnchantments.setConverter(new StringConverter<EnchantmentType>() {
-            @Override
-            public String toString(EnchantmentType object) {
-                return object.getLocalizedName();
-            }
-
-            @Override
-            public EnchantmentType fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
         equipmentSlot = new ChoiceBoxField<>();
         equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
-        equipmentSlot.setConverter(new StringConverter<EquipmentSlot>() {
-            @Override
-            public String toString(EquipmentSlot object) {
-                return object.getLocalizedName();
-            }
-
-            @Override
-            public EquipmentSlot fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
+        equipmentSlot.setConverter(new LocalizableConverter<>());
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
         equipmentSlot.setColSpan(ColSpan.HALF);
 

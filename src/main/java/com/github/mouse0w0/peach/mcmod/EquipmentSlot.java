@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod;
 import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
-public enum EquipmentSlot {
+public enum EquipmentSlot implements Localizable {
     MAINHAND(Type.HAND),
     OFFHAND(Type.HAND),
     HEAD(Type.ARMOR),
@@ -27,11 +27,7 @@ public enum EquipmentSlot {
         return type;
     }
 
-    public String getTranslationKey() {
-        return translationKey;
-    }
-
-    public String getLocalizedName() {
+    public String getLocalizedText() {
         return I18n.translate(translationKey);
     }
 }

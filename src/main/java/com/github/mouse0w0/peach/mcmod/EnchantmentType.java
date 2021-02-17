@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod;
 import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
-public enum EnchantmentType {
+public enum EnchantmentType implements Localizable {
     ALL,
     ARMOR,
     ARMOR_FEET,
@@ -25,11 +25,7 @@ public enum EnchantmentType {
         this.translationKey = "enchantmentType." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
     }
 
-    public String getTranslationKey() {
-        return translationKey;
-    }
-
-    public String getLocalizedName() {
+    public String getLocalizedText() {
         return I18n.translate(translationKey);
     }
 }
