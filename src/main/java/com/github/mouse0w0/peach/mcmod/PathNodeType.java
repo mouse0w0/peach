@@ -1,6 +1,10 @@
 package com.github.mouse0w0.peach.mcmod;
 
-public enum PathNodeType {
+import com.github.mouse0w0.i18n.I18n;
+import com.google.common.base.CaseFormat;
+
+public enum PathNodeType implements Localizable {
+    INHERIT,
     BLOCKED,
     OPEN,
     WALKABLE,
@@ -17,5 +21,16 @@ public enum PathNodeType {
     DAMAGE_OTHER,
     DOOR_OPEN,
     DOOR_WOOD_CLOSED,
-    DOOR_IRON_CLOSED
+    DOOR_IRON_CLOSED;
+
+    private final String translationKey;
+
+    PathNodeType() {
+        translationKey = "pathNodeType." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+    }
+
+    @Override
+    public String getLocalizedText() {
+        return I18n.translate(translationKey);
+    }
 }

@@ -3,15 +3,16 @@ package com.github.mouse0w0.peach.mcmod;
 import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
-public enum OffsetType implements Localizable {
-    NONE,
-    XZ,
-    XYZ;
+public enum RenderType implements Localizable {
+    SOLID,
+    CUTOUT_MIPPED,
+    CUTOUT,
+    TRANSLUCENT;
 
     private final String translationKey;
 
-    OffsetType() {
-        translationKey = "offsetType." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+    RenderType() {
+        translationKey = "renderType." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
     }
 
     @Override
