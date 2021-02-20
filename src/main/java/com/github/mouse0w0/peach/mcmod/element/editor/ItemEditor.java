@@ -154,14 +154,14 @@ public class ItemEditor extends ElementEditor<Item> {
 
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setText(I18n.translate("item.properties.acceptableEnchantments"));
-        acceptableEnchantments.setConverter(new LocalizableConverter<>());
+        acceptableEnchantments.setConverter(LocalizableConverter.instance());
         acceptableEnchantments.getItems().setAll(EnchantmentType.values());
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
         equipmentSlot = new ChoiceBoxField<>();
         equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
-        equipmentSlot.setConverter(new LocalizableConverter<>());
+        equipmentSlot.setConverter(LocalizableConverter.instance());
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
         equipmentSlot.setColSpan(ColSpan.HALF);
 
