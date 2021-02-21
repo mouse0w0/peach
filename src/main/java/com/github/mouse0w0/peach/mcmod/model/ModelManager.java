@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
-import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
-import com.github.mouse0w0.peach.mcmod.model.mcj.McjModelHelper;
+import com.github.mouse0w0.minecraft.model.McModel;
+import com.github.mouse0w0.minecraft.model.McModelHelper;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.RuntimeIOException;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModelManager {
-    private final Map<String, McjModel> itemModels = new HashMap<>();
+    private final Map<String, McModel> itemModels = new HashMap<>();
 
     public static ModelManager getInstance(Project project) {
         return project.getService(ModelManager.class);
@@ -32,22 +32,22 @@ public class ModelManager {
         }
     }
 
-    public Map<String, McjModel> getItemModels() {
+    public Map<String, McModel> getItemModels() {
         return itemModels;
     }
 
-    public McjModel getItemModel(String name) {
+    public McModel getItemModel(String name) {
         return itemModels.get(name);
     }
 
     public void loadItemModel(Path file) throws IOException {
         String modelName = FileUtils.getFileNameWithoutExt(file);
-        McjModel model = McjModelHelper.load(file);
+        McModel model = McModelHelper.load(file);
         itemModels.put(modelName, model);
     }
 
     private void loadItemModel(InputStream in, String modelName) throws IOException {
-        McjModel model = McjModelHelper.load(in);
+        McModel model = McModelHelper.load(in);
         itemModels.put(modelName, model);
     }
 }

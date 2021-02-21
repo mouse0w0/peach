@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
@@ -17,7 +18,6 @@ import com.github.mouse0w0.peach.mcmod.element.impl.Item;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
@@ -235,7 +235,7 @@ public class ItemEditor extends ElementEditor<Item> {
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
         textures.setText(I18n.translate("item.appearance.texture"));
         model.valueProperty().addListener(observable -> {
-            McjModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
+            McModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
             textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);
         });
 

@@ -5,6 +5,8 @@ import com.github.mouse0w0.coffeemaker.evaluator.Evaluator;
 import com.github.mouse0w0.coffeemaker.evaluator.LocalVar;
 import com.github.mouse0w0.coffeemaker.template.Field;
 import com.github.mouse0w0.coffeemaker.template.Template;
+import com.github.mouse0w0.minecraft.model.McModel;
+import com.github.mouse0w0.minecraft.model.McModelHelper;
 import com.github.mouse0w0.peach.mcmod.ItemType;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
@@ -12,8 +14,6 @@ import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
 import com.github.mouse0w0.peach.mcmod.element.impl.Item;
-import com.github.mouse0w0.peach.mcmod.model.mcj.McjModel;
-import com.github.mouse0w0.peach.mcmod.model.mcj.McjModelHelper;
 
 import java.io.BufferedWriter;
 import java.nio.file.Path;
@@ -98,14 +98,14 @@ public class ItemGen extends Generator<Item> {
                     templates.get(item.getItemType()).process(internalName, evaluator));
         }
 
-        McjModel model = compiler.getModelManager().getItemModel(item.getModel());
+        McModel model = compiler.getModelManager().getItemModel(item.getModel());
         Map<String, String> textures = new LinkedHashMap<>();
         item.getTextures().forEach((key, value) -> textures.put(key, namespace + ":" + value));
         model.setTextures(textures);
 
         Filer assetsFiler = compiler.getAssetsFiler();
         try (BufferedWriter writer = assetsFiler.newWriter("models", "item", identifier + ".json")) {
-            McjModelHelper.GSON.toJson(model, writer);
+            McModelHelper.GSON.toJson(model, writer);
         }
 
         Path texturesPath = compiler.getProjectStructure().getTextures();

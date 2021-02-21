@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.mcj.mesh;
+package com.github.mouse0w0.minecraft.model.mesh;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;

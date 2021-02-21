@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.mcj.mesh;
+package com.github.mouse0w0.minecraft.model.mesh;
 
 import org.joml.Vector4f;
 

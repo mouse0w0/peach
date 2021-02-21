@@ -1,6 +1,6 @@
-package com.github.mouse0w0.peach.mcmod.model.mcj.mesh;
+package com.github.mouse0w0.minecraft.model.mesh;
 
-import com.github.mouse0w0.peach.mcmod.model.mcj.*;
+import com.github.mouse0w0.minecraft.model.*;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -27,18 +27,18 @@ public class MeshGenerator {
     };
     private static final int[] TEX_COORDS_INDICES = {0, 1, 3, 0, 3, 2};
 
-    public static void generate(McjModel model, TextureMap textureMap, VertexDataConsumer consumer) {
+    public static void generate(McModel model, TextureMap textureMap, VertexDataConsumer consumer) {
         generate(model.getElements(), model.getTextures(), textureMap, consumer);
     }
 
-    private static void generate(List<McjElement> elements, Map<String, String> textures, TextureMap textureMap,
+    private static void generate(List<McElement> elements, Map<String, String> textures, TextureMap textureMap,
                                  VertexDataConsumer consumer) {
-        for (McjElement element : elements) {
+        for (McElement element : elements) {
             Vector3f[] boxPoints = createBoxPoints(element);
 
-            for (Map.Entry<McjFacing, McjFace> faceEntry : element.getFaces().entrySet()) {
-                McjFacing facing = faceEntry.getKey();
-                McjFace face = faceEntry.getValue();
+            for (Map.Entry<McFacing, McFace> faceEntry : element.getFaces().entrySet()) {
+                McFacing facing = faceEntry.getKey();
+                McFace face = faceEntry.getValue();
                 Vector4f texCoord = createTexCoord(face, textures, textureMap);
                 int[] indices = VERTEX_DATA_INDICES[facing.ordinal()];
                 for (int i = 0; i < 6; i++) {
@@ -50,7 +50,7 @@ public class MeshGenerator {
         }
     }
 
-    private static Vector3f[] createBoxPoints(McjElement element) {
+    private static Vector3f[] createBoxPoints(McElement element) {
         Vector3f from = element.getFrom();
         Vector3f to = element.getTo();
         Matrix4f matrix = getRotationMatrix(element.getRotation());
@@ -74,7 +74,7 @@ public class MeshGenerator {
         return src.set(transformed.x, transformed.y, transformed.z);
     }
 
-    private static Matrix4f getRotationMatrix(McjElement.Rotation rotation) {
+    private static Matrix4f getRotationMatrix(McElement.Rotation rotation) {
         if (rotation == null) return IDENTIFY;
 
         Matrix4f matrix = new Matrix4f();
@@ -110,7 +110,7 @@ public class MeshGenerator {
         return matrix.scale(scale).translateLocal(origin).translate(origin.negate());
     }
 
-    private static Vector4f createTexCoord(McjFace face, Map<String, String> textures, TextureMap textureMap) {
+    private static Vector4f createTexCoord(McFace face, Map<String, String> textures, TextureMap textureMap) {
         return createTexCoord(textureMap.getTexCoord(getTextureName(face.getTexture(), textures)), face.getUv());
     }
 
@@ -140,9 +140,9 @@ public class MeshGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-        McjModel model = McjModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\Hello.json"));
+        McModel model = McModelHelper.load(Paths.get("D:\\Workspace\\Forge\\Peach\\src\\main\\java\\com\\github\\mouse0w0\\peach\\mcmod\\model\\json\\Hello.json"));
         System.out.println(model);
-        McjElement.Rotation rotation = new McjElement.Rotation(new Vector3f(8f, 8f, 8f), McjAxis.Y, 45, true);
+        McElement.Rotation rotation = new McElement.Rotation(new Vector3f(8f, 8f, 8f), McAxis.Y, 45, true);
         System.out.println(transform(new Vector3f(0.95f, 1.0f, 0.5f), getRotationMatrix(rotation)));
         System.out.println(transform(new Vector3f(0.95f, 1.0f, 0.5f), getRotationMatrix(rotation))
                 .equals(new Vector3f(0.9499999f, 1.0f, 0.05000004f)));

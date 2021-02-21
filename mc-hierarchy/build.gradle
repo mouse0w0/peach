@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+    id 'maven'
+}
+
+version '1.0.0'
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.6'
+    compile 'org.joml:joml:1.10.0'
+    compile 'org.joml:joml-primitives:1.10.0'
+}

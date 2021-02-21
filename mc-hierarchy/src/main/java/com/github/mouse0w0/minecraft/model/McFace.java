@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.model.mcj;
+package com.github.mouse0w0.minecraft.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,7 +9,7 @@ import org.joml.Vector4f;
 
 import java.lang.reflect.Type;
 
-public class McjFace {
+public class McFace {
     private Vector4f uv;
     private String texture;
     @SerializedName("cullface")
@@ -58,10 +58,10 @@ public class McjFace {
         this.tintIndex = tintIndex;
     }
 
-    public static class Serializer implements JsonSerializer<McjFace> {
+    public static class Serializer implements JsonSerializer<McFace> {
 
         @Override
-        public JsonElement serialize(McjFace src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize(McFace src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject root = new JsonObject();
             root.addProperty("texture", src.getTexture());
             root.add("uv", context.serialize(src.getUv()));
