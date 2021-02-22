@@ -4,11 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import org.joml.Vector4f;
 
 import java.lang.reflect.Type;
 
+@JsonAdapter(McFace.Serializer.class)
 public class McFace {
     private Vector4f uv;
     private String texture;

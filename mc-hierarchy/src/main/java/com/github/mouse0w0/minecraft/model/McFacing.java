@@ -1,10 +1,14 @@
 package com.github.mouse0w0.minecraft.model;
 
-import com.google.gson.*;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.Locale;
 
+@JsonAdapter(McFacing.Persistence.class)
 public enum McFacing {
     DOWN,
     UP,
@@ -13,16 +17,15 @@ public enum McFacing {
     WEST,
     EAST;
 
-    public static class Persistence implements JsonSerializer<McFacing>, JsonDeserializer<McFacing> {
-
+    public static class Persistence extends TypeAdapter<McFacing> {
         @Override
-        public JsonElement serialize(McFacing src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(src.name().toLowerCase(Locale.ROOT));
+        public void write(JsonWriter out, McFacing value) throws IOException {
+            out.value(value.name().toLowerCase(Locale.ROOT));
         }
 
         @Override
-        public McFacing deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return McFacing.valueOf(json.getAsString().toUpperCase(Locale.ROOT));
+        public McFacing read(JsonReader in) throws IOException {
+            return McFacing.valueOf(in.nextString().toUpperCase(Locale.ROOT));
         }
     }
 }

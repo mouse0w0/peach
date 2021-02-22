@@ -4,11 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
 import org.joml.Vector3f;
 
 import java.lang.reflect.Type;
 import java.util.Map;
 
+@JsonAdapter(McElement.Serializer.class)
 public class McElement {
     private Vector3f from;
     private Vector3f to;
@@ -16,6 +18,7 @@ public class McElement {
     private boolean shade = true;
     private Map<McFacing, McFace> faces;
 
+    @JsonAdapter(Rotation.Serializer.class)
     public static class Rotation {
         private Vector3f origin;
         private McAxis axis;

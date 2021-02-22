@@ -1,11 +1,13 @@
 package com.github.mouse0w0.minecraft.model;
 
 import com.google.gson.*;
+import com.google.gson.annotations.JsonAdapter;
 import org.joml.Vector3f;
 
 import java.lang.reflect.Type;
 import java.util.Objects;
 
+@JsonAdapter(McTransform.Serializer.class)
 public class McTransform {
 
     public static final Vector3f TRANSLATION_DEFAULT = new Vector3f(0.0F, 0.0F, 0.0F);

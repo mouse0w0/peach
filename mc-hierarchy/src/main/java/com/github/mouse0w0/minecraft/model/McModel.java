@@ -4,12 +4,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+@JsonAdapter(McModel.Serializer.class)
 public class McModel {
     private String parent;
     @SerializedName("ambientocclusion")
