@@ -4,10 +4,10 @@ import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.minecraft.model.McModelHelper;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.util.RuntimeIOException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ public class ModelManager {
             loadItemModel(ModelManager.class.getResourceAsStream("/model/generated.json"), "generated");
             loadItemModel(ModelManager.class.getResourceAsStream("/model/handheld.json"), "handheld");
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
     }
 

@@ -12,7 +12,6 @@ import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
 import com.github.mouse0w0.peach.util.NioFileWatcher;
-import com.github.mouse0w0.peach.util.RuntimeIOException;
 import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
@@ -31,6 +30,7 @@ import javafx.scene.input.*;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardWatchEventKinds;
@@ -138,7 +138,7 @@ public class ProjectView implements Disposable, DataProvider {
         try {
             Files.list(path).forEach(child -> children.add(createTreeItem(child)));
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
 
         children.sort(comparator);

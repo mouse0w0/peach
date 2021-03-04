@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.Collection;
@@ -36,13 +37,13 @@ public class FileUtils {
         }
     }
 
-    public static void createDirectoriesIfNotExistsSilently(Path path) throws RuntimeIOException {
+    public static void createDirectoriesIfNotExistsSilently(Path path) throws UncheckedIOException {
         try {
             if (!Files.exists(path)) {
                 Files.createDirectories(path);
             }
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -90,11 +91,11 @@ public class FileUtils {
         return Files.copy(in, target, REPLACE_EXISTING);
     }
 
-    public static long forceCopySilently(InputStream in, Path target) throws RuntimeIOException {
+    public static long forceCopySilently(InputStream in, Path target) throws UncheckedIOException {
         try (InputStream inputStream = in) {
             return forceCopy(inputStream, target);
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -103,11 +104,11 @@ public class FileUtils {
         return Files.copy(source, target, REPLACE_EXISTING);
     }
 
-    public static Path forceCopySilently(Path source, Path target) throws RuntimeIOException {
+    public static Path forceCopySilently(Path source, Path target) throws UncheckedIOException {
         try {
             return forceCopy(source, target);
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -116,7 +117,7 @@ public class FileUtils {
             try {
                 return Files.walk(path, options);
             } catch (IOException e) {
-                throw new RuntimeIOException(e);
+                throw new UncheckedIOException(e);
             }
         });
     }
@@ -159,7 +160,7 @@ public class FileUtils {
         try {
             return Files.list(path).count() == 0;
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -167,7 +168,7 @@ public class FileUtils {
         try {
             return Files.list(path).count() > 0;
         } catch (IOException e) {
-            throw new RuntimeIOException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
