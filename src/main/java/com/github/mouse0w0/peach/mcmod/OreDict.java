@@ -1,15 +1,13 @@
-package com.github.mouse0w0.peach.mcmod.content.data;
-
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+package com.github.mouse0w0.peach.mcmod;
 
 import java.util.List;
 
-public class OreDictData {
+public class OreDict {
 
     private String id;
     private List<ItemRef> entries;
 
-    public OreDictData(String id, List<ItemRef> entries) {
+    public OreDict(String id, List<ItemRef> entries) {
         this.id = id;
         this.entries = entries;
     }

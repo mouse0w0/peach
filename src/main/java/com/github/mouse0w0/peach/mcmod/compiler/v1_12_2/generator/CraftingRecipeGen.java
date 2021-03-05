@@ -3,17 +3,17 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
-import com.github.mouse0w0.peach.mcmod.element.impl.CraftingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class CraftingRecipeGen extends Generator<CraftingRecipe> {
+public class CraftingRecipeGen extends Generator<MECraftingRecipe> {
 
     @Override
-    protected void generate(Compiler compiler, CraftingRecipe recipe) throws Exception {
+    protected void generate(Compiler compiler, MECraftingRecipe recipe) throws Exception {
         JsonObject jo = new JsonObject();
         generateResult(recipe, jo);
 
@@ -26,7 +26,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
         compiler.getAssetsFiler().write("recipes/" + recipe.getIdentifier() + ".json", jo.toString());
     }
 
-    private void generateResult(CraftingRecipe recipe, JsonObject jo) {
+    private void generateResult(MECraftingRecipe recipe, JsonObject jo) {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
         result.addProperty("item", itemStack.getId());
@@ -36,7 +36,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
         jo.add("result", result);
     }
 
-    private void generateShaped(CraftingRecipe recipe, JsonObject jo) {
+    private void generateShaped(MECraftingRecipe recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shaped");
         JsonArray pattern = new JsonArray();
         Map<ItemRef, Character> keyMap = new HashMap<>();
@@ -87,7 +87,7 @@ public class CraftingRecipeGen extends Generator<CraftingRecipe> {
         return pattern;
     }
 
-    private void generateShapeless(CraftingRecipe recipe, JsonObject jo) {
+    private void generateShapeless(MECraftingRecipe recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shapeless");
         JsonArray ingredients = new JsonArray();
         for (ItemRef input : recipe.getInputs()) {

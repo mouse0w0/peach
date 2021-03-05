@@ -7,14 +7,14 @@ import com.github.mouse0w0.coffeemaker.template.Template;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
-import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ItemGroupGen extends Generator<ItemGroup> {
+public class ItemGroupGen extends Generator<MEItemGroup> {
 
     private final List<String> classes = new ArrayList<>();
 
@@ -24,7 +24,7 @@ public class ItemGroupGen extends Generator<ItemGroup> {
     private String packageName;
 
     @Override
-    protected void before(Compiler compiler, Collection<ItemGroup> elements) throws Exception {
+    protected void before(Compiler compiler, Collection<MEItemGroup> elements) throws Exception {
         CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
         templateItemGroup = coffeeMaker.getTemplate("template/itemGroup/TemplateItemGroup");
         templateModItemGroups = coffeeMaker.getTemplate("template/itemGroup/ModItemGroups");
@@ -32,7 +32,7 @@ public class ItemGroupGen extends Generator<ItemGroup> {
     }
 
     @Override
-    protected void after(Compiler compiler, Collection<ItemGroup> elements) throws Exception {
+    protected void after(Compiler compiler, Collection<MEItemGroup> elements) throws Exception {
         String internalName = ASMUtils.getInternalName(packageName + ".ModItemGroups");
         Evaluator evaluator = compiler.getEvaluator();
         try (LocalVar localVar = evaluator.pushLocalVar()) {
@@ -43,7 +43,7 @@ public class ItemGroupGen extends Generator<ItemGroup> {
     }
 
     @Override
-    protected void generate(Compiler compiler, ItemGroup itemGroup) throws Exception {
+    protected void generate(Compiler compiler, MEItemGroup itemGroup) throws Exception {
         String internalName = ASMUtils.getInternalName(packageName, JavaUtils.lowerUnderscoreToUpperCamel(itemGroup.getIdentifier()) + "ItemGroup");
         classes.add(internalName);
         Evaluator evaluator = compiler.getEvaluator();

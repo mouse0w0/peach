@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 
 import java.util.Map;
 
-public class ItemGroup extends Element implements LocalizableElement {
+public class MEItemGroup extends Element implements LocalizableElement {
 
     private String identifier;
     private String displayName;

@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
@@ -40,9 +40,9 @@ public class ItemView extends Control {
 
                             sb.append("\n--------------------\n");
 
-                            for (ItemData data : itemView.getItemMap().get(item)) {
-                                sb.append(data.getDisplayName()).append("\n");
-                            }
+                    for (Item data : itemView.getItemMap().get(item)) {
+                        sb.append(data.getDisplayName()).append("\n");
+                    }
 
                             tooltip.setText(sb.substring(0, sb.length() - 1));
                         }
@@ -165,24 +165,24 @@ public class ItemView extends Control {
         enableTooltipProperty().set(enableTooltip);
     }
 
-    private ObjectProperty<Map<ItemRef, List<ItemData>>> itemMap;
+    private ObjectProperty<Map<ItemRef, List<Item>>> itemMap;
 
-    public final ObjectProperty<Map<ItemRef, List<ItemData>>> itemMapProperty() {
+    public final ObjectProperty<Map<ItemRef, List<Item>>> itemMapProperty() {
         if (itemMap == null) {
             itemMap = new SimpleObjectProperty<>(this, "itemMap", getDefaultItemMap());
         }
         return itemMap;
     }
 
-    public final Map<ItemRef, List<ItemData>> getItemMap() {
+    public final Map<ItemRef, List<Item>> getItemMap() {
         return itemMap == null ? getDefaultItemMap() : itemMap.get();
     }
 
-    public final void setItemMap(Map<ItemRef, List<ItemData>> itemMap) {
+    public final void setItemMap(Map<ItemRef, List<Item>> itemMap) {
         itemMapProperty().set(itemMap);
     }
 
-    private Map<ItemRef, List<ItemData>> getDefaultItemMap() {
+    private Map<ItemRef, List<Item>> getDefaultItemMap() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
         return IndexManager.getInstance(project).getIndex(StandardIndexes.ITEMS);

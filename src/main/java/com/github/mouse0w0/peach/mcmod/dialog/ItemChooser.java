@@ -4,8 +4,8 @@ import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -36,7 +36,7 @@ public class ItemChooser {
 
     private static ItemChooser instance;
 
-    private Map<ItemRef, List<ItemData>> itemMap;
+    private Map<ItemRef, List<Item>> itemMap;
 
     private Scene scene;
 
@@ -160,7 +160,7 @@ public class ItemChooser {
 
     private boolean filterItem(ItemRef item, String pattern) {
         if (item.getId().contains(pattern)) return true;
-        for (ItemData data : itemMap.get(item)) {
+        for (Item data : itemMap.get(item)) {
             if (data.getDisplayName().contains(pattern)) {
                 return true;
             }

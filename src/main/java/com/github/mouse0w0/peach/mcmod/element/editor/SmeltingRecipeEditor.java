@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.javafx.CachedImage;
 import com.github.mouse0w0.peach.javafx.FXUtils;
-import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.github.mouse0w0.peach.project.Project;
@@ -17,7 +17,7 @@ import javafx.scene.layout.FlowPane;
 
 import javax.annotation.Nonnull;
 
-public class SmeltingRecipeEditor extends ElementEditor<SmeltingRecipe> {
+public class SmeltingRecipeEditor extends ElementEditor<MESmeltingRecipe> {
     private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/smelting_recipe.png", 560, 312);
 
     @FXML
@@ -27,7 +27,7 @@ public class SmeltingRecipeEditor extends ElementEditor<SmeltingRecipe> {
     private ItemPicker input;
     private ItemStackView output;
 
-    public SmeltingRecipeEditor(@Nonnull Project project, @Nonnull SmeltingRecipe element) {
+    public SmeltingRecipeEditor(@Nonnull Project project, @Nonnull MESmeltingRecipe element) {
         super(project, element);
     }
 
@@ -58,14 +58,14 @@ public class SmeltingRecipeEditor extends ElementEditor<SmeltingRecipe> {
     }
 
     @Override
-    protected void initialize(SmeltingRecipe element) {
+    protected void initialize(MESmeltingRecipe element) {
         xp.getValueFactory().setValue(element.getXp());
         input.setItem(element.getInput());
         output.setItemStack(element.getOutput());
     }
 
     @Override
-    protected void updateDataModel(SmeltingRecipe element) {
+    protected void updateDataModel(MESmeltingRecipe element) {
         element.setXp(xp.getValue());
         element.setInput(input.getItem());
         element.setOutput(output.getItemStack());

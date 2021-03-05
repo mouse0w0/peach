@@ -8,7 +8,7 @@ import com.google.common.base.Strings;
 import java.util.Collections;
 import java.util.Map;
 
-public class Item extends Element implements LocalizableElement {
+public class MEItem extends Element implements LocalizableElement {
 
     private String identifier;
     private String displayName;

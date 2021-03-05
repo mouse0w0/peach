@@ -1,19 +1,17 @@
-package com.github.mouse0w0.peach.mcmod.content.data;
+package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.peach.mcmod.ItemRef;
-
-public class ItemGroupData {
+public class ItemGroup {
 
     private String id;
     private String translationKey;
-    private ItemRef item;
+    private ItemRef icon;
 
     private transient String displayName;
 
-    public ItemGroupData(String id, String translationKey, ItemRef item) {
+    public ItemGroup(String id, String translationKey, ItemRef icon) {
         this.id = id;
         this.translationKey = translationKey;
-        this.item = item;
+        this.icon = icon;
     }
 
     public String getId() {
@@ -24,8 +22,8 @@ public class ItemGroupData {
         return translationKey;
     }
 
-    public ItemRef getItem() {
-        return item;
+    public ItemRef getIcon() {
+        return icon;
     }
 
     public String getDisplayName() {

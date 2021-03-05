@@ -13,13 +13,13 @@ import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.model.ItemGroupDef;
-import com.github.mouse0w0.peach.mcmod.element.impl.Item;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 
 import java.io.BufferedWriter;
 import java.nio.file.Path;
 import java.util.*;
 
-public class ItemGen extends Generator<Item> {
+public class ItemGen extends Generator<MEItem> {
 
     private static final String ITEM_GROUP_DESCRIPTOR = "Lnet/minecraft/creativetab/CreativeTabs;";
 
@@ -36,7 +36,7 @@ public class ItemGen extends Generator<Item> {
     private String namespace;
 
     @Override
-    protected void before(Compiler compiler, Collection<Item> elements) throws Exception {
+    protected void before(Compiler compiler, Collection<MEItem> elements) throws Exception {
         CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
         templates.put(ItemType.NORMAL, coffeeMaker.getTemplate("template/item/TemplateItem"));
         templates.put(ItemType.SWORD, coffeeMaker.getTemplate("template/item/TemplateSword"));
@@ -54,7 +54,7 @@ public class ItemGen extends Generator<Item> {
     }
 
     @Override
-    protected void after(Compiler compiler, Collection<Item> elements) throws Exception {
+    protected void after(Compiler compiler, Collection<MEItem> elements) throws Exception {
         CoffeeMaker coffeeMaker = compiler.getCoffeeMaker();
         Filer classesFiler = compiler.getClassesFiler();
 
@@ -79,7 +79,7 @@ public class ItemGen extends Generator<Item> {
     }
 
     @Override
-    protected void generate(Compiler compiler, Item item) throws Exception {
+    protected void generate(Compiler compiler, MEItem item) throws Exception {
         String identifier = item.getIdentifier();
         String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(identifier));
         items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(identifier), ASMUtils.getDescriptor(internalName)));

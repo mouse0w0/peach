@@ -1,12 +1,12 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
+import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
 
 import java.util.List;
 
 public interface StandardIndexes {
-    LinkedMapIndex<ItemRef, List<ItemData>> ITEMS = new LinkedMapIndex<>("ITEMS");
-    LinkedMapIndex<String, ItemGroupData> ITEM_GROUPS = new LinkedMapIndex<>("ITEM_GROUPS");
+    LinkedMapIndex<ItemRef, List<Item>> ITEMS = new LinkedMapIndex<>("items");
+    LinkedMapIndex<String, ItemGroup> ITEM_GROUPS = new LinkedMapIndex<>("item_groups");
 }

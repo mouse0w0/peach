@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 
-public class CraftingRecipe extends Element {
+public class MECraftingRecipe extends Element {
 
     private String identifier;
     private String namespace;

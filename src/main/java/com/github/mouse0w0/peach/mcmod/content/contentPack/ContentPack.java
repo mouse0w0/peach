@@ -3,9 +3,9 @@ package com.github.mouse0w0.peach.mcmod.content.contentPack;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
 import com.github.mouse0w0.peach.javafx.CachedImage;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.content.data.OreDictData;
+import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemGroup;
+import com.github.mouse0w0.peach.mcmod.OreDict;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.gson.JsonArray;
@@ -55,10 +55,10 @@ public class ContentPack implements Closeable {
     }
 
     private void load() throws IOException {
-        load(ItemData.class, "item.json");
-        load(ItemGroupData.class, "itemGroup.json");
-        load(OreDictData.class, "oreDictionary.json");
-        getData(ItemData.class).forEach(item -> item.setDisplayImage(getImage(item)));
+        load(Item.class, "item.json");
+        load(ItemGroup.class, "itemGroup.json");
+        load(OreDict.class, "oreDictionary.json");
+        getData(Item.class).forEach(item -> item.setDisplayImage(getImage(item)));
         setLocale(Locale.getDefault());
     }
 
@@ -97,8 +97,8 @@ public class ContentPack implements Closeable {
                 .locale(locale)
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
-        getData(ItemData.class).forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
-        getData(ItemGroupData.class).forEach(creativeTab -> creativeTab.setDisplayName(translator.translate(creativeTab.getTranslationKey())));
+        getData(Item.class).forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
+        getData(ItemGroup.class).forEach(itemGroup -> itemGroup.setDisplayName(translator.translate(itemGroup.getTranslationKey())));
     }
 
     public Path getFile() {
@@ -109,11 +109,11 @@ public class ContentPack implements Closeable {
         return fileSystem.getPath(first, more);
     }
 
-    public CachedImage getImage(ItemData item) {
+    public CachedImage getImage(Item item) {
         return new CachedImage(getImageFile(item), 64, 64);
     }
 
-    public Path getImageFile(ItemData item) {
+    public Path getImageFile(Item item) {
         return getPath("content", getId(), "image/item", item.getName() + "_" + item.getMetadata() + ".png");
     }
 

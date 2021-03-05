@@ -1,8 +1,8 @@
-package com.github.mouse0w0.peach.mcmod.content.data;
+package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.peach.javafx.CachedImage;
 
-public class ItemData {
+public class Item {
 
     private String id;
     private int metadata;
@@ -12,7 +12,7 @@ public class ItemData {
     private transient String displayName;
     private transient CachedImage displayImage;
 
-    public ItemData(String id, int metadata, String translationKey, boolean block) {
+    public Item(String id, int metadata, String translationKey, boolean block) {
         this.id = id;
         this.metadata = metadata;
         this.translationKey = translationKey;

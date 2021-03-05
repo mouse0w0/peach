@@ -5,14 +5,14 @@ import com.github.mouse0w0.coffeemaker.evaluator.LocalVar;
 import com.github.mouse0w0.coffeemaker.template.Template;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
-import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
 
 import java.util.Collection;
 
-public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
+public class SmeltingRecipeGen extends Generator<MESmeltingRecipe> {
 
     @Override
-    public void generate(Compiler compiler, Collection<SmeltingRecipe> elements) throws Exception {
+    public void generate(Compiler compiler, Collection<MESmeltingRecipe> elements) throws Exception {
         String internalName = ASMUtils.getInternalName(compiler.getRootPackageName(), "SmeltingRecipes");
         Template template = compiler.getCoffeeMaker().getTemplate("template/SmeltingRecipes");
         Evaluator evaluator = compiler.getEvaluator();
@@ -24,7 +24,7 @@ public class SmeltingRecipeGen extends Generator<SmeltingRecipe> {
     }
 
     @Override
-    protected void generate(Compiler compiler, SmeltingRecipe smelting) throws Exception {
+    protected void generate(Compiler compiler, MESmeltingRecipe smelting) throws Exception {
         // Nothing to do.
     }
 }

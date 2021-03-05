@@ -9,12 +9,8 @@ import com.github.mouse0w0.peach.form.Group;
 import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
-import com.github.mouse0w0.peach.mcmod.EnchantmentType;
-import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
-import com.github.mouse0w0.peach.mcmod.ItemType;
-import com.github.mouse0w0.peach.mcmod.UseAnimation;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.element.impl.Item;
+import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
@@ -32,7 +28,7 @@ import javafx.util.StringConverter;
 
 import javax.annotation.Nonnull;
 
-public class ItemEditor extends ElementEditor<Item> {
+public class ItemEditor extends ElementEditor<MEItem> {
 
     private final IndexManager indexManager;
 
@@ -42,7 +38,7 @@ public class ItemEditor extends ElementEditor<Item> {
     private TextFieldField identifier;
     private TextFieldField displayName;
     private ComboBoxField<ItemType> itemType;
-    private ComboBoxField<ItemGroupData> itemGroup;
+    private ComboBoxField<ItemGroup> itemGroup;
     private SpinnerField<Integer> maxStackSize;
     private SpinnerField<Integer> durability;
     private SpinnerField<Double> destroySpeed;
@@ -72,7 +68,7 @@ public class ItemEditor extends ElementEditor<Item> {
     private RadioButtonField alwaysEdible;
     private ItemPickerField foodContainer;
 
-    public ItemEditor(@Nonnull Project project, @Nonnull Item element) {
+    public ItemEditor(@Nonnull Project project, @Nonnull MEItem element) {
         super(project, element);
         indexManager = IndexManager.getInstance(project);
     }
@@ -293,7 +289,7 @@ public class ItemEditor extends ElementEditor<Item> {
     }
 
     @Override
-    protected void initialize(Item item) {
+    protected void initialize(MEItem item) {
         identifier.setValue(item.getIdentifier());
         displayName.setValue(item.getDisplayName());
         itemType.setValue(item.getItemType());
@@ -327,7 +323,7 @@ public class ItemEditor extends ElementEditor<Item> {
     }
 
     @Override
-    protected void updateDataModel(Item item) {
+    protected void updateDataModel(MEItem item) {
         item.setIdentifier(identifier.getValue());
         item.setDisplayName(displayName.getValue());
         item.setItemType(itemType.getValue());

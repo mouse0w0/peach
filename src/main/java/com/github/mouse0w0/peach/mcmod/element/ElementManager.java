@@ -4,11 +4,11 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.javafx.CachedImage;
+import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemGroupData;
-import com.github.mouse0w0.peach.mcmod.element.impl.Item;
-import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
@@ -152,13 +152,13 @@ public final class ElementManager extends IndexProvider {
     private void onUpdatedElement(Element element) {
         Path file = element.getFile();
         onRemovedElement(file);
-        if (element instanceof Item) {
-            Item itemElement = (Item) element;
-            ItemData itemData = new ItemData(itemElement.getIdentifier(), 0, null, false);
+        if (element instanceof MEItem) {
+            MEItem itemElement = (MEItem) element;
+            Item itemData = new Item(itemElement.getIdentifier(), 0, null, false);
             itemData.setDisplayName(itemElement.getDisplayName());
 
             Path previewFile = previewCache.resolve(element.getFileName() + ".png");
-            ElementRegistry.getInstance().getElementType(Item.class).generatePreview(project, itemElement, previewFile);
+            ElementRegistry.getInstance().getElementType(MEItem.class).generatePreview(project, itemElement, previewFile);
             CachedImage cachedImage = new CachedImage(previewFile, 64, 64);
             cachedImage.invalidate();
             itemData.setDisplayImage(cachedImage);
@@ -169,9 +169,9 @@ public final class ElementManager extends IndexProvider {
             ItemRef ignoreMetadata = ItemRef.createIgnoreMetadata(namespace + ":" + itemData.getId());
             getIndex(StandardIndexes.ITEMS).put(ignoreMetadata, Collections.singletonList(itemData));
             cachedElement.put(file, new ItemRef[]{item, ignoreMetadata});
-        } else if (element instanceof ItemGroup) {
-            ItemGroup itemGroup = (ItemGroup) element;
-            ItemGroupData itemGroupData = new ItemGroupData(itemGroup.getIdentifier(), null, itemGroup.getIcon());
+        } else if (element instanceof MEItemGroup) {
+            MEItemGroup itemGroup = (MEItemGroup) element;
+            ItemGroup itemGroupData = new ItemGroup(itemGroup.getIdentifier(), null, itemGroup.getIcon());
             itemGroupData.setDisplayName(itemGroup.getDisplayName());
 
             getIndex(StandardIndexes.ITEM_GROUPS).put(itemGroup.getIdentifier(), itemGroupData);

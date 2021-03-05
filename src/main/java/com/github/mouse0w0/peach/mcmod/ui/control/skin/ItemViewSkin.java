@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
 import com.github.mouse0w0.peach.javafx.CachedImage;
+import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.content.data.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,7 +19,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
     private final ImageView imageView;
 
-    private List<ItemData> itemData;
+    private List<Item> itemData;
     private Timeline timeline;
 
     public ItemViewSkin(ItemView itemView) {
