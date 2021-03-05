@@ -15,8 +15,8 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
-import com.github.mouse0w0.peach.mcmod.ui.cell.ItemGroupCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.*;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -101,8 +101,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setText(I18n.translate("item.properties.itemGroup"));
-        itemGroup.setCellFactory(view -> new ItemGroupCell());
-        itemGroup.setButtonCell(new ItemGroupCell());
+        itemGroup.setCellFactory(LocalizableExCell.factory());
+        itemGroup.setButtonCell(LocalizableExCell.create());
         itemGroup.getItems().setAll(IndexManager.getInstance(getProject()).getIndex(StandardIndexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 

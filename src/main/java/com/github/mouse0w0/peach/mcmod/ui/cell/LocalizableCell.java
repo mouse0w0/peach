@@ -8,7 +8,7 @@ import javafx.util.Callback;
 public class LocalizableCell<T extends Localizable> extends ListCell<T> {
 
     public static <T extends Localizable> Callback<ListView<T>, ListCell<T>> factory() {
-        return view -> new LocalizableCell<T>();
+        return view -> new LocalizableCell<>();
     }
 
     @Override

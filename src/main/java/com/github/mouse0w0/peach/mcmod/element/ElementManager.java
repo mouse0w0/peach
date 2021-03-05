@@ -153,29 +153,29 @@ public final class ElementManager extends IndexProvider {
         Path file = element.getFile();
         onRemovedElement(file);
         if (element instanceof MEItem) {
-            MEItem itemElement = (MEItem) element;
-            Item itemData = new Item(itemElement.getIdentifier(), 0, null, false);
-            itemData.setDisplayName(itemElement.getDisplayName());
+            MEItem meItem = (MEItem) element;
+            Item item = new Item(meItem.getIdentifier(), 0, null, false);
+            item.setDisplayName(meItem.getDisplayName());
 
             Path previewFile = previewCache.resolve(element.getFileName() + ".png");
-            ElementRegistry.getInstance().getElementType(MEItem.class).generatePreview(project, itemElement, previewFile);
+            ElementRegistry.getInstance().getElementType(MEItem.class).generatePreview(project, meItem, previewFile);
             CachedImage cachedImage = new CachedImage(previewFile, 64, 64);
             cachedImage.invalidate();
-            itemData.setDisplayImage(cachedImage);
+            item.setDisplayImage(cachedImage);
 
             String namespace = descriptor.getModId();
-            ItemRef item = ItemRef.createItem(namespace + ":" + itemData.getId(), itemData.getMetadata());
-            getIndex(StandardIndexes.ITEMS).put(item, Collections.singletonList(itemData));
-            ItemRef ignoreMetadata = ItemRef.createIgnoreMetadata(namespace + ":" + itemData.getId());
-            getIndex(StandardIndexes.ITEMS).put(ignoreMetadata, Collections.singletonList(itemData));
-            cachedElement.put(file, new ItemRef[]{item, ignoreMetadata});
+            ItemRef item1 = ItemRef.createItem(namespace + ":" + item.getId(), item.getMetadata());
+            getIndex(StandardIndexes.ITEMS).put(item1, Collections.singletonList(item));
+            ItemRef item2 = ItemRef.createIgnoreMetadata(namespace + ":" + item.getId());
+            getIndex(StandardIndexes.ITEMS).put(item2, Collections.singletonList(item));
+            cachedElement.put(file, new ItemRef[]{item1, item2});
         } else if (element instanceof MEItemGroup) {
-            MEItemGroup itemGroup = (MEItemGroup) element;
-            ItemGroup itemGroupData = new ItemGroup(itemGroup.getIdentifier(), null, itemGroup.getIcon());
-            itemGroupData.setDisplayName(itemGroup.getDisplayName());
+            MEItemGroup meItemGroup = (MEItemGroup) element;
+            ItemGroup itemGroup = new ItemGroup(meItemGroup.getIdentifier(), null, meItemGroup.getIcon());
+            itemGroup.setLocalizedText(meItemGroup.getDisplayName());
 
-            getIndex(StandardIndexes.ITEM_GROUPS).put(itemGroup.getIdentifier(), itemGroupData);
-            cachedElement.put(file, itemGroup.getIdentifier());
+            getIndex(StandardIndexes.ITEM_GROUPS).put(meItemGroup.getIdentifier(), itemGroup);
+            cachedElement.put(file, meItemGroup.getIdentifier());
         }
     }
 

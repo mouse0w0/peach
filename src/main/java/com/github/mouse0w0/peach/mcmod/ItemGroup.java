@@ -1,12 +1,11 @@
 package com.github.mouse0w0.peach.mcmod;
 
-public class ItemGroup {
-
+public class ItemGroup implements LocalizableEx {
     private String id;
     private String translationKey;
     private ItemRef icon;
 
-    private transient String displayName;
+    private transient String localizedText;
 
     public ItemGroup(String id, String translationKey, ItemRef icon) {
         this.id = id;
@@ -18,19 +17,23 @@ public class ItemGroup {
         return id;
     }
 
+    @Override
     public String getTranslationKey() {
         return translationKey;
     }
 
+    @Override
     public ItemRef getIcon() {
         return icon;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    @Override
+    public String getLocalizedText() {
+        return localizedText;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    @Override
+    public void setLocalizedText(String text) {
+        this.localizedText = text;
     }
 }
