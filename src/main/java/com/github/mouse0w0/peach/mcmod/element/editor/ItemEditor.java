@@ -293,7 +293,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         identifier.setValue(item.getIdentifier());
         displayName.setValue(item.getDisplayName());
         itemType.setValue(item.getItemType());
-        itemGroup.setValue(indexManager.getIndex(Indexes.ITEM_GROUPS).get(item.getItemGroup()));
+        itemGroup.setValue(item.getItemGroup());
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
         destroySpeed.setValue(item.getDestroySpeed());
@@ -327,7 +327,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setIdentifier(identifier.getValue());
         item.setDisplayName(displayName.getValue());
         item.setItemType(itemType.getValue());
-        item.setItemGroup(itemGroup.getValue().getId());
+        item.setItemGroup(itemGroup.getValue());
         item.setMaxStackSize(maxStackSize.getValue());
         item.setDurability(durability.getValue());
         item.setDestroySpeed(destroySpeed.getValue());

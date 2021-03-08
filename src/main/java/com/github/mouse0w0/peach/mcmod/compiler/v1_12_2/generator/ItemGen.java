@@ -7,6 +7,7 @@ import com.github.mouse0w0.coffeemaker.template.Field;
 import com.github.mouse0w0.coffeemaker.template.Template;
 import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.minecraft.model.McModelHelper;
+import com.github.mouse0w0.peach.mcmod.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.ItemType;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
@@ -84,9 +85,9 @@ public class ItemGen extends Generator<MEItem> {
         String internalName = ASMUtils.getInternalName(itemPackageName, JavaUtils.lowerUnderscoreToUpperCamel(identifier));
         items.add(new Field(modItemsInternalName, JavaUtils.lowerUnderscoreToUpperUnderscore(identifier), ASMUtils.getDescriptor(internalName)));
 
-        String itemGroup = item.getItemGroup();
-        ItemGroupDef itemGroupDef = new ItemGroupDef(itemGroup,
-                new Field(itemGroupsInternalName, itemGroup.toUpperCase(), ITEM_GROUP_DESCRIPTOR));
+        ItemGroup itemGroup = item.getItemGroup();
+        ItemGroupDef itemGroupDef = new ItemGroupDef(itemGroup.getId(),
+                new Field(itemGroupsInternalName, itemGroup.getId().toUpperCase(), ITEM_GROUP_DESCRIPTOR));
         itemGroups.add(itemGroupDef);
 
         Evaluator evaluator = compiler.getEvaluator();

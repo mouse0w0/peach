@@ -4,9 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.javafx.CachedImage;
-import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemGroup;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -17,6 +15,8 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +38,8 @@ public final class ElementManager extends IndexProvider {
 
     private final Path root;
 
+    private final Gson gson;
+
     private final Path previewCache;
 
     private ElementView elementView;
@@ -46,7 +48,7 @@ public final class ElementManager extends IndexProvider {
         return project.getService(ElementManager.class);
     }
 
-    public ElementManager(Project project, McModDescriptor descriptor, ElementRegistry elementRegistry) {
+    public ElementManager(Project project, McModDescriptor descriptor, IndexManager indexManager, ElementRegistry elementRegistry) {
         super("PROJECT", 200);
         this.project = project;
         this.descriptor = descriptor;
@@ -56,8 +58,20 @@ public final class ElementManager extends IndexProvider {
         this.previewCache = project.getPath().resolve(".peach/preview");
         FileUtils.createDirectoriesIfNotExistsSilently(previewCache);
 
-        IndexManager.getInstance(project).registerProvider(this);
+        indexManager.registerProvider(this);
+
+        gson = createGson(indexManager);
+
         init();
+    }
+
+    private Gson createGson(IndexManager indexManager) {
+        return new GsonBuilder()
+                .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(Indexes.ITEM_GROUPS)))
+                .registerTypeAdapter(Material.class, new Material.Persister(indexManager.getIndex(Indexes.MATERIALS)))
+                .registerTypeAdapter(SoundType.class, new SoundType.Persister(indexManager.getIndex(Indexes.SOUND_TYPES)))
+                .registerTypeAdapter(MapColor.class, new MapColor.Persister(indexManager.getIndex(Indexes.MAP_COLORS)))
+                .create();
     }
 
     private void init() {
@@ -87,19 +101,20 @@ public final class ElementManager extends IndexProvider {
             throw new IllegalArgumentException("Cannot load element");
         }
         try {
-            Element element = JsonUtils.readJson(file, type.getType());
+            Element element = JsonUtils.readJson(gson, file, type.getType());
             Element.setFile(element, file);
             return (T) element;
         } catch (IOException e) {
+            LOGGER.error("Failed to load element.", e);
             return (T) type.newInstance(file);
         }
     }
 
     public void saveElement(Element element) {
         try {
-            JsonUtils.writeJson(element.getFile(), element);
+            JsonUtils.writeJson(gson, element.getFile(), element);
         } catch (IOException e) {
-            LOGGER.warn("Failed to save element.", e);
+            LOGGER.error("Failed to save element.", e);
             //TODO: show dialog
         }
 
@@ -115,7 +130,7 @@ public final class ElementManager extends IndexProvider {
         try {
             Files.deleteIfExists(file);
         } catch (IOException e) {
-            LOGGER.warn("Failed to delete element file.", e);
+            LOGGER.error("Failed to delete element file.", e);
         }
 
         onRemovedElement(file);

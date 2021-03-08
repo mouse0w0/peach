@@ -13,7 +13,7 @@ public class MEItem extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
     private ItemType itemType = ItemType.NORMAL;
-    private String itemGroup;
+    private ItemGroup itemGroup;
     private int maxStackSize = 64;
     private int durability;
     private double destroySpeed;
@@ -65,11 +65,11 @@ public class MEItem extends Element implements LocalizableElement {
         this.itemType = itemType;
     }
 
-    public String getItemGroup() {
+    public ItemGroup getItemGroup() {
         return itemGroup;
     }
 
-    public void setItemGroup(String itemGroup) {
+    public void setItemGroup(ItemGroup itemGroup) {
         this.itemGroup = itemGroup;
     }
 

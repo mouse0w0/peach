@@ -22,13 +22,12 @@ public final class ElementTypes {
                         element.setDisplayName(name);
                         element.setEquipmentSlot(EquipmentSlot.MAINHAND);
                         ProjectManager.getInstance().getProject(file).ifPresent(project ->
-                                element.setItemGroup(
-                                        IndexManager.getInstance(project)
-                                                .getIndex(Indexes.ITEM_GROUPS)
-                                                .keySet()
-                                                .stream()
-                                                .findFirst()
-                                                .orElse(null)));
+                                element.setItemGroup(IndexManager.getInstance(project)
+                                        .getIndex(Indexes.ITEM_GROUPS)
+                                        .values()
+                                        .stream()
+                                        .findFirst()
+                                        .orElse(null)));
                     })
                     .editorFactory(ItemEditor::new)
                     .previewGenerator(new ItemPreview())

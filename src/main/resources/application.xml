@@ -36,8 +36,8 @@
         <projectService implementation="com.github.mouse0w0.peach.mcmod.project.McModDescriptor"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.IndexManager"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider"/>
-        <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.content.ProjectContentPackManager"/>
+        <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager"/>
 
         <iconSource name="Icons" class="com.github.mouse0w0.peach.icon.Icons"/>
