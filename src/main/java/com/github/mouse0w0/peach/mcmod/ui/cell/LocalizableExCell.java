@@ -18,18 +18,15 @@ public class LocalizableExCell<T extends LocalizableEx> extends ListCell<T> {
         return new LocalizableExCell<>();
     }
 
-    public LocalizableExCell() {
-        setGraphic(itemView);
-    }
-
     @Override
     protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
         if (empty) {
             setText(null);
-            itemView.setItem(null);
+            setGraphic(null);
         } else {
             setText(item.getLocalizedText());
+            setGraphic(itemView);
             itemView.setItem(item.getIcon());
         }
     }
