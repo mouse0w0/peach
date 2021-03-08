@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
+import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.wm.WindowManager;
@@ -116,7 +116,7 @@ public class ItemChooser {
 
     private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
-        this.itemMap = IndexManager.getInstance(project).getIndex(StandardIndexes.ITEMS);
+        this.itemMap = IndexManager.getInstance(project).getIndex(Indexes.ITEMS);
 
 //        filter.setText(null);
 

@@ -24,7 +24,7 @@ public final class ElementTypes {
                         ProjectManager.getInstance().getProject(file).ifPresent(project ->
                                 element.setItemGroup(
                                         IndexManager.getInstance(project)
-                                                .getIndex(StandardIndexes.ITEM_GROUPS)
+                                                .getIndex(Indexes.ITEM_GROUPS)
                                                 .keySet()
                                                 .stream()
                                                 .findFirst()

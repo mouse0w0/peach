@@ -11,7 +11,7 @@ import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
+import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -142,10 +142,10 @@ public final class ElementManager extends IndexProvider {
         if (type == ElementTypes.ITEM) {
             ItemRef[] items = (ItemRef[]) cachedElement.remove(file);
             for (ItemRef item : items) {
-                getIndex(StandardIndexes.ITEMS).remove(item);
+                getIndex(Indexes.ITEMS).remove(item);
             }
         } else if (type == ElementTypes.ITEM_GROUP) {
-            getIndex(StandardIndexes.ITEM_GROUPS).remove((String) cachedElement.remove(file));
+            getIndex(Indexes.ITEM_GROUPS).remove((String) cachedElement.remove(file));
         }
     }
 
@@ -165,16 +165,16 @@ public final class ElementManager extends IndexProvider {
 
             String namespace = descriptor.getModId();
             ItemRef item1 = ItemRef.createItem(namespace + ":" + item.getId(), item.getMetadata());
-            getIndex(StandardIndexes.ITEMS).put(item1, Collections.singletonList(item));
+            getIndex(Indexes.ITEMS).put(item1, Collections.singletonList(item));
             ItemRef item2 = ItemRef.createIgnoreMetadata(namespace + ":" + item.getId());
-            getIndex(StandardIndexes.ITEMS).put(item2, Collections.singletonList(item));
+            getIndex(Indexes.ITEMS).put(item2, Collections.singletonList(item));
             cachedElement.put(file, new ItemRef[]{item1, item2});
         } else if (element instanceof MEItemGroup) {
             MEItemGroup meItemGroup = (MEItemGroup) element;
             ItemGroup itemGroup = new ItemGroup(meItemGroup.getIdentifier(), null, meItemGroup.getIcon());
             itemGroup.setLocalizedText(meItemGroup.getDisplayName());
 
-            getIndex(StandardIndexes.ITEM_GROUPS).put(meItemGroup.getIdentifier(), itemGroup);
+            getIndex(Indexes.ITEM_GROUPS).put(meItemGroup.getIdentifier(), itemGroup);
             cachedElement.put(file, meItemGroup.getIdentifier());
         }
     }

@@ -3,9 +3,7 @@ package com.github.mouse0w0.peach.mcmod.content.contentPack;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
 import com.github.mouse0w0.peach.javafx.CachedImage;
-import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemGroup;
-import com.github.mouse0w0.peach.mcmod.OreDict;
+import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.gson.JsonArray;
@@ -58,6 +56,9 @@ public class ContentPack implements Closeable {
         load(Item.class, "item.json");
         load(ItemGroup.class, "itemGroup.json");
         load(OreDict.class, "oreDictionary.json");
+        load(Material.class, "material.json");
+        load(SoundType.class, "soundType.json");
+        load(MapColor.class, "mapColor.json");
         getData(Item.class).forEach(item -> item.setDisplayImage(getImage(item)));
         setLocale(Locale.getDefault());
     }
@@ -98,7 +99,10 @@ public class ContentPack implements Closeable {
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
         getData(Item.class).forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
-        getData(ItemGroup.class).forEach(itemGroup -> itemGroup.setDisplayName(translator.translate(itemGroup.getTranslationKey())));
+        getData(ItemGroup.class).forEach(itemGroup -> itemGroup.setLocalizedText(translator.translate(itemGroup.getTranslationKey())));
+        getData(Material.class).forEach(material -> material.setLocalizedText(translator.translate(material.getTranslationKey())));
+        getData(SoundType.class).forEach(soundType -> soundType.setLocalizedText(translator.translate(soundType.getTranslationKey())));
+        getData(MapColor.class).forEach(mapColor -> mapColor.setLocalizedText(translator.translate(mapColor.getTranslationKey())));
     }
 
     public Path getFile() {

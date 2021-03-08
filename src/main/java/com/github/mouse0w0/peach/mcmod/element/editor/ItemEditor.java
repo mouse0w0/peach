@@ -12,7 +12,7 @@ import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.StandardIndexes;
+import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
@@ -103,7 +103,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         itemGroup.setText(I18n.translate("item.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableExCell.factory());
         itemGroup.setButtonCell(LocalizableExCell.create());
-        itemGroup.getItems().setAll(IndexManager.getInstance(getProject()).getIndex(StandardIndexes.ITEM_GROUPS).values());
+        itemGroup.getItems().setAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new SpinnerField<>(1, 64, 64);
@@ -293,7 +293,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         identifier.setValue(item.getIdentifier());
         displayName.setValue(item.getDisplayName());
         itemType.setValue(item.getItemType());
-        itemGroup.setValue(indexManager.getIndex(StandardIndexes.ITEM_GROUPS).get(item.getItemGroup()));
+        itemGroup.setValue(indexManager.getIndex(Indexes.ITEM_GROUPS).get(item.getItemGroup()));
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
         destroySpeed.setValue(item.getDestroySpeed());
