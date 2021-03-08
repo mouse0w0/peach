@@ -19,7 +19,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
     private final ImageView imageView;
 
-    private List<Item> itemData;
+    private List<Item> items;
     private Timeline timeline;
 
     public ItemViewSkin(ItemView itemView) {
@@ -45,23 +45,23 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         }
         imageView.setImage(null);
 
-        ItemRef item = itemView.getItem();
-        if (item == null) {
-            itemData = itemView.getItemMap().get(ItemRef.AIR);
+        ItemRef itemSelector = itemView.getItem();
+        if (itemSelector == null) {
+            items = itemView.getItemMap().get(ItemRef.AIR);
         } else {
-            itemData = itemView.getItemMap().get(item);
+            items = itemView.getItemMap().get(itemSelector);
         }
 
-        if (itemData.size() == 0) {
+        if (items == null || items.size() == 0) {
             imageView.setImage(MISSING.getImage());
             return;
         }
 
-        if (itemView.isPlayAnimation() && itemData.size() > 1) {
+        if (itemView.isPlayAnimation() && items.size() > 1) {
             timeline = createTimeline();
             timeline.play();
         } else {
-            imageView.setImage(itemData.get(0).getDisplayImage().getImage());
+            imageView.setImage(items.get(0).getDisplayImage().getImage());
         }
     }
 
@@ -69,8 +69,8 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         Timeline timeline = new Timeline();
         ObservableList<KeyFrame> keyFrames = timeline.getKeyFrames();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        for (int i = 0; i < itemData.size(); i++) {
-            CachedImage image = itemData.get(i).getDisplayImage();
+        for (int i = 0; i < items.size(); i++) {
+            CachedImage image = items.get(i).getDisplayImage();
             keyFrames.add(new KeyFrame(Duration.seconds(i), event -> imageView.setImage(image.getImage())));
         }
         return timeline;
