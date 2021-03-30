@@ -98,7 +98,7 @@ public class ContentPack implements Closeable {
                 .locale(locale)
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
-        getData(Item.class).forEach(item -> item.setDisplayName(translator.translate(item.getTranslationKey())));
+        getData(Item.class).forEach(item -> item.setLocalizedText(translator.translate(item.getTranslationKey())));
         getData(ItemGroup.class).forEach(itemGroup -> itemGroup.setLocalizedText(translator.translate(itemGroup.getTranslationKey())));
         getData(Material.class).forEach(material -> material.setLocalizedText(translator.translate(material.getTranslationKey())));
         getData(SoundType.class).forEach(soundType -> soundType.setLocalizedText(translator.translate(soundType.getTranslationKey())));

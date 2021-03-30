@@ -41,7 +41,7 @@ public class ItemView extends Control {
                             sb.append("\n--------------------\n");
 
                     for (Item data : itemView.getItemMap().get(item)) {
-                        sb.append(data.getDisplayName()).append("\n");
+                        sb.append(data.getLocalizedText()).append("\n");
                     }
 
                             tooltip.setText(sb.substring(0, sb.length() - 1));

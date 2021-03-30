@@ -9,7 +9,7 @@ public class Item {
     private String translationKey;
     private boolean block;
 
-    private transient String displayName;
+    private transient String localizedText;
     private transient CachedImage displayImage;
 
     public Item(String id, int metadata, String translationKey, boolean block) {
@@ -43,12 +43,12 @@ public class Item {
         return block;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getLocalizedText() {
+        return localizedText;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setLocalizedText(String text) {
+        this.localizedText = text;
     }
 
     public CachedImage getDisplayImage() {

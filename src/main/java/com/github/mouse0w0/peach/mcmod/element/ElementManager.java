@@ -170,7 +170,7 @@ public final class ElementManager extends IndexProvider {
         if (element instanceof MEItem) {
             MEItem meItem = (MEItem) element;
             Item item = new Item(meItem.getIdentifier(), 0, null, false);
-            item.setDisplayName(meItem.getDisplayName());
+            item.setLocalizedText(meItem.getDisplayName());
 
             Path previewFile = previewCache.resolve(element.getFileName() + ".png");
             ElementRegistry.getInstance().getElementType(MEItem.class).generatePreview(project, meItem, previewFile);

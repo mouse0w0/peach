@@ -161,7 +161,7 @@ public class ItemChooser {
     private boolean filterItem(ItemRef item, String pattern) {
         if (item.getId().contains(pattern)) return true;
         for (Item data : itemMap.get(item)) {
-            if (data.getDisplayName().contains(pattern)) {
+            if (data.getLocalizedText().contains(pattern)) {
                 return true;
             }
         }
