@@ -3,4 +3,4 @@ plugins {
     id 'maven'
 }
 
-version '1.0.0'
+version rootProject.version
