@@ -9,6 +9,8 @@
         - **image**：图片文件文件夹。
             - **item**：物品的图片文件夹。
         - **lang**：语言文件文件夹。
-        - **item.json**：储存所有物品。
-        - **itemGroup.json**:储存所有创造标签。
-        - **oreDictionary.json**：储存所有矿物词典。
+        - **item.json**：物品数据。
+        - **itemGroup.json**：创造标签数据。
+        - **oreDictionary.json**：矿物词典数据。
+        - **sound.json**：声音数据。
+        - **enchantment.json**：附魔数据。
