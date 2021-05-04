@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.data.DataProvider;
 import com.github.mouse0w0.peach.file.FileAppearances;
+import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -24,6 +25,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 
@@ -188,11 +190,10 @@ public class ProjectView implements Disposable, DataProvider {
         }
     }
 
-    private class Cell extends TreeCell<Path> implements DataProvider {
-        private final ImageView imageView = new ImageView();
+    private class Cell extends TreeCell<Path> implements DataProvider, FileCell {
+        private ImageView imageView;
 
         public Cell() {
-            setGraphic(imageView);
             setContextMenu(contextMenu);
             setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
@@ -250,15 +251,34 @@ public class ProjectView implements Disposable, DataProvider {
 
             if (empty) {
                 setText(null);
-                imageView.setImage(null);
+                setGraphic(null);
             } else {
-                FileAppearances.apply(item, textProperty(), imageView.imageProperty());
+                FileAppearances.apply(item, this);
             }
         }
 
         @Override
         public Object getData(@Nonnull String key) {
             return DataKeys.PATH.is(key) ? getItem() : null;
+        }
+
+        @Override
+        public Image getIcon() {
+            return imageView == null ? null :
+                    (getGraphic() != imageView ? null : imageView.getImage());
+        }
+
+        @Override
+        public void setIcon(Image icon) {
+            if (imageView == null) {
+                imageView = new ImageView(icon);
+            }
+
+            imageView.setImage(icon);
+
+            if (getGraphic() != imageView) {
+                setGraphic(imageView);
+            }
         }
     }
 }

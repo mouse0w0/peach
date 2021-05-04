@@ -2,9 +2,6 @@ package com.github.mouse0w0.peach.file;
 
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.util.FileUtils;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.image.Image;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,25 +13,25 @@ public class CommonFileAppearance implements FileAppearance {
     }
 
     @Override
-    public void apply(Path file, StringProperty text, ObjectProperty<Image> icon) {
+    public void apply(Path file, FileCell cell) {
         String fileName = FileUtils.getFileName(file);
-        text.set(fileName);
+        cell.setText(fileName);
 
         if (Files.isDirectory(file)) {
-            icon.set(Icons.File.Folder);
+            cell.setIcon(Icons.File.Folder);
         } else {
             switch (FileUtils.getFileExtension(fileName)) {
                 case "png":
-                    icon.set(Icons.File.Image);
+                    cell.setIcon(Icons.File.Image);
                     break;
                 case "ogg":
-                    icon.set(Icons.File.Sound);
+                    cell.setIcon(Icons.File.Sound);
                     break;
                 case "json":
-                    icon.set(Icons.File.Json);
+                    cell.setIcon(Icons.File.Json);
                     break;
                 default:
-                    icon.set(Icons.File.File);
+                    cell.setIcon(Icons.File.File);
                     break;
             }
         }

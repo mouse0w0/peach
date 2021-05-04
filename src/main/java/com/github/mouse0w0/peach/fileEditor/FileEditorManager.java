@@ -1,9 +1,11 @@
 package com.github.mouse0w0.peach.fileEditor;
 
 import com.github.mouse0w0.peach.file.FileAppearances;
+import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.wm.WindowManager;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -59,17 +61,14 @@ public class FileEditorManager {
     private void doOpen(Path file, FileEditorProvider provider) {
         FileEditor fileEditor = provider.create(project, file);
 
-        ImageView imageView = new ImageView();
-        Tab tab = new Tab(null, fileEditor.getNode());
+        FileTab tab = new FileTab(null, fileEditor.getNode());
         tab.getProperties().put(FileEditor.class, fileEditor);
-        tab.setGraphic(imageView);
-
-        FileAppearances.apply(file, tab.textProperty(), imageView.imageProperty());
+        FileAppearances.apply(file, tab);
 
         String name = fileEditor.getName();
         if (name != null) tab.setText(FileUtils.getFileName(file));
         Image icon = fileEditor.getIcon();
-        if (icon != null) imageView.setImage(icon);
+        if (icon != null) tab.setIcon(icon);
 
         tab.setClosable(true);
         tab.setOnCloseRequest(event -> {
@@ -101,5 +100,32 @@ public class FileEditorManager {
         FileEditor fileEditor = (FileEditor) tab.getProperties().get(FileEditor.class);
         fileEditor.dispose();
         return true;
+    }
+
+    private static class FileTab extends Tab implements FileCell {
+        private ImageView imageView;
+
+        public FileTab(String text, Node content) {
+            super(text, content);
+        }
+
+        @Override
+        public Image getIcon() {
+            return imageView == null ? null :
+                    (getGraphic() != imageView ? null : imageView.getImage());
+        }
+
+        @Override
+        public void setIcon(Image icon) {
+            if (imageView == null) {
+                imageView = new ImageView(icon);
+            }
+
+            imageView.setImage(icon);
+
+            if (getGraphic() != imageView) {
+                setGraphic(imageView);
+            }
+        }
     }
 }

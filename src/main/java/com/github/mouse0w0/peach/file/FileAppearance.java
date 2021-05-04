@@ -1,9 +1,6 @@
 package com.github.mouse0w0.peach.file;
 
 import com.github.mouse0w0.peach.extension.ExtensionPoint;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.StringProperty;
-import javafx.scene.image.Image;
 
 import java.nio.file.Path;
 
@@ -12,5 +9,5 @@ public interface FileAppearance {
 
     boolean accept(Path file);
 
-    void apply(Path file, StringProperty text, ObjectProperty<Image> icon);
+    void apply(Path file, FileCell cell);
 }
