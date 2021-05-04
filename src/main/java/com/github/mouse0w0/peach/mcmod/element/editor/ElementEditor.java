@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.fileEditor.BaseFileEditorEx;
+import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.project.Project;
@@ -8,7 +8,7 @@ import javafx.scene.Node;
 
 import javax.annotation.Nonnull;
 
-public abstract class ElementEditor<T extends Element> extends BaseFileEditorEx {
+public abstract class ElementEditor<T extends Element> extends FileEditorWithButtonBar {
     private final T element;
 
     public ElementEditor(@Nonnull Project project, @Nonnull T element) {
@@ -33,7 +33,7 @@ public abstract class ElementEditor<T extends Element> extends BaseFileEditorEx 
     }
 
     @Override
-    protected void onFinished() {
+    protected void onApply() {
         updateDataModel(element);
         ElementManager.getInstance(getProject()).saveElement(element);
     }

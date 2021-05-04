@@ -12,7 +12,7 @@ import org.apache.commons.lang3.Validate;
 import javax.annotation.Nonnull;
 import java.nio.file.Path;
 
-public abstract class BaseFileEditorEx extends BaseFileEditor {
+public abstract class FileEditorWithButtonBar extends BaseFileEditor {
     private final Project project;
 
     private Node root;
@@ -21,7 +21,7 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
     private Button cancel;
     private Button apply;
 
-    public BaseFileEditorEx(@Nonnull Project project, @Nonnull Path file) {
+    public FileEditorWithButtonBar(@Nonnull Project project, @Nonnull Path file) {
         super(file);
         this.project = Validate.notNull(project);
     }
@@ -32,9 +32,9 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
         return true;
     }
 
-    protected abstract void onFinished();
+    protected abstract void onApply();
 
-    protected void onCancelled() {
+    protected void onCancel() {
         // Nothing to do
     }
 
@@ -45,19 +45,19 @@ public abstract class BaseFileEditorEx extends BaseFileEditor {
 
     public final void finish() {
         if (validate()) {
-            onFinished();
+            onApply();
             FileEditorManager.getInstance(getProject()).close(getFile());
         }
     }
 
     public final void cancel() {
-        onCancelled();
+        onCancel();
         FileEditorManager.getInstance(getProject()).close(getFile());
     }
 
     public final void apply() {
         if (validate()) {
-            onFinished();
+            onApply();
         }
     }
 
