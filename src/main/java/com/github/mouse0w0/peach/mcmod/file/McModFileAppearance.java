@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
+import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
@@ -42,14 +43,14 @@ public class McModFileAppearance implements FileAppearance {
             }
         } else {
             String fileName = FileUtils.getFileName(file);
-            if ("project.forge.json".equals(fileName)) {
+            if (McModMetadata.FILE_NAME.equals(fileName)) {
                 cell.setText(I18n.translate("mod.file.metadata"));
                 cell.setIcon(Icons.File.Forge);
                 return true;
             } else {
                 ElementType<?> type = ElementRegistry.getInstance().getElementType(file);
                 if (type != null) {
-                    cell.setText(StringUtils.substringBefore(fileName, '.'));
+                    cell.setText(StringUtils.substringBefore(fileName, '.') + " (" + I18n.translate(type.getTranslationKey()) + ")");
                     cell.setIcon(Icons.File.ModElement);
                     return true;
                 }
