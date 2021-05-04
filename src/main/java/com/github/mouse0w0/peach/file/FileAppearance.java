@@ -7,7 +7,10 @@ import java.nio.file.Path;
 public interface FileAppearance {
     ExtensionPoint<FileAppearance> EXTENSION_POINT = ExtensionPoint.of("fileAppearance");
 
-    boolean accept(Path file);
-
-    void apply(Path file, FileCell cell);
+    /**
+     * @param file the file.
+     * @param cell the cell of file.
+     * @return if true, it means that the subsequent FileAppearance will be skipped.
+     */
+    boolean apply(Path file, FileCell cell);
 }

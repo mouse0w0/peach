@@ -6,14 +6,10 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class CommonFileAppearance implements FileAppearance {
-    @Override
-    public boolean accept(Path file) {
-        return true;
-    }
+public class StandardFileAppearance implements FileAppearance {
 
     @Override
-    public void apply(Path file, FileCell cell) {
+    public boolean apply(Path file, FileCell cell) {
         String fileName = FileUtils.getFileName(file);
         cell.setText(fileName);
 
@@ -35,5 +31,6 @@ public class CommonFileAppearance implements FileAppearance {
                     break;
             }
         }
+        return false;
     }
 }

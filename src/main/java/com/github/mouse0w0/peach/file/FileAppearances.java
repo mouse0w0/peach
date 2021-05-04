@@ -6,8 +6,7 @@ public final class FileAppearances {
 
     public static void apply(Path file, FileCell cell) {
         for (FileAppearance fileAppearance : FileAppearance.EXTENSION_POINT.getExtensions()) {
-            if (fileAppearance.accept(file)) {
-                fileAppearance.apply(file, cell);
+            if (fileAppearance.apply(file, cell)) {
                 return;
             }
         }

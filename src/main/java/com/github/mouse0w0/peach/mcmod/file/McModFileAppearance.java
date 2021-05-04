@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
+import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
@@ -30,28 +31,13 @@ public class McModFileAppearance implements FileAppearance {
     }
 
     @Override
-    public boolean accept(Path file) {
-        if (Files.isDirectory(file)) {
-            for (Path path : translationKeyMap.keySet()) {
-                if (file.endsWith(path)) return true;
-            }
-            return false;
-        } else {
-            String fileName = FileUtils.getFileName(file);
-            if ("project.forge.json".equals(fileName)) return true;
-
-            return ElementRegistry.getInstance().getElementType(file) != null;
-        }
-    }
-
-    @Override
-    public void apply(Path file, FileCell cell) {
+    public boolean apply(Path file, FileCell cell) {
         if (Files.isDirectory(file)) {
             for (Path path : translationKeyMap.keySet()) {
                 if (file.endsWith(path)) {
                     cell.setText(I18n.translate(translationKeyMap.get(path)));
                     cell.setIcon(Icons.File.Folder);
-                    return;
+                    return true;
                 }
             }
         } else {
@@ -59,10 +45,16 @@ public class McModFileAppearance implements FileAppearance {
             if ("project.forge.json".equals(fileName)) {
                 cell.setText(I18n.translate("mod.file.metadata"));
                 cell.setIcon(Icons.File.Forge);
+                return true;
             } else {
-                cell.setText(StringUtils.substringBefore(fileName, '.'));
-                cell.setIcon(Icons.File.ModElement);
+                ElementType<?> type = ElementRegistry.getInstance().getElementType(file);
+                if (type != null) {
+                    cell.setText(StringUtils.substringBefore(fileName, '.'));
+                    cell.setIcon(Icons.File.ModElement);
+                    return true;
+                }
             }
         }
+        return false;
     }
 }
