@@ -23,7 +23,7 @@ public interface Icons {
     interface View {
         Image Project = load("/icon/file-cabinet.png");
 
-        Image ItemFavorites = load("/icon/bookmark.png");
+        Image ItemFavorites = load("/icon/star.png");
     }
 
     interface File {
