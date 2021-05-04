@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class RenameDialog extends MyDialog<Path> {
+public class RenameDialog extends Dialog<Path> {
 
     private final Path source;
 

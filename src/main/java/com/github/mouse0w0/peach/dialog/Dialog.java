@@ -21,7 +21,7 @@ import javafx.util.Callback;
 import java.util.List;
 import java.util.Optional;
 
-public class MyDialog<R> implements EventTarget {
+public class Dialog<R> implements EventTarget {
 
     private final Stage stage = new Stage();
 
@@ -31,13 +31,13 @@ public class MyDialog<R> implements EventTarget {
 
     private boolean closing;
 
-    public MyDialog() {
+    public Dialog() {
         setResizable(false);
         initModality(Modality.APPLICATION_MODAL);
         getIcons().add(Icons.Peach_16x);
     }
 
-    public MyDialog(ButtonType... buttonTypes) {
+    public Dialog(ButtonType... buttonTypes) {
         this();
         getButtons().addAll(buttonTypes);
     }

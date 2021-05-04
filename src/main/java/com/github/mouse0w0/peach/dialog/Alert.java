@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class Alert extends MyDialog<ButtonType> {
+public class Alert extends Dialog<ButtonType> {
     private final Label label;
 
     public static boolean confirm(String text) {
