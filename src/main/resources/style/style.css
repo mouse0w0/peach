@@ -14,11 +14,13 @@
     -fx-padding: 0;
 }
 
-#welcome > #recent-projects:focused .list-cell:focused {
+#welcome > #recent-projects:focused .list-cell:filled:selected,
+#welcome > #recent-projects:focused .list-cell:odd:filled:selected {
     -fx-background-color: -fx-background;
     -fx-background-insets: 0;
 }
 
+#welcome > #recent-projects .list-cell:odd,
 #welcome > #recent-projects:focused .list-cell:odd {
     -fx-background-color: -peach-foreground-color;
 }
