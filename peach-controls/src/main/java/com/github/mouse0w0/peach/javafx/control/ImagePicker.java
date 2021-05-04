@@ -39,8 +39,14 @@ public class ImagePicker extends Control {
             event.setDropCompleted(true);
         });
         addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (event.getButton() == MouseButton.MIDDLE) setFile(null);
-            else showFileChooser();
+            if (event.getButton() == MouseButton.PRIMARY) {
+                showFileChooser();
+            }
+        });
+        addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
+                setFile(null);
+            }
         });
     }
 
