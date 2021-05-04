@@ -163,6 +163,15 @@ dialog.button.skipAll=跳过所有
 view.Project.text=项目
 view.ItemFavorites.text=物品收藏夹
 
+mod.file.metadata=项目设置
+mod.folder.build=构建文件
+mod.folder.source=源文件
+mod.folder.resource=资源文件
+mod.folder.texture=纹理
+mod.folder.texture.armor=盔甲
+mod.folder.texture.block=方块
+mod.folder.texture.item=物品
+
 mod.element.item=物品
 
 item.properties.title=属性
