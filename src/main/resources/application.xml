@@ -53,6 +53,7 @@
         <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance"/>
         <fileAppearance implementation="com.github.mouse0w0.peach.mcmod.file.McModFileAppearance" order="FIRST"/>
 
+        <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.MetadataFileEditorProvider"/>
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.ElementFileEditorProvider"/>
     </extensions>
 </plugin>

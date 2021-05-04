@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public final class McModDescriptor implements Disposable {
@@ -27,10 +28,15 @@ public final class McModDescriptor implements Disposable {
         this.project = project;
 
         this.metadataFile = project.getPath().resolve(McModMetadata.FILE_NAME);
-        try {
-            this.metadata = JsonUtils.readJson(metadataFile, McModMetadata.class);
-        } catch (IOException e) {
-            LOGGER.error("Failed to read metadata.", e);
+
+        if (Files.exists(metadataFile)) {
+            try {
+                this.metadata = JsonUtils.readJson(metadataFile, McModMetadata.class);
+            } catch (IOException e) {
+                LOGGER.error("Failed to load metadata.", e);
+                this.metadata = new McModMetadata();
+            }
+        } else {
             this.metadata = new McModMetadata();
         }
 

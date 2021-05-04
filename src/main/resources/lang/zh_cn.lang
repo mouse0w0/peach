@@ -82,6 +82,21 @@ dialog.modMetadata.website=网站链接：
 dialog.modMetadata.logo=图标：
 dialog.modMetadata.choose_logo=选择图标文件
 
+metadata.general.title=通用
+metadata.general.name=显示名
+metadata.general.id=唯一名
+metadata.general.version=版本号
+metadata.general.author=作者
+metadata.general.mcVersion=MC版本
+metadata.general.language=语言
+metadata.general.description=描述
+
+metadata.advanced.title=高级
+metadata.advanced.url=模组网址
+metadata.advanced.updateUrl=模组更新网址
+metadata.advanced.credits=鸣谢
+metadata.advanced.logo=图标
+
 dialog.newElement.title=新建模组元素
 dialog.newElement.name=名称：
 dialog.newElement.type=类型：

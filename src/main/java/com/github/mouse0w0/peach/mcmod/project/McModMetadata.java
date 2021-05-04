@@ -11,10 +11,13 @@ public class McModMetadata {
     private String name = "untitled";
     private String id = "untitled";
     private String version = "1.0.0";
-    private String mcVersion = "1.12.2";
-    private String description = "";
     private List<String> authors = Collections.emptyList();
+    private String mcVersion = "1.12.2";
     private Locale language = Locale.getDefault();
+    private String description;
+    private String url;
+    private String updateUrl;
+    private String credits;
 
     public String getName() {
         return name;
@@ -61,7 +64,7 @@ public class McModMetadata {
     }
 
     public String getFirstAuthor() {
-        return authors != null && authors.size() >= 1 ? authors.get(0) : null;
+        return authors != null && authors.size() >= 1 ? authors.get(0) : "";
     }
 
     public void setAuthors(List<String> authors) {
@@ -74,5 +77,29 @@ public class McModMetadata {
 
     public void setLanguage(Locale language) {
         this.language = language;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUpdateUrl() {
+        return updateUrl;
+    }
+
+    public void setUpdateUrl(String updateUrl) {
+        this.updateUrl = updateUrl;
+    }
+
+    public String getCredits() {
+        return credits;
+    }
+
+    public void setCredits(String credits) {
+        this.credits = credits;
     }
 }

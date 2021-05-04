@@ -3,16 +3,15 @@ package com.github.mouse0w0.peach.mcmod.action;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
-import com.github.mouse0w0.peach.mcmod.dialog.ModMetadataDialog;
+import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.wm.WindowManager;
 
 public class OpenProjectSettingsAction extends Action {
     @Override
     public void perform(ActionEvent event) {
         Project project = DataKeys.PROJECT.get(event);
         if (project == null) return;
-        ModMetadataDialog.show(McModDescriptor.getInstance(project), WindowManager.getInstance().getStage(project));
+        FileEditorManager.getInstance(project).open(McModDescriptor.getInstance(project).getMetadataFile());
     }
 }
