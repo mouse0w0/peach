@@ -1,0 +1,431 @@
+package com.github.mouse0w0.peach.mcmod.element.editor;
+
+import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.minecraft.model.McModel;
+import com.github.mouse0w0.peach.form.ColSpan;
+import com.github.mouse0w0.peach.form.Form;
+import com.github.mouse0w0.peach.form.FormView;
+import com.github.mouse0w0.peach.form.Group;
+import com.github.mouse0w0.peach.form.field.*;
+import com.github.mouse0w0.peach.javafx.Check;
+import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
+import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
+import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
+import com.github.mouse0w0.peach.mcmod.ui.form.TextureHandler;
+import com.github.mouse0w0.peach.mcmod.ui.form.ToolAttributesField;
+import com.github.mouse0w0.peach.mcmod.util.ColorUtils;
+import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
+import com.github.mouse0w0.peach.project.Project;
+import javafx.scene.Node;
+import javafx.util.StringConverter;
+import org.joml.primitives.AABBd;
+
+import javax.annotation.Nonnull;
+
+public class BlockEditor extends ElementEditor<MEBlock> {
+    private final IndexManager indexManager;
+
+    private Form form;
+
+    private TextFieldField identifier;
+    private TextFieldField displayName;
+    private ChoiceBoxField<BlockPrototype> prototype;
+    private ComboBoxField<Material> material;
+    private ComboBoxField<ItemGroup> itemGroup;
+    private ComboBoxField<SoundType> soundType;
+    private SpinnerField<Double> hardness;
+    private RadioButtonField unbreakable;
+    private SpinnerField<Double> resistance;
+    private SpinnerField<Double> slipperiness;
+    private SpinnerField<Integer> brightness;
+    private SpinnerField<Integer> opacity;
+    //    private Object boundingBox; // TODO
+    private RadioButtonField noCollision;
+    private RadioButtonField replaceable;
+    private ToolAttributesField harvestTools;
+    private TextAreaField information;
+
+    private SpinnerField<Double> minX;
+    private SpinnerField<Double> minY;
+    private SpinnerField<Double> minZ;
+    private SpinnerField<Double> maxX;
+    private SpinnerField<Double> maxY;
+    private SpinnerField<Double> maxZ;
+
+    private ChoiceBoxField<String> model;
+    private ModelTextureField textures;
+    private RadioButtonField transparency;
+    private ChoiceBoxField<RenderType> renderType;
+    private ChoiceBoxField<OffsetType> offsetType;
+
+//    private Object dropItem; // TODO
+
+    private RadioButtonField doNotRegisterItem;
+    private ComboBoxField<MapColor> mapColor;
+    private ColorPickerField beaconColor;
+    private RadioButtonField beaconBase;
+    private RadioButtonField climbable;
+    private RadioButtonField canConnectRedstone;
+    private SpinnerField<Integer> redstonePower;
+    private ChoiceBoxField<PlantType> canPlantPlant;
+    private SpinnerField<Double> enchantPowerBonus;
+    private SpinnerField<Integer> flammability;
+    private SpinnerField<Integer> fireSpreadSpeed;
+    private ChoiceBoxField<PushReaction> pushReaction;
+    private ChoiceBoxField<PathNodeType> aiPathNodeType;
+//    private Object pickItem; // TODO
+
+    public BlockEditor(@Nonnull Project project, @Nonnull MEBlock element) {
+        super(project, element);
+        indexManager = IndexManager.getInstance(project);
+    }
+
+    @Override
+    protected Node getContent() {
+        form = new Form();
+
+        identifier = new TextFieldField();
+        identifier.getChecks().add(new Check<>(ModUtils::isValidIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalIdentifier")));
+        identifier.setText(I18n.translate("block.properties.identifier"));
+        identifier.setColSpan(ColSpan.HALF);
+
+        displayName = new TextFieldField();
+        displayName.setText(I18n.translate("block.properties.displayName"));
+        displayName.setColSpan(ColSpan.HALF);
+
+        prototype = new ChoiceBoxField<>();
+        prototype.setText(I18n.translate("block.properties.prototype"));
+        prototype.setConverter(LocalizableConverter.instance());
+        prototype.getItems().addAll(BlockPrototype.values());
+        prototype.setColSpan(ColSpan.HALF);
+
+        material = new ComboBoxField<>();
+        material.setText(I18n.translate("block.properties.material"));
+        material.setCellFactory(LocalizableExCell.factory());
+        material.setButtonCell(LocalizableExCell.create());
+        material.getItems().addAll(indexManager.getIndex(Indexes.MATERIALS).values());
+        material.setColSpan(ColSpan.HALF);
+
+        itemGroup = new ComboBoxField<>();
+        itemGroup.setText(I18n.translate("block.properties.itemGroup"));
+        itemGroup.setCellFactory(LocalizableExCell.factory());
+        itemGroup.setButtonCell(LocalizableExCell.create());
+        itemGroup.getItems().addAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
+        itemGroup.setColSpan(ColSpan.HALF);
+
+        soundType = new ComboBoxField<>();
+        soundType.setText(I18n.translate("block.properties.soundType"));
+        soundType.setCellFactory(LocalizableExCell.factory());
+        soundType.setButtonCell(LocalizableExCell.create());
+        soundType.getItems().addAll(indexManager.getIndex(Indexes.SOUND_TYPES).values());
+        soundType.setColSpan(ColSpan.HALF);
+
+        hardness = new SpinnerField<>(0D, Double.MAX_VALUE, 0D);
+        hardness.setText(I18n.translate("block.properties.hardness"));
+        hardness.setColSpan(ColSpan.HALF);
+
+        unbreakable = new RadioButtonField();
+        unbreakable.setText(I18n.translate("block.properties.unbreakable"));
+        unbreakable.setColSpan(ColSpan.HALF);
+
+        resistance = new SpinnerField<>(0D, Double.MAX_VALUE, 0D);
+        resistance.setText(I18n.translate("block.properties.resistance"));
+        resistance.setColSpan(ColSpan.HALF);
+
+        slipperiness = new SpinnerField<>(0D, 1D, 0D);
+        slipperiness.setText(I18n.translate("block.properties.slipperiness"));
+        slipperiness.setColSpan(ColSpan.HALF);
+
+        brightness = new SpinnerField<>(0, 15, 0);
+        brightness.setText(I18n.translate("block.properties.brightness"));
+        brightness.setColSpan(ColSpan.HALF);
+
+        opacity = new SpinnerField<>(0, 255, 0);
+        opacity.setText(I18n.translate("block.properties.opacity"));
+        opacity.setColSpan(ColSpan.HALF);
+
+        noCollision = new RadioButtonField();
+        noCollision.setText(I18n.translate("block.properties.noCollision"));
+        noCollision.setColSpan(ColSpan.HALF);
+
+        replaceable = new RadioButtonField();
+        replaceable.setText(I18n.translate("block.properties.replaceable"));
+        replaceable.setColSpan(ColSpan.HALF);
+
+        harvestTools = new ToolAttributesField();
+        harvestTools.setText(I18n.translate("block.properties.harvestTools"));
+
+        information = new TextAreaField();
+        information.setText(I18n.translate("block.properties.information"));
+
+        Group properties = new Group();
+        properties.setText(I18n.translate("block.properties.title"));
+        properties.getElements().addAll(
+                identifier, displayName,
+                prototype, material,
+                itemGroup, soundType,
+                hardness, unbreakable,
+                resistance, slipperiness,
+                brightness, opacity,
+//                boundingBox,
+                noCollision, replaceable,
+                harvestTools,
+                information);
+
+        model = new ChoiceBoxField<>();
+        model.setText(I18n.translate("block.appearance.model"));
+        model.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return I18n.translate("block.model." + object, object);
+            }
+
+            @Override
+            public String fromString(String string) {
+                throw new UnsupportedOperationException();
+            }
+        });
+
+        textures = new ModelTextureField(TextureHandler.ofWithoutExt(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
+        textures.setText(I18n.translate("item.appearance.texture"));
+        model.valueProperty().addListener(observable -> {
+            McModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
+            textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);
+        });
+
+        transparency = new RadioButtonField();
+        transparency.setText(I18n.translate("block.appearance.transparency"));
+        transparency.setColSpan(ColSpan.HALF);
+
+        renderType = new ChoiceBoxField<>();
+        renderType.setText(I18n.translate("block.appearance.renderType"));
+        renderType.setConverter(LocalizableConverter.instance());
+        renderType.getItems().addAll(RenderType.values());
+        renderType.setColSpan(ColSpan.HALF);
+
+        offsetType = new ChoiceBoxField<>();
+        offsetType.setText(I18n.translate("block.appearance.offsetType"));
+        offsetType.setConverter(LocalizableConverter.instance());
+        offsetType.getItems().addAll(OffsetType.values());
+        offsetType.setColSpan(ColSpan.HALF);
+
+        Group appearance = new Group();
+        appearance.setText(I18n.translate("block.appearance.title"));
+        appearance.getElements().addAll(
+                model,
+                textures,
+                transparency, renderType,
+                offsetType
+        );
+
+        minX = new SpinnerField<>(0D, 1D, 0D);
+        minX.setText(I18n.translate("block.collision.minX"));
+        minX.setColSpan(ColSpan.THIRD);
+
+        minY = new SpinnerField<>(0D, 1.5D, 0D);
+        minY.setText(I18n.translate("block.collision.minY"));
+        minY.setColSpan(ColSpan.THIRD);
+
+        minZ = new SpinnerField<>(0D, 1D, 0D);
+        minZ.setText(I18n.translate("block.collision.minZ"));
+        minZ.setColSpan(ColSpan.THIRD);
+
+        maxX = new SpinnerField<>(0D, 1D, 1D);
+        maxX.setText(I18n.translate("block.collision.maxX"));
+        maxX.setColSpan(ColSpan.THIRD);
+
+        maxY = new SpinnerField<>(0D, 1.5D, 1D);
+        maxY.setText(I18n.translate("block.collision.maxY"));
+        maxY.setColSpan(ColSpan.THIRD);
+
+        maxZ = new SpinnerField<>(0D, 1D, 1D);
+        maxZ.setText(I18n.translate("block.collision.maxZ"));
+        maxZ.setColSpan(ColSpan.THIRD);
+
+        Group collision = new Group();
+        collision.setText(I18n.translate("block.collision.title"));
+        collision.getElements().addAll(
+                minX, minY, minZ,
+                maxX, maxY, maxZ);
+
+        doNotRegisterItem = new RadioButtonField();
+        doNotRegisterItem.setText(I18n.translate("block.extra.doNotRegisterItem"));
+        doNotRegisterItem.setColSpan(ColSpan.HALF);
+
+        mapColor = new ComboBoxField<>();
+        mapColor.setText(I18n.translate("block.extra.mapColor"));
+        mapColor.setCellFactory(LocalizableExCell.factory());
+        mapColor.setButtonCell(LocalizableExCell.create());
+        mapColor.getItems().addAll(indexManager.getIndex(Indexes.MAP_COLORS).values());
+        mapColor.setColSpan(ColSpan.HALF);
+
+        beaconColor = new ColorPickerField();
+        beaconColor.setText(I18n.translate("block.extra.beaconColor"));
+        beaconColor.setColSpan(ColSpan.HALF);
+
+        beaconBase = new RadioButtonField();
+        beaconBase.setText(I18n.translate("block.extra.beaconBase"));
+        beaconBase.setColSpan(ColSpan.HALF);
+
+        climbable = new RadioButtonField();
+        climbable.setText(I18n.translate("block.extra.climbable"));
+//        climbable.setColSpan(ColSpan.HALF);
+
+        canConnectRedstone = new RadioButtonField();
+        canConnectRedstone.setText(I18n.translate("block.extra.canConnectRedstone"));
+        canConnectRedstone.setColSpan(ColSpan.HALF);
+
+        redstonePower = new SpinnerField<>(0, 15, 0);
+        redstonePower.setText(I18n.translate("block.extra.redstonePower"));
+        redstonePower.setColSpan(ColSpan.HALF);
+
+        canPlantPlant = new ChoiceBoxField<>();
+        canPlantPlant.setText(I18n.translate("block.extra.canPlantPlant"));
+        canPlantPlant.setConverter(LocalizableConverter.instance());
+        canPlantPlant.getItems().addAll(PlantType.values());
+        canPlantPlant.setColSpan(ColSpan.HALF);
+
+        enchantPowerBonus = new SpinnerField<>(0, Double.MAX_VALUE, 0);
+        enchantPowerBonus.setText(I18n.translate("block.extra.enchantPowerBonus"));
+        enchantPowerBonus.setColSpan(ColSpan.HALF);
+
+        flammability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        flammability.setText(I18n.translate("block.extra.flammability"));
+        flammability.setColSpan(ColSpan.HALF);
+
+        fireSpreadSpeed = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        fireSpreadSpeed.setText(I18n.translate("block.extra.fireSpreadSpeed"));
+        fireSpreadSpeed.setColSpan(ColSpan.HALF);
+
+        pushReaction = new ChoiceBoxField<>();
+        pushReaction.setText(I18n.translate("block.extra.pushReaction"));
+        pushReaction.setConverter(LocalizableConverter.instance());
+        pushReaction.getItems().addAll(PushReaction.values());
+        pushReaction.setColSpan(ColSpan.HALF);
+
+        aiPathNodeType = new ChoiceBoxField<>();
+        aiPathNodeType.setText(I18n.translate("block.extra.aiPathNodeType"));
+        aiPathNodeType.setConverter(LocalizableConverter.instance());
+        aiPathNodeType.getItems().addAll(PathNodeType.values());
+        aiPathNodeType.setColSpan(ColSpan.HALF);
+
+        Group extra = new Group();
+        extra.setText(I18n.translate("block.extra.title"));
+        extra.getElements().addAll(
+                doNotRegisterItem, mapColor,
+                beaconColor, beaconBase,
+                climbable,
+                canConnectRedstone, redstonePower,
+                canPlantPlant, enchantPowerBonus,
+                flammability, fireSpreadSpeed,
+                pushReaction, aiPathNodeType
+        );
+
+        form.getGroups().addAll(properties, appearance, collision, extra);
+
+        return new FormView(form);
+    }
+
+    @Override
+    protected void initialize(MEBlock element) {
+        identifier.setValue(element.getIdentifier());
+        displayName.setValue(element.getDisplayName());
+        prototype.setValue(element.getPrototype());
+        material.setValue(element.getMaterial());
+        itemGroup.setValue(element.getItemGroup());
+        soundType.setValue(element.getSoundType());
+        hardness.setValue(element.getHardness());
+        unbreakable.setValue(element.isUnbreakable());
+        resistance.setValue(element.getResistance());
+        slipperiness.setValue(element.getSlipperiness());
+        brightness.setValue(element.getBrightness());
+        opacity.setValue(element.getOpacity());
+        noCollision.setValue(element.isNoCollision());
+        replaceable.setValue(element.isReplaceable());
+        harvestTools.setValue(element.getHarvestTools());
+        information.setValue(element.getInformation());
+
+        model.setValue(element.getModel());
+        transparency.setValue(element.isTransparency());
+        renderType.setValue(element.getRenderType());
+        offsetType.setValue(element.getOffsetType());
+
+        AABBd boundingBox = element.getBoundingBox();
+        minX.setValue(boundingBox.minX);
+        minY.setValue(boundingBox.minY);
+        minZ.setValue(boundingBox.minZ);
+        maxX.setValue(boundingBox.maxX);
+        maxY.setValue(boundingBox.maxY);
+        maxZ.setValue(boundingBox.maxZ);
+
+        doNotRegisterItem.setValue(element.isDoNotRegisterItem());
+        mapColor.setValue(element.getMapColor());
+        beaconColor.setValue(ColorUtils.toColor(element.getBeaconColor()));
+        beaconBase.setValue(element.isBeaconBase());
+        climbable.setValue(element.isClimbable());
+        canConnectRedstone.setValue(element.isCanConnectRedstone());
+        redstonePower.setValue(element.getRedstonePower());
+        canPlantPlant.setValue(element.getCanPlantPlant());
+        enchantPowerBonus.setValue(element.getEnchantPowerBonus());
+        flammability.setValue(element.getFlammability());
+        fireSpreadSpeed.setValue(element.getFireSpreadSpeed());
+        pushReaction.setValue(element.getPushReaction());
+        aiPathNodeType.setValue(element.getAiPathNodeType());
+    }
+
+    @Override
+    protected void updateDataModel(MEBlock element) {
+        element.setIdentifier(identifier.getValue());
+        element.setDisplayName(displayName.getValue());
+        element.setPrototype(prototype.getValue());
+        element.setMaterial(material.getValue());
+        element.setItemGroup(itemGroup.getValue());
+        element.setSoundType(soundType.getValue());
+        element.setHardness(hardness.getValue());
+        element.setUnbreakable(unbreakable.getValue());
+        element.setResistance(resistance.getValue());
+        element.setSlipperiness(slipperiness.getValue());
+        element.setBrightness(brightness.getValue());
+        element.setOpacity(opacity.getValue());
+        element.setNoCollision(noCollision.getValue());
+        element.setReplaceable(replaceable.getValue());
+        element.setHarvestTools(harvestTools.getValue());
+        element.setInformation(information.getValue());
+
+        element.setModel(model.getValue());
+        element.setTransparency(transparency.getValue());
+        element.setRenderType(renderType.getValue());
+        element.setOffsetType(offsetType.getValue());
+
+        element.setBoundingBox(new AABBd(
+                minX.getValue(), minY.getValue(), minZ.getValue(),
+                maxX.getValue(), maxY.getValue(), maxZ.getValue()));
+
+        element.setDoNotRegisterItem(doNotRegisterItem.getValue());
+        element.setMapColor(mapColor.getValue());
+        element.setBeaconColor(ColorUtils.fromColor(beaconColor.getValue()));
+        element.setBeaconBase(beaconBase.getValue());
+        element.setClimbable(climbable.getValue());
+        element.setCanConnectRedstone(canConnectRedstone.getValue());
+        element.setRedstonePower(redstonePower.getValue());
+        element.setCanPlantPlant(canPlantPlant.getValue());
+        element.setFlammability(flammability.getValue());
+        element.setFireSpreadSpeed(fireSpreadSpeed.getValue());
+        element.setPushReaction(pushReaction.getValue());
+        element.setAiPathNodeType(aiPathNodeType.getValue());
+    }
+
+    @Override
+    protected boolean validate() {
+        return form.validate();
+    }
+}

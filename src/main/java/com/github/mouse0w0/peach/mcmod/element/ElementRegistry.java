@@ -18,6 +18,7 @@ public class ElementRegistry {
     }
 
     public ElementRegistry() {
+        register(ElementTypes.BLOCK);
         register(ElementTypes.ITEM);
         register(ElementTypes.ITEM_GROUP);
         register(ElementTypes.CRAFTING_RECIPE);
