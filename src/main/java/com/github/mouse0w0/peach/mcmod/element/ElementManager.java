@@ -42,8 +42,6 @@ public final class ElementManager extends IndexProvider {
 
     private final Path previewCache;
 
-    private ElementView elementView;
-
     public static ElementManager getInstance(Project project) {
         return project.getService(ElementManager.class);
     }
@@ -192,12 +190,5 @@ public final class ElementManager extends IndexProvider {
             getIndex(Indexes.ITEM_GROUPS).put(meItemGroup.getIdentifier(), itemGroup);
             cachedElement.put(file, meItemGroup.getIdentifier());
         }
-    }
-
-    public ElementView getElementView() {
-        if (elementView == null) {
-            elementView = new ElementView(this);
-        }
-        return elementView;
     }
 }
