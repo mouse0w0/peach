@@ -6,10 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
-import javafx.event.ActionEvent;
-import javafx.event.EventDispatchChain;
-import javafx.event.EventHandler;
-import javafx.event.EventTarget;
+import javafx.event.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -144,7 +141,6 @@ public class Dialog<R> implements EventTarget {
 
     public void setScene(Scene value) {
         stage.setScene(value);
-        sizeToScene();
     }
 
     public void show() {
@@ -180,17 +176,17 @@ public class Dialog<R> implements EventTarget {
         return stage.getOwner();
     }
 
-    public void setFullScreen(boolean value) {
-        stage.setFullScreen(value);
-    }
-
-    public boolean isFullScreen() {
-        return stage.isFullScreen();
-    }
-
-    public ReadOnlyBooleanProperty fullScreenProperty() {
-        return stage.fullScreenProperty();
-    }
+//    public void setFullScreen(boolean value) {
+//        stage.setFullScreen(value);
+//    }
+//
+//    public boolean isFullScreen() {
+//        return stage.isFullScreen();
+//    }
+//
+//    public ReadOnlyBooleanProperty fullScreenProperty() {
+//        return stage.fullScreenProperty();
+//    }
 
     public ObservableList<Image> getIcons() {
         return stage.getIcons();
@@ -541,37 +537,37 @@ public class Dialog<R> implements EventTarget {
         close();
     }
 
-//    public void setEventDispatcher(EventDispatcher value) {
-//        stage.setEventDispatcher(value);
-//    }
-//
-//    public EventDispatcher getEventDispatcher() {
-//        return stage.getEventDispatcher();
-//    }
-//
-//    public ObjectProperty<EventDispatcher> eventDispatcherProperty() {
-//        return stage.eventDispatcherProperty();
-//    }
-//
-//    public <T extends Event> void addEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
-//        stage.addEventHandler(eventType, eventHandler);
-//    }
-//
-//    public <T extends Event> void removeEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
-//        stage.removeEventHandler(eventType, eventHandler);
-//    }
-//
-//    public <T extends Event> void addEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
-//        stage.addEventFilter(eventType, eventFilter);
-//    }
-//
-//    public <T extends Event> void removeEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
-//        stage.removeEventFilter(eventType, eventFilter);
-//    }
-//
-//    public void fireEvent(Event event) {
-//        stage.fireEvent(event);
-//    }
+    public void setEventDispatcher(EventDispatcher value) {
+        stage.setEventDispatcher(value);
+    }
+
+    public EventDispatcher getEventDispatcher() {
+        return stage.getEventDispatcher();
+    }
+
+    public ObjectProperty<EventDispatcher> eventDispatcherProperty() {
+        return stage.eventDispatcherProperty();
+    }
+
+    public <T extends Event> void addEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+        stage.addEventHandler(eventType, eventHandler);
+    }
+
+    public <T extends Event> void removeEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+        stage.removeEventHandler(eventType, eventHandler);
+    }
+
+    public <T extends Event> void addEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
+        stage.addEventFilter(eventType, eventFilter);
+    }
+
+    public <T extends Event> void removeEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
+        stage.removeEventFilter(eventType, eventFilter);
+    }
+
+    public void fireEvent(Event event) {
+        stage.fireEvent(event);
+    }
 
     public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
         return stage.buildEventDispatchChain(tail);
