@@ -13,7 +13,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.nio.file.Path;
 
@@ -24,12 +23,11 @@ public class NewProjectUI extends BorderPane {
     @FXML
     private FilePicker path;
 
-    public static void show(Window window) {
+    public static void show() {
         NewProjectUI newProject = new NewProjectUI();
         Stage stage = new Stage();
         stage.setScene(new Scene(newProject));
         stage.setTitle(I18n.translate("dialog.newProject.title"));
-        stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
