@@ -52,7 +52,7 @@ dialog.itemChooser.mode.oreDict=矿物词典
 dialog.newProject.title=新建项目
 dialog.newProject.name=项目名称：
 dialog.newProject.path=项目路径：
-dialog.newProject.notEmpty=项目文件夹非空，是否确认要在此创建项目？
+dialog.newProject.notEmpty=文件夹 %1$s 非空，确认在此文件夹创建项目？
 fileChooser.newProject.title=选择项目文件夹
 
 metadata.general.title=通用

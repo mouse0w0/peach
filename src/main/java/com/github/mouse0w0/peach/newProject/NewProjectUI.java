@@ -47,7 +47,8 @@ public class NewProjectUI extends BorderPane {
         Path folder = path.toPath();
         if (folder == null) return; // TODO: show alert
         if (FileUtils.isNotEmpty(folder)) {
-            if (!Alert.confirm(I18n.translate("dialog.newProject.notEmpty"))) return;
+            // FIXME: fix the content cannot be display until resize the window.
+            if (!Alert.confirm(I18n.format("dialog.newProject.notEmpty", FileUtils.getFileName(folder)))) return;
         }
         ProjectManager.getInstance().createProject(name.getText(), folder);
     }
