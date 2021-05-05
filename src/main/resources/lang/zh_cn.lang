@@ -1,13 +1,3 @@
-common.ok=确认
-common.finish=完成
-common.cancel=取消
-common.yes=是
-common.no=否
-common.save=保存
-common.open=打开
-common.remove=移除
-common.delete=删除
-
 group.File.text=文件
 group.New.text=新建...
 action.NewProject.text=项目
