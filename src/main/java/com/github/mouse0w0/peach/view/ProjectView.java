@@ -242,7 +242,6 @@ public class ProjectView implements Disposable, DataProvider {
                 }
             });
             setOnDragExited(event -> pseudoClassStateChanged(DROP_HOVER, false));
-            DataManager.getInstance().registerDataProvider(this, this);
         }
 
         @Override

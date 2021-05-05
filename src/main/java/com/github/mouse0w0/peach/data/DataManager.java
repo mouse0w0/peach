@@ -40,6 +40,7 @@ public class DataManager {
     }
 
     public DataProvider getDataProvider(@Nonnull Object o) {
+        if (o instanceof DataProvider) return (DataProvider) o;
         Map<Object, Object> properties = getProperties(o);
         return properties != null ? (DataProvider) properties.get(DataProvider.class) : null;
     }
