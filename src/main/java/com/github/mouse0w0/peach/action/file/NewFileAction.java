@@ -28,7 +28,7 @@ public class NewFileAction extends Action {
                 .showAndWait()
                 .ifPresent(directoryName -> {
                     try {
-                        Files.createDirectories(folder.resolve(directoryName));
+                        Files.createFile(folder.resolve(directoryName));
                     } catch (FileAlreadyExistsException e) {
                         Alert.error(I18n.translate("dialog.newFile.title"),
                                 I18n.format("dialog.newFile.error.alreadyExists", directoryName));
