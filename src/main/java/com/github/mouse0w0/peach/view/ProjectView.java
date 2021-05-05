@@ -16,6 +16,7 @@ import com.github.mouse0w0.peach.util.NioFileWatcher;
 import com.google.common.collect.ImmutableList;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -28,6 +29,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -41,6 +44,8 @@ import java.util.stream.Collectors;
 
 public class ProjectView implements Disposable, DataProvider {
     public static final PseudoClass DROP_HOVER = PseudoClass.getPseudoClass("drop-hover");
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectView.class);
 
     private final Project project;
     private final Path rootPath;
@@ -122,10 +127,18 @@ public class ProjectView implements Disposable, DataProvider {
 
     private TreeItem<Path> createTreeItem(Path path) {
         TreeItem<Path> treeItem = new TreeItem<>(path);
+
         if (Files.isDirectory(path)) {
             treeItem.expandedProperty().addListener(expandedListener);
-            treeItem.getChildren().add(new TreeItem<>());
+            try {
+                if (Files.list(path).findAny().isPresent()) {
+                    treeItem.getChildren().add(new TreeItem<>());
+                }
+            } catch (IOException e) {
+                LOGGER.warn("Failed to access directory: " + path, e);
+            }
         }
+
         itemMap.put(path, treeItem);
         return treeItem;
     }
@@ -148,20 +161,33 @@ public class ProjectView implements Disposable, DataProvider {
     }
 
     private void onFileCreate(Path path) {
-        Path parentPath = path.getParent();
-        TreeItem<Path> parent = expandedItemMap.get(parentPath);
-        if (parent == null) return; // Parent not expanded.
+        Platform.runLater(() -> {
+            Path parentPath = path.getParent();
+            TreeItem<Path> parent = expandedItemMap.get(parentPath);
+            if (parent == null) { // Parent not expanded.
+                parent = itemMap.get(parentPath);
+                if (parent == null) return;
 
-        ObservableList<TreeItem<Path>> children = parent.getChildren();
-        children.add(createTreeItem(path));
-        children.sort(comparator);
+                // Parent can be expanded now.
+                if (parent.getChildren().size() == 0) {
+                    parent.getChildren().add(new TreeItem<>());
+                }
+                return;
+            }
+
+            ObservableList<TreeItem<Path>> children = parent.getChildren();
+            children.add(createTreeItem(path));
+            children.sort(comparator);
+        });
     }
 
     private void onFileDelete(Path path) {
-        TreeItem<Path> treeItem = itemMap.get(path);
-        if (treeItem == null) return;
-        TreeItem<Path> parent = treeItem.getParent();
-        parent.getChildren().remove(treeItem);
+        Platform.runLater(() -> {
+            TreeItem<Path> treeItem = itemMap.get(path);
+            if (treeItem == null) return;
+            TreeItem<Path> parent = treeItem.getParent();
+            parent.getChildren().remove(treeItem);
+        });
     }
 
     @Override
