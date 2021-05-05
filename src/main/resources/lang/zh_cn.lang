@@ -139,24 +139,39 @@ dialog.newDirectory.title=新建文件夹
 dialog.newDirectory.error.alreadyExists=文件夹“%s”已存在。
 
 dialog.delete.title=删除
-dialog.delete.message.file=删除“%s”文件？
-dialog.delete.message.files=删除“%1$s”等%2$s个文件？
-dialog.delete.message.folder=删除“%s”文件夹？
-dialog.delete.message.folders=删除“%1$s”等%3$s个文件夹？
-dialog.delete.message.fileAndFolder=删除“%1$s”等%2$s个文件和%3$s个文件夹？
+dialog.delete.message.file=删除 %s 文件？
+dialog.delete.message.files=删除 %1$s 等%2$s个文件？
+dialog.delete.message.folder=删除 %s 文件夹？
+dialog.delete.message.folders=删除 %1$s 等%3$s个文件夹？
+dialog.delete.message.fileAndFolder=删除 %1$s 等%2$s个文件和%3$s个文件夹？
 
 dialog.rename.title=重命名
 dialog.rename.message.file=重命名文件“%s”为：
 dialog.rename.message.folder=重命名文件夹“%s”为：
 dialog.rename.error.fileAlreadyExists=文件“%s”已存在。
 
+dialog.copy.title=复制
+dialog.copy.message.file=复制 %1$s 文件到 %4$s？
+dialog.copy.message.files=复制 %1$s 等%2$s个文件到 %4$s？
+dialog.copy.message.folder=复制 %1$s 文件夹到 %4$s？
+dialog.copy.message.folders=复制 %1$s 等%3$s个文件夹到 %4$s？
+dialog.copy.message.fileAndFolder=复制 %1$s 等%2$s个文件和%3$s个文件夹到 %4$s？
+
+dialog.move.title=移动
+dialog.move.message.file=移动 %1$s 文件到 %4$s？
+dialog.move.message.files=移动 %1$s 等%2$s个文件到 %4$s？
+dialog.move.message.folder=移动 %1$s 文件夹到 %4$s？
+dialog.move.message.folders=移动 %1$s 等%3$s个文件夹到 %4$s？
+dialog.move.message.fileAndFolder=移动 %1$s 等%2$s个文件和%3$s个文件夹到 %4$s？
+
 dialog.paste.title=贴粘
-dialog.paste.message=“%1$s”已包含同名文件“%2$s”。
-dialog.button.overwrite=覆盖
-dialog.button.rename=重命名
-dialog.button.skip=跳过
-dialog.button.overwriteAll=覆盖所有
-dialog.button.skipAll=跳过所有
+dialog.paste.message=%1$s 已包含同名文件 %2$s。
+
+dialog.paste.button.overwrite=覆盖
+dialog.paste.button.rename=重命名
+dialog.paste.button.skip=跳过
+dialog.paste.button.overwriteAll=覆盖所有
+dialog.paste.button.skipAll=跳过所有
 
 view.Project.text=项目
 view.ItemFavorites.text=物品收藏夹

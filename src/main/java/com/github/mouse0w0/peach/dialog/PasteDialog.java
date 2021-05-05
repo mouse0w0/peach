@@ -5,19 +5,19 @@ import javafx.scene.control.ButtonBar;
 public class PasteDialog extends Alert {
 
     public static final ButtonType OVERWRITE =
-            new ButtonType("dialog.button.overwrite", ButtonBar.ButtonData.OK_DONE);
+            new ButtonType("dialog.paste.button.overwrite", ButtonBar.ButtonData.OK_DONE);
 
     public static final ButtonType RENAME =
-            new ButtonType("dialog.button.rename", ButtonBar.ButtonData.APPLY);
+            new ButtonType("dialog.paste.button.rename", ButtonBar.ButtonData.APPLY);
 
     public static final ButtonType SKIP =
-            new ButtonType("dialog.button.skip", ButtonBar.ButtonData.CANCEL_CLOSE);
+            new ButtonType("dialog.paste.button.skip", ButtonBar.ButtonData.CANCEL_CLOSE);
 
     public static final ButtonType OVERWRITE_ALL =
-            new ButtonType("dialog.button.overwriteAll", ButtonBar.ButtonData.RIGHT);
+            new ButtonType("dialog.paste.button.overwriteAll", ButtonBar.ButtonData.RIGHT);
 
     public static final ButtonType SKIP_ALL =
-            new ButtonType("dialog.button.skipAll", ButtonBar.ButtonData.RIGHT);
+            new ButtonType("dialog.paste.button.skipAll", ButtonBar.ButtonData.RIGHT);
 
     public PasteDialog(String title, String text, boolean multiple) {
         super(title, text);
