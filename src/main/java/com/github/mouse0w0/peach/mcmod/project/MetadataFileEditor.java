@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
-import com.github.mouse0w0.peach.form.Group;
+import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.ChoiceBoxField;
 import com.github.mouse0w0.peach.form.field.TextFieldField;
 import com.github.mouse0w0.peach.javafx.Check;
@@ -98,7 +98,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         description.setText(I18n.translate("metadata.general.description"));
         description.setValue(metadata.getDescription());
 
-        Group general = new Group();
+        Section general = new Section();
         general.setText(I18n.translate("metadata.general.title"));
         general.getElements().addAll(
                 name, id,
@@ -118,7 +118,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         credits.setText(I18n.translate("metadata.advanced.credits"));
         credits.setValue(metadata.getCredits());
 
-        Group advanced = new Group();
+        Section advanced = new Section();
         advanced.setText(I18n.translate("metadata.advanced.title"));
         advanced.getElements().addAll(url, updateUrl, credits);
 

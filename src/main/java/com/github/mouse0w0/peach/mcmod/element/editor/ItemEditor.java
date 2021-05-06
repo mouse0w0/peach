@@ -5,7 +5,7 @@ import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
-import com.github.mouse0w0.peach.form.Group;
+import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
@@ -77,7 +77,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     protected Node getContent() {
         form = new Form();
 
-        Group properties = new Group();
+        Section properties = new Section();
         properties.setText(I18n.translate("item.properties.title"));
 
         identifier = new TextFieldField();
@@ -208,7 +208,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 useAnimation, useDuration,
                 information);
 
-        Group appearance = new Group();
+        Section appearance = new Section();
         appearance.setText(I18n.translate("item.appearance.title"));
 
         model = new ChoiceBoxField<>();
@@ -248,7 +248,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
         appearance.getElements().addAll(model, textures, hasEffect, armorTexture);
 
-        Group extra = new Group();
+        Section extra = new Section();
         extra.setText(I18n.translate("item.extra.title"));
 
         fuelBurnTime = new SpinnerField<>(0, Integer.MAX_VALUE, 0);

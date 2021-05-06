@@ -14,7 +14,7 @@ public class FormTest extends Application {
     public void start(Stage primaryStage) throws Exception {
         Form form = new Form();
 
-        Group properties = new Group();
+        Section properties = new Section();
         properties.setText("Properties");
         properties.setCollapsible(false);
         form.getGroups().add(properties);

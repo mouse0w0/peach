@@ -13,10 +13,6 @@ public class Group {
 
     private ReadOnlyObjectWrapper<Form> form;
 
-    private StringProperty text;
-
-    private BooleanProperty collapsible;
-    private BooleanProperty expanded;
     private BooleanProperty visible;
 
     private StringProperty id;
@@ -25,7 +21,7 @@ public class Group {
     private Node node;
 
     public Group() {
-        getStyleClass().addAll("form-group", "titled-pane");
+        getStyleClass().setAll("form-group", "grid-pane");
 
         getElements().addListener(new ListChangeListener<Element>() {
             @Override
@@ -63,51 +59,6 @@ public class Group {
 
     public ObservableList<Element> getElements() {
         return elements;
-    }
-
-    public final StringProperty textProperty() {
-        if (text == null) {
-            text = new SimpleStringProperty(this, "text");
-        }
-        return text;
-    }
-
-    public final String getText() {
-        return text != null ? text.get() : null;
-    }
-
-    public final void setText(String text) {
-        textProperty().set(text);
-    }
-
-    public final BooleanProperty collapsibleProperty() {
-        if (collapsible == null) {
-            collapsible = new SimpleBooleanProperty(this, "collapsible", false);
-        }
-        return collapsible;
-    }
-
-    public final boolean isCollapsible() {
-        return collapsible != null && collapsible.get();
-    }
-
-    public final void setCollapsible(boolean collapsible) {
-        collapsibleProperty().set(collapsible);
-    }
-
-    public final BooleanProperty expandedProperty() {
-        if (expanded == null) {
-            expanded = new SimpleBooleanProperty(this, "expanded", true);
-        }
-        return expanded;
-    }
-
-    public final boolean isExpanded() {
-        return expanded == null || expanded.get();
-    }
-
-    public final void setExpanded(boolean expanded) {
-        expandedProperty().set(expanded);
     }
 
     public final BooleanProperty visibleProperty() {

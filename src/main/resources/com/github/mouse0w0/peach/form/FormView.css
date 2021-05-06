@@ -11,11 +11,12 @@
     -fx-spacing: 1em;
 }
 
-.form-group > .content {
+.form-section > .content {
     -fx-background-color: white;
 }
 
-.form-group > .content > .grid {
+.form-group,
+.form-section > .content > .grid {
     -fx-padding: 0.75em 0.75em 0.75em 0;
     -fx-vgap: 0.75em;
 }

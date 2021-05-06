@@ -5,7 +5,7 @@ import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
-import com.github.mouse0w0.peach.form.Group;
+import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
@@ -165,7 +165,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         information = new TextAreaField();
         information.setText(I18n.translate("block.properties.information"));
 
-        Group properties = new Group();
+        Section properties = new Section();
         properties.setText(I18n.translate("block.properties.title"));
         properties.getElements().addAll(
                 identifier, displayName,
@@ -218,7 +218,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         offsetType.getItems().addAll(OffsetType.values());
         offsetType.setColSpan(ColSpan.HALF);
 
-        Group appearance = new Group();
+        Section appearance = new Section();
         appearance.setText(I18n.translate("block.appearance.title"));
         appearance.getElements().addAll(
                 model,
@@ -251,7 +251,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         maxZ.setText(I18n.translate("block.collision.maxZ"));
         maxZ.setColSpan(ColSpan.THIRD);
 
-        Group collision = new Group();
+        Section collision = new Section();
         collision.setText(I18n.translate("block.collision.title"));
         collision.getElements().addAll(
                 minX, minY, minZ,
@@ -318,7 +318,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         aiPathNodeType.getItems().addAll(PathNodeType.values());
         aiPathNodeType.setColSpan(ColSpan.HALF);
 
-        Group extra = new Group();
+        Section extra = new Section();
         extra.setText(I18n.translate("block.extra.title"));
         extra.getElements().addAll(
                 doNotRegisterItem, mapColor,
