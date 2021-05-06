@@ -1,12 +1,11 @@
 package com.github.mouse0w0.peach.form;
 
-import javafx.beans.binding.Bindings;
+import com.github.mouse0w0.peach.form.skin.GroupSkin;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.TitledPane;
 
 public class Group {
 
@@ -156,15 +155,7 @@ public class Group {
     }
 
     protected Node createDefaultNode() {
-        TitledPane titledPane = new TitledPane();
-        titledPane.textProperty().bind(textProperty());
-        titledPane.collapsibleProperty().bind(collapsibleProperty());
-        titledPane.expandedProperty().bind(expandedProperty());
-        titledPane.visibleProperty().bind(visibleProperty());
-        titledPane.managedProperty().bind(visibleProperty());
-        titledPane.idProperty().bind(idProperty());
-        Bindings.bindContent(titledPane.getStyleClass(), getStyleClass());
-        return node;
+        return new GroupSkin(this);
     }
 
     public final boolean validate() {
