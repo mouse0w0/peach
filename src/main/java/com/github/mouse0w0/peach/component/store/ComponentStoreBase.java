@@ -20,6 +20,7 @@ public abstract class ComponentStoreBase implements ComponentStore {
         FileUtils.createDirectoriesIfNotExistsSilently(storePath);
     }
 
+    @Override
     public Path getStorePath() {
         return storePath;
     }

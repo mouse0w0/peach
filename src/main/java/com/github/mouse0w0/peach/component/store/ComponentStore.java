@@ -1,10 +1,14 @@
 package com.github.mouse0w0.peach.component.store;
 
-import com.github.mouse0w0.peach.component.PersistentComponent;
+import com.github.mouse0w0.peach.component.PersistentStateComponent;
+
+import java.nio.file.Path;
 
 public interface ComponentStore {
 
-    void loadComponent(PersistentComponent component);
+    Path getStorePath();
 
-    void saveComponent(PersistentComponent component);
+    void loadComponent(PersistentStateComponent component);
+
+    void saveComponent(PersistentStateComponent component);
 }
