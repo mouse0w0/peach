@@ -70,8 +70,8 @@ public abstract class ComponentManagerImpl implements ComponentManager {
     }
 
     protected <T> void registerService(Class<T> classOfT, T service) {
-        if (service instanceof PersistentComponent) {
-            getComponentStore().loadComponent((PersistentComponent) service);
+        if (service instanceof PersistentStateComponent) {
+            getComponentStore().loadComponent((PersistentStateComponent) service);
         }
 
         services.putIfAbsent(classOfT, service);
@@ -116,8 +116,8 @@ public abstract class ComponentManagerImpl implements ComponentManager {
     protected void saveComponents() {
         ComponentStore componentStore = getComponentStore();
         for (Object value : services.values()) {
-            if (value instanceof PersistentComponent) {
-                componentStore.saveComponent((PersistentComponent) value);
+            if (value instanceof PersistentStateComponent) {
+                componentStore.saveComponent((PersistentStateComponent) value);
             }
         }
     }

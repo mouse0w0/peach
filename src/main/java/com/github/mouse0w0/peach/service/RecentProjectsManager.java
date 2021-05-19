@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.service;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.component.PersistentComponent;
+import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecentProjectsManager implements PersistentComponent {
+public class RecentProjectsManager implements PersistentStateComponent {
 
     private final Map<String, RecentProjectInfo> recentProjects = new HashMap<>();
 
@@ -52,17 +52,17 @@ public class RecentProjectsManager implements PersistentComponent {
 
     @Nonnull
     @Override
-    public String getStorageFile() {
+    public String getStoreFile() {
         return "recentProjects.json";
     }
 
     @Override
-    public JsonElement serialize() {
+    public JsonElement saveState() {
         return JsonUtils.toJson(recentProjects.values());
     }
 
     @Override
-    public void deserialize(JsonElement jsonElement) {
+    public void loadState(JsonElement jsonElement) {
         JsonUtils.fromJson(jsonElement, new TypeToken<List<RecentProjectInfo>>() {
         }).forEach(info -> recentProjects.put(info.getPath(), info));
     }

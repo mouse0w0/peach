@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.project.service;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.component.PersistentComponent;
+import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.project.Project;
 import com.google.gson.JsonElement;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FileChooserHelper implements PersistentComponent {
+public class FileChooserHelper implements PersistentStateComponent {
 
     public static final String FILE_CHOOSER_ID = "FileChooserId";
 
@@ -116,19 +116,19 @@ public class FileChooserHelper implements PersistentComponent {
 
     @Nonnull
     @Override
-    public String getStorageFile() {
+    public String getStoreFile() {
         return "fileChooserState.json";
     }
 
     @Override
-    public JsonElement serialize() {
+    public JsonElement saveState() {
         JsonObject object = new JsonObject();
         initialDirectories.forEach((k, v) -> object.addProperty(k, v.getAbsolutePath()));
         return object;
     }
 
     @Override
-    public void deserialize(JsonElement jsonElement) {
+    public void loadState(JsonElement jsonElement) {
         JsonObject object = jsonElement.getAsJsonObject();
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             initialDirectories.put(entry.getKey(), new File(entry.getValue().getAsString()));

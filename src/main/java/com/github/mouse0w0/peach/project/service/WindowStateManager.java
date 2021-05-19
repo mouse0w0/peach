@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.project.service;
 
-import com.github.mouse0w0.peach.component.PersistentComponent;
+import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.common.reflect.TypeToken;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WindowStateManager implements PersistentComponent {
+public class WindowStateManager implements PersistentStateComponent {
 
     private static final String STATE_ID = "StateId";
     private static final String LAST_X = "LastX";
@@ -93,17 +93,17 @@ public class WindowStateManager implements PersistentComponent {
 
     @Nonnull
     @Override
-    public String getStorageFile() {
+    public String getStoreFile() {
         return "windowState.json";
     }
 
     @Override
-    public JsonElement serialize() {
+    public JsonElement saveState() {
         return JsonUtils.toJson(beanMap);
     }
 
     @Override
-    public void deserialize(JsonElement jsonElement) {
+    public void loadState(JsonElement jsonElement) {
         beanMap.putAll(JsonUtils.fromJson(jsonElement, new TypeToken<Map<String, WindowStateBean>>() {
         }));
     }

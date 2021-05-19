@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.component.store;
 
-import com.github.mouse0w0.peach.component.PersistentComponent;
+import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonElement;
@@ -25,27 +25,30 @@ public abstract class ComponentStoreBase implements ComponentStore {
     }
 
     @Override
-    public void loadComponent(PersistentComponent component) {
-        String storageFile = component.getStorageFile();
+    public void loadComponent(PersistentStateComponent component) {
+        String storeFile = component.getStoreFile();
 
-        if (storageFile == null || storageFile.isEmpty()) {
-            LOGGER.error("Storage file not specified, failed to load component {}.", component.getClass());
+        if (storeFile == null || storeFile.isEmpty()) {
+            LOGGER.error("Store file not specified, failed to load component {}.", component.getClass());
             return;
         }
 
-        Path file = getStorePath().resolve(storageFile);
+        Path file = getStorePath().resolve(storeFile);
         if (Files.exists(file)) {
             try {
-                component.deserialize(JsonUtils.readJson(file, JsonElement.class));
+                component.loadState(JsonUtils.readJson(file, JsonElement.class));
             } catch (Exception e) {
                 LOGGER.error("An exception has occurred, failed to load component " + component.getClass() + ".", e);
             }
+        } else {
+            component.noStateLoaded();
         }
+        component.initializeComponent();
     }
 
     @Override
-    public void saveComponent(PersistentComponent component) {
-        String storageFile = component.getStorageFile();
+    public void saveComponent(PersistentStateComponent component) {
+        String storageFile = component.getStoreFile();
 
         if (storageFile == null || storageFile.isEmpty()) {
             LOGGER.error("Storage file not specified, failed to save component {}.", component.getClass());
@@ -54,7 +57,7 @@ public abstract class ComponentStoreBase implements ComponentStore {
 
         Path file = getStorePath().resolve(storageFile);
         try {
-            JsonUtils.writeJson(file, component.serialize());
+            JsonUtils.writeJson(file, component.saveState());
         } catch (Exception e) {
             LOGGER.error("An exception has occurred, failed to save component " + component.getClass() + ".", e);
         }

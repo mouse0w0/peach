@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.view;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
-import com.github.mouse0w0.peach.component.PersistentComponent;
+import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ItemFavoritesView implements PersistentComponent {
+public class ItemFavoritesView implements PersistentStateComponent {
 
     private static ItemFavoritesView getInstance(Project project) {
         return project.getService(ItemFavoritesView.class);
@@ -60,17 +60,17 @@ public class ItemFavoritesView implements PersistentComponent {
 
     @Nonnull
     @Override
-    public String getStorageFile() {
+    public String getStoreFile() {
         return "itemFavorites.json";
     }
 
     @Override
-    public JsonElement serialize() {
+    public JsonElement saveState() {
         return JsonUtils.toJson(items);
     }
 
     @Override
-    public void deserialize(JsonElement jsonElement) {
+    public void loadState(JsonElement jsonElement) {
         items.addAll(JsonUtils.fromJson(jsonElement, new TypeToken<List<ItemRef>>() {
         }));
         itemSet.addAll(items);
