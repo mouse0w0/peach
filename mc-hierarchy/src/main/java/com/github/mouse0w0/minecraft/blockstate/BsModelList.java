@@ -54,6 +54,13 @@ public class BsModelList {
         }
     }
 
+    @Override
+    public String toString() {
+        return "BsModelList{" +
+                "models=" + models +
+                '}';
+    }
+
     public static final class Persistence implements JsonSerializer<BsModelList>, JsonDeserializer<BsModelList> {
 
         @Override
@@ -90,12 +97,5 @@ public class BsModelList {
                     return jsonModels;
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "BsModelList{" +
-                "models=" + models +
-                '}';
     }
 }
