@@ -15,12 +15,38 @@ public class MySingleSelectionModel<T> extends SingleSelectionModel<T> {
         public void onChanged(Change<? extends T> c) {
             if (getItems().isEmpty()) {
                 clearSelection();
-            } else {
-                final int selectedIndex = getSelectedIndex();
+                return;
+            }
+
+            int oldIndex = getSelectedIndex();
+            if (oldIndex == -1) {
+                if (getSelectedItem() != null) {
+                    int newIndex = getItems().indexOf(getSelectedItem());
+                    if (newIndex != -1) {
+                        setSelectedIndex(newIndex);
+                    }
+                }
+                return;
+            }
+
+            int newIndex = oldIndex;
+            while (c.next()) {
+                if (c.getFrom() <= newIndex && newIndex != -1) {
+                    if (c.wasAdded()) {
+                        newIndex += c.getAddedSize();
+                    } else if (c.wasRemoved()) {
+                        newIndex -= c.getRemovedSize();
+                    }
+                }
+            }
+
+            if (oldIndex != newIndex) {
                 final T selectedItem = getSelectedItem();
-                final T currentItem = getModelItem(selectedIndex);
-                if (!Objects.equals(selectedItem, currentItem)) {
-                    setSelectedIndex(getItems().indexOf(selectedItem));
+                final T currentItem = getModelItem(newIndex);
+                if (Objects.equals(selectedItem, currentItem)) {
+                    clearAndSelect(newIndex);
+                } else {
+                    select(selectedItem);
                 }
             }
         }
