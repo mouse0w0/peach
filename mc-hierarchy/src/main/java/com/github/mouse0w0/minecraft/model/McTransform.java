@@ -2,6 +2,7 @@ package com.github.mouse0w0.minecraft.model;
 
 import com.google.gson.*;
 import com.google.gson.annotations.JsonAdapter;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.lang.reflect.Type;
@@ -50,6 +51,19 @@ public class McTransform {
 
     public void setScale(Vector3f scale) {
         this.scale = scale;
+    }
+
+    public Matrix4f getMatrix() {
+        return getMatrix(new Matrix4f());
+    }
+
+    public Matrix4f getMatrix(Matrix4f dest) {
+        return dest.identity()
+                .rotateX(rotation.x())
+                .rotateY(rotation.y())
+                .rotateZ(rotation.z())
+                .translate(translation)
+                .scale(scale);
     }
 
     @Override
