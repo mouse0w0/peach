@@ -8,9 +8,9 @@ import javafx.scene.control.SingleSelectionModel;
 import java.util.Objects;
 
 public class MySingleSelectionModel<T> extends SingleSelectionModel<T> {
-    private final ObservableList<T> items;
+    private ObservableList<T> items;
 
-    private final ListChangeListener<T> listChangeListener = new ListChangeListener<T>() {
+    private final ListChangeListener<T> itemsChangeListener = new ListChangeListener<T>() {
         @Override
         public void onChanged(Change<? extends T> c) {
             if (getItems().isEmpty()) {
@@ -51,25 +51,44 @@ public class MySingleSelectionModel<T> extends SingleSelectionModel<T> {
             }
         }
     };
+    private final WeakListChangeListener<T> weakItemsChangeListener = new WeakListChangeListener<>(itemsChangeListener);
 
     public MySingleSelectionModel(ObservableList<T> items) {
-        this.items = items;
-
-        items.addListener(new WeakListChangeListener<>(listChangeListener));
+        setItems(items);
     }
 
     public final ObservableList<T> getItems() {
         return items;
     }
 
+    public final void setItems(final ObservableList<T> items) {
+        final ObservableList<T> oldItems = this.items;
+        if (oldItems != null) {
+            oldItems.removeListener(weakItemsChangeListener);
+        }
+        this.items = items;
+        int newSelectedIndex = -1;
+        if (items != null) {
+            items.addListener(weakItemsChangeListener);
+            T selectedItem = getSelectedItem();
+            if (selectedItem != null) {
+                newSelectedIndex = items.indexOf(selectedItem);
+            }
+        }
+        setSelectedIndex(newSelectedIndex);
+    }
+
     @Override
     protected T getModelItem(int index) {
-        if (index < 0 || index >= getItemCount()) return null;
+        final ObservableList<T> items = this.items;
+        if (items == null) return null;
+        if (index < 0 || index >= items.size()) return null;
         return items.get(index);
     }
 
     @Override
     protected int getItemCount() {
-        return items.size();
+        final ObservableList<T> items = this.items;
+        return items == null ? 0 : items.size();
     }
 }
