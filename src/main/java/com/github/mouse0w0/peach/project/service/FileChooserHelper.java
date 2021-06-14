@@ -20,6 +20,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class FileChooserHelper implements PersistentStateComponent {
 
@@ -50,10 +51,10 @@ public class FileChooserHelper implements PersistentStateComponent {
     private void onTextInvalidate(Observable observable) {
         StringProperty textProperty = (StringProperty) observable;
         FilePicker filePicker = (FilePicker) textProperty.getBean();
-        File file = filePicker.toFile();
-        if (file != null) {
+        Optional<File> file = filePicker.getFile();
+        if (file.isPresent()) {
             String id = (String) filePicker.getProperties().get(FILE_CHOOSER_ID);
-            File parentFile = file.getParentFile();
+            File parentFile = file.get().getParentFile();
             initialDirectories.put(id, parentFile);
             filePicker.setInitialDirectory(parentFile);
         }

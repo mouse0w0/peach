@@ -87,8 +87,8 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     }
 
     private boolean handleBackground() {
-        Path file = background.toPath();
-        if (file == null || !file.isAbsolute()) return true;
+        Path file = background.getPath().orElse(null);
+        if (file == null) return true;
 
         Path textures = ResourceUtils.getResourcePath(getProject(), TEXTURES);
         if (file.startsWith(textures)) {

@@ -17,6 +17,7 @@ import javafx.util.StringConverter;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 public class FilePicker extends Control {
 
@@ -110,16 +111,16 @@ public class FilePicker extends Control {
         converterProperty().set(converter);
     }
 
-    public final File toFile() {
-        StringConverter<File> converter = getConverter();
-        String text = getText();
-        if (text.isEmpty()) return null;
-        return converter != null ? converter.fromString(text) : new File(text);
+    public final Optional<File> getFile() {
+        final StringConverter<File> converter = getConverter();
+        final String text = getText();
+        if (text.isEmpty()) return Optional.empty();
+        final File file = converter != null ? converter.fromString(text) : new File(text);
+        return file != null && file.isAbsolute() ? Optional.of(file) : Optional.empty();
     }
 
-    public final Path toPath() {
-        File file = toFile();
-        return file != null ? file.toPath() : null;
+    public final Optional<Path> getPath() {
+        return getFile().map(File::toPath);
     }
 
     public final void setFile(File file) {
@@ -245,7 +246,7 @@ public class FilePicker extends Control {
 
     public void showDialog() {
         FilePicker.Type type = getType();
-        File oldFile = toFile();
+        File oldFile = getFile().orElse(null);
         Window owner = getScene().getWindow();
         File file = null;
         if (type == FilePicker.Type.OPEN_DIRECTORY) {
