@@ -158,7 +158,7 @@ public class FileUtils {
 
     public static boolean isEmpty(Path path) {
         try {
-            return Files.list(path).count() == 0;
+            return !Files.list(path).findFirst().isPresent();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -166,7 +166,7 @@ public class FileUtils {
 
     public static boolean isNotEmpty(Path path) {
         try {
-            return Files.list(path).count() > 0;
+            return Files.list(path).findFirst().isPresent();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
