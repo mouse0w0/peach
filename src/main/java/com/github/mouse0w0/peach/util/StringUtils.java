@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.util;
 
-public final class StringUtils {
+public class StringUtils {
 
     public static String substringBefore(String str, char ch) {
         int i = str.indexOf(ch);
@@ -29,6 +29,15 @@ public final class StringUtils {
     public static boolean hasUpperCase(String str) {
         for (char c : str.toCharArray()) {
             if (Character.isUpperCase(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasLowerCase(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isLowerCase(c)) {
                 return true;
             }
         }
