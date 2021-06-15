@@ -29,6 +29,7 @@ public class McModFileAppearance implements FileAppearance {
         translationKeyMap.put(Paths.get("resources/textures/armors"), "mod.folder.texture.armor");
         translationKeyMap.put(Paths.get("resources/textures/blocks"), "mod.folder.texture.block");
         translationKeyMap.put(Paths.get("resources/textures/items"), "mod.folder.texture.item");
+        translationKeyMap.put(Paths.get("resources/textures/gui"), "mod.folder.texture.gui");
     }
 
     @Override
