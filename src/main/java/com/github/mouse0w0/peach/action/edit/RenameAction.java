@@ -23,7 +23,7 @@ public class RenameAction extends Action {
         Path path = DataKeys.PATH.get(event);
         if (path == null) return;
 
-        Optional<Path> result = new RenameDialog(path).showAndWait();
+        Optional<Path> result = RenameDialog.create(path).showAndWait();
         if (result.isPresent()) {
             Path target = result.get();
             try {

@@ -88,7 +88,7 @@ public class PasteExecutor implements Runnable {
                 copyOrMove(source, target);
                 return;
             } else if (buttonType == PasteDialog.RENAME) {
-                target = new RenameDialog(target).showAndWait().orElse(null);
+                target = RenameDialog.create(target).showAndWait().orElse(null);
                 if (target == null) return;
             }
         }
