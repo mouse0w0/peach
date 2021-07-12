@@ -81,7 +81,7 @@ public class RenameDialog<T> extends Dialog<T> {
 
         addEventFilter(WindowEvent.WINDOW_SHOWN, event -> Platform.runLater(() -> {
             editor.requestFocus();
-            editor.selectRange(0, isDirectory ? editor.getText().lastIndexOf('.') : editor.getLength());
+            editor.selectRange(0, isDirectory ? editor.getLength() : editor.getText().indexOf('.'));
         }));
     }
 
