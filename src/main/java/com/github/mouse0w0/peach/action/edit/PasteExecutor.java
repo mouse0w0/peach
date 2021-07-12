@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.dialog.RenameDialog;
+import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,42 +68,39 @@ public class PasteExecutor implements Runnable {
 
         while (Files.exists(target)) {
             if (skipAll) return;
-            if (!overwriteAll) {
-                ButtonType buttonType = new PasteDialog(I18n.translate("dialog.paste.title"),
-                        I18n.format("dialog.paste.message", folder, source.getFileName()), multiple)
-                        .showAndWait().orElse(PasteDialog.SKIP);
-                if (buttonType == PasteDialog.SKIP) {
-                    return;
-                } else if (buttonType == PasteDialog.SKIP_ALL) {
-                    skipAll = true;
-                    return;
-                } else if (buttonType == PasteDialog.OVERWRITE_ALL) {
-                    overwriteAll = true;
-                } else if (buttonType == PasteDialog.RENAME) {
-                    target = new RenameDialog(target).showAndWait().orElse(null);
-                    if (target == null) return;
-                    else continue;
-                }
-                forceCopyOrMove(source, target);
+            if (overwriteAll) {
+                copyOrMove(source, target);
+                return;
+            }
+            ButtonType buttonType = new PasteDialog(I18n.translate("dialog.paste.title"),
+                    I18n.format("dialog.paste.message", folder, source.getFileName()), multiple)
+                    .showAndWait().orElse(PasteDialog.SKIP);
+            if (buttonType == PasteDialog.SKIP) {
+                return;
+            } else if (buttonType == PasteDialog.SKIP_ALL) {
+                skipAll = true;
+                return;
+            } else if (buttonType == PasteDialog.OVERWRITE) {
+                copyOrMove(source, target);
+                return;
+            } else if (buttonType == PasteDialog.OVERWRITE_ALL) {
+                overwriteAll = true;
+                copyOrMove(source, target);
+                return;
+            } else if (buttonType == PasteDialog.RENAME) {
+                target = new RenameDialog(target).showAndWait().orElse(null);
+                if (target == null) return;
             }
         }
 
         copyOrMove(source, target);
     }
 
-    private void forceCopyOrMove(Path source, Path target) throws IOException {
-        if (move) {
-            Files.move(source, target, REPLACE_EXISTING);
-        } else {
-            Files.copy(source, target, REPLACE_EXISTING);
-        }
-    }
-
     private void copyOrMove(Path source, Path target) throws IOException {
         if (move) {
-            Files.move(source, target);
+            Files.move(source, target, FileUtils.REPLACE_EXISTING);
         } else {
-            Files.copy(source, target);
+            Files.copy(source, target, FileUtils.REPLACE_EXISTING);
         }
     }
 }
