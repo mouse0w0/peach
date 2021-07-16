@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
-import java.nio.file.*;
-import java.util.Collection;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class FileUtils {
 
@@ -112,16 +113,6 @@ public class FileUtils {
         }
     }
 
-    public static Stream<Path> walk(Collection<Path> paths, FileVisitOption... options) {
-        return paths.stream().flatMap(path -> {
-            try {
-                return Files.walk(path, options);
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
-            }
-        });
-    }
-
     private static final Pattern URL_TRIPLET = Pattern.compile("%[a-fA-F0-9]{2}");
 
     public static String toFileSystemUrlAsString(Path path) {
@@ -172,12 +163,12 @@ public class FileUtils {
         }
     }
 
-    public static String getFileName(Path file) {
-        return file.getFileName().toString();
+    public static String getFileName(Path path) {
+        return path.getFileName().toString();
     }
 
-    public static String getFileNameWithoutExt(Path file) {
-        return StringUtils.substringBeforeLast(file.getFileName().toString(), '.');
+    public static String getFileNameWithoutExt(Path path) {
+        return StringUtils.substringBeforeLast(path.getFileName().toString(), '.');
     }
 
     public static String getFileNameWithoutExt(File file) {
@@ -188,8 +179,12 @@ public class FileUtils {
         return StringUtils.substringBeforeLast(fileName, '.');
     }
 
-    public static String getFileExtension(Path file) {
-        return StringUtils.substringAfterLast(file.getFileName().toString(), '.');
+    public static String getFileExtension(Path path) {
+        return StringUtils.substringAfterLast(path.getFileName().toString(), '.');
+    }
+
+    public static String getFileExtension(File file) {
+        return StringUtils.substringAfterLast(file.getName(), '.');
     }
 
     public static String getFileExtension(String fileName) {
