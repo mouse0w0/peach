@@ -3,10 +3,8 @@ package com.github.mouse0w0.peach.mcmod.util;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.ButtonType;
+import com.github.mouse0w0.peach.dialog.LowercaseRenameDialog;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
-import com.github.mouse0w0.peach.dialog.RenameDialogWithValidator;
-import com.github.mouse0w0.peach.javafx.Check;
-import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -51,9 +49,7 @@ public class ResourceUtils {
         while (true) {
             String fileName = target.getFileName().toString();
             if (StringUtils.hasUpperCase(fileName)) {
-                target = new RenameDialogWithValidator(target, fileName.toLowerCase(),
-                        new Check<>(s -> !StringUtils.hasUpperCase(s), NotificationLevel.ERROR, I18n.translate("")))
-                        .showAndWait().orElse(null);
+                target = LowercaseRenameDialog.create(target, fileName.toLowerCase()).showAndWait().orElse(null);
                 if (target == null) return null;
             } else if (Files.exists(target)) {
                 ButtonType buttonType = new Alert(I18n.translate("dialog.paste.title"),
@@ -63,9 +59,7 @@ public class ResourceUtils {
                 if (buttonType == PasteDialog.OVERWRITE) {
                     return FileUtils.forceCopy(source, target);
                 } else if (buttonType == PasteDialog.RENAME) {
-                    target = new RenameDialogWithValidator(target, fileName.toLowerCase(),
-                            new Check<>(s -> !StringUtils.hasUpperCase(s), NotificationLevel.ERROR, I18n.translate("")))
-                            .showAndWait().orElse(null);
+                    target = LowercaseRenameDialog.create(target, fileName.toLowerCase()).showAndWait().orElse(null);
                     if (target == null) return null;
                 } else {
                     return null;

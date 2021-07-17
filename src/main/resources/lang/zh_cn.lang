@@ -138,6 +138,9 @@ dialog.delete.message.fileAndFolder=删除 %1$s 等%2$s个文件和%3$s个文件
 dialog.rename.title=重命名
 dialog.rename.message.file=重命名文件“%s”为：
 dialog.rename.message.folder=重命名文件夹“%s”为：
+dialog.rename.error.emptyFileName=文件名不能为空
+dialog.rename.error.invalidFileName=文件名不能包含下列字符：\n\t\\ / : * ? " < > |
+dialog.rename.error.uppercaseFileName=文件名不能包含大写字符
 dialog.rename.error.fileAlreadyExists=文件“%s”已存在。
 
 dialog.copy.title=复制

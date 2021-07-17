@@ -5,12 +5,12 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
+import org.controlsfx.control.PopOver;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -26,37 +26,29 @@ public class RenameDialog<T> extends Dialog<T> {
 
     public static RenameDialog<File> create(File file) {
         RenameDialog<File> dialog = new RenameDialog<>(file.getName(), file.getName(), file.isDirectory());
-        dialog.setResultConverter(buttonType -> {
-            ButtonBar.ButtonData data = buttonType == null ? null : buttonType.getButtonData();
-            return data == ButtonBar.ButtonData.OK_DONE ? new File(file.getParent(), dialog.getNewName()) : null;
-        });
+        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton()
+                ? new File(file.getParent(), dialog.getNewName()) : null);
         return dialog;
     }
 
     public static RenameDialog<File> create(File file, String newName) {
         RenameDialog<File> dialog = new RenameDialog<>(file.getName(), newName, file.isDirectory());
-        dialog.setResultConverter(buttonType -> {
-            ButtonBar.ButtonData data = buttonType == null ? null : buttonType.getButtonData();
-            return data == ButtonBar.ButtonData.OK_DONE ? new File(file.getParent(), dialog.getNewName()) : null;
-        });
+        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton()
+                ? new File(file.getParent(), dialog.getNewName()) : null);
         return dialog;
     }
 
     public static RenameDialog<Path> create(Path path) {
         RenameDialog<Path> dialog = new RenameDialog<>(FileUtils.getFileName(path), FileUtils.getFileName(path), Files.isDirectory(path));
-        dialog.setResultConverter(buttonType -> {
-            ButtonBar.ButtonData data = buttonType == null ? null : buttonType.getButtonData();
-            return data == ButtonBar.ButtonData.OK_DONE ? path.getParent().resolve(dialog.getNewName()) : null;
-        });
+        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
+                path.getParent().resolve(dialog.getNewName()) : null);
         return dialog;
     }
 
     public static RenameDialog<Path> create(Path path, String newName) {
         RenameDialog<Path> dialog = new RenameDialog<>(FileUtils.getFileName(path), newName, Files.isDirectory(path));
-        dialog.setResultConverter(buttonType -> {
-            ButtonBar.ButtonData data = buttonType == null ? null : buttonType.getButtonData();
-            return data == ButtonBar.ButtonData.OK_DONE ? path.getParent().resolve(dialog.getNewName()) : null;
-        });
+        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
+                path.getParent().resolve(dialog.getNewName()) : null);
         return dialog;
     }
 
@@ -79,10 +71,7 @@ public class RenameDialog<T> extends Dialog<T> {
 
         setScene(new Scene(vBox));
 
-        addEventFilter(WindowEvent.WINDOW_SHOWN, event -> Platform.runLater(() -> {
-            editor.requestFocus();
-            editor.selectRange(0, isDirectory ? editor.getLength() : editor.getText().indexOf('.'));
-        }));
+        addEventFilter(WindowEvent.WINDOW_SHOWN, event -> Platform.runLater(this::focusAndSelect));
     }
 
     public String getRawName() {
@@ -90,7 +79,7 @@ public class RenameDialog<T> extends Dialog<T> {
     }
 
     public String getNewName() {
-        return editor.getText();
+        return editor.getText().trim();
     }
 
     public boolean isDirectory() {
@@ -103,5 +92,53 @@ public class RenameDialog<T> extends Dialog<T> {
 
     public TextField getEditor() {
         return editor;
+    }
+
+    private void focusAndSelect() {
+        editor.requestFocus();
+        if (isDirectory) {
+            editor.selectAll();
+        } else {
+            int dotIndex = editor.getText().indexOf('.');
+            editor.selectRange(0, dotIndex != -1 ? dotIndex : editor.getLength());
+        }
+    }
+
+    @Override
+    protected void setResultAndClose(ButtonType buttonType, boolean close) {
+        if (buttonType == null || buttonType.getButtonData().isCancelButton()) {
+            super.setResultAndClose(buttonType, close);
+        } else if (getNewName().isEmpty()) {
+            showMessage(I18n.translate("dialog.rename.error.emptyFileName"));
+        } else if (!FileUtils.FILE_NAME_PATTERN.matcher(getNewName()).matches()) {
+            showMessage(I18n.translate("dialog.rename.error.invalidFileName"));
+        } else {
+            super.setResultAndClose(buttonType, close);
+        }
+    }
+
+    private Label popOverLabel;
+    private PopOver popOver;
+
+    protected void showMessage(String message) {
+        if (popOver == null) {
+            popOverLabel = new Label();
+            popOverLabel.setPadding(new Insets(8));
+
+            popOver = new PopOver();
+            popOver.setAutoHide(true);
+            popOver.setAnimated(false);
+            popOver.setDetachable(false);
+            popOver.setArrowLocation(PopOver.ArrowLocation.TOP_CENTER);
+            popOver.setContentNode(popOverLabel);
+
+            editor.textProperty().addListener(observable -> {
+                if (popOver.isShowing()) popOver.hide();
+            });
+        }
+        popOverLabel.setText(message);
+        popOver.show(editor);
+
+        focusAndSelect();
     }
 }
