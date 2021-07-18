@@ -88,7 +88,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
 
     @Override
     protected void updateDataModel(MECraftingRecipe element) {
-        element.setIdentifier(identifier.getText());
+        element.setIdentifier(identifier.getText().trim());
         element.setNamespace(namespace.getValue());
         element.setGroup(group.getValue());
         element.setShapeless(shapeless.isSelected());

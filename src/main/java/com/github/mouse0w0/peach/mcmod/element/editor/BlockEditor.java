@@ -384,7 +384,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
     @Override
     protected void updateDataModel(MEBlock element) {
-        element.setIdentifier(identifier.getValue());
+        element.setIdentifier(identifier.getValue().trim());
         element.setDisplayName(displayName.getValue());
         element.setPrototype(prototype.getValue());
         element.setMaterial(material.getValue());

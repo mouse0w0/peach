@@ -324,7 +324,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
     @Override
     protected void updateDataModel(MEItem item) {
-        item.setIdentifier(identifier.getValue());
+        item.setIdentifier(identifier.getValue().trim());
         item.setDisplayName(displayName.getValue());
         item.setItemType(itemType.getValue());
         item.setItemGroup(itemGroup.getValue());

@@ -74,7 +74,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
 
     @Override
     protected void updateDataModel(MEItemGroup element) {
-        element.setIdentifier(identifier.getText());
+        element.setIdentifier(identifier.getText().trim());
         element.setDisplayName(displayName.getText());
         element.setHasSearchBar(hasSearchBar.isSelected());
         element.setBackground(background.getResourcePath());
