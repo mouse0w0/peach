@@ -110,6 +110,12 @@ public class ResourcePicker extends Control {
                             targetFilePath = basePath.resolve(newValue.getFileName());
                         }
 
+                        if (!Alert.confirm(I18n.translate("dialog.copy.title"),
+                                I18n.format("dialog.copy.message.file",
+                                        FileUtils.getFileName(newValue), 1, 0, FileUtils.getFileName(targetFilePath.getParent())))) {
+                            return;
+                        }
+
                         if (StringUtils.hasUpperCase(FileUtils.getFileName(targetFilePath))) {
                             targetFilePath = LowercaseRenameDialog.create(targetFilePath).showAndWait().orElse(null);
                             if (targetFilePath == null) return;
