@@ -21,7 +21,7 @@ public class NewProjectUI extends BorderPane {
     @FXML
     private TextField name;
     @FXML
-    private FilePicker filePicker;
+    private FilePicker path;
 
     public static void show() {
         NewProjectUI newProject = new NewProjectUI();
@@ -34,7 +34,7 @@ public class NewProjectUI extends BorderPane {
 
     public NewProjectUI() {
         FXUtils.loadFXML(this, "ui/project/NewProject.fxml");
-        FileChooserHelper.getInstance().register(filePicker, "newProject");
+        FileChooserHelper.getInstance().register(path, "newProject");
     }
 
     @FXML
@@ -44,7 +44,7 @@ public class NewProjectUI extends BorderPane {
     }
 
     private void doCreateProject() {
-        final Path path = filePicker.getPath().orElse(null);
+        final Path path = this.path.getPath().orElse(null);
         if (path == null) return; // TODO: show alert
         if (FileUtils.isNotEmpty(path)) {
             // FIXME: fix the content cannot be display until resize the window.
