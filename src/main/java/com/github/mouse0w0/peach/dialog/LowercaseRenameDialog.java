@@ -2,11 +2,11 @@ package com.github.mouse0w0.peach.dialog;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.StringUtils;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.regex.Pattern;
 
 public class LowercaseRenameDialog<T> extends RenameDialog<T> {
 
@@ -42,13 +42,11 @@ public class LowercaseRenameDialog<T> extends RenameDialog<T> {
         super(rawName, newName, isDirectory);
     }
 
-    private static final Pattern LOWERCASE_STRING = Pattern.compile("^[^\\p{javaUpperCase}]*$");
-
     @Override
     protected void setResultAndClose(ButtonType buttonType, boolean close) {
         if (buttonType == null || buttonType.getButtonData().isCancelButton()) {
             super.setResultAndClose(buttonType, close);
-        } else if (!LOWERCASE_STRING.matcher(getNewName()).matches()) {
+        } else if (StringUtils.hasUpperCase(getNewName())) {
             showMessage(I18n.translate("dialog.rename.error.uppercaseFileName"));
         } else {
             super.setResultAndClose(buttonType, close);

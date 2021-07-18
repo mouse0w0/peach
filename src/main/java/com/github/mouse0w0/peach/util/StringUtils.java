@@ -27,8 +27,8 @@ public class StringUtils {
     }
 
     public static boolean hasUpperCase(String str) {
-        for (char c : str.toCharArray()) {
-            if (Character.isUpperCase(c)) {
+        for (int i = 0, length = str.length(); i < length; i++) {
+            if (Character.isUpperCase(str.indexOf(i))) {
                 return true;
             }
         }
@@ -36,8 +36,8 @@ public class StringUtils {
     }
 
     public static boolean hasLowerCase(String str) {
-        for (char c : str.toCharArray()) {
-            if (Character.isLowerCase(c)) {
+        for (int i = 0, length = str.length(); i < length; i++) {
+            if (Character.isLowerCase(str.indexOf(i))) {
                 return true;
             }
         }
