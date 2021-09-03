@@ -7,6 +7,7 @@ import javafx.scene.control.SkinBase;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 public class ImagePickerSkin extends SkinBase<ImagePicker> {
     private final ImageView imageView;
+    private final StackPane add;
 
     private final Tooltip tooltip;
 
@@ -27,7 +29,12 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
         imageView.fitHeightProperty().bind(control.fitHeightProperty());
         imageView.preserveRatioProperty().bind(control.preserveRatioProperty());
         imageView.smoothProperty().bind(control.smoothProperty());
-        getChildren().add(imageView);
+
+        add = new StackPane();
+        add.getStyleClass().add("add");
+        add.visibleProperty().bind(imageView.imageProperty().isNull());
+
+        getChildren().addAll(imageView, add);
 
         tooltip = new Tooltip();
         control.setTooltip(tooltip);
@@ -64,5 +71,6 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         layoutInArea(imageView, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
+        layoutInArea(add, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
     }
 }

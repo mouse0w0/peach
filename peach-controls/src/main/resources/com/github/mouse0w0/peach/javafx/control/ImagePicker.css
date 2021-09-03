@@ -1,3 +1,15 @@
 .image-picker {
-    -fx-background-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 4px;
+    -fx-border-color: -fx-box-border;
+    -fx-border-style: dashed outside;
+}
+
+.image-picker > .add {
+    -fx-background-color: -fx-box-border;
+    -fx-shape: "M 19 13 H 13 V 19 H 11 V 13 H 5 V 11 H 11 V 5 H 13 V 11 H 19 V 13 Z";
+    -fx-pref-width: 2em;
+    -fx-pref-height: 2em;
+    -fx-max-width: 2em;
+    -fx-max-height: 2em;
 }

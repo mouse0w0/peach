@@ -153,13 +153,11 @@
 /*    -fx-font-size: 16px;*/
 /*}*/
 
-.image-picker,
 .item-picker,
 .item-stack-view > .item {
     -fx-background-color: -peach-background-color;
 }
 
-.image-picker:hover,
 .item-picker:hover,
 .item-stack-view:hover > .item {
     -fx-background-color: -peach-hover-color;
