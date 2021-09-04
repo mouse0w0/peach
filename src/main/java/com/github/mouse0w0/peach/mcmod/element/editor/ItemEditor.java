@@ -19,6 +19,7 @@ import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.*;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.beans.binding.Bindings;
@@ -226,9 +227,10 @@ public class ItemEditor extends ElementEditor<MEItem> {
         });
         model.getItems().addAll(ModelManager.getInstance(getProject()).getItemModels().keySet());
 
-        textures = new ModelTextureField(TextureHandler.ofWithoutExt(
+        textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES),
+                ".png"));
         textures.setText(I18n.translate("item.appearance.texture"));
         model.valueProperty().addListener(observable -> {
             McModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
@@ -239,7 +241,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         hasEffect.setText(I18n.translate("item.appearance.hasEffect"));
         hasEffect.setColSpan(ColSpan.HALF);
 
-        armorTexture = new TextureField(TextureHandler.of(
+        armorTexture = new TextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
         armorTexture.setFitSize(128, 64);

@@ -17,10 +17,10 @@ import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
-import com.github.mouse0w0.peach.mcmod.ui.form.TextureHandler;
 import com.github.mouse0w0.peach.mcmod.ui.form.ToolAttributesField;
 import com.github.mouse0w0.peach.mcmod.util.ColorUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
@@ -193,10 +193,11 @@ public class BlockEditor extends ElementEditor<MEBlock> {
             }
         });
 
-        textures = new ModelTextureField(TextureHandler.ofWithoutExt(
+        textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES)));
-        textures.setText(I18n.translate("item.appearance.texture"));
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES),
+                ".png"));
+        textures.setText(I18n.translate("block.appearance.texture"));
         model.valueProperty().addListener(observable -> {
             McModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
             textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);

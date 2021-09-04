@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
+import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
@@ -11,10 +12,10 @@ import java.io.File;
 public class TextureField extends Element {
     private final ObjectProperty<File> value = new SimpleObjectProperty<>(this, "value");
 
-    private final TextureHandler textureHandler;
+    private final ResourceStore resourceStore;
 
-    public TextureField(TextureHandler textureHandler) {
-        this.textureHandler = textureHandler;
+    public TextureField(ResourceStore resourceStore) {
+        this.resourceStore = resourceStore;
     }
 
     public ObjectProperty<File> valueProperty() {
@@ -30,11 +31,11 @@ public class TextureField extends Element {
     }
 
     public String getTexture() {
-        return textureHandler.toString(getValue());
+        return resourceStore.toRelative(getValue());
     }
 
     public void setTexture(String texture) {
-        setValue(textureHandler.fromString(texture));
+        setValue(resourceStore.toAbsoluteFile(texture));
     }
 
     public void setFitSize(double fitWidth, double fitHeight) {
@@ -52,7 +53,7 @@ public class TextureField extends Element {
             return true;
         }
 
-        File newFile = textureHandler.copy(file);
+        File newFile = resourceStore.store(file);
         if (newFile != null) {
             setValue(newFile);
             return true;

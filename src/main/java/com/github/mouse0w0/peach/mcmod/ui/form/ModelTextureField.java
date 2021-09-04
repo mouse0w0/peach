@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
+import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -15,22 +16,18 @@ import java.util.Set;
 public class ModelTextureField extends Element {
     private static final FileChooser.ExtensionFilter PNG_FILTER = new FileChooser.ExtensionFilter("PNG", "*.png");
 
-    private final TextureHandler textureHandler;
+    private final ResourceStore resourceStore;
 
     private final GridPane editor;
 
     private final Map<String, ImagePicker> textureMap = new HashMap<>();
 
-    public ModelTextureField(TextureHandler textureHandler) {
-        this.textureHandler = textureHandler;
+    public ModelTextureField(ResourceStore resourceStore) {
+        this.resourceStore = resourceStore;
 
         editor = new GridPane();
         editor.setHgap(9);
         editor.setVgap(9);
-    }
-
-    public TextureHandler getTextureHandler() {
-        return textureHandler;
     }
 
     public Set<String> getTextureKeys() {
@@ -69,25 +66,22 @@ public class ModelTextureField extends Element {
     }
 
     public Map<String, String> getTextures() {
-        TextureHandler handler = getTextureHandler();
         Map<String, String> textures = new HashMap<>();
-        textureMap.forEach((key, imagePicker) -> textures.put(key, handler.toString(imagePicker.getFile())));
+        textureMap.forEach((key, imagePicker) -> textures.put(key, resourceStore.toRelative(imagePicker.getFile())));
         return textures;
     }
 
     public void setTextures(Map<String, String> textures) {
-        TextureHandler handler = getTextureHandler();
         textures.forEach((key, texture) -> {
             ImagePicker imagePicker = textureMap.get(key);
-            if (imagePicker != null) imagePicker.setFile(handler.fromString(texture));
+            if (imagePicker != null) imagePicker.setFile(resourceStore.toAbsoluteFile(texture));
         });
     }
 
     @Override
     public boolean validate() {
-        TextureHandler handler = getTextureHandler();
         for (ImagePicker imagePicker : textureMap.values()) {
-            File newFile = handler.copy(imagePicker.getFile());
+            File newFile = resourceStore.store(imagePicker.getFile());
             if (newFile == null) return false;
             imagePicker.setFile(newFile);
         }
