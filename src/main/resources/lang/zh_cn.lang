@@ -302,7 +302,7 @@ block.properties.information=额外信息
 
 block.appearance.title=外观
 block.appearance.model=模型
-block.appearance.textures=纹理
+block.appearance.texture=纹理
 block.appearance.transparency=是否透明
 block.appearance.renderType=渲染类型
 block.appearance.offsetType=偏移类型
