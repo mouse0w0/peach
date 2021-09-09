@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 
 @JsonAdapter(Identifier.TypeAdapter.class)
 public final class Identifier implements Comparable<Identifier> {
-    public static final Pattern PATTERN = Pattern.compile("[a-z][a-z0-9_]*:[a-z][a-z0-9_]*");
-    private static final Pattern NAME_PATTERN = Pattern.compile("[a-z][a-z0-9_]*");
+    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("[a-z][a-z0-9._-]*");
+    private static final Pattern NAME_PATTERN = Pattern.compile("[a-z][a-z0-9/._-]*");
+
+    public static final Pattern PATTERN = Pattern.compile(NAMESPACE_PATTERN + ":" + NAME_PATTERN);
 
     private final String namespace;
     private final String name;
@@ -19,7 +21,7 @@ public final class Identifier implements Comparable<Identifier> {
     public Identifier(String identifier) {
         int separatorIndex = identifier.indexOf(':');
         if (separatorIndex == -1) {
-            throw new InvalidIdentifierException("Namespace not specified, identifier: '" + identifier + "'");
+            throw new IllegalArgumentException("namespace not specified, identifier: '" + identifier + "'");
         }
         namespace = identifier.substring(0, separatorIndex);
         name = identifier.substring(separatorIndex + 1);
@@ -34,18 +36,18 @@ public final class Identifier implements Comparable<Identifier> {
 
     private void checkNamespace(String namespace) {
         if (namespace == null) throw new NullPointerException("namespace");
-        if (namespace.isEmpty()) throw new InvalidIdentifierException("The namespace is empty");
-        if (!NAME_PATTERN.matcher(namespace).matches()) {
-            throw new InvalidIdentifierException("The namespace is invalid, " +
-                    "namespace: '" + namespace + "', pattern: '" + NAME_PATTERN + "'");
+        if (namespace.isEmpty()) throw new IllegalArgumentException("namespace is empty");
+        if (!NAMESPACE_PATTERN.matcher(namespace).matches()) {
+            throw new IllegalArgumentException("namespace is invalid, " +
+                    "namespace: '" + namespace + "', pattern: '" + NAMESPACE_PATTERN + "'");
         }
     }
 
     private void checkName(String name) {
         if (name == null) throw new NullPointerException("name");
-        if (name.isEmpty()) throw new InvalidIdentifierException("The name is empty");
+        if (name.isEmpty()) throw new IllegalArgumentException("name is empty");
         if (!NAME_PATTERN.matcher(name).matches()) {
-            throw new InvalidIdentifierException("The namespace is invalid, " +
+            throw new IllegalArgumentException("name is invalid, " +
                     "name: '" + name + "', pattern: '" + NAME_PATTERN + "'");
         }
     }
