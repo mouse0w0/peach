@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.util.StringConverter;
 
 public class ChoiceBoxField<T> extends ValueField<T> {
@@ -48,18 +47,6 @@ public class ChoiceBoxField<T> extends ValueField<T> {
 
     public StringConverter<T> getConverter() {
         return getChoiceBox().getConverter();
-    }
-
-    public ObjectProperty<SingleSelectionModel<T>> selectionModelProperty() {
-        return getChoiceBox().selectionModelProperty();
-    }
-
-    public SingleSelectionModel<T> getSelectionModel() {
-        return getChoiceBox().getSelectionModel();
-    }
-
-    public void setSelectionModel(SingleSelectionModel<T> value) {
-        getChoiceBox().setSelectionModel(value);
     }
 
     @SuppressWarnings("unchecked")

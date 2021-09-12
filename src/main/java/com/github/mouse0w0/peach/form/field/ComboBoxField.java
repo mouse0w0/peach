@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -75,18 +74,6 @@ public class ComboBoxField<T> extends ValueField<T> {
 
     public void setButtonCell(ListCell<T> value) {
         getComboBox().setButtonCell(value);
-    }
-
-    public ObjectProperty<SingleSelectionModel<T>> selectionModelProperty() {
-        return getComboBox().selectionModelProperty();
-    }
-
-    public SingleSelectionModel<T> getSelectionModel() {
-        return getComboBox().getSelectionModel();
-    }
-
-    public void setSelectionModel(SingleSelectionModel<T> value) {
-        getComboBox().setSelectionModel(value);
     }
 
     @SuppressWarnings("unchecked")
