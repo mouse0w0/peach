@@ -6,7 +6,7 @@ plugins {
 version '1.0.0'
 
 dependencies {
-    compile 'com.google.code.gson:gson:2.8.6'
-    compile 'org.joml:joml:1.10.0'
+    compile 'com.google.code.gson:gson:2.8.8'
+    compile 'org.joml:joml:1.10.2'
     compile 'org.joml:joml-primitives:1.10.0'
 }
