@@ -13,8 +13,14 @@ class Utils {
         String fileName = file.getName();
         for (FileChooser.ExtensionFilter filter : filters) {
             for (String extension : filter.getExtensions()) {
-                if (fileName.endsWith(extension.substring(1))) {
-                    return true;
+                if (extension.charAt(0) == '*') {
+                    if (fileName.endsWith(extension.substring(1))) {
+                        return true;
+                    }
+                } else {
+                    if (fileName.equals(extension)) {
+                        return true;
+                    }
                 }
             }
         }
