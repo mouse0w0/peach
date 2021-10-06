@@ -10,6 +10,8 @@ import java.util.Map;
 
 public class MEItem extends Element implements LocalizableElement {
 
+    public static final Identifier DEFAULT_MODEL = new Identifier("buildin", "generated");
+
     private String identifier;
     private String displayName;
     private ItemType itemType = ItemType.NORMAL;
@@ -29,7 +31,7 @@ public class MEItem extends Element implements LocalizableElement {
     private int useDuration;
     private String information;
 
-    private String model = "generated";
+    private Identifier model = DEFAULT_MODEL;
     private Map<String, String> textures = Collections.emptyMap();
     private boolean hasEffect = false;
     private String armorTexture;
@@ -201,11 +203,11 @@ public class MEItem extends Element implements LocalizableElement {
         this.information = information;
     }
 
-    public String getModel() {
+    public Identifier getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(Identifier model) {
         this.model = model;
     }
 

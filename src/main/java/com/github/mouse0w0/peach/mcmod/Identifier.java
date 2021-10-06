@@ -8,30 +8,30 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-@JsonAdapter(ResourceLocation.TypeAdapter.class)
-public final class ResourceLocation implements Comparable<ResourceLocation> {
+@JsonAdapter(Identifier.TypeAdapter.class)
+public final class Identifier implements Comparable<Identifier> {
     private static final Pattern NAMESPACE_PATTERN = Pattern.compile("[a-z][a-z0-9._-]*");
-    private static final Pattern PATH_PATTERN = Pattern.compile("[a-z][a-z0-9/._-]*");
+    private static final Pattern Name_PATTERN = Pattern.compile("[a-z][a-z0-9/._-]*");
 
-    public static final Pattern PATTERN = Pattern.compile(NAMESPACE_PATTERN + ":" + PATH_PATTERN);
+    public static final Pattern PATTERN = Pattern.compile(NAMESPACE_PATTERN + ":" + Name_PATTERN);
 
     private final String namespace;
-    private final String path;
+    private final String name;
 
-    public ResourceLocation(String location) {
-        int separatorIndex = location.indexOf(':');
+    public Identifier(String identifier) {
+        int separatorIndex = identifier.indexOf(':');
         if (separatorIndex == -1) {
-            throw new IllegalArgumentException("namespace not specified, location: '" + location + "'");
+            throw new IllegalArgumentException("namespace not specified, identifier: '" + identifier + "'");
         }
-        namespace = location.substring(0, separatorIndex);
-        path = location.substring(separatorIndex + 1);
+        namespace = identifier.substring(0, separatorIndex);
+        name = identifier.substring(separatorIndex + 1);
     }
 
-    public ResourceLocation(String namespace, String path) {
+    public Identifier(String namespace, String name) {
         checkNamespace(namespace);
-        checkPath(path);
+        checkPath(name);
         this.namespace = namespace;
-        this.path = path;
+        this.name = name;
     }
 
     private void checkNamespace(String namespace) {
@@ -43,12 +43,12 @@ public final class ResourceLocation implements Comparable<ResourceLocation> {
         }
     }
 
-    private void checkPath(String path) {
-        if (path == null) throw new NullPointerException("path");
-        if (path.isEmpty()) throw new IllegalArgumentException("path is empty");
-        if (!PATH_PATTERN.matcher(path).matches()) {
-            throw new IllegalArgumentException("path is invalid, " +
-                    "path: '" + path + "', pattern: '" + PATH_PATTERN + "'");
+    private void checkPath(String name) {
+        if (name == null) throw new NullPointerException("name");
+        if (name.isEmpty()) throw new IllegalArgumentException("name is empty");
+        if (!Name_PATTERN.matcher(name).matches()) {
+            throw new IllegalArgumentException("name is invalid, " +
+                    "name: '" + name + "', pattern: '" + Name_PATTERN + "'");
         }
     }
 
@@ -56,13 +56,13 @@ public final class ResourceLocation implements Comparable<ResourceLocation> {
         return namespace;
     }
 
-    public String getPath() {
-        return path;
+    public String getName() {
+        return name;
     }
 
     @Override
     public String toString() {
-        return namespace + ":" + path;
+        return namespace + ":" + name;
     }
 
     @Override
@@ -70,39 +70,39 @@ public final class ResourceLocation implements Comparable<ResourceLocation> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ResourceLocation that = (ResourceLocation) o;
+        Identifier that = (Identifier) o;
 
         if (!namespace.equals(that.namespace)) return false;
-        return path.equals(that.path);
+        return name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
         int result = namespace.hashCode();
-        result = 31 * result + path.hashCode();
+        result = 31 * result + name.hashCode();
         return result;
     }
 
     @Override
-    public int compareTo(ResourceLocation o) {
+    public int compareTo(Identifier o) {
         int result = namespace.compareTo(o.namespace);
-        return result == 0 ? path.compareTo(o.path) : result;
+        return result == 0 ? name.compareTo(o.name) : result;
     }
 
-    public static final class TypeAdapter extends com.google.gson.TypeAdapter<ResourceLocation> {
+    public static final class TypeAdapter extends com.google.gson.TypeAdapter<Identifier> {
         @Override
-        public void write(JsonWriter out, ResourceLocation value) throws IOException {
+        public void write(JsonWriter out, Identifier value) throws IOException {
             if (value == null) out.nullValue();
             else out.value(value.toString());
         }
 
         @Override
-        public ResourceLocation read(JsonReader in) throws IOException {
+        public Identifier read(JsonReader in) throws IOException {
             if (in.peek() == JsonToken.NULL) {
                 in.nextNull();
                 return null;
             } else {
-                return new ResourceLocation(in.nextString());
+                return new Identifier(in.nextString());
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
@@ -14,8 +13,10 @@ import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
+import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ToolAttributesField;
 import com.github.mouse0w0.peach.mcmod.util.ColorUtils;
@@ -24,7 +25,6 @@ import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
-import javafx.util.StringConverter;
 import org.joml.primitives.AABBd;
 
 import javax.annotation.Nonnull;
@@ -59,7 +59,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private SpinnerField<Double> maxY;
     private SpinnerField<Double> maxZ;
 
-    private ChoiceBoxField<String> model;
+    private ModelField model;
     private ModelTextureField textures;
     private RadioButtonField transparency;
     private ChoiceBoxField<RenderType> renderType;
@@ -179,28 +179,18 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 harvestTools,
                 information);
 
-        model = new ChoiceBoxField<>();
+        model = new ModelField(new ResourceStore(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_MODELS), ".json"));
         model.setText(I18n.translate("block.appearance.model"));
-        model.setConverter(new StringConverter<String>() {
-            @Override
-            public String toString(String object) {
-                return I18n.translate("block.model." + object, object);
-            }
-
-            @Override
-            public String fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
 
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES),
-                ".png"));
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
         textures.setText(I18n.translate("block.appearance.texture"));
         model.valueProperty().addListener(observable -> {
-            McModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
-            textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);
+            ModelTemplate template = ModelManager.getInstance().getModelTemplate(model.getValue());
+            textures.setTextureKeys(template != null ? template.getTextures() : null);
         });
 
         transparency = new RadioButtonField();

@@ -1,53 +1,81 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
-import com.github.mouse0w0.minecraft.model.McModel;
-import com.github.mouse0w0.minecraft.model.McModelHelper;
-import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.mcmod.Identifier;
+import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.JsonUtils;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ModelManager {
-    private final Map<String, McModel> itemModels = new HashMap<>();
 
-    public static ModelManager getInstance(Project project) {
-        return project.getService(ModelManager.class);
+    private final Map<Identifier, BlockStateTemplate> blockStateTemplateMap = new HashMap<>();
+    private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
+    private final Multimap<String, Identifier> groupToModelTemplatesMap = HashMultimap.create();
+
+    public static ModelManager getInstance() {
+        return Peach.getInstance().getService(ModelManager.class);
     }
 
     public ModelManager() {
-        loadBuildInModels();
+        load();
     }
 
-    private void loadBuildInModels() {
+    private void load() {
         try {
-            loadItemModel(ModelManager.class.getResourceAsStream("/model/generated.json"), "generated");
-            loadItemModel(ModelManager.class.getResourceAsStream("/model/handheld.json"), "handheld");
+            Path blockstate = ClassPathUtils.getPath("blockstate");
+            if (blockstate == null) throw new Error();
+            Path model = ClassPathUtils.getPath("model");
+            if (model == null) throw new Error();
+
+            Files.list(blockstate)
+                    .filter(path -> FileUtils.getFileName(path).endsWith(".meta.json"))
+                    .forEach(this::loadBlockStateTemplate);
+            Files.list(model)
+                    .filter(path -> FileUtils.getFileName(path).endsWith(".model.json"))
+                    .forEach(this::loadModelTemplate);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public Map<String, McModel> getItemModels() {
-        return itemModels;
+    private void loadModelTemplate(Path file) {
+        try {
+            ModelTemplate template = JsonUtils.readJson(file, ModelTemplate.class);
+            modelTemplateMap.put(template.getIdentifier(), template);
+            groupToModelTemplatesMap.put(template.getGroup(), template.getIdentifier());
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
-    public McModel getItemModel(String name) {
-        return itemModels.get(name);
+    private void loadBlockStateTemplate(Path file) {
+        try {
+            BlockStateTemplate template = JsonUtils.readJson(file, BlockStateTemplate.class);
+            blockStateTemplateMap.put(template.getIdentifier(), template);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
-    public void loadItemModel(Path file) throws IOException {
-        String modelName = FileUtils.getFileNameWithoutExt(file);
-        McModel model = McModelHelper.load(file);
-        itemModels.put(modelName, model);
+    public BlockStateTemplate getBlockStateTemplate(Identifier identifier) {
+        return blockStateTemplateMap.get(identifier);
     }
 
-    private void loadItemModel(InputStream in, String modelName) throws IOException {
-        McModel model = McModelHelper.load(in);
-        itemModels.put(modelName, model);
+    public ModelTemplate getModelTemplate(Identifier identifier) {
+        return modelTemplateMap.get(identifier);
+    }
+
+    public Collection<Identifier> getModelTemplatesByGroup(String group) {
+        return groupToModelTemplatesMap.get(group);
     }
 }

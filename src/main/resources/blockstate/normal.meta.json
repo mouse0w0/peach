@@ -1,0 +1,7 @@
+{
+  "identifier": "buildin:normal",
+  "template": "normal.groovy",
+  "models": [
+    "normal"
+  ]
+}

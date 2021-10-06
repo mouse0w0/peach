@@ -132,7 +132,7 @@ public final class CompilerImpl implements Compiler {
 
             elements = loadElements();
 
-            modelManager = new ModelManager();
+            modelManager = ModelManager.getInstance();
 
             coffeeMaker = new CoffeeMaker();
             coffeeMaker.loadTemplateFromJar(Paths.get("template/peach-forge-template-1.0.jar"));

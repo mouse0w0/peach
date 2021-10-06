@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.minecraft.model.McModel;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
@@ -14,6 +13,7 @@ import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
@@ -25,7 +25,6 @@ import com.github.mouse0w0.peach.project.Project;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
-import javafx.util.StringConverter;
 
 import javax.annotation.Nonnull;
 
@@ -56,7 +55,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private TextAreaField information;
 
     // Appearance
-    private ChoiceBoxField<String> model;
+    private ModelField model;
     private ModelTextureField textures;
     private RadioButtonField hasEffect;
     private TextureField armorTexture;
@@ -212,29 +211,19 @@ public class ItemEditor extends ElementEditor<MEItem> {
         Section appearance = new Section();
         appearance.setText(I18n.translate("item.appearance.title"));
 
-        model = new ChoiceBoxField<>();
+        model = new ModelField(new ResourceStore(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
         model.setText(I18n.translate("item.appearance.model"));
-        model.setConverter(new StringConverter<String>() {
-            @Override
-            public String toString(String object) {
-                return I18n.translate("item.model." + object, object);
-            }
-
-            @Override
-            public String fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
-        model.getItems().addAll(ModelManager.getInstance(getProject()).getItemModels().keySet());
+        model.getItems().addAll(ModelManager.getInstance().getModelTemplatesByGroup("item"));
 
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES),
-                ".png"));
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
         textures.setText(I18n.translate("item.appearance.texture"));
         model.valueProperty().addListener(observable -> {
-            McModel itemModel = ModelManager.getInstance(getProject()).getItemModel(model.getValue());
-            textures.setTextureKeys(itemModel != null ? itemModel.getTextures().keySet() : null);
+            ModelTemplate template = ModelManager.getInstance().getModelTemplate(model.getValue());
+            textures.setTextureKeys(template != null ? template.getTextures() : null);
         });
 
         hasEffect = new RadioButtonField();

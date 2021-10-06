@@ -28,7 +28,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private ToolAttribute[] harvestTools = ToolAttribute.EMPTY_ARRAY;
     private String information;
 
-    private String model;
+    private Identifier model;
     private Map<String, String> textures;
     private String particleTexture;
     private boolean transparency;
@@ -189,11 +189,11 @@ public class MEBlock extends Element implements LocalizableElement {
         this.information = information;
     }
 
-    public String getModel() {
+    public Identifier getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(Identifier model) {
         this.model = model;
     }
 

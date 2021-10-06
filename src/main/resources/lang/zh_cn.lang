@@ -179,6 +179,11 @@ mod.folder.texture.block=方块
 mod.folder.texture.item=物品
 mod.folder.texture.gui=界面
 
+model.buildin.generated=默认模型
+model.buildin.handheld=手持模型
+model.buildin.custom=自定义模型
+model.custom=自定义模型：%s
+
 mod.element.item=物品
 
 item.properties.title=属性
@@ -215,9 +220,6 @@ item.food.saturation=饱食度
 item.food.isWolfFood=狼的食物
 item.food.alwaysEdible=总是可食用
 item.food.foodContainer=食物容器
-
-item.model.generated=默认模型
-item.model.handheld=手持模型
 
 toolType.axe=斧
 toolType.pickaxe=镐

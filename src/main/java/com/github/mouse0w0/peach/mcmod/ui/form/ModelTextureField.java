@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class ModelTextureField extends Element {
         return textureMap.keySet();
     }
 
-    public void setTextureKeys(Set<String> keys) {
+    public void setTextureKeys(Collection<String> keys) {
         editor.getChildren().clear();
         textureMap.clear();
 

@@ -1,0 +1,13 @@
+{
+  "identifier": "buildin:handheld",
+  "group": "item",
+  "textures": [
+    "layer0"
+  ],
+  "items": [
+    {
+      "name": "item/${identifier}",
+      "template": "handheld.groovy"
+    }
+  ]
+}
