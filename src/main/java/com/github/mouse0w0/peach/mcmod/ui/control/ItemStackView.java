@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemStackViewSkin;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.wm.WindowManager;
+import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;

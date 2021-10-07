@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.wm.ProjectWindow;
+import com.github.mouse0w0.peach.window.ProjectWindow;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

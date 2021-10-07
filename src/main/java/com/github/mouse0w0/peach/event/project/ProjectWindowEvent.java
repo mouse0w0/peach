@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.event.project;
 
-import com.github.mouse0w0.peach.wm.ProjectWindow;
+import com.github.mouse0w0.peach.window.ProjectWindow;
 
 public class ProjectWindowEvent extends ProjectEvent {
     private final ProjectWindow window;

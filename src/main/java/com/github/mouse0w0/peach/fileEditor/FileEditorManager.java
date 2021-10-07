@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.wm.WindowManager;
+import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.image.Image;

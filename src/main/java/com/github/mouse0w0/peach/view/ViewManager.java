@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.view;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.wm.ProjectWindow;
+import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.viewpane.ViewPane;
 import com.github.mouse0w0.viewpane.ViewTab;
 import com.github.mouse0w0.viewpane.geometry.EightPos;

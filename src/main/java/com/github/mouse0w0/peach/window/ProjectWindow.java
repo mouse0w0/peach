@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.wm;
+package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.data.DataKeys;

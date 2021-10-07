@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.wm;
+package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
