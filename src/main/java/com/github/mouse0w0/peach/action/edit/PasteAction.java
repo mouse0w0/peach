@@ -37,6 +37,11 @@ public class PasteAction extends Action {
             if (Files.isRegularFile(path)) {
                 fileCount++;
             } else if (Files.isDirectory(path)) {
+                if (target.startsWith(path)) {
+                    Alert.error(I18n.translate("dialog.paste.title"),
+                            I18n.translate("dialog.paste.error.tryPasteIntoSubdirectory"));
+                    return;
+                }
                 folderCount++;
             }
         }

@@ -245,9 +245,16 @@ public class ProjectView implements Disposable, DataProvider {
                 event.consume();
                 if (event.getGestureSource() == event.getTarget()) return;
 
-                if (event.getDragboard().hasFiles()) {
-                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                }
+                Path path = getItem();
+                if (path == null || Files.isRegularFile(path)) return;
+
+                Dragboard dragboard = event.getDragboard();
+                if (!dragboard.hasFiles()) return;
+
+                File file = path.toFile();
+                if (dragboard.getFiles().contains(file)) return;
+
+                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
             });
             setOnDragDropped(event -> {
                 event.consume();

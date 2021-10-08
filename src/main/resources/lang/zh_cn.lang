@@ -157,8 +157,9 @@ dialog.move.message.folder=移动 %1$s 文件夹到 %4$s？
 dialog.move.message.folders=移动 %1$s 等%3$s个文件夹到 %4$s？
 dialog.move.message.fileAndFolder=移动 %1$s 等%2$s个文件和%3$s个文件夹到 %4$s？
 
-dialog.paste.title=贴粘
-dialog.paste.message=%1$s 已包含同名文件 %2$s。
+dialog.paste.title=粘贴
+dialog.paste.error.existsSameFile=%1$s 已包含同名文件 %2$s。
+dialog.paste.error.tryPasteIntoSubdirectory=无法将文件夹粘贴到其子文件夹。
 
 dialog.paste.button.overwrite=覆盖
 dialog.paste.button.rename=重命名

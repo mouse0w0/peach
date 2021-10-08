@@ -5,7 +5,6 @@ import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.dialog.RenameDialog;
-import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PasteExecutor implements Runnable {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PasteExecutor.class);
 
     private static final CopyOption[] REPLACE_EXISTING = {StandardCopyOption.REPLACE_EXISTING};
@@ -73,7 +71,7 @@ public class PasteExecutor implements Runnable {
                 return;
             }
             ButtonType buttonType = new PasteDialog(I18n.translate("dialog.paste.title"),
-                    I18n.format("dialog.paste.message", folder, source.getFileName()), multiple)
+                    I18n.format("dialog.paste.error.existsSameFile", folder, source.getFileName()), multiple)
                     .showAndWait().orElse(PasteDialog.SKIP);
             if (buttonType == PasteDialog.SKIP) {
                 return;
@@ -98,9 +96,9 @@ public class PasteExecutor implements Runnable {
 
     private void copyOrMove(Path source, Path target) throws IOException {
         if (move) {
-            Files.move(source, target, FileUtils.REPLACE_EXISTING);
+            Files.move(source, target, REPLACE_EXISTING);
         } else {
-            Files.copy(source, target, FileUtils.REPLACE_EXISTING);
+            Files.copy(source, target, REPLACE_EXISTING);
         }
     }
 }
