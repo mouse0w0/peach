@@ -50,7 +50,8 @@ public class ResourceStore {
     }
 
     public File store(File file) {
-        return store(FileUtils.toPath(file)).toFile();
+        if (file == null) return null;
+        return store(file.toPath()).toFile();
     }
 
     public Path store(Path file) {
