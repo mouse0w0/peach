@@ -56,7 +56,8 @@ public final class FXUtils {
 
     private static ClassLoader getClassLoaderOfCaller() {
         try {
-            return Class.forName(Thread.currentThread().getStackTrace()[3].getClassName()).getClassLoader();
+            // new Throwable().getStackTrace() faster than Thread.currentThread().getStackTrace().
+            return Class.forName(new Throwable().getStackTrace()[3].getClassName()).getClassLoader();
         } catch (ClassNotFoundException e) {
             return Thread.currentThread().getContextClassLoader();
         }
