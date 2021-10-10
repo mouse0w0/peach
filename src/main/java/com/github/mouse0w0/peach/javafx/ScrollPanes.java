@@ -11,6 +11,7 @@ public final class ScrollPanes {
      */
     public static void fixVerticalScroll(ScrollPane scrollPane) {
         scrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
+            event.consume();
             final double vMin = scrollPane.getVmin();
             final double vMax = scrollPane.getVmax();
             final double vRange = vMax - vMin;
@@ -25,7 +26,6 @@ public final class ScrollPanes {
             if ((event.getDeltaY() > 0.0 && oldValue > vMin) ||
                     (event.getDeltaY() < 0.0 && oldValue < vMax)) {
                 scrollPane.setVvalue(newValue);
-                event.consume();
             }
         });
     }
