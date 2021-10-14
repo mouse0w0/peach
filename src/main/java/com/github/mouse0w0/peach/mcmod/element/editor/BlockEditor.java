@@ -183,6 +183,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_MODELS), ".json"));
         model.setText(I18n.translate("block.appearance.model"));
+        model.getItems().addAll(ModelManager.getInstance().getModelTemplatesByGroup("block"));
 
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
@@ -190,7 +191,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         textures.setText(I18n.translate("block.appearance.texture"));
         model.valueProperty().addListener(observable -> {
             ModelTemplate template = ModelManager.getInstance().getModelTemplate(model.getValue());
-            textures.setTextureKeys(template != null ? template.getTextures() : null);
+            textures.setTextureList(template != null ? template.getTextures() : null);
         });
 
         transparency = new RadioButtonField();

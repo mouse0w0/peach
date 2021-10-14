@@ -1,13 +1,11 @@
 {
   "identifier": "buildin:generated",
-  "group": "item",
-  "textures": [
-    "layer0"
-  ],
-  "items": [
-    {
+  "groups": ["item"],
+  "textures": ["layer0"],
+  "items": {
+    "item": {
       "name": "item/${identifier}",
-      "template": "generated.groovy"
+      "template": "generated.json"
     }
-  ]
+  }
 }

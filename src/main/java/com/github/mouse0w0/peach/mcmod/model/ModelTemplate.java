@@ -1,17 +1,17 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
 import com.github.mouse0w0.peach.mcmod.Identifier;
+import com.google.gson.annotations.JsonAdapter;
 
 import java.util.List;
 import java.util.Map;
 
 public class ModelTemplate {
     private Identifier identifier;
-    private String group;
-    private Identifier blockState;
-    private List<String> textures;
-    private Map<String, ModelEntry> blocks;
-    private List<ModelEntry> items;
+    private List<String> groups;
+    @JsonAdapter(TextureList.Deserializer.class)
+    private TextureList textures;
+    private Map<String, ModelEntry> models;
 
     public ModelTemplate() {
     }
@@ -24,43 +24,27 @@ public class ModelTemplate {
         this.identifier = identifier;
     }
 
-    public String getGroup() {
-        return group;
+    public List<String> getGroups() {
+        return groups;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
 
-    public Identifier getBlockState() {
-        return blockState;
-    }
-
-    public void setBlockState(Identifier blockState) {
-        this.blockState = blockState;
-    }
-
-    public List<String> getTextures() {
+    public TextureList getTextures() {
         return textures;
     }
 
-    public void setTextures(List<String> textures) {
+    public void setTextures(TextureList textures) {
         this.textures = textures;
     }
 
-    public Map<String, ModelEntry> getBlocks() {
-        return blocks;
+    public Map<String, ModelEntry> getModels() {
+        return models;
     }
 
-    public void setBlocks(Map<String, ModelEntry> blocks) {
-        this.blocks = blocks;
-    }
-
-    public List<ModelEntry> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ModelEntry> items) {
-        this.items = items;
+    public void setModels(Map<String, ModelEntry> models) {
+        this.models = models;
     }
 }

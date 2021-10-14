@@ -52,7 +52,9 @@ public class ModelManager {
         try {
             ModelTemplate template = JsonUtils.readJson(file, ModelTemplate.class);
             modelTemplateMap.put(template.getIdentifier(), template);
-            groupToModelTemplatesMap.put(template.getGroup(), template.getIdentifier());
+            for (String group : template.getGroups()) {
+                groupToModelTemplatesMap.put(group, template.getIdentifier());
+            }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

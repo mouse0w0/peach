@@ -223,7 +223,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         textures.setText(I18n.translate("item.appearance.texture"));
         model.valueProperty().addListener(observable -> {
             ModelTemplate template = ModelManager.getInstance().getModelTemplate(model.getValue());
-            textures.setTextureKeys(template != null ? template.getTextures() : null);
+            textures.setTextureList(template != null ? template.getTextures() : null);
         });
 
         hasEffect = new RadioButtonField();
