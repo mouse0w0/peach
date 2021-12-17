@@ -2,9 +2,9 @@ package com.github.mouse0w0.peach.javafx.control.skin;
 
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.SkinBase;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -15,9 +15,9 @@ import java.io.IOException;
 
 public class ImagePickerSkin extends SkinBase<ImagePicker> {
     private final ImageView imageView;
+    private final StackPane imageOuter;
     private final StackPane add;
-
-    private final Tooltip tooltip;
+    private final StackPane clearBtn;
 
     public ImagePickerSkin(ImagePicker control) {
         super(control);
@@ -30,28 +30,40 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
         imageView.preserveRatioProperty().bind(control.preserveRatioProperty());
         imageView.smoothProperty().bind(control.smoothProperty());
 
+        imageOuter = new StackPane(imageView);
+        imageOuter.getStyleClass().add("image-outer");
+
         add = new StackPane();
         add.getStyleClass().add("add");
-        add.visibleProperty().bind(imageView.imageProperty().isNull());
+        add.visibleProperty().bind(control.fileProperty().isNull());
 
-        getChildren().addAll(imageView, add);
+        clearBtn = new StackPane();
+        clearBtn.getStyleClass().add("clear-button");
+        clearBtn.setAlignment(Pos.TOP_RIGHT);
+        clearBtn.setOnMouseClicked(event -> {
+            event.consume();
+            control.setFile(null);
+        });
+        clearBtn.visibleProperty().bind(control.hoverProperty().and(control.fileProperty().isNotNull()));
 
-        tooltip = new Tooltip();
-        control.setTooltip(tooltip);
+        StackPane clear = new StackPane();
+        clear.getStyleClass().add("clear");
+        clearBtn.getChildren().add(clear);
+
+        getChildren().addAll(imageOuter, add, clearBtn);
 
         control.fileProperty().addListener(observable -> updateFile());
         updateFile();
     }
 
     private void updateFile() {
-        File file = getSkinnable().getFile();
+        ImagePicker skinnable = getSkinnable();
+        File file = skinnable.getFile();
         if (file == null) {
-            tooltip.setText(null);
             imageView.setImage(null);
         } else {
-            tooltip.setText(file.getAbsolutePath());
             try (FileInputStream fis = new FileInputStream(file)) {
-                imageView.setImage(new Image(fis, getSkinnable().getFitWidth(), getSkinnable().getFitHeight(), getSkinnable().isPreserveRatio(), getSkinnable().isSmooth()));
+                imageView.setImage(new Image(fis, skinnable.getFitWidth(), skinnable.getFitHeight(), skinnable.isPreserveRatio(), skinnable.isSmooth()));
             } catch (IOException e) {
                 throw new RuntimeException("Failed to load image", e);
             }
@@ -60,17 +72,18 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
 
     @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return leftInset + imageView.prefWidth(-1) + rightInset;
+        return leftInset + imageOuter.prefWidth(-1) + rightInset;
     }
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return topInset + imageView.prefHeight(-1) + bottomInset;
+        return topInset + imageOuter.prefHeight(-1) + bottomInset;
     }
 
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
-        layoutInArea(imageView, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
+        layoutInArea(imageOuter, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
         layoutInArea(add, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
+        layoutInArea(clearBtn, contentX, contentY, contentWidth, contentHeight, 0, HPos.RIGHT, VPos.TOP);
     }
 }

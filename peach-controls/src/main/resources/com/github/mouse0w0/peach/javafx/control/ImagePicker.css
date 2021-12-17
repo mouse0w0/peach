@@ -5,6 +5,10 @@
     -fx-border-style: dashed outside;
 }
 
+.image-picker > .image-outer {
+    -fx-padding: 4px;
+}
+
 .image-picker > .add {
     -fx-background-color: -fx-box-border;
     -fx-shape: "M 19 13 H 13 V 19 H 11 V 13 H 5 V 11 H 11 V 5 H 13 V 11 H 19 V 13 Z";
@@ -13,3 +17,25 @@
     -fx-max-width: 2em;
     -fx-max-height: 2em;
 }
+
+.image-picker > .clear-button {
+    -fx-background-color: -fx-box-border;
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px;
+    -fx-max-width: 14px;
+    -fx-max-height: 14px;
+    -fx-shape: "M 0 0 H 16 V 16 Z"
+}
+
+.image-picker > .clear-button:hover {
+    -fx-background-color: #ff3f3f;
+}
+
+/*.image-picker > .clear-button:hover > .clear {*/
+/*    -fx-background-color: -fx-background;*/
+/*    -fx-pref-width: 8px;*/
+/*    -fx-pref-height: 8px;*/
+/*    -fx-max-width: 8px;*/
+/*    -fx-max-height: 8px;*/
+/*    -fx-shape: "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z";*/
+/*}*/
