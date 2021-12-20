@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <Properties>
+        <Property name="LOGGING_HOME">${sys:peach.logging.home:-log}</Property>
+        <Property name="CONSOLE_LEVEL">${sys:peach.logging.console.level:-INFO}</Property>
+    </Properties>
     <Appenders>
         <Console name="Console">
-            <PatternLayout pattern="%highlight{[%d{HH:mm:ss}] [%logger{1}/%t] [%level]: %msg%n%xEx}{STYLE=Logback}"/>
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
         </Console>
-        <RollingRandomAccessFile name="File" fileName="log/latest.log" filePattern="log/%d{yyyy_MM_dd}-%i.log.gz">
+        <RollingRandomAccessFile name="File" fileName="${LOGGING_HOME}/latest.log"
+                                 filePattern="log/%d{yyyy_MM_dd}-%i.log.gz">
             <PatternLayout pattern="[%d{HH:mm:ss}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
             <Policies>
-                <TimeBasedTriggeringPolicy/>
                 <OnStartupTriggeringPolicy/>
             </Policies>
-            <DefaultRolloverStrategy max="99" fileIndex="min"/>
+            <DefaultRolloverStrategy max="30">
+                <Delete basePath="log" maxDepth="1">
+                    <IfFileName glob="*.log.gz"/>
+                    <IfLastModified age="14d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingRandomAccessFile>
-        <RollingRandomAccessFile name="DebugFile" fileName="log/debug.log"
-                                 filePattern="log/debug-%d{yyyy_MM_dd}-%i.log.gz">
-            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%logger{1.}/%t] [%level]: %msg%n%xEx"/>
-            <Policies>
-                <OnStartupTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="200MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="5" fileIndex="min"/>
-        </RollingRandomAccessFile>
+        <!--        <RollingRandomAccessFile name="DebugFile" fileName="log/debug.log"-->
+        <!--                                 filePattern="log/debug-%d{yyyy_MM_dd}-%i.log.gz">-->
+        <!--            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%logger{1.}/%t] [%level]: %msg%n%xEx"/>-->
+        <!--            <Policies>-->
+        <!--                <OnStartupTriggeringPolicy/>-->
+        <!--            </Policies>-->
+        <!--            <DefaultRolloverStrategy max="5"/>-->
+        <!--        </RollingRandomAccessFile>-->
     </Appenders>
     <Loggers>
         <Root level="ALL">
-            <AppenderRef ref="Console" level="${sys:peach.logging.console.level:-INFO}"/>
+            <AppenderRef ref="Console" level="${CONSOLE_LEVEL}"/>
             <AppenderRef ref="File" level="INFO"/>
-            <AppenderRef ref="DebugFile" level="DEBUG"/>
+            <!--            <AppenderRef ref="DebugFile" level="DEBUG"/>-->
         </Root>
     </Loggers>
 </configuration>
