@@ -72,15 +72,15 @@ public final class Peach extends ComponentManagerImpl {
 
     private static void printSystemInfo() {
         LOGGER.info("----- System Information -----");
-        LOGGER.info("\tApplication Version: {}", getInstance().getVersion());
-        LOGGER.info("\tOperating System: {} ({}) version {}", OS_NAME, OS_ARCH, OS_VERSION);
-        LOGGER.info("\tJava Version: {} ({}), {}", JAVA_VERSION, JAVA_VM_VERSION, JAVA_VENDOR);
-        LOGGER.info("\tJVM Information: {} ({}), {}", JAVA_VM_NAME, JAVA_VM_INFO, JAVA_VM_VENDOR);
+        LOGGER.info("Application Version: {}", getInstance().getVersion());
+        LOGGER.info("Operating System: {} ({}) version {}", OS_NAME, OS_ARCH, OS_VERSION);
+        LOGGER.info("Java Version: {} ({}), {}", JAVA_VERSION, JAVA_VM_VERSION, JAVA_VENDOR);
+        LOGGER.info("JVM Information: {} ({}), {}", JAVA_VM_NAME, JAVA_VM_INFO, JAVA_VM_VENDOR);
         long maxMemory = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getMax();
-        LOGGER.info("\tMax Heap Memory: {} bytes ({} MB)", maxMemory, maxMemory >> 20);
+        LOGGER.info("Max Heap Memory: {} bytes ({} MB)", maxMemory, maxMemory >> 20);
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         List<String> jvmFlags = runtimeMXBean.getInputArguments();
-        LOGGER.info("\tJVM Flags ({} totals): {}", jvmFlags.size(), String.join(" ", jvmFlags));
+        LOGGER.info("JVM Flags ({} totals): {}", jvmFlags.size(), String.join(" ", jvmFlags));
         LOGGER.info("------------------------------");
     }
 
