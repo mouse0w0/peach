@@ -31,7 +31,6 @@ dependencies {
     compile 'org.controlsfx:controlsfx:8.40.18'
 
     compile 'org.ow2.asm:asm-commons:9.0'
-    compile 'org.codehaus.groovy:groovy:3.0.9'
 
     compile 'org.slf4j:slf4j-api:1.7.32'
 
