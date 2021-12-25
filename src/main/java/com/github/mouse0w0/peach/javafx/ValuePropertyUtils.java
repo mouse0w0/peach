@@ -28,10 +28,8 @@ public final class ValuePropertyUtils {
         register(n -> n instanceof ColorPicker, n -> ((ColorPicker) n).valueProperty());
         register(n -> n instanceof DatePicker, n -> ((DatePicker) n).valueProperty());
         register(n -> n instanceof Spinner, n -> ((Spinner<?>) n).getValueFactory().valueProperty());
-
-        // Failed to select items in those controls.
-        register(n -> n instanceof ListView, n -> ((ListView<?>) n).itemsProperty());
-        register(n -> n instanceof TableView, n -> ((TableView<?>) n).itemsProperty());
+        register(n -> n instanceof ListView, n -> new SelectedItemProperty<>(((ListView<?>) n).getSelectionModel()));
+        register(n -> n instanceof TableView, n -> new SelectedItemProperty<>(((TableView<?>) n).getSelectionModel()));
     }
 
     @SuppressWarnings("unchecked")
