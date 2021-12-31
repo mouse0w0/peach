@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.content.contentPack;
+package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;

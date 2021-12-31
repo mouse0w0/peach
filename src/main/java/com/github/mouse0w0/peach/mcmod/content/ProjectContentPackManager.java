@@ -1,8 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.content.contentPack.ContentPack;
-import com.github.mouse0w0.peach.mcmod.content.contentPack.ContentPackManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
