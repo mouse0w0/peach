@@ -9,7 +9,6 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FileUtils {
@@ -125,21 +124,15 @@ public class FileUtils {
         }
     }
 
-    private static final Pattern URL_TRIPLET = Pattern.compile("%[a-fA-F0-9]{2}");
-
     public static String toFileSystemUrlAsString(Path path) {
         String url = toUrlAsString(path);
-        Matcher matcher = URL_TRIPLET.matcher(url);
         StringBuilder result = new StringBuilder(url.length());
-        int offset = 0;
-        while (matcher.find()) {
-            int start = matcher.start();
-            int end = matcher.end();
-            result.append(url, offset, start)
-                    .append(parseChar(url, start + 1, end));
-            offset = end;
+        int prev = 0, next;
+        while ((next = url.indexOf('%', prev)) != -1) {
+            result.append(url, prev, next).append(parseChar(url, next + 1, next + 3));
+            prev = next;
         }
-        result.append(url, offset, url.length());
+        result.append(url, prev, url.length());
         return result.toString();
     }
 
