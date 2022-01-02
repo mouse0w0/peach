@@ -46,7 +46,7 @@ public class DeleteAction extends Action {
 
         if (Alert.confirm(I18n.translate("dialog.delete.title"), message)) {
             for (Path path : paths) {
-                FileUtils.delete(path);
+                FileUtils.deleteIfExists(path);
             }
         }
     }

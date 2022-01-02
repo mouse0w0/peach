@@ -33,28 +33,32 @@ public class FileUtils {
     }
 
     public static void createDirectoriesIfNotExists(Path path) throws IOException {
-        if (!Files.exists(path)) {
-            Files.createDirectories(path);
-        }
+        if (Files.exists(path)) return;
+        Files.createDirectories(path);
     }
 
     public static void createDirectoriesIfNotExistsSilently(Path path) throws UncheckedIOException {
         try {
-            if (!Files.exists(path)) {
-                Files.createDirectories(path);
-            }
+            createDirectoriesIfNotExists(path);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
     public static void createFileIfNotExists(Path path) throws IOException {
+        if (Files.exists(path)) return;
         Path parent = path.getParent();
-        if (!Files.exists(path)) {
-            if (!Files.exists(parent)) {
-                Files.createDirectories(parent);
-            }
-            Files.createFile(path);
+        if (!Files.exists(parent)) {
+            Files.createDirectories(parent);
+        }
+        Files.createFile(path);
+    }
+
+    public static void createFileIfNotExistsSilently(Path path) throws UncheckedIOException {
+        try {
+            createFileIfNotExists(path);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -62,6 +66,14 @@ public class FileUtils {
         Path parent = path.getParent();
         if (!Files.exists(parent)) {
             Files.createDirectories(parent);
+        }
+    }
+
+    public static void createParentIfNotExistsSilently(Path path) throws UncheckedIOException {
+        try {
+            createParentIfNotExists(path);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -147,7 +159,7 @@ public class FileUtils {
         return (char) result;
     }
 
-    public static boolean isEmpty(Path path) {
+    public static boolean isEmpty(Path path) throws UncheckedIOException {
         try {
             return !Files.list(path).findFirst().isPresent();
         } catch (IOException e) {
@@ -155,7 +167,7 @@ public class FileUtils {
         }
     }
 
-    public static boolean isNotEmpty(Path path) {
+    public static boolean isNotEmpty(Path path) throws UncheckedIOException {
         try {
             return Files.list(path).findFirst().isPresent();
         } catch (IOException e) {
@@ -191,25 +203,21 @@ public class FileUtils {
         return StringUtils.substringAfterLast(fileName, '.');
     }
 
-    public static boolean delete(Path path) {
-        return delete(path.toFile());
+    public static boolean deleteIfExists(Path path) {
+        return deleteIfExists(path.toFile());
     }
 
-    public static boolean delete(File file) {
-        if (!file.exists()) {
-            return false;
-        }
+    public static boolean deleteIfExists(File file) {
+        if (!file.exists()) return false;
         return file.isFile() ? file.delete() : deleteDirectory(file);
     }
 
-    public static boolean deleteDirectoryIfPresent(Path path) {
-        return deleteDirectoryIfPresent(path.toFile());
+    public static boolean deleteDirectoryIfExists(Path path) {
+        return deleteDirectoryIfExists(path.toFile());
     }
 
-    public static boolean deleteDirectoryIfPresent(File file) {
-        if (!file.exists()) {
-            return false;
-        }
+    public static boolean deleteDirectoryIfExists(File file) {
+        if (!file.exists()) return false;
         return deleteDirectory(file);
     }
 
