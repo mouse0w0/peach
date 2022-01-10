@@ -44,6 +44,14 @@ public class StringUtils {
         return false;
     }
 
+    public static boolean isEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
+
+    public static boolean notEmpty(String str) {
+        return str != null && !str.isEmpty();
+    }
+
     private StringUtils() {
     }
 }

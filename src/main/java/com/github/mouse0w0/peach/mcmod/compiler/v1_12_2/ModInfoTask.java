@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
-import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
+import com.github.mouse0w0.peach.mcmod.compiler.Context;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonObject;
@@ -9,15 +9,15 @@ import com.google.gson.JsonObject;
 public class ModInfoTask implements CompileTask {
 
     @Override
-    public void run(Compiler compiler) throws Exception {
-        McModMetadata modSettings = compiler.getMetadata();
+    public void run(Context context) throws Exception {
+        McModMetadata metadata = context.getMetadata();
         JsonObject jo = new JsonObject();
-        jo.addProperty("modid", modSettings.getId());
-        jo.addProperty("name", modSettings.getName());
-        jo.addProperty("description", modSettings.getDescription());
-        jo.addProperty("version", modSettings.getVersion());
-        jo.addProperty("mcversion", modSettings.getMcVersion());
-        jo.add("authorList", JsonUtils.jsonStringArray(modSettings.getAuthors()));
-        compiler.getResourcesFiler().write("mcmod.info", JsonUtils.jsonArray(jo).toString());
+        jo.addProperty("modid", metadata.getId());
+        jo.addProperty("name", metadata.getName());
+        jo.addProperty("description", metadata.getDescription());
+        jo.addProperty("version", metadata.getVersion());
+        jo.addProperty("mcversion", metadata.getMcVersion());
+        jo.add("authorList", JsonUtils.jsonStringArray(metadata.getAuthors()));
+        context.getResourcesFiler().write("mcmod.info", JsonUtils.jsonArray(jo).toString());
     }
 }

@@ -1,40 +1,193 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
-import com.github.mouse0w0.coffeemaker.CoffeeMaker;
-import com.github.mouse0w0.coffeemaker.evaluator.Evaluator;
+import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
+import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
+import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.FileUtils;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
-public interface Compiler {
+public final class Compiler implements Context {
 
-    Messager getMessager();
+    private final Project project;
 
-    McModMetadata getMetadata();
+    private ProjectStructure projectStructure;
+    private McModMetadata metadata;
+    private String id;
+    private Path outputFolder;
+    private ModelManager modelManager;
+    private ElementRegistry elementRegistry;
+    private ElementManager elementManager;
+    private Messager messager;
 
-    Path getSourceFolder();
+    private String rootPackageName;
 
-    ProjectStructure getProjectStructure();
+    private Multimap<ElementType<?>, Element> elements;
 
-    Path getOutputFolder();
+    private Filer classesFiler;
+    private Filer resourcesFiler;
+    private Filer assetsFiler;
 
-    String getRootPackageName();
+    private final List<CompileTask> taskList = new ArrayList<>();
 
-    Multimap<ElementType<?>, Element> getElements();
+    public Compiler(Project project) {
+        this.project = project;
+    }
 
-    ModelManager getModelManager();
+    @Override
+    public Messager getMessager() {
+        return messager;
+    }
 
-    CoffeeMaker getCoffeeMaker();
+    @Override
+    public McModMetadata getMetadata() {
+        return metadata;
+    }
 
-    Evaluator getEvaluator();
+    @Override
+    public Path getSourceFolder() {
+        return projectStructure.getRoot();
+    }
 
-    Filer getClassesFiler();
+    @Override
+    public ProjectStructure getProjectStructure() {
+        return projectStructure;
+    }
 
-    Filer getResourcesFiler();
+    @Override
+    public Path getOutputFolder() {
+        return outputFolder;
+    }
 
-    Filer getAssetsFiler();
+    @Override
+    public Multimap<ElementType<?>, Element> getElements() {
+        return elements;
+    }
+
+    @Override
+    public ModelManager getModelManager() {
+        return modelManager;
+    }
+
+    @Override
+    public Filer getClassesFiler() {
+        return classesFiler;
+    }
+
+    @Override
+    public Filer getResourcesFiler() {
+        return resourcesFiler;
+    }
+
+    @Override
+    public Filer getAssetsFiler() {
+        return assetsFiler;
+    }
+
+    @Override
+    public String getRootPackageName() {
+        return rootPackageName;
+    }
+
+    @Override
+    public String getNamespace() {
+        return metadata.getId();
+    }
+
+    @Override
+    public String getInternalName(String className) {
+        return ASMUtils.getInternalName(rootPackageName, className);
+    }
+
+    @Override
+    public String getTranslationKey(String prefix, String identifier) {
+        return prefix + "." + id + "." + identifier;
+    }
+
+    @Override
+    public String getTranslationKey(String identifier) {
+        return id + "." + identifier;
+    }
+
+    @Override
+    public String getResourceKey(String prefix, String identifier) {
+        return id + ":" + prefix + "/" + identifier;
+    }
+
+    public void run() {
+        doInitialize();
+        doCompile();
+    }
+
+    private void doInitialize() {
+        try {
+            this.projectStructure = new ProjectStructure(project.getPath());
+            this.metadata = McModDescriptor.getInstance(project).getMetadata();
+            this.id = metadata.getId();
+            this.outputFolder = project.getPath().resolve("build");
+            this.modelManager = ModelManager.getInstance();
+            this.elementRegistry = ElementRegistry.getInstance();
+            this.elementManager = ElementManager.getInstance(project);
+            this.messager = new MessagerImpl();
+
+            FileUtils.createDirectoriesIfNotExists(getOutputFolder());
+
+            rootPackageName = "peach.generated." + getMetadata().getId();
+
+            elements = loadElements();
+
+            classesFiler = new Filer(getOutputFolder().resolve("classes"));
+            resourcesFiler = new Filer(getOutputFolder().resolve("resources"));
+            assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getMetadata().getId()));
+
+            taskList.add(new CleanTask());
+            taskList.add(new ElementTask());
+            taskList.add(new LanguageTask());
+            taskList.add(new MainClassTask());
+            taskList.add(new ModInfoTask());
+            taskList.add(new AssetsInfoTask());
+
+            Path outputFile = getOutputFolder().resolve("artifacts/" + metadata.getId() + "-" + metadata.getVersion() + ".jar");
+            taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
+        } catch (Exception e) {
+            getMessager().error("Caught an exception when initializing compiler.", e);
+        }
+    }
+
+    private Multimap<ElementType<?>, Element> loadElements() throws IOException {
+        Path sources = getProjectStructure().getSources();
+
+        Multimap<ElementType<?>, Element> elements = HashMultimap.create();
+
+        Files.walk(sources)
+                .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
+                .forEach(file -> {
+                    ElementType<?> elementType = elementRegistry.getElementType(file);
+                    elements.put(elementType, elementManager.loadElement(file));
+                });
+        return elements;
+    }
+
+    private void doCompile() {
+        try {
+            for (CompileTask compileTask : taskList) {
+                compileTask.run(this);
+            }
+        } catch (Exception e) {
+            getMessager().error("Caught an exception in executing task.", e);
+        }
+    }
 }

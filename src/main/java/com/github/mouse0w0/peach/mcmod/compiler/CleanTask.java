@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.util.FileUtils;
 
 public class CleanTask implements CompileTask {
     @Override
-    public void run(Compiler compiler) throws Exception {
-        FileUtils.deleteDirectory(compiler.getOutputFolder());
+    public void run(Context context) throws Exception {
+        FileUtils.deleteDirectory(context.getOutputFolder());
     }
 }

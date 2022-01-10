@@ -15,7 +15,7 @@ public class ZipTask implements CompileTask {
     }
 
     @Override
-    public void run(Compiler compiler) throws Exception {
+    public void run(Context context) throws Exception {
         ZipUtils.zip(outputFile, inputs);
     }
 }

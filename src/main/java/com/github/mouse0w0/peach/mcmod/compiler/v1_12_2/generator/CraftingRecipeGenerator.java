@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
 
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
+import com.github.mouse0w0.peach.mcmod.compiler.Context;
 import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,10 +10,10 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CraftingRecipeGen extends Generator<MECraftingRecipe> {
+public class CraftingRecipeGenerator extends Generator<MECraftingRecipe> {
 
     @Override
-    protected void generate(Compiler compiler, MECraftingRecipe recipe) throws Exception {
+    protected void generate(Context context, MECraftingRecipe recipe) throws Exception {
         JsonObject jo = new JsonObject();
         generateResult(recipe, jo);
 
@@ -23,7 +23,7 @@ public class CraftingRecipeGen extends Generator<MECraftingRecipe> {
             generateShaped(recipe, jo);
         }
 
-        compiler.getAssetsFiler().write("recipes/" + recipe.getIdentifier() + ".json", jo.toString());
+        context.getAssetsFiler().write("recipes/" + recipe.getIdentifier() + ".json", jo.toString());
     }
 
     private void generateResult(MECraftingRecipe recipe, JsonObject jo) {

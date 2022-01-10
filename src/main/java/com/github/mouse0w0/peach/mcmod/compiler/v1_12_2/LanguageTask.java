@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
-import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
+import com.github.mouse0w0.peach.mcmod.compiler.Context;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 
@@ -13,14 +13,14 @@ import java.util.Properties;
 
 public class LanguageTask implements CompileTask {
     @Override
-    public void run(Compiler compiler) throws Exception {
-        Locale language = compiler.getMetadata().getLanguage();
+    public void run(Context context) throws Exception {
+        Locale language = context.getMetadata().getLanguage();
         String languageTag = language.getLanguage().toLowerCase() + "_" + language.getCountry().toLowerCase();
-        try (BufferedWriter writer = compiler.getAssetsFiler().newWriter("lang/" + languageTag + ".lang")) {
-            String namespace = compiler.getMetadata().getId();
+        try (BufferedWriter writer = context.getAssetsFiler().newWriter("lang/" + languageTag + ".lang")) {
+            String namespace = context.getMetadata().getId();
             Properties translation = new Properties();
             Map<String, String> temp = new HashMap<>();
-            for (Element element : compiler.getElements().values()) {
+            for (Element element : context.getElements().values()) {
                 if (element instanceof LocalizableElement) {
                     temp.clear();
                     ((LocalizableElement) element).getTranslation(namespace, temp);
