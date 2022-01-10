@@ -18,7 +18,6 @@ import javafx.util.StringConverter;
 
 import javax.annotation.Nonnull;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.Locale;
 
 public class MetadataFileEditor extends FileEditorWithButtonBar {
@@ -134,7 +133,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         metadata.setVersion(version.getValue());
         metadata.setMcVersion(mcVersion.getValue());
         metadata.setDescription(description.getValue());
-        metadata.setAuthors(Collections.singletonList(author.getValue()));
+        metadata.setFirstAuthor(author.getValue());
         metadata.setLanguage(language.getValue());
         metadata.setUrl(url.getValue());
         metadata.setUpdateUrl(updateUrl.getValue());

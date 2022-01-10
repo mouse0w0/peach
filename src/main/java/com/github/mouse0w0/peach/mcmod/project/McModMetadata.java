@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
+import com.github.mouse0w0.peach.util.StringUtils;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -69,6 +71,14 @@ public class McModMetadata {
 
     public void setAuthors(List<String> authors) {
         this.authors = authors;
+    }
+
+    public void setFirstAuthor(String author) {
+        if (StringUtils.isEmpty(author)) {
+            authors = Collections.emptyList();
+        } else {
+            authors = Collections.singletonList(author);
+        }
     }
 
     public Locale getLanguage() {
