@@ -9,14 +9,13 @@ import java.util.concurrent.ConcurrentMap;
 
 public final class DataKey<T> {
 
-    @SuppressWarnings("rawtypes")
-    private static final ConcurrentMap<String, DataKey> dataKeys = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<String, DataKey<?>> DATA_KEYS = new ConcurrentHashMap<>();
 
     private final String name;
 
     @SuppressWarnings("unchecked")
     public static <T> DataKey<T> create(@Nonnull String name) {
-        return dataKeys.computeIfAbsent(name, DataKey::new);
+        return (DataKey<T>) DATA_KEYS.computeIfAbsent(name, DataKey::new);
     }
 
     private DataKey(@Nonnull String name) {
@@ -34,6 +33,11 @@ public final class DataKey<T> {
     @SuppressWarnings("unchecked")
     public T get(DataContext context) {
         return (T) context.getData(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T get(DataProvider provider) {
+        return (T) provider.getData(name);
     }
 
     @Override
