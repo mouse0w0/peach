@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
+import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.util.FileUtils;
 
 import java.nio.file.Files;
@@ -45,7 +46,12 @@ public class DeleteAction extends Action {
         String message = I18n.format(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
 
         if (Alert.confirm(I18n.translate("dialog.delete.title"), message)) {
+            FileEditorManager fileEditorManager = FileEditorManager.getInstance(event.getData(DataKeys.PROJECT));
+
             for (Path path : paths) {
+                if (Files.isRegularFile(path)) {
+                    fileEditorManager.close(path);
+                }
                 FileUtils.deleteIfExists(path);
             }
         }
