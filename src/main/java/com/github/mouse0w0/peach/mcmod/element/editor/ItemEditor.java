@@ -52,6 +52,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private ItemPickerField recipeRemain;
     private ComboBoxField<UseAnimation> useAnimation;
     private SpinnerField<Integer> useDuration;
+    private SpinnerField<Integer> hitEntityLoss;
+    private SpinnerField<Integer> destroyBlockLoss;
     private TextAreaField information;
 
     // Appearance
@@ -62,7 +64,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
     // Extra
     private SpinnerField<Integer> fuelBurnTime;
-    private SpinnerField<Double> hunger;
+    private SpinnerField<Integer> hunger;
     private SpinnerField<Double> saturation;
     private RadioButtonField isWolfFood;
     private RadioButtonField alwaysEdible;
@@ -99,6 +101,17 @@ public class ItemEditor extends ElementEditor<MEItem> {
         BooleanBinding isArmor = itemType.valueProperty().isEqualTo(ItemType.ARMOR);
         BooleanBinding isArmorOrFood = isArmor.or(isFood);
 
+        isFood.addListener(observable -> {
+            if (isFood.get()) {
+                durability.setValue(0);
+                useAnimation.setValue(UseAnimation.EAT);
+                useDuration.setValue(32);
+            } else {
+                useAnimation.setValue(UseAnimation.NONE);
+                useDuration.setValue(0);
+            }
+        });
+
         itemGroup = new ComboBoxField<>();
         itemGroup.setText(I18n.translate("item.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableExCell.factory());
@@ -125,7 +138,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         durability.setColSpan(ColSpan.HALF);
         durability.disableProperty().bind(isFood);
 
-        destroySpeed = new SpinnerField<>(0.0, Float.MAX_VALUE, 0.0);
+        destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.0);
         destroySpeed.setText(I18n.translate("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
         destroySpeed.disableProperty().bind(isArmorOrFood);
@@ -160,6 +173,26 @@ public class ItemEditor extends ElementEditor<MEItem> {
         equipmentSlot.setConverter(LocalizableConverter.instance());
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
         equipmentSlot.setColSpan(ColSpan.HALF);
+        equipmentSlot.disableProperty().bind(Bindings.createBooleanBinding(() -> {
+            ItemType type = itemType.getValue();
+            if (type == ItemType.FOOD) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
+                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
+                return true;
+            }
+
+            if (type == ItemType.NORMAL) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.values());
+                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
+            } else if (type == ItemType.SWORD || type == ItemType.TOOL) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
+                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
+            } else if (type == ItemType.ARMOR) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.ARMOR_SLOTS);
+                equipmentSlot.setValue(EquipmentSlot.HEAD);
+            }
+            return false;
+        }, itemType.valueProperty()));
 
         repairItem = new ItemPickerField();
         repairItem.setText(I18n.translate("item.properties.repairItem"));
@@ -183,15 +216,47 @@ public class ItemEditor extends ElementEditor<MEItem> {
         useDuration.setText(I18n.translate("item.properties.useDuration"));
         useDuration.setColSpan(ColSpan.HALF);
 
-        isFood.addListener(observable -> {
-            if (isFood.get()) {
-                useAnimation.setValue(UseAnimation.EAT);
-                useDuration.setValue(32);
+        hitEntityLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        hitEntityLoss.setText(I18n.translate("item.properties.hitEntityLoss"));
+        hitEntityLoss.setColSpan(ColSpan.HALF);
+        hitEntityLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
+            if (durability.getValue() == 0) return true;
+            ItemType type = itemType.getValue();
+            if (type == ItemType.NORMAL) {
+                hitEntityLoss.setValue(0);
+                return false;
+            } else if (type == ItemType.TOOL) {
+                hitEntityLoss.setValue(2);
+                return false;
+            } else if (type == ItemType.SWORD) {
+                hitEntityLoss.setValue(1);
+                return false;
             } else {
-                useAnimation.setValue(UseAnimation.NONE);
-                useDuration.setValue(0);
+                hitEntityLoss.setValue(0);
+                return true;
             }
-        });
+        }, itemType.valueProperty(), durability.valueProperty()));
+
+        destroyBlockLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        destroyBlockLoss.setText(I18n.translate("item.properties.destroyBlockLoss"));
+        destroyBlockLoss.setColSpan(ColSpan.HALF);
+        destroyBlockLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
+            if (durability.getValue() == 0) return true;
+            ItemType type = itemType.getValue();
+            if (type == ItemType.NORMAL) {
+                destroyBlockLoss.setValue(0);
+                return false;
+            } else if (type == ItemType.TOOL) {
+                destroyBlockLoss.setValue(1);
+                return false;
+            } else if (type == ItemType.SWORD) {
+                destroyBlockLoss.setValue(2);
+                return false;
+            } else {
+                destroyBlockLoss.setValue(0);
+                return true;
+            }
+        }, itemType.valueProperty(), durability.valueProperty()));
 
         information = new TextAreaField();
         information.setText(I18n.translate("item.properties.information"));
@@ -206,6 +271,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 attributeModifiers,
                 repairItem, recipeRemain,
                 useAnimation, useDuration,
+                hitEntityLoss, destroyBlockLoss,
                 information);
 
         Section appearance = new Section();
@@ -246,12 +312,12 @@ public class ItemEditor extends ElementEditor<MEItem> {
         fuelBurnTime.setText(I18n.translate("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
-        hunger = new SpinnerField<>(0.0, 20.0, 0.0);
+        hunger = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         hunger.setText(I18n.translate("item.food.hunger"));
         hunger.setColSpan(ColSpan.HALF);
         hunger.visibleProperty().bind(isFood);
 
-        saturation = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.0);
+        saturation = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.6);
         saturation.setText(I18n.translate("item.food.saturation"));
         saturation.setColSpan(ColSpan.HALF);
         saturation.visibleProperty().bind(isFood);
@@ -298,6 +364,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         recipeRemain.setValue(item.getRecipeRemain());
         useAnimation.setValue(item.getUseAnimation());
         useDuration.setValue(item.getUseDuration());
+        hitEntityLoss.setValue(item.getHitEntityLoss());
+        destroyBlockLoss.setValue(item.getDestroyBlockLoss());
         information.setValue(item.getInformation());
 
         model.setValue(item.getModel());
@@ -332,6 +400,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setRecipeRemain(recipeRemain.getValue());
         item.setUseAnimation(useAnimation.getValue());
         item.setUseDuration(useDuration.getValue());
+        item.setHitEntityLoss(hitEntityLoss.getValue());
+        item.setDestroyBlockLoss(destroyBlockLoss.getValue());
         item.setInformation(information.getValue());
 
         item.setModel(model.getValue());

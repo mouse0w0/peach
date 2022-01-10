@@ -18,7 +18,7 @@ public class MEItem extends Element implements LocalizableElement {
     private ItemGroup itemGroup;
     private int maxStackSize = 64;
     private int durability;
-    private double destroySpeed;
+    private double destroySpeed = 1;
     private boolean canDestroyAnyBlock;
     private ToolAttribute[] toolAttributes = ToolAttribute.EMPTY_ARRAY;
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
@@ -29,6 +29,8 @@ public class MEItem extends Element implements LocalizableElement {
     private EquipmentSlot equipmentSlot = EquipmentSlot.MAINHAND;
     private UseAnimation useAnimation = UseAnimation.NONE;
     private int useDuration;
+    private int hitEntityLoss;
+    private int destroyBlockLoss;
     private String information;
 
     private Identifier model = DEFAULT_MODEL;
@@ -37,8 +39,8 @@ public class MEItem extends Element implements LocalizableElement {
     private String armorTexture;
 
     private int fuelBurnTime;
-    private double hunger;
-    private double saturation;
+    private int hunger;
+    private double saturation = 0.6;
     private boolean isWolfFood;
     private boolean alwaysEdible;
     private ItemRef foodContainer = ItemRef.AIR;
@@ -179,6 +181,22 @@ public class MEItem extends Element implements LocalizableElement {
         this.useDuration = useDuration;
     }
 
+    public int getHitEntityLoss() {
+        return hitEntityLoss;
+    }
+
+    public void setHitEntityLoss(int hitEntityLoss) {
+        this.hitEntityLoss = hitEntityLoss;
+    }
+
+    public int getDestroyBlockLoss() {
+        return destroyBlockLoss;
+    }
+
+    public void setDestroyBlockLoss(int destroyBlockLoss) {
+        this.destroyBlockLoss = destroyBlockLoss;
+    }
+
     public int getFuelBurnTime() {
         return fuelBurnTime;
     }
@@ -227,11 +245,11 @@ public class MEItem extends Element implements LocalizableElement {
         this.armorTexture = armorTexture;
     }
 
-    public double getHunger() {
+    public int getHunger() {
         return hunger;
     }
 
-    public void setHunger(double hunger) {
+    public void setHunger(int hunger) {
         this.hunger = hunger;
     }
 
