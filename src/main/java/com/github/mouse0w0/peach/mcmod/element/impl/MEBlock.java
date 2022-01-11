@@ -11,7 +11,7 @@ import java.util.Map;
 public class MEBlock extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
-    private BlockPrototype prototype = BlockPrototype.NONE;
+    private BlockType type = BlockType.NONE;
     private Material material;
     private ItemGroup itemGroup;
     private SoundType soundType;
@@ -69,12 +69,12 @@ public class MEBlock extends Element implements LocalizableElement {
         this.displayName = displayName;
     }
 
-    public BlockPrototype getPrototype() {
-        return prototype;
+    public BlockType getType() {
+        return type;
     }
 
-    public void setPrototype(BlockPrototype prototype) {
-        this.prototype = prototype;
+    public void setType(BlockType type) {
+        this.type = type;
     }
 
     public Material getMaterial() {

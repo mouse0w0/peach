@@ -36,7 +36,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
     private TextFieldField identifier;
     private TextFieldField displayName;
-    private ChoiceBoxField<BlockPrototype> prototype;
+    private ChoiceBoxField<BlockType> type;
     private ComboBoxField<Material> material;
     private ComboBoxField<ItemGroup> itemGroup;
     private ComboBoxField<SoundType> soundType;
@@ -100,11 +100,11 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         displayName.setText(I18n.translate("block.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
-        prototype = new ChoiceBoxField<>();
-        prototype.setText(I18n.translate("block.properties.prototype"));
-        prototype.setConverter(LocalizableConverter.instance());
-        prototype.getItems().addAll(BlockPrototype.values());
-        prototype.setColSpan(ColSpan.HALF);
+        type = new ChoiceBoxField<>();
+        type.setText(I18n.translate("block.properties.type"));
+        type.setConverter(LocalizableConverter.instance());
+        type.getItems().addAll(BlockType.values());
+        type.setColSpan(ColSpan.HALF);
 
         material = new ComboBoxField<>();
         material.setText(I18n.translate("block.properties.material"));
@@ -169,7 +169,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         properties.setText(I18n.translate("block.properties.title"));
         properties.getElements().addAll(
                 identifier, displayName,
-                prototype, material,
+                type, material,
                 itemGroup, soundType,
                 hardness, unbreakable,
                 resistance, slipperiness,
@@ -331,7 +331,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     protected void initialize(MEBlock element) {
         identifier.setValue(element.getIdentifier());
         displayName.setValue(element.getDisplayName());
-        prototype.setValue(element.getPrototype());
+        type.setValue(element.getType());
         material.setValue(element.getMaterial());
         itemGroup.setValue(element.getItemGroup());
         soundType.setValue(element.getSoundType());
@@ -378,7 +378,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     protected void updateDataModel(MEBlock element) {
         element.setIdentifier(identifier.getValue().trim());
         element.setDisplayName(displayName.getValue());
-        element.setPrototype(prototype.getValue());
+        element.setType(type.getValue());
         element.setMaterial(material.getValue());
         element.setItemGroup(itemGroup.getValue());
         element.setSoundType(soundType.getValue());
