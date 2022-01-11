@@ -37,7 +37,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     // Properties
     private TextFieldField identifier;
     private TextFieldField displayName;
-    private ComboBoxField<ItemType> itemType;
+    private ComboBoxField<ItemType> type;
     private ComboBoxField<ItemGroup> itemGroup;
     private SpinnerField<Integer> maxStackSize;
     private SpinnerField<Integer> durability;
@@ -91,14 +91,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
         displayName.setText(I18n.translate("item.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
-        itemType = new ComboBoxField<>();
-        itemType.setText(I18n.translate("item.properties.itemType"));
-        itemType.setCellFactory(LocalizableCell.factory());
-        itemType.setButtonCell(new LocalizableCell<>());
-        itemType.getItems().setAll(ItemType.values());
-        itemType.setColSpan(ColSpan.HALF);
-        BooleanBinding isFood = itemType.valueProperty().isEqualTo(ItemType.FOOD);
-        BooleanBinding isArmor = itemType.valueProperty().isEqualTo(ItemType.ARMOR);
+        type = new ComboBoxField<>();
+        type.setText(I18n.translate("item.properties.type"));
+        type.setCellFactory(LocalizableCell.factory());
+        type.setButtonCell(new LocalizableCell<>());
+        type.getItems().setAll(ItemType.values());
+        type.setColSpan(ColSpan.HALF);
+        BooleanBinding isFood = type.valueProperty().isEqualTo(ItemType.FOOD);
+        BooleanBinding isArmor = type.valueProperty().isEqualTo(ItemType.ARMOR);
         BooleanBinding isArmorOrFood = isArmor.or(isFood);
 
         isFood.addListener(observable -> {
@@ -123,7 +123,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         maxStackSize.setText(I18n.translate("item.properties.maxStackSize"));
         maxStackSize.setColSpan(ColSpan.HALF);
         maxStackSize.disableProperty().bind(Bindings.createBooleanBinding(() -> {
-            ItemType type = itemType.getValue();
+            ItemType type = this.type.getValue();
             if (type == ItemType.NORMAL || type == ItemType.FOOD) {
                 maxStackSize.setValue(64);
                 return false;
@@ -131,7 +131,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 maxStackSize.setValue(1);
                 return true;
             }
-        }, itemType.valueProperty()));
+        }, type.valueProperty()));
 
         durability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         durability.setText(I18n.translate("item.properties.durability"));
@@ -174,7 +174,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
         equipmentSlot.setColSpan(ColSpan.HALF);
         equipmentSlot.disableProperty().bind(Bindings.createBooleanBinding(() -> {
-            ItemType type = itemType.getValue();
+            ItemType type = this.type.getValue();
             if (type == ItemType.FOOD) {
                 equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
                 equipmentSlot.setValue(EquipmentSlot.MAINHAND);
@@ -192,7 +192,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 equipmentSlot.setValue(EquipmentSlot.HEAD);
             }
             return false;
-        }, itemType.valueProperty()));
+        }, type.valueProperty()));
 
         repairItem = new ItemPickerField();
         repairItem.setText(I18n.translate("item.properties.repairItem"));
@@ -221,7 +221,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         hitEntityLoss.setColSpan(ColSpan.HALF);
         hitEntityLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
-            ItemType type = itemType.getValue();
+            ItemType type = this.type.getValue();
             if (type == ItemType.NORMAL) {
                 hitEntityLoss.setValue(0);
                 return false;
@@ -235,14 +235,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 hitEntityLoss.setValue(0);
                 return true;
             }
-        }, itemType.valueProperty(), durability.valueProperty()));
+        }, type.valueProperty(), durability.valueProperty()));
 
         destroyBlockLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         destroyBlockLoss.setText(I18n.translate("item.properties.destroyBlockLoss"));
         destroyBlockLoss.setColSpan(ColSpan.HALF);
         destroyBlockLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
-            ItemType type = itemType.getValue();
+            ItemType type = this.type.getValue();
             if (type == ItemType.NORMAL) {
                 destroyBlockLoss.setValue(0);
                 return false;
@@ -256,14 +256,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 destroyBlockLoss.setValue(0);
                 return true;
             }
-        }, itemType.valueProperty(), durability.valueProperty()));
+        }, type.valueProperty(), durability.valueProperty()));
 
         information = new TextAreaField();
         information.setText(I18n.translate("item.properties.information"));
 
         properties.getElements().addAll(
                 identifier, displayName,
-                itemType, itemGroup,
+                type, itemGroup,
                 maxStackSize, durability,
                 equipmentSlot, toolAttributes,
                 destroySpeed, canDestroyAnyBlock,
@@ -349,7 +349,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     protected void initialize(MEItem item) {
         identifier.setValue(item.getIdentifier());
         displayName.setValue(item.getDisplayName());
-        itemType.setValue(item.getItemType());
+        type.setValue(item.getType());
         itemGroup.setValue(item.getItemGroup());
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
@@ -385,7 +385,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     protected void updateDataModel(MEItem item) {
         item.setIdentifier(identifier.getValue().trim());
         item.setDisplayName(displayName.getValue());
-        item.setItemType(itemType.getValue());
+        item.setType(type.getValue());
         item.setItemGroup(itemGroup.getValue());
         item.setMaxStackSize(maxStackSize.getValue());
         item.setDurability(durability.getValue());

@@ -38,7 +38,7 @@ public class ItemGenerator extends Generator<MEItem> {
         String identifier = item.getIdentifier();
 
         ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)) + "Item");
-        ItemType type = item.getItemType();
+        ItemType type = item.getType();
         if (type == ItemType.NORMAL)
             cg.visitNormalItem();
         else if (type == ItemType.FOOD)
@@ -97,7 +97,7 @@ public class ItemGenerator extends Generator<MEItem> {
             assetsFiler.copy(texturesPath.resolve(texture + ".png"), "textures/" + texture + ".png");
         }
 
-        if (item.getItemType() == ItemType.ARMOR) {
+        if (item.getType() == ItemType.ARMOR) {
             String armorTexture = item.getArmorTexture();
             assetsFiler.copy(texturesPath.resolve(armorTexture), "textures/" + armorTexture);
         }
