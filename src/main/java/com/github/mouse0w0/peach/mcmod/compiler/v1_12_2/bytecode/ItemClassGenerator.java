@@ -22,6 +22,8 @@ public class ItemClassGenerator extends ClassGenerator {
     public void visitNormalItem() {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/Item", null);
 
+        cw.visitSource("Peach.generated", null);
+
         initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         initMethod.visitCode();
         initMethod.visitVarInsn(ALOAD, 0);
@@ -30,6 +32,8 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitFoodItem(int hunger, float saturation, boolean isWolfFood) {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemFood", null);
+
+        cw.visitSource("Peach.generated", null);
 
         initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         initMethod.visitCode();
@@ -49,7 +53,9 @@ public class ItemClassGenerator extends ClassGenerator {
      * @param damage     is attribute "generic.attackDamage" minus 3
      */
     public void visitSwordItem(String identifier, float damage) {
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, "peach/generated/item/ExampleSword", null, "net/minecraft/item/ItemSword", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemSword", null);
+
+        cw.visitSource("Peach.generated", null);
 
         cw.visitInnerClass("net/minecraft/item/Item$ToolMaterial", "net/minecraft/item/Item", "ToolMaterial", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
 
@@ -69,7 +75,9 @@ public class ItemClassGenerator extends ClassGenerator {
     }
 
     public void visitArmorItem(String identifier) {
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, "peach/generated/item/ExampleArmor", null, "net/minecraft/item/ItemArmor", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemArmor", null);
+
+        cw.visitSource("Peach.generated", null);
 
         cw.visitInnerClass("net/minecraft/item/ItemArmor$ArmorMaterial", "net/minecraft/item/ItemArmor", "ArmorMaterial", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
 
@@ -149,7 +157,7 @@ public class ItemClassGenerator extends ClassGenerator {
         initMethod.visitVarInsn(ALOAD, 0);
         ASMUtils.push(initMethod, toolAttribute.getType());
         ASMUtils.push(initMethod, toolAttribute.getLevel());
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, "peach/generated/item/ExampleItem", "setHarvestLevel", "(Ljava/lang/String;I)V", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "setHarvestLevel", "(Ljava/lang/String;I)V", false);
     }
 
     public void visitHasEffect() {
@@ -443,7 +451,7 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitAlwaysEdible() {
         initMethod.visitVarInsn(ALOAD, 0);
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, "peach/generated/item/ExampleFood", "func_77848_i", "()Lnet/minecraft/item/ItemFood;", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77848_i", "()Lnet/minecraft/item/ItemFood;", false);
         initMethod.visitInsn(POP);
     }
 
