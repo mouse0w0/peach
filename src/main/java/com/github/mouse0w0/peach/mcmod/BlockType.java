@@ -4,13 +4,13 @@ import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
 public enum BlockType implements Localizable {
-    NONE,
+    NORMAL,
     PILLAR,
-    HORIZONTAL_FOR_PLAYER,
-    HORIZONTAL_FOR_BLOCK,
-    //    VERTICAL,
-    SIX_DIRECTION_FOR_PLAYER,
-    SIX_DIRECTION_FOR_BLOCK,
+    HORIZONTAL,
+    HORIZONTAL_OPPOSITE,
+    SIX_DIRECTION,
+    SIX_DIRECTION_OPPOSITE,
+    GRASS,
     STAIR,
     SLAB,
     FENCE,

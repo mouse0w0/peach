@@ -11,7 +11,7 @@ import java.util.Map;
 public class MEBlock extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
-    private BlockType type = BlockType.NONE;
+    private BlockType type = BlockType.NORMAL;
     private Material material;
     private ItemGroup itemGroup;
     private SoundType soundType;
@@ -21,11 +21,9 @@ public class MEBlock extends Element implements LocalizableElement {
     private double slipperiness;
     private int brightness;
     private int opacity;
-    private AABBd boundingBox = new AABBd(0, 0, 0, 1, 1, 1);
-    private boolean noCollision;
-    // private boolean gravity; // as block type?
-    private boolean replaceable; // what?
-    private ToolAttribute[] harvestTools = ToolAttribute.EMPTY_ARRAY;
+    //    private boolean gravity; // as block type?
+    private String harvestTool;
+    private int harvestLevel;
     private String information;
 
     private Identifier model;
@@ -35,7 +33,10 @@ public class MEBlock extends Element implements LocalizableElement {
     private RenderType renderType = RenderType.SOLID;
     private OffsetType offsetType = OffsetType.NONE;
 
-    // private boolean enableLootTable; // 1.14+
+    private AABBd boundingBox = new AABBd(0, 0, 0, 1, 1, 1);
+    private boolean noCollision;
+
+    //    private boolean enableLootTable; // 1.14+
     private ItemStack dropItem;
 
     private boolean doNotRegisterItem;
@@ -43,6 +44,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private Vector4d beaconColor = new Vector4d(0);
     private boolean beaconBase;
     private boolean climbable;
+    private boolean replaceable; // what?
     private boolean canConnectRedstone;
     private int redstonePower;
     private PlantType canPlantPlant = PlantType.NONE;
@@ -51,7 +53,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private int fireSpreadSpeed;
     private PushReaction pushReaction = PushReaction.INHERIT;
     private PathNodeType aiPathNodeType = PathNodeType.INHERIT;
-    private ItemRef pickItem;
+//    private ItemRef pickItem;
 
     public String getIdentifier() {
         return identifier;
@@ -149,36 +151,20 @@ public class MEBlock extends Element implements LocalizableElement {
         this.opacity = opacity;
     }
 
-    public AABBd getBoundingBox() {
-        return boundingBox;
+    public String getHarvestTool() {
+        return harvestTool;
     }
 
-    public void setBoundingBox(AABBd boundingBox) {
-        this.boundingBox = boundingBox;
+    public void setHarvestTool(String harvestTool) {
+        this.harvestTool = harvestTool;
     }
 
-    public boolean isNoCollision() {
-        return noCollision;
+    public int getHarvestLevel() {
+        return harvestLevel;
     }
 
-    public void setNoCollision(boolean noCollision) {
-        this.noCollision = noCollision;
-    }
-
-    public boolean isReplaceable() {
-        return replaceable;
-    }
-
-    public void setReplaceable(boolean replaceable) {
-        this.replaceable = replaceable;
-    }
-
-    public ToolAttribute[] getHarvestTools() {
-        return harvestTools;
-    }
-
-    public void setHarvestTools(ToolAttribute[] harvestTools) {
-        this.harvestTools = harvestTools;
+    public void setHarvestLevel(int harvestLevel) {
+        this.harvestLevel = harvestLevel;
     }
 
     public String getInformation() {
@@ -237,13 +223,29 @@ public class MEBlock extends Element implements LocalizableElement {
         this.offsetType = offsetType;
     }
 
-    public ItemStack getDropItem() {
-        return dropItem;
+    public AABBd getBoundingBox() {
+        return boundingBox;
     }
 
-    public void setDropItem(ItemStack dropItem) {
-        this.dropItem = dropItem;
+    public void setBoundingBox(AABBd boundingBox) {
+        this.boundingBox = boundingBox;
     }
+
+    public boolean isNoCollision() {
+        return noCollision;
+    }
+
+    public void setNoCollision(boolean noCollision) {
+        this.noCollision = noCollision;
+    }
+
+//    public ItemStack getDropItem() {
+//        return dropItem;
+//    }
+//
+//    public void setDropItem(ItemStack dropItem) {
+//        this.dropItem = dropItem;
+//    }
 
     public boolean isDoNotRegisterItem() {
         return doNotRegisterItem;
@@ -283,6 +285,14 @@ public class MEBlock extends Element implements LocalizableElement {
 
     public void setClimbable(boolean climbable) {
         this.climbable = climbable;
+    }
+
+    public boolean isReplaceable() {
+        return replaceable;
+    }
+
+    public void setReplaceable(boolean replaceable) {
+        this.replaceable = replaceable;
     }
 
     public boolean isCanConnectRedstone() {
@@ -349,13 +359,13 @@ public class MEBlock extends Element implements LocalizableElement {
         this.aiPathNodeType = aiPathNodeType;
     }
 
-    public ItemRef getPickItem() {
-        return pickItem;
-    }
-
-    public void setPickItem(ItemRef pickItem) {
-        this.pickItem = pickItem;
-    }
+//    public ItemRef getPickItem() {
+//        return pickItem;
+//    }
+//
+//    public void setPickItem(ItemRef pickItem) {
+//        this.pickItem = pickItem;
+//    }
 
     @Override
     public void getTranslation(String namespace, Map<String, String> translation) {

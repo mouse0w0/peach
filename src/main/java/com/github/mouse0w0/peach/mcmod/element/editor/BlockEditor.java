@@ -18,13 +18,13 @@ import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
-import com.github.mouse0w0.peach.mcmod.ui.form.ToolAttributesField;
 import com.github.mouse0w0.peach.mcmod.util.ColorUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
+import javafx.util.StringConverter;
 import org.joml.primitives.AABBd;
 
 import javax.annotation.Nonnull;
@@ -46,10 +46,9 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private SpinnerField<Double> slipperiness;
     private SpinnerField<Integer> brightness;
     private SpinnerField<Integer> opacity;
-    //    private Object boundingBox; // TODO
-    private RadioButtonField noCollision;
+    private ChoiceBoxField<String> harvestTool;
+    private SpinnerField<Integer> harvestLevel;
     private RadioButtonField replaceable;
-    private ToolAttributesField harvestTools;
     private TextAreaField information;
 
     private SpinnerField<Double> minX;
@@ -58,6 +57,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private SpinnerField<Double> maxX;
     private SpinnerField<Double> maxY;
     private SpinnerField<Double> maxZ;
+    private RadioButtonField noCollision;
 
     private ModelField model;
     private ModelTextureField textures;
@@ -151,16 +151,25 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         opacity.setText(I18n.translate("block.properties.opacity"));
         opacity.setColSpan(ColSpan.HALF);
 
-        noCollision = new RadioButtonField();
-        noCollision.setText(I18n.translate("block.properties.noCollision"));
-        noCollision.setColSpan(ColSpan.HALF);
+        harvestTool = new ChoiceBoxField<>();
+        harvestTool.setText(I18n.translate("block.properties.harvestTool"));
+        harvestTool.setColSpan(ColSpan.HALF);
+        harvestTool.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                return I18n.translate("toolType." + object);
+            }
 
-        replaceable = new RadioButtonField();
-        replaceable.setText(I18n.translate("block.properties.replaceable"));
-        replaceable.setColSpan(ColSpan.HALF);
+            @Override
+            public String fromString(String string) {
+                throw new UnsupportedOperationException();
+            }
+        });
+        harvestTool.getItems().setAll(ToolType.getToolTypes());
 
-        harvestTools = new ToolAttributesField();
-        harvestTools.setText(I18n.translate("block.properties.harvestTools"));
+        harvestLevel = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        harvestLevel.setText(I18n.translate("block.properties.harvestLevel"));
+        harvestLevel.setColSpan(ColSpan.HALF);
 
         information = new TextAreaField();
         information.setText(I18n.translate("block.properties.information"));
@@ -175,8 +184,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 resistance, slipperiness,
                 brightness, opacity,
 //                boundingBox,
-                noCollision, replaceable,
-                harvestTools,
+                harvestTool, harvestLevel,
                 information);
 
         model = new ModelField(new ResourceStore(
@@ -243,11 +251,16 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         maxZ.setText(I18n.translate("block.collision.maxZ"));
         maxZ.setColSpan(ColSpan.THIRD);
 
+        noCollision = new RadioButtonField();
+        noCollision.setText(I18n.translate("block.collision.noCollision"));
+        noCollision.setColSpan(ColSpan.HALF);
+
         Section collision = new Section();
         collision.setText(I18n.translate("block.collision.title"));
         collision.getElements().addAll(
                 minX, minY, minZ,
-                maxX, maxY, maxZ);
+                maxX, maxY, maxZ,
+                noCollision);
 
         doNotRegisterItem = new RadioButtonField();
         doNotRegisterItem.setText(I18n.translate("block.extra.doNotRegisterItem"));
@@ -270,7 +283,11 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         climbable = new RadioButtonField();
         climbable.setText(I18n.translate("block.extra.climbable"));
-//        climbable.setColSpan(ColSpan.HALF);
+        climbable.setColSpan(ColSpan.HALF);
+
+        replaceable = new RadioButtonField();
+        replaceable.setText(I18n.translate("block.extra.replaceable"));
+        replaceable.setColSpan(ColSpan.HALF);
 
         canConnectRedstone = new RadioButtonField();
         canConnectRedstone.setText(I18n.translate("block.extra.canConnectRedstone"));
@@ -315,7 +332,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         extra.getElements().addAll(
                 doNotRegisterItem, mapColor,
                 beaconColor, beaconBase,
-                climbable,
+                climbable, replaceable,
                 canConnectRedstone, redstonePower,
                 canPlantPlant, enchantPowerBonus,
                 flammability, fireSpreadSpeed,
@@ -343,7 +360,8 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         opacity.setValue(element.getOpacity());
         noCollision.setValue(element.isNoCollision());
         replaceable.setValue(element.isReplaceable());
-        harvestTools.setValue(element.getHarvestTools());
+        harvestTool.setValue(element.getHarvestTool());
+        harvestLevel.setValue(element.getHarvestLevel());
         information.setValue(element.getInformation());
 
         model.setValue(element.getModel());
@@ -390,7 +408,8 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setOpacity(opacity.getValue());
         element.setNoCollision(noCollision.getValue());
         element.setReplaceable(replaceable.getValue());
-        element.setHarvestTools(harvestTools.getValue());
+        element.setHarvestTool(harvestTool.getValue());
+        element.setHarvestLevel(harvestLevel.getValue());
         element.setInformation(information.getValue());
 
         element.setModel(model.getValue());
@@ -410,6 +429,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setCanConnectRedstone(canConnectRedstone.getValue());
         element.setRedstonePower(redstonePower.getValue());
         element.setCanPlantPlant(canPlantPlant.getValue());
+        element.setEnchantPowerBonus(enchantPowerBonus.getValue());
         element.setFlammability(flammability.getValue());
         element.setFireSpreadSpeed(fireSpreadSpeed.getValue());
         element.setPushReaction(pushReaction.getValue());
