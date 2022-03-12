@@ -1,9 +1,11 @@
 package com.github.mouse0w0.peach.form;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 
 public abstract class Element {
 
@@ -13,7 +15,7 @@ public abstract class Element {
     private StringProperty promptText;
 
     private ObjectProperty<ColSpan> colSpan;
-    private ObjectProperty<DisplayMode> displayMode;
+    private ObjectProperty<LabelPosition> labelPosition;
 
     private BooleanProperty disable;
     private BooleanProperty visible;
@@ -23,13 +25,29 @@ public abstract class Element {
 
     private ReadOnlyBooleanWrapper valid;
 
+    private Node label;
     private Node editor;
 
     public Element() {
         getStyleClass().add("form-element");
     }
 
-    protected abstract Node createDefaultEditor();
+    public final Node getLabel() {
+        if (label == null) {
+            label = createDefaultLabel();
+        }
+        return label;
+    }
+
+    protected Node createDefaultLabel() {
+        Label label = new Label();
+        label.setWrapText(true);
+        label.textProperty().bind(textProperty());
+        BooleanBinding labelPositionIsNotNone = labelPositionProperty().isNotEqualTo(LabelPosition.NONE);
+        label.visibleProperty().bind(labelPositionIsNotNone);
+        label.managedProperty().bind(labelPositionIsNotNone);
+        return label;
+    }
 
     public final Node getEditor() {
         if (editor == null) {
@@ -38,6 +56,8 @@ public abstract class Element {
         }
         return editor;
     }
+
+    protected abstract Node createDefaultEditor();
 
     final ReadOnlyObjectWrapper<Group> groupPropertyImpl() {
         if (group == null) {
@@ -99,19 +119,19 @@ public abstract class Element {
         colSpanProperty().set(colSpan);
     }
 
-    public final ObjectProperty<DisplayMode> displayModeProperty() {
-        if (displayMode == null) {
-            displayMode = new SimpleObjectProperty<>(this, "displayMode", DisplayMode.HORIZONTAL);
+    public final ObjectProperty<LabelPosition> labelPositionProperty() {
+        if (labelPosition == null) {
+            labelPosition = new SimpleObjectProperty<>(this, "labelPosition", LabelPosition.LEFT);
         }
-        return displayMode;
+        return labelPosition;
     }
 
-    public final DisplayMode getDisplayMode() {
-        return displayMode != null ? displayMode.get() : DisplayMode.HORIZONTAL;
+    public final LabelPosition getLabelPosition() {
+        return labelPosition != null ? labelPosition.get() : LabelPosition.LEFT;
     }
 
-    public final void setDisplayMode(DisplayMode displayMode) {
-        displayModeProperty().set(displayMode);
+    public final void setLabelPosition(LabelPosition labelPosition) {
+        labelPositionProperty().set(labelPosition);
     }
 
     public final BooleanProperty disableProperty() {

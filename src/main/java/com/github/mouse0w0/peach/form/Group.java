@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.form.skin.GroupSkin;
+import com.github.mouse0w0.peach.form.skin.GroupView;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -23,19 +23,16 @@ public class Group {
     public Group() {
         getStyleClass().setAll("form-group", "grid-pane");
 
-        getElements().addListener(new ListChangeListener<Element>() {
-            @Override
-            public void onChanged(Change<? extends Element> c) {
-                while (c.next()) {
-                    if (c.wasAdded()) {
-                        for (Element element : c.getAddedSubList()) {
-                            element.groupPropertyImpl().set(Group.this);
-                        }
+        getElements().addListener((ListChangeListener<Element>) c -> {
+            while (c.next()) {
+                if (c.wasAdded()) {
+                    for (Element element : c.getAddedSubList()) {
+                        element.groupPropertyImpl().set(Group.this);
                     }
-                    if (c.wasRemoved()) {
-                        for (Element element : c.getRemoved()) {
-                            element.groupPropertyImpl().set(null);
-                        }
+                }
+                if (c.wasRemoved()) {
+                    for (Element element : c.getRemoved()) {
+                        element.groupPropertyImpl().set(null);
                     }
                 }
             }
@@ -106,7 +103,7 @@ public class Group {
     }
 
     protected Node createDefaultNode() {
-        return new GroupSkin(this);
+        return new GroupView(this);
     }
 
     public final boolean validate() {

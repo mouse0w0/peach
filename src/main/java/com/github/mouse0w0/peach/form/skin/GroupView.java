@@ -4,28 +4,21 @@ import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.form.Group;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 
-public class GroupSkin extends GridPane {
+public class GroupView extends GridPane {
+
     private final Group group;
 
-    public GroupSkin(Group group) {
+    public GroupView(Group group) {
         this.group = group;
-
         setAlignment(Pos.CENTER_LEFT);
         setMaxWidth(Double.MAX_VALUE);
-
+        getColumnConstraints().setAll(Utils.COLUMN_CONSTRAINTS);
         visibleProperty().bind(group.visibleProperty());
         managedProperty().bind(group.visibleProperty());
         idProperty().bind(group.idProperty());
         Bindings.bindContent(getStyleClass(), group.getStyleClass());
-
-        for (int i = 0; i < 12; i++) {
-            ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(100D / 12);
-            getColumnConstraints().add(colConst);
-        }
 
         updateElement();
     }
@@ -40,7 +33,7 @@ public class GroupSkin extends GridPane {
                 column = 0;
                 row++;
             }
-            add(new ElementSkin(element), column, row, colSpan, 1);
+            add(new ElementView(element), column, row, colSpan, 1);
             column += colSpan;
         }
     }
