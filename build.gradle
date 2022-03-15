@@ -13,7 +13,7 @@ dependencies {
     compile project('peach-controls')
     compile project('mc-hierarchy')
 
-    compile 'com.google.guava:guava:31.0.1-jre'
+    compile 'com.google.guava:guava:31.1-jre'
     compile 'org.apache.commons:commons-lang3:3.12.0'
     compile 'org.apache.commons:commons-collections4:4.4'
     compile 'commons-io:commons-io:2.11.0'
