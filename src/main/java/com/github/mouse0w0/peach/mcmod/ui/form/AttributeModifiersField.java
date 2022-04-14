@@ -6,11 +6,7 @@ import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
 import com.github.mouse0w0.peach.mcmod.ui.popup.AttributeModifierPopup;
-import com.github.mouse0w0.peach.util.Scheduler;
-import javafx.application.Platform;
 import javafx.scene.Node;
-
-import java.util.concurrent.TimeUnit;
 
 public class AttributeModifiersField extends Element {
 
@@ -35,8 +31,7 @@ public class AttributeModifiersField extends Element {
         tagView.setOnAdd(event -> {
             tagView.getItems().add(event.getIndex(),
                     new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
-            Scheduler.computation().schedule(() ->
-                    Platform.runLater(() -> tagView.edit(event.getIndex())), 100, TimeUnit.MILLISECONDS);
+            tagView.edit(event.getIndex());
         });
         return tagView;
     }

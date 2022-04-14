@@ -5,6 +5,8 @@ import com.github.mouse0w0.peach.javafx.Spinners;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
@@ -19,6 +21,14 @@ public class AttributeModifierPopup extends PopOver {
     private final Spinner<Double> amount;
 
     private TagCell<AttributeModifier> cell;
+
+    private final InvalidationListener listener = new InvalidationListener() {
+        @Override
+        public void invalidated(Observable observable) {
+            observable.removeListener(this);
+            show(cell);
+        }
+    };
 
     public AttributeModifierPopup() {
         getRoot().minHeightProperty().unbind();
@@ -67,6 +77,10 @@ public class AttributeModifierPopup extends PopOver {
         operation.setValue(attributeModifier.getOperation());
         amount.getValueFactory().setValue(attributeModifier.getAmount());
 
-        show(cell);
+        if (cell.isNeedsLayout()) {
+            cell.needsLayoutProperty().addListener(listener);
+        } else {
+            show(cell);
+        }
     }
 }

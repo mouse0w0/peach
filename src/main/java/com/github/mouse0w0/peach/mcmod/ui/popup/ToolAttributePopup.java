@@ -5,6 +5,8 @@ import com.github.mouse0w0.peach.javafx.Spinners;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ToolType;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
@@ -18,6 +20,14 @@ public class ToolAttributePopup extends PopOver {
     private final Spinner<Integer> level;
 
     private TagCell<ToolAttribute> cell;
+
+    private final InvalidationListener listener = new InvalidationListener() {
+        @Override
+        public void invalidated(Observable observable) {
+            observable.removeListener(this);
+            show(cell);
+        }
+    };
 
     public ToolAttributePopup() {
         getRoot().minHeightProperty().unbind();
@@ -60,6 +70,10 @@ public class ToolAttributePopup extends PopOver {
         type.setValue(toolAttribute.getType());
         level.getValueFactory().setValue(toolAttribute.getLevel());
 
-        show(cell);
+        if (cell.isNeedsLayout()) {
+            cell.needsLayoutProperty().addListener(listener);
+        } else {
+            show(cell);
+        }
     }
 }

@@ -5,11 +5,7 @@ import com.github.mouse0w0.peach.javafx.control.TagView;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ToolAttributeCell;
 import com.github.mouse0w0.peach.mcmod.ui.popup.ToolAttributePopup;
-import com.github.mouse0w0.peach.util.Scheduler;
-import javafx.application.Platform;
 import javafx.scene.Node;
-
-import java.util.concurrent.TimeUnit;
 
 public class ToolAttributesField extends Element {
 
@@ -34,8 +30,7 @@ public class ToolAttributesField extends Element {
         tagView.setCellFactory(view -> new ToolAttributeCell(popup));
         tagView.setOnAdd(event -> {
             tagView.getItems().add(event.getIndex(), new ToolAttribute("axe", 0));
-            Scheduler.computation().schedule(() ->
-                    Platform.runLater(() -> tagView.edit(event.getIndex())), 100, TimeUnit.MILLISECONDS);
+            tagView.edit(event.getIndex());
         });
         return tagView;
     }
