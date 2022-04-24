@@ -8,6 +8,7 @@ import java.util.Set;
 public final class ToolType {
     private static final Set<String> TOOL_TYPES;
 
+    public static final String NONE = "none";
     public static final String AXE = "axe";
     public static final String PICKAXE = "pickaxe";
     public static final String SHOVEL = "shovel";

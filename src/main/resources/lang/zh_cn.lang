@@ -224,6 +224,7 @@ item.food.isWolfFood=狼的食物
 item.food.alwaysEdible=总是可食用
 item.food.foodContainer=食物容器
 
+toolType.none=无
 toolType.axe=斧
 toolType.pickaxe=镐
 toolType.shovel=锹

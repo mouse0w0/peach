@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 import org.joml.Vector4d;
 import org.joml.primitives.AABBd;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MEBlock extends Element implements LocalizableElement {
@@ -22,7 +23,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private int brightness;
     private int opacity;
     //    private boolean gravity; // as block type?
-    private String harvestTool;
+    private String harvestTool = ToolType.NONE;
     private int harvestLevel;
     private String information;
 

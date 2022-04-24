@@ -165,11 +165,13 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 throw new UnsupportedOperationException();
             }
         });
-        harvestTool.getItems().setAll(ToolType.getToolTypes());
+        harvestTool.getItems().add(ToolType.NONE);
+        harvestTool.getItems().addAll(ToolType.getToolTypes());
 
         harvestLevel = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         harvestLevel.setText(I18n.translate("block.properties.harvestLevel"));
         harvestLevel.setColSpan(ColSpan.HALF);
+        harvestLevel.disableProperty().bind(harvestTool.valueProperty().isEqualTo(ToolType.NONE));
 
         information = new TextAreaField();
         information.setText(I18n.translate("block.properties.information"));
