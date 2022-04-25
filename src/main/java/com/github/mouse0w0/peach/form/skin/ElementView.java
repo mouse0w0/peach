@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.form.skin;
 
 import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.form.LabelPosition;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
@@ -23,10 +24,14 @@ class ElementView extends Region {
         idProperty().bind(element.idProperty());
         Bindings.bindContent(getStyleClass(), element.getStyleClass());
 
-        label = element.getLabel();
-        editor = element.getEditor();
+        this.label = element.getLabel();
+        this.editor = element.getEditor();
 
         getChildren().addAll(label, editor);
+
+        final InvalidationListener requestLayout = observable -> requestLayout();
+        element.labelPositionProperty().addListener(requestLayout);
+        element.colSpanProperty().addListener(requestLayout);
     }
 
     public Element getElement() {
