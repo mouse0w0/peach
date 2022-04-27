@@ -229,27 +229,27 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 offsetType
         );
 
-        minX = new SpinnerField<>(0D, 1D, 0D);
+        minX = new SpinnerField<>(0D, 16D, 0D);
         minX.setText(I18n.translate("block.collision.minX"));
         minX.setColSpan(ColSpan.THIRD);
 
-        minY = new SpinnerField<>(0D, 1.5D, 0D);
+        minY = new SpinnerField<>(0D, 24D, 0D);
         minY.setText(I18n.translate("block.collision.minY"));
         minY.setColSpan(ColSpan.THIRD);
 
-        minZ = new SpinnerField<>(0D, 1D, 0D);
+        minZ = new SpinnerField<>(0D, 16D, 0D);
         minZ.setText(I18n.translate("block.collision.minZ"));
         minZ.setColSpan(ColSpan.THIRD);
 
-        maxX = new SpinnerField<>(0D, 1D, 1D);
+        maxX = new SpinnerField<>(0D, 16D, 16D);
         maxX.setText(I18n.translate("block.collision.maxX"));
         maxX.setColSpan(ColSpan.THIRD);
 
-        maxY = new SpinnerField<>(0D, 1.5D, 1D);
+        maxY = new SpinnerField<>(0D, 24D, 16D);
         maxY.setText(I18n.translate("block.collision.maxY"));
         maxY.setColSpan(ColSpan.THIRD);
 
-        maxZ = new SpinnerField<>(0D, 1D, 1D);
+        maxZ = new SpinnerField<>(0D, 16D, 16D);
         maxZ.setText(I18n.translate("block.collision.maxZ"));
         maxZ.setColSpan(ColSpan.THIRD);
 

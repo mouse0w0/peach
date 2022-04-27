@@ -34,7 +34,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private RenderType renderType = RenderType.SOLID;
     private OffsetType offsetType = OffsetType.NONE;
 
-    private AABBd boundingBox = new AABBd(0, 0, 0, 1, 1, 1);
+    private AABBd boundingBox = new AABBd(0, 0, 0, 16, 16, 16);
     private boolean noCollision;
 
     //    private boolean enableLootTable; // 1.14+
