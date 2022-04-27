@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
-import org.joml.Vector4d;
 import org.joml.primitives.AABBd;
 
 import java.util.HashMap;
@@ -42,7 +41,7 @@ public class MEBlock extends Element implements LocalizableElement {
 
     private boolean doNotRegisterItem;
     private MapColor mapColor = MapColor.INHERIT;
-    private Vector4d beaconColor = new Vector4d(0);
+    private String beaconColor = "0x00000000";
     private boolean beaconBase;
     private boolean climbable;
     private boolean replaceable; // what?
@@ -264,11 +263,11 @@ public class MEBlock extends Element implements LocalizableElement {
         this.mapColor = mapColor;
     }
 
-    public Vector4d getBeaconColor() {
+    public String getBeaconColor() {
         return beaconColor;
     }
 
-    public void setBeaconColor(Vector4d beaconColor) {
+    public void setBeaconColor(String beaconColor) {
         this.beaconColor = beaconColor;
     }
 

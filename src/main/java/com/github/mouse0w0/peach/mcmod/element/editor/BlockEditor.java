@@ -18,12 +18,12 @@ import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
-import com.github.mouse0w0.peach.mcmod.util.ColorUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 import org.joml.primitives.AABBd;
 
@@ -381,7 +381,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         doNotRegisterItem.setValue(element.isDoNotRegisterItem());
         mapColor.setValue(element.getMapColor());
-        beaconColor.setValue(ColorUtils.toColor(element.getBeaconColor()));
+        beaconColor.setValue(Color.valueOf(element.getBeaconColor()));
         beaconBase.setValue(element.isBeaconBase());
         climbable.setValue(element.isClimbable());
         canConnectRedstone.setValue(element.isCanConnectRedstone());
@@ -425,7 +425,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         element.setDoNotRegisterItem(doNotRegisterItem.getValue());
         element.setMapColor(mapColor.getValue());
-        element.setBeaconColor(ColorUtils.fromColor(beaconColor.getValue()));
+        element.setBeaconColor(beaconColor.getValue().toString());
         element.setBeaconBase(beaconBase.getValue());
         element.setClimbable(climbable.getValue());
         element.setCanConnectRedstone(canConnectRedstone.getValue());
