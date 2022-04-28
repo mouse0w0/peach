@@ -20,13 +20,13 @@ public class ResourceUtils {
     public static final String BLOCK_STATES = "resources/blockstates";
 
     public static final String MODELS = "resources/models";
-    public static final String BLOCK_MODELS = MODELS + "/blocks";
-    public static final String ITEM_MODELS = MODELS + "/items";
+    public static final String BLOCK_MODELS = MODELS + "/block";
+    public static final String ITEM_MODELS = MODELS + "/item";
 
     public static final String TEXTURES = "resources/textures";
-    public static final String BLOCK_TEXTURES = TEXTURES + "/blocks";
-    public static final String ITEM_TEXTURES = TEXTURES + "/items";
-    public static final String ARMOR_TEXTURES = TEXTURES + "/armors";
+    public static final String BLOCK_TEXTURES = TEXTURES + "/block";
+    public static final String ITEM_TEXTURES = TEXTURES + "/item";
+    public static final String ARMOR_TEXTURES = TEXTURES + "/armor";
     public static final String GUI_TEXTURES = TEXTURES + "/gui";
 
     public static Path getResourcePath(Project project, String resource) {
