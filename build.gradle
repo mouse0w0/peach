@@ -10,7 +10,6 @@ version "0.0.6.${buildNumber}-SNAPSHOT"
 mainClassName = 'com.github.mouse0w0.peach.Peach'
 
 dependencies {
-    compile project('peach-controls')
     compile project('mc-hierarchy')
 
     compile 'com.google.guava:guava:31.1-jre'

@@ -1,4 +1,3 @@
 rootProject.name = 'peach'
-include 'peach-controls'
 
 include 'mc-hierarchy'
