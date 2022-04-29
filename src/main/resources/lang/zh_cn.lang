@@ -83,22 +83,22 @@ validate.illegalModId=非法的模组唯一名：“%s”。模组唯一名以�
 validate.illegalIdentifier=非法的唯一名：“%s”。唯一名以小写字母开头，仅含小写字母，数字和下划线。
 
 mod.element.item_group=创造标签
-wizard.itemGroup.identifier=唯一名：
-wizard.itemGroup.displayName=显示名：
-wizard.itemGroup.hasSearchBar=启用搜索栏：
-wizard.itemGroup.background=背景图：
-wizard.itemGroup.icon=图标：
+wizard.itemGroup.identifier=唯一名
+wizard.itemGroup.displayName=显示名
+wizard.itemGroup.hasSearchBar=启用搜索栏
+wizard.itemGroup.background=背景图
+wizard.itemGroup.icon=图标
 
 mod.element.crafting=合成配方
 
-wizard.craftingRecipe.identifier=唯一名：
-wizard.craftingRecipe.namespace=命名空间：
-wizard.craftingRecipe.group=配方组：
-wizard.craftingRecipe.shapeless=无序配方？
+wizard.craftingRecipe.identifier=唯一名
+wizard.craftingRecipe.namespace=命名空间
+wizard.craftingRecipe.group=配方组
+wizard.craftingRecipe.shapeless=无序配方
 
 mod.element.smelting=熔炼配方
 
-wizard.smeltingRecipe.xp=经验值：
+wizard.smeltingRecipe.xp=经验值
 
 fileChooser.mcmod.texture.title=打开纹理文件
 
