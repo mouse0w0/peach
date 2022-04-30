@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.control.PopupAlert;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
@@ -12,7 +11,7 @@ import javafx.collections.transformation.SortedList;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 
-public abstract class ValueField<T> extends Element {
+public abstract class ValueField<T> extends Field {
     public static final String WARNING = "warning";
     public static final String ERROR = "error";
 
@@ -50,7 +49,7 @@ public abstract class ValueField<T> extends Element {
     }
 
     private static ValueField<?> getElement(Node node) {
-        return node.hasProperties() ? (ValueField<?>) node.getProperties().get(Element.class) : null;
+        return node.hasProperties() ? (ValueField<?>) node.getProperties().get(Field.class) : null;
     }
 
     public abstract Property<T> valueProperty();

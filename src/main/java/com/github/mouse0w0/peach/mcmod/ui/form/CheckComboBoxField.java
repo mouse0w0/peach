@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.peach.form.Element;
+import com.github.mouse0w0.peach.form.field.Field;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
@@ -12,7 +12,7 @@ import org.controlsfx.control.IndexedCheckModel;
 
 import java.util.function.IntFunction;
 
-public class CheckComboBoxField<T> extends Element {
+public class CheckComboBoxField<T> extends Field {
 
     public ObservableList<T> getItems() {
         return getCheckComboBox().getItems();

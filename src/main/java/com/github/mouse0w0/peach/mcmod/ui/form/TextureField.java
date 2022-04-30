@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.peach.form.Element;
+import com.github.mouse0w0.peach.form.field.Field;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import javafx.beans.property.ObjectProperty;
@@ -9,7 +9,7 @@ import javafx.scene.Node;
 
 import java.io.File;
 
-public class TextureField extends Element {
+public class TextureField extends Field {
     private final ObjectProperty<File> value = new SimpleObjectProperty<>(this, "value");
 
     private final ResourceStore resourceStore;

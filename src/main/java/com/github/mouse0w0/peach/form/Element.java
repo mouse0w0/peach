@@ -4,14 +4,9 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 
 public abstract class Element {
-
     private ReadOnlyObjectWrapper<Group> group;
-
-    private StringProperty text;
-    private StringProperty promptText;
 
     private ObjectProperty<ColSpan> colSpan;
 
@@ -23,36 +18,20 @@ public abstract class Element {
 
     private ReadOnlyBooleanWrapper valid;
 
-    private Node label;
-    private Node editor;
+    private Node node;
 
     public Element() {
         getStyleClass().add("form-element");
     }
 
-    public final Node getLabel() {
-        if (label == null) {
-            label = createDefaultLabel();
+    public final Node getNode() {
+        if (node == null) {
+            node = createDefaultNode();
         }
-        return label;
+        return node;
     }
 
-    protected Node createDefaultLabel() {
-        Label label = new Label();
-        label.setWrapText(true);
-        label.textProperty().bind(textProperty());
-        return label;
-    }
-
-    public final Node getEditor() {
-        if (editor == null) {
-            editor = createDefaultEditor();
-            editor.getProperties().put(Element.class, this);
-        }
-        return editor;
-    }
-
-    protected abstract Node createDefaultEditor();
+    protected abstract Node createDefaultNode();
 
     final ReadOnlyObjectWrapper<Group> groupPropertyImpl() {
         if (group == null) {
@@ -67,36 +46,6 @@ public abstract class Element {
 
     public final Group getGroup() {
         return group != null ? group.get() : null;
-    }
-
-    public final StringProperty textProperty() {
-        if (text == null) {
-            text = new SimpleStringProperty(this, "text");
-        }
-        return text;
-    }
-
-    public final String getText() {
-        return text != null ? text.get() : null;
-    }
-
-    public final void setText(String text) {
-        textProperty().set(text);
-    }
-
-    public final StringProperty promptTextProperty() {
-        if (promptText == null) {
-            promptText = new SimpleStringProperty(this, "promptText");
-        }
-        return promptText;
-    }
-
-    public final String getPromptText() {
-        return promptText != null ? promptText.get() : null;
-    }
-
-    public final void setPromptText(String promptText) {
-        promptTextProperty().set(promptText);
     }
 
     public final ObjectProperty<ColSpan> colSpanProperty() {

@@ -1,6 +1,5 @@
-package com.github.mouse0w0.peach.form.skin;
+package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.form.Element;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
@@ -9,30 +8,26 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
 
-public class ElementView extends Region {
-    private final Element element;
+public class FieldView extends Region {
+    private final Field field;
 
     private final Node label;
     private final Node editor;
 
-    ElementView(Element element, Node label, Node editor) {
-        this.element = element;
+    public FieldView(Field field, Node label, Node editor) {
+        this.field = field;
         this.label = label;
         this.editor = editor;
 
-        visibleProperty().bind(element.visibleProperty());
-        managedProperty().bind(element.visibleProperty());
-        idProperty().bind(element.idProperty());
-        Bindings.bindContent(getStyleClass(), element.getStyleClass());
+        visibleProperty().bind(field.visibleProperty());
+        managedProperty().bind(field.visibleProperty());
+        idProperty().bind(field.idProperty());
+        Bindings.bindContent(getStyleClass(), field.getStyleClass());
 
         getChildren().addAll(label, editor);
 
         final InvalidationListener requestLayout = observable -> requestLayout();
-        element.colSpanProperty().addListener(requestLayout);
-    }
-
-    public Element getElement() {
-        return element;
+        field.colSpanProperty().addListener(requestLayout);
     }
 
     @Override
@@ -52,7 +47,7 @@ public class ElementView extends Region {
         final double top = snappedTopInset();
         final double bottom = snappedBottomInset();
         final double contentWidth = width - left - right;
-        final double cellWidth = contentWidth / element.getColSpan().getSpan();
+        final double cellWidth = contentWidth / field.getColSpan().getSpan();
         final double labelWidth = cellWidth * 2;
         return top + Math.max(label.prefHeight(labelWidth), editor.prefHeight(contentWidth - labelWidth)) + bottom;
     }
@@ -67,7 +62,7 @@ public class ElementView extends Region {
         final double height = getHeight();
         final double contentWidth = width - left - right;
         final double contentHeight = height - top - bottom;
-        final double cellWidth = contentWidth / element.getColSpan().getSpan();
+        final double cellWidth = contentWidth / field.getColSpan().getSpan();
         final double labelWidth = cellWidth * 2;
         layoutInArea(label, left, top, labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
         layoutInArea(editor, left + labelWidth, top, contentWidth - labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);

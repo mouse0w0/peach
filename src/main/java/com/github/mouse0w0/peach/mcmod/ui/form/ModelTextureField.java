@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.form.Element;
+import com.github.mouse0w0.peach.form.field.Field;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
 import com.github.mouse0w0.peach.mcmod.model.TextureEntry;
 import com.github.mouse0w0.peach.mcmod.model.TextureList;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class ModelTextureField extends Element {
+public class ModelTextureField extends Field {
     private static final FileChooser.ExtensionFilter PNG_FILTER = new FileChooser.ExtensionFilter("PNG", "*.png");
 
     private final ResourceStore resourceStore;
