@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.form;
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +14,6 @@ public abstract class Element {
     private StringProperty promptText;
 
     private ObjectProperty<ColSpan> colSpan;
-    private ObjectProperty<LabelPosition> labelPosition;
 
     private BooleanProperty disable;
     private BooleanProperty visible;
@@ -43,9 +41,6 @@ public abstract class Element {
         Label label = new Label();
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
-        BooleanBinding labelPositionIsNotNone = labelPositionProperty().isNotEqualTo(LabelPosition.NONE);
-        label.visibleProperty().bind(labelPositionIsNotNone);
-        label.managedProperty().bind(labelPositionIsNotNone);
         return label;
     }
 
@@ -117,21 +112,6 @@ public abstract class Element {
 
     public final void setColSpan(ColSpan colSpan) {
         colSpanProperty().set(colSpan);
-    }
-
-    public final ObjectProperty<LabelPosition> labelPositionProperty() {
-        if (labelPosition == null) {
-            labelPosition = new SimpleObjectProperty<>(this, "labelPosition", LabelPosition.LEFT);
-        }
-        return labelPosition;
-    }
-
-    public final LabelPosition getLabelPosition() {
-        return labelPosition != null ? labelPosition.get() : LabelPosition.LEFT;
-    }
-
-    public final void setLabelPosition(LabelPosition labelPosition) {
-        labelPositionProperty().set(labelPosition);
     }
 
     public final BooleanProperty disableProperty() {
