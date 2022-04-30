@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.form.Group;
 import com.github.mouse0w0.peach.javafx.ScrollPanes;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.collections.WeakListChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -18,6 +17,8 @@ public class FormViewSkin extends SkinBase<FormView> {
 
     private final ScrollPane scrollPane;
     private final VBox content;
+
+    private Form form;
 
     private final ListChangeListener<Group> groupsListener = new ListChangeListener<Group>() {
         @Override
@@ -64,16 +65,20 @@ public class FormViewSkin extends SkinBase<FormView> {
     }
 
     private void updateForm() {
+        if (form != null) {
+            form.getGroups().removeListener(groupsListener);
+        }
+
         ObservableList<Node> children = content.getChildren();
         children.clear();
 
-        Form form = getSkinnable().getForm();
+        form = getSkinnable().getForm();
         if (form != null) {
             ObservableList<Group> groups = form.getGroups();
-            groups.addListener(new WeakListChangeListener<>(groupsListener));
             for (Group group : groups) {
                 children.add(group.getNode());
             }
+            groups.addListener(groupsListener);
         }
     }
 
