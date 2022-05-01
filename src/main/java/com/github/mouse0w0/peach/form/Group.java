@@ -21,7 +21,7 @@ public class Group {
     private Node node;
 
     public Group() {
-        getStyleClass().setAll("form-group", "grid-pane");
+        getStyleClass().setAll("form-group");
 
         getElements().addListener((ListChangeListener<Element>) c -> {
             while (c.next()) {
