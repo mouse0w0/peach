@@ -14,7 +14,7 @@ public class Section extends Group {
     private BooleanProperty expanded;
 
     public Section() {
-        getStyleClass().setAll("form-section");
+        getStyleClass().setAll("form-section", "titled-pane");
     }
 
     public final StringProperty textProperty() {
