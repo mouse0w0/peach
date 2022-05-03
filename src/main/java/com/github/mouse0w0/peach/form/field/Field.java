@@ -18,6 +18,7 @@ public abstract class Field extends Element {
     @Override
     protected Node createDefaultNode() {
         Label label = new Label();
+        label.getStyleClass().setAll("label", "form-item-label");
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
         return new FieldView(this, label, getEditor());
