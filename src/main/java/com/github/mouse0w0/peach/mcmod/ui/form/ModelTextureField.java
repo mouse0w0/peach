@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.form.field.Field;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
+import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
 import com.github.mouse0w0.peach.mcmod.model.TextureEntry;
 import com.github.mouse0w0.peach.mcmod.model.TextureList;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
@@ -18,8 +19,6 @@ import java.util.Map;
 import java.util.Set;
 
 public class ModelTextureField extends Field {
-    private static final FileChooser.ExtensionFilter PNG_FILTER = new FileChooser.ExtensionFilter("PNG", "*.png");
-
     private final ResourceStore resourceStore;
 
     private final GridPane editor;
@@ -73,8 +72,7 @@ public class ModelTextureField extends Field {
         ImagePicker imagePicker = new ImagePicker();
         imagePicker.setFitSize(64, 64);
         imagePicker.setSmooth(false);
-        imagePicker.getExtensionFilters().add(PNG_FILTER);
-        imagePicker.setSelectedExtensionFilter(PNG_FILTER);
+        imagePicker.getExtensionFilters().add(ExtensionFilters.PNG);
         textureMap.put(texture.getKey(), imagePicker);
         return imagePicker;
     }

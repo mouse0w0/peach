@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
+import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
 import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
@@ -12,7 +13,6 @@ import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.Scheduler;
 import javafx.application.Platform;
-import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class ExportProjectAction extends Action {
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 
             File file = FileChooserHelper.getInstance().save(null, "mcmod.export", null, fileName,
-                    new FileChooser.ExtensionFilter("Jar", "*.jar"));
+                    ExtensionFilters.JAR);
             if (file != null) {
                 try {
                     Path source = compiler.getOutputFolder().resolve("artifacts/" + fileName);
