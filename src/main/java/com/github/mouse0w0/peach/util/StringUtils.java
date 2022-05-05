@@ -1,32 +1,19 @@
 package com.github.mouse0w0.peach.util;
 
-public class StringUtils {
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
-    public static String substringBefore(String str, char ch) {
-        int i = str.indexOf(ch);
-        if (i >= 0) return str.substring(0, i);
-        return str;
+    public static String substringBeforeLast(final String str, final int separator) {
+        if (isEmpty(str)) {
+            return str;
+        }
+        final int pos = str.lastIndexOf(separator);
+        if (pos == INDEX_NOT_FOUND) {
+            return str;
+        }
+        return str.substring(0, pos);
     }
 
-    public static String substringBeforeLast(String str, char ch) {
-        int i = str.lastIndexOf(ch);
-        if (i >= 0) return str.substring(0, i);
-        return str;
-    }
-
-    public static String substringAfter(String str, char ch) {
-        int i = str.indexOf(ch);
-        if (i >= 0) return str.substring(i + 1);
-        return str;
-    }
-
-    public static String substringAfterLast(String str, char ch) {
-        int i = str.lastIndexOf(ch);
-        if (i >= 0) return str.substring(i + 1);
-        return str;
-    }
-
-    public static boolean hasUpperCase(String str) {
+    public static boolean hasUpperCase(final String str) {
         for (int i = 0, length = str.length(); i < length; i++) {
             if (Character.isUpperCase(str.indexOf(i))) {
                 return true;
@@ -35,7 +22,7 @@ public class StringUtils {
         return false;
     }
 
-    public static boolean hasLowerCase(String str) {
+    public static boolean hasLowerCase(final String str) {
         for (int i = 0, length = str.length(); i < length; i++) {
             if (Character.isLowerCase(str.indexOf(i))) {
                 return true;
@@ -44,12 +31,8 @@ public class StringUtils {
         return false;
     }
 
-    public static boolean isEmpty(String str) {
-        return str == null || str.isEmpty();
-    }
-
-    public static boolean notEmpty(String str) {
-        return str != null && !str.isEmpty();
+    public static boolean notEmpty(final CharSequence cs) {
+        return cs != null && cs.length() != 0;
     }
 
     private StringUtils() {
