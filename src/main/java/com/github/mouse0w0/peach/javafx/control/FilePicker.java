@@ -157,7 +157,7 @@ public class FilePicker extends Control {
 
     public final BooleanProperty editableProperty() {
         if (editable == null) {
-            editable = new SimpleBooleanProperty(this, "editable", true);
+            editable = new SimpleBooleanProperty(this, "editable", false);
         }
         return editable;
     }
