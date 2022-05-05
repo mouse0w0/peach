@@ -17,7 +17,6 @@ import javafx.util.StringConverter;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
 
 public class FilePicker extends Control {
 
@@ -63,6 +62,11 @@ public class FilePicker extends Control {
                 @Override
                 public void set(String newValue) {
                     super.set(newValue != null ? newValue : "");
+                }
+
+                @Override
+                protected void invalidated() {
+                    file = null;
                 }
             };
         }
@@ -111,24 +115,27 @@ public class FilePicker extends Control {
         converterProperty().set(converter);
     }
 
-    public final Optional<File> getFile() {
-        final StringConverter<File> converter = getConverter();
+    private File file;
+
+    public final File getFile() {
+        if (file != null) return file;
         final String text = getText();
-        if (text.isEmpty()) return Optional.empty();
-        final File file = converter != null ? converter.fromString(text) : new File(text);
-        return file != null && file.isAbsolute() ? Optional.of(file) : Optional.empty();
+        if (text.isEmpty()) return null;
+        final StringConverter<File> converter = getConverter();
+        return file = converter != null ? converter.fromString(text) : new File(text);
     }
 
-    public final Optional<Path> getPath() {
-        return getFile().map(File::toPath);
+    public final Path getPath() {
+        final File file = getFile();
+        return file != null ? file.toPath() : null;
     }
 
     public final void setFile(File file) {
         if (file == null) {
             setText("");
         } else {
-            StringConverter<File> converter = getConverter();
-            setText(converter != null ? converter.toString(file) : file.getAbsolutePath());
+            final StringConverter<File> converter = getConverter();
+            setText(converter != null ? converter.toString(file) : file.toString());
         }
     }
 
@@ -246,7 +253,7 @@ public class FilePicker extends Control {
 
     public void showDialog() {
         FilePicker.Type type = getType();
-        File oldFile = getFile().orElse(null);
+        File oldFile = getFile();
         Window owner = getScene().getWindow();
         File file = null;
         if (type == FilePicker.Type.OPEN_DIRECTORY) {

@@ -72,7 +72,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         background.textProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                background.setPath(backgroundStore.store(background.getPath().orElse(null)));
+                background.setPath(backgroundStore.store(background.getPath()));
             }
         });
         grid.add(background, 1, 3);

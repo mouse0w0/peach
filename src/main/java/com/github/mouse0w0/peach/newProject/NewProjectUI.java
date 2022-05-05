@@ -44,7 +44,7 @@ public class NewProjectUI extends BorderPane {
     }
 
     private void doCreateProject() {
-        final Path path = this.path.getPath().orElse(null);
+        final Path path = this.path.getPath();
         if (path == null) return; // TODO: show alert
         if (FileUtils.isNotEmpty(path)) {
             // FIXME: fix the content cannot be display until resize the window.
