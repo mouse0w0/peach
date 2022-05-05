@@ -1,13 +1,16 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
-import com.github.mouse0w0.peach.mcmod.ui.control.ResourcePicker;
+import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
-import javafx.beans.binding.Bindings;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
@@ -17,16 +20,17 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.nio.file.Path;
-
-import static com.github.mouse0w0.peach.mcmod.util.ResourceUtils.TEXTURES;
+import java.io.File;
 
 public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemGroupEditor.class);
+
+    private final ResourceStore backgroundStore;
 
     @FXML
     private GridPane grid;
@@ -38,21 +42,39 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     @FXML
     private RadioButton hasSearchBar;
 
-    private ResourcePicker background;
+    private FilePicker background;
     private ItemView icon;
 
     public ItemGroupEditor(@Nonnull Project project, @Nonnull MEItemGroup element) {
         super(project, element);
+        this.backgroundStore = new ResourceStore(
+                ResourceUtils.getResourcePath(project, ResourceUtils.TEXTURES),
+                ResourceUtils.getResourcePath(project, ResourceUtils.GUI_TEXTURES));
     }
 
     @Override
     protected Node getContent() {
         FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml");
 
-        Path texturesPath = ResourceUtils.getResourcePath(getProject(), TEXTURES);
-        background = new ResourcePicker(texturesPath, "png", "PNG File (*.png)");
-        background.defaultFilePathProperty().bind(
-                Bindings.createObjectBinding(() -> texturesPath.resolve("gui/" + identifier.getText().trim() + ".png"), identifier.textProperty()));
+        background = new FilePicker();
+        background.getExtensionFilters().add(ExtensionFilters.PNG);
+        background.setConverter(new StringConverter<File>() {
+            @Override
+            public String toString(File object) {
+                return backgroundStore.toRelative(object);
+            }
+
+            @Override
+            public File fromString(String string) {
+                return backgroundStore.toAbsoluteFile(string);
+            }
+        });
+        background.textProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                background.setPath(backgroundStore.store(background.getPath().orElse(null)));
+            }
+        });
         grid.add(background, 1, 3);
 
         icon = new ItemPicker(32, 32);
@@ -68,7 +90,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         identifier.setText(element.getIdentifier());
         displayName.setText(element.getDisplayName());
         hasSearchBar.setSelected(element.isHasSearchBar());
-        background.setResourcePath(element.getBackground());
+        background.setText(element.getBackground());
         icon.setItem(element.getIcon());
     }
 
@@ -77,7 +99,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         element.setIdentifier(identifier.getText().trim());
         element.setDisplayName(displayName.getText());
         element.setHasSearchBar(hasSearchBar.isSelected());
-        element.setBackground(background.getResourcePath());
+        element.setBackground(background.getText());
         element.setIcon(icon.getItem());
     }
 }

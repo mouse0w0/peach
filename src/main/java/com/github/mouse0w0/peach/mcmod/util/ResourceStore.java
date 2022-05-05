@@ -8,29 +8,43 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ResourceStore {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceStore.class);
 
-    private final Path root;
-    private final Path defaultStore;
-    private final String extension;
+    private final Path basePath;
+    private final Path defaultPath;
+    private final String hiddenSuffix;
 
-    public ResourceStore(Path root, Path defaultStore) {
-        this(root, defaultStore, null);
+    public ResourceStore(Path basePath, Path defaultPath) {
+        this(basePath, defaultPath, null);
     }
 
-    public ResourceStore(Path root, Path defaultStore, String extension) {
-        this.root = root;
-        this.defaultStore = defaultStore;
-        this.extension = extension;
+    public ResourceStore(Path basePath, Path defaultPath, String hiddenSuffix) {
+        this.basePath = basePath;
+        this.defaultPath = defaultPath;
+        this.hiddenSuffix = hiddenSuffix;
+    }
+
+    public Path getBasePath() {
+        return basePath;
+    }
+
+    public Path getDefaultPath() {
+        return defaultPath;
+    }
+
+    public String getHiddenSuffix() {
+        return hiddenSuffix;
     }
 
     public String toRelative(Path file) {
         if (file == null) return null;
-        String relative = root.relativize(file).toString();
-        if (extension != null && relative.endsWith(extension)) {
-            relative = relative.substring(0, relative.length() - extension.length());
+        if (!file.startsWith(basePath)) return file.toString();
+        String relative = basePath.relativize(file).toString();
+        if (hiddenSuffix != null && relative.endsWith(hiddenSuffix)) {
+            relative = relative.substring(0, relative.length() - hiddenSuffix.length());
         }
         return relative.replace('\\', '/');
     }
@@ -41,29 +55,30 @@ public class ResourceStore {
 
     public Path toAbsolutePath(String relative) {
         if (relative == null) return null;
-        return extension == null ? root.resolve(relative) : root.resolve(relative + extension);
+        if (relative.isEmpty()) return basePath;
+        Path file = Paths.get(relative);
+        if (file.isAbsolute()) return file;
+        return hiddenSuffix == null ? basePath.resolve(relative) : basePath.resolve(relative + hiddenSuffix);
     }
 
     public File toAbsoluteFile(String relative) {
-        if (relative == null) return null;
-        return extension == null ? new File(root.toString(), relative) : new File(root.toString(), relative + extension);
-    }
-
-    public File store(File file) {
-        if (file == null) return null;
-        return store(file.toPath()).toFile();
+        return FileUtils.toFile(toAbsolutePath(relative));
     }
 
     public Path store(Path file) {
         if (file == null) return null;
-        if (file.startsWith(root)) return file;
+        if (file.startsWith(basePath)) return file;
 
         try {
-            return ResourceUtils.copyToLowerCaseFile(file, defaultStore.resolve(file.getFileName()));
+            return ResourceUtils.copyToLowerCaseFile(file, defaultPath.resolve(file.getFileName()));
         } catch (IOException e) {
             LOGGER.error("Failed to copy file because an exception has occurred.", e);
             Alert.error("An exception has occurred!");
             return null;
         }
+    }
+
+    public File store(File file) {
+        return FileUtils.toFile(store(FileUtils.toPath(file)));
     }
 }
