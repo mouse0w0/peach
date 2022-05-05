@@ -29,17 +29,29 @@
     -fx-prompt-text-fill: transparent;
 }
 
-.file-picker > .open-chooser-button {
+.file-picker > .clear-button,
+.file-picker > .open-button {
     -fx-padding: 0 0.5em 0 0;
 }
 
-.file-picker > .open-chooser-button > .open-chooser-icon {
+.file-picker > .open-button > .open-icon {
     -fx-background-color: #616161;
     -fx-shape: "M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z";
-    -fx-min-width: 15;
-    -fx-min-height: 12;
-    -fx-pref-width: 15;
-    -fx-pref-height: 12;
-    -fx-max-width: 15;
-    -fx-max-height: 12;
+    -fx-min-width: 15px;
+    -fx-min-height: 12px;
+    -fx-pref-width: 15px;
+    -fx-pref-height: 12px;
+    -fx-max-width: 15px;
+    -fx-max-height: 12px;
+}
+
+.file-picker > .clear-button > .clear-icon {
+    -fx-background-color: #616161;
+    -fx-shape: "M 19 6.41 L 17.59 5 L 12 10.59 L 6.41 5 L 5 6.41 L 10.59 12 L 5 17.59 L 6.41 19 L 12 13.41 L 17.59 19 L 19 17.59 L 13.41 12 L 19 6.41 Z";
+    -fx-min-width: 12px;
+    -fx-min-height: 12px;
+    -fx-pref-width: 12px;
+    -fx-pref-height: 12px;
+    -fx-max-width: 12px;
+    -fx-max-height: 12px;
 }

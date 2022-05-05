@@ -14,6 +14,7 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
     private static final PseudoClass FOCUSED = PseudoClass.getPseudoClass("focused");
 
     private final TextField editor;
+    private final StackPane clearBtn;
     private final StackPane openChooserBtn;
 
     public FilePickerSkin(FilePicker filePicker) {
@@ -28,11 +29,24 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
         editor.focusedProperty().addListener(observable ->
                 pseudoClassStateChanged(FOCUSED, editor.isFocused()));
 
+        StackPane clearIcon = new StackPane();
+        clearIcon.getStyleClass().setAll("clear-icon");
+
+        clearBtn = new StackPane(clearIcon);
+        clearBtn.getStyleClass().setAll("clear-button");
+        clearBtn.setAccessibleRole(AccessibleRole.BUTTON);
+        clearBtn.setCursor(Cursor.HAND);
+        clearBtn.visibleProperty().bind(filePicker.textProperty().isNotEmpty());
+        clearBtn.setOnMousePressed(event -> {
+            event.consume();
+            getSkinnable().setText("");
+        });
+
         StackPane openChooserIcon = new StackPane();
-        openChooserIcon.getStyleClass().setAll("open-chooser-icon");
+        openChooserIcon.getStyleClass().setAll("open-icon");
 
         openChooserBtn = new StackPane(openChooserIcon);
-        openChooserBtn.getStyleClass().setAll("open-chooser-button");
+        openChooserBtn.getStyleClass().setAll("open-button");
         openChooserBtn.setAccessibleRole(AccessibleRole.BUTTON);
         openChooserBtn.setCursor(Cursor.HAND);
         openChooserBtn.setOnMousePressed(event -> {
@@ -40,57 +54,44 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
             getSkinnable().showDialog();
         });
 
-        getChildren().addAll(editor, openChooserBtn);
+        getChildren().addAll(editor, clearBtn, openChooserBtn);
     }
 
     @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
         final double editorWidth = snapSize(editor.prefWidth(-1));
+        final double clearBtnWidth = snapSize(clearBtn.prefWidth(-1));
         final double openChooserBtnWidth = snapSize(openChooserBtn.prefWidth(-1));
-        return leftInset + editorWidth + openChooserBtnWidth + rightInset;
+        return leftInset + editorWidth + clearBtnWidth + openChooserBtnWidth + rightInset;
     }
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         final double editorHeight = snapSize(editor.prefHeight(-1));
+        final double clearBtnHeight = snapSize(clearBtn.prefHeight(-1));
         final double openChooserBtnHeight = snapSize(openChooserBtn.prefHeight(-1));
-        return topInset + Math.max(editorHeight, openChooserBtnHeight) + bottomInset;
-    }
-
-    @Override
-    protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorWidth = snapSize(editor.minWidth(-1));
-        final double openChooserBtnWidth = snapSize(openChooserBtn.minWidth(-1));
-        return leftInset + editorWidth + openChooserBtnWidth + rightInset;
+        return topInset + Math.max(Math.max(editorHeight, clearBtnHeight), openChooserBtnHeight) + bottomInset;
     }
 
     @Override
     protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorHeight = snapSize(editor.minHeight(-1));
-        final double openChooserBtnHeight = snapSize(openChooserBtn.minHeight(-1));
-        return topInset + Math.max(editorHeight, openChooserBtnHeight) + bottomInset;
-    }
-
-    @Override
-    protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorWidth = snapSize(editor.maxWidth(-1));
-        final double openChooserBtnWidth = snapSize(openChooserBtn.maxWidth(-1));
-        return leftInset + editorWidth + openChooserBtnWidth + rightInset;
+        return computePrefHeight(width, topInset, rightInset, bottomInset, leftInset);
     }
 
     @Override
     protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorHeight = snapSize(editor.maxHeight(-1));
-        final double openChooserBtnHeight = snapSize(openChooserBtn.maxHeight(-1));
-        return topInset + Math.min(editorHeight, openChooserBtnHeight) + bottomInset;
+        return getSkinnable().prefHeight(width);
     }
 
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         final double openChooserBtnWidth = snapSize(openChooserBtn.prefWidth(-1));
-        final double editorWidth = contentWidth - openChooserBtnWidth;
+        final double clearBtnWidth = snapSize(clearBtn.prefWidth(-1));
+        final double editorWidth = contentWidth - clearBtnWidth - openChooserBtnWidth;
         layoutInArea(editor, contentX, contentY, editorWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
-        layoutInArea(openChooserBtn, contentX + editorWidth, contentY,
+        layoutInArea(clearBtn, contentX + editorWidth, contentY,
+                clearBtnWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
+        layoutInArea(openChooserBtn, contentX + editorWidth + clearBtnWidth, contentY,
                 openChooserBtnWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
     }
 }
