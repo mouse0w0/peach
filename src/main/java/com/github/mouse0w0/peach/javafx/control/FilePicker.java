@@ -140,7 +140,7 @@ public class FilePicker extends Control {
     }
 
     public final void setPath(Path path) {
-        setFile(path.toFile());
+        setFile(path != null ? path.toFile() : null);
     }
 
     private StringProperty promptText;
