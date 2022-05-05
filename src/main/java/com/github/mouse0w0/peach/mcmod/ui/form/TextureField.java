@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.peach.form.field.ValueField;
+import com.github.mouse0w0.peach.form.field.Field;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import javafx.beans.property.ObjectProperty;
@@ -9,7 +9,7 @@ import javafx.scene.Node;
 
 import java.io.File;
 
-public class TextureField extends ValueField<File> {
+public class TextureField extends Field {
     private final ObjectProperty<File> value = new SimpleObjectProperty<>(this, "value");
 
     private final ResourceStore resourceStore;
@@ -18,17 +18,14 @@ public class TextureField extends ValueField<File> {
         this.resourceStore = resourceStore;
     }
 
-    @Override
     public ObjectProperty<File> valueProperty() {
         return value;
     }
 
-    @Override
     public File getValue() {
         return value.get();
     }
 
-    @Override
     public void setValue(File value) {
         valueProperty().setValue(value);
     }
@@ -47,6 +44,21 @@ public class TextureField extends ValueField<File> {
 
     public ImagePicker getImagePicker() {
         return (ImagePicker) getEditor();
+    }
+
+    @Override
+    public boolean validate() {
+        File file = getValue();
+        if (file == null) {
+            return true;
+        }
+
+        File newFile = resourceStore.store(file);
+        if (newFile != null) {
+            setValue(newFile);
+            return true;
+        }
+        return false;
     }
 
     @Override
