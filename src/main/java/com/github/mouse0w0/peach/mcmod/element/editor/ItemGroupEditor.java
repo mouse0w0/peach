@@ -69,7 +69,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
                 return backgroundStore.toAbsoluteFile(string);
             }
         });
-        background.textProperty().addListener(new InvalidationListener() {
+        background.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 background.setPath(backgroundStore.store(background.getPath()));
@@ -90,7 +90,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         identifier.setText(element.getIdentifier());
         displayName.setText(element.getDisplayName());
         hasSearchBar.setSelected(element.isHasSearchBar());
-        background.setText(element.getBackground());
+        background.setValue(element.getBackground());
         icon.setItem(element.getIcon());
     }
 
@@ -99,7 +99,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         element.setIdentifier(identifier.getText().trim());
         element.setDisplayName(displayName.getText());
         element.setHasSearchBar(hasSearchBar.isSelected());
-        element.setBackground(background.getText());
+        element.setBackground(background.getValue());
         element.setIcon(icon.getItem());
     }
 }

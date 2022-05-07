@@ -38,7 +38,7 @@ public class FileChooserHelper implements PersistentStateComponent {
     }
 
     public void register(FilePicker filePicker, String id) {
-        filePicker.textProperty().addListener(textInvalidationListener);
+        filePicker.valueProperty().addListener(textInvalidationListener);
         filePicker.getProperties().put(FILE_CHOOSER_ID, id);
         filePicker.setTitle(I18n.translate("fileChooser." + id + ".title"));
         File initialDirectory = initialDirectories.get(id);

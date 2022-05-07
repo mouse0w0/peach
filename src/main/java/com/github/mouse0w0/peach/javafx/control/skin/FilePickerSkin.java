@@ -23,7 +23,7 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
 
         editor = new TextField();
         editor.getStyleClass().setAll("editor");
-        editor.textProperty().bindBidirectional(filePicker.textProperty());
+        editor.textProperty().bindBidirectional(filePicker.valueProperty());
         editor.promptTextProperty().bind(filePicker.promptTextProperty());
         editor.editableProperty().bind(filePicker.editableProperty());
         editor.focusedProperty().addListener(observable ->
@@ -36,10 +36,10 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
         clearBtn.getStyleClass().setAll("clear-button");
         clearBtn.setAccessibleRole(AccessibleRole.BUTTON);
         clearBtn.setCursor(Cursor.HAND);
-        clearBtn.visibleProperty().bind(filePicker.textProperty().isNotEmpty());
+        clearBtn.visibleProperty().bind(filePicker.valueProperty().isNotEmpty());
         clearBtn.setOnMousePressed(event -> {
             event.consume();
-            getSkinnable().setText("");
+            getSkinnable().setValue("");
         });
 
         StackPane openChooserIcon = new StackPane();
