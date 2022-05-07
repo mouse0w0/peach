@@ -405,3 +405,5 @@ pathNodeType.damageOther=Damage Other
 pathNodeType.doorOpen=打开的门
 pathNodeType.doorWoodClosed=关闭的木门
 pathNodeType.doorIronClosed=关闭的铁门
+
+file.description=%s 文件
