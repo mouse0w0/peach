@@ -59,7 +59,8 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         background.setConverter(new StringConverter<File>() {
             @Override
             public String toString(File object) {
-                return backgroundStore.toRelative(backgroundStore.store(object));
+                File result = backgroundStore.store(object);
+                return result != null ? backgroundStore.toRelative(result) : background.getValue();
             }
 
             @Override
