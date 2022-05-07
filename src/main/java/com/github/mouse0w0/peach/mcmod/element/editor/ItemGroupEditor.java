@@ -9,8 +9,6 @@ import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
@@ -61,18 +59,12 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         background.setConverter(new StringConverter<File>() {
             @Override
             public String toString(File object) {
-                return backgroundStore.toRelative(object);
+                return backgroundStore.toRelative(backgroundStore.store(object));
             }
 
             @Override
             public File fromString(String string) {
                 return backgroundStore.toAbsoluteFile(string);
-            }
-        });
-        background.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                background.setPath(backgroundStore.store(background.getPath()));
             }
         });
         grid.add(background, 1, 3);
