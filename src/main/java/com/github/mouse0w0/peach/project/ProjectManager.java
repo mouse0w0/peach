@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public final class ProjectManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectManager.class);
@@ -33,13 +32,14 @@ public final class ProjectManager {
         return getOpenedProjects().contains(project);
     }
 
-    public Optional<Project> getProject(Path path) {
+    @Nullable
+    public Project getProject(Path path) {
         for (Path root : openedProjects.keySet()) {
             if (path.startsWith(root)) {
-                return Optional.of(openedProjects.get(root));
+                return openedProjects.get(root);
             }
         }
-        return Optional.empty();
+        return null;
     }
 
     public Project createProject(@Nullable String name, @Nonnull Path path) {
