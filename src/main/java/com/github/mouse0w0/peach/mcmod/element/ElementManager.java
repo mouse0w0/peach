@@ -142,7 +142,7 @@ public final class ElementManager extends IndexProvider {
             return;
         }
 
-        saveElement(type.create(file, ModUtils.toIdentifier(name), name));
+        saveElement(type.create(project, file, ModUtils.toIdentifier(name), name));
 
         FileEditorManager.getInstance(project).open(file);
     }

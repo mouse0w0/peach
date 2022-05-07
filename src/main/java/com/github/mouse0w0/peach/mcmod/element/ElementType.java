@@ -35,10 +35,10 @@ public class ElementType<T extends Element> {
         return type;
     }
 
-    public T create(Path file, String identifier, String name) {
+    public T create(Project project, Path file, String identifier, String name) {
         T instance = newInstance(file);
         if (createdHandler != null) {
-            createdHandler.onCreated(instance, file, identifier, name);
+            createdHandler.onCreated(project, instance, file, identifier, name);
         }
         return instance;
     }
