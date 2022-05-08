@@ -12,10 +12,8 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
-import com.github.mouse0w0.peach.util.NioFileWatcher;
+import com.github.mouse0w0.peach.util.FileWatcher;
 import com.google.common.collect.ImmutableList;
-import com.sun.nio.file.ExtendedWatchEventModifier;
-import com.sun.nio.file.SensitivityWatchEventModifier;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -38,7 +36,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardWatchEventKinds;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,7 +45,7 @@ public class ProjectView implements Disposable, DataProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectView.class);
 
     private final Project project;
-    private final Path rootPath;
+    private final Path projectPath;
 
     private final Map<Path, TreeItem<Path>> itemMap = new HashMap<>();
     private final Map<Path, TreeItem<Path>> expandedItemMap = new HashMap<>();
@@ -77,7 +74,7 @@ public class ProjectView implements Disposable, DataProvider {
     private ContextMenu contextMenu;
     private EventHandler<Event> onContextMenuRequested;
 
-    private NioFileWatcher fileWatcher;
+    private FileWatcher.Watch fileWatch;
 
     public static ProjectView getInstance(Project project) {
         return project.getService(ProjectView.class);
@@ -85,7 +82,7 @@ public class ProjectView implements Disposable, DataProvider {
 
     public ProjectView(Project project) {
         this.project = project;
-        this.rootPath = project.getPath();
+        this.projectPath = project.getPath();
     }
 
     public Comparator<TreeItem<Path>> getComparator() {
@@ -114,14 +111,17 @@ public class ProjectView implements Disposable, DataProvider {
             }
         };
 
-        TreeItem<Path> root = createTreeItem(rootPath);
+        TreeItem<Path> root = createTreeItem(projectPath);
         root.setExpanded(true);
         treeView.setRoot(root);
 
-        fileWatcher = new NioFileWatcher(rootPath, SensitivityWatchEventModifier.LOW, ExtendedWatchEventModifier.FILE_TREE);
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_CREATE, this::onFileCreate);
-        fileWatcher.addListener(StandardWatchEventKinds.ENTRY_DELETE, this::onFileDelete);
-        fileWatcher.start();
+        fileWatch = FileWatcher.getDefault().configurer()
+                .path(projectPath)
+                .low()
+                .fileTree()
+                .watchCreate(this::onFileCreate)
+                .watchDelete(this::onFileDelete)
+                .watch();
         return treeView;
     }
 
@@ -192,7 +192,7 @@ public class ProjectView implements Disposable, DataProvider {
 
     @Override
     public void dispose() {
-        fileWatcher.stop();
+        fileWatch.cancel();
     }
 
     @Override
