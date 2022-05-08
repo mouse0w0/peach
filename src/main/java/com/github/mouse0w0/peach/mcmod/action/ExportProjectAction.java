@@ -33,7 +33,7 @@ public class ExportProjectAction extends Action {
             Compiler compiler = new Compiler(project);
             compiler.run();
             return compiler;
-        }, Scheduler.computation()).thenAcceptAsync(compiler -> {
+        }, Scheduler.getInstance()).thenAcceptAsync(compiler -> {
             McModMetadata metadata = compiler.getMetadata();
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
