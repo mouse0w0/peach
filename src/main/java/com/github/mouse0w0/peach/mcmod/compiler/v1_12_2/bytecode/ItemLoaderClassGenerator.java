@@ -14,12 +14,18 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
     private final MethodVisitor registerItemMethod;
     private final MethodVisitor registerItemModelMethod;
 
-    public ItemLoaderClassGenerator(String className) {
+    public ItemLoaderClassGenerator(String className, String modId) {
         super(className);
 
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "java/lang/Object", null);
 
         cw.visitSource("Peach.generated", null);
+
+        {
+            AnnotationVisitor av = cw.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventBusSubscriber;", true);
+            av.visit("modid", modId);
+            av.visitEnd();
+        }
 
         cw.visitInnerClass("net/minecraftforge/event/RegistryEvent$Register", "net/minecraftforge/event/RegistryEvent", "Register", ACC_PUBLIC | ACC_STATIC);
 
@@ -36,9 +42,6 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
             registerItemMethod.visitVarInsn(ALOAD, 0);
             registerItemMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraftforge/event/RegistryEvent$Register", "getRegistry", "()Lnet/minecraftforge/registries/IForgeRegistry;", false);
             registerItemMethod.visitVarInsn(ASTORE, 1);
-            registerItemMethod.visitVarInsn(ALOAD, 1);
-            registerItemMethod.visitFieldInsn(GETSTATIC, "peach/generated/item/ItemLoader", "EXAMPLE_ITEM", "Lnet/minecraft/item/Item;");
-            registerItemMethod.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/registries/IForgeRegistry", "register", "(Lnet/minecraftforge/registries/IForgeRegistryEntry;)V", true);
         }
         {
             registerItemModelMethod = cw.visitMethod(ACC_PUBLIC | ACC_STATIC, "registerItemModel", "(Lnet/minecraftforge/client/event/ModelRegistryEvent;)V", null, null);
@@ -81,16 +84,10 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
         cw.visitEnd();
     }
 
-    private void visitModId(String modId) {
-        AnnotationVisitor av = cw.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventBusSubscriber;", true);
-        av.visit("modid", modId);
-        av.visitEnd();
-    }
-
-    private void visitItem(String identifier, String className) {
+    public void visitItem(String identifier, String className) {
         String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
 
-        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_STATIC, "EXAMPLE_ITEM", "Lnet/minecraft/item/Item;", null, null);
+        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
         fv.visitEnd();
 
         cinitMethod.visitTypeInsn(NEW, className);

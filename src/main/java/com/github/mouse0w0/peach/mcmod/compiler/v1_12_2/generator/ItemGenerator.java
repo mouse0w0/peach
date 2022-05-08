@@ -17,18 +17,18 @@ import java.util.Map;
 
 public class ItemGenerator extends Generator<MEItem> {
 
-    private ItemLoaderClassGenerator loaderClassGenerator;
+    private ItemLoaderClassGenerator itemLoaderClassGenerator;
     private ItemGroupsClassGenerator itemGroupsClassGenerator;
 
     @Override
     protected void before(Context context, Collection<MEItem> elements) throws Exception {
-        loaderClassGenerator = new ItemLoaderClassGenerator(context.getInternalName("item/ItemLoader"));
+        itemLoaderClassGenerator = new ItemLoaderClassGenerator(context.getInternalName("item/ItemLoader"), context.getNamespace());
         itemGroupsClassGenerator = new ItemGroupsClassGenerator(context.getInternalName("item/ItemGroups"));
     }
 
     @Override
     protected void after(Context context, Collection<MEItem> elements) throws Exception {
-        context.getClassesFiler().write(loaderClassGenerator.getThisName() + ".class", loaderClassGenerator.toByteArray());
+        context.getClassesFiler().write(itemLoaderClassGenerator.getThisName() + ".class", itemLoaderClassGenerator.toByteArray());
         context.getClassesFiler().write(itemGroupsClassGenerator.getThisName() + ".class", itemGroupsClassGenerator.toByteArray());
     }
 
@@ -81,6 +81,8 @@ public class ItemGenerator extends Generator<MEItem> {
         if (type == ItemType.FOOD && !item.getFoodContainer().isAir())
             cg.visitFoodContainerItem(item.getFoodContainer());
         context.getClassesFiler().write(cg.getThisName() + ".class", cg.toByteArray());
+
+        itemLoaderClassGenerator.visitItem(identifier, cg.getThisName());
 
 //        McModel model = context.getModelManager().getItemModel(item.getModel());
         Map<String, String> textures = new LinkedHashMap<>();
