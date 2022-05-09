@@ -12,10 +12,13 @@ public class ActionMenu extends Menu {
 
     private final InvalidationListener iconListener = observable -> updateIcon();
 
+    private boolean initialized;
+
     public ActionMenu(ActionGroup group) {
         this.group = group;
 
         getProperties().put(Action.class, group);
+        setOnShowing(this::update);
 
         Appearance appearance = group.getAppearance();
         textProperty().bind(appearance.textProperty());
@@ -24,19 +27,35 @@ public class ActionMenu extends Menu {
         disableProperty().bind(appearance.disableProperty());
         visibleProperty().bind(appearance.visibleProperty());
 
-        addEventHandler(ON_SHOWING, this::update);
+        // Fix JavaFX don't show empty menu.
+        if (group.getChildren().isEmpty()) {
+            initialized = true;
+        } else {
+            getItems().add(new MenuItem());
+        }
     }
 
     public ActionGroup getGroup() {
         return group;
     }
 
-    private void update(Event event) {
-        group.update(new ActionEvent(event.getSource()));
+    @Override
+    public void show() {
+        initialize();
+        super.show();
+    }
 
-        for (MenuItem item : getItems()) {
-            Action action = (Action) item.getProperties().get(Action.class);
-            action.update(new ActionEvent(item));
+    private void initialize() {
+        if (!initialized) {
+            initialized = true;
+            Utils.fillMenu(group, getItems());
+        }
+    }
+
+    private void update(Event event) {
+        final ActionEvent actionEvent = new ActionEvent(this);
+        for (Action child : group.getChildren()) {
+            child.update(actionEvent);
         }
     }
 
