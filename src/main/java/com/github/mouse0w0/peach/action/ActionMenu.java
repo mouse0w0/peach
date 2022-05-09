@@ -53,10 +53,8 @@ public class ActionMenu extends Menu {
     }
 
     private void update(Event event) {
-        final ActionEvent actionEvent = new ActionEvent(this);
-        for (Action child : group.getChildren()) {
-            child.update(actionEvent);
-        }
+        Utils.update(group, this);
+        Utils.updateSeparatorVisibility(getItems());
     }
 
     private void updateIcon() {

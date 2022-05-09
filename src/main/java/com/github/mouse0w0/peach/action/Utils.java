@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.action;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class Utils {
     static void fillMenu(ActionGroup group, ObservableList<MenuItem> items) {
@@ -14,6 +15,37 @@ public class Utils {
             } else {
                 items.add(new ActionMenuItem(action));
             }
+        }
+    }
+
+    static void update(ActionGroup group, Object source) {
+        final ActionEvent actionEvent = new ActionEvent(source);
+        for (Action child : group.getChildren()) {
+            child.update(actionEvent);
+        }
+    }
+
+    static void updateSeparatorVisibility(ObservableList<MenuItem> items) {
+        boolean perv = false;
+        MenuItem seperator = null;
+        for (MenuItem item : items) {
+            if (item instanceof SeparatorMenuItem) {
+                if (perv) {
+                    perv = false;
+                    seperator = item;
+                } else {
+                    item.setVisible(false);
+                }
+            } else if (item.isVisible()) {
+                if (seperator != null) {
+                    seperator.setVisible(true);
+                    seperator = null;
+                }
+                perv = true;
+            }
+        }
+        if (seperator != null) {
+            seperator.setVisible(false);
         }
     }
 }
