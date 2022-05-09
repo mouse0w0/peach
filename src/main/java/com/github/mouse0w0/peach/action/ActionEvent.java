@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.action;
 import com.github.mouse0w0.peach.data.DataContext;
 import com.github.mouse0w0.peach.data.DataKey;
 import com.github.mouse0w0.peach.data.DataManager;
+import com.github.mouse0w0.peach.window.WindowManager;
 
 import javax.annotation.Nonnull;
 
@@ -15,7 +16,7 @@ public class ActionEvent implements DataContext {
     public ActionEvent(@Nonnull Object source) {
         if (source == null) throw new NullPointerException("source");
         this.source = source;
-        this.dataContext = DataManager.getInstance().getDataContext(source);
+        this.dataContext = DataManager.getInstance().getDataContext(WindowManager.getInstance().getFocusedNode());
     }
 
     public Object getSource() {

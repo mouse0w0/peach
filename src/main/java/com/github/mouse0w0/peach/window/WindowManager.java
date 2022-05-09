@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.view.ViewManager;
+import javafx.scene.Node;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -77,6 +78,11 @@ public class WindowManager {
 
     public ProjectWindow getFocusedWindow() {
         return focusedWindow;
+    }
+
+    public Node getFocusedNode() {
+        if (focusedWindow == null) return null;
+        return focusedWindow.getStage().getScene().getFocusOwner();
     }
 
     public Project getFocusedProject() {
