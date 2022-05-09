@@ -18,6 +18,12 @@ public class NewFileAction extends Action {
     private static final Logger LOGGER = LoggerFactory.getLogger(NewFileAction.class);
 
     @Override
+    public void update(ActionEvent event) {
+        final Path path = DataKeys.PATH.get(event);
+        getAppearance().visibleProperty().set(path != null);
+    }
+
+    @Override
     public void perform(ActionEvent event) {
         final Path path = DataKeys.PATH.get(event);
         if (path == null) return;
