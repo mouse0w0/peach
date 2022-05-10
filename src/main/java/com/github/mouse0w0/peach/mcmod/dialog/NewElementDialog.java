@@ -20,9 +20,12 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.StringConverter;
 
+import java.nio.file.Path;
+
 public class NewElementDialog extends BorderPane {
 
     private final Project project;
+    private final Path path;
 
     @FXML
     private TextField name;
@@ -31,17 +34,18 @@ public class NewElementDialog extends BorderPane {
     @FXML
     private Text identifier;
 
-    public static void show(Project project, Window window) {
+    public static void show(Project project, Path path, Window window) {
         Stage stage = new Stage();
-        stage.setScene(new Scene(new NewElementDialog(project)));
+        stage.setScene(new Scene(new NewElementDialog(project, path)));
         stage.setTitle(I18n.translate("dialog.newElement.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
 
-    public NewElementDialog(Project project) {
+    public NewElementDialog(Project project, Path path) {
         this.project = project;
+        this.path = path;
         FXUtils.loadFXML(this, "ui/mcmod/NewElement.fxml");
 
         getStylesheets().add("/style/style.css");
@@ -83,7 +87,7 @@ public class NewElementDialog extends BorderPane {
     private void onFinish() {
         if (!Validator.test(name)) return;
 
-        ElementManager.getInstance(project).createAndEditElement(type.getValue(), name.getText());
+        ElementManager.getInstance(project).createElement(path, type.getValue(), name.getText());
 
         FXUtils.hideWindow(this);
     }

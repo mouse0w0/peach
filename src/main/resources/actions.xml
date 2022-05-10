@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
     <group id="New">
+        <action id="NewModElement" icon="Icons.File.ModElement"
+                class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
         <action id="NewFile" icon="Icons.File.File"
                 class="com.github.mouse0w0.peach.action.file.NewFileAction"/>
         <action id="NewDirectory" icon="Icons.File.Folder"
                 class="com.github.mouse0w0.peach.action.file.NewDirectoryAction"/>
         <separator/>
         <action id="NewProject" class="com.github.mouse0w0.peach.action.file.NewProjectAction"/>
-        <action id="NewModElement" class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
     </group>
 
     <group id="MainMenu">

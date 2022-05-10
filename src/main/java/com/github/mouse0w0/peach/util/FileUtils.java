@@ -228,6 +228,10 @@ public class FileUtils {
         return file.delete();
     }
 
+    public static Path getDirectory(Path path) {
+        return Files.isDirectory(path) ? path : path.getParent();
+    }
+
     public static Path toPath(File file) {
         return file != null ? file.toPath() : null;
     }

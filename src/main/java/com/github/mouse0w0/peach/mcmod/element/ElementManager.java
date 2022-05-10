@@ -134,8 +134,8 @@ public final class ElementManager extends IndexProvider {
         onRemovedElement(file);
     }
 
-    public void createAndEditElement(ElementType<?> type, String name) {
-        Path file = root.resolve(name + "." + type.getName() + ".json");
+    public void createElement(Path path, ElementType<?> type, String name) {
+        Path file = path.resolve(name + "." + type.getName() + ".json");
 
         if (Files.exists(file)) {
             Alert.error(I18n.format("validate.existsFile", file.getFileName()));
