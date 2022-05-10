@@ -9,10 +9,11 @@ import com.github.mouse0w0.peach.data.DataProvider;
 import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
+import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
+import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Disposable;
-import com.github.mouse0w0.peach.util.FileWatcher;
 import com.google.common.collect.ImmutableList;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -74,7 +75,7 @@ public class ProjectView implements Disposable, DataProvider {
     private ContextMenu contextMenu;
     private EventHandler<Event> onContextMenuRequested;
 
-    private FileWatcher.Watch fileWatch;
+    private FileChangeListener fileChangeListener;
 
     public static ProjectView getInstance(Project project) {
         return project.getService(ProjectView.class);
@@ -115,13 +116,18 @@ public class ProjectView implements Disposable, DataProvider {
         root.setExpanded(true);
         treeView.setRoot(root);
 
-        fileWatch = FileWatcher.getDefault().configurer()
-                .path(projectPath)
-                .low()
-                .fileTree()
-                .watchCreate(this::onFileCreate)
-                .watchDelete(this::onFileDelete)
-                .watch();
+        fileChangeListener = new FileChangeListener() {
+            @Override
+            public void onFileCreate(ProjectFileWatcher watcher, Path path) {
+                ProjectView.this.onFileCreate(path);
+            }
+
+            @Override
+            public void onFileDelete(ProjectFileWatcher watcher, Path path) {
+                ProjectView.this.onFileDelete(path);
+            }
+        };
+        ProjectFileWatcher.getInstance(project).addListener(fileChangeListener);
         return treeView;
     }
 
@@ -192,7 +198,7 @@ public class ProjectView implements Disposable, DataProvider {
 
     @Override
     public void dispose() {
-        fileWatch.cancel();
+        ProjectFileWatcher.getInstance(project).removeListener(fileChangeListener);
     }
 
     @Override
