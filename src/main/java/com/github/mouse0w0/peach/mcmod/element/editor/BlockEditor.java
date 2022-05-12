@@ -12,8 +12,6 @@ import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
-import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
@@ -22,6 +20,8 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
@@ -64,6 +64,8 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private RadioButtonField transparency;
     private ChoiceBoxField<RenderType> renderType;
     private ChoiceBoxField<OffsetType> offsetType;
+    private ModelField itemModel;
+    private ModelTextureField itemTextures;
 
 //    private Object dropItem; // TODO
 
@@ -104,6 +106,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         type.setText(I18n.translate("block.properties.type"));
         type.setConverter(LocalizableConverter.instance());
         type.getItems().addAll(BlockType.values());
+        type.setValue(BlockType.NORMAL);
         type.setColSpan(ColSpan.HALF);
 
         material = new ComboBoxField<>();
@@ -185,24 +188,20 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 hardness, unbreakable,
                 resistance, slipperiness,
                 brightness, opacity,
-//                boundingBox,
                 harvestTool, harvestLevel,
                 information);
 
-        model = new ModelField(new ResourceStore(
+        model = new ModelField(getProject(), new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_MODELS), ".json"));
         model.setText(I18n.translate("block.appearance.model"));
-        model.getItems().addAll(ModelManager.getInstance().getModelTemplatesByGroup("block"));
+        model.blockstateProperty().bind(Bindings.createStringBinding(() -> type.getValue().getBlockstate(), type.valueProperty()));
 
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
         textures.setText(I18n.translate("block.appearance.texture"));
-        model.valueProperty().addListener(observable -> {
-            ModelTemplate template = ModelManager.getInstance().getModelTemplate(model.getValue());
-            textures.setTextureList(template != null ? template.getTextures() : null);
-        });
+        model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
 
         transparency = new RadioButtonField();
         transparency.setText(I18n.translate("block.appearance.transparency"));
@@ -220,13 +219,28 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         offsetType.getItems().addAll(OffsetType.values());
         offsetType.setColSpan(ColSpan.HALF);
 
+        itemModel = new ModelField(getProject(), new ResourceStore(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"), true);
+        itemModel.setText(I18n.translate("block.appearance.itemModel"));
+        itemModel.setBlockstate("item");
+
+        itemTextures = new ModelTextureField(new ResourceStore(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
+        itemTextures.setText(I18n.translate("block.appearance.itemTexture"));
+        itemTextures.visibleProperty().bind(Bindings.isNotEmpty(itemModel.getTextures()));
+        itemModel.getTextures().addListener((InvalidationListener) observable -> itemTextures.setTextureKeys(itemModel.getTextures()));
+
         Section appearance = new Section();
         appearance.setText(I18n.translate("block.appearance.title"));
         appearance.getElements().addAll(
                 model,
                 textures,
                 transparency, renderType,
-                offsetType
+                offsetType,
+                itemModel,
+                itemTextures
         );
 
         minX = new SpinnerField<>(0D, 16D, 0D);
@@ -366,10 +380,15 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         harvestLevel.setValue(element.getHarvestLevel());
         information.setValue(element.getInformation());
 
-        model.setValue(element.getModel());
+        model.setModelPrototype(element.getModelPrototype());
+        model.setModels(element.getModels());
+        textures.setTextures(element.getTextures());
         transparency.setValue(element.isTransparency());
         renderType.setValue(element.getRenderType());
         offsetType.setValue(element.getOffsetType());
+        itemModel.setModelPrototype(element.getItemModelPrototype());
+        itemModel.setModels(element.getItemModels());
+        itemTextures.setTextures(element.getItemTextures());
 
         AABBd boundingBox = element.getBoundingBox();
         minX.setValue(boundingBox.minX);
@@ -414,10 +433,15 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setHarvestLevel(harvestLevel.getValue());
         element.setInformation(information.getValue());
 
-        element.setModel(model.getValue());
+        element.setModelPrototype(model.getModelPrototype());
+        element.setModels(model.getModels());
+        element.setTextures(textures.getTextures());
         element.setTransparency(transparency.getValue());
         element.setRenderType(renderType.getValue());
         element.setOffsetType(offsetType.getValue());
+        element.setItemModelPrototype(itemModel.getModelPrototype());
+        element.setItemModels(itemModel.getModels());
+        element.setItemTextures(itemTextures.getTextures());
 
         element.setBoundingBox(new AABBd(
                 minX.getValue(), minY.getValue(), minZ.getValue(),

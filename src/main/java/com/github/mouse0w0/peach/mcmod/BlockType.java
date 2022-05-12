@@ -4,26 +4,32 @@ import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
 public enum BlockType implements Localizable {
-    NORMAL,
-    PILLAR,
-    HORIZONTAL,
-    HORIZONTAL_OPPOSITE,
-    DIRECTIONAL,
-    DIRECTIONAL_OPPOSITE,
-    DIRT,
-    STONE,
-    STAIR,
-    SLAB,
-    FENCE,
-    FENCE_GATE,
-    WALL,
-    TRAP_DOOR,
-    PANE;
+    NORMAL("normal"),
+    PILLAR("pillar"),
+    HORIZONTAL("horizontal"),
+    HORIZONTAL_OPPOSITE("horizontal"),
+    DIRECTIONAL("directional"),
+    DIRECTIONAL_OPPOSITE("directional"),
+    DIRT("dirt"),
+    STONE("stone"),
+    STAIRS("stairs"),
+    SLAB("slab"),
+    FENCE("fence"),
+    FENCE_GATE("fence_gate"),
+    WALL("wall"),
+    TRAPDOOR("trapdoor"),
+    PANE("pane");
 
+    private final String blockstate;
     private final String translationKey;
 
-    BlockType() {
+    BlockType(String blockstate) {
+        this.blockstate = blockstate;
         translationKey = "blockType." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+    }
+
+    public String getBlockstate() {
+        return blockstate;
     }
 
     public String getLocalizedText() {

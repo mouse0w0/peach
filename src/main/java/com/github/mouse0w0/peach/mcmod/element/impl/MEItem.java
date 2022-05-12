@@ -3,14 +3,13 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.google.common.base.Strings;
 
 import java.util.Collections;
 import java.util.Map;
 
 public class MEItem extends Element implements LocalizableElement {
-
-    public static final Identifier DEFAULT_MODEL = new Identifier("buildin", "generated");
 
     private String identifier;
     private String displayName;
@@ -33,7 +32,8 @@ public class MEItem extends Element implements LocalizableElement {
     private int destroyBlockLoss;
     private String information;
 
-    private Identifier model = DEFAULT_MODEL;
+    private Identifier modelPrototype = ModelManager.GENERATED;
+    private Map<String, String> models = Collections.emptyMap();
     private Map<String, String> textures = Collections.emptyMap();
     private boolean hasEffect = false;
     private String armorTexture;
@@ -221,12 +221,20 @@ public class MEItem extends Element implements LocalizableElement {
         this.information = information;
     }
 
-    public Identifier getModel() {
-        return model;
+    public Identifier getModelPrototype() {
+        return modelPrototype;
     }
 
-    public void setModel(Identifier model) {
-        this.model = model;
+    public void setModelPrototype(Identifier modelPrototype) {
+        this.modelPrototype = modelPrototype;
+    }
+
+    public Map<String, String> getModels() {
+        return models;
+    }
+
+    public void setModels(Map<String, String> models) {
+        this.models = models;
     }
 
     public Map<String, String> getTextures() {

@@ -1,0 +1,17 @@
+{
+    "identifier": "buildin:fence_gate",
+    "item": "buildin:fence_gate_item",
+    "groups": ["fence_gate"],
+    "textures": ["texture"],
+    "model": {
+        "fence_gate_closed": {
+            "name": "block/${identifier_no_suffix}_fence_gate_closed", "template": "model/fence_gate_closed.json.ftl"
+        }, "fence_gate_open": {
+            "name": "block/${identifier_no_suffix}_fence_gate_open", "template": "model/fence_gate_open.json.ftl"
+        }, "wall_gate_closed": {
+            "name": "block/${identifier_no_suffix}_wall_gate_closed", "template": "model/wall_gate_closed.json.ftl"
+        }, "wall_gate_open": {
+            "name": "block/${identifier_no_suffix}_wall_gate_open", "template": "model/wall_gate_open.json.ftl"
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "identifier": "buildin:pane",
+    "item": "buildin:pane_item",
+    "groups": ["pane"],
+    "textures": ["pane", "edge"],
+    "model": {
+        "pane_post": {
+            "name": "block/${identifier}_post", "template": "model/pane_post.json.ftl"
+        }, "pane_side": {
+            "name": "block/${identifier}_side", "template": "model/pane_side.json.ftl"
+        }, "pane_side_alt": {
+            "name": "block/${identifier}_side_alt", "template": "model/pane_side_alt.json.ftl"
+        }, "pane_noside": {
+            "name": "block/${identifier}_noside", "template": "model/pane_noside.json.ftl"
+        }, "pane_noside_alt": {
+            "name": "block/${identifier}_noside_alt", "template": "model/pane_noside_alt.json.ftl"
+        }
+    }
+}

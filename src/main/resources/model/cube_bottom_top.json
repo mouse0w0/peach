@@ -1,8 +1,11 @@
 {
-  "parent": "block/cube_bottom_top",
-  "textures": {
-    "bottom": "",
-    "top": "",
-    "side": ""
-  }
+    "identifier": "buildin:cube_bottom_top",
+    "item": "buildin:block_item",
+    "groups": ["normal", "directional", "horizontal", "dirt"],
+    "textures": ["bottom", "top", "side"],
+    "model": {
+        "block": {
+            "name": "block/${identifier}", "template": "model/cube_bottom_top.json.ftl"
+        }
+    }
 }

@@ -4,7 +4,6 @@ public class ModelEntry {
     private String name;
     private String template;
     private String parent;
-    private boolean itemModel;
 
     public ModelEntry() {
     }
@@ -31,13 +30,5 @@ public class ModelEntry {
 
     public void setParent(String parent) {
         this.parent = parent;
-    }
-
-    public boolean isItemModel() {
-        return itemModel;
-    }
-
-    public void setItemModel(boolean itemModel) {
-        this.itemModel = itemModel;
     }
 }

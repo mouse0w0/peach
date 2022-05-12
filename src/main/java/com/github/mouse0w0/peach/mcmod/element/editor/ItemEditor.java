@@ -12,8 +12,6 @@ import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
-import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
@@ -22,6 +20,7 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
@@ -277,20 +276,17 @@ public class ItemEditor extends ElementEditor<MEItem> {
         Section appearance = new Section();
         appearance.setText(I18n.translate("item.appearance.title"));
 
-        model = new ModelField(new ResourceStore(
+        model = new ModelField(getProject(), new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
         model.setText(I18n.translate("item.appearance.model"));
-        model.getItems().addAll(ModelManager.getInstance().getModelTemplatesByGroup("item"));
+        model.setBlockstate("item");
 
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
         textures.setText(I18n.translate("item.appearance.texture"));
-        model.valueProperty().addListener(observable -> {
-            ModelTemplate template = ModelManager.getInstance().getModelTemplate(model.getValue());
-            textures.setTextureList(template != null ? template.getTextures() : null);
-        });
+        model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
 
         hasEffect = new RadioButtonField();
         hasEffect.setText(I18n.translate("item.appearance.hasEffect"));
@@ -368,7 +364,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         destroyBlockLoss.setValue(item.getDestroyBlockLoss());
         information.setValue(item.getInformation());
 
-        model.setValue(item.getModel());
+        model.setModelPrototype(item.getModelPrototype());
+        model.setModels(item.getModels());
         textures.setTextures(item.getTextures());
         hasEffect.setValue(item.isHasEffect());
         armorTexture.setTexture(item.getArmorTexture());
@@ -404,7 +401,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setDestroyBlockLoss(destroyBlockLoss.getValue());
         item.setInformation(information.getValue());
 
-        item.setModel(model.getValue());
+        item.setModelPrototype(model.getModelPrototype());
+        item.setModels(model.getModels());
         item.setTextures(textures.getTextures());
         item.setHasEffect(hasEffect.getValue());
         item.setArmorTexture(armorTexture.getTexture());

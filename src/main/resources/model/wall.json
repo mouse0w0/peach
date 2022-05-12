@@ -1,0 +1,9 @@
+{
+    "identifier": "buildin:wall", "item": "buildin:wall_item", "groups": ["wall"], "textures": ["texture"], "model": {
+    "wall_post": {
+        "name": "block/${identifier}_post", "template": "model/wall_post.json.ftl"
+    }, "wall_side": {
+        "name": "block/${identifier}_side", "template": "model/wall_side.json.ftl"
+    }
+}
+}

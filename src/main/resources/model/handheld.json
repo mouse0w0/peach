@@ -1,6 +1,7 @@
 {
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": ""
-  }
+    "identifier": "buildin:handheld", "groups": ["item"], "textures": ["layer0"], "model": {
+    "item": {
+        "name": "item/${identifier}", "template": "model/generated.json.ftl"
+    }
+}
 }

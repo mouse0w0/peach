@@ -1,0 +1,15 @@
+{
+    "identifier": "buildin:trapdoor",
+    "item": "buildin:trapdoor_item",
+    "groups": ["trapdoor"],
+    "textures": ["texture"],
+    "model": {
+        "trapdoor_bottom": {
+            "name": "block/${identifier}_bottom", "template": "model/trapdoor_bottom.json.ftl"
+        }, "trapdoor_top": {
+            "name": "block/${identifier}_top", "template": "model/trapdoor_top.json.ftl"
+        }, "trapdoor_open": {
+            "name": "block/${identifier}_open", "template": "model/trapdoor_open.json.ftl"
+        }
+    }
+}

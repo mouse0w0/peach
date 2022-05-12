@@ -1,0 +1,7 @@
+{
+    "identifier": "buildin:fence_gate_item", "model": {
+    "item": {
+        "name": "item/${identifier}", "parent": "fence_gate_closed", "template": "model/block_item.json.ftl"
+    }
+}
+}

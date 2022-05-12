@@ -1,19 +1,18 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
 import com.github.mouse0w0.peach.mcmod.Identifier;
-import com.google.gson.annotations.JsonAdapter;
 
 import java.util.List;
 import java.util.Map;
 
-public class ModelTemplate {
+public class ModelPrototype {
     private Identifier identifier;
+    private Identifier item;
     private List<String> groups;
-    @JsonAdapter(TextureList.Deserializer.class)
-    private TextureList textures;
+    private List<String> textures;
     private Map<String, ModelEntry> models;
 
-    public ModelTemplate() {
+    public ModelPrototype() {
     }
 
     public Identifier getIdentifier() {
@@ -24,6 +23,14 @@ public class ModelTemplate {
         this.identifier = identifier;
     }
 
+    public Identifier getItem() {
+        return item;
+    }
+
+    public void setItem(Identifier item) {
+        this.item = item;
+    }
+
     public List<String> getGroups() {
         return groups;
     }
@@ -32,11 +39,11 @@ public class ModelTemplate {
         this.groups = groups;
     }
 
-    public TextureList getTextures() {
+    public List<String> getTextures() {
         return textures;
     }
 
-    public void setTextures(TextureList textures) {
+    public void setTextures(List<String> textures) {
         this.textures = textures;
     }
 

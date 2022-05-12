@@ -1,6 +1,11 @@
 {
-  "parent": "block/cube_all",
-  "textures": {
-    "all": ""
-  }
+    "identifier": "buildin:cube_all",
+    "item": "buildin:block_item",
+    "groups": ["normal", "dirt"],
+    "textures": ["texture"],
+    "model": {
+        "block": {
+            "name": "block/${identifier}", "template": "model/cube_all.json.ftl"
+        }
+    }
 }

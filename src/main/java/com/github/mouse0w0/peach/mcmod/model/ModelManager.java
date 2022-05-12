@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -17,9 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModelManager {
+    public static final Identifier CUSTOM = new Identifier("buildin", "custom");
+    public static final Identifier INHERIT = new Identifier("buildin", "inherit");
+    public static final Identifier GENERATED = new Identifier("buildin", "generated");
 
-    private final Map<Identifier, BlockStateTemplate> blockStateTemplateMap = new HashMap<>();
-    private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
+    private final Map<String, Blockstate> blockstateMap = new HashMap<>();
+    private final Map<Identifier, ModelPrototype> modelTemplateMap = new HashMap<>();
     private final Multimap<String, Identifier> groupToModelTemplatesMap = HashMultimap.create();
 
     public static ModelManager getInstance() {
@@ -32,17 +36,30 @@ public class ModelManager {
 
     private void load() {
         try {
-            Path blockstate = ClassPathUtils.getPath("blockstate");
-            if (blockstate == null) throw new Error();
+            Path state = ClassPathUtils.getPath("blockstate");
+            if (state == null) throw new Error();
+
+            Files.list(state)
+                    .filter(path -> FileUtils.getFileName(path).endsWith(".json"))
+                    .forEach(this::loadStateTemplate);
+
             Path model = ClassPathUtils.getPath("model");
             if (model == null) throw new Error();
 
-            Files.list(blockstate)
-                    .filter(path -> FileUtils.getFileName(path).endsWith(".meta.json"))
-                    .forEach(this::loadBlockStateTemplate);
             Files.list(model)
-                    .filter(path -> FileUtils.getFileName(path).endsWith(".model.json"))
+                    .filter(path -> FileUtils.getFileName(path).endsWith(".json"))
                     .forEach(this::loadModelTemplate);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private void loadStateTemplate(Path file) {
+        try {
+            Blockstate template = JsonUtils.readJson(file, Blockstate.class);
+            String fileName = FileUtils.getFileName(file);
+            String identifier = StringUtils.substringBefore(fileName, '.');
+            blockstateMap.put(identifier, template);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -50,30 +67,25 @@ public class ModelManager {
 
     private void loadModelTemplate(Path file) {
         try {
-            ModelTemplate template = JsonUtils.readJson(file, ModelTemplate.class);
+            ModelPrototype template = JsonUtils.readJson(file, ModelPrototype.class);
             modelTemplateMap.put(template.getIdentifier(), template);
-            for (String group : template.getGroups()) {
-                groupToModelTemplatesMap.put(group, template.getIdentifier());
+            if (template.getGroups() != null) {
+                for (String group : template.getGroups()) {
+                    groupToModelTemplatesMap.put(group, template.getIdentifier());
+                }
             }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to load file: " + file, e);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    private void loadBlockStateTemplate(Path file) {
-        try {
-            BlockStateTemplate template = JsonUtils.readJson(file, BlockStateTemplate.class);
-            blockStateTemplateMap.put(template.getIdentifier(), template);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+    public Blockstate getBlockstate(String blockstate) {
+        return blockstateMap.get(blockstate);
     }
 
-    public BlockStateTemplate getBlockStateTemplate(Identifier identifier) {
-        return blockStateTemplateMap.get(identifier);
-    }
-
-    public ModelTemplate getModelTemplate(Identifier identifier) {
+    public ModelPrototype getModelTemplate(Identifier identifier) {
         return modelTemplateMap.get(identifier);
     }
 

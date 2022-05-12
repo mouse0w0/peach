@@ -1,114 +1,84 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.form.field.Field;
+import com.github.mouse0w0.peach.javafx.binding.BidirectionalValueBinding;
 import com.github.mouse0w0.peach.javafx.control.ImagePicker;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
-import com.github.mouse0w0.peach.mcmod.model.TextureEntry;
-import com.github.mouse0w0.peach.mcmod.model.TextureList;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
-import javafx.geometry.HPos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ModelTextureField extends Field {
     private final ResourceStore resourceStore;
 
     private final GridPane editor;
 
-    private final Map<String, ImagePicker> textureMap = new HashMap<>();
+    private final Set<String> textureKeys = new LinkedHashSet<>();
+    private final ObservableMap<String, File> textures = FXCollections.observableHashMap();
 
     public ModelTextureField(ResourceStore resourceStore) {
         this.resourceStore = resourceStore;
 
         editor = new GridPane();
+        editor.setMaxWidth(Region.USE_PREF_SIZE);
+        editor.setAlignment(Pos.CENTER);
         editor.setHgap(8);
         editor.setVgap(4);
     }
 
     public Set<String> getTextureKeys() {
-        return textureMap.keySet();
+        return textureKeys;
     }
 
-    public void setTextureList(TextureList textureList) {
+    public void setTextureKeys(Collection<String> keys) {
+        textureKeys.clear();
+
+        if (keys == null) return;
+
+        textureKeys.addAll(keys);
         editor.getChildren().clear();
-        textureMap.clear();
-
-        if (textureList == null) return;
-
-        if (textureList.isCustomLayout()) {
-            for (TextureEntry texture : textureList) {
-                ImagePicker imagePicker = createImagePicker(texture);
-                Text text = createText(texture);
-                editor.add(imagePicker, texture.getColumn(), texture.getRow() * 2);
-                editor.add(text, texture.getColumn(), texture.getRow() * 2 + 1);
+        if (textureKeys.size() == 1) {
+            String textureKey = textureKeys.iterator().next();
+            editor.add(createImagePicker(textureKey), 0, 0);
+        } else {
+            int column = 0;
+            for (String textureKey : textureKeys) {
+                editor.add(createImagePicker(textureKey), column, 0);
+                editor.add(new Text(textureKey), column, 1);
+                column++;
             }
-            return;
-        }
-
-        if (textureList.size() == 1) {
-            TextureEntry texture = textureList.get(0);
-            ImagePicker imagePicker = createImagePicker(texture);
-            editor.add(imagePicker, 0, 0);
-            return;
-        }
-
-        int column = 0;
-        for (TextureEntry texture : textureList) {
-            ImagePicker imagePicker = createImagePicker(texture);
-            Text text = createText(texture);
-            editor.addColumn(column++, imagePicker, text);
         }
     }
 
-    private ImagePicker createImagePicker(TextureEntry texture) {
+    private ImagePicker createImagePicker(String textureKey) {
         ImagePicker imagePicker = new ImagePicker();
         imagePicker.setFitSize(64, 64);
         imagePicker.setSmooth(false);
         imagePicker.getExtensionFilters().add(ExtensionFilters.PNG);
-        textureMap.put(texture.getKey(), imagePicker);
+        imagePicker.fileProperty().addListener((observable, oldValue, newValue) -> {
+            if (Objects.equals(oldValue, newValue)) return;
+            imagePicker.setFile(resourceStore.store(newValue));
+        });
+        BidirectionalValueBinding.bind(imagePicker.fileProperty(), textures, textureKey);
         return imagePicker;
     }
 
-    private Text createText(TextureEntry texture) {
-        Text text;
-        if (texture.getTranslationKey() != null) {
-            text = new Text(I18n.translate(texture.getTranslationKey(), texture.getKey()));
-        } else {
-            text = new Text(texture.getKey());
-        }
-        GridPane.setHalignment(text, HPos.CENTER);
-        return text;
-    }
-
     public Map<String, String> getTextures() {
-        Map<String, String> textures = new HashMap<>();
-        textureMap.forEach((key, imagePicker) -> textures.put(key, resourceStore.toRelative(imagePicker.getFile())));
-        return textures;
+        Map<String, String> result = new HashMap<>();
+        textureKeys.forEach(k -> result.put(k, resourceStore.toRelative(textures.get(k))));
+        return result;
     }
 
-    public void setTextures(Map<String, String> textures) {
-        textures.forEach((key, texture) -> {
-            ImagePicker imagePicker = textureMap.get(key);
-            if (imagePicker != null) imagePicker.setFile(resourceStore.toAbsoluteFile(texture));
-        });
-    }
-
-    @Override
-    public boolean validate() {
-        for (ImagePicker imagePicker : textureMap.values()) {
-            File newFile = resourceStore.store(imagePicker.getFile());
-            if (newFile == null) return false;
-            imagePicker.setFile(newFile);
-        }
-        return true;
+    public void setTextures(Map<String, String> map) {
+        map.forEach((k, v) -> textures.put(k, resourceStore.toAbsoluteFile(v)));
     }
 
     @Override

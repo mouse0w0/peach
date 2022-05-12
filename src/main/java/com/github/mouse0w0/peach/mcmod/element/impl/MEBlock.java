@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 import org.joml.primitives.AABBd;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 public class MEBlock extends Element implements LocalizableElement {
@@ -26,12 +26,16 @@ public class MEBlock extends Element implements LocalizableElement {
     private int harvestLevel;
     private String information;
 
-    private Identifier model;
-    private Map<String, String> textures;
+    private Identifier modelPrototype;
+    private Map<String, String> models = Collections.emptyMap();
+    private Map<String, String> textures = Collections.emptyMap();
     private String particleTexture;
     private boolean transparency;
     private RenderType renderType = RenderType.SOLID;
     private OffsetType offsetType = OffsetType.NONE;
+    private Identifier itemModelPrototype;
+    private Map<String, String> itemModels = Collections.emptyMap();
+    private Map<String, String> itemTextures = Collections.emptyMap();
 
     private AABBd boundingBox = new AABBd(0, 0, 0, 16, 16, 16);
     private boolean noCollision;
@@ -175,12 +179,20 @@ public class MEBlock extends Element implements LocalizableElement {
         this.information = information;
     }
 
-    public Identifier getModel() {
-        return model;
+    public Identifier getModelPrototype() {
+        return modelPrototype;
     }
 
-    public void setModel(Identifier model) {
-        this.model = model;
+    public void setModelPrototype(Identifier modelPrototype) {
+        this.modelPrototype = modelPrototype;
+    }
+
+    public Map<String, String> getModels() {
+        return models;
+    }
+
+    public void setModels(Map<String, String> models) {
+        this.models = models;
     }
 
     public Map<String, String> getTextures() {
@@ -221,6 +233,30 @@ public class MEBlock extends Element implements LocalizableElement {
 
     public void setOffsetType(OffsetType offsetType) {
         this.offsetType = offsetType;
+    }
+
+    public Identifier getItemModelPrototype() {
+        return itemModelPrototype;
+    }
+
+    public void setItemModelPrototype(Identifier itemModelPrototype) {
+        this.itemModelPrototype = itemModelPrototype;
+    }
+
+    public Map<String, String> getItemModels() {
+        return itemModels;
+    }
+
+    public void setItemModels(Map<String, String> itemModels) {
+        this.itemModels = itemModels;
+    }
+
+    public Map<String, String> getItemTextures() {
+        return itemTextures;
+    }
+
+    public void setItemTextures(Map<String, String> itemTextures) {
+        this.itemTextures = itemTextures;
     }
 
     public AABBd getBoundingBox() {

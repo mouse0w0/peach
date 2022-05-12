@@ -185,8 +185,20 @@ mod.folder.texture.gui=界面
 
 model.buildin.generated=默认模型
 model.buildin.handheld=手持模型
+model.buildin.cube=立方体模型
+model.buildin.cube_all=立方体模型（全）
+model.buildin.cube_column=柱体模型
+model.buildin.cube_bottom_top=柱体模型（顶底）
+model.buildin.fence=原版栅栏模型
+model.buildin.fence_gate=原版栅栏门模型
+model.buildin.pane=原版板模型
+model.buildin.slab=原版半砖模型
+model.buildin.stairs=原版楼梯模型
+model.buildin.stone=原版石头模型
+model.buildin.trapdoor=原版陷阱门模型
+model.buildin.wall=原版墙模型
 model.buildin.custom=自定义模型
-model.custom=自定义模型：%s
+model.buildin.inherit=继承模型
 
 mod.element.item=物品
 
@@ -309,11 +321,13 @@ block.properties.harvestLevel=开采等级
 block.properties.information=额外信息
 
 block.appearance.title=外观
-block.appearance.model=模型
-block.appearance.texture=纹理
+block.appearance.model=方块模型
+block.appearance.texture=方块纹理
 block.appearance.transparency=是否透明
 block.appearance.renderType=渲染类型
 block.appearance.offsetType=偏移类型
+block.appearance.itemModel=物品模型
+block.appearance.itemTexture=物品纹理
 
 block.collision.title=碰撞
 block.collision.minX=最小X
@@ -352,12 +366,12 @@ blockType.directional=六向
 blockType.directionalOpposite=六向（反向）
 blockType.dirt=泥土
 blockType.stone=石头
-blockType.stair=楼梯
+blockType.stairs=楼梯
 blockType.slab=半砖
 blockType.fence=栅栏
 blockType.fenceGate=栅栏门
 blockType.wall=墙
-blockType.trapDoor=活板门
+blockType.trapdoor=活板门
 blockType.pane=板
 
 renderType.solid=不透明

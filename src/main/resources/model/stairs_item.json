@@ -1,0 +1,7 @@
+{
+    "identifier": "buildin:stairs_item", "model": {
+    "item": {
+        "name": "item/${identifier}", "parent": "stairs", "template": "model/block_item.json.ftl"
+    }
+}
+}

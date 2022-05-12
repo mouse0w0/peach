@@ -1,0 +1,5 @@
+{
+    "template": "blockstate/directional.json.ftl", "item": "buildin:block_item", "models": [
+    "block"
+]
+}
