@@ -85,10 +85,16 @@ public final class JsonUtils {
         return gson.fromJson(jsonElement, typeToken.getType());
     }
 
+    public static JsonElement readJson(Path file) throws IOException {
+        return readJson(GSON, file, JsonElement.class);
+    }
+
+    public static JsonElement readJson(Gson gson, Path file) throws IOException {
+        return readJson(gson, file, JsonElement.class);
+    }
+
     public static <T> T readJson(Path file, Class<T> classOfT) throws IOException {
-        try (Reader reader = Files.newBufferedReader(file)) {
-            return gson().fromJson(reader, classOfT);
-        }
+        return readJson(GSON, file, classOfT);
     }
 
     public static <T> T readJson(Gson gson, Path file, Class<T> classOfT) throws IOException {
@@ -98,9 +104,7 @@ public final class JsonUtils {
     }
 
     public static <T> T readJson(Path file, Type typeOfT) throws IOException {
-        try (Reader reader = Files.newBufferedReader(file)) {
-            return gson().fromJson(reader, typeOfT);
-        }
+        return readJson(GSON, file, typeOfT);
     }
 
     public static <T> T readJson(Gson gson, Path file, Type typeOfT) throws IOException {
@@ -110,9 +114,7 @@ public final class JsonUtils {
     }
 
     public static <T> T readJson(Path file, TypeToken<T> typeToken) throws IOException {
-        try (Reader reader = Files.newBufferedReader(file)) {
-            return gson().fromJson(reader, typeToken.getType());
-        }
+        return readJson(GSON, file, typeToken);
     }
 
     public static <T> T readJson(Gson gson, Path file, TypeToken<T> typeToken) throws IOException {
@@ -122,10 +124,7 @@ public final class JsonUtils {
     }
 
     public static void writeJson(Path file, Object object) throws IOException {
-        FileUtils.createFileIfNotExists(file);
-        try (Writer writer = Files.newBufferedWriter(file)) {
-            gson().toJson(object, writer);
-        }
+        writeJson(gson(), file, object);
     }
 
     public static void writeJson(Gson gson, Path file, Object object) throws IOException {
