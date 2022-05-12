@@ -7,13 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
 import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 public class ImagePicker extends Control {
@@ -21,7 +22,22 @@ public class ImagePicker extends Control {
     public ImagePicker() {
         getStyleClass().setAll("image-picker");
 
-        addEventHandler(DragEvent.DRAG_OVER, event -> {
+        setOnMouseClicked(event -> {
+            event.consume();
+            showFileChooser();
+        });
+        setOnDragDetected(event -> {
+            event.consume();
+
+            File file = getFile();
+            if (file == null) return;
+
+            Dragboard dragboard = startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.put(DataFormat.FILES, Collections.singletonList(file));
+            dragboard.setContent(content);
+        });
+        setOnDragOver(event -> {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
 
@@ -36,14 +52,10 @@ public class ImagePicker extends Control {
 
             event.acceptTransferModes(TransferMode.COPY);
         });
-        addEventHandler(DragEvent.DRAG_DROPPED, event -> {
+        setOnDragDropped(event -> {
             event.consume();
             setFile(event.getDragboard().getFiles().get(0));
             event.setDropCompleted(true);
-        });
-        addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            event.consume();
-            showFileChooser();
         });
     }
 
