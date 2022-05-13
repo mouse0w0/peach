@@ -12,21 +12,23 @@ public final class ElementTypes {
     public static final ElementType<MEBlock> BLOCK =
             ElementType.builder("block", MEBlock.class)
                     .createdHandler((project, element, file, identifier, name) -> {
+                        final IndexManager indexManager = IndexManager.getInstance(project);
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
-                        element.setItemGroup(Iterables.getFirst(IndexManager.getInstance(project)
-                                .getIndex(Indexes.ITEM_GROUPS).values(), null));
+                        element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
+                        element.setMaterial(indexManager.getIndex(Indexes.MATERIALS).get("minecraft:rock"));
+                        element.setSoundType(indexManager.getIndex(Indexes.SOUND_TYPES).get("minecraft:stone"));
                     })
                     .editorFactory(BlockEditor::new)
                     .build();
     public static final ElementType<MEItem> ITEM =
             ElementType.builder("item", MEItem.class)
                     .createdHandler((project, element, file, identifier, name) -> {
+                        final IndexManager indexManager = IndexManager.getInstance(project);
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
                         element.setEquipmentSlot(EquipmentSlot.MAINHAND);
-                        element.setItemGroup(Iterables.getFirst(IndexManager.getInstance(project)
-                                .getIndex(Indexes.ITEM_GROUPS).values(), null));
+                        element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
                     })
                     .editorFactory(ItemEditor::new)
                     .previewGenerator(new ItemPreview())
