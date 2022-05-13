@@ -99,12 +99,12 @@ public class ContentPack implements Closeable {
                 .locale(locale)
                 .source(new FileTranslationSource(getPath("content/" + getId() + "/lang")))
                 .build();
-        getData(Item.class).forEach(item -> item.setLocalizedText(translator.translate(item.getTranslationKey())));
-        getData(ItemGroup.class).forEach(itemGroup -> itemGroup.setLocalizedText(translator.translate(itemGroup.getTranslationKey())));
-        getData(Material.class).forEach(material -> material.setLocalizedText(translator.translate(material.getTranslationKey())));
-        getData(SoundType.class).forEach(soundType -> soundType.setLocalizedText(translator.translate(soundType.getTranslationKey())));
-        getData(MapColor.class).forEach(mapColor -> mapColor.setLocalizedText(translator.translate(mapColor.getTranslationKey())));
-        getData(SoundEvent.class).forEach(soundEvent -> soundEvent.setLocalizedText(translator.translate(soundEvent.getTranslationKey())));
+        getData(Item.class).forEach(item -> item.setLocalizedText(translator.translate(item.getTranslationKey(), item.getId())));
+        getData(ItemGroup.class).forEach(itemGroup -> itemGroup.setLocalizedText(translator.translate(itemGroup.getTranslationKey(), itemGroup.getId())));
+        getData(Material.class).forEach(material -> material.setLocalizedText(translator.translate(material.getTranslationKey(), material.getId())));
+        getData(SoundType.class).forEach(soundType -> soundType.setLocalizedText(translator.translate(soundType.getTranslationKey(), soundType.getId())));
+        getData(MapColor.class).forEach(mapColor -> mapColor.setLocalizedText(translator.translate(mapColor.getTranslationKey(), mapColor.getId())));
+        getData(SoundEvent.class).forEach(soundEvent -> soundEvent.setLocalizedText(translator.translate(soundEvent.getTranslationKey(), soundEvent.getId())));
     }
 
     public Path getFile() {
