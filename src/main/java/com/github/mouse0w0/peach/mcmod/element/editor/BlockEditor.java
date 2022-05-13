@@ -16,6 +16,7 @@ import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
+import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -61,6 +62,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
     private ModelField model;
     private ModelTextureField textures;
+    private TextureField particleTexture;
     private RadioButtonField transparency;
     private ChoiceBoxField<RenderType> renderType;
     private ChoiceBoxField<OffsetType> offsetType;
@@ -203,6 +205,12 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         textures.setText(I18n.translate("block.appearance.texture"));
         model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
 
+        particleTexture = new TextureField(new ResourceStore(
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
+        particleTexture.setText(I18n.translate("block.appearance.particleTexture"));
+        particleTexture.setFitSize(64, 64);
+
         transparency = new RadioButtonField();
         transparency.setText(I18n.translate("block.appearance.transparency"));
         transparency.setColSpan(ColSpan.HALF);
@@ -237,6 +245,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         appearance.getElements().addAll(
                 model,
                 textures,
+                particleTexture,
                 transparency, renderType,
                 offsetType,
                 itemModel,
@@ -383,6 +392,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         model.setModelPrototype(element.getModelPrototype());
         model.setModels(element.getModels());
         textures.setTextures(element.getTextures());
+        particleTexture.setTexture(element.getParticleTexture());
         transparency.setValue(element.isTransparency());
         renderType.setValue(element.getRenderType());
         offsetType.setValue(element.getOffsetType());
@@ -436,6 +446,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setModelPrototype(model.getModelPrototype());
         element.setModels(model.getModels());
         element.setTextures(textures.getTextures());
+        element.setParticleTexture(particleTexture.getTexture());
         element.setTransparency(transparency.getValue());
         element.setRenderType(renderType.getValue());
         element.setOffsetType(offsetType.getValue());
