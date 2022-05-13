@@ -62,6 +62,7 @@ public final class ElementManager extends IndexProvider {
                 .registerTypeAdapter(Material.class, new Material.Persister(indexManager.getIndex(Indexes.MATERIALS)))
                 .registerTypeAdapter(SoundType.class, new SoundType.Persister(indexManager.getIndex(Indexes.SOUND_TYPES)))
                 .registerTypeAdapter(MapColor.class, new MapColor.Persister(indexManager.getIndex(Indexes.MAP_COLORS)))
+                .registerTypeAdapter(SoundEvent.class, new SoundEvent.Persister(indexManager.getIndex(Indexes.SOUND_EVENTS)))
                 .create();
         indexManager.registerProvider(this);
         this.fileChangeListener = new FileChangeListener() {

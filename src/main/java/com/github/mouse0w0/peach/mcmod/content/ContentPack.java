@@ -59,6 +59,7 @@ public class ContentPack implements Closeable {
         load(Material.class, "material.json");
         load(SoundType.class, "soundType.json");
         load(MapColor.class, "mapColor.json");
+        load(SoundEvent.class, "soundEvent.json");
         getData(Item.class).forEach(item -> item.setDisplayImage(getImage(item)));
         setLocale(Locale.getDefault());
     }
@@ -103,6 +104,7 @@ public class ContentPack implements Closeable {
         getData(Material.class).forEach(material -> material.setLocalizedText(translator.translate(material.getTranslationKey())));
         getData(SoundType.class).forEach(soundType -> soundType.setLocalizedText(translator.translate(soundType.getTranslationKey())));
         getData(MapColor.class).forEach(mapColor -> mapColor.setLocalizedText(translator.translate(mapColor.getTranslationKey())));
+        getData(SoundEvent.class).forEach(soundEvent -> soundEvent.setLocalizedText(translator.translate(soundEvent.getTranslationKey())));
     }
 
     public Path getFile() {

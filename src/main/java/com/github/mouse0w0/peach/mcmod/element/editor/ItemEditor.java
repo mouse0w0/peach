@@ -63,6 +63,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
     // Extra
     private SpinnerField<Integer> fuelBurnTime;
+    private ChoiceBoxField<SoundEvent> armorSound;
     private SpinnerField<Integer> hunger;
     private SpinnerField<Double> saturation;
     private RadioButtonField isWolfFood;
@@ -97,7 +98,9 @@ public class ItemEditor extends ElementEditor<MEItem> {
         type.getItems().setAll(ItemType.values());
         type.setColSpan(ColSpan.HALF);
         BooleanBinding isFood = type.valueProperty().isEqualTo(ItemType.FOOD);
+        BooleanBinding isNotFood = type.valueProperty().isNotEqualTo(ItemType.FOOD);
         BooleanBinding isArmor = type.valueProperty().isEqualTo(ItemType.ARMOR);
+        BooleanBinding isNotArmor = type.valueProperty().isNotEqualTo(ItemType.ARMOR);
         BooleanBinding isArmorOrFood = isArmor.or(isFood);
 
         isFood.addListener(observable -> {
@@ -308,33 +311,40 @@ public class ItemEditor extends ElementEditor<MEItem> {
         fuelBurnTime.setText(I18n.translate("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
+        armorSound = new ChoiceBoxField<>();
+        armorSound.setText(I18n.translate("item.armor.armorSound"));
+        armorSound.setColSpan(ColSpan.HALF);
+        armorSound.setConverter(LocalizableConverter.instance());
+        armorSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(Indexes.SOUND_EVENTS).values());
+        armorSound.disableProperty().bind(isNotArmor);
+
         hunger = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         hunger.setText(I18n.translate("item.food.hunger"));
         hunger.setColSpan(ColSpan.HALF);
-        hunger.visibleProperty().bind(isFood);
+        hunger.disableProperty().bind(isNotFood);
 
         saturation = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.6);
         saturation.setText(I18n.translate("item.food.saturation"));
         saturation.setColSpan(ColSpan.HALF);
-        saturation.visibleProperty().bind(isFood);
+        saturation.disableProperty().bind(isNotFood);
 
         isWolfFood = new RadioButtonField();
         isWolfFood.setText(I18n.translate("item.food.isWolfFood"));
         isWolfFood.setColSpan(ColSpan.HALF);
-        isWolfFood.visibleProperty().bind(isFood);
+        isWolfFood.disableProperty().bind(isNotFood);
 
         alwaysEdible = new RadioButtonField();
         alwaysEdible.setText(I18n.translate("item.food.alwaysEdible"));
         alwaysEdible.setColSpan(ColSpan.HALF);
-        alwaysEdible.visibleProperty().bind(isFood);
+        alwaysEdible.disableProperty().bind(isNotFood);
 
         foodContainer = new ItemPickerField();
         foodContainer.setText(I18n.translate("item.food.foodContainer"));
         foodContainer.setFitSize(32, 32);
         foodContainer.setColSpan(ColSpan.HALF);
-        foodContainer.visibleProperty().bind(isFood);
+        foodContainer.disableProperty().bind(isNotFood);
 
-        extra.getElements().addAll(fuelBurnTime, hunger, saturation, isWolfFood, alwaysEdible, foodContainer);
+        extra.getElements().addAll(fuelBurnTime, armorSound, hunger, saturation, isWolfFood, alwaysEdible, foodContainer);
 
         form.getGroups().addAll(properties, appearance, extra);
 
@@ -371,6 +381,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         armorTexture.setTexture(item.getArmorTexture());
 
         fuelBurnTime.setValue(item.getFuelBurnTime());
+        armorSound.setValue(item.getArmorSound());
         hunger.setValue(item.getHunger());
         saturation.setValue(item.getSaturation());
         isWolfFood.setValue(item.isWolfFood());
@@ -381,7 +392,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     @Override
     protected void updateDataModel(MEItem item) {
         item.setIdentifier(identifier.getValue().trim());
-        item.setDisplayName(displayName.getValue());
+        item.setDisplayName(displayName.getValue().trim());
         item.setType(type.getValue());
         item.setItemGroup(itemGroup.getValue());
         item.setMaxStackSize(maxStackSize.getValue());
@@ -408,6 +419,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setArmorTexture(armorTexture.getTexture());
 
         item.setFuelBurnTime(fuelBurnTime.getValue());
+        item.setArmorSound(armorSound.getValue());
         item.setHunger(hunger.getValue());
         item.setSaturation(saturation.getValue());
         item.setWolfFood(isWolfFood.getValue());

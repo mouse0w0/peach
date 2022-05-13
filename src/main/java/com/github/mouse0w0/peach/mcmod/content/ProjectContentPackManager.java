@@ -46,6 +46,9 @@ public final class ProjectContentPackManager extends IndexProvider {
 
         Map<String, MapColor> mapColorIndex = getIndex(Indexes.MAP_COLORS);
         contentPack.getData(MapColor.class).forEach(mapColor -> mapColorIndex.put(mapColor.getId(), mapColor));
+
+        Map<String, SoundEvent> soundEventIndex = getIndex(Indexes.SOUND_EVENTS);
+        contentPack.getData(SoundEvent.class).forEach(soundEvent -> soundEventIndex.put(soundEvent.getId(), soundEvent));
     }
 
     private void addItem(Item itemData) {

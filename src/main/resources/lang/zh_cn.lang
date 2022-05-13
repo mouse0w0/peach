@@ -232,7 +232,7 @@ item.appearance.armorTexture=盔甲纹理
 
 item.extra.title=额外属性
 item.fuel.fuelBurnTime=燃料燃烧时间
-item.armor.equipmentSound=装备音效
+item.armor.armorSound=盔甲音效
 item.food.hunger=饥饿回复值
 item.food.saturation=饱食度
 item.food.isWolfFood=狼的食物

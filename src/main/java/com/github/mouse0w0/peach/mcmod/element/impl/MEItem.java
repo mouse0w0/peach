@@ -38,6 +38,7 @@ public class MEItem extends Element implements LocalizableElement {
     private String armorTexture;
 
     private int fuelBurnTime;
+    private SoundEvent armorSound;
     private int hunger;
     private double saturation = 0.6;
     private boolean isWolfFood;
@@ -250,6 +251,14 @@ public class MEItem extends Element implements LocalizableElement {
 
     public void setArmorTexture(String armorTexture) {
         this.armorTexture = armorTexture;
+    }
+
+    public SoundEvent getArmorSound() {
+        return armorSound;
+    }
+
+    public void setArmorSound(SoundEvent armorSound) {
+        this.armorSound = armorSound;
     }
 
     public int getHunger() {
