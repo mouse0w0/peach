@@ -18,9 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ModelManager {
-    public static final Identifier CUSTOM = new Identifier("buildin", "custom");
-    public static final Identifier INHERIT = new Identifier("buildin", "inherit");
-    public static final Identifier GENERATED = new Identifier("buildin", "generated");
+    public static final Identifier CUSTOM = new Identifier("buildin:custom");
+    public static final Identifier INHERIT = new Identifier("buildin:inherit");
 
     private final Map<String, Blockstate> blockstateMap = new HashMap<>();
     private final Map<Identifier, ModelPrototype> modelTemplateMap = new HashMap<>();

@@ -1,11 +1,13 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
+import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.element.editor.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.*;
 import com.github.mouse0w0.peach.mcmod.element.preview.ItemPreview;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.google.common.collect.Iterables;
 
 public final class ElementTypes {
@@ -18,6 +20,8 @@ public final class ElementTypes {
                         element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
                         element.setMaterial(indexManager.getIndex(Indexes.MATERIALS).get("minecraft:rock"));
                         element.setSoundType(indexManager.getIndex(Indexes.SOUND_TYPES).get("minecraft:stone"));
+                        element.setModelPrototype(new Identifier("buildin:cube_all"));
+                        element.setItemModelPrototype(ModelManager.INHERIT);
                     })
                     .editorFactory(BlockEditor::new)
                     .build();
@@ -29,6 +33,7 @@ public final class ElementTypes {
                         element.setDisplayName(name);
                         element.setEquipmentSlot(EquipmentSlot.MAINHAND);
                         element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
+                        element.setModelPrototype(new Identifier("buildin:generated"));
                     })
                     .editorFactory(ItemEditor::new)
                     .previewGenerator(new ItemPreview())

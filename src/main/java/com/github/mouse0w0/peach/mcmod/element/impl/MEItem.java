@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
-import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.google.common.base.Strings;
 
 import java.util.Collections;
@@ -32,7 +31,7 @@ public class MEItem extends Element implements LocalizableElement {
     private int destroyBlockLoss;
     private String information;
 
-    private Identifier modelPrototype = ModelManager.GENERATED;
+    private Identifier modelPrototype;
     private Map<String, String> models = Collections.emptyMap();
     private Map<String, String> textures = Collections.emptyMap();
     private boolean hasEffect = false;
