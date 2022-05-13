@@ -1,5 +1,7 @@
 {
-    "template": "blockstate/stairs.json.ftl", "item": "buildin:stairs_item", "models": [
-    "stairs", "outer_stairs", "inner_stairs"
-]
+    "template": "blockstate/stairs.json.ftl",
+    "item": "buildin:stairs_item",
+    "models": [
+        "stairs", "outer_stairs", "inner_stairs"
+    ]
 }

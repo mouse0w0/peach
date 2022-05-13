@@ -1,5 +1,7 @@
 {
-    "template": "blockstate/pillar.json.ftl", "item": "buildin:block_item", "models": [
-    "block"
-]
+    "template": "blockstate/pillar.json.ftl",
+    "item": "buildin:block_item",
+    "models": [
+        "block"
+    ]
 }

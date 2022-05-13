@@ -1,13 +1,20 @@
 {
     "identifier": "buildin:stone",
     "item": "buildin:block_item",
-    "groups": ["stone"],
-    "textures": ["texture"],
+    "groups": [
+        "stone"
+    ],
+    "textures": [
+        "texture"
+    ],
     "model": {
         "block": {
-            "name": "block/${identifier}", "template": "model/cube_all.json.ftl"
-        }, "block_mirrored": {
-            "name": "block/${identifier}_mirrored", "template": "model/cube_mirrored_all.json.ftl"
+            "name": "block/${identifier}",
+            "template": "model/cube_all.json.ftl"
+        },
+        "block_mirrored": {
+            "name": "block/${identifier}_mirrored",
+            "template": "model/cube_mirrored_all.json.ftl"
         }
     }
 }

@@ -1,9 +1,14 @@
 {
-    "identifier": "buildin:fence_item", "model": {
-    "fence_inventory": {
-        "name": "block/${identifier}_inventory", "template": "model/fence_inventory.json.ftl"
-    }, "item": {
-        "name": "item/${identifier}", "parent": "fence_inventory", "template": "model/block_item.json.ftl"
+    "identifier": "buildin:fence_item",
+    "model": {
+        "fence_inventory": {
+            "name": "block/${identifier}_inventory",
+            "template": "model/fence_inventory.json.ftl"
+        },
+        "item": {
+            "name": "item/${identifier}",
+            "parent": "fence_inventory",
+            "template": "model/block_item.json.ftl"
+        }
     }
-}
 }

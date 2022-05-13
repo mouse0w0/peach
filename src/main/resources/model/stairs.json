@@ -1,15 +1,24 @@
 {
     "identifier": "buildin:stairs",
     "item": "buildin:stairs_item",
-    "groups": ["stairs"],
-    "textures": ["bottom", "top", "side"],
+    "groups": [
+        "stairs"
+    ],
+    "textures": [
+        "bottom", "top", "side"
+    ],
     "model": {
         "stairs": {
-            "name": "block/${identifier}", "template": "model/stairs.json.ftl"
-        }, "outer_stairs": {
-            "name": "block/${identifier}_outer", "template": "model/outer_stairs.json.ftl"
-        }, "inner_stairs": {
-            "name": "block/${identifier}_inner", "template": "model/inner_stairs.json.ftl"
+            "name": "block/${identifier}",
+            "template": "model/stairs.json.ftl"
+        },
+        "outer_stairs": {
+            "name": "block/${identifier}_outer",
+            "template": "model/outer_stairs.json.ftl"
+        },
+        "inner_stairs": {
+            "name": "block/${identifier}_inner",
+            "template": "model/inner_stairs.json.ftl"
         }
     }
 }

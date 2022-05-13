@@ -1,9 +1,14 @@
 {
-    "identifier": "buildin:wall_item", "model": {
-    "wall_inventory": {
-        "name": "block/${identifier}_inventory", "template": "model/wall_inventory.json.ftl"
-    }, "item": {
-        "name": "item/${identifier}", "parent": "wall_inventory", "template": "model/block_item.json.ftl"
+    "identifier": "buildin:wall_item",
+    "model": {
+        "wall_inventory": {
+            "name": "block/${identifier}_inventory",
+            "template": "model/wall_inventory.json.ftl"
+        },
+        "item": {
+            "name": "item/${identifier}",
+            "parent": "wall_inventory",
+            "template": "model/block_item.json.ftl"
+        }
     }
-}
 }

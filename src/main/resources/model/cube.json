@@ -1,11 +1,16 @@
 {
     "identifier": "buildin:cube",
     "item": "buildin:block_item",
-    "groups": ["normal", "directional", "horizontal", "dirt"],
-    "textures": ["down", "up", "north", "south", "west", "east"],
+    "groups": [
+        "normal", "directional", "horizontal", "dirt"
+    ],
+    "textures": [
+        "down", "up", "north", "south", "west", "east"
+    ],
     "model": {
         "block": {
-            "name": "block/${identifier}", "template": "model/cube.json.ftl"
+            "name": "block/${identifier}",
+            "template": "model/cube.json.ftl"
         }
     }
 }

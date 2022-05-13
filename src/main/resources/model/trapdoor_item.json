@@ -1,7 +1,10 @@
 {
-    "identifier": "buildin:trapdoor_item", "model": {
-    "item": {
-        "name": "item/${identifier}", "parent": "trapdoor_bottom", "template": "model/block_item.json.ftl"
+    "identifier": "buildin:trapdoor_item",
+    "model": {
+        "item": {
+            "name": "item/${identifier}",
+            "parent": "trapdoor_bottom",
+            "template": "model/block_item.json.ftl"
+        }
     }
-}
 }

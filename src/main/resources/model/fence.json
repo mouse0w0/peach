@@ -1,13 +1,20 @@
 {
     "identifier": "buildin:fence",
     "item": "buildin:fence_item",
-    "groups": ["fence"],
-    "textures": ["texture"],
+    "groups": [
+        "fence"
+    ],
+    "textures": [
+        "texture"
+    ],
     "model": {
         "fence_post": {
-            "name": "block/${identifier}_post", "template": "model/fence_post.json.ftl"
-        }, "fence_side": {
-            "name": "block/${identifier}_side", "template": "model/fence_side.json.ftl"
+            "name": "block/${identifier}_post",
+            "template": "model/fence_post.json.ftl"
+        },
+        "fence_side": {
+            "name": "block/${identifier}_side",
+            "template": "model/fence_side.json.ftl"
         }
     }
 }

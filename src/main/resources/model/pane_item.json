@@ -1,7 +1,9 @@
 {
-    "identifier": "buildin:pane_item", "model": {
-    "item": {
-        "name": "item/${identifier}", "template": "model/pane_item.json.ftl"
+    "identifier": "buildin:pane_item",
+    "model": {
+        "item": {
+            "name": "item/${identifier}",
+            "template": "model/pane_item.json.ftl"
+        }
     }
-}
 }

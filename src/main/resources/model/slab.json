@@ -1,16 +1,26 @@
 {
     "identifier": "buildin:slab",
     "item": "buildin:slab_item",
-    "groups": ["slab"],
-    "textures": ["bottom", "top", "side"],
+    "groups": [
+        "slab"
+    ],
+    "textures": [
+        "bottom", "top", "side"
+    ],
     "model": {
         "slab_bottom": {
-            "name": "block/${identifier}_bottom", "template": "model/slab_bottom.json.ftl"
-        }, "slab_top": {
-            "name": "block/${identifier}_top", "template": "model/slab_top.json.ftl"
-        }, "slab_double": {
-            "name": "block/${identifier}_double", "template": "model/cube_bottom_top.json.ftl"
-        }, "item": {
+            "name": "block/${identifier}_bottom",
+            "template": "model/slab_bottom.json.ftl"
+        },
+        "slab_top": {
+            "name": "block/${identifier}_top",
+            "template": "model/slab_top.json.ftl"
+        },
+        "slab_double": {
+            "name": "block/${identifier}_double",
+            "template": "model/cube_bottom_top.json.ftl"
+        },
+        "item": {
             "itemOnly": true,
             "name": "item/${identifier}",
             "parent": "slab_bottom",

@@ -1,7 +1,10 @@
 {
-    "identifier": "buildin:slab_item", "model": {
-    "item": {
-        "name": "item/${identifier}", "parent": "slab_bottom", "template": "model/block_item.json.ftl"
+    "identifier": "buildin:slab_item",
+    "model": {
+        "item": {
+            "name": "item/${identifier}",
+            "parent": "slab_bottom",
+            "template": "model/block_item.json.ftl"
+        }
     }
-}
 }

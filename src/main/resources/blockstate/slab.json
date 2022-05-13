@@ -1,5 +1,7 @@
 {
-    "template": "blockstate/slab.json.ftl", "item": "buildin:slab_item", "models": [
-    "slab_bottom", "slab_top", "slab_double"
-]
+    "template": "blockstate/slab.json.ftl",
+    "item": "buildin:slab_item",
+    "models": [
+        "slab_bottom", "slab_top", "slab_double"
+    ]
 }

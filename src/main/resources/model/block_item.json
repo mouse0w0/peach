@@ -1,7 +1,10 @@
 {
-    "identifier": "buildin:block_item", "model": {
-    "item": {
-        "name": "item/${identifier}", "parent": "block", "template": "model/block_item.json.ftl"
+    "identifier": "buildin:block_item",
+    "model": {
+        "item": {
+            "name": "item/${identifier}",
+            "parent": "block",
+            "template": "model/block_item.json.ftl"
+        }
     }
-}
 }

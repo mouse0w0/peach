@@ -1,5 +1,7 @@
 {
-    "template": "blockstate/pane.json.ftl", "item": "buildin:pane_item", "models": [
-    "pane_post", "pane_side", "pane_side_alt", "pane_noside", "pane_noside_alt"
-]
+    "template": "blockstate/pane.json.ftl",
+    "item": "buildin:pane_item",
+    "models": [
+        "pane_post", "pane_side", "pane_side_alt", "pane_noside", "pane_noside_alt"
+    ]
 }

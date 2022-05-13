@@ -1,5 +1,7 @@
 {
-    "template": "blockstate/fence.json.ftl", "item": "buildin:fence_item", "models": [
-    "fence_post", "fence_side"
-]
+    "template": "blockstate/fence.json.ftl",
+    "item": "buildin:fence_item",
+    "models": [
+        "fence_post", "fence_side"
+    ]
 }

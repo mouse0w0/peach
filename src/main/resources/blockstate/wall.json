@@ -1,5 +1,7 @@
 {
-    "template": "blockstate/wall.json.ftl", "item": "buildin:wall_item", "models": [
-    "wall_post", "wall_side"
-]
+    "template": "blockstate/wall.json.ftl",
+    "item": "buildin:wall_item",
+    "models": [
+        "wall_post", "wall_side"
+    ]
 }
