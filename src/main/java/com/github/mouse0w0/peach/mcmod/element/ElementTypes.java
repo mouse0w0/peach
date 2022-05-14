@@ -34,7 +34,7 @@ public final class ElementTypes {
                         element.setEquipmentSlot(EquipmentSlot.MAINHAND);
                         element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
                         element.setModelPrototype(new Identifier("buildin:generated"));
-                        element.setArmorSound(indexManager.getIndex(Indexes.SOUND_EVENTS).get("minecraft:item.armor.equip_generic"));
+                        element.setEquipSound(indexManager.getIndex(Indexes.SOUND_EVENTS).get("minecraft:item.armor.equip_generic"));
                     })
                     .editorFactory(ItemEditor::new)
                     .previewGenerator(new ItemPreview())
