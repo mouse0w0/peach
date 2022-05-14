@@ -57,6 +57,7 @@ public final class ElementManager extends IndexProvider {
         FileUtils.createDirectoriesIfNotExistsSilently(sourcesPath);
         this.previewPath = project.getPath().resolve(".peach/preview");
         FileUtils.createDirectoriesIfNotExistsSilently(previewPath);
+        indexManager.registerProvider(this);
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(Indexes.ITEM_GROUPS)))
                 .registerTypeAdapter(Material.class, new Material.Persister(indexManager.getIndex(Indexes.MATERIALS)))
@@ -64,7 +65,6 @@ public final class ElementManager extends IndexProvider {
                 .registerTypeAdapter(MapColor.class, new MapColor.Persister(indexManager.getIndex(Indexes.MAP_COLORS)))
                 .registerTypeAdapter(SoundEvent.class, new SoundEvent.Persister(indexManager.getIndex(Indexes.SOUND_EVENTS)))
                 .create();
-        indexManager.registerProvider(this);
         this.fileChangeListener = new FileChangeListener() {
             @Override
             public void onFileDelete(ProjectFileWatcher watcher, Path path) {
