@@ -74,7 +74,7 @@ public class ItemClassGenerator extends ClassGenerator {
         }
     }
 
-    public void visitArmorItem(String identifier) {
+    public void visitArmorItem(String identifier, String equipSound) {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemArmor", null);
 
         cw.visitSource("Peach.generated", null);
@@ -107,7 +107,13 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitInsn(ICONST_0);
             initMethod.visitInsn(IASTORE);
             initMethod.visitInsn(ICONST_0);
-            initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/init/SoundEvents", "field_187719_p", "Lnet/minecraft/util/SoundEvent;");
+            initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/util/SoundEvent", "field_187505_a", "Lnet/minecraft/util/registry/RegistryNamespaced;");
+            initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
+            initMethod.visitInsn(DUP);
+            ASMUtils.push(initMethod, equipSound);
+            initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
+            initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
+            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/util/SoundEvent");
             initMethod.visitInsn(FCONST_0);
             initMethod.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/common/util/EnumHelper", "addArmorMaterial", "(Ljava/lang/String;Ljava/lang/String;I[IILnet/minecraft/util/SoundEvent;F)Lnet/minecraft/item/ItemArmor$ArmorMaterial;", false);
             initMethod.visitInsn(ICONST_0);

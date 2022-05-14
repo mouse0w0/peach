@@ -48,7 +48,7 @@ public class ItemGenerator extends Generator<MEItem> {
         else if (type == ItemType.SWORD)
             cg.visitSwordItem(namespace + "$" + identifier, 0);
         else if (type == ItemType.ARMOR)
-            cg.visitArmorItem(namespace + "$" + identifier);
+            cg.visitArmorItem(namespace + "$" + identifier, item.getEquipSound().getId());
 
         cg.visitIdentifier(namespace + ":" + identifier);
         cg.visitTranslationKey(namespace + "." + identifier);
