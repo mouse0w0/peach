@@ -3,10 +3,9 @@ package com.github.mouse0w0.peach.util;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -119,6 +118,44 @@ public final class JsonUtils {
 
     public static <T> T readJson(Gson gson, Path file, TypeToken<T> typeToken) throws IOException {
         try (Reader reader = Files.newBufferedReader(file)) {
+            return gson.fromJson(reader, typeToken.getType());
+        }
+    }
+
+    public static JsonElement readJson(URL url) throws IOException {
+        return readJson(GSON, url, JsonElement.class);
+    }
+
+    public static JsonElement readJson(Gson gson, URL url) throws IOException {
+        return readJson(gson, url, JsonElement.class);
+    }
+
+    public static <T> T readJson(URL url, Class<T> classOfT) throws IOException {
+        return readJson(GSON, url, classOfT);
+    }
+
+    public static <T> T readJson(Gson gson, URL url, Class<T> classOfT) throws IOException {
+        try (Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            return gson.fromJson(reader, classOfT);
+        }
+    }
+
+    public static <T> T readJson(URL url, Type typeOfT) throws IOException {
+        return readJson(GSON, url, typeOfT);
+    }
+
+    public static <T> T readJson(Gson gson, URL url, Type typeOfT) throws IOException {
+        try (Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            return gson.fromJson(reader, typeOfT);
+        }
+    }
+
+    public static <T> T readJson(URL url, TypeToken<T> typeToken) throws IOException {
+        return readJson(GSON, url, typeToken);
+    }
+
+    public static <T> T readJson(Gson gson, URL url, TypeToken<T> typeToken) throws IOException {
+        try (Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
             return gson.fromJson(reader, typeToken.getType());
         }
     }
