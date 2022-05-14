@@ -152,7 +152,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         brightness.setText(I18n.translate("block.properties.brightness"));
         brightness.setColSpan(ColSpan.HALF);
 
-        opacity = new SpinnerField<>(0, 255, 0);
+        opacity = new SpinnerField<>(0, 255, 255);
         opacity.setText(I18n.translate("block.properties.opacity"));
         opacity.setColSpan(ColSpan.HALF);
 
@@ -214,6 +214,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         transparency = new RadioButtonField();
         transparency.setText(I18n.translate("block.appearance.transparency"));
         transparency.setColSpan(ColSpan.HALF);
+        transparency.valueProperty().addListener(observable -> opacity.setValue(transparency.getValue() ? 0 : 255));
 
         renderType = new ChoiceBoxField<>();
         renderType.setText(I18n.translate("block.appearance.renderType"));

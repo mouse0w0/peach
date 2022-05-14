@@ -20,7 +20,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private double resistance;
     private double slipperiness;
     private int brightness;
-    private int opacity;
+    private int opacity = 255;
     //    private boolean gravity; // as block type?
     private String harvestTool = ToolType.NONE;
     private int harvestLevel;
