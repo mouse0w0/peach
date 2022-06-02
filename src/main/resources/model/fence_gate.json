@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:fence_gate",
-    "item": "buildin:fence_gate_item",
+    "identifier": "minecraft:fence_gate",
+    "item": "minecraft:fence_gate_item",
     "groups": [
         "fence_gate"
     ],

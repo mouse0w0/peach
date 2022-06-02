@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:trapdoor",
-    "item": "buildin:trapdoor_item",
+    "identifier": "minecraft:trapdoor",
+    "item": "minecraft:trapdoor_item",
     "groups": [
         "trapdoor"
     ],

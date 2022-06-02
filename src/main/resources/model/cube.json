@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:cube",
-    "item": "buildin:block_item",
+    "identifier": "minecraft:cube",
+    "item": "minecraft:block_item",
     "groups": [
         "normal", "directional", "horizontal", "dirt"
     ],

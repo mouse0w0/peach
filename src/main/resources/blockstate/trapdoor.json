@@ -1,6 +1,6 @@
 {
     "template": "blockstate/trapdoor.json.ftl",
-    "item": "buildin:trapdoor_item",
+    "item": "minecraft:trapdoor_item",
     "models": [
         "trapdoor_bottom", "trapdoor_top", "trapdoor_open"
     ]

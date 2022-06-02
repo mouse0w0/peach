@@ -1,5 +1,5 @@
 {
-    "identifier": "buildin:pane_item",
+    "identifier": "minecraft:pane_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

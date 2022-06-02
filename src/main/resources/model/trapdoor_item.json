@@ -1,5 +1,5 @@
 {
-    "identifier": "buildin:trapdoor_item",
+    "identifier": "minecraft:trapdoor_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

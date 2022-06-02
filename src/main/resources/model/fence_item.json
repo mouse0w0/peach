@@ -1,5 +1,5 @@
 {
-    "identifier": "buildin:fence_item",
+    "identifier": "minecraft:fence_item",
     "model": {
         "fence_inventory": {
             "name": "block/${identifier}_inventory",

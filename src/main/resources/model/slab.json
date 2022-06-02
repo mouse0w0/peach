@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:slab",
-    "item": "buildin:slab_item",
+    "identifier": "minecraft:slab",
+    "item": "minecraft:slab_item",
     "groups": [
         "slab"
     ],

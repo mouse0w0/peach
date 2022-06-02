@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:stairs",
-    "item": "buildin:stairs_item",
+    "identifier": "minecraft:stairs",
+    "item": "minecraft:stairs_item",
     "groups": [
         "stairs"
     ],

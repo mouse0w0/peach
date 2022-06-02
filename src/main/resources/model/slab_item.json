@@ -1,5 +1,5 @@
 {
-    "identifier": "buildin:slab_item",
+    "identifier": "minecraft:slab_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

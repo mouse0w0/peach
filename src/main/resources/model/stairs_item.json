@@ -1,5 +1,5 @@
 {
-    "identifier": "buildin:stairs_item",
+    "identifier": "minecraft:stairs_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

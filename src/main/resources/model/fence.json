@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:fence",
-    "item": "buildin:fence_item",
+    "identifier": "minecraft:fence",
+    "item": "minecraft:fence_item",
     "groups": [
         "fence"
     ],

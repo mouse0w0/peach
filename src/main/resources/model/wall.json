@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:wall",
-    "item": "buildin:wall_item",
+    "identifier": "minecraft:wall",
+    "item": "minecraft:wall_item",
     "groups": [
         "wall"
     ],

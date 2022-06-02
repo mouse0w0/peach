@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:stone",
-    "item": "buildin:block_item",
+    "identifier": "minecraft:stone",
+    "item": "minecraft:block_item",
     "groups": [
         "stone"
     ],

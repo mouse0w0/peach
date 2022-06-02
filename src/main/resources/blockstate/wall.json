@@ -1,6 +1,6 @@
 {
     "template": "blockstate/wall.json.ftl",
-    "item": "buildin:wall_item",
+    "item": "minecraft:wall_item",
     "models": [
         "wall_post", "wall_side"
     ]

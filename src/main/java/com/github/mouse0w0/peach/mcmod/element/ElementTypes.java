@@ -20,7 +20,7 @@ public final class ElementTypes {
                         element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
                         element.setMaterial(indexManager.getIndex(Indexes.MATERIALS).get("minecraft:rock"));
                         element.setSoundType(indexManager.getIndex(Indexes.SOUND_TYPES).get("minecraft:stone"));
-                        element.setModelPrototype(new Identifier("buildin:cube_all"));
+                        element.setModelPrototype(new Identifier("minecraft:cube_all"));
                         element.setItemModelPrototype(ModelManager.INHERIT);
                     })
                     .editorFactory(BlockEditor::new)
@@ -33,7 +33,7 @@ public final class ElementTypes {
                         element.setDisplayName(name);
                         element.setEquipmentSlot(EquipmentSlot.MAINHAND);
                         element.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
-                        element.setModelPrototype(new Identifier("buildin:generated"));
+                        element.setModelPrototype(new Identifier("minecraft:generated"));
                         element.setEquipSound(indexManager.getIndex(Indexes.SOUND_EVENTS).get("minecraft:item.armor.equip_generic"));
                     })
                     .editorFactory(ItemEditor::new)

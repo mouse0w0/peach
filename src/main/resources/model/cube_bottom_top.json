@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:cube_bottom_top",
-    "item": "buildin:block_item",
+    "identifier": "minecraft:cube_bottom_top",
+    "item": "minecraft:block_item",
     "groups": [
         "normal", "directional", "horizontal", "dirt"
     ],

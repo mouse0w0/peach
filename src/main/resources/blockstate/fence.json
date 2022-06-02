@@ -1,6 +1,6 @@
 {
     "template": "blockstate/fence.json.ftl",
-    "item": "buildin:fence_item",
+    "item": "minecraft:fence_item",
     "models": [
         "fence_post", "fence_side"
     ]

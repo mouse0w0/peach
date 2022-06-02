@@ -1,6 +1,6 @@
 {
-    "identifier": "buildin:pane",
-    "item": "buildin:pane_item",
+    "identifier": "minecraft:pane",
+    "item": "minecraft:pane_item",
     "groups": [
         "pane"
     ],

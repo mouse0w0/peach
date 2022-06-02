@@ -1,6 +1,6 @@
 {
     "template": "blockstate/stairs.json.ftl",
-    "item": "buildin:stairs_item",
+    "item": "minecraft:stairs_item",
     "models": [
         "stairs", "outer_stairs", "inner_stairs"
     ]

@@ -1,6 +1,6 @@
 {
     "template": "blockstate/fence_gate.json.ftl",
-    "item": "buildin:fence_gate_item",
+    "item": "minecraft:fence_gate_item",
     "models": [
         "fence_gate_closed", "fence_gate_open", "wall_gate_closed", "wall_gate_open"
     ]

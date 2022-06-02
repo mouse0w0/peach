@@ -1,6 +1,6 @@
 {
     "template": "blockstate/stone.json.ftl",
-    "item": "buildin:block_item",
+    "item": "minecraft:block_item",
     "models": [
         "block", "block_mirrored"
     ]
