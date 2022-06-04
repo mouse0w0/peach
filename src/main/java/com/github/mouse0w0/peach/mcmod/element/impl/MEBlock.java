@@ -3,12 +3,13 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
-import org.joml.primitives.AABBd;
 
 import java.util.Collections;
 import java.util.Map;
 
 public class MEBlock extends Element implements LocalizableElement {
+    public static final BoundingBox FULL_BLOCK = new BoundingBox(0, 0, 0, 1, 1, 1);
+
     private String identifier;
     private String displayName;
     private BlockType type = BlockType.NORMAL;
@@ -37,7 +38,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private Map<String, String> itemModels = Collections.emptyMap();
     private Map<String, String> itemTextures = Collections.emptyMap();
 
-    private AABBd boundingBox = new AABBd(0, 0, 0, 16, 16, 16);
+    private BoundingBox boundingBox = FULL_BLOCK;
     private boolean noCollision;
 
     //    private boolean enableLootTable; // 1.14+
@@ -259,11 +260,11 @@ public class MEBlock extends Element implements LocalizableElement {
         this.itemTextures = itemTextures;
     }
 
-    public AABBd getBoundingBox() {
+    public BoundingBox getBoundingBox() {
         return boundingBox;
     }
 
-    public void setBoundingBox(AABBd boundingBox) {
+    public void setBoundingBox(BoundingBox boundingBox) {
         this.boundingBox = boundingBox;
     }
 

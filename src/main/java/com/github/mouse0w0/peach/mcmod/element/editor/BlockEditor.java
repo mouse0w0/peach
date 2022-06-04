@@ -26,7 +26,6 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
-import org.joml.primitives.AABBd;
 
 import javax.annotation.Nonnull;
 
@@ -401,13 +400,13 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         itemModel.setModels(element.getItemModels());
         itemTextures.setTextures(element.getItemTextures());
 
-        AABBd boundingBox = element.getBoundingBox();
-        minX.setValue(boundingBox.minX);
-        minY.setValue(boundingBox.minY);
-        minZ.setValue(boundingBox.minZ);
-        maxX.setValue(boundingBox.maxX);
-        maxY.setValue(boundingBox.maxY);
-        maxZ.setValue(boundingBox.maxZ);
+        BoundingBox boundingBox = element.getBoundingBox();
+        minX.setValue(boundingBox.minX() * 16);
+        minY.setValue(boundingBox.minY() * 16);
+        minZ.setValue(boundingBox.minZ() * 16);
+        maxX.setValue(boundingBox.maxX() * 16);
+        maxY.setValue(boundingBox.maxY() * 16);
+        maxZ.setValue(boundingBox.maxZ() * 16);
 
         doNotRegisterItem.setValue(element.isDoNotRegisterItem());
         mapColor.setValue(element.getMapColor());
@@ -455,9 +454,9 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setItemModels(itemModel.getModels());
         element.setItemTextures(itemTextures.getTextures());
 
-        element.setBoundingBox(new AABBd(
-                minX.getValue(), minY.getValue(), minZ.getValue(),
-                maxX.getValue(), maxY.getValue(), maxZ.getValue()));
+        element.setBoundingBox(new BoundingBox(
+                minX.getValue() / 16, minY.getValue() / 16, minZ.getValue() / 16,
+                maxX.getValue() / 16, maxY.getValue() / 16, maxZ.getValue() / 16));
 
         element.setDoNotRegisterItem(doNotRegisterItem.getValue());
         element.setMapColor(mapColor.getValue());
