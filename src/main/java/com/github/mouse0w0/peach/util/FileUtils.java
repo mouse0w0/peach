@@ -16,10 +16,10 @@ public class FileUtils {
     public static final CopyOption[] REPLACE_EXISTING = {StandardCopyOption.REPLACE_EXISTING};
 
     public static final Pattern FILE_NAME_PATTERN = Pattern.compile(
-            "[^\\s\\\\/:\\*\\?\\\"<>\\|](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|])*[^\\s\\\\/:\\*\\?\\\"<>\\|]$");
+            "[^\\s\\\\/:*?\"<>|](\\x20|[^\\s\\\\/:*?\"<>|])*[^\\s\\\\/:*?\"<>|]$");
 
     public static final Pattern FILE_NAME_WITHOUT_EXTENSION = Pattern.compile(
-            "[^\\s\\\\/:\\*\\?\\\"<>\\|\\.](\\x20|[^\\s\\\\/:\\*\\?\\\"<>\\|\\.])*[^\\s\\\\/:\\*\\?\\\"<>\\|\\.]$");
+            "[^\\s\\\\/:*?\"<>|.](\\x20|[^\\s\\\\/:*?\"<>|.])*[^\\s\\\\/:*?\"<>|.]$");
 
     public static boolean isValidFileName(String fileName) {
         if (fileName == null || fileName.length() > 255) return false;
