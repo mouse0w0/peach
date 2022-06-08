@@ -3,12 +3,12 @@
     "model": {
         "fence_inventory": {
             "name": "block/${identifier}_inventory",
-            "template": "model/fence_inventory.json.ftl"
+            "template": "model/fence_inventory.json"
         },
         "item": {
             "name": "item/${identifier}",
             "parent": "fence_inventory",
-            "template": "model/block_item.json.ftl"
+            "template": "model/parent.json"
         }
     }
 }

@@ -10,7 +10,7 @@
     "model": {
         "block": {
             "name": "block/${identifier}",
-            "template": "model/cube_bottom_top.json.ftl"
+            "template": "model/cube_bottom_top.json"
         }
     }
 }

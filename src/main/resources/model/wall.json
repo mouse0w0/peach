@@ -10,11 +10,11 @@
     "model": {
         "wall_post": {
             "name": "block/${identifier}_post",
-            "template": "model/wall_post.json.ftl"
+            "template": "model/wall_post.json"
         },
         "wall_side": {
             "name": "block/${identifier}_side",
-            "template": "model/wall_side.json.ftl"
+            "template": "model/wall_side.json"
         }
     }
 }

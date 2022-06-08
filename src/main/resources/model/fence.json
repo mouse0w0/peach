@@ -10,11 +10,11 @@
     "model": {
         "fence_post": {
             "name": "block/${identifier}_post",
-            "template": "model/fence_post.json.ftl"
+            "template": "model/fence_post.json"
         },
         "fence_side": {
             "name": "block/${identifier}_side",
-            "template": "model/fence_side.json.ftl"
+            "template": "model/fence_side.json"
         }
     }
 }

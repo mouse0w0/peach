@@ -9,7 +9,7 @@
     "model": {
         "item": {
             "name": "item/${identifier}",
-            "template": "model/generated.json.ftl"
+            "template": "model/generated.json"
         }
     }
 }

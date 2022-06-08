@@ -3,12 +3,12 @@
     "model": {
         "wall_inventory": {
             "name": "block/${identifier}_inventory",
-            "template": "model/wall_inventory.json.ftl"
+            "template": "model/wall_inventory.json"
         },
         "item": {
             "name": "item/${identifier}",
             "parent": "wall_inventory",
-            "template": "model/block_item.json.ftl"
+            "template": "model/parent.json"
         }
     }
 }

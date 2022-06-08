@@ -10,21 +10,21 @@
     "model": {
         "slab_bottom": {
             "name": "block/${identifier}_bottom",
-            "template": "model/slab_bottom.json.ftl"
+            "template": "model/slab_bottom.json"
         },
         "slab_top": {
             "name": "block/${identifier}_top",
-            "template": "model/slab_top.json.ftl"
+            "template": "model/slab_top.json"
         },
         "slab_double": {
             "name": "block/${identifier}_double",
-            "template": "model/cube_bottom_top.json.ftl"
+            "template": "model/cube_bottom_top.json"
         },
         "item": {
             "itemOnly": true,
             "name": "item/${identifier}",
             "parent": "slab_bottom",
-            "template": "model/block_item.json.ftl"
+            "template": "model/parent.json"
         }
     }
 }

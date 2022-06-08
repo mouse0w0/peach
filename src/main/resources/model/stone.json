@@ -10,11 +10,11 @@
     "model": {
         "block": {
             "name": "block/${identifier}",
-            "template": "model/cube_all.json.ftl"
+            "template": "model/cube_all.json"
         },
         "block_mirrored": {
             "name": "block/${identifier}_mirrored",
-            "template": "model/cube_mirrored_all.json.ftl"
+            "template": "model/cube_mirrored_all.json"
         }
     }
 }

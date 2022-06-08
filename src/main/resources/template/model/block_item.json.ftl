@@ -1,3 +1,0 @@
-{
-    "parent": "${models[parent]}"
-}

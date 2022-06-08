@@ -1,0 +1,11 @@
+{
+    "parent": "block/cube_mirrored",
+    "textures": {
+        "down": "",
+        "up": "",
+        "north": "",
+        "south": "",
+        "west": "",
+        "east": ""
+    }
+}

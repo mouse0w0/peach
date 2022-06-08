@@ -10,19 +10,19 @@
     "model": {
         "fence_gate_closed": {
             "name": "block/${identifier}_closed",
-            "template": "model/fence_gate_closed.json.ftl"
+            "template": "model/fence_gate_closed.json"
         },
         "fence_gate_open": {
             "name": "block/${identifier}_open",
-            "template": "model/fence_gate_open.json.ftl"
+            "template": "model/fence_gate_open.json"
         },
         "wall_gate_closed": {
             "name": "block/${identifier}_wall_closed",
-            "template": "model/wall_gate_closed.json.ftl"
+            "template": "model/wall_gate_closed.json"
         },
         "wall_gate_open": {
             "name": "block/${identifier}_wall_open",
-            "template": "model/wall_gate_open.json.ftl"
+            "template": "model/wall_gate_open.json"
         }
     }
 }

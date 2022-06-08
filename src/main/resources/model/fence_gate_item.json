@@ -4,7 +4,7 @@
         "item": {
             "name": "item/${identifier}",
             "parent": "fence_gate_closed",
-            "template": "model/block_item.json.ftl"
+            "template": "model/parent.json"
         }
     }
 }

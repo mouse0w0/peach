@@ -10,15 +10,15 @@
     "model": {
         "trapdoor_bottom": {
             "name": "block/${identifier}_bottom",
-            "template": "model/trapdoor_bottom.json.ftl"
+            "template": "model/trapdoor_bottom.json"
         },
         "trapdoor_top": {
             "name": "block/${identifier}_top",
-            "template": "model/trapdoor_top.json.ftl"
+            "template": "model/trapdoor_top.json"
         },
         "trapdoor_open": {
             "name": "block/${identifier}_open",
-            "template": "model/trapdoor_open.json.ftl"
+            "template": "model/trapdoor_open.json"
         }
     }
 }

@@ -4,7 +4,7 @@
         "item": {
             "name": "item/${identifier}",
             "parent": "block",
-            "template": "model/block_item.json.ftl"
+            "template": "model/parent.json"
         }
     }
 }

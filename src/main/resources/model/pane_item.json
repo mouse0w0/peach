@@ -6,7 +6,7 @@
     "model": {
         "item": {
             "name": "item/${identifier}",
-            "template": "model/pane_item.json.ftl"
+            "template": "model/pane_item.json"
         }
     }
 }
