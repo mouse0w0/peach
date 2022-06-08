@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:cube_all",
+    "id": "minecraft:cube_all",
     "item": "minecraft:block_item",
     "groups": [
         "normal", "dirt"

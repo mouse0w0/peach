@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:stairs_item",
+    "id": "minecraft:stairs_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

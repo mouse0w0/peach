@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:fence",
+    "id": "minecraft:fence",
     "item": "minecraft:fence_item",
     "groups": [
         "fence"

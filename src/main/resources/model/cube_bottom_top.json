@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:cube_bottom_top",
+    "id": "minecraft:cube_bottom_top",
     "item": "minecraft:block_item",
     "groups": [
         "normal", "directional", "horizontal", "dirt"

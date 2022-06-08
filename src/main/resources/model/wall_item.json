@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:wall_item",
+    "id": "minecraft:wall_item",
     "model": {
         "wall_inventory": {
             "name": "block/${identifier}_inventory",

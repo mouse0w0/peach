@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:fence_gate_item",
+    "id": "minecraft:fence_gate_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

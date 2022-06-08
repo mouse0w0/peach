@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:cube_column",
+    "id": "minecraft:cube_column",
     "item": "minecraft:block_item",
     "groups": [
         "normal", "directional", "horizontal", "pillar", "dirt"

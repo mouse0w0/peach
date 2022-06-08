@@ -1,5 +1,8 @@
 {
-    "identifier": "minecraft:pane_item",
+    "id": "minecraft:pane_item",
+    "textures": [
+        "pane"
+    ],
     "model": {
         "item": {
             "name": "item/${identifier}",

@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:stairs",
+    "id": "minecraft:stairs",
     "item": "minecraft:stairs_item",
     "groups": [
         "stairs"

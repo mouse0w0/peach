@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:trapdoor",
+    "id": "minecraft:trapdoor",
     "item": "minecraft:trapdoor_item",
     "groups": [
         "trapdoor"

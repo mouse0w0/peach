@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:stone",
+    "id": "minecraft:stone",
     "item": "minecraft:block_item",
     "groups": [
         "stone"

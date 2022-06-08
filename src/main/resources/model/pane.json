@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:pane",
+    "id": "minecraft:pane",
     "item": "minecraft:pane_item",
     "groups": [
         "pane"

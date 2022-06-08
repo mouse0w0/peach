@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:slab_item",
+    "id": "minecraft:slab_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

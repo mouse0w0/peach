@@ -22,8 +22,8 @@ public class ModelManager {
     public static final Identifier INHERIT = new Identifier("buildin:inherit");
 
     private final Map<String, Blockstate> blockstateMap = new HashMap<>();
-    private final Map<Identifier, ModelPrototype> modelTemplateMap = new HashMap<>();
-    private final Multimap<String, Identifier> groupToModelTemplatesMap = HashMultimap.create();
+    private final Map<Identifier, ModelPrototype> modelPrototypes = new HashMap<>();
+    private final Multimap<String, Identifier> groupToModelPrototypes = HashMultimap.create();
 
     public static ModelManager getInstance() {
         return Peach.getInstance().getService(ModelManager.class);
@@ -67,10 +67,10 @@ public class ModelManager {
     private void loadModelTemplate(Path file) {
         try {
             ModelPrototype template = JsonUtils.readJson(file, ModelPrototype.class);
-            modelTemplateMap.put(template.getIdentifier(), template);
+            modelPrototypes.put(template.getId(), template);
             if (template.getGroups() != null) {
                 for (String group : template.getGroups()) {
-                    groupToModelTemplatesMap.put(group, template.getIdentifier());
+                    groupToModelPrototypes.put(group, template.getId());
                 }
             }
         } catch (RuntimeException e) {
@@ -84,11 +84,15 @@ public class ModelManager {
         return blockstateMap.get(blockstate);
     }
 
-    public ModelPrototype getModelTemplate(Identifier identifier) {
-        return modelTemplateMap.get(identifier);
+    public ModelPrototype getModelPrototype(Identifier identifier) {
+        return modelPrototypes.get(identifier);
     }
 
-    public Collection<Identifier> getModelTemplatesByGroup(String group) {
-        return groupToModelTemplatesMap.get(group);
+    public boolean hasModelProperty(Identifier identifier) {
+        return modelPrototypes.containsKey(identifier);
+    }
+
+    public Collection<Identifier> getModelPrototypes(String group) {
+        return groupToModelPrototypes.get(group);
     }
 }

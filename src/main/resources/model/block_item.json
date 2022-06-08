@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:block_item",
+    "id": "minecraft:block_item",
     "model": {
         "item": {
             "name": "item/${identifier}",

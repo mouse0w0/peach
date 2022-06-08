@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:slab",
+    "id": "minecraft:slab",
     "item": "minecraft:slab_item",
     "groups": [
         "slab"

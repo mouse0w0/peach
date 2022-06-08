@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:handheld",
+    "id": "minecraft:handheld",
     "groups": [
         "item"
     ],

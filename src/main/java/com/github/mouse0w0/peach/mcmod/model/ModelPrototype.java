@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ModelPrototype {
-    private Identifier identifier;
+    private Identifier id;
     private Identifier item;
     private List<String> groups;
     private List<String> textures;
@@ -15,12 +15,12 @@ public class ModelPrototype {
     public ModelPrototype() {
     }
 
-    public Identifier getIdentifier() {
-        return identifier;
+    public Identifier getId() {
+        return id;
     }
 
-    public void setIdentifier(Identifier identifier) {
-        this.identifier = identifier;
+    public void setId(Identifier id) {
+        this.id = id;
     }
 
     public Identifier getItem() {

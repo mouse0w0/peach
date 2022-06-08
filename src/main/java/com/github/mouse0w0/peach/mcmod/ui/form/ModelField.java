@@ -20,10 +20,7 @@ import com.google.gson.JsonObject;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -47,17 +44,11 @@ public class ModelField extends Element {
     private final Project project;
     private final ModelManager modelManager;
     private final ResourceStore resourceStore;
-    private final boolean blockItemModel;
 
     public ModelField(Project project, ResourceStore resourceStore) {
-        this(project, resourceStore, false);
-    }
-
-    public ModelField(Project project, ResourceStore resourceStore, boolean blockItemModel) {
         this.project = project;
         this.modelManager = ModelManager.getInstance();
         this.resourceStore = resourceStore;
-        this.blockItemModel = blockItemModel;
 
         modelPrototypeProperty().addListener(observable -> updateTexture());
         models.addListener((InvalidationListener) observable -> updateTexture());
@@ -94,6 +85,23 @@ public class ModelField extends Element {
 
     public final void setBlockstate(String blockstate) {
         blockstateProperty().set(blockstate);
+    }
+
+    private BooleanProperty inherit;
+
+    public final BooleanProperty inheritProperty() {
+        if (inherit == null) {
+            inherit = new SimpleBooleanProperty(this, "inherit");
+        }
+        return inherit;
+    }
+
+    public final boolean isInherit() {
+        return inherit != null && inherit.get();
+    }
+
+    public final void setInherit(boolean inherit) {
+        inheritProperty().set(inherit);
     }
 
     private final ObjectProperty<Identifier> modelPrototype = new SimpleObjectProperty<>(this, "model");
@@ -186,6 +194,7 @@ public class ModelField extends Element {
 
         modelPrototypeProperty().addListener(observable -> updateModelPrototype());
         blockstateProperty().addListener(observable -> updateBlockstate());
+        inheritProperty().addListener(observable -> updateBlockstate());
         updateBlockstate();
 
         return pane;
@@ -196,10 +205,10 @@ public class ModelField extends Element {
         final Identifier modelPrototype = getModelPrototype();
         final List<Identifier> modelList = new ArrayList<>();
         if (blockstate != null) {
-            if (blockItemModel) {
+            if (isInherit()) {
                 modelList.add(ModelManager.INHERIT);
             }
-            modelList.addAll(modelManager.getModelTemplatesByGroup(blockstate));
+            modelList.addAll(modelManager.getModelPrototypes(blockstate));
             modelList.add(ModelManager.CUSTOM);
         }
         comboBox.getItems().setAll(modelList);
@@ -224,7 +233,7 @@ public class ModelField extends Element {
             }
             loadTexture();
         } else {
-            textures.setAll(modelManager.getModelTemplate(modelPrototype).getTextures());
+            textures.setAll(modelManager.getModelPrototype(modelPrototype).getTextures());
         }
     }
 

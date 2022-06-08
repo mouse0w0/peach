@@ -1,5 +1,5 @@
 {
-    "identifier": "minecraft:wall",
+    "id": "minecraft:wall",
     "item": "minecraft:wall_item",
     "groups": [
         "wall"
