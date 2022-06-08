@@ -22,8 +22,8 @@ public class ProjectFileWatcher implements Disposable {
 
     private final Project project;
     private final Path projectPath;
+    private final List<FileChangeListener> listeners;
     private final Thread thread;
-    private final List<FileChangeListener> listeners = new ArrayList<>();
 
     public static ProjectFileWatcher getInstance(Project project) {
         return project.getService(ProjectFileWatcher.class);
@@ -32,6 +32,7 @@ public class ProjectFileWatcher implements Disposable {
     public ProjectFileWatcher(Project project) {
         this.project = project;
         this.projectPath = project.getPath();
+        this.listeners = new ArrayList<>();
         this.thread = new Thread(this::run, "File Watcher-" + NEXT_ID.getAndIncrement());
         this.thread.start();
     }
@@ -45,11 +46,15 @@ public class ProjectFileWatcher implements Disposable {
     }
 
     public void addListener(FileChangeListener listener) {
-        listeners.add(listener);
+        synchronized (this) {
+            listeners.add(listener);
+        }
     }
 
     public void removeListener(FileChangeListener listener) {
-        listeners.remove(listener);
+        synchronized (this) {
+            listeners.remove(listener);
+        }
     }
 
     private void run() {
@@ -57,14 +62,20 @@ public class ProjectFileWatcher implements Disposable {
             final WatchKey watchKey = projectPath.register(watcher, KINDS, MODIFIERS);
             while (true) {
                 watcher.take();
-                for (WatchEvent<?> event : watchKey.pollEvents()) {
-                    fireEvent(event);
-                }
+                fireEvents(watchKey.pollEvents());
                 watchKey.reset();
             }
         } catch (InterruptedException ignored) {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    private void fireEvents(List<WatchEvent<?>> events) {
+        synchronized (this) {
+            for (WatchEvent<?> event : events) {
+                fireEvent(event);
+            }
         }
     }
 
