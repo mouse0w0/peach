@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -63,8 +64,8 @@ public class ActionManager {
         return registeredActions.get(actionId);
     }
 
-    public void perform(String actionId, javafx.event.Event event) {
-        getAction(actionId).perform(new ActionEvent(event.getSource()));
+    public void perform(String actionId, Event event) {
+        getAction(actionId).perform(new ActionEvent(event));
     }
 
     public Menu createMenu(ActionGroup group) {
@@ -85,7 +86,7 @@ public class ActionManager {
         Appearance appearance = action.getAppearance();
         button.setText(appearance.getText());
         button.setGraphic(IconManager.getInstance().createNode(appearance.getIcon()));
-        button.setOnAction(event -> action.perform(new ActionEvent(event.getSource())));
+        button.setOnAction(event -> action.perform(new ActionEvent(event)));
         return button;
     }
 

@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.action;
 
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 
@@ -18,8 +19,8 @@ public class Utils {
         }
     }
 
-    static void update(ActionGroup group, Object source) {
-        final ActionEvent actionEvent = new ActionEvent(source);
+    static void update(ActionGroup group, Event event) {
+        final ActionEvent actionEvent = new ActionEvent(event);
         for (Action child : group.getChildren()) {
             child.update(actionEvent);
         }

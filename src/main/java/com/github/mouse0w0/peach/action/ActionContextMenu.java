@@ -18,7 +18,7 @@ public class ActionContextMenu extends ContextMenu {
     }
 
     private void update(Event event) {
-        Utils.update(group, this);
+        Utils.update(group, event);
         Utils.updateSeparatorVisibility(getItems());
     }
 }

@@ -22,7 +22,7 @@ public class ActionMenuItem extends MenuItem {
         disableProperty().bind(appearance.disableProperty());
         visibleProperty().bind(appearance.visibleProperty());
 
-        setOnAction(event -> action.perform(new ActionEvent(event.getSource())));
+        setOnAction(event -> action.perform(new ActionEvent(event)));
     }
 
     private void updateIcon() {

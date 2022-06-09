@@ -14,7 +14,7 @@ public final class RPRemoveProjectAction extends Action {
     public void perform(ActionEvent event) {
         RecentProjectInfo info = (RecentProjectInfo) DataKeys.SELECTED_ITEM.get(event);
         RecentProjectsManager.getInstance().removeRecentProject(info.getPath());
-        ActionMenuItem source = (ActionMenuItem) event.getSource();
+        ActionMenuItem source = (ActionMenuItem) event.getEvent().getSource();
         ListCell<RecentProjectInfo> listCell = (ListCell<RecentProjectInfo>) source.getParentPopup().getProperties().get(Node.class);
         listCell.getListView().getItems().remove(info);
     }

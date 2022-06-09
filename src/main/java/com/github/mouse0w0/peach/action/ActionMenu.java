@@ -53,7 +53,7 @@ public class ActionMenu extends Menu {
     }
 
     private void update(Event event) {
-        Utils.update(group, this);
+        Utils.update(group, event);
         Utils.updateSeparatorVisibility(getItems());
     }
 
