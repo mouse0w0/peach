@@ -130,7 +130,7 @@ public class FileUtils {
         int prev = 0, next;
         while ((next = url.indexOf('%', prev)) != -1) {
             result.append(url, prev, next).append(parseChar(url, next + 1, next + 3));
-            prev = next;
+            prev = next + 1;
         }
         result.append(url, prev, url.length());
         return result.toString();
