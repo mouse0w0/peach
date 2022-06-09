@@ -7,7 +7,7 @@
     "textures": [
         "texture"
     ],
-    "model": {
+    "models": {
         "fence_gate_closed": {
             "name": "block/${identifier}_closed",
             "template": "model/fence_gate_closed.json"

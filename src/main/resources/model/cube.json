@@ -7,7 +7,7 @@
     "textures": [
         "down", "up", "north", "south", "west", "east"
     ],
-    "model": {
+    "models": {
         "block": {
             "name": "block/${identifier}",
             "template": "model/cube.json"

@@ -1,6 +1,6 @@
 {
     "id": "minecraft:stairs_item",
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "parent": "stairs",

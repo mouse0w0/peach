@@ -7,7 +7,7 @@
     "textures": [
         "texture"
     ],
-    "model": {
+    "models": {
         "fence_post": {
             "name": "block/${identifier}_post",
             "template": "model/fence_post.json"

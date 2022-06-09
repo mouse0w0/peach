@@ -1,6 +1,6 @@
 {
     "id": "minecraft:trapdoor_item",
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "parent": "trapdoor_bottom",

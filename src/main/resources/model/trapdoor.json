@@ -7,7 +7,7 @@
     "textures": [
         "texture"
     ],
-    "model": {
+    "models": {
         "trapdoor_bottom": {
             "name": "block/${identifier}_bottom",
             "template": "model/trapdoor_bottom.json"

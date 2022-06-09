@@ -1,6 +1,6 @@
 {
     "id": "minecraft:wall_item",
-    "model": {
+    "models": {
         "wall_inventory": {
             "name": "block/${identifier}_inventory",
             "template": "model/wall_inventory.json"

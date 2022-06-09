@@ -8,27 +8,21 @@ public class ModelEntry {
     public ModelEntry() {
     }
 
-    public String getName() {
-        return name;
+    public ModelEntry(String name, String template, String parent) {
+        this.name = name;
+        this.template = template;
+        this.parent = parent;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
     public String getTemplate() {
         return template;
     }
 
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
     public String getParent() {
         return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
     }
 }

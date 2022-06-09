@@ -1,6 +1,6 @@
 {
     "id": "minecraft:fence_gate_item",
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "parent": "fence_gate_closed",

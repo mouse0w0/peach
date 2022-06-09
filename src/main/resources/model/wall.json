@@ -7,7 +7,7 @@
     "textures": [
         "texture"
     ],
-    "model": {
+    "models": {
         "wall_post": {
             "name": "block/${identifier}_post",
             "template": "model/wall_post.json"

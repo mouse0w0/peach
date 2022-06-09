@@ -1,6 +1,6 @@
 {
     "id": "minecraft:slab_item",
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "parent": "slab_bottom",

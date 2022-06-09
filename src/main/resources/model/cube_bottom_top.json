@@ -7,7 +7,7 @@
     "textures": [
         "bottom", "top", "side"
     ],
-    "model": {
+    "models": {
         "block": {
             "name": "block/${identifier}",
             "template": "model/cube_bottom_top.json"

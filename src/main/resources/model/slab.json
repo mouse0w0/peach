@@ -7,7 +7,7 @@
     "textures": [
         "bottom", "top", "side"
     ],
-    "model": {
+    "models": {
         "slab_bottom": {
             "name": "block/${identifier}_bottom",
             "template": "model/slab_bottom.json"

@@ -6,7 +6,7 @@
     "textures": [
         "layer0"
     ],
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "template": "model/generated.json"

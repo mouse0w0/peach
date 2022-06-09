@@ -3,7 +3,7 @@
     "textures": [
         "pane"
     ],
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "template": "model/pane_item.json"

@@ -1,6 +1,6 @@
 {
     "id": "minecraft:block_item",
-    "model": {
+    "models": {
         "item": {
             "name": "item/${identifier}",
             "parent": "block",

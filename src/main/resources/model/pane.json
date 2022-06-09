@@ -7,7 +7,7 @@
     "textures": [
         "pane", "edge"
     ],
-    "model": {
+    "models": {
         "pane_post": {
             "name": "block/${identifier}_post",
             "template": "model/pane_post.json"
