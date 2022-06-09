@@ -27,6 +27,7 @@ public class AttributeModifiersField extends Field {
     protected Node createDefaultEditor() {
         AttributeModifierPopup popup = new AttributeModifierPopup();
         TagView<AttributeModifier> tagView = new TagView<>();
+        tagView.disableProperty().bind(disableProperty());
         tagView.setCellFactory(view -> new AttributeModifierCell(popup));
         tagView.setOnAdd(event -> {
             tagView.getItems().add(event.getIndex(),
