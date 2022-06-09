@@ -11,6 +11,7 @@ import java.nio.file.Path;
 
 public final class JsonUtils {
     private static final Gson GSON = new GsonBuilder().create();
+    private static final Gson GSON_PRETTY_PRINTING = new GsonBuilder().setPrettyPrinting().create();
 
     public static JsonPrimitive json(String value) {
         return new JsonPrimitive(value);
@@ -50,6 +51,10 @@ public final class JsonUtils {
 
     public static Gson gson() {
         return GSON;
+    }
+
+    public static Gson gsonPrettyPrinting() {
+        return GSON_PRETTY_PRINTING;
     }
 
     public static JsonElement toJson(Object src) {
