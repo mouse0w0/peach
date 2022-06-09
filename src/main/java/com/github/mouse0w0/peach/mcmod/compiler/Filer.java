@@ -28,6 +28,14 @@ public class Filer {
         return root;
     }
 
+    public Path resolve(String first, String... more) {
+        return root.resolve(Paths.get(first, more));
+    }
+
+    public Path resolve(Path other) {
+        return root.resolve(other);
+    }
+
     public OutputStream newOutputStream(String first, String... more) throws IOException {
         return newOutputStream(Paths.get(first, more));
     }
