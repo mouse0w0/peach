@@ -9,8 +9,8 @@ public class ClassGenerator {
     private boolean finished;
 
     public ClassGenerator(String className) {
-        cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-        thisName = className;
+        this.cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        this.thisName = className;
     }
 
     protected void doLast() {

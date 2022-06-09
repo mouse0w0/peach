@@ -4,15 +4,19 @@ import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.compiler.Context;
 import com.github.mouse0w0.peach.mcmod.compiler.Filer;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
+import com.github.mouse0w0.peach.mcmod.compiler.util.ModelUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemClassGenerator;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemGroupsClassGenerator;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemLoaderClassGenerator;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
+import com.github.mouse0w0.peach.mcmod.model.ModelEntry;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelPrototype;
+import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ItemGenerator extends Generator<MEItem> {
@@ -37,7 +41,8 @@ public class ItemGenerator extends Generator<MEItem> {
         String namespace = context.getNamespace();
         String identifier = item.getIdentifier();
 
-        ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)) + "Item");
+        // Generate class
+        ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/Item" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)));
         ItemType type = item.getType();
         if (type == ItemType.NORMAL)
             cg.visitNormalItem();
@@ -59,16 +64,21 @@ public class ItemGenerator extends Generator<MEItem> {
         if (item.getDurability() != 0) cg.visitDurability(item.getDurability());
         if (item.getDestroySpeed() != 1) cg.visitDestroySpeed((float) item.getDestroySpeed());
         if (item.isCanDestroyAnyBlock()) cg.visitCanDestroyAnyBlock();
-        for (ToolAttribute toolAttribute : item.getToolAttributes())
+        if (item.getEquipmentSlot() != EquipmentSlot.NONE) {
+            cg.visitEquipmentSlot(item.getEquipmentSlot());
+            for (AttributeModifier attributeModifier : item.getAttributeModifiers()) {
+                cg.visitAttributeModifier(attributeModifier);
+            }
+        }
+        for (ToolAttribute toolAttribute : item.getToolAttributes()) {
             cg.visitToolAttribute(toolAttribute);
-        for (AttributeModifier attributeModifier : item.getAttributeModifiers())
-            cg.visitAttributeModifier(attributeModifier);
+        }
         if (item.getEnchantability() != 0) cg.visitEnchantability(item.getEnchantability());
-        for (EnchantmentType enchantmentType : item.getAcceptableEnchantments())
+        for (EnchantmentType enchantmentType : item.getAcceptableEnchantments()) {
             cg.visitAcceptableEnchantment(enchantmentType);
+        }
         if (!item.getRepairItem().isAir()) cg.visitRepairItem(item.getRepairItem());
         if (!item.getRecipeRemain().isAir()) cg.visitContainerItem(item.getRecipeRemain());
-        if (item.getEquipmentSlot() != EquipmentSlot.MAINHAND) cg.visitEquipmentSlot(item.getEquipmentSlot());
         if (item.getUseAnimation() != UseAnimation.NONE) cg.visitUseAnimation(item.getUseAnimation());
         if (item.getUseDuration() != 0) cg.visitUseDuration(item.getUseDuration());
         if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
@@ -84,15 +94,8 @@ public class ItemGenerator extends Generator<MEItem> {
 
         itemLoaderClassGenerator.visitItem(identifier, cg.getThisName());
 
-//        McModel model = context.getModelManager().getItemModel(item.getModel());
-        Map<String, String> textures = new LinkedHashMap<>();
-        item.getTextures().forEach((key, value) -> textures.put(key, namespace + ":" + value));
-//        model.setTextures(textures);
-
+        // Copy textures
         Filer assetsFiler = context.getAssetsFiler();
-//        try (BufferedWriter writer = assetsFiler.newWriter("models", "item", identifier + ".json")) {
-//            McModelHelper.GSON.toJson(model, writer);
-//        }
 
         Path texturesPath = context.getProjectStructure().getTextures();
         for (String texture : item.getTextures().values()) {
@@ -102,6 +105,30 @@ public class ItemGenerator extends Generator<MEItem> {
         if (item.getType() == ItemType.ARMOR) {
             String armorTexture = item.getArmorTexture();
             assetsFiler.copy(texturesPath.resolve(armorTexture), "textures/" + armorTexture);
+        }
+
+        // Generate models
+        Map<String, String> textures = ModelUtils.preprocessTextures(namespace, item.getTextures(), null);
+
+        Identifier model = item.getModelPrototype();
+        if (ModelManager.CUSTOM.equals(model)) {
+            Path projectModelsPath = context.getProjectStructure().getModels();
+            String itemModel = item.getModels().get("item");
+            if (StringUtils.isNotEmpty(itemModel)) {
+                Path source = projectModelsPath.resolve(itemModel);
+                Path target = assetsFiler.resolve("models/item/" + identifier + ".json");
+                ModelUtils.applyModel(source, target, textures, false);
+            }
+        } else {
+            ModelManager manager = ModelManager.getInstance();
+            ModelPrototype prototype = manager.getModelPrototype(model);
+            for (Map.Entry<String, ModelEntry> entry : prototype.getModels().entrySet()) {
+                ModelEntry modelEntry = entry.getValue();
+                String modelName = modelEntry.getName().replace("${identifier}", identifier);
+                Path source = ClassPathUtils.getPath("template/" + modelEntry.getTemplate());
+                Path target = assetsFiler.resolve("models/" + modelName + ".json");
+                ModelUtils.applyModel(source, target, textures, false);
+            }
         }
     }
 }

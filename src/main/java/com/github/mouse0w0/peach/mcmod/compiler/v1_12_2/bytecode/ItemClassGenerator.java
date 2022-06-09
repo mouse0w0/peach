@@ -22,7 +22,7 @@ public class ItemClassGenerator extends ClassGenerator {
     public void visitNormalItem() {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/Item", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         initMethod.visitCode();
@@ -33,7 +33,7 @@ public class ItemClassGenerator extends ClassGenerator {
     public void visitFoodItem(int hunger, float saturation, boolean isWolfFood) {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemFood", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         initMethod.visitCode();
@@ -55,7 +55,7 @@ public class ItemClassGenerator extends ClassGenerator {
     public void visitSwordItem(String identifier, float damage) {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemSword", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         cw.visitInnerClass("net/minecraft/item/Item$ToolMaterial", "net/minecraft/item/Item", "ToolMaterial", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
 
@@ -77,7 +77,7 @@ public class ItemClassGenerator extends ClassGenerator {
     public void visitArmorItem(String identifier, String equipSound) {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemArmor", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         cw.visitInnerClass("net/minecraft/item/ItemArmor$ArmorMaterial", "net/minecraft/item/ItemArmor", "ArmorMaterial", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
 
@@ -137,10 +137,10 @@ public class ItemClassGenerator extends ClassGenerator {
     }
 
     public void visitItemGroup(String owner, String identifier) {
-        String upperUnderscore = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
+        String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
 
         initMethod.visitVarInsn(ALOAD, 0);
-        initMethod.visitFieldInsn(GETSTATIC, owner, upperUnderscore, "Lnet/minecraft/creativetab/CreativeTabs;");
+        initMethod.visitFieldInsn(GETSTATIC, owner, _IDENTIFIER, "Lnet/minecraft/creativetab/CreativeTabs;");
         initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77637_a", "(Lnet/minecraft/creativetab/CreativeTabs;)Lnet/minecraft/item/Item;", false);
         initMethod.visitInsn(POP);
     }
@@ -399,10 +399,7 @@ public class ItemClassGenerator extends ClassGenerator {
                 Label label1 = new Label();
                 mv.visitJumpInsn(GOTO, label1);
                 mv.visitLabel(label0);
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitVarInsn(ALOAD, 1);
-                mv.visitVarInsn(ALOAD, 2);
-                mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/Item", "getAttributeModifiers", "(Lnet/minecraft/inventory/EntityEquipmentSlot;Lnet/minecraft/item/ItemStack;)Lcom/google/common/collect/Multimap;", false);
+                mv.visitMethodInsn(INVOKESTATIC, "com/google/common/collect/ImmutableMultimap", "of", "()Lcom/google/common/collect/ImmutableMultimap;", false);
                 mv.visitLabel(label1);
                 mv.visitInsn(ARETURN);
                 mv.visitMaxs(3, 3);

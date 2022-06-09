@@ -15,7 +15,7 @@ public class ItemGroupClassGenerator extends ClassGenerator {
 
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, className, null, "net/minecraft/creativetab/CreativeTabs", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         cw.visitInnerClass("net/minecraftforge/fml/common/registry/GameRegistry$ObjectHolder", "net/minecraftforge/fml/common/registry/GameRegistry", "ObjectHolder", ACC_PUBLIC | ACC_STATIC | ACC_ANNOTATION | ACC_ABSTRACT | ACC_INTERFACE);
     }

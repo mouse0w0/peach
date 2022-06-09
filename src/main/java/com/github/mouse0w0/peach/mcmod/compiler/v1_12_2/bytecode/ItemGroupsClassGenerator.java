@@ -13,12 +13,12 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class ItemGroupsClassGenerator extends ClassGenerator {
     private final Set<String> visitedItemGroups = new HashSet<>();
-    private final MethodVisitor cinitMethod;
+    private final MethodVisitor clinitMethod;
 
     public ItemGroupsClassGenerator(String className) {
         super(className);
 
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "java/lang/Object", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, className, null, "java/lang/Object", null);
 
         ASMUtils.visitDefaultConstructor(cw);
         {
@@ -59,8 +59,8 @@ public class ItemGroupsClassGenerator extends ClassGenerator {
             mv.visitEnd();
         }
         {
-            cinitMethod = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
-            cinitMethod.visitCode();
+            clinitMethod = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
+            clinitMethod.visitCode();
         }
         cw.visitEnd();
     }
@@ -71,16 +71,16 @@ public class ItemGroupsClassGenerator extends ClassGenerator {
             FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_STATIC, upperUnderscore, "Lnet/minecraft/creativetab/CreativeTabs;", null, null);
             fv.visitEnd();
 
-            ASMUtils.push(cinitMethod, identifier);
-            cinitMethod.visitMethodInsn(INVOKESTATIC, thisName, "find", "(Ljava/lang/String;)Lnet/minecraft/creativetab/CreativeTabs;", false);
-            cinitMethod.visitFieldInsn(PUTSTATIC, thisName, upperUnderscore, "Lnet/minecraft/creativetab/CreativeTabs;");
+            ASMUtils.push(clinitMethod, identifier);
+            clinitMethod.visitMethodInsn(INVOKESTATIC, thisName, "find", "(Ljava/lang/String;)Lnet/minecraft/creativetab/CreativeTabs;", false);
+            clinitMethod.visitFieldInsn(PUTSTATIC, thisName, upperUnderscore, "Lnet/minecraft/creativetab/CreativeTabs;");
         }
     }
 
     @Override
     protected void doLast() {
-        cinitMethod.visitInsn(RETURN);
-        cinitMethod.visitMaxs(1, 0);
-        cinitMethod.visitEnd();
+        clinitMethod.visitInsn(RETURN);
+        clinitMethod.visitMaxs(1, 0);
+        clinitMethod.visitEnd();
     }
 }

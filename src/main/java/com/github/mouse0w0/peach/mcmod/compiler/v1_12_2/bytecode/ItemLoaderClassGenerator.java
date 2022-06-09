@@ -10,16 +10,16 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class ItemLoaderClassGenerator extends ClassGenerator {
 
-    private final MethodVisitor cinitMethod;
+    private final MethodVisitor clinitMethod;
     private final MethodVisitor registerItemMethod;
     private final MethodVisitor registerItemModelMethod;
 
     public ItemLoaderClassGenerator(String className, String modId) {
         super(className);
 
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "java/lang/Object", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, className, null, "java/lang/Object", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         {
             AnnotationVisitor av = cw.visitAnnotation("Lnet/minecraftforge/fml/common/Mod$EventBusSubscriber;", true);
@@ -78,8 +78,8 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
             mv.visitEnd();
         }
         {
-            cinitMethod = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
-            cinitMethod.visitCode();
+            clinitMethod = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
+            clinitMethod.visitCode();
         }
         cw.visitEnd();
     }
@@ -87,13 +87,32 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
     public void visitItem(String identifier, String className) {
         String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
 
-        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
+        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
         fv.visitEnd();
 
-        cinitMethod.visitTypeInsn(NEW, className);
-        cinitMethod.visitInsn(DUP);
-        cinitMethod.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
-        cinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        clinitMethod.visitTypeInsn(NEW, className);
+        clinitMethod.visitInsn(DUP);
+        clinitMethod.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
+        clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+
+        registerItemMethod.visitVarInsn(ALOAD, 1);
+        registerItemMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        registerItemMethod.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/registries/IForgeRegistry", "register", "(Lnet/minecraftforge/registries/IForgeRegistryEntry;)V", true);
+
+        registerItemModelMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        registerItemModelMethod.visitMethodInsn(INVOKESTATIC, thisName, "registerItemModel", "(Lnet/minecraft/item/Item;)V", false);
+    }
+
+    public void visitBlockItem(String identifier, String className, String blockLoaderClassName) {
+        String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
+        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
+        fv.visitEnd();
+
+        clinitMethod.visitTypeInsn(NEW, className);
+        clinitMethod.visitInsn(DUP);
+        clinitMethod.visitFieldInsn(GETSTATIC, blockLoaderClassName, _IDENTIFIER, "Lnet/minecraft/block/Block;");
+        clinitMethod.visitMethodInsn(INVOKESPECIAL, className, "<init>", "(Lnet/minecraft/block/Block;)V", false);
+        clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
 
         registerItemMethod.visitVarInsn(ALOAD, 1);
         registerItemMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
@@ -113,8 +132,8 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
         registerItemModelMethod.visitMaxs(1, 1);
         registerItemModelMethod.visitEnd();
 
-        cinitMethod.visitInsn(RETURN);
-        cinitMethod.visitMaxs(2, 0);
-        cinitMethod.visitEnd();
+        clinitMethod.visitInsn(RETURN);
+        clinitMethod.visitMaxs(2, 0);
+        clinitMethod.visitEnd();
     }
 }

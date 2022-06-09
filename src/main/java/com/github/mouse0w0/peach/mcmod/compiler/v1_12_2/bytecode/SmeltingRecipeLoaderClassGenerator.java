@@ -13,9 +13,9 @@ public class SmeltingRecipeLoaderClassGenerator extends ClassGenerator {
     public SmeltingRecipeLoaderClassGenerator(String className) {
         super(className);
 
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "java/lang/Object", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, className, null, "java/lang/Object", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         ASMUtils.visitDefaultConstructor(cw);
 

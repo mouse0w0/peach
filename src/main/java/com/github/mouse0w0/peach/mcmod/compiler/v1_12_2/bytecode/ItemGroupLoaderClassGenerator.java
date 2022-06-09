@@ -12,9 +12,9 @@ public class ItemGroupLoaderClassGenerator extends ClassGenerator {
     public ItemGroupLoaderClassGenerator(String className) {
         super(className);
 
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, "peach/generated/itemGroup/ItemGroupLoader", null, "java/lang/Object", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, className, null, "java/lang/Object", null);
 
-        cw.visitSource("Peach.generated", null);
+        ASMUtils.visitSource(cw);
 
         ASMUtils.visitDefaultConstructor(cw);
 
