@@ -2,9 +2,16 @@ package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.eventbus.Order;
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.view.ViewManager;
+import com.sun.javafx.stage.StageHelper;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
@@ -19,7 +26,17 @@ public class WindowManager {
     private final Map<Project, ProjectWindow> windowMap = new WeakHashMap<>();
     private final Map<Window, ProjectWindow> stageToWindowMap = new WeakHashMap<>();
 
-    private ProjectWindow focusedWindow;
+    private final InvalidationListener windowFocusedListener = new InvalidationListener() {
+        @Override
+        public void invalidated(Observable observable) {
+            ReadOnlyBooleanProperty property = (ReadOnlyBooleanProperty) observable;
+            if (property.get()) {
+                focusedWindow = (Window) property.getBean();
+            }
+        }
+    };
+
+    private Window focusedWindow;
 
     public static WindowManager getInstance() {
         return Peach.getInstance().getService(WindowManager.class);
@@ -28,6 +45,24 @@ public class WindowManager {
     public WindowManager() {
         Peach.getEventBus().addListener(Order.LAST, this::onOpenedProject);
         Peach.getEventBus().addListener(Order.LAST, this::onClosingBeforeSaveProject);
+        StageHelper.getStages().addListener(new ListChangeListener<Stage>() {
+            @Override
+            public void onChanged(Change<? extends Stage> c) {
+                while (c.next()) {
+                    if (c.wasAdded()) {
+                        for (Stage stage : c.getAddedSubList()) {
+                            stage.focusedProperty().addListener(windowFocusedListener);
+                        }
+                    }
+                    if (c.wasRemoved()) {
+                        for (Stage stage : c.getRemoved()) {
+                            stage.focusedProperty().removeListener(windowFocusedListener);
+                        }
+                    }
+                }
+                c.reset();
+            }
+        });
     }
 
     public Collection<ProjectWindow> getWindows() {
@@ -76,21 +111,18 @@ public class WindowManager {
         return window;
     }
 
-    public ProjectWindow getFocusedWindow() {
+    public Window getFocusedWindow() {
         return focusedWindow;
     }
 
     public Node getFocusedNode() {
         if (focusedWindow == null) return null;
-        return focusedWindow.getStage().getScene().getFocusOwner();
+        return focusedWindow.getScene().getFocusOwner();
     }
 
     public Project getFocusedProject() {
-        return focusedWindow != null ? focusedWindow.getProject() : null;
-    }
-
-    void setFocusedWindow(ProjectWindow window) {
-        this.focusedWindow = window;
+        if (focusedWindow == null) return null;
+        return DataKeys.PROJECT.get(DataManager.getInstance().getDataContext(focusedWindow));
     }
 
     private void onOpenedProject(ProjectEvent.Opened event) {

@@ -39,14 +39,9 @@ public class ProjectWindow implements DataProvider {
         stage.getIcons().setAll(Icons.Peach_16x);
         stage.setOnShown(event -> Peach.getEventBus().post(new ProjectWindowEvent.Opened(this)));
         stage.setOnHidden(event -> Peach.getEventBus().post(new ProjectWindowEvent.Closed(this)));
-        stage.focusedProperty().addListener(observable -> {
-            if (stage.isFocused()) {
-                WindowManager.getInstance().setFocusedWindow(this);
-            }
-        });
         stage.setOnCloseRequest(event -> {
-            ProjectManager.getInstance().closeProject(project);
             event.consume();
+            ProjectManager.getInstance().closeProject(project);
         });
         return stage;
     }
