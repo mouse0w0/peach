@@ -24,7 +24,7 @@ public class MEItem extends Element implements LocalizableElement {
     private EnchantmentType[] acceptableEnchantments = EnchantmentType.EMPTY_ARRAY;
     private ItemRef repairItem = ItemRef.AIR;
     private ItemRef recipeRemain = ItemRef.AIR;
-    private EquipmentSlot equipmentSlot = EquipmentSlot.MAINHAND;
+    private EquipmentSlot equipmentSlot = EquipmentSlot.NONE;
     private UseAnimation useAnimation = UseAnimation.NONE;
     private int useDuration;
     private int hitEntityLoss;

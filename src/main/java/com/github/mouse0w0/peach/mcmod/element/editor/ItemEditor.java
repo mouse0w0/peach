@@ -40,13 +40,13 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private ComboBoxField<ItemGroup> itemGroup;
     private SpinnerField<Integer> maxStackSize;
     private SpinnerField<Integer> durability;
+    private ChoiceBoxField<EquipmentSlot> equipmentSlot;
+    private ToolAttributesField toolAttributes;
     private SpinnerField<Double> destroySpeed;
     private RadioButtonField canDestroyAnyBlock;
-    private ToolAttributesField toolAttributes;
-    private AttributeModifiersField attributeModifiers;
     private SpinnerField<Integer> enchantability;
     private CheckComboBoxField<EnchantmentType> acceptableEnchantments;
-    private ChoiceBoxField<EquipmentSlot> equipmentSlot;
+    private AttributeModifiersField attributeModifiers;
     private ItemPickerField repairItem;
     private ItemPickerField recipeRemain;
     private ComboBoxField<UseAnimation> useAnimation;
@@ -140,6 +140,35 @@ public class ItemEditor extends ElementEditor<MEItem> {
         durability.setColSpan(ColSpan.HALF);
         durability.disableProperty().bind(isFood);
 
+        equipmentSlot = new ChoiceBoxField<>();
+        equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
+        equipmentSlot.setConverter(LocalizableConverter.instance());
+        equipmentSlot.getItems().setAll(EquipmentSlot.values());
+        equipmentSlot.setColSpan(ColSpan.HALF);
+        equipmentSlot.disableProperty().bind(Bindings.createBooleanBinding(() -> {
+            final ItemType type = this.type.getValue();
+            if (type == ItemType.FOOD) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.values());
+                equipmentSlot.setValue(EquipmentSlot.NONE);
+                return true;
+            } else if (type == ItemType.NORMAL) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.values());
+                equipmentSlot.setValue(EquipmentSlot.NONE);
+            } else if (type == ItemType.SWORD || type == ItemType.TOOL) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
+                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
+            } else if (type == ItemType.ARMOR) {
+                equipmentSlot.getItems().setAll(EquipmentSlot.ARMOR_SLOTS);
+                equipmentSlot.setValue(EquipmentSlot.HEAD);
+            }
+            return false;
+        }, type.valueProperty()));
+
+        toolAttributes = new ToolAttributesField();
+        toolAttributes.setText(I18n.translate("item.properties.toolAttributes"));
+        toolAttributes.setColSpan(ColSpan.HALF);
+        toolAttributes.disableProperty().bind(isArmorOrFood);
+
         destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.0);
         destroySpeed.setText(I18n.translate("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
@@ -149,14 +178,6 @@ public class ItemEditor extends ElementEditor<MEItem> {
         canDestroyAnyBlock.setText(I18n.translate("item.properties.canDestroyAnyBlock"));
         canDestroyAnyBlock.setColSpan(ColSpan.HALF);
         canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
-
-        toolAttributes = new ToolAttributesField();
-        toolAttributes.setText(I18n.translate("item.properties.toolAttributes"));
-        toolAttributes.setColSpan(ColSpan.HALF);
-        toolAttributes.disableProperty().bind(isArmorOrFood);
-
-        attributeModifiers = new AttributeModifiersField();
-        attributeModifiers.setText(I18n.translate("item.properties.attributeModifiers"));
 
         enchantability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         enchantability.setText(I18n.translate("item.properties.enchantability"));
@@ -170,31 +191,9 @@ public class ItemEditor extends ElementEditor<MEItem> {
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
-        equipmentSlot = new ChoiceBoxField<>();
-        equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
-        equipmentSlot.setConverter(LocalizableConverter.instance());
-        equipmentSlot.getItems().setAll(EquipmentSlot.values());
-        equipmentSlot.setColSpan(ColSpan.HALF);
-        equipmentSlot.disableProperty().bind(Bindings.createBooleanBinding(() -> {
-            ItemType type = this.type.getValue();
-            if (type == ItemType.FOOD) {
-                equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
-                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
-                return true;
-            }
-
-            if (type == ItemType.NORMAL) {
-                equipmentSlot.getItems().setAll(EquipmentSlot.values());
-                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
-            } else if (type == ItemType.SWORD || type == ItemType.TOOL) {
-                equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
-                equipmentSlot.setValue(EquipmentSlot.MAINHAND);
-            } else if (type == ItemType.ARMOR) {
-                equipmentSlot.getItems().setAll(EquipmentSlot.ARMOR_SLOTS);
-                equipmentSlot.setValue(EquipmentSlot.HEAD);
-            }
-            return false;
-        }, type.valueProperty()));
+        attributeModifiers = new AttributeModifiersField();
+        attributeModifiers.setText(I18n.translate("item.properties.attributeModifiers"));
+        attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
 
         repairItem = new ItemPickerField();
         repairItem.setText(I18n.translate("item.properties.repairItem"));

@@ -4,6 +4,7 @@ import com.github.mouse0w0.i18n.I18n;
 import com.google.common.base.CaseFormat;
 
 public enum EquipmentSlot implements Localizable {
+    NONE(Type.NONE),
     MAINHAND(Type.HAND),
     OFFHAND(Type.HAND),
     HEAD(Type.ARMOR),
@@ -12,11 +13,11 @@ public enum EquipmentSlot implements Localizable {
     FEET(Type.ARMOR);
 
     public enum Type {
-        HAND, ARMOR
+        NONE, HAND, ARMOR
     }
 
-    public static final EquipmentSlot[] HAND_SLOTS = {MAINHAND, OFFHAND};
-    public static final EquipmentSlot[] ARMOR_SLOTS = {HEAD, CHEST, LEGS, FEET};
+    public static final EquipmentSlot[] HAND_SLOTS = {NONE, MAINHAND, OFFHAND};
+    public static final EquipmentSlot[] ARMOR_SLOTS = {NONE, HEAD, CHEST, LEGS, FEET};
 
     private final Type type;
     private final String translationKey;
