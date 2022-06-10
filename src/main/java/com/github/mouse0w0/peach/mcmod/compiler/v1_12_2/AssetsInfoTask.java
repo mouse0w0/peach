@@ -10,7 +10,7 @@ public class AssetsInfoTask implements CompileTask {
     public void run(Context context) throws Exception {
         McModMetadata metadata = context.getMetadata();
         JsonObject jo = new JsonObject();
-        jo.addProperty("description", metadata.getDescription());
+        jo.addProperty("description", metadata.getId() + " assets");
         jo.addProperty("pack_format", 3);
         JsonObject jo2 = new JsonObject();
         jo2.add("pack", jo);
