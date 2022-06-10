@@ -62,7 +62,7 @@ public class AttributeModifierPopup extends PopOver {
         operation.getItems().addAll(AttributeModifier.Operation.values());
         grid.addRow(1, new Text(I18n.translate("attributeModifier.operation")), operation);
 
-        amount = Spinners.create(Double.MIN_VALUE, Double.MAX_VALUE, 0);
+        amount = Spinners.create(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
         amount.setPrefWidth(150);
         grid.addRow(2, new Text(I18n.translate("attributeModifier.amount")), amount);
 
