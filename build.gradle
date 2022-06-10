@@ -5,9 +5,19 @@ plugins {
 
 String buildNumber = 'git rev-list --count HEAD'.execute().text.trim();
 
-version "0.0.6.${buildNumber}-SNAPSHOT"
-
+group = 'com.github.mouse0w0'
+version = "0.0.6.${buildNumber}-SNAPSHOT"
 mainClassName = 'com.github.mouse0w0.peach.Peach'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public' }
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    mavenLocal()
+}
 
 dependencies {
     compile 'com.google.guava:guava:31.1-jre'
@@ -50,27 +60,16 @@ jar {
     ])
 }
 
+application {
+    executableDir = ''
+}
+
 distributions {
     main {
         contents {
             from('content-pack') { into 'content-pack' }
             from('license') { into 'license' }
-            from('peach.bat', 'CHANGELOG.md')
+            from('CHANGELOG.md')
         }
     }
-}
-
-allprojects {
-    group 'com.github.mouse0w0'
-
-    sourceCompatibility = targetCompatibility = 1.8
-
-    repositories {
-        maven { url 'https://maven.aliyun.com/repository/public' }
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-        mavenLocal()
-    }
-
-    compileJava.options.encoding = 'UTF-8'
 }
