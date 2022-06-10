@@ -15,7 +15,7 @@ public final class Spinners {
     public static void setupIntegerEditor(Spinner<Integer> spinner, int initialValue) {
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty()) return;
+            if (newValue.isEmpty() || newValue.equals("-")) return;
             try {
                 int value = Integer.parseInt(newValue);
                 spinner.getValueFactory().setValue(value);
@@ -40,7 +40,7 @@ public final class Spinners {
     public static void setupDoubleEditor(Spinner<Double> spinner, double initialValue) {
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty() || endsWith(newValue, '.')) return;
+            if (newValue.isEmpty() || newValue.equals("-") || newValue.endsWith(".")) return;
             try {
                 double value = Double.parseDouble(newValue);
                 spinner.getValueFactory().setValue(value);
@@ -53,10 +53,6 @@ public final class Spinners {
                 spinner.getValueFactory().setValue(initialValue);
             }
         });
-    }
-
-    private static boolean endsWith(String s, char c) {
-        return s.charAt(s.length() - 1) == c; // Unsafe, s.isEmpty() not check.
     }
 
     private Spinners() {
