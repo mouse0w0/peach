@@ -33,6 +33,11 @@ public class ItemGroupClassGenerator extends ClassGenerator {
 
     public void visitTranslationKey(String translationKey) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_78024_c", "()Ljava/lang/String;", null, null);
+        {
+            AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+            av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+            av.visitEnd();
+        }
         mv.visitCode();
         ASMUtils.push(mv, translationKey);
         mv.visitInsn(ARETURN);
@@ -63,6 +68,11 @@ public class ItemGroupClassGenerator extends ClassGenerator {
 
         {
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_78016_d", "()Lnet/minecraft/item/ItemStack;", null, null);
+            {
+                AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+                av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+                av.visitEnd();
+            }
             mv.visitCode();
             mv.visitTypeInsn(NEW, "net/minecraft/item/ItemStack");
             mv.visitInsn(DUP);
@@ -78,6 +88,11 @@ public class ItemGroupClassGenerator extends ClassGenerator {
 
     public void visitHasSearchBar() {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "hasSearchBar", "()Z", null, null);
+        {
+            AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+            av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+            av.visitEnd();
+        }
         mv.visitCode();
         mv.visitInsn(ICONST_1);
         mv.visitInsn(IRETURN);
