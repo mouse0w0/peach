@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 
 @JsonAdapter(Identifier.TypeAdapter.class)
 public final class Identifier implements Comparable<Identifier> {
-    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("[a-z][a-z0-9._-]*");
-    private static final Pattern NAME_PATTERN = Pattern.compile("[a-z][a-z0-9/._-]*");
+    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("[a-z0-9._-]+");
+    private static final Pattern NAME_PATTERN = Pattern.compile("[a-z0-9/._-]+");
 
     public static final Pattern PATTERN = Pattern.compile(NAMESPACE_PATTERN + ":" + NAME_PATTERN);
 
@@ -29,7 +29,7 @@ public final class Identifier implements Comparable<Identifier> {
 
     public Identifier(String namespace, String name) {
         checkNamespace(namespace);
-        checkPath(name);
+        checkName(name);
         this.namespace = namespace;
         this.name = name;
     }
@@ -43,7 +43,7 @@ public final class Identifier implements Comparable<Identifier> {
         }
     }
 
-    private void checkPath(String name) {
+    private void checkName(String name) {
         if (name == null) throw new NullPointerException("name");
         if (name.isEmpty()) throw new IllegalArgumentException("name is empty");
         if (!NAME_PATTERN.matcher(name).matches()) {
