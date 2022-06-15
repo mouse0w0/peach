@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.google.common.collect.Multimap;
 
 import java.nio.file.Path;
+import java.util.Collection;
 
 public interface Context {
 
@@ -21,6 +22,8 @@ public interface Context {
     Path getOutputFolder();
 
     Multimap<ElementType<?>, Element> getElements();
+
+    <T extends Element> Collection<T> getElements(ElementType<T> type);
 
     ModelManager getModelManager();
 

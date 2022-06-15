@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
-import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
 import com.github.mouse0w0.peach.mcmod.compiler.Context;
+import com.github.mouse0w0.peach.mcmod.compiler.task.Task;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 
@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-public class LanguageTask implements CompileTask {
+public class GenLanguage implements Task {
     @Override
     public void run(Context context) throws Exception {
         Locale language = context.getMetadata().getLanguage();

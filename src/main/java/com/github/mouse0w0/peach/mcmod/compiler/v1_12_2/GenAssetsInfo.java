@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
-import com.github.mouse0w0.peach.mcmod.compiler.CompileTask;
 import com.github.mouse0w0.peach.mcmod.compiler.Context;
+import com.github.mouse0w0.peach.mcmod.compiler.task.Task;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.google.gson.JsonObject;
 
-public class AssetsInfoTask implements CompileTask {
+public class GenAssetsInfo implements Task {
     @Override
     public void run(Context context) throws Exception {
         McModMetadata metadata = context.getMetadata();

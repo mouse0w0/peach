@@ -1,5 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.compiler;
 
+import com.github.mouse0w0.peach.mcmod.compiler.task.Delete;
+import com.github.mouse0w0.peach.mcmod.compiler.task.Task;
+import com.github.mouse0w0.peach.mcmod.compiler.task.Zip;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
@@ -13,12 +16,16 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import freemarker.template.Configuration;
+import freemarker.template.TemplateExceptionHandler;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 public final class Compiler implements Context {
 
@@ -41,7 +48,7 @@ public final class Compiler implements Context {
     private Filer resourcesFiler;
     private Filer assetsFiler;
 
-    private final List<CompileTask> taskList = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
 
     public Compiler(Project project) {
         this.project = project;
@@ -75,6 +82,11 @@ public final class Compiler implements Context {
     @Override
     public Multimap<ElementType<?>, Element> getElements() {
         return elements;
+    }
+
+    @Override
+    public <T extends Element> Collection<T> getElements(ElementType<T> type) {
+        return (Collection<T>) elements.get(type);
     }
 
     @Override
@@ -153,15 +165,19 @@ public final class Compiler implements Context {
             resourcesFiler = new Filer(getOutputFolder().resolve("resources"));
             assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getMetadata().getId()));
 
-            taskList.add(new CleanTask());
-            taskList.add(new ElementTask());
-            taskList.add(new LanguageTask());
-            taskList.add(new MainClassTask());
-            taskList.add(new ModInfoTask());
-            taskList.add(new AssetsInfoTask());
-
-            Path outputFile = getOutputFolder().resolve("artifacts/" + metadata.getId() + "-" + metadata.getVersion() + ".jar");
-            taskList.add(new ZipTask(outputFile, classesFiler.getRoot(), resourcesFiler.getRoot()));
+            tasks.add(new Delete(getOutputFolder()));
+            tasks.add(new GenItem());
+            tasks.add(new GenItemGroup());
+            tasks.add(new GenCraftingRecipe());
+            tasks.add(new GenSmeltingRecipe());
+            tasks.add(new GenLanguage());
+            tasks.add(new GenMainClass());
+            tasks.add(new GenMetadata());
+            tasks.add(new GenAssetsInfo());
+            tasks.add(new Zip(
+                    getOutputFolder().resolve("artifacts/" + metadata.getId() + "-" + metadata.getVersion() + ".jar"),
+                    classesFiler.getRoot(),
+                    resourcesFiler.getRoot()));
         } catch (Exception e) {
             getMessager().error("Caught an exception when initializing compiler.", e);
         }
@@ -183,8 +199,8 @@ public final class Compiler implements Context {
 
     private void doCompile() {
         try {
-            for (CompileTask compileTask : taskList) {
-                compileTask.run(this);
+            for (Task task : tasks) {
+                task.run(this);
             }
         } catch (Exception e) {
             getMessager().error("Caught an exception in executing task.", e);

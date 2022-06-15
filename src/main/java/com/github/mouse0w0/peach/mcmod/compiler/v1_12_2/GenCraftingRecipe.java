@@ -1,8 +1,10 @@
-package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.generator;
+package com.github.mouse0w0.peach.mcmod.compiler.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.compiler.Context;
+import com.github.mouse0w0.peach.mcmod.compiler.task.Task;
+import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
 import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,20 +12,22 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CraftingRecipeGenerator extends Generator<MECraftingRecipe> {
+public class GenCraftingRecipe implements Task {
 
     @Override
-    protected void generate(Context context, MECraftingRecipe recipe) throws Exception {
-        JsonObject jo = new JsonObject();
-        generateResult(recipe, jo);
+    public void run(Context context) throws Exception {
+        for (MECraftingRecipe crafting : context.getElements(ElementTypes.CRAFTING_RECIPE)) {
+            JsonObject jo = new JsonObject();
+            generateResult(crafting, jo);
 
-        if (recipe.isShapeless()) {
-            generateShapeless(recipe, jo);
-        } else {
-            generateShaped(recipe, jo);
+            if (crafting.isShapeless()) {
+                generateShapeless(crafting, jo);
+            } else {
+                generateShaped(crafting, jo);
+            }
+
+            context.getAssetsFiler().write("recipes/" + crafting.getIdentifier() + ".json", jo.toString());
         }
-
-        context.getAssetsFiler().write("recipes/" + recipe.getIdentifier() + ".json", jo.toString());
     }
 
     private void generateResult(MECraftingRecipe recipe, JsonObject jo) {
