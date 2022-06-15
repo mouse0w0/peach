@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.i18n.I18n;
+import com.google.common.base.CaseFormat;
 
 public class AttributeModifier {
     public static final AttributeModifier[] EMPTY_ARRAY = new AttributeModifier[0];
@@ -9,8 +10,19 @@ public class AttributeModifier {
     private final double amount;
     private final Operation operation;
 
-    public enum Operation {
-        ADD, MULTIPLY_BASE, MULTIPLY_TOTAL
+    public enum Operation implements Localizable {
+        ADD, MULTIPLY_BASE, MULTIPLY_TOTAL;
+
+        private final String translationKey;
+
+        Operation() {
+            translationKey = "operation." + CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+        }
+
+        @Override
+        public String getLocalizedText() {
+            return I18n.translate(translationKey);
+        }
     }
 
     public AttributeModifier(String attribute, double amount, Operation operation) {

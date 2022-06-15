@@ -261,6 +261,10 @@ attribute.generic.luck=幸运
 attribute.generic.reachDistance=交互距离
 attribute.forge.swimSpeed=游泳速度
 
+operation.add=属性增量（+）
+operation.multiplyBase=倍率增量（+%）
+operation.multiplyTotal=最终倍乘（×%）
+
 attributeModifier.attribute=属性
 attributeModifier.operation=运算
 attributeModifier.amount=数值

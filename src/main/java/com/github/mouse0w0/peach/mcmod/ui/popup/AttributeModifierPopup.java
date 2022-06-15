@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.javafx.Spinners;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
+import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -60,6 +61,7 @@ public class AttributeModifierPopup extends PopOver {
         operation = new ChoiceBox<>();
         operation.setPrefWidth(150);
         operation.getItems().addAll(AttributeModifier.Operation.values());
+        operation.setConverter(LocalizableConverter.instance());
         grid.addRow(1, new Text(I18n.translate("attributeModifier.operation")), operation);
 
         amount = Spinners.create(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
