@@ -227,6 +227,8 @@ public class ProjectView implements Disposable, DataProvider {
         private ImageView imageView;
 
         public Cell() {
+            disableProperty().bind(emptyProperty());
+
             setContextMenu(contextMenu);
             setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
