@@ -77,11 +77,16 @@ public class GenItem implements Task {
             if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
             if (item.getDestroyBlockLoss() != 0) cg.visitDestroyBlockLoss(item.getDestroyBlockLoss());
             if (StringUtils.notEmpty(item.getInformation())) cg.visitInformation(item.getInformation());
+
+            if (item.isHasEffect()) cg.visitHasEffect();
             if (type == ItemType.ARMOR && StringUtils.notEmpty(item.getArmorTexture()))
                 cg.visitArmorTexture(item.getArmorTexture());
+
             if (item.getFuelBurnTime() != 0) cg.visitFuelBurnTime(item.getFuelBurnTime());
-            if (type == ItemType.FOOD && !item.getFoodContainer().isAir())
-                cg.visitFoodContainerItem(item.getFoodContainer());
+            if (type == ItemType.FOOD) {
+                if (item.isAlwaysEdible()) cg.visitAlwaysEdible();
+                if (!item.getFoodContainer().isAir()) cg.visitFoodContainerItem(item.getFoodContainer());
+            }
             context.getClassesFiler().write(cg.getThisName() + ".class", cg.toByteArray());
 
             loader.visitItem(identifier, cg.getThisName());
