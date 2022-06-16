@@ -451,6 +451,11 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitInformation(String information) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_77624_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/util/ITooltipFlag;)V", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List<Ljava/lang/String;>;Lnet/minecraft/client/util/ITooltipFlag;)V", null);
+        {
+            AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+            av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+            av.visitEnd();
+        }
         mv.visitCode();
         for (String line : information.split("[\n\r]\n?")) {
             mv.visitVarInsn(ALOAD, 3);
@@ -514,6 +519,11 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitArmorTexture(String texture) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getArmorTexture", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/entity/Entity;Lnet/minecraft/inventory/EntityEquipmentSlot;Ljava/lang/String;)Ljava/lang/String;", null, null);
+        {
+            AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+            av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+            av.visitEnd();
+        }
         mv.visitCode();
         ASMUtils.push(mv, texture);
         mv.visitInsn(ARETURN);
