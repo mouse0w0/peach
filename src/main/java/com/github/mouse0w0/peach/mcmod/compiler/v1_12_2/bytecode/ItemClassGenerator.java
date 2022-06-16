@@ -8,6 +8,8 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 
+import java.util.UUID;
+
 import static org.objectweb.asm.Opcodes.*;
 
 public class ItemClassGenerator extends ClassGenerator {
@@ -364,57 +366,69 @@ public class ItemClassGenerator extends ClassGenerator {
     }
 
     public void visitAttributeModifier(AttributeModifier attributeModifier) {
-        if (createAttributeModifiersMethod == null) {
-            cw.visitInnerClass("com/google/common/collect/ImmutableMultimap$Builder", "com/google/common/collect/ImmutableMultimap", "Builder", ACC_PUBLIC | ACC_STATIC);
+        visitAttributeModifier(attributeModifier, UUID.randomUUID());
+    }
 
-            {
-                FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "modifiers", "Lcom/google/common/collect/Multimap;", "Lcom/google/common/collect/Multimap<Ljava/lang/String;Lnet/minecraft/entity/ai/attributes/AttributeModifier;>;", null);
-                fv.visitEnd();
-            }
-
-            {
-                initMethod.visitVarInsn(ALOAD, 0);
-                initMethod.visitVarInsn(ALOAD, 0);
-                initMethod.visitMethodInsn(INVOKESPECIAL, thisName, "createAttributeModifiers", "()Lcom/google/common/collect/Multimap;", false);
-                initMethod.visitFieldInsn(PUTFIELD, thisName, "modifiers", "Lcom/google/common/collect/Multimap;");
-            }
-
-            {
-                createAttributeModifiersMethod = cw.visitMethod(ACC_PRIVATE, "createAttributeModifiers", "()Lcom/google/common/collect/Multimap;", "()Lcom/google/common/collect/Multimap<Ljava/lang/String;Lnet/minecraft/entity/ai/attributes/AttributeModifier;>;", null);
-                createAttributeModifiersMethod.visitCode();
-                createAttributeModifiersMethod.visitMethodInsn(INVOKESTATIC, "com/google/common/collect/ImmutableMultimap", "builder", "()Lcom/google/common/collect/ImmutableMultimap$Builder;", false);
-            }
-
-            {
-                MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getAttributeModifiers", "(Lnet/minecraft/inventory/EntityEquipmentSlot;Lnet/minecraft/item/ItemStack;)Lcom/google/common/collect/Multimap;", "(Lnet/minecraft/inventory/EntityEquipmentSlot;Lnet/minecraft/item/ItemStack;)Lcom/google/common/collect/Multimap<Ljava/lang/String;Lnet/minecraft/entity/ai/attributes/AttributeModifier;>;", null);
-                mv.visitCode();
-                mv.visitVarInsn(ALOAD, 1);
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitVarInsn(ALOAD, 2);
-                mv.visitMethodInsn(INVOKEVIRTUAL, thisName, "getEquipmentSlot", "(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/inventory/EntityEquipmentSlot;", false);
-                Label label0 = new Label();
-                mv.visitJumpInsn(IF_ACMPNE, label0);
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitFieldInsn(GETFIELD, thisName, "modifiers", "Lcom/google/common/collect/Multimap;");
-                Label label1 = new Label();
-                mv.visitJumpInsn(GOTO, label1);
-                mv.visitLabel(label0);
-                mv.visitMethodInsn(INVOKESTATIC, "com/google/common/collect/ImmutableMultimap", "of", "()Lcom/google/common/collect/ImmutableMultimap;", false);
-                mv.visitLabel(label1);
-                mv.visitInsn(ARETURN);
-                mv.visitMaxs(3, 3);
-                mv.visitEnd();
-            }
-        }
+    public void visitAttributeModifier(AttributeModifier attributeModifier, UUID uuid) {
+        visitCreateAttributeModifiersMethod();
         ASMUtils.push(createAttributeModifiersMethod, attributeModifier.getAttribute());
         createAttributeModifiersMethod.visitTypeInsn(NEW, "net/minecraft/entity/ai/attributes/AttributeModifier");
         createAttributeModifiersMethod.visitInsn(DUP);
-        createAttributeModifiersMethod.visitMethodInsn(INVOKESTATIC, "java/util/UUID", "randomUUID", "()Ljava/util/UUID;", false);
+        createAttributeModifiersMethod.visitTypeInsn(NEW, "java/util/UUID");
+        createAttributeModifiersMethod.visitInsn(DUP);
+        ASMUtils.push(createAttributeModifiersMethod, uuid.getMostSignificantBits());
+        ASMUtils.push(createAttributeModifiersMethod, uuid.getLeastSignificantBits());
+        createAttributeModifiersMethod.visitMethodInsn(INVOKESPECIAL, "java/util/UUID", "<init>", "(JJ)V", false);
         ASMUtils.push(createAttributeModifiersMethod, attributeModifier.getAttribute());
         ASMUtils.push(createAttributeModifiersMethod, attributeModifier.getAmount());
         ASMUtils.push(createAttributeModifiersMethod, attributeModifier.getOperation().ordinal());
         createAttributeModifiersMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/entity/ai/attributes/AttributeModifier", "<init>", "(Ljava/util/UUID;Ljava/lang/String;DI)V", false);
         createAttributeModifiersMethod.visitMethodInsn(INVOKEVIRTUAL, "com/google/common/collect/ImmutableMultimap$Builder", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableMultimap$Builder;", false);
+    }
+
+    public void visitCreateAttributeModifiersMethod() {
+        if (createAttributeModifiersMethod != null) return;
+
+        cw.visitInnerClass("com/google/common/collect/ImmutableMultimap$Builder", "com/google/common/collect/ImmutableMultimap", "Builder", ACC_PUBLIC | ACC_STATIC);
+
+        {
+            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "modifiers", "Lcom/google/common/collect/Multimap;", "Lcom/google/common/collect/Multimap<Ljava/lang/String;Lnet/minecraft/entity/ai/attributes/AttributeModifier;>;", null);
+            fv.visitEnd();
+        }
+
+        {
+            initMethod.visitVarInsn(ALOAD, 0);
+            initMethod.visitVarInsn(ALOAD, 0);
+            initMethod.visitMethodInsn(INVOKESPECIAL, thisName, "createAttributeModifiers", "()Lcom/google/common/collect/Multimap;", false);
+            initMethod.visitFieldInsn(PUTFIELD, thisName, "modifiers", "Lcom/google/common/collect/Multimap;");
+        }
+
+        {
+            createAttributeModifiersMethod = cw.visitMethod(ACC_PRIVATE, "createAttributeModifiers", "()Lcom/google/common/collect/Multimap;", "()Lcom/google/common/collect/Multimap<Ljava/lang/String;Lnet/minecraft/entity/ai/attributes/AttributeModifier;>;", null);
+            createAttributeModifiersMethod.visitCode();
+            createAttributeModifiersMethod.visitMethodInsn(INVOKESTATIC, "com/google/common/collect/ImmutableMultimap", "builder", "()Lcom/google/common/collect/ImmutableMultimap$Builder;", false);
+        }
+
+        {
+            MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getAttributeModifiers", "(Lnet/minecraft/inventory/EntityEquipmentSlot;Lnet/minecraft/item/ItemStack;)Lcom/google/common/collect/Multimap;", "(Lnet/minecraft/inventory/EntityEquipmentSlot;Lnet/minecraft/item/ItemStack;)Lcom/google/common/collect/Multimap<Ljava/lang/String;Lnet/minecraft/entity/ai/attributes/AttributeModifier;>;", null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKEVIRTUAL, thisName, "getEquipmentSlot", "(Lnet/minecraft/item/ItemStack;)Lnet/minecraft/inventory/EntityEquipmentSlot;", false);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label0);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, thisName, "modifiers", "Lcom/google/common/collect/Multimap;");
+            Label label1 = new Label();
+            mv.visitJumpInsn(GOTO, label1);
+            mv.visitLabel(label0);
+            mv.visitMethodInsn(INVOKESTATIC, "com/google/common/collect/ImmutableMultimap", "of", "()Lcom/google/common/collect/ImmutableMultimap;", false);
+            mv.visitLabel(label1);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(3, 3);
+            mv.visitEnd();
+        }
     }
 
     public void visitAcceptableEnchantment(EnchantmentType enchantmentType) {
@@ -505,6 +519,41 @@ public class ItemClassGenerator extends ClassGenerator {
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 5);
         mv.visitEnd();
+    }
+
+    public void visitAttackDamage(double attackDamage, boolean isSword) {
+        if (isSword) {
+            MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_150931_i", "()F", null, null);
+            mv.visitCode();
+            ASMUtils.push(mv, (float) attackDamage);
+            mv.visitInsn(FRETURN);
+            mv.visitMaxs(1, 1);
+            mv.visitEnd();
+        }
+
+        visitCreateAttributeModifiersMethod();
+        createAttributeModifiersMethod.visitLdcInsn("generic.attackDamage");
+        createAttributeModifiersMethod.visitTypeInsn(NEW, "net/minecraft/entity/ai/attributes/AttributeModifier");
+        createAttributeModifiersMethod.visitInsn(DUP);
+        createAttributeModifiersMethod.visitFieldInsn(GETSTATIC, thisName, "field_111210_e", "Ljava/util/UUID;");
+        createAttributeModifiersMethod.visitLdcInsn("generic.attackDamage");
+        ASMUtils.push(createAttributeModifiersMethod, attackDamage);
+        createAttributeModifiersMethod.visitInsn(ICONST_0);
+        createAttributeModifiersMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/entity/ai/attributes/AttributeModifier", "<init>", "(Ljava/util/UUID;Ljava/lang/String;DI)V", false);
+        createAttributeModifiersMethod.visitMethodInsn(INVOKEVIRTUAL, "com/google/common/collect/ImmutableMultimap$Builder", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableMultimap$Builder;", false);
+    }
+
+    public void visitAttackSpeed(double attackSpeed) {
+        visitCreateAttributeModifiersMethod();
+        createAttributeModifiersMethod.visitLdcInsn("generic.attackSpeed");
+        createAttributeModifiersMethod.visitTypeInsn(NEW, "net/minecraft/entity/ai/attributes/AttributeModifier");
+        createAttributeModifiersMethod.visitInsn(DUP);
+        createAttributeModifiersMethod.visitFieldInsn(GETSTATIC, thisName, "field_185050_h", "Ljava/util/UUID;");
+        createAttributeModifiersMethod.visitLdcInsn("generic.attackSpeed");
+        ASMUtils.push(createAttributeModifiersMethod, attackSpeed);
+        createAttributeModifiersMethod.visitInsn(ICONST_0);
+        createAttributeModifiersMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/entity/ai/attributes/AttributeModifier", "<init>", "(Ljava/util/UUID;Ljava/lang/String;DI)V", false);
+        createAttributeModifiersMethod.visitMethodInsn(INVOKEVIRTUAL, "com/google/common/collect/ImmutableMultimap$Builder", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableMultimap$Builder;", false);
     }
 
     public void visitHitEntityLoss(int loss) {

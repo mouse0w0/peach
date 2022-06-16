@@ -44,6 +44,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private ToolAttributesField toolAttributes;
     private SpinnerField<Double> destroySpeed;
     private RadioButtonField canDestroyAnyBlock;
+    private SpinnerField<Double> attackDamage;
+    private SpinnerField<Double> attackSpeed;
     private SpinnerField<Integer> enchantability;
     private CheckComboBoxField<EnchantmentType> acceptableEnchantments;
     private AttributeModifiersField attributeModifiers;
@@ -169,7 +171,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         toolAttributes.setColSpan(ColSpan.HALF);
         toolAttributes.disableProperty().bind(isArmorOrFood);
 
-        destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.0);
+        destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0D);
         destroySpeed.setText(I18n.translate("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
         destroySpeed.disableProperty().bind(isArmorOrFood);
@@ -178,6 +180,22 @@ public class ItemEditor extends ElementEditor<MEItem> {
         canDestroyAnyBlock.setText(I18n.translate("item.properties.canDestroyAnyBlock"));
         canDestroyAnyBlock.setColSpan(ColSpan.HALF);
         canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
+
+        attackDamage = new SpinnerField<>(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
+        attackDamage.setText(I18n.translate("item.properties.attackDamage"));
+        attackDamage.setColSpan(ColSpan.HALF);
+
+        attackSpeed = new SpinnerField<>(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
+        attackSpeed.setText(I18n.translate("item.properties.attackSpeed"));
+        attackSpeed.setColSpan(ColSpan.HALF);
+        type.valueProperty().addListener(observable -> {
+            ItemType type = this.type.getValue();
+            if (type == ItemType.SWORD || type == ItemType.TOOL) {
+                attackSpeed.setValue(1.6D);
+            } else {
+                attackSpeed.setValue(4D);
+            }
+        });
 
         enchantability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
         enchantability.setText(I18n.translate("item.properties.enchantability"));
@@ -268,6 +286,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 maxStackSize, durability,
                 equipmentSlot, toolAttributes,
                 destroySpeed, canDestroyAnyBlock,
+                attackDamage, attackSpeed,
                 enchantability, acceptableEnchantments,
                 attributeModifiers,
                 repairItem, recipeRemain,
@@ -358,13 +377,15 @@ public class ItemEditor extends ElementEditor<MEItem> {
         itemGroup.setValue(item.getItemGroup());
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
+        equipmentSlot.setValue(item.getEquipmentSlot());
+        toolAttributes.setValue(item.getToolAttributes());
         destroySpeed.setValue(item.getDestroySpeed());
         canDestroyAnyBlock.setValue(item.isCanDestroyAnyBlock());
-        toolAttributes.setValue(item.getToolAttributes());
+        attackDamage.setValue(item.getAttackDamage());
+        attackSpeed.setValue(item.getAttackSpeed());
         attributeModifiers.setValue(item.getAttributeModifiers());
         enchantability.setValue(item.getEnchantability());
         acceptableEnchantments.setValue(item.getAcceptableEnchantments());
-        equipmentSlot.setValue(item.getEquipmentSlot());
         repairItem.setValue(item.getRepairItem());
         recipeRemain.setValue(item.getRecipeRemain());
         useAnimation.setValue(item.getUseAnimation());
@@ -396,13 +417,15 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setItemGroup(itemGroup.getValue());
         item.setMaxStackSize(maxStackSize.getValue());
         item.setDurability(durability.getValue());
+        item.setEquipmentSlot(equipmentSlot.getValue());
+        item.setToolAttributes(toolAttributes.getValue());
         item.setDestroySpeed(destroySpeed.getValue());
         item.setCanDestroyAnyBlock(canDestroyAnyBlock.getValue());
-        item.setToolAttributes(toolAttributes.getValue());
+        item.setAttackDamage(attackDamage.getValue());
+        item.setAttackSpeed(attackSpeed.getValue());
         item.setAttributeModifiers(attributeModifiers.getValue());
         item.setEnchantability(enchantability.getValue());
         item.setAcceptableEnchantments(acceptableEnchantments.getValue(EnchantmentType[]::new));
-        item.setEquipmentSlot(equipmentSlot.getValue());
         item.setRepairItem(repairItem.getValue());
         item.setRecipeRemain(recipeRemain.getValue());
         item.setUseAnimation(useAnimation.getValue());

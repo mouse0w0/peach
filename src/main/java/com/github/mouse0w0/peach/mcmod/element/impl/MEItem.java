@@ -16,7 +16,7 @@ public class MEItem extends Element implements LocalizableElement {
     private ItemGroup itemGroup;
     private int maxStackSize = 64;
     private int durability;
-    private double destroySpeed = 1;
+    private double destroySpeed = 1D;
     private boolean canDestroyAnyBlock;
     private ToolAttribute[] toolAttributes = ToolAttribute.EMPTY_ARRAY;
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
@@ -27,6 +27,8 @@ public class MEItem extends Element implements LocalizableElement {
     private EquipmentSlot equipmentSlot = EquipmentSlot.NONE;
     private UseAnimation useAnimation = UseAnimation.NONE;
     private int useDuration;
+    private double attackDamage = 1D;
+    private double attackSpeed = 4D;
     private int hitEntityLoss;
     private int destroyBlockLoss;
     private String information;
@@ -40,7 +42,7 @@ public class MEItem extends Element implements LocalizableElement {
     private int fuelBurnTime;
     private SoundEvent equipSound;
     private int hunger;
-    private double saturation = 0.6;
+    private double saturation = 0.6D;
     private boolean isWolfFood;
     private boolean alwaysEdible;
     private ItemRef foodContainer = ItemRef.AIR;
@@ -179,6 +181,22 @@ public class MEItem extends Element implements LocalizableElement {
 
     public void setUseDuration(int useDuration) {
         this.useDuration = useDuration;
+    }
+
+    public double getAttackDamage() {
+        return attackDamage;
+    }
+
+    public void setAttackDamage(double attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public double getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public void setAttackSpeed(double attackSpeed) {
+        this.attackSpeed = attackSpeed;
     }
 
     public int getHitEntityLoss() {

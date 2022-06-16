@@ -52,8 +52,11 @@ public class GenItem implements Task {
             cg.visitItemGroup(groups.getThisName(), itemGroup);
             cg.visitMaxStackSize(item.getMaxStackSize());
             if (item.getDurability() != 0) cg.visitDurability(item.getDurability());
-            if (item.getDestroySpeed() != 1) cg.visitDestroySpeed((float) item.getDestroySpeed());
+            if (item.getDestroySpeed() != 1D) cg.visitDestroySpeed((float) item.getDestroySpeed());
             if (item.isCanDestroyAnyBlock()) cg.visitCanDestroyAnyBlock();
+            if (item.getAttackDamage() != 1D)
+                cg.visitAttackDamage(item.getAttackDamage() - 1D, item.getType() == ItemType.SWORD);
+            if (item.getAttackSpeed() != 4D) cg.visitAttackSpeed(item.getAttackSpeed() - 4D);
             if (item.getEquipmentSlot() != EquipmentSlot.NONE) {
                 cg.visitEquipmentSlot(item.getEquipmentSlot());
                 for (AttributeModifier attributeModifier : item.getAttributeModifiers()) {
@@ -74,7 +77,6 @@ public class GenItem implements Task {
             if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
             if (item.getDestroyBlockLoss() != 0) cg.visitDestroyBlockLoss(item.getDestroyBlockLoss());
             if (StringUtils.notEmpty(item.getInformation())) cg.visitInformation(item.getInformation());
-
             if (type == ItemType.ARMOR && StringUtils.notEmpty(item.getArmorTexture()))
                 cg.visitArmorTexture(item.getArmorTexture());
             if (item.getFuelBurnTime() != 0) cg.visitFuelBurnTime(item.getFuelBurnTime());
