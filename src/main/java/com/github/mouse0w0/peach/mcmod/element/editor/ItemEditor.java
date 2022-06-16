@@ -190,8 +190,10 @@ public class ItemEditor extends ElementEditor<MEItem> {
         attackSpeed.setColSpan(ColSpan.HALF);
         type.valueProperty().addListener(observable -> {
             ItemType type = this.type.getValue();
-            if (type == ItemType.SWORD || type == ItemType.TOOL) {
+            if (type == ItemType.SWORD) {
                 attackSpeed.setValue(1.6D);
+            } else if (type == ItemType.TOOL) {
+                attackSpeed.setValue(1D);
             } else {
                 attackSpeed.setValue(4D);
             }
