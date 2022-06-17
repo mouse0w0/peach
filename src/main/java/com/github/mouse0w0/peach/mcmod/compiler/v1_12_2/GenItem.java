@@ -45,7 +45,7 @@ public class GenItem implements Task {
             else if (type == ItemType.ARMOR)
                 cg.visitArmorItem(namespace + "$" + identifier, item.getEquipSound().getId());
 
-            cg.visitIdentifier(namespace + ":" + identifier);
+            cg.visitIdentifier(identifier);
             cg.visitTranslationKey(namespace + "." + identifier);
             String itemGroup = item.getItemGroup().getId();
             groups.visitItemGroup(itemGroup);
