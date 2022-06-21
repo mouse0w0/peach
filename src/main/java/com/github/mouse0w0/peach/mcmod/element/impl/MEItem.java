@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
-import com.google.common.base.Strings;
+import com.github.mouse0w0.peach.util.StringUtils;
 
 import java.util.Collections;
 import java.util.Map;
@@ -323,7 +323,7 @@ public class MEItem extends Element implements LocalizableElement {
     public void getTranslation(String namespace, Map<String, String> translation) {
         translation.put("item." + namespace + "." + identifier + ".name", displayName);
 
-        if (!Strings.isNullOrEmpty(information)) {
+        if (StringUtils.isNotEmpty(information)) {
             String prefix = "item." + namespace + "." + identifier + ".tooltip.";
             String[] split = information.split("\n");
             for (int i = 0; i < split.length; i++) {

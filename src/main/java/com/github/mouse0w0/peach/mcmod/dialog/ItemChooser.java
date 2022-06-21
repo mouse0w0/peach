@@ -10,8 +10,8 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
-import com.google.common.base.Strings;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -151,7 +151,7 @@ public class ItemChooser {
         }
 
         final String pattern = filter.getText();
-        if (!Strings.isNullOrEmpty(pattern)) {
+        if (StringUtils.isNotEmpty(pattern)) {
             predicate = predicate.and(item -> filterItem(item, pattern));
         }
 

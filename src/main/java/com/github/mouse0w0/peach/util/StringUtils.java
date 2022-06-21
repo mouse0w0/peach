@@ -31,10 +31,6 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return false;
     }
 
-    public static boolean notEmpty(final CharSequence cs) {
-        return cs != null && cs.length() != 0;
-    }
-
     private StringUtils() {
     }
 }

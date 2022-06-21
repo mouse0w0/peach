@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemGroupClassG
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemGroupLoaderClassGenerator;
 import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
-import com.google.common.base.Strings;
+import com.github.mouse0w0.peach.util.StringUtils;
 
 public class GenItemGroup implements Task {
     @Override
@@ -24,7 +24,7 @@ public class GenItemGroup implements Task {
             if (itemGroup.isHasSearchBar()) {
                 cg.visitHasSearchBar();
             }
-            if (!Strings.isNullOrEmpty(itemGroup.getBackground())) {
+            if (StringUtils.isNotEmpty(itemGroup.getBackground())) {
                 cg.visitBackground(context.getResourceKey("textures", itemGroup.getBackground()));
             } else {
                 if (itemGroup.isHasSearchBar()) {
@@ -36,7 +36,7 @@ public class GenItemGroup implements Task {
             loader.visitItemGroup(className);
 
             String background = itemGroup.getBackground();
-            if (!Strings.isNullOrEmpty(background)) {
+            if (StringUtils.isNotEmpty(background)) {
                 context.getAssetsFiler().copy(context.getProjectStructure().getTextures().resolve(background), "textures/" + background);
             }
         }

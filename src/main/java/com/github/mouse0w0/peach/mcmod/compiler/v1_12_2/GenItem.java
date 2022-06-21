@@ -76,10 +76,10 @@ public class GenItem implements Task {
             if (item.getUseDuration() != 0) cg.visitUseDuration(item.getUseDuration());
             if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
             if (item.getDestroyBlockLoss() != 0) cg.visitDestroyBlockLoss(item.getDestroyBlockLoss());
-            if (StringUtils.notEmpty(item.getInformation())) cg.visitInformation(item.getInformation());
+            if (StringUtils.isNotEmpty(item.getInformation())) cg.visitInformation(item.getInformation());
 
             if (item.isHasEffect()) cg.visitHasEffect();
-            if (type == ItemType.ARMOR && StringUtils.notEmpty(item.getArmorTexture()))
+            if (type == ItemType.ARMOR && StringUtils.isNotEmpty(item.getArmorTexture()))
                 cg.visitArmorTexture(item.getArmorTexture());
 
             if (item.getFuelBurnTime() != 0) cg.visitFuelBurnTime(item.getFuelBurnTime());

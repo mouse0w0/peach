@@ -4,7 +4,6 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.util.StringUtils;
-import com.google.common.base.Strings;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import javafx.event.Event;
@@ -120,7 +119,7 @@ public class ActionManager {
         String id = element.attributeValue(ID_ATTR_NAME);
 
         String className = element.attributeValue(CLASS_ATTR_NAME);
-        if (Strings.isNullOrEmpty(className)) {
+        if (StringUtils.isEmpty(className)) {
             LOGGER.error("The \"class\" attribute of action \"{}\" should be specified.", id);
             return;
         }
@@ -151,7 +150,7 @@ public class ActionManager {
 
         ActionGroup action;
         try {
-            Class<?> clazz = Strings.isNullOrEmpty(className) ? ActionGroup.class : Class.forName(className);
+            Class<?> clazz = StringUtils.isEmpty(className) ? ActionGroup.class : Class.forName(className);
             action = (ActionGroup) clazz.newInstance();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Failed to create an action instance of " + className, e);
