@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.javafx.CachedImage;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
@@ -10,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -18,7 +18,7 @@ import javafx.scene.layout.FlowPane;
 import javax.annotation.Nonnull;
 
 public class SmeltingRecipeEditor extends ElementEditor<MESmeltingRecipe> {
-    private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/smelting_recipe.png", 560, 312);
+    private static final Image BACKGROUND = new Image("/image/mcmod/smelting_recipe.png", 560, 312, true, false, true);
 
     @FXML
     private Spinner<Double> xp;
@@ -38,8 +38,7 @@ public class SmeltingRecipeEditor extends ElementEditor<MESmeltingRecipe> {
         xp.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 0.1));
 
         FXUtils.setFixedSize(recipeView, 560, 312);
-        recipeView.setBackground(new Background(
-                new BackgroundImage(BACKGROUND.getImage(), null, null, null, null)));
+        recipeView.setBackground(new Background(new BackgroundImage(BACKGROUND, null, null, null, null)));
 
         input = new ItemPicker(64, 64, true, false);
         input.setPlayAnimation(true);

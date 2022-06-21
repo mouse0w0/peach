@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.peach.javafx.CachedImage;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.Validator;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
@@ -18,13 +17,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 import javax.annotation.Nonnull;
 
 public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
 
-    private static final CachedImage BACKGROUND = new CachedImage("/image/mcmod/crafting_recipe.png", 560, 312);
+    private static final Image BACKGROUND = new Image("/image/mcmod/crafting_recipe.png", 560, 312, true, false, true);
 
     @FXML
     private TextField identifier;
@@ -52,7 +52,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
         group.setEditable(true);
 
         FXUtils.setFixedSize(recipeView, 560, 312);
-        recipeView.setBackground(new Background(new BackgroundImage(BACKGROUND.getImage(), null, null, null, null)));
+        recipeView.setBackground(new Background(new BackgroundImage(BACKGROUND, null, null, null, null)));
 
         GridPane inputGridPane = new GridPane();
         AnchorPane.setTopAnchor(inputGridPane, 52d);

@@ -2,12 +2,13 @@ package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
-import com.github.mouse0w0.peach.javafx.CachedImage;
+import com.github.mouse0w0.peach.javafx.util.ImageUtils;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import javafx.scene.image.Image;
 
 import java.io.Closeable;
 import java.io.FileNotFoundException;
@@ -60,7 +61,7 @@ public class ContentPack implements Closeable {
         load(SoundType.class, "soundType.json");
         load(MapColor.class, "mapColor.json");
         load(SoundEvent.class, "soundEvent.json");
-        getData(Item.class).forEach(item -> item.setDisplayImage(getImage(item)));
+        getData(Item.class).forEach(item -> item.setImage(getImage(item)));
         setLocale(Locale.getDefault());
     }
 
@@ -115,8 +116,8 @@ public class ContentPack implements Closeable {
         return fileSystem.getPath(first, more);
     }
 
-    public CachedImage getImage(Item item) {
-        return new CachedImage(getImageFile(item), 64, 64);
+    public Image getImage(Item item) {
+        return ImageUtils.of(getImageFile(item), 64, 64, true, false);
     }
 
     public Path getImageFile(Item item) {

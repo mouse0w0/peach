@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
-import com.github.mouse0w0.peach.javafx.CachedImage;
+import com.github.mouse0w0.peach.javafx.util.ImageUtils;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
@@ -159,9 +159,7 @@ public final class ElementManager extends IndexProvider {
 
             Path previewFile = previewPath.resolve(element.getFileName() + ".png");
             ElementRegistry.getInstance().getElementType(MEItem.class).generatePreview(project, meItem, previewFile);
-            CachedImage cachedImage = new CachedImage(previewFile, 64, 64);
-            cachedImage.invalidate();
-            item.setDisplayImage(cachedImage);
+            item.setImage(ImageUtils.of(previewFile, 64, 64, true, false));
 
             String namespace = descriptor.getModId();
             ItemRef item1 = ItemRef.createItem(namespace + ":" + item.getId(), item.getMetadata());

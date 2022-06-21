@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.peach.javafx.CachedImage;
+import javafx.scene.image.Image;
 
 public class Item {
 
@@ -10,7 +10,7 @@ public class Item {
     private boolean block;
 
     private transient String localizedText;
-    private transient CachedImage displayImage;
+    private transient Image image;
 
     public Item(String id, int metadata, String translationKey, boolean block) {
         this.id = id;
@@ -51,11 +51,11 @@ public class Item {
         this.localizedText = text;
     }
 
-    public CachedImage getDisplayImage() {
-        return displayImage;
+    public Image getImage() {
+        return image;
     }
 
-    public void setDisplayImage(CachedImage displayImage) {
-        this.displayImage = displayImage;
+    public void setImage(Image image) {
+        this.image = image;
     }
 }
