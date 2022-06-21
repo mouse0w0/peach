@@ -24,6 +24,7 @@ public class SelectedItemProperty<T, SM extends SelectionModel<T>> extends Objec
         this.selectionModel = selectionModel;
         this.selectedItemProperty = selectionModel.selectedItemProperty();
         this.selectedItemListener = new SelectedItemListener(this);
+        this.selectedItemProperty.addListener(this.selectedItemListener);
     }
 
     @Override
