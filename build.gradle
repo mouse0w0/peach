@@ -69,6 +69,7 @@ distributions {
         contents {
             from('content-pack') { into 'content-pack' }
             from('license') { into 'license' }
+            from('executable')
             from('CHANGELOG.md')
         }
     }
