@@ -19,11 +19,11 @@ public final class ExtensionBeanFactory<T> {
     static {
         CONVERTERS = new HashMap<>();
         CONVERTERS.put(String.class, value -> value);
-        CONVERTERS.put(boolean.class, "true"::equals);
-        CONVERTERS.put(int.class, Integer::parseInt);
-        CONVERTERS.put(long.class, Long::parseLong);
-        CONVERTERS.put(float.class, Float::parseFloat);
-        CONVERTERS.put(double.class, Double::parseDouble);
+        CONVERTERS.put(boolean.class, Boolean::valueOf);
+        CONVERTERS.put(int.class, Integer::valueOf);
+        CONVERTERS.put(long.class, Long::valueOf);
+        CONVERTERS.put(float.class, Float::valueOf);
+        CONVERTERS.put(double.class, Double::valueOf);
         CONVERTERS.put(Class.class, value -> {
             try {
                 return Class.forName(value, false, Thread.currentThread().getContextClassLoader());
