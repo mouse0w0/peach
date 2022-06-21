@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.project.service;
 import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonElement;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
@@ -14,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.reflect.TypeUtils;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -104,8 +104,7 @@ public class WindowStateManager implements PersistentStateComponent {
 
     @Override
     public void loadState(JsonElement jsonElement) {
-        beanMap.putAll(JsonUtils.fromJson(jsonElement, new TypeToken<Map<String, WindowStateBean>>() {
-        }));
+        beanMap.putAll(JsonUtils.fromJson(jsonElement, TypeUtils.parameterize(Map.class, String.class, WindowStateBean.class)));
     }
 
     public static class WindowStateBean {

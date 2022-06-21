@@ -5,8 +5,8 @@ import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonElement;
+import org.apache.commons.lang3.reflect.TypeUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -63,7 +63,7 @@ public class RecentProjectsManager implements PersistentStateComponent {
 
     @Override
     public void loadState(JsonElement jsonElement) {
-        JsonUtils.fromJson(jsonElement, new TypeToken<List<RecentProjectInfo>>() {
-        }).forEach(info -> recentProjects.put(info.getPath(), info));
+        JsonUtils.<List<RecentProjectInfo>>fromJson(jsonElement, TypeUtils.parameterize(List.class, RecentProjectInfo.class))
+                .forEach(info -> recentProjects.put(info.getPath(), info));
     }
 }

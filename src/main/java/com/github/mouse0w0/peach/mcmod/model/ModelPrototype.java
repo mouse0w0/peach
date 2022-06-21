@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.model;
 
 import com.github.mouse0w0.peach.mcmod.Identifier;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
 import com.google.gson.annotations.JsonAdapter;
+import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -50,10 +50,8 @@ public class ModelPrototype {
 
     static final class Deserializer implements JsonDeserializer<ModelPrototype> {
 
-        // @formatter:off
-        private static final Type STRING_LIST = new TypeToken<List<String>>(){}.getType();
-        private static final Type STRING_MODEL_ENTRY_MAP = new TypeToken<Map<String, ModelEntry>>(){}.getType();
-        // @formatter:on
+        private static final Type STRING_LIST = TypeUtils.parameterize(List.class, String.class);
+        private static final Type STRING_TO_MODEL_ENTRY_MAP = TypeUtils.parameterize(Map.class, String.class, ModelEntry.class);
 
         @Override
         public ModelPrototype deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -63,7 +61,7 @@ public class ModelPrototype {
                 Identifier item = context.deserialize(jo.get("item"), Identifier.class);
                 List<String> groups = context.deserialize(jo.get("groups"), STRING_LIST);
                 List<String> textures = context.deserialize(jo.get("textures"), STRING_LIST);
-                Map<String, ModelEntry> models = context.deserialize(jo.get("models"), STRING_MODEL_ENTRY_MAP);
+                Map<String, ModelEntry> models = context.deserialize(jo.get("models"), STRING_TO_MODEL_ENTRY_MAP);
                 return new ModelPrototype(id, item, groups, textures, models);
             }
             return null;

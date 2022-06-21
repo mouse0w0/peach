@@ -8,12 +8,12 @@ import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.input.TransferMode;
+import org.apache.commons.lang3.reflect.TypeUtils;
 
 import javax.annotation.Nonnull;
 import java.util.HashSet;
@@ -71,8 +71,7 @@ public class ItemFavoritesView implements PersistentStateComponent {
 
     @Override
     public void loadState(JsonElement jsonElement) {
-        items.addAll(JsonUtils.fromJson(jsonElement, new TypeToken<List<ItemRef>>() {
-        }));
+        items.addAll(JsonUtils.<List<ItemRef>>fromJson(jsonElement, TypeUtils.parameterize(List.class, ItemRef.class)));
         itemSet.addAll(items);
     }
 
