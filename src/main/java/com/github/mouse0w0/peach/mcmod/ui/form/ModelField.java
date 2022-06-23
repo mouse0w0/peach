@@ -123,7 +123,7 @@ public class ModelField extends Element {
     public final Map<String, String> getModels() {
         if (ModelManager.CUSTOM.equals(getModelPrototype())) {
             final Map<String, String> result = new HashMap<>();
-            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels()) {
+            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
                 result.put(modelKey, models.get(modelKey));
             }
             return result;
@@ -228,7 +228,7 @@ public class ModelField extends Element {
         } else if (ModelManager.CUSTOM.equals(modelPrototype)) {
             textures.clear();
             fileToModelKey.clear();
-            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels()) {
+            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
                 fileToModelKey.put(resourceStore.toAbsolutePath(models.get(modelKey)), modelKey);
             }
             loadTexture();
@@ -243,7 +243,7 @@ public class ModelField extends Element {
             children.removeIf(node -> node != label && node != comboBox);
 
             int row = 1;
-            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels()) {
+            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
                 Label label = new Label(modelKey);
                 label.getStyleClass().setAll("label", "form-item-label");
                 label.setWrapText(true);

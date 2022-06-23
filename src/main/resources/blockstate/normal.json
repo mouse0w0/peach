@@ -1,7 +1,7 @@
 {
     "template": "blockstate/normal.json.ftl",
     "item": "minecraft:block_item",
-    "models": [
-        "block"
-    ]
+    "models": {
+        "block": "block/${identifier}"
+    }
 }
