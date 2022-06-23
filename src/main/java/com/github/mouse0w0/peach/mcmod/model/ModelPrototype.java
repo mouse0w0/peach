@@ -17,9 +17,6 @@ public class ModelPrototype {
     private List<String> textures;
     private Map<String, ModelEntry> models;
 
-    public ModelPrototype() {
-    }
-
     public ModelPrototype(Identifier id, Identifier item, List<String> groups, List<String> textures, Map<String, ModelEntry> models) {
         this.id = id;
         this.item = item;
@@ -48,7 +45,7 @@ public class ModelPrototype {
         return models;
     }
 
-    static final class Deserializer implements JsonDeserializer<ModelPrototype> {
+    public static final class Deserializer implements JsonDeserializer<ModelPrototype> {
 
         private static final Type STRING_LIST = TypeUtils.parameterize(List.class, String.class);
         private static final Type STRING_TO_MODEL_ENTRY_MAP = TypeUtils.parameterize(Map.class, String.class, ModelEntry.class);

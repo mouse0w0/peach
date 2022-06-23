@@ -19,12 +19,6 @@
         "slab_double": {
             "name": "block/${identifier}_double",
             "template": "model/cube_bottom_top.json"
-        },
-        "item": {
-            "itemOnly": true,
-            "name": "item/${identifier}",
-            "parent": "slab_bottom",
-            "template": "model/parent.json"
         }
     }
 }
