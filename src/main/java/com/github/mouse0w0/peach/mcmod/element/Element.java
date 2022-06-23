@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
+import com.github.mouse0w0.peach.util.StringUtils;
+
 import javax.annotation.Nonnull;
 import java.nio.file.Path;
 
@@ -24,6 +26,6 @@ public abstract class Element {
 
     @Nonnull
     public String getFileName() {
-        return ElementHelper.getElementFileName(getFile());
+        return StringUtils.substringBefore(file.getFileName().toString(), '.');
     }
 }
