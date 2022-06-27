@@ -5,8 +5,8 @@ import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 
-public class Utils {
-    static void fillMenu(ActionGroup group, ObservableList<MenuItem> items) {
+class Utils {
+    public static void fillMenu(ActionGroup group, ObservableList<MenuItem> items) {
         items.clear();
         for (Action action : group.getChildren()) {
             if (action instanceof ActionGroup) {
@@ -19,14 +19,14 @@ public class Utils {
         }
     }
 
-    static void update(ActionGroup group, Event event) {
+    public static void update(ActionGroup group, Event event) {
         final ActionEvent actionEvent = new ActionEvent(event);
         for (Action child : group.getChildren()) {
             child.update(actionEvent);
         }
     }
 
-    static void updateSeparatorVisibility(ObservableList<MenuItem> items) {
+    public static void updateSeparatorVisibility(ObservableList<MenuItem> items) {
         boolean perv = false;
         MenuItem seperator = null;
         for (MenuItem item : items) {
@@ -48,5 +48,8 @@ public class Utils {
         if (seperator != null) {
             seperator.setVisible(false);
         }
+    }
+
+    private Utils() {
     }
 }
