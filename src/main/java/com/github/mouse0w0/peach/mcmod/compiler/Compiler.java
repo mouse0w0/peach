@@ -65,11 +65,6 @@ public final class Compiler implements Context {
     }
 
     @Override
-    public Path getSourceFolder() {
-        return projectStructure.getRoot();
-    }
-
-    @Override
     public ProjectStructure getProjectStructure() {
         return projectStructure;
     }

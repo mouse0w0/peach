@@ -8,18 +8,14 @@ public final class ProjectStructure {
     private final Path sources;
 
     private final Path resources;
-    private final Path blockStates;
     private final Path lang;
     private final Path models;
     private final Path textures;
 
     public ProjectStructure(Path root) {
         this.root = root;
-
         this.sources = root.resolve("sources");
-
         this.resources = root.resolve("resources");
-        this.blockStates = resources.resolve("blockstates");
         this.lang = resources.resolve("lang");
         this.models = resources.resolve("models");
         this.textures = resources.resolve("textures");
@@ -35,10 +31,6 @@ public final class ProjectStructure {
 
     public Path getResources() {
         return resources;
-    }
-
-    public Path getBlockStates() {
-        return blockStates;
     }
 
     public Path getLang() {

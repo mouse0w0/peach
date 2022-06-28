@@ -15,8 +15,6 @@ public interface Context {
 
     McModMetadata getMetadata();
 
-    Path getSourceFolder();
-
     ProjectStructure getProjectStructure();
 
     Path getOutputFolder();
