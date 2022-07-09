@@ -50,7 +50,7 @@ public class ElementType<T extends Element> {
     public T newInstance(Path file) {
         try {
             T element = type.newInstance();
-            Element.setFile(element, file);
+            element.setFile(file);
             return element;
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException("Cannot create element instance", e);

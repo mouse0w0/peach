@@ -102,7 +102,7 @@ public final class ElementManager extends IndexProvider {
         }
         try {
             Element element = JsonUtils.readJson(gson, file, type.getType());
-            Element.setFile(element, file);
+            element.setFile(file);
             return (T) element;
         } catch (IOException e) {
             LOGGER.error("Failed to load element.", e);

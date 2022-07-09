@@ -9,19 +9,19 @@ public abstract class Element {
 
     private transient Path file;
 
-    public static void setFile(Element element, Path file) {
-        if (element.file != null) {
-            throw new IllegalStateException("The file of element has been initialized");
-        }
-        element.file = file;
-    }
-
     @Nonnull
     public Path getFile() {
         if (file == null) {
-            throw new IllegalStateException("The file of element not initialized");
+            throw new IllegalStateException("File is not set");
         }
         return file;
+    }
+
+    public void setFile(Path file) {
+        if (this.file != null) {
+            throw new IllegalStateException("File cannot be set twice");
+        }
+        this.file = file;
     }
 
     @Nonnull
