@@ -14,13 +14,17 @@ public class ElementType<T extends Element> {
     private final ElementEditorFactory<T> editorFactory;
     private final PreviewGenerator<T> previewGenerator;
 
-    public ElementType(String name, Class<T> type, ElementCreatedHandler<T> createdHandler, ElementEditorFactory<T> editorFactory, PreviewGenerator<T> previewGenerator) {
-        this.name = name;
+    public static <T extends Element> Builder<T> builder(String name, Class<T> type) {
+        return new Builder<>(name, type);
+    }
+
+    private ElementType(Builder<T> builder) {
+        this.name = builder.name;
         this.translationKey = "mod.element." + name;
-        this.type = type;
-        this.createdHandler = createdHandler;
-        this.editorFactory = editorFactory;
-        this.previewGenerator = previewGenerator;
+        this.type = builder.type;
+        this.createdHandler = builder.createdHandler;
+        this.editorFactory = builder.editorFactory;
+        this.previewGenerator = builder.previewGenerator;
     }
 
     public String getName() {
@@ -67,11 +71,6 @@ public class ElementType<T extends Element> {
         previewGenerator.generate(project, element, outputFile);
     }
 
-
-    public static <T extends Element> Builder<T> builder(String name, Class<T> type) {
-        return new Builder<>(name, type);
-    }
-
     public static final class Builder<T extends Element> {
         private final String name;
         private final Class<T> type;
@@ -100,7 +99,7 @@ public class ElementType<T extends Element> {
         }
 
         public ElementType<T> build() {
-            return new ElementType<>(name, type, createdHandler, editorFactory, previewGenerator);
+            return new ElementType<>(this);
         }
     }
 }
