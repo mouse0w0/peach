@@ -10,7 +10,7 @@ public class ElementType<T extends Element> {
     private final String name;
     private final String translationKey;
     private final Class<T> type;
-    private final ElementCreatedHandler<T> createdHandler;
+    private final ElementInitializer<T> initializer;
     private final ElementEditorFactory<T> editorFactory;
     private final PreviewGenerator<T> previewGenerator;
 
@@ -22,7 +22,7 @@ public class ElementType<T extends Element> {
         this.name = builder.name;
         this.translationKey = "mod.element." + name;
         this.type = builder.type;
-        this.createdHandler = builder.createdHandler;
+        this.initializer = builder.initializer;
         this.editorFactory = builder.editorFactory;
         this.previewGenerator = builder.previewGenerator;
     }
@@ -41,8 +41,8 @@ public class ElementType<T extends Element> {
 
     public T create(Project project, Path file, String identifier, String name) {
         T instance = newInstance(file);
-        if (createdHandler != null) {
-            createdHandler.onCreated(project, instance, file, identifier, name);
+        if (initializer != null) {
+            initializer.initialize(project, instance, file, identifier, name);
         }
         return instance;
     }
@@ -74,7 +74,7 @@ public class ElementType<T extends Element> {
     public static final class Builder<T extends Element> {
         private final String name;
         private final Class<T> type;
-        private ElementCreatedHandler<T> createdHandler;
+        private ElementInitializer<T> initializer;
         private ElementEditorFactory<T> editorFactory;
         private PreviewGenerator<T> previewGenerator;
 
@@ -83,8 +83,8 @@ public class ElementType<T extends Element> {
             this.type = Validate.notNull(type);
         }
 
-        public Builder<T> createdHandler(ElementCreatedHandler<T> createdHandler) {
-            this.createdHandler = createdHandler;
+        public Builder<T> createdHandler(ElementInitializer<T> initializer) {
+            this.initializer = initializer;
             return this;
         }
 
