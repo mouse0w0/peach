@@ -6,11 +6,11 @@
     </Properties>
     <Appenders>
         <Console name="Console">
-            <PatternLayout pattern="[%d{HH:mm:ss}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
+            <PatternLayout pattern="[%d{HH:mm:ss.SSS}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
         </Console>
         <RollingRandomAccessFile name="File" fileName="${LOGGING_HOME}/latest.log"
                                  filePattern="log/%d{yyyy_MM_dd}-%i.log.gz">
-            <PatternLayout pattern="[%d{HH:mm:ss}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
+            <PatternLayout pattern="[%d{HH:mm:ss.SSS}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
             </Policies>
