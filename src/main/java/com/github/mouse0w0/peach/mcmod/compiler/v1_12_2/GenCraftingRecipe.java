@@ -18,14 +18,12 @@ public class GenCraftingRecipe implements Task {
     public void run(Context context) throws Exception {
         for (MECraftingRecipe crafting : context.getElements(ElementTypes.CRAFTING_RECIPE)) {
             JsonObject jo = new JsonObject();
-            generateResult(crafting, jo);
-
             if (crafting.isShapeless()) {
                 generateShapeless(crafting, jo);
             } else {
                 generateShaped(crafting, jo);
             }
-
+            generateResult(crafting, jo);
             context.getAssetsFiler().write("recipes/" + crafting.getIdentifier() + ".json", jo.toString());
         }
     }
@@ -34,8 +32,12 @@ public class GenCraftingRecipe implements Task {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
         result.addProperty("item", itemStack.getId());
-        result.addProperty("count", itemStack.getAmount());
-        result.addProperty("data", itemStack.getMetadata());
+        if (itemStack.getAmount() != 1) {
+            result.addProperty("count", itemStack.getAmount());
+        }
+        if (itemStack.getMetadata() != 0) {
+            result.addProperty("data", itemStack.getMetadata());
+        }
 
         jo.add("result", result);
     }
@@ -50,7 +52,7 @@ public class GenCraftingRecipe implements Task {
         jo.add("pattern", pattern);
 
         JsonObject key = new JsonObject();
-        keyMap.forEach((itemToken, c) -> key.add(c.toString(), itemToJson(itemToken)));
+        keyMap.forEach((itemToken, c) -> key.add(c.toString(), itemRefToJson(itemToken)));
         jo.add("key", key);
     }
 
@@ -96,20 +98,22 @@ public class GenCraftingRecipe implements Task {
         JsonArray ingredients = new JsonArray();
         for (ItemRef input : recipe.getInputs()) {
             if (input != null && !input.isAir()) {
-                ingredients.add(itemToJson(input));
+                ingredients.add(itemRefToJson(input));
             }
         }
         jo.add("ingredients", ingredients);
     }
 
-    private JsonObject itemToJson(ItemRef item) {
+    private JsonObject itemRefToJson(ItemRef itemRef) {
         JsonObject result = new JsonObject();
-        if (item.isOreDict()) {
+        if (itemRef.isOreDict()) {
             result.addProperty("type", "forge:ore_dict");
-            result.addProperty("ore", item.getId());
+            result.addProperty("ore", itemRef.getId());
         } else {
-            result.addProperty("item", item.getId());
-            result.addProperty("data", item.getMetadata());
+            result.addProperty("item", itemRef.getId());
+            if (itemRef.getMetadata() != 0) {
+                result.addProperty("data", itemRef.getMetadata());
+            }
         }
         return result;
     }
