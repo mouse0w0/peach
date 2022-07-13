@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 
 import java.util.Collections;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class MEBlock extends Element implements LocalizableElement {
     //    private boolean gravity; // as block type?
     private String harvestTool = ToolType.NONE;
     private int harvestLevel;
-    private String information;
+    private String[] information = ArrayUtils.EMPTY_STRING_ARRAY;
 
     private Identifier modelPrototype;
     private Map<String, String> models = Collections.emptyMap();
@@ -172,11 +173,11 @@ public class MEBlock extends Element implements LocalizableElement {
         this.harvestLevel = harvestLevel;
     }
 
-    public String getInformation() {
+    public String[] getInformation() {
         return information;
     }
 
-    public void setInformation(String information) {
+    public void setInformation(String[] information) {
         this.information = information;
     }
 
@@ -406,6 +407,11 @@ public class MEBlock extends Element implements LocalizableElement {
 
     @Override
     public void getTranslation(String namespace, Map<String, String> translation) {
+        translation.put("tile." + namespace + "." + identifier + ".name", displayName);
 
+        final String prefix = "tile." + namespace + "." + identifier + ".tooltip.";
+        for (int i = 0; i < information.length; i++) {
+            translation.put(prefix + i, information[i]);
+        }
     }
 }

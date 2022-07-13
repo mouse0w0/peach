@@ -449,7 +449,8 @@ public class ItemClassGenerator extends ClassGenerator {
         canApplyAtEnchantingTableMethod.visitLabel(label0);
     }
 
-    public void visitInformation(String information) {
+    public void visitInformation(String namespace, String identifier, int count) {
+        String prefix = "item." + namespace + "." + identifier + ".";
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_77624_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/util/ITooltipFlag;)V", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List<Ljava/lang/String;>;Lnet/minecraft/client/util/ITooltipFlag;)V", null);
         {
             AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
@@ -457,9 +458,9 @@ public class ItemClassGenerator extends ClassGenerator {
             av.visitEnd();
         }
         mv.visitCode();
-        for (String line : information.split("[\n\r]\n?")) {
+        for (int i = 0; i < count; i++) {
             mv.visitVarInsn(ALOAD, 3);
-            ASMUtils.push(mv, line);
+            mv.visitLdcInsn(prefix + i);
             mv.visitInsn(ICONST_0);
             mv.visitTypeInsn(ANEWARRAY, "java/lang/Object");
             mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/client/resources/I18n", "func_135052_a", "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;", false);

@@ -17,6 +17,7 @@ import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
+import com.github.mouse0w0.peach.mcmod.util.InformationUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -387,7 +388,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         replaceable.setValue(element.isReplaceable());
         harvestTool.setValue(element.getHarvestTool());
         harvestLevel.setValue(element.getHarvestLevel());
-        information.setValue(element.getInformation());
+        information.setValue(InformationUtils.join(element.getInformation()));
 
         model.setModelPrototype(element.getModelPrototype());
         model.setModels(element.getModels());
@@ -441,7 +442,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setReplaceable(replaceable.getValue());
         element.setHarvestTool(harvestTool.getValue());
         element.setHarvestLevel(harvestLevel.getValue());
-        element.setInformation(information.getValue());
+        element.setInformation(InformationUtils.spilt(information.getValue()));
 
         element.setModelPrototype(model.getModelPrototype());
         element.setModels(model.getModels());

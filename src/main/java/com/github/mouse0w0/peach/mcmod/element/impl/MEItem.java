@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.impl;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
-import com.github.mouse0w0.peach.util.StringUtils;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 
 import java.util.Collections;
 import java.util.Map;
@@ -31,7 +31,7 @@ public class MEItem extends Element implements LocalizableElement {
     private double attackSpeed = 4D;
     private int hitEntityLoss;
     private int destroyBlockLoss;
-    private String information;
+    private String[] information = ArrayUtils.EMPTY_STRING_ARRAY;
 
     private Identifier modelPrototype;
     private Map<String, String> models = Collections.emptyMap();
@@ -231,11 +231,11 @@ public class MEItem extends Element implements LocalizableElement {
         this.hasEffect = hasEffect;
     }
 
-    public String getInformation() {
+    public String[] getInformation() {
         return information;
     }
 
-    public void setInformation(String information) {
+    public void setInformation(String[] information) {
         this.information = information;
     }
 
@@ -323,12 +323,9 @@ public class MEItem extends Element implements LocalizableElement {
     public void getTranslation(String namespace, Map<String, String> translation) {
         translation.put("item." + namespace + "." + identifier + ".name", displayName);
 
-        if (StringUtils.isNotEmpty(information)) {
-            String prefix = "item." + namespace + "." + identifier + ".tooltip.";
-            String[] split = information.split("\n");
-            for (int i = 0; i < split.length; i++) {
-                translation.put(prefix + i, split[i]);
-            }
+        final String prefix = "item." + namespace + "." + identifier + ".tooltip.";
+        for (int i = 0; i < information.length; i++) {
+            translation.put(prefix + i, information[i]);
         }
     }
 }

@@ -16,6 +16,7 @@ import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.*;
+import com.github.mouse0w0.peach.mcmod.util.InformationUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -394,7 +395,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         useDuration.setValue(item.getUseDuration());
         hitEntityLoss.setValue(item.getHitEntityLoss());
         destroyBlockLoss.setValue(item.getDestroyBlockLoss());
-        information.setValue(item.getInformation());
+        information.setValue(InformationUtils.join(item.getInformation()));
 
         model.setModelPrototype(item.getModelPrototype());
         model.setModels(item.getModels());
@@ -434,7 +435,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setUseDuration(useDuration.getValue());
         item.setHitEntityLoss(hitEntityLoss.getValue());
         item.setDestroyBlockLoss(destroyBlockLoss.getValue());
-        item.setInformation(information.getValue());
+        item.setInformation(InformationUtils.spilt(information.getValue()));
 
         item.setModelPrototype(model.getModelPrototype());
         item.setModels(model.getModels());

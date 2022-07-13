@@ -13,8 +13,7 @@ import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.model.ModelEntry;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.model.ModelPrototype;
-import com.github.mouse0w0.peach.util.ClassPathUtils;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
 import java.nio.file.Path;
@@ -76,7 +75,8 @@ public class GenItem implements Task {
             if (item.getUseDuration() != 0) cg.visitUseDuration(item.getUseDuration());
             if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
             if (item.getDestroyBlockLoss() != 0) cg.visitDestroyBlockLoss(item.getDestroyBlockLoss());
-            if (StringUtils.isNotEmpty(item.getInformation())) cg.visitInformation(item.getInformation());
+            if (ArrayUtils.isNotEmpty(item.getInformation()))
+                cg.visitInformation(namespace, identifier, item.getInformation().length);
 
             if (item.isHasEffect()) cg.visitHasEffect();
             if (type == ItemType.ARMOR && StringUtils.isNotEmpty(item.getArmorTexture()))
