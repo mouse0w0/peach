@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.SilentFileUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
@@ -46,7 +47,7 @@ public class NewProjectUI extends BorderPane {
     private void doCreateProject() {
         final Path path = this.path.getPath();
         if (path == null) return; // TODO: show alert
-        if (FileUtils.isNotEmpty(path)) {
+        if (SilentFileUtils.notEmpty(path)) {
             // FIXME: fix the content cannot be display until resize the window.
             if (!Alert.confirm(I18n.format("dialog.newProject.notEmpty", FileUtils.getFileName(path)))) return;
         }

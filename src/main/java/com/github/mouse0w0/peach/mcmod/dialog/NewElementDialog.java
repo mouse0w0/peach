@@ -51,7 +51,7 @@ public class NewElementDialog extends BorderPane {
         getStylesheets().add("/style/style.css");
 
         Validator.error(name,
-                FileUtils::isValidFileNameWithoutExtension,
+                FileUtils::validateFileNameWithoutExtension,
                 I18n.translate("validate.illegalFileName"));
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {

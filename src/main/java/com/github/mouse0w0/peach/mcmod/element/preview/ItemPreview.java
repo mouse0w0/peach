@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.element.PreviewGenerator;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.SilentFileUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,9 +20,9 @@ public class ItemPreview implements PreviewGenerator<MEItem> {
                 String layer0 = element.getTextures().get("layer0");
                 Path source = ResourceUtils.getTextureFile(project, layer0);
                 if (Files.notExists(source)) {
-                    FileUtils.forceCopySilently(ResourceUtils.getMissingTexture(), outputFile);
+                    SilentFileUtils.forceCopy(ResourceUtils.getMissingTexture(), outputFile);
                 } else {
-                    FileUtils.forceCopySilently(source, outputFile);
+                    SilentFileUtils.forceCopy(source, outputFile);
                 }
                 break;
             default:
