@@ -202,7 +202,7 @@ public class ModelField extends Element {
 
     private void updateBlockstate() {
         final String blockstate = getBlockstate();
-        final Identifier modelPrototype = getModel();
+        final Identifier model = getModel();
         final List<Identifier> modelList = new ArrayList<>();
         if (blockstate != null) {
             if (isInherit()) {
@@ -212,8 +212,8 @@ public class ModelField extends Element {
             modelList.add(ModelManager.CUSTOM);
         }
         comboBox.getItems().setAll(modelList);
-        if (modelList.contains(modelPrototype)) {
-            comboBox.getSelectionModel().select(modelPrototype);
+        if (modelList.contains(model)) {
+            comboBox.getSelectionModel().select(model);
         } else {
             comboBox.getSelectionModel().selectFirst();
         }
@@ -222,10 +222,10 @@ public class ModelField extends Element {
 
     private void updateTexture() {
         if (updating) return;
-        final Identifier modelPrototype = getModel();
-        if (ModelManager.INHERIT.equals(modelPrototype)) {
+        final Identifier model = getModel();
+        if (ModelManager.INHERIT.equals(model)) {
             textures.clear();
-        } else if (ModelManager.CUSTOM.equals(modelPrototype)) {
+        } else if (ModelManager.CUSTOM.equals(model)) {
             textures.clear();
             fileToModelKey.clear();
             for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
@@ -233,7 +233,7 @@ public class ModelField extends Element {
             }
             loadTexture();
         } else {
-            textures.setAll(modelManager.getModelPrototype(modelPrototype).getTextures());
+            textures.setAll(modelManager.getModelPrototype(model).getTextures());
         }
     }
 
