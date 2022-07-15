@@ -34,7 +34,7 @@ public interface Context {
 
     Filer getAssetsFiler();
 
-    String getRootPackageName();
+    String getRootPackage();
 
     String getNamespace();
 

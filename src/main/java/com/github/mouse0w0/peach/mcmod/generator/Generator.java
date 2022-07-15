@@ -41,7 +41,7 @@ public final class Generator implements Context {
     private Configuration templateManager;
     private Messager messager;
 
-    private String rootPackageName;
+    private String rootPackage;
 
     private Multimap<ElementType<?>, Element> elements;
 
@@ -111,8 +111,8 @@ public final class Generator implements Context {
     }
 
     @Override
-    public String getRootPackageName() {
-        return rootPackageName;
+    public String getRootPackage() {
+        return rootPackage;
     }
 
     @Override
@@ -122,7 +122,7 @@ public final class Generator implements Context {
 
     @Override
     public String getInternalName(String className) {
-        return ASMUtils.getInternalName(rootPackageName, className);
+        return ASMUtils.getInternalName(rootPackage, className);
     }
 
     @Override
@@ -163,7 +163,7 @@ public final class Generator implements Context {
 
             FileUtils.createDirectoriesIfNotExists(getOutputFolder());
 
-            rootPackageName = "peach.generated." + getMetadata().getId();
+            rootPackage = "peach.generated." + getMetadata().getId();
 
             elements = loadElements();
 
