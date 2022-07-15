@@ -141,6 +141,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         unbreakable = new RadioButtonField();
         unbreakable.setText(I18n.translate("block.properties.unbreakable"));
         unbreakable.setColSpan(ColSpan.HALF);
+        hardness.disableProperty().bind(unbreakable.valueProperty());
 
         resistance = new SpinnerField<>(0D, Double.MAX_VALUE, 0D);
         resistance.setText(I18n.translate("block.properties.resistance"));
@@ -232,9 +233,15 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         itemModel = new ModelField(getProject(), new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"), true);
+                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
         itemModel.setText(I18n.translate("block.appearance.itemModel"));
         itemModel.setBlockstate("item");
+        itemModel.inheritProperty().bind(Bindings.createBooleanBinding(() -> {
+            ModelManager modelManager = ModelManager.getInstance();
+            Blockstate blockstate = modelManager.getBlockstate(type.getValue().getBlockstate());
+            if (blockstate.getItem() == null) return false;
+            return modelManager.hasModelProperty(blockstate.getItem());
+        }, type.valueProperty()));
 
         itemTextures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
