@@ -2,7 +2,7 @@
     "id": "minecraft:stairs_item",
     "models": {
         "item": {
-            "name": "item/${identifier}",
+            "name": "item/${id}",
             "parent": "stairs",
             "template": "model/parent.json"
         }

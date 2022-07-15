@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.google.common.collect.Multimap;
+import freemarker.template.Configuration;
 
 import java.nio.file.Path;
 import java.util.Collection;
@@ -24,6 +25,8 @@ public interface Context {
     <T extends Element> Collection<T> getElements(ElementType<T> type);
 
     ModelManager getModelManager();
+
+    Configuration getTemplateManager();
 
     Filer getClassesFiler();
 

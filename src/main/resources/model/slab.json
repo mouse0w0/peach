@@ -9,15 +9,15 @@
     ],
     "models": {
         "slab_bottom": {
-            "name": "block/${identifier}_bottom",
+            "name": "block/${id}_bottom",
             "template": "model/slab_bottom.json"
         },
         "slab_top": {
-            "name": "block/${identifier}_top",
+            "name": "block/${id}_top",
             "template": "model/slab_top.json"
         },
         "slab_double": {
-            "name": "block/${identifier}_double",
+            "name": "block/${id}_double",
             "template": "model/cube_bottom_top.json"
         }
     }

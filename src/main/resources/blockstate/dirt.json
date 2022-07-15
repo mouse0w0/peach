@@ -2,6 +2,6 @@
     "template": "blockstate/dirt.json.ftl",
     "item": "minecraft:block_item",
     "models": {
-        "block": "block/${identifier}"
+        "block": "block/${id}"
     }
 }

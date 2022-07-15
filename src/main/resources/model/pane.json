@@ -9,23 +9,23 @@
     ],
     "models": {
         "pane_post": {
-            "name": "block/${identifier}_post",
+            "name": "block/${id}_post",
             "template": "model/pane_post.json"
         },
         "pane_side": {
-            "name": "block/${identifier}_side",
+            "name": "block/${id}_side",
             "template": "model/pane_side.json"
         },
         "pane_side_alt": {
-            "name": "block/${identifier}_side_alt",
+            "name": "block/${id}_side_alt",
             "template": "model/pane_side_alt.json"
         },
         "pane_noside": {
-            "name": "block/${identifier}_noside",
+            "name": "block/${id}_noside",
             "template": "model/pane_noside.json"
         },
         "pane_noside_alt": {
-            "name": "block/${identifier}_noside_alt",
+            "name": "block/${id}_noside_alt",
             "template": "model/pane_noside_alt.json"
         }
     }

@@ -1,8 +1,8 @@
 {
     "variants": {
-        "facing=north": { "model": "${models.block}" },
-        "facing=south": { "model": "${models.block}", "y": 180 },
-        "facing=west":  { "model": "${models.block}", "y": 270 },
-        "facing=east":  { "model": "${models.block}", "y": 90 }
+        "facing=north": { "model": "${block}" },
+        "facing=south": { "model": "${block}", "y": 180 },
+        "facing=west":  { "model": "${block}", "y": 270 },
+        "facing=east":  { "model": "${block}", "y": 90 }
     }
 }

@@ -2,7 +2,7 @@
     "id": "minecraft:block_item",
     "models": {
         "item": {
-            "name": "item/${identifier}",
+            "name": "item/${id}",
             "parent": "block",
             "template": "model/parent.json"
         }

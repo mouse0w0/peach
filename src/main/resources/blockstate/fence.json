@@ -2,7 +2,7 @@
     "template": "blockstate/fence.json.ftl",
     "item": "minecraft:fence_item",
     "models": {
-        "fence_post": "block/${identifier}_post",
-        "fence_side": "block/${identifier}_side"
+        "fence_post": "block/${id}_post",
+        "fence_side": "block/${id}_side"
     }
 }

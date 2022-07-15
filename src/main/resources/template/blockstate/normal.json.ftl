@@ -1,5 +1,5 @@
 {
     "variants": {
-        "normal": { "model": "${models.block}" }
+        "normal": { "model": "${block}" }
     }
 }

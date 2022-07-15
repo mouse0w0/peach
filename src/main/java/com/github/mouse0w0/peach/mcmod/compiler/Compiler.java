@@ -38,6 +38,7 @@ public final class Compiler implements Context {
     private ModelManager modelManager;
     private ElementRegistry elementRegistry;
     private ElementManager elementManager;
+    private Configuration templateManager;
     private Messager messager;
 
     private String rootPackageName;
@@ -87,6 +88,11 @@ public final class Compiler implements Context {
     @Override
     public ModelManager getModelManager() {
         return modelManager;
+    }
+
+    @Override
+    public Configuration getTemplateManager() {
+        return templateManager;
     }
 
     @Override
@@ -148,6 +154,11 @@ public final class Compiler implements Context {
             this.modelManager = ModelManager.getInstance();
             this.elementRegistry = ElementRegistry.getInstance();
             this.elementManager = ElementManager.getInstance(project);
+            this.templateManager = new Configuration(Configuration.VERSION_2_3_31);
+            this.templateManager.setDefaultEncoding("UTF-8");
+            this.templateManager.setLocale(Locale.US);
+            this.templateManager.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+            this.templateManager.setClassLoaderForTemplateLoading(ClassLoader.getSystemClassLoader(), "template");
             this.messager = new MessagerImpl();
 
             FileUtils.createDirectoriesIfNotExists(getOutputFolder());
@@ -161,8 +172,10 @@ public final class Compiler implements Context {
             assetsFiler = new Filer(getResourcesFiler().getRoot().resolve("assets/" + getMetadata().getId()));
 
             tasks.add(new Delete(getOutputFolder()));
-            tasks.add(new GenItem());
             tasks.add(new GenItemGroup());
+            tasks.add(new GenItemGroupConstants());
+            tasks.add(new GenBlock());
+            tasks.add(new GenItem());
             tasks.add(new GenCraftingRecipe());
             tasks.add(new GenSmeltingRecipe());
             tasks.add(new GenLanguage());

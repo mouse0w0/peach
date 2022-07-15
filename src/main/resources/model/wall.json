@@ -9,11 +9,11 @@
     ],
     "models": {
         "wall_post": {
-            "name": "block/${identifier}_post",
+            "name": "block/${id}_post",
             "template": "model/wall_post.json"
         },
         "wall_side": {
-            "name": "block/${identifier}_side",
+            "name": "block/${id}_side",
             "template": "model/wall_side.json"
         }
     }

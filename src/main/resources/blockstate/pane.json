@@ -1,10 +1,10 @@
 {
     "template": "blockstate/pane.json.ftl",
     "models": {
-        "pane_post": "block/${identifier}_post",
-        "pane_side": "block/${identifier}_side",
-        "pane_side_alt": "block/${identifier}_side_alt",
-        "pane_noside": "block/${identifier}_noside",
-        "pane_noside_alt": "block/${identifier}_noside_alt"
+        "pane_post": "block/${id}_post",
+        "pane_side": "block/${id}_side",
+        "pane_side_alt": "block/${id}_side_alt",
+        "pane_noside": "block/${id}_noside",
+        "pane_noside_alt": "block/${id}_noside_alt"
     }
 }

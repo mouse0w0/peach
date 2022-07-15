@@ -9,15 +9,15 @@
     ],
     "models": {
         "trapdoor_bottom": {
-            "name": "block/${identifier}_bottom",
+            "name": "block/${id}_bottom",
             "template": "model/trapdoor_bottom.json"
         },
         "trapdoor_top": {
-            "name": "block/${identifier}_top",
+            "name": "block/${id}_top",
             "template": "model/trapdoor_top.json"
         },
         "trapdoor_open": {
-            "name": "block/${identifier}_open",
+            "name": "block/${id}_open",
             "template": "model/trapdoor_open.json"
         }
     }

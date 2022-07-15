@@ -7,16 +7,18 @@ import com.github.mouse0w0.peach.mcmod.compiler.task.Task;
 import com.github.mouse0w0.peach.mcmod.compiler.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.util.ModelUtils;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemClassGenerator;
-import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemGroupsClassGenerator;
 import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.ItemLoaderClassGenerator;
+import com.github.mouse0w0.peach.mcmod.compiler.v1_12_2.bytecode.item.ItemBlockBaseGenerator;
 import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
+import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
-import com.github.mouse0w0.peach.mcmod.model.ModelEntry;
+import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GenItem implements Task {
@@ -24,8 +26,25 @@ public class GenItem implements Task {
     @Override
     public void run(Context context) throws Exception {
         ItemLoaderClassGenerator loader = new ItemLoaderClassGenerator(context.getInternalName("item/ItemLoader"), context.getNamespace());
-        ItemGroupsClassGenerator groups = new ItemGroupsClassGenerator(context.getInternalName("item/ItemGroups"));
 
+        String blockLoaderClass = context.getInternalName("block/BlockLoader");
+        String blockItemClass = null;
+        String slabItemClass = null;
+        for (MEBlock block : context.getElements(ElementTypes.BLOCK)) {
+            switch (block.getType()) {
+                default:
+                    if (blockItemClass == null) {
+                        blockItemClass = context.getInternalName("item/base/ItemBlockBase");
+                        context.getClassesFiler().write(blockItemClass + ".class", new ItemBlockBaseGenerator(blockItemClass).toByteArray());
+                    }
+                    loader.visitBlockItem(block.getIdentifier(), blockItemClass, blockLoaderClass);
+                    break;
+                case SLAB:
+                    break;
+            }
+        }
+
+        String classItemGroups = context.getInternalName("init/ItemGroups");
         for (MEItem item : context.getElements(ElementTypes.ITEM)) {
             String namespace = context.getNamespace();
             String identifier = item.getIdentifier();
@@ -46,9 +65,7 @@ public class GenItem implements Task {
 
             cg.visitIdentifier(identifier);
             cg.visitTranslationKey(namespace + "." + identifier);
-            String itemGroup = item.getItemGroup().getId();
-            groups.visitItemGroup(itemGroup);
-            cg.visitItemGroup(groups.getThisName(), itemGroup);
+            cg.visitItemGroup(classItemGroups, item.getItemGroup().getId());
             cg.visitMaxStackSize(item.getMaxStackSize());
             if (item.getDurability() != 0) cg.visitDurability(item.getDurability());
             if (item.getDestroySpeed() != 1D) cg.visitDestroySpeed((float) item.getDestroySpeed());
@@ -105,31 +122,19 @@ public class GenItem implements Task {
             }
 
             // Generate models
-            Map<String, String> textures = ModelUtils.preprocessTextures(namespace, item.getTextures(), null);
-
+            ModelManager modelManager = context.getModelManager();
+            Blockstate blockstate = modelManager.getBlockstate("item");
             Identifier model = item.getModelPrototype();
+            Map<String, String> textures = ModelUtils.processTextures(namespace, item.getTextures());
             if (ModelManager.CUSTOM.equals(model)) {
-                Path projectModelsPath = context.getProjectStructure().getModels();
-                String itemModel = item.getModels().get("item");
-                if (StringUtils.isNotEmpty(itemModel)) {
-                    Path source = projectModelsPath.resolve(itemModel);
-                    Path target = assetsFiler.resolve("models/item/" + identifier + ".json");
-                    ModelUtils.applyModel(source, target, textures, false);
-                }
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, item.getModels(), context.getProjectStructure().getModels(),
+                        textures, null, assetsFiler.getRoot(), new HashMap<>());
             } else {
-                ModelManager manager = ModelManager.getInstance();
-                ModelPrototype prototype = manager.getModelPrototype(model);
-                for (Map.Entry<String, ModelEntry> entry : prototype.getModels().entrySet()) {
-                    ModelEntry modelEntry = entry.getValue();
-                    String modelName = modelEntry.getName().replace("${identifier}", identifier);
-                    Path source = ClassPathUtils.getPath("template/" + modelEntry.getTemplate());
-                    Path target = assetsFiler.resolve("models/" + modelName + ".json");
-                    ModelUtils.applyModel(source, target, textures, false);
-                }
+                ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),
+                        textures, null, assetsFiler.getRoot(), new HashMap<>());
             }
         }
 
         context.getClassesFiler().write(loader.getThisName() + ".class", loader.toByteArray());
-        context.getClassesFiler().write(groups.getThisName() + ".class", groups.toByteArray());
     }
 }

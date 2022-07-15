@@ -9,15 +9,15 @@
     ],
     "models": {
         "stairs": {
-            "name": "block/${identifier}",
+            "name": "block/${id}",
             "template": "model/stairs.json"
         },
         "outer_stairs": {
-            "name": "block/${identifier}_outer",
+            "name": "block/${id}_outer",
             "template": "model/outer_stairs.json"
         },
         "inner_stairs": {
-            "name": "block/${identifier}_inner",
+            "name": "block/${id}_inner",
             "template": "model/inner_stairs.json"
         }
     }

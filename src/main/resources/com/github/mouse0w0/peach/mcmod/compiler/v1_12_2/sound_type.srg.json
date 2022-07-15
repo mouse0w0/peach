@@ -1,0 +1,14 @@
+{
+    "minecraft:wood": "field_185848_a",
+    "minecraft:ground": "field_185849_b",
+    "minecraft:plant": "field_185850_c",
+    "minecraft:stone": "field_185851_d",
+    "minecraft:metal": "field_185852_e",
+    "minecraft:glass": "field_185853_f",
+    "minecraft:cloth": "field_185854_g",
+    "minecraft:sand": "field_185855_h",
+    "minecraft:snow": "field_185856_i",
+    "minecraft:ladder": "field_185857_j",
+    "minecraft:anvil": "field_185858_k",
+    "minecraft:slime": "field_185859_l"
+}

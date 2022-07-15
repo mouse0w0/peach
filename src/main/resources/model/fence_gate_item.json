@@ -2,7 +2,7 @@
     "id": "minecraft:fence_gate_item",
     "models": {
         "item": {
-            "name": "item/${identifier}",
+            "name": "item/${id}",
             "parent": "fence_gate_closed",
             "template": "model/parent.json"
         }

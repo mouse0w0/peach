@@ -9,11 +9,11 @@
     ],
     "models": {
         "fence_post": {
-            "name": "block/${identifier}_post",
+            "name": "block/${id}_post",
             "template": "model/fence_post.json"
         },
         "fence_side": {
-            "name": "block/${identifier}_side",
+            "name": "block/${id}_side",
             "template": "model/fence_side.json"
         }
     }

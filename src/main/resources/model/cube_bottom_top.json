@@ -9,7 +9,7 @@
     ],
     "models": {
         "block": {
-            "name": "block/${identifier}",
+            "name": "block/${id}",
             "template": "model/cube_bottom_top.json"
         }
     }

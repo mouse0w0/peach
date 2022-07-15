@@ -2,8 +2,8 @@
     "template": "blockstate/slab.json.ftl",
     "item": "minecraft:slab_item",
     "models": {
-        "slab_bottom": "block/${identifier}_bottom",
-        "slab_top": "block/${identifier}_top",
-        "slab_double": "block/${identifier}_double"
+        "slab_bottom": "block/${id}_bottom",
+        "slab_top": "block/${id}_top",
+        "slab_double": "block/${id}_double"
     }
 }

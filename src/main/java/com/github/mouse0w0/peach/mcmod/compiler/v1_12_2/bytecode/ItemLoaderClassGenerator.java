@@ -103,15 +103,15 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
         registerItemModelMethod.visitMethodInsn(INVOKESTATIC, thisName, "registerItemModel", "(Lnet/minecraft/item/Item;)V", false);
     }
 
-    public void visitBlockItem(String identifier, String className, String blockLoaderClassName) {
+    public void visitBlockItem(String identifier, String itemClassName, String blockLoaderClassName) {
         String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
         FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
         fv.visitEnd();
 
-        clinitMethod.visitTypeInsn(NEW, className);
+        clinitMethod.visitTypeInsn(NEW, itemClassName);
         clinitMethod.visitInsn(DUP);
         clinitMethod.visitFieldInsn(GETSTATIC, blockLoaderClassName, _IDENTIFIER, "Lnet/minecraft/block/Block;");
-        clinitMethod.visitMethodInsn(INVOKESPECIAL, className, "<init>", "(Lnet/minecraft/block/Block;)V", false);
+        clinitMethod.visitMethodInsn(INVOKESPECIAL, itemClassName, "<init>", "(Lnet/minecraft/block/Block;)V", false);
         clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
 
         registerItemMethod.visitVarInsn(ALOAD, 1);

@@ -2,11 +2,11 @@
     "id": "minecraft:fence_item",
     "models": {
         "fence_inventory": {
-            "name": "block/${identifier}_inventory",
+            "name": "block/${id}_inventory",
             "template": "model/fence_inventory.json"
         },
         "item": {
-            "name": "item/${identifier}",
+            "name": "item/${id}",
             "parent": "fence_inventory",
             "template": "model/parent.json"
         }

@@ -2,8 +2,8 @@
     "template": "blockstate/stairs.json.ftl",
     "item": "minecraft:stairs_item",
     "models": {
-        "stairs": "block/${identifier}",
-        "outer_stairs": "block/${identifier}_outer",
-        "inner_stairs": "block/${identifier}_inner"
+        "stairs": "block/${id}",
+        "outer_stairs": "block/${id}_outer",
+        "inner_stairs": "block/${id}_inner"
     }
 }

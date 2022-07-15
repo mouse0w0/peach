@@ -2,7 +2,7 @@
     "template": "blockstate/stone.json.ftl",
     "item": "minecraft:block_item",
     "models": {
-        "block": "block/${identifier}",
-        "block_mirrored": "block/${identifier}_mirrored"
+        "block": "block/${id}",
+        "block_mirrored": "block/${id}_mirrored"
     }
 }

@@ -8,7 +8,7 @@
     ],
     "models": {
         "item": {
-            "name": "item/${identifier}",
+            "name": "item/${id}",
             "template": "model/generated.json"
         }
     }
