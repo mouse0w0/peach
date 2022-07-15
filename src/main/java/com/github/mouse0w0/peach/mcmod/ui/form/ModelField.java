@@ -50,8 +50,8 @@ public class ModelField extends Element {
         this.modelManager = ModelManager.getInstance();
         this.resourceStore = resourceStore;
 
-        modelPrototypeProperty().addListener(observable -> updateTexture());
-        models.addListener((InvalidationListener) observable -> updateTexture());
+        modelProperty().addListener(observable -> updateTexture());
+        customModels.addListener((InvalidationListener) observable -> updateTexture());
 
         ProjectFileWatcher.getInstance(project).addListener(new WeakFileChangeListener(fileChangeListener));
     }
@@ -104,27 +104,27 @@ public class ModelField extends Element {
         inheritProperty().set(inherit);
     }
 
-    private final ObjectProperty<Identifier> modelPrototype = new SimpleObjectProperty<>(this, "model");
+    private final ObjectProperty<Identifier> model = new SimpleObjectProperty<>(this, "model");
 
-    public final ObjectProperty<Identifier> modelPrototypeProperty() {
-        return modelPrototype;
+    public final ObjectProperty<Identifier> modelProperty() {
+        return model;
     }
 
-    public final Identifier getModelPrototype() {
-        return modelPrototype.get();
+    public final Identifier getModel() {
+        return model.get();
     }
 
-    public final void setModelPrototype(Identifier modelPrototype) {
-        modelPrototypeProperty().set(modelPrototype);
+    public final void setModel(Identifier model) {
+        modelProperty().set(model);
     }
 
-    private final ObservableMap<String, String> models = FXCollections.observableHashMap();
+    private final ObservableMap<String, String> customModels = FXCollections.observableHashMap();
 
-    public final Map<String, String> getModels() {
-        if (ModelManager.CUSTOM.equals(getModelPrototype())) {
+    public final Map<String, String> getCustomModels() {
+        if (ModelManager.CUSTOM.equals(getModel())) {
             final Map<String, String> result = new HashMap<>();
             for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
-                result.put(modelKey, models.get(modelKey));
+                result.put(modelKey, customModels.get(modelKey));
             }
             return result;
         } else {
@@ -132,10 +132,10 @@ public class ModelField extends Element {
         }
     }
 
-    public final void setModels(Map<String, String> map) {
+    public final void setCustomModels(Map<String, String> map) {
         try {
             updating = true;
-            models.putAll(map);
+            customModels.putAll(map);
         } finally {
             updating = false;
         }
@@ -177,7 +177,7 @@ public class ModelField extends Element {
 
         comboBox = new ComboBox<>();
         comboBox.setPrefWidth(10000);
-        comboBox.valueProperty().bindBidirectional(modelPrototypeProperty());
+        comboBox.valueProperty().bindBidirectional(modelProperty());
         comboBox.disableProperty().bind(disableProperty());
         comboBox.setConverter(new StringConverter<Identifier>() {
             @Override
@@ -192,7 +192,7 @@ public class ModelField extends Element {
         });
         pane.add(comboBox, 1, 0);
 
-        modelPrototypeProperty().addListener(observable -> updateModelPrototype());
+        modelProperty().addListener(observable -> updateModelPrototype());
         blockstateProperty().addListener(observable -> updateBlockstate());
         inheritProperty().addListener(observable -> updateBlockstate());
         updateBlockstate();
@@ -202,7 +202,7 @@ public class ModelField extends Element {
 
     private void updateBlockstate() {
         final String blockstate = getBlockstate();
-        final Identifier modelPrototype = getModelPrototype();
+        final Identifier modelPrototype = getModel();
         final List<Identifier> modelList = new ArrayList<>();
         if (blockstate != null) {
             if (isInherit()) {
@@ -222,14 +222,14 @@ public class ModelField extends Element {
 
     private void updateTexture() {
         if (updating) return;
-        final Identifier modelPrototype = getModelPrototype();
+        final Identifier modelPrototype = getModel();
         if (ModelManager.INHERIT.equals(modelPrototype)) {
             textures.clear();
         } else if (ModelManager.CUSTOM.equals(modelPrototype)) {
             textures.clear();
             fileToModelKey.clear();
             for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
-                fileToModelKey.put(resourceStore.toAbsolutePath(models.get(modelKey)), modelKey);
+                fileToModelKey.put(resourceStore.toAbsolutePath(customModels.get(modelKey)), modelKey);
             }
             loadTexture();
         } else {
@@ -239,7 +239,7 @@ public class ModelField extends Element {
 
     private void updateModelPrototype() {
         ObservableList<Node> children = pane.getChildren();
-        if (ModelManager.CUSTOM.equals(getModelPrototype())) {
+        if (ModelManager.CUSTOM.equals(getModel())) {
             children.removeIf(node -> node != label && node != comboBox);
 
             int row = 1;
@@ -263,7 +263,7 @@ public class ModelField extends Element {
                         return resourceStore.toAbsoluteFile(string);
                     }
                 });
-                BidirectionalValueBinding.bind(filePicker.valueProperty(), models, modelKey);
+                BidirectionalValueBinding.bind(filePicker.valueProperty(), customModels, modelKey);
                 pane.add(filePicker, 1, row);
                 row++;
             }
@@ -282,7 +282,7 @@ public class ModelField extends Element {
                     try {
                         updating = true;
                         for (String modelKey : fileToModelKey.get(path)) {
-                            models.remove(modelKey);
+                            customModels.remove(modelKey);
                         }
                     } finally {
                         updating = false;

@@ -90,24 +90,24 @@ public class GenBlock implements Task {
             // Generate models
             ModelManager modelManager = context.getModelManager();
             Blockstate blockstate = modelManager.getBlockstate(block.getType().getBlockstate());
-            Identifier model = block.getModelPrototype();
+            Identifier model = block.getModel();
             Map<String, String> outputModels = new HashMap<>();
 
             Map<String, String> textures = ModelUtils.processTextures(namespace, block.getTextures());
             String particleTexture = block.getParticleTexture() != null ?
                     ModelUtils.processResourcePath(namespace, block.getParticleTexture()) : null;
             if (ModelManager.CUSTOM.equals(model)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getModels(), context.getModelsFolder(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getCustomModels(), context.getModelsFolder(),
                         textures, particleTexture, assetsFiler.getRoot(), outputModels);
             } else {
                 ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),
                         textures, particleTexture, assetsFiler.getRoot(), outputModels);
             }
 
-            Identifier itemModel = block.getItemModelPrototype();
+            Identifier itemModel = block.getItemModel();
             Map<String, String> itemTextures = ModelUtils.processTextures(namespace, block.getItemTextures());
             if (ModelManager.CUSTOM.equals(itemModel)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getModels(), context.getModelsFolder(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getCustomModels(), context.getModelsFolder(),
                         itemTextures, null, assetsFiler.getRoot(), outputModels);
             } else if (ModelManager.INHERIT.equals(itemModel)) {
                 ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(blockstate.getItem()),

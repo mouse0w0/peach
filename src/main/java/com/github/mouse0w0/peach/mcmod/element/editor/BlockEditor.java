@@ -399,15 +399,15 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         harvestLevel.setValue(element.getHarvestLevel());
         information.setValue(InformationUtils.join(element.getInformation()));
 
-        model.setModelPrototype(element.getModelPrototype());
-        model.setModels(element.getModels());
+        model.setModel(element.getModel());
+        model.setCustomModels(element.getCustomModels());
         textures.setTextures(element.getTextures());
         particleTexture.setTexture(element.getParticleTexture());
         transparency.setValue(element.isTransparency());
         renderType.setValue(element.getRenderType());
         offsetType.setValue(element.getOffsetType());
-        itemModel.setModelPrototype(element.getItemModelPrototype());
-        itemModel.setModels(element.getItemModels());
+        itemModel.setModel(element.getItemModel());
+        itemModel.setCustomModels(element.getCustomItemModels());
         itemTextures.setTextures(element.getItemTextures());
 
         BoundingBox boundingBox = element.getBoundingBox();
@@ -453,15 +453,15 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setHarvestLevel(harvestLevel.getValue());
         element.setInformation(InformationUtils.spilt(information.getValue()));
 
-        element.setModelPrototype(model.getModelPrototype());
-        element.setModels(model.getModels());
+        element.setModel(model.getModel());
+        element.setCustomModels(model.getCustomModels());
         element.setTextures(textures.getTextures());
         element.setParticleTexture(particleTexture.getTexture());
         element.setTransparency(transparency.getValue());
         element.setRenderType(renderType.getValue());
         element.setOffsetType(offsetType.getValue());
-        element.setItemModelPrototype(itemModel.getModelPrototype());
-        element.setItemModels(itemModel.getModels());
+        element.setItemModel(itemModel.getModel());
+        element.setCustomItemModels(itemModel.getCustomModels());
         element.setItemTextures(itemTextures.getTextures());
 
         element.setBoundingBox(new BoundingBox(

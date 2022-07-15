@@ -124,10 +124,10 @@ public class GenItem implements Task {
             // Generate models
             ModelManager modelManager = context.getModelManager();
             Blockstate blockstate = modelManager.getBlockstate("item");
-            Identifier model = item.getModelPrototype();
+            Identifier model = item.getModel();
             Map<String, String> textures = ModelUtils.processTextures(namespace, item.getTextures());
             if (ModelManager.CUSTOM.equals(model)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, item.getModels(), context.getModelsFolder(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, item.getCustomModels(), context.getModelsFolder(),
                         textures, null, assetsFiler.getRoot(), new HashMap<>());
             } else {
                 ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),

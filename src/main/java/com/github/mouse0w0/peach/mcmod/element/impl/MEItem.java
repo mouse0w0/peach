@@ -33,8 +33,8 @@ public class MEItem extends Element implements LocalizableElement {
     private int destroyBlockLoss;
     private String[] information = ArrayUtils.EMPTY_STRING_ARRAY;
 
-    private Identifier modelPrototype;
-    private Map<String, String> models = Collections.emptyMap();
+    private Identifier model;
+    private Map<String, String> customModels = Collections.emptyMap();
     private Map<String, String> textures = Collections.emptyMap();
     private boolean hasEffect = false;
     private String armorTexture;
@@ -239,20 +239,20 @@ public class MEItem extends Element implements LocalizableElement {
         this.information = information;
     }
 
-    public Identifier getModelPrototype() {
-        return modelPrototype;
+    public Identifier getModel() {
+        return model;
     }
 
-    public void setModelPrototype(Identifier modelPrototype) {
-        this.modelPrototype = modelPrototype;
+    public void setModel(Identifier model) {
+        this.model = model;
     }
 
-    public Map<String, String> getModels() {
-        return models;
+    public Map<String, String> getCustomModels() {
+        return customModels;
     }
 
-    public void setModels(Map<String, String> models) {
-        this.models = models;
+    public void setCustomModels(Map<String, String> customModels) {
+        this.customModels = customModels;
     }
 
     public Map<String, String> getTextures() {

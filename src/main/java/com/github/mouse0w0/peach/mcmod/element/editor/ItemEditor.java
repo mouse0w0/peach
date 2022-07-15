@@ -397,8 +397,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         destroyBlockLoss.setValue(item.getDestroyBlockLoss());
         information.setValue(InformationUtils.join(item.getInformation()));
 
-        model.setModelPrototype(item.getModelPrototype());
-        model.setModels(item.getModels());
+        model.setModel(item.getModel());
+        model.setCustomModels(item.getCustomModels());
         textures.setTextures(item.getTextures());
         hasEffect.setValue(item.isHasEffect());
         armorTexture.setTexture(item.getArmorTexture());
@@ -437,8 +437,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setDestroyBlockLoss(destroyBlockLoss.getValue());
         item.setInformation(InformationUtils.spilt(information.getValue()));
 
-        item.setModelPrototype(model.getModelPrototype());
-        item.setModels(model.getModels());
+        item.setModel(model.getModel());
+        item.setCustomModels(model.getCustomModels());
         item.setTextures(textures.getTextures());
         item.setHasEffect(hasEffect.getValue());
         item.setArmorTexture(armorTexture.getTexture());

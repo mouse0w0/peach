@@ -28,15 +28,15 @@ public class MEBlock extends Element implements LocalizableElement {
     private int harvestLevel;
     private String[] information = ArrayUtils.EMPTY_STRING_ARRAY;
 
-    private Identifier modelPrototype;
-    private Map<String, String> models = Collections.emptyMap();
+    private Identifier model;
+    private Map<String, String> customModels = Collections.emptyMap();
     private Map<String, String> textures = Collections.emptyMap();
     private String particleTexture;
     private boolean transparency;
     private RenderType renderType = RenderType.SOLID;
     private OffsetType offsetType = OffsetType.NONE;
-    private Identifier itemModelPrototype;
-    private Map<String, String> itemModels = Collections.emptyMap();
+    private Identifier itemModel;
+    private Map<String, String> customItemModels = Collections.emptyMap();
     private Map<String, String> itemTextures = Collections.emptyMap();
 
     private BoundingBox boundingBox = FULL_BLOCK;
@@ -181,20 +181,20 @@ public class MEBlock extends Element implements LocalizableElement {
         this.information = information;
     }
 
-    public Identifier getModelPrototype() {
-        return modelPrototype;
+    public Identifier getModel() {
+        return model;
     }
 
-    public void setModelPrototype(Identifier modelPrototype) {
-        this.modelPrototype = modelPrototype;
+    public void setModel(Identifier model) {
+        this.model = model;
     }
 
-    public Map<String, String> getModels() {
-        return models;
+    public Map<String, String> getCustomModels() {
+        return customModels;
     }
 
-    public void setModels(Map<String, String> models) {
-        this.models = models;
+    public void setCustomModels(Map<String, String> customModels) {
+        this.customModels = customModels;
     }
 
     public Map<String, String> getTextures() {
@@ -237,20 +237,20 @@ public class MEBlock extends Element implements LocalizableElement {
         this.offsetType = offsetType;
     }
 
-    public Identifier getItemModelPrototype() {
-        return itemModelPrototype;
+    public Identifier getItemModel() {
+        return itemModel;
     }
 
-    public void setItemModelPrototype(Identifier itemModelPrototype) {
-        this.itemModelPrototype = itemModelPrototype;
+    public void setItemModel(Identifier itemModel) {
+        this.itemModel = itemModel;
     }
 
-    public Map<String, String> getItemModels() {
-        return itemModels;
+    public Map<String, String> getCustomItemModels() {
+        return customItemModels;
     }
 
-    public void setItemModels(Map<String, String> itemModels) {
-        this.itemModels = itemModels;
+    public void setCustomItemModels(Map<String, String> customItemModels) {
+        this.customItemModels = customItemModels;
     }
 
     public Map<String, String> getItemTextures() {

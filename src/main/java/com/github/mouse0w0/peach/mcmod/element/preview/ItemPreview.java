@@ -13,7 +13,7 @@ import java.nio.file.Path;
 public class ItemPreview implements PreviewGenerator<MEItem> {
     @Override
     public void generate(Project project, MEItem element, Path outputFile) {
-        Identifier model = element.getModelPrototype();
+        Identifier model = element.getModel();
         switch (model.getName()) {
             case "generated":
             case "handheld":
