@@ -12,6 +12,8 @@ import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.model.Blockstate;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
@@ -144,7 +146,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         resistance.setText(I18n.translate("block.properties.resistance"));
         resistance.setColSpan(ColSpan.HALF);
 
-        slipperiness = new SpinnerField<>(0D, 1D, 0D);
+        slipperiness = new SpinnerField<>(0D, 1D, 0.6D);
         slipperiness.setText(I18n.translate("block.properties.slipperiness"));
         slipperiness.setColSpan(ColSpan.HALF);
 

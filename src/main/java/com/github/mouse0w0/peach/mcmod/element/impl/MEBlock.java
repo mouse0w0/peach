@@ -20,7 +20,7 @@ public class MEBlock extends Element implements LocalizableElement {
     private double hardness;
     private boolean unbreakable; // set hardness -1.
     private double resistance;
-    private double slipperiness;
+    private double slipperiness = 0.6;
     private int brightness;
     private int opacity = 255;
     //    private boolean gravity; // as block type?
