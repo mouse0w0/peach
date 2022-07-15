@@ -30,9 +30,14 @@ public class ExportProjectAction extends Action {
         if (project == null) return;
 
         CompletableFuture.supplyAsync(() -> {
-            Generator generator = new Generator(project);
-            generator.run();
-            return generator;
+            try {
+                Generator generator = new Generator(project);
+                generator.run();
+                return generator;
+            } catch (Throwable e) {
+                LOGGER.error("Unexpected error.", e);
+                throw e;
+            }
         }, Scheduler.getInstance()).thenAcceptAsync(generator -> {
             McModMetadata metadata = generator.getMetadata();
 
