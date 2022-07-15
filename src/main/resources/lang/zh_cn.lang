@@ -82,7 +82,7 @@ tab.elementView.title=模组元素
 validate.illegalModId=非法的模组唯一名：“%s”。模组唯一名以小写字母开头，仅含小写字母和数字。
 validate.illegalIdentifier=非法的唯一名：“%s”。唯一名以小写字母开头，仅含小写字母，数字和下划线。
 
-mod.element.item_group=创造标签
+mod.element.group=创造标签
 wizard.itemGroup.identifier=唯一名
 wizard.itemGroup.displayName=显示名
 wizard.itemGroup.hasSearchBar=启用搜索栏

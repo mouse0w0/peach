@@ -40,7 +40,7 @@ public final class ElementTypes {
                     .previewGenerator(new ItemPreview())
                     .build();
     public static final ElementType<MEItemGroup> ITEM_GROUP =
-            ElementType.builder("item_group", MEItemGroup.class)
+            ElementType.builder("group", MEItemGroup.class)
                     .createdHandler((project, element, file, identifier, name) -> {
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
