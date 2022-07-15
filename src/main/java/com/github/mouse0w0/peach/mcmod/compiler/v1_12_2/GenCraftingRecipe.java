@@ -32,13 +32,8 @@ public class GenCraftingRecipe implements Task {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
         result.addProperty("item", itemStack.getId());
-        if (itemStack.getAmount() != 1) {
-            result.addProperty("count", itemStack.getAmount());
-        }
-        if (itemStack.getMetadata() != 0) {
-            result.addProperty("data", itemStack.getMetadata());
-        }
-
+        result.addProperty("data", itemStack.getMetadata());
+        result.addProperty("count", itemStack.getAmount());
         jo.add("result", result);
     }
 
@@ -111,9 +106,7 @@ public class GenCraftingRecipe implements Task {
             result.addProperty("ore", itemRef.getId());
         } else {
             result.addProperty("item", itemRef.getId());
-            if (itemRef.getMetadata() != 0) {
-                result.addProperty("data", itemRef.getMetadata());
-            }
+            result.addProperty("data", itemRef.getMetadata());
         }
         return result;
     }
