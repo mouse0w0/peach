@@ -16,7 +16,15 @@ public interface Context {
 
     McModMetadata getMetadata();
 
-    ProjectStructure getProjectStructure();
+    Path getProjectFolder();
+
+    Path getSourceFolder();
+
+    Path getResourceFolder();
+
+    Path getModelsFolder();
+
+    Path getTexturesFolder();
 
     Path getOutputFolder();
 

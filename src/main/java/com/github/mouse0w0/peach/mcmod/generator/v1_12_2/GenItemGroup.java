@@ -37,7 +37,7 @@ public class GenItemGroup implements Task {
 
             String background = itemGroup.getBackground();
             if (StringUtils.isNotEmpty(background)) {
-                context.getAssetsFiler().copy(context.getProjectStructure().getTextures().resolve(background), "textures/" + background);
+                context.getAssetsFiler().copy(context.getTexturesFolder().resolve(background), "textures/" + background);
             }
         }
         context.getClassesFiler().write(loader.getThisName() + ".class", loader.toByteArray());

@@ -31,9 +31,13 @@ public final class Generator implements Context {
 
     private final Project project;
 
-    private ProjectStructure projectStructure;
     private McModMetadata metadata;
     private String id;
+    private Path projectFolder;
+    private Path sourceFolder;
+    private Path resourceFolder;
+    private Path modelsFolder;
+    private Path texturesFolder;
     private Path outputFolder;
     private ModelManager modelManager;
     private ElementRegistry elementRegistry;
@@ -66,8 +70,28 @@ public final class Generator implements Context {
     }
 
     @Override
-    public ProjectStructure getProjectStructure() {
-        return projectStructure;
+    public Path getProjectFolder() {
+        return projectFolder;
+    }
+
+    @Override
+    public Path getSourceFolder() {
+        return sourceFolder;
+    }
+
+    @Override
+    public Path getResourceFolder() {
+        return resourceFolder;
+    }
+
+    @Override
+    public Path getModelsFolder() {
+        return modelsFolder;
+    }
+
+    @Override
+    public Path getTexturesFolder() {
+        return texturesFolder;
     }
 
     @Override
@@ -147,7 +171,11 @@ public final class Generator implements Context {
 
     private void doInitialize() {
         try {
-            this.projectStructure = new ProjectStructure(project.getPath());
+            this.projectFolder = project.getPath();
+            this.sourceFolder = projectFolder.resolve("sources");
+            this.resourceFolder = projectFolder.resolve("resources");
+            this.modelsFolder = resourceFolder.resolve("models");
+            this.texturesFolder = resourceFolder.resolve("textures");
             this.metadata = McModDescriptor.getInstance(project).getMetadata();
             this.id = metadata.getId();
             this.outputFolder = project.getPath().resolve("build");
@@ -192,11 +220,9 @@ public final class Generator implements Context {
     }
 
     private Multimap<ElementType<?>, Element> loadElements() throws IOException {
-        Path sources = getProjectStructure().getSources();
-
         Multimap<ElementType<?>, Element> elements = HashMultimap.create();
 
-        Files.walk(sources)
+        Files.walk(getSourceFolder())
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
                 .forEach(file -> {
                     ElementType<?> elementType = elementRegistry.getElementType(file);

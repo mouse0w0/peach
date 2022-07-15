@@ -111,7 +111,7 @@ public class GenItem implements Task {
             // Copy textures
             Filer assetsFiler = context.getAssetsFiler();
 
-            Path texturesPath = context.getProjectStructure().getTextures();
+            Path texturesPath = context.getTexturesFolder();
             for (String texture : item.getTextures().values()) {
                 assetsFiler.copy(texturesPath.resolve(texture + ".png"), "textures/" + texture + ".png");
             }
@@ -127,7 +127,7 @@ public class GenItem implements Task {
             Identifier model = item.getModelPrototype();
             Map<String, String> textures = ModelUtils.processTextures(namespace, item.getTextures());
             if (ModelManager.CUSTOM.equals(model)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, item.getModels(), context.getProjectStructure().getModels(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, item.getModels(), context.getModelsFolder(),
                         textures, null, assetsFiler.getRoot(), new HashMap<>());
             } else {
                 ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),

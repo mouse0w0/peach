@@ -79,7 +79,7 @@ public class GenBlock implements Task {
             // Copy textures
             Filer assetsFiler = context.getAssetsFiler();
 
-            Path texturesPath = context.getProjectStructure().getTextures();
+            Path texturesPath = context.getTexturesFolder();
             for (String texture : block.getTextures().values()) {
                 assetsFiler.copy(texturesPath.resolve(texture + ".png"), "textures/" + texture + ".png");
             }
@@ -97,7 +97,7 @@ public class GenBlock implements Task {
             String particleTexture = block.getParticleTexture() != null ?
                     ModelUtils.processResourcePath(namespace, block.getParticleTexture()) : null;
             if (ModelManager.CUSTOM.equals(model)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getModels(), context.getProjectStructure().getModels(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getModels(), context.getModelsFolder(),
                         textures, particleTexture, assetsFiler.getRoot(), outputModels);
             } else {
                 ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),
@@ -107,7 +107,7 @@ public class GenBlock implements Task {
             Identifier itemModel = block.getItemModelPrototype();
             Map<String, String> itemTextures = ModelUtils.processTextures(namespace, block.getItemTextures());
             if (ModelManager.CUSTOM.equals(itemModel)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getModels(), context.getProjectStructure().getModels(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getModels(), context.getModelsFolder(),
                         itemTextures, null, assetsFiler.getRoot(), outputModels);
             } else if (ModelManager.INHERIT.equals(itemModel)) {
                 ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(blockstate.getItem()),
