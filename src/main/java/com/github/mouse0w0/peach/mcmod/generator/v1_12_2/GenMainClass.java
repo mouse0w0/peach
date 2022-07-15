@@ -30,7 +30,6 @@ public class GenMainClass implements Task {
         {
             annotationVisitor0 = classWriter.visitAnnotation("Lnet/minecraftforge/fml/common/Mod;", true);
             annotationVisitor0.visit("modid", metadata.getId());
-            annotationVisitor0.visit("version", metadata.getVersion());
             annotationVisitor0.visitEnd();
         }
 
