@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
-import com.github.mouse0w0.peach.mcmod.compiler.Compiler;
+import com.github.mouse0w0.peach.mcmod.generator.Generator;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
@@ -30,11 +30,11 @@ public class ExportProjectAction extends Action {
         if (project == null) return;
 
         CompletableFuture.supplyAsync(() -> {
-            Compiler compiler = new Compiler(project);
-            compiler.run();
-            return compiler;
-        }, Scheduler.getInstance()).thenAcceptAsync(compiler -> {
-            McModMetadata metadata = compiler.getMetadata();
+            Generator generator = new Generator(project);
+            generator.run();
+            return generator;
+        }, Scheduler.getInstance()).thenAcceptAsync(generator -> {
+            McModMetadata metadata = generator.getMetadata();
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 
@@ -42,7 +42,7 @@ public class ExportProjectAction extends Action {
                     ExtensionFilters.JAR);
             if (file != null) {
                 try {
-                    Path source = compiler.getOutputFolder().resolve("artifacts/" + fileName);
+                    Path source = generator.getOutputFolder().resolve("artifacts/" + fileName);
                     FileUtils.forceCopy(source, file.toPath());
                 } catch (IOException e) {
                     LOGGER.error("Failed to export file: " + file, e);
