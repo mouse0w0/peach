@@ -2,15 +2,23 @@ package com.github.mouse0w0.peach.mcmod.element.provider;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.mcmod.Identifier;
+import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.editor.BlockEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
+import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.google.common.collect.Iterables;
 
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 public class BlockProvider extends ElementProvider<MEBlock> {
     public BlockProvider() {
@@ -35,5 +43,30 @@ public class BlockProvider extends ElementProvider<MEBlock> {
     @Override
     public FileEditor newEditor(Project project, MEBlock element) {
         return new BlockEditor(project, element);
+    }
+
+    @Override
+    public Object[] addIndex(Project project, IndexProvider provider, MEBlock element) {
+        if (element.isDoNotRegisterItem()) return null;
+
+        String modId = McModDescriptor.getInstance(project).getModId();
+
+        Item item = new Item(element.getIdentifier(), 0, null, false);
+        item.setLocalizedText(element.getDisplayName());
+        item.setImage(ResourceUtils.CUBE_TEXTURE);
+
+        Map<ItemRef, List<Item>> items = provider.getIndex(Indexes.ITEMS);
+        ItemRef item1 = ItemRef.createItem(modId + ":" + item.getId(), item.getMetadata());
+        items.put(item1, Collections.singletonList(item));
+        ItemRef item2 = ItemRef.createIgnoreMetadata(modId + ":" + item.getId());
+        items.put(item2, Collections.singletonList(item));
+        return new Object[]{item1, item2};
+    }
+
+    @Override
+    public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
+        Map<ItemRef, List<Item>> items = provider.getIndex(Indexes.ITEMS);
+        items.remove(objects[0]);
+        items.remove(objects[1]);
     }
 }

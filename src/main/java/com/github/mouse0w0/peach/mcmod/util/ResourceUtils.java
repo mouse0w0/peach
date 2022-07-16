@@ -10,7 +10,6 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.scene.image.Image;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -32,7 +31,8 @@ public class ResourceUtils {
     public static final String ARMOR_TEXTURES = TEXTURES + "/armor";
     public static final String GUI_TEXTURES = TEXTURES + "/gui";
 
-    public static final Image MISSING_TEXTURE = new Image(getMissingTexture(), 64, 64, true, false);
+    public static final Image MISSING_TEXTURE = new Image(ResourceUtils.class.getResourceAsStream("/image/mcmod/missing.png"), 64, 64, true, false);
+    public static final Image CUBE_TEXTURE = new Image(ResourceUtils.class.getResourceAsStream("/image/mcmod/cube.png"), 64, 64, true, false);
 
     public static Path getResourcePath(Project project, String resource) {
         return project.getPath().resolve(resource);
@@ -44,10 +44,6 @@ public class ResourceUtils {
 
     public static String relativize(Path path, Path other) {
         return path.relativize(other).toString().replace('\\', '/');
-    }
-
-    public static InputStream getMissingTexture() {
-        return ResourceUtils.class.getResourceAsStream("/image/mcmod/missing.png");
     }
 
     public static Path copyToLowerCaseFile(Path source, Path target) throws IOException {
