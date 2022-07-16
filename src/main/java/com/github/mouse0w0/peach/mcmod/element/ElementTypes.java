@@ -13,7 +13,7 @@ import com.google.common.collect.Iterables;
 public final class ElementTypes {
     public static final ElementType<MEBlock> BLOCK =
             ElementType.builder("block", MEBlock.class)
-                    .createdHandler((project, element, file, identifier, name) -> {
+                    .initializer((project, element, file, identifier, name) -> {
                         final IndexManager indexManager = IndexManager.getInstance(project);
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
@@ -27,7 +27,7 @@ public final class ElementTypes {
                     .build();
     public static final ElementType<MEItem> ITEM =
             ElementType.builder("item", MEItem.class)
-                    .createdHandler((project, element, file, identifier, name) -> {
+                    .initializer((project, element, file, identifier, name) -> {
                         final IndexManager indexManager = IndexManager.getInstance(project);
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
@@ -41,7 +41,7 @@ public final class ElementTypes {
                     .build();
     public static final ElementType<MEItemGroup> ITEM_GROUP =
             ElementType.builder("group", MEItemGroup.class)
-                    .createdHandler((project, element, file, identifier, name) -> {
+                    .initializer((project, element, file, identifier, name) -> {
                         element.setIdentifier(identifier);
                         element.setDisplayName(name);
                     })
@@ -49,7 +49,7 @@ public final class ElementTypes {
                     .build();
     public static final ElementType<MECraftingRecipe> CRAFTING_RECIPE =
             ElementType.builder("crafting", MECraftingRecipe.class)
-                    .createdHandler((project, element, file, identifier, name) -> {
+                    .initializer((project, element, file, identifier, name) -> {
                         element.setIdentifier(identifier);
                     })
                     .editorFactory(CraftingRecipeEditor::new)

@@ -83,7 +83,7 @@ public class ElementType<T extends Element> {
             this.type = Validate.notNull(type);
         }
 
-        public Builder<T> createdHandler(ElementInitializer<T> initializer) {
+        public Builder<T> initializer(ElementInitializer<T> initializer) {
             this.initializer = initializer;
             return this;
         }
