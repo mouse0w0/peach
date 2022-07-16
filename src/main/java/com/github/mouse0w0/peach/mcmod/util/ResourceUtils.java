@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
+import javafx.scene.image.Image;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +31,8 @@ public class ResourceUtils {
     public static final String ITEM_TEXTURES = TEXTURES + "/item";
     public static final String ARMOR_TEXTURES = TEXTURES + "/armor";
     public static final String GUI_TEXTURES = TEXTURES + "/gui";
+
+    public static final Image MISSING_TEXTURE = new Image(getMissingTexture(), 64, 64, true, false);
 
     public static Path getResourcePath(Project project, String resource) {
         return project.getPath().resolve(resource);

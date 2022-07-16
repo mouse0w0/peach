@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.Validator;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
-import com.github.mouse0w0.peach.mcmod.element.ElementType;
+import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -30,7 +30,7 @@ public class NewElementDialog extends BorderPane {
     @FXML
     private TextField name;
     @FXML
-    private ChoiceBox<ElementType<?>> type;
+    private ChoiceBox<ElementProvider<?>> provider;
     @FXML
     private Text identifier;
 
@@ -56,11 +56,11 @@ public class NewElementDialog extends BorderPane {
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    type.getSelectionModel().selectPrevious();
+                    provider.getSelectionModel().selectPrevious();
                     event.consume();
                     break;
                 case DOWN:
-                    type.getSelectionModel().selectNext();
+                    provider.getSelectionModel().selectNext();
                     event.consume();
                     break;
             }
@@ -68,26 +68,26 @@ public class NewElementDialog extends BorderPane {
         name.textProperty().addListener(observable ->
                 identifier.setText(ModUtils.tryConvertToIdentifier(name.getText())));
 
-        type.setConverter(new StringConverter<ElementType<?>>() {
+        provider.setConverter(new StringConverter<ElementProvider<?>>() {
             @Override
-            public String toString(ElementType<?> object) {
+            public String toString(ElementProvider<?> object) {
                 return I18n.translate(object.getTranslationKey());
             }
 
             @Override
-            public ElementType<?> fromString(String string) {
+            public ElementProvider<?> fromString(String string) {
                 throw new UnsupportedOperationException();
             }
         });
-        type.getItems().addAll(ElementRegistry.getInstance().getElementTypes());
-        type.setValue(type.getItems().get(0));
+        provider.getItems().addAll(ElementRegistry.getInstance().getElementProviders());
+        provider.setValue(provider.getItems().get(0));
     }
 
     @FXML
     private void onFinish() {
         if (!Validator.test(name)) return;
 
-        ElementManager.getInstance(project).createElement(path, type.getValue(), name.getText());
+        ElementManager.getInstance(project).createElement(path, provider.getValue(), name.getText());
 
         FXUtils.hideWindow(this);
     }

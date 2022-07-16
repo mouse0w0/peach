@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.generator;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
-import com.github.mouse0w0.peach.mcmod.element.ElementType;
+import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.generator.task.Delete;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
 import com.github.mouse0w0.peach.mcmod.generator.task.Zip;
@@ -47,7 +47,7 @@ public final class Generator implements Context {
 
     private String rootPackage;
 
-    private Multimap<ElementType<?>, Element> elements;
+    private Multimap<Class<?>, Element> elements;
 
     private Filer classesFiler;
     private Filer resourcesFiler;
@@ -100,12 +100,12 @@ public final class Generator implements Context {
     }
 
     @Override
-    public Multimap<ElementType<?>, Element> getElements() {
+    public Multimap<Class<?>, Element> getElements() {
         return elements;
     }
 
     @Override
-    public <T extends Element> Collection<T> getElements(ElementType<T> type) {
+    public <T extends Element> Collection<T> getElements(Class<T> type) {
         return (Collection<T>) elements.get(type);
     }
 
@@ -219,14 +219,14 @@ public final class Generator implements Context {
         }
     }
 
-    private Multimap<ElementType<?>, Element> loadElements() throws IOException {
-        Multimap<ElementType<?>, Element> elements = HashMultimap.create();
+    private Multimap<Class<?>, Element> loadElements() throws IOException {
+        Multimap<Class<?>, Element> elements = HashMultimap.create();
 
         Files.walk(getSourceFolder())
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
                 .forEach(file -> {
-                    ElementType<?> elementType = elementRegistry.getElementType(file);
-                    elements.put(elementType, elementManager.loadElement(file));
+                    ElementProvider<?> provider = elementRegistry.getElementProvider(file);
+                    elements.put(provider.getType(), elementManager.loadElement(file));
                 });
         return elements;
     }

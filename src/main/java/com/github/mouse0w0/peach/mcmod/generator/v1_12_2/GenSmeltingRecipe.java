@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
-import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
 import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
@@ -10,7 +9,7 @@ public class GenSmeltingRecipe implements Task {
     @Override
     public void run(Context context) throws Exception {
         SmeltingRecipeLoaderClassGenerator loader = new SmeltingRecipeLoaderClassGenerator(context.getInternalName("SmeltingRecipeLoader"));
-        for (MESmeltingRecipe smelting : context.getElements(ElementTypes.SMELTING_RECIPE)) {
+        for (MESmeltingRecipe smelting : context.getElements(MESmeltingRecipe.class)) {
             loader.visitSmelting(smelting);
         }
         context.getClassesFiler().write(loader.getThisName() + ".class", loader.toByteArray());

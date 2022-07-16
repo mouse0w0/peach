@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
-import com.github.mouse0w0.peach.mcmod.element.ElementType;
+import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -60,9 +60,9 @@ public class McModFileAppearance implements FileAppearance {
                 cell.setIcon(Icons.File.Forge);
                 return true;
             } else {
-                ElementType<?> type = ElementRegistry.getInstance().getElementType(file);
-                if (type != null) {
-                    cell.setText(StringUtils.substringBefore(fileName, '.') + " (" + I18n.translate(type.getTranslationKey()) + ")");
+                ElementProvider<?> provider = ElementRegistry.getInstance().getElementProvider(file);
+                if (provider != null) {
+                    cell.setText(StringUtils.substringBefore(fileName, '.') + " (" + I18n.translate(provider.getTranslationKey()) + ")");
                     cell.setIcon(Icons.File.ModElement);
                     return true;
                 }

@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
@@ -31,7 +30,7 @@ public class GenItem implements Task {
         String classBlockLoader = context.getInternalName("block/BlockLoader");
         String classBlockItem = null;
         String classSlabItem = null;
-        for (MEBlock block : context.getElements(ElementTypes.BLOCK)) {
+        for (MEBlock block : context.getElements(MEBlock.class)) {
             switch (block.getType()) {
                 default:
                     if (classBlockItem == null) {
@@ -57,7 +56,7 @@ public class GenItem implements Task {
         }
 
         String classItemGroups = context.getInternalName("init/ItemGroups");
-        for (MEItem item : context.getElements(ElementTypes.ITEM)) {
+        for (MEItem item : context.getElements(MEItem.class)) {
             String namespace = context.getNamespace();
             String identifier = item.getIdentifier();
 

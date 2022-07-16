@@ -6,14 +6,11 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
-import com.github.mouse0w0.peach.javafx.util.ImageUtils;
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
-import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -27,20 +24,18 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public final class ElementManager extends IndexProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElementManager.class);
 
     private final Project project;
-    private final McModDescriptor descriptor;
-    private final ElementRegistry elementRegistry;
+    private final ElementRegistry registry;
     private final Path sourcesPath;
-    private final Path previewPath;
     private final Gson gson;
     private final FileChangeListener fileChangeListener;
 
@@ -48,15 +43,12 @@ public final class ElementManager extends IndexProvider {
         return project.getService(ElementManager.class);
     }
 
-    public ElementManager(Project project, McModDescriptor descriptor, IndexManager indexManager, ElementRegistry elementRegistry) {
+    public ElementManager(Project project, IndexManager indexManager, ElementRegistry registry) {
         super("PROJECT", 200);
         this.project = project;
-        this.descriptor = descriptor;
-        this.elementRegistry = elementRegistry;
+        this.registry = registry;
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         SilentFileUtils.createDirectoriesIfNotExists(sourcesPath);
-        this.previewPath = project.getPath().resolve(".peach/preview");
-        SilentFileUtils.createDirectoriesIfNotExists(previewPath);
         indexManager.registerProvider(this);
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(Indexes.ITEM_GROUPS)))
@@ -68,7 +60,7 @@ public final class ElementManager extends IndexProvider {
         this.fileChangeListener = new FileChangeListener() {
             @Override
             public void onFileDelete(ProjectFileWatcher watcher, Path path) {
-                clearElement(path);
+                removeIndex(path);
             }
         };
         ProjectFileWatcher.getInstance(project).addListener(new WeakFileChangeListener(fileChangeListener));
@@ -80,9 +72,9 @@ public final class ElementManager extends IndexProvider {
             Iterator<Path> iterator = Files.walk(sourcesPath).iterator();
             while (iterator.hasNext()) {
                 Path file = iterator.next();
-                ElementType<?> elementType = elementRegistry.getElementType(file);
-                if (elementType != null) {
-                    indexElement(loadElement(file));
+                ElementProvider<?> provider = registry.getElementProvider(file);
+                if (provider != null) {
+                    addIndex(loadElement(file));
                 }
             }
         } catch (IOException e) {
@@ -96,17 +88,18 @@ public final class ElementManager extends IndexProvider {
 
     @SuppressWarnings("unchecked")
     public <T extends Element> T loadElement(Path file) {
-        ElementType<?> type = elementRegistry.getElementType(file);
-        if (type == null) {
+        ElementProvider<?> provider = registry.getElementProvider(file);
+        if (provider == null) {
             throw new IllegalArgumentException("Cannot load element");
         }
         try {
-            Element element = JsonUtils.readJson(gson, file, type.getType());
+            Element element = JsonUtils.readJson(gson, file, provider.getType());
             element.setFile(file);
             return (T) element;
         } catch (IOException e) {
             LOGGER.error("Failed to load element.", e);
-            return (T) type.newInstance(file);
+            throw new RuntimeException();
+            // TODO: show dialog
         }
     }
 
@@ -115,65 +108,39 @@ public final class ElementManager extends IndexProvider {
             JsonUtils.writeJson(gson, element.getFile(), element);
         } catch (IOException e) {
             LOGGER.error("Failed to save element.", e);
-            //TODO: show dialog
+            // TODO: show dialog
         }
 
-        clearElement(element.getFile());
-        indexElement(element);
+        removeIndex(element.getFile());
+        addIndex(element);
     }
 
-    public void createElement(Path path, ElementType<?> type, String name) {
-        Path file = path.resolve(name + "." + type.getName() + ".json");
+    public void createElement(Path path, ElementProvider<?> provider, String name) {
+        Path file = path.resolve(name + "." + provider.getName() + ".json");
 
         if (Files.exists(file)) {
             Alert.error(I18n.format("validate.existsFile", file.getFileName()));
             return;
         }
 
-        saveElement(type.create(project, file, ModUtils.toIdentifier(name), name));
+        saveElement(provider.newElement(project, file, ModUtils.toIdentifier(name), name));
 
         FileEditorManager.getInstance(project).open(file);
     }
 
-    private final Map<Path, Object> indexedElements = new HashMap<>();
+    private final Map<Path, Object[]> indexData = new HashMap<>();
 
-    private void clearElement(Path file) {
-        if (indexedElements.containsKey(file)) {
-            ElementType<?> type = ElementRegistry.getInstance().getElementType(file);
-            if (type == ElementTypes.ITEM) {
-                ItemRef[] items = (ItemRef[]) indexedElements.remove(file);
-                for (ItemRef item : items) {
-                    getIndex(Indexes.ITEMS).remove(item);
-                }
-            } else if (type == ElementTypes.ITEM_GROUP) {
-                getIndex(Indexes.ITEM_GROUPS).remove((String) indexedElements.remove(file));
-            }
-        }
+    public void addIndex(Element element) {
+        ElementProvider provider = registry.getElementProvider(element.getClass());
+        Object[] objects = provider.addIndex(project, this, element);
+        if (objects == null) return;
+        indexData.put(element.getFile(), objects);
     }
 
-    private void indexElement(Element element) {
-        if (element instanceof MEItem) {
-            MEItem meItem = (MEItem) element;
-            Item item = new Item(meItem.getIdentifier(), 0, null, false);
-            item.setLocalizedText(meItem.getDisplayName());
-
-            Path previewFile = previewPath.resolve(element.getFileName() + ".png");
-            ElementRegistry.getInstance().getElementType(MEItem.class).generatePreview(project, meItem, previewFile);
-            item.setImage(ImageUtils.of(previewFile, 64, 64, true, false));
-
-            String namespace = descriptor.getModId();
-            ItemRef item1 = ItemRef.createItem(namespace + ":" + item.getId(), item.getMetadata());
-            getIndex(Indexes.ITEMS).put(item1, Collections.singletonList(item));
-            ItemRef item2 = ItemRef.createIgnoreMetadata(namespace + ":" + item.getId());
-            getIndex(Indexes.ITEMS).put(item2, Collections.singletonList(item));
-            indexedElements.put(element.getFile(), new ItemRef[]{item1, item2});
-        } else if (element instanceof MEItemGroup) {
-            MEItemGroup meItemGroup = (MEItemGroup) element;
-            ItemGroup itemGroup = new ItemGroup(meItemGroup.getIdentifier(), null, meItemGroup.getIcon());
-            itemGroup.setLocalizedText(meItemGroup.getDisplayName());
-
-            getIndex(Indexes.ITEM_GROUPS).put(meItemGroup.getIdentifier(), itemGroup);
-            indexedElements.put(element.getFile(), meItemGroup.getIdentifier());
-        }
+    public void removeIndex(Path file) {
+        Object[] objects = indexData.get(file);
+        if (objects == null) return;
+        ElementProvider provider = registry.getElementProvider(file);
+        provider.removeIndex(project, this, objects);
     }
 }

@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator;
 
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.element.ElementType;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.google.common.collect.Multimap;
@@ -28,9 +27,9 @@ public interface Context {
 
     Path getOutputFolder();
 
-    Multimap<ElementType<?>, Element> getElements();
+    Multimap<Class<?>, Element> getElements();
 
-    <T extends Element> Collection<T> getElements(ElementType<T> type);
+    <T extends Element> Collection<T> getElements(Class<T> type);
 
     ModelManager getModelManager();
 

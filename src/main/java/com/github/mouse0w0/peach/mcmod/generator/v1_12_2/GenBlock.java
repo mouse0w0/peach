@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.ElementTypes;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.Filer;
@@ -35,7 +34,7 @@ public class GenBlock implements Task {
         String classWallBlock = null;
         String classPaneBlock = null;
 
-        for (MEBlock block : context.getElements(ElementTypes.BLOCK)) {
+        for (MEBlock block : context.getElements(MEBlock.class)) {
             String namespace = context.getNamespace();
             String identifier = block.getIdentifier();
 
