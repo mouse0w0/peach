@@ -8,7 +8,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class SoundType implements LocalizableEx {
+public class SoundType implements LocalizableWithItemIcon {
     private String id;
     private String translationKey;
     private ItemRef icon;
@@ -25,7 +25,6 @@ public class SoundType implements LocalizableEx {
         return id;
     }
 
-    @Override
     public String getTranslationKey() {
         return translationKey;
     }
@@ -40,7 +39,6 @@ public class SoundType implements LocalizableEx {
         return localizedText;
     }
 
-    @Override
     public void setLocalizedText(String text) {
         this.localizedText = text;
     }

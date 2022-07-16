@@ -15,7 +15,7 @@ import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
-import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableExCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
@@ -115,22 +115,22 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         material = new ComboBoxField<>();
         material.setText(I18n.translate("block.properties.material"));
-        material.setCellFactory(LocalizableExCell.factory());
-        material.setButtonCell(LocalizableExCell.create());
+        material.setCellFactory(LocalizableWithItemIconCell.factory());
+        material.setButtonCell(LocalizableWithItemIconCell.create());
         material.getItems().addAll(indexManager.getIndex(Indexes.MATERIALS).values());
         material.setColSpan(ColSpan.HALF);
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setText(I18n.translate("block.properties.itemGroup"));
-        itemGroup.setCellFactory(LocalizableExCell.factory());
-        itemGroup.setButtonCell(LocalizableExCell.create());
+        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
+        itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
         itemGroup.getItems().addAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         soundType = new ComboBoxField<>();
         soundType.setText(I18n.translate("block.properties.soundType"));
-        soundType.setCellFactory(LocalizableExCell.factory());
-        soundType.setButtonCell(LocalizableExCell.create());
+        soundType.setCellFactory(LocalizableWithItemIconCell.factory());
+        soundType.setButtonCell(LocalizableWithItemIconCell.create());
         soundType.getItems().addAll(indexManager.getIndex(Indexes.SOUND_TYPES).values());
         soundType.setColSpan(ColSpan.HALF);
 
@@ -303,8 +303,8 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         mapColor = new ComboBoxField<>();
         mapColor.setText(I18n.translate("block.extra.mapColor"));
-        mapColor.setCellFactory(LocalizableExCell.factory());
-        mapColor.setButtonCell(LocalizableExCell.create());
+        mapColor.setCellFactory(LocalizableWithItemIconCell.factory());
+        mapColor.setButtonCell(LocalizableWithItemIconCell.create());
         mapColor.getItems().addAll(indexManager.getIndex(Indexes.MAP_COLORS).values());
         mapColor.setColSpan(ColSpan.HALF);
 
