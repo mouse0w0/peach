@@ -1,0 +1,778 @@
+package com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.block;
+
+import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
+import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.ClassGenerator;
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+
+import static org.objectweb.asm.Opcodes.*;
+
+public class BlockFenceGateBase extends ClassGenerator {
+    public BlockFenceGateBase(String className) {
+        super(className);
+
+        FieldVisitor fv;
+        MethodVisitor mv;
+        AnnotationVisitor av;
+
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, className, null, "net/minecraft/block/Block", null);
+
+        ASMUtils.visitSource(cw);
+
+        cw.visitInnerClass("net/minecraft/util/EnumFacing$Axis", "net/minecraft/util/EnumFacing", "Axis", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
+
+        {
+            fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PROTECTED | ACC_FINAL | ACC_STATIC, "AABB_HITBOX_ZAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PROTECTED | ACC_FINAL | ACC_STATIC, "AABB_HITBOX_XAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PROTECTED | ACC_FINAL | ACC_STATIC, "AABB_HITBOX_ZAXIS_INWALL", "Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PROTECTED | ACC_FINAL | ACC_STATIC, "AABB_HITBOX_XAXIS_INWALL", "Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PROTECTED | ACC_FINAL | ACC_STATIC, "AABB_COLLISION_BOX_ZAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            fv.visitEnd();
+        }
+        {
+            fv = cw.visitField(ACC_PROTECTED | ACC_FINAL | ACC_STATIC, "AABB_COLLISION_BOX_XAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            fv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "<init>", "(Lnet/minecraft/block/material/Material;Lnet/minecraft/block/material/MapColor;)V", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/block/Block", "<init>", "(Lnet/minecraft/block/material/Material;Lnet/minecraft/block/material/MapColor;)V", false);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, className, "field_176227_L", "Lnet/minecraft/block/state/BlockStateContainer;");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/state/BlockStateContainer", "func_177621_b", "()Lnet/minecraft/block/state/IBlockState;", false);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing", "NORTH", "Lnet/minecraft/util/EnumFacing;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitMethodInsn(INVOKEVIRTUAL, className, "func_180632_j", "(Lnet/minecraft/block/state/IBlockState;)V", false);
+            mv.visitInsn(RETURN);
+            mv.visitMaxs(4, 3);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_185496_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, className, "func_176221_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", false);
+            mv.visitVarInsn(ASTORE, 1);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176740_k", "()Lnet/minecraft/util/EnumFacing$Axis;", false);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing$Axis", "X", "Lnet/minecraft/util/EnumFacing$Axis;");
+            Label label1 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label1);
+            mv.visitFieldInsn(GETSTATIC, className, "AABB_HITBOX_XAXIS_INWALL", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            Label label2 = new Label();
+            mv.visitJumpInsn(GOTO, label2);
+            mv.visitLabel(label1);
+            mv.visitFieldInsn(GETSTATIC, className, "AABB_HITBOX_ZAXIS_INWALL", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitLabel(label2);
+            mv.visitInsn(ARETURN);
+            mv.visitLabel(label0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176740_k", "()Lnet/minecraft/util/EnumFacing$Axis;", false);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing$Axis", "X", "Lnet/minecraft/util/EnumFacing$Axis;");
+            Label label3 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label3);
+            mv.visitFieldInsn(GETSTATIC, className, "AABB_HITBOX_XAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            Label label4 = new Label();
+            mv.visitJumpInsn(GOTO, label4);
+            mv.visitLabel(label3);
+            mv.visitFieldInsn(GETSTATIC, className, "AABB_HITBOX_ZAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitLabel(label4);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(4, 4);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176221_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176740_k", "()Lnet/minecraft/util/EnumFacing$Axis;", false);
+            mv.visitVarInsn(ASTORE, 4);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing$Axis", "Z", "Lnet/minecraft/util/EnumFacing$Axis;");
+            Label label0 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label0);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177976_e", "()Lnet/minecraft/util/math/BlockPos;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177230_c", "()Lnet/minecraft/block/Block;", true);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockWall");
+            Label label1 = new Label();
+            mv.visitJumpInsn(IFNE, label1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177974_f", "()Lnet/minecraft/util/math/BlockPos;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177230_c", "()Lnet/minecraft/block/Block;", true);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockWall");
+            mv.visitJumpInsn(IFNE, label1);
+            mv.visitLabel(label0);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing$Axis", "X", "Lnet/minecraft/util/EnumFacing$Axis;");
+            Label label2 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label2);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177978_c", "()Lnet/minecraft/util/math/BlockPos;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177230_c", "()Lnet/minecraft/block/Block;", true);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockWall");
+            mv.visitJumpInsn(IFNE, label1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177968_d", "()Lnet/minecraft/util/math/BlockPos;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177230_c", "()Lnet/minecraft/block/Block;", true);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockWall");
+            mv.visitJumpInsn(IFEQ, label2);
+            mv.visitLabel(label1);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_1);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitVarInsn(ASTORE, 1);
+            mv.visitLabel(label2);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(3, 5);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_185499_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/Rotation;)Lnet/minecraft/block/state/IBlockState;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/Rotation", "func_185831_a", "(Lnet/minecraft/util/EnumFacing;)Lnet/minecraft/util/EnumFacing;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(5, 3);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_185471_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/Mirror;)Lnet/minecraft/block/state/IBlockState;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/Mirror", "func_185800_a", "(Lnet/minecraft/util/EnumFacing;)Lnet/minecraft/util/Rotation;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_185907_a", "(Lnet/minecraft/util/Rotation;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(4, 3);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176196_c", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Z", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177977_b", "()Lnet/minecraft/util/math/BlockPos;", false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_185904_a", "()Lnet/minecraft/block/material/Material;", true);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/material/Material", "func_76220_a", "()Z", false);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/block/Block", "func_176196_c", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)Z", false);
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitInsn(ICONST_1);
+            Label label1 = new Label();
+            mv.visitJumpInsn(GOTO, label1);
+            mv.visitLabel(label0);
+            mv.visitInsn(ICONST_0);
+            mv.visitLabel(label1);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(3, 3);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_180646_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/util/math/AxisAlignedBB;", null, null);
+            {
+                av = mv.visitAnnotation("Ljavax/annotation/Nullable;", true);
+                av.visitEnd();
+            }
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitFieldInsn(GETSTATIC, className, "field_185506_k", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitInsn(ARETURN);
+            mv.visitLabel(label0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176740_k", "()Lnet/minecraft/util/EnumFacing$Axis;", false);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing$Axis", "Z", "Lnet/minecraft/util/EnumFacing$Axis;");
+            Label label1 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label1);
+            mv.visitFieldInsn(GETSTATIC, className, "AABB_COLLISION_BOX_ZAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            Label label2 = new Label();
+            mv.visitJumpInsn(GOTO, label2);
+            mv.visitLabel(label1);
+            mv.visitFieldInsn(GETSTATIC, className, "AABB_COLLISION_BOX_XAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitLabel(label2);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(2, 4);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_149662_c", "(Lnet/minecraft/block/state/IBlockState;)Z", null, null);
+            mv.visitCode();
+            mv.visitInsn(ICONST_0);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(1, 2);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_149686_d", "(Lnet/minecraft/block/state/IBlockState;)Z", null, null);
+            mv.visitCode();
+            mv.visitInsn(ICONST_0);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(1, 2);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176205_b", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Z", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(2, 3);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_180642_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;FFFILnet/minecraft/entity/EntityLivingBase;)Lnet/minecraft/block/state/IBlockState;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_175640_z", "(Lnet/minecraft/util/math/BlockPos;)Z", false);
+            mv.visitVarInsn(ISTORE, 9);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKEVIRTUAL, className, "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitVarInsn(ALOAD, 8);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/entity/EntityLivingBase", "func_174811_aO", "()Lnet/minecraft/util/EnumFacing;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitVarInsn(ILOAD, 9);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitVarInsn(ILOAD, 9);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(3, 10);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_180639_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/util/EnumHand;Lnet/minecraft/util/EnumFacing;FFF)Z", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitVarInsn(ASTORE, 3);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitIntInsn(BIPUSH, 10);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_180501_a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z", false);
+            mv.visitInsn(POP);
+            Label label1 = new Label();
+            mv.visitJumpInsn(GOTO, label1);
+            mv.visitLabel(label0);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitFieldInsn(GETFIELD, "net/minecraft/entity/player/EntityPlayer", "field_70177_z", "F");
+            mv.visitInsn(F2D);
+            mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/util/EnumFacing", "func_176733_a", "(D)Lnet/minecraft/util/EnumFacing;", false);
+            mv.visitVarInsn(ASTORE, 10);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitVarInsn(ALOAD, 10);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176734_d", "()Lnet/minecraft/util/EnumFacing;", false);
+            Label label2 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitVarInsn(ALOAD, 10);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitVarInsn(ASTORE, 3);
+            mv.visitLabel(label2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(ICONST_1);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitVarInsn(ASTORE, 3);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitIntInsn(BIPUSH, 10);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_180501_a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z", false);
+            mv.visitInsn(POP);
+            mv.visitLabel(label1);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            Label label3 = new Label();
+            mv.visitJumpInsn(IFEQ, label3);
+            mv.visitIntInsn(SIPUSH, 1008);
+            Label label4 = new Label();
+            mv.visitJumpInsn(GOTO, label4);
+            mv.visitLabel(label3);
+            mv.visitIntInsn(SIPUSH, 1014);
+            mv.visitLabel(label4);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_180498_a", "(Lnet/minecraft/entity/player/EntityPlayer;ILnet/minecraft/util/math/BlockPos;I)V", false);
+            mv.visitInsn(ICONST_1);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(5, 11);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_189540_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/Block;Lnet/minecraft/util/math/BlockPos;)V", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitFieldInsn(GETFIELD, "net/minecraft/world/World", "field_72995_K", "Z");
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFNE, label0);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_175640_z", "(Lnet/minecraft/util/math/BlockPos;)Z", false);
+            mv.visitVarInsn(ISTORE, 6);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            mv.visitVarInsn(ILOAD, 6);
+            mv.visitJumpInsn(IF_ICMPEQ, label0);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitVarInsn(ILOAD, 6);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitVarInsn(ILOAD, 6);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitInsn(ICONST_2);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_180501_a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;I)Z", false);
+            mv.visitInsn(POP);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            mv.visitVarInsn(ILOAD, 6);
+            mv.visitJumpInsn(IF_ICMPEQ, label0);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitInsn(ACONST_NULL);
+            mv.visitVarInsn(ILOAD, 6);
+            Label label1 = new Label();
+            mv.visitJumpInsn(IFEQ, label1);
+            mv.visitIntInsn(SIPUSH, 1008);
+            Label label2 = new Label();
+            mv.visitJumpInsn(GOTO, label2);
+            mv.visitLabel(label1);
+            mv.visitIntInsn(SIPUSH, 1014);
+            mv.visitLabel(label2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitInsn(ICONST_0);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_180498_a", "(Lnet/minecraft/entity/player/EntityPlayer;ILnet/minecraft/util/math/BlockPos;I)V", false);
+            mv.visitLabel(label0);
+            mv.visitInsn(RETURN);
+            mv.visitMaxs(5, 7);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176225_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z", null, null);
+            {
+                av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+                av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+                av.visitEnd();
+            }
+            mv.visitCode();
+            mv.visitInsn(ICONST_1);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(1, 5);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176203_a", "(I)Lnet/minecraft/block/state/IBlockState;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKEVIRTUAL, className, "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitVarInsn(ILOAD, 1);
+            mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/util/EnumFacing", "func_176731_b", "(I)Lnet/minecraft/util/EnumFacing;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitVarInsn(ILOAD, 1);
+            mv.visitInsn(ICONST_4);
+            mv.visitInsn(IAND);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitInsn(ICONST_1);
+            Label label1 = new Label();
+            mv.visitJumpInsn(GOTO, label1);
+            mv.visitLabel(label0);
+            mv.visitInsn(ICONST_0);
+            mv.visitLabel(label1);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitVarInsn(ILOAD, 1);
+            mv.visitIntInsn(BIPUSH, 8);
+            mv.visitInsn(IAND);
+            Label label2 = new Label();
+            mv.visitJumpInsn(IFEQ, label2);
+            mv.visitInsn(ICONST_1);
+            Label label3 = new Label();
+            mv.visitJumpInsn(GOTO, label3);
+            mv.visitLabel(label2);
+            mv.visitInsn(ICONST_0);
+            mv.visitLabel(label3);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(4, 2);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176201_c", "(Lnet/minecraft/block/state/IBlockState;)I", null, null);
+            mv.visitCode();
+            mv.visitInsn(ICONST_0);
+            mv.visitVarInsn(ISTORE, 2);
+            mv.visitVarInsn(ILOAD, 2);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176736_b", "()I", false);
+            mv.visitInsn(IOR);
+            mv.visitVarInsn(ISTORE, 2);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitVarInsn(ILOAD, 2);
+            mv.visitIntInsn(BIPUSH, 8);
+            mv.visitInsn(IOR);
+            mv.visitVarInsn(ISTORE, 2);
+            mv.visitLabel(label0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            Label label1 = new Label();
+            mv.visitJumpInsn(IFEQ, label1);
+            mv.visitVarInsn(ILOAD, 2);
+            mv.visitInsn(ICONST_4);
+            mv.visitInsn(IOR);
+            mv.visitVarInsn(ISTORE, 2);
+            mv.visitLabel(label1);
+            mv.visitVarInsn(ILOAD, 2);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(3, 3);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PROTECTED, "func_180661_e", "()Lnet/minecraft/block/state/BlockStateContainer;", null, null);
+            mv.visitCode();
+            mv.visitTypeInsn(NEW, "net/minecraft/block/state/BlockStateContainer");
+            mv.visitInsn(DUP);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitInsn(ICONST_4);
+            mv.visitTypeInsn(ANEWARRAY, "net/minecraft/block/properties/IProperty");
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_0);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_1);
+            mv.visitFieldInsn(GETSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_2);
+            mv.visitFieldInsn(GETSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(AASTORE);
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_3);
+            mv.visitFieldInsn(GETSTATIC, className, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitInsn(AASTORE);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/block/state/BlockStateContainer", "<init>", "(Lnet/minecraft/block/Block;[Lnet/minecraft/block/properties/IProperty;)V", false);
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(7, 1);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "canBeConnectedTo", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Z", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitVarInsn(ASTORE, 4);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177230_c", "()Lnet/minecraft/block/Block;", true);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockFenceGate");
+            Label label0 = new Label();
+            mv.visitJumpInsn(IFEQ, label0);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_193401_d", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Lnet/minecraft/block/state/BlockFaceShape;", true);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/state/BlockFaceShape", "MIDDLE_POLE", "Lnet/minecraft/block/state/BlockFaceShape;");
+            mv.visitJumpInsn(IF_ACMPNE, label0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ALOAD, 3);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177972_a", "(Lnet/minecraft/util/EnumFacing;)Lnet/minecraft/util/math/BlockPos;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/world/IBlockAccess", "func_180495_p", "(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", true);
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177230_c", "()Lnet/minecraft/block/Block;", true);
+            mv.visitVarInsn(ASTORE, 5);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockFence");
+            Label label1 = new Label();
+            mv.visitJumpInsn(IFNE, label1);
+            mv.visitVarInsn(ALOAD, 5);
+            mv.visitTypeInsn(INSTANCEOF, "net/minecraft/block/BlockWall");
+            Label label2 = new Label();
+            mv.visitJumpInsn(IFEQ, label2);
+            mv.visitLabel(label1);
+            mv.visitInsn(ICONST_1);
+            Label label3 = new Label();
+            mv.visitJumpInsn(GOTO, label3);
+            mv.visitLabel(label2);
+            mv.visitInsn(ICONST_0);
+            mv.visitLabel(label3);
+            mv.visitInsn(IRETURN);
+            mv.visitLabel(label0);
+            mv.visitInsn(ICONST_0);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(4, 6);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_193383_a", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;)Lnet/minecraft/block/state/BlockFaceShape;", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing", "UP", "Lnet/minecraft/util/EnumFacing;");
+            Label label0 = new Label();
+            mv.visitJumpInsn(IF_ACMPEQ, label0);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/EnumFacing", "DOWN", "Lnet/minecraft/util/EnumFacing;");
+            mv.visitJumpInsn(IF_ACMPEQ, label0);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitFieldInsn(GETSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177229_b", "(Lnet/minecraft/block/properties/IProperty;)Ljava/lang/Comparable;", true);
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/util/EnumFacing");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176740_k", "()Lnet/minecraft/util/EnumFacing$Axis;", false);
+            mv.visitVarInsn(ALOAD, 4);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176746_e", "()Lnet/minecraft/util/EnumFacing;", false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176740_k", "()Lnet/minecraft/util/EnumFacing$Axis;", false);
+            Label label1 = new Label();
+            mv.visitJumpInsn(IF_ACMPNE, label1);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/state/BlockFaceShape", "MIDDLE_POLE", "Lnet/minecraft/block/state/BlockFaceShape;");
+            Label label2 = new Label();
+            mv.visitJumpInsn(GOTO, label2);
+            mv.visitLabel(label1);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/state/BlockFaceShape", "UNDEFINED", "Lnet/minecraft/block/state/BlockFaceShape;");
+            mv.visitLabel(label2);
+            mv.visitInsn(ARETURN);
+            mv.visitLabel(label0);
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/state/BlockFaceShape", "UNDEFINED", "Lnet/minecraft/block/state/BlockFaceShape;");
+            mv.visitInsn(ARETURN);
+            mv.visitMaxs(2, 5);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
+            mv.visitCode();
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/BlockHorizontal", "field_185512_D", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitFieldInsn(PUTSTATIC, className, "FACING", "Lnet/minecraft/block/properties/PropertyDirection;");
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/BlockFenceGate", "field_176466_a", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitFieldInsn(PUTSTATIC, className, "OPEN", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/BlockFenceGate", "field_176465_b", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitFieldInsn(PUTSTATIC, className, "POWERED", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/BlockFenceGate", "field_176467_M", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitFieldInsn(PUTSTATIC, className, "IN_WALL", "Lnet/minecraft/block/properties/PropertyBool;");
+            mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
+            mv.visitInsn(DUP);
+            mv.visitInsn(DCONST_0);
+            mv.visitInsn(DCONST_0);
+            mv.visitLdcInsn(new Double("0.375"));
+            mv.visitInsn(DCONST_1);
+            mv.visitInsn(DCONST_1);
+            mv.visitLdcInsn(new Double("0.625"));
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
+            mv.visitFieldInsn(PUTSTATIC, className, "AABB_HITBOX_ZAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
+            mv.visitInsn(DUP);
+            mv.visitLdcInsn(new Double("0.375"));
+            mv.visitInsn(DCONST_0);
+            mv.visitInsn(DCONST_0);
+            mv.visitLdcInsn(new Double("0.625"));
+            mv.visitInsn(DCONST_1);
+            mv.visitInsn(DCONST_1);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
+            mv.visitFieldInsn(PUTSTATIC, className, "AABB_HITBOX_XAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
+            mv.visitInsn(DUP);
+            mv.visitInsn(DCONST_0);
+            mv.visitInsn(DCONST_0);
+            mv.visitLdcInsn(new Double("0.375"));
+            mv.visitInsn(DCONST_1);
+            mv.visitLdcInsn(new Double("0.8125"));
+            mv.visitLdcInsn(new Double("0.625"));
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
+            mv.visitFieldInsn(PUTSTATIC, className, "AABB_HITBOX_ZAXIS_INWALL", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
+            mv.visitInsn(DUP);
+            mv.visitLdcInsn(new Double("0.375"));
+            mv.visitInsn(DCONST_0);
+            mv.visitInsn(DCONST_0);
+            mv.visitLdcInsn(new Double("0.625"));
+            mv.visitLdcInsn(new Double("0.8125"));
+            mv.visitInsn(DCONST_1);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
+            mv.visitFieldInsn(PUTSTATIC, className, "AABB_HITBOX_XAXIS_INWALL", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
+            mv.visitInsn(DUP);
+            mv.visitInsn(DCONST_0);
+            mv.visitInsn(DCONST_0);
+            mv.visitLdcInsn(new Double("0.375"));
+            mv.visitInsn(DCONST_1);
+            mv.visitLdcInsn(new Double("1.5"));
+            mv.visitLdcInsn(new Double("0.625"));
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
+            mv.visitFieldInsn(PUTSTATIC, className, "AABB_COLLISION_BOX_ZAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
+            mv.visitInsn(DUP);
+            mv.visitLdcInsn(new Double("0.375"));
+            mv.visitInsn(DCONST_0);
+            mv.visitInsn(DCONST_0);
+            mv.visitLdcInsn(new Double("0.625"));
+            mv.visitLdcInsn(new Double("1.5"));
+            mv.visitInsn(DCONST_1);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
+            mv.visitFieldInsn(PUTSTATIC, className, "AABB_COLLISION_BOX_XAXIS", "Lnet/minecraft/util/math/AxisAlignedBB;");
+            mv.visitInsn(RETURN);
+            mv.visitMaxs(14, 0);
+            mv.visitEnd();
+        }
+        cw.visitEnd();
+    }
+}

@@ -39,6 +39,18 @@ public class BlockClassGenerator extends ClassGenerator {
         initMethod.visitMethodInsn(INVOKESPECIAL, superclass, "<init>", "(Lnet/minecraft/block/material/Material;Lnet/minecraft/block/material/MapColor;)V", false);
     }
 
+    public void visitBlock(String superclass, String material) {
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, superclass, null);
+
+        ASMUtils.visitSource(cw);
+
+        initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+        initMethod.visitCode();
+        initMethod.visitVarInsn(ALOAD, 0);
+        initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/Material", Srgs.MATERIALS.get(material), "Lnet/minecraft/block/material/Material;");
+        initMethod.visitMethodInsn(INVOKESPECIAL, superclass, "<init>", "(Lnet/minecraft/block/material/Material;)V", false);
+    }
+
     public void visitStairsBlock(String material, String mapColor) {
         cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/block/BlockStairs", null);
 
@@ -49,9 +61,9 @@ public class BlockClassGenerator extends ClassGenerator {
         initMethod.visitVarInsn(ALOAD, 0);
         initMethod.visitTypeInsn(NEW, "net/minecraft/block/Block");
         initMethod.visitInsn(DUP);
-        initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/Material", "field_151576_e", "Lnet/minecraft/block/material/Material;");
+        initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/Material", Srgs.MATERIALS.get(material), "Lnet/minecraft/block/material/Material;");
         initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/block/Block", "<init>", "(Lnet/minecraft/block/material/Material;)V", false);
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/Block", Srgs.MATERIALS.get(material), "()Lnet/minecraft/block/state/IBlockState;", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/Block", "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false);
         initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/block/BlockStairs", "<init>", "(Lnet/minecraft/block/state/IBlockState;)V", false);
 
         visitMapColor(mapColor);
@@ -67,7 +79,7 @@ public class BlockClassGenerator extends ClassGenerator {
         }
     }
 
-    private void visitMapColor(String mapColor) {
+    public void visitMapColor(String mapColor) {
         if ("inherit".equals(mapColor)) return;
 
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_180659_g", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/material/MapColor;", null, null);
@@ -376,6 +388,37 @@ public class BlockClassGenerator extends ClassGenerator {
         mv.visitLabel(label1);
         mv.visitInsn(IRETURN);
         mv.visitMaxs(4, 6);
+        mv.visitEnd();
+    }
+
+    public void visitHorizontalOpposite() {
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_180642_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;FFFILnet/minecraft/entity/EntityLivingBase;)Lnet/minecraft/block/state/IBlockState;", null, null);
+        mv.visitCode();
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false);
+        mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/BlockHorizontal", "field_185512_D", "Lnet/minecraft/block/properties/PropertyDirection;");
+        mv.visitVarInsn(ALOAD, 8);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/entity/EntityLivingBase", "func_174811_aO", "()Lnet/minecraft/util/EnumFacing;", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176734_d", "()Lnet/minecraft/util/EnumFacing;", false);
+        mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+        mv.visitInsn(ARETURN);
+        mv.visitMaxs(3, 9);
+        mv.visitEnd();
+    }
+
+    public void visitDirectionalOpposite() {
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_180642_a", "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;FFFILnet/minecraft/entity/EntityLivingBase;)Lnet/minecraft/block/state/IBlockState;", null, null);
+        mv.visitCode();
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false);
+        mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/BlockDirectional", "field_176387_N", "Lnet/minecraft/block/properties/PropertyDirection;");
+        mv.visitVarInsn(ALOAD, 2);
+        mv.visitVarInsn(ALOAD, 8);
+        mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/util/EnumFacing", "func_190914_a", "(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityLivingBase;)Lnet/minecraft/util/EnumFacing;", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/EnumFacing", "func_176734_d", "()Lnet/minecraft/util/EnumFacing;", false);
+        mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraft/block/state/IBlockState", "func_177226_a", "(Lnet/minecraft/block/properties/IProperty;Ljava/lang/Comparable;)Lnet/minecraft/block/state/IBlockState;", true);
+        mv.visitInsn(ARETURN);
+        mv.visitMaxs(4, 9);
         mv.visitEnd();
     }
 

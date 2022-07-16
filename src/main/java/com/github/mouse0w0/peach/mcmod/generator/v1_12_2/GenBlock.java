@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.ModelUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockClassGenerator;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockLoaderClassGenerator;
+import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.block.*;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import freemarker.template.Configuration;
@@ -27,14 +28,87 @@ public class GenBlock implements Task {
         BlockLoaderClassGenerator loader = new BlockLoaderClassGenerator(context.getInternalName("block/BlockLoader"), context.getNamespace());
         String classItemGroups = context.getInternalName("init/ItemGroups");
 
+        String classHorizontalBlock = null;
+        String classDirectionalBlock = null;
+        String classSlabBlock = null;
+        String classFenceGateBlock = null;
+        String classWallBlock = null;
+        String classPaneBlock = null;
+
         for (MEBlock block : context.getElements(ElementTypes.BLOCK)) {
             String namespace = context.getNamespace();
             String identifier = block.getIdentifier();
 
             BlockClassGenerator cg = new BlockClassGenerator(context.getInternalName("block/Block" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)));
             BlockType type = block.getType();
-            if (type == BlockType.NORMAL) {
-                cg.visitBlock("net/minecraft/block/Block", block.getMaterial().getId(), block.getMapColor().getId());
+            switch (type) {
+                case NORMAL:
+                case DIRT:
+                case STONE:
+                    cg.visitBlock("net/minecraft/block/Block", block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case PILLAR:
+                    cg.visitBlock("net/minecraft/block/BlockRotatedPillar", block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case HORIZONTAL_OPPOSITE:
+                    cg.visitHorizontalOpposite();
+                case HORIZONTAL:
+                    if (classHorizontalBlock == null) {
+                        classHorizontalBlock = context.getInternalName("block/base/BlockHorizontalBase");
+                        context.getClassesFiler().write(classHorizontalBlock + ".class", new BlockHorizontalBase(classHorizontalBlock).toByteArray());
+                    }
+                    cg.visitBlock(classHorizontalBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case DIRECTIONAL_OPPOSITE:
+                    cg.visitDirectionalOpposite();
+                case DIRECTIONAL:
+                    if (classDirectionalBlock == null) {
+                        classDirectionalBlock = context.getInternalName("block/base/BlockDirectionalBase");
+                        context.getClassesFiler().write(classDirectionalBlock + ".class", new BlockDirectionalBase(classDirectionalBlock).toByteArray());
+                    }
+                    cg.visitBlock(classDirectionalBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case STAIRS:
+                    cg.visitStairsBlock(block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case SLAB:
+                    if (classSlabBlock == null) {
+                        String classSlabType = context.getInternalName("block/base/SlabType");
+                        context.getClassesFiler().write(classSlabType + ".class", new SlabType(classSlabType).toByteArray());
+                        classSlabBlock = context.getInternalName("block/base/BlockSlabBase");
+                        context.getClassesFiler().write(classSlabBlock + ".class", new BlockSlabBase(classSlabBlock, classSlabType).toByteArray());
+                    }
+                    cg.visitBlock(classSlabBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case FENCE:
+                    cg.visitBlock("net/minecraft/block/BlockFence", block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case FENCE_GATE:
+                    if (classFenceGateBlock == null) {
+                        classFenceGateBlock = context.getInternalName("block/base/BlockFenceGateBase");
+                        context.getClassesFiler().write(classFenceGateBlock + ".class", new BlockFenceGateBase(classFenceGateBlock).toByteArray());
+                    }
+                    cg.visitBlock(classFenceGateBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case WALL:
+                    if (classWallBlock == null) {
+                        classWallBlock = context.getInternalName("block/base/BlockWallBase");
+                        context.getClassesFiler().write(classWallBlock + ".class", new BlockWallBase(classWallBlock).toByteArray());
+                    }
+                    cg.visitBlock(classWallBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                case TRAPDOOR:
+                    cg.visitBlock("net/minecraft/block/BlockTrapDoor", block.getMaterial().getId());
+                    cg.visitMapColor(block.getMapColor().getId());
+                case PANE:
+                    if (classPaneBlock == null) {
+                        classPaneBlock = context.getInternalName("block/base/BlockPaneBase");
+                        context.getClassesFiler().write(classPaneBlock + ".class", new BlockPaneBase(classPaneBlock).toByteArray());
+                    }
+                    cg.visitBlock(classPaneBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    break;
+                default:
+                    throw new UnsupportedOperationException();
             }
 
             cg.visitIdentifier(identifier);

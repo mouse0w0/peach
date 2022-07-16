@@ -11,7 +11,8 @@ import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.ModelUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.ItemClassGenerator;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.ItemLoaderClassGenerator;
-import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.item.ItemBlockBaseGenerator;
+import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.item.ItemBlockBase;
+import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.item.ItemSlabBase;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.util.ArrayUtils;
@@ -27,19 +28,30 @@ public class GenItem implements Task {
     public void run(Context context) throws Exception {
         ItemLoaderClassGenerator loader = new ItemLoaderClassGenerator(context.getInternalName("item/ItemLoader"), context.getNamespace());
 
-        String blockLoaderClass = context.getInternalName("block/BlockLoader");
-        String blockItemClass = null;
-        String slabItemClass = null;
+        String classBlockLoader = context.getInternalName("block/BlockLoader");
+        String classBlockItem = null;
+        String classSlabItem = null;
         for (MEBlock block : context.getElements(ElementTypes.BLOCK)) {
             switch (block.getType()) {
                 default:
-                    if (blockItemClass == null) {
-                        blockItemClass = context.getInternalName("item/base/ItemBlockBase");
-                        context.getClassesFiler().write(blockItemClass + ".class", new ItemBlockBaseGenerator(blockItemClass).toByteArray());
+                    if (classBlockItem == null) {
+                        classBlockItem = context.getInternalName("item/base/ItemBlockBase");
+                        context.getClassesFiler().write(classBlockItem + ".class",
+                                new ItemBlockBase(classBlockItem).toByteArray());
                     }
-                    loader.visitBlockItem(block.getIdentifier(), blockItemClass, blockLoaderClass);
+                    loader.visitBlockItem(block.getIdentifier(), classBlockItem, classBlockLoader);
                     break;
                 case SLAB:
+                    if (classSlabItem == null) {
+                        classSlabItem = context.getInternalName("item/base/ItemSlabBase");
+                        context.getClassesFiler().write(classSlabItem + ".class",
+                                new ItemSlabBase(
+                                        classSlabItem,
+                                        context.getInternalName("block/base/BlockSlabBase"),
+                                        context.getInternalName("block/base/SlabType"))
+                                        .toByteArray());
+                    }
+                    loader.visitBlockItem(block.getIdentifier(), classSlabItem, classBlockLoader);
                     break;
             }
         }
