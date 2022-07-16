@@ -31,6 +31,7 @@ public class GenItem implements Task {
         String classBlockItem = null;
         String classSlabItem = null;
         for (MEBlock block : context.getElements(MEBlock.class)) {
+            if (block.isDoNotRegisterItem()) continue;
             switch (block.getType()) {
                 default:
                     if (classBlockItem == null) {
