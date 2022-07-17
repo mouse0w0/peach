@@ -30,7 +30,7 @@ public class NewElementDialog extends BorderPane {
     @FXML
     private TextField name;
     @FXML
-    private ChoiceBox<ElementProvider<?>> provider;
+    private ChoiceBox<ElementProvider<?>> type;
     @FXML
     private Text identifier;
 
@@ -56,11 +56,11 @@ public class NewElementDialog extends BorderPane {
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    provider.getSelectionModel().selectPrevious();
+                    type.getSelectionModel().selectPrevious();
                     event.consume();
                     break;
                 case DOWN:
-                    provider.getSelectionModel().selectNext();
+                    type.getSelectionModel().selectNext();
                     event.consume();
                     break;
             }
@@ -68,7 +68,7 @@ public class NewElementDialog extends BorderPane {
         name.textProperty().addListener(observable ->
                 identifier.setText(ModUtils.tryConvertToIdentifier(name.getText())));
 
-        provider.setConverter(new StringConverter<ElementProvider<?>>() {
+        type.setConverter(new StringConverter<ElementProvider<?>>() {
             @Override
             public String toString(ElementProvider<?> object) {
                 return I18n.translate(object.getTranslationKey());
@@ -79,15 +79,15 @@ public class NewElementDialog extends BorderPane {
                 throw new UnsupportedOperationException();
             }
         });
-        provider.getItems().addAll(ElementRegistry.getInstance().getElementProviders());
-        provider.setValue(provider.getItems().get(0));
+        type.getItems().addAll(ElementRegistry.getInstance().getElementProviders());
+        type.setValue(type.getItems().get(0));
     }
 
     @FXML
     private void onFinish() {
         if (!Validator.test(name)) return;
 
-        ElementManager.getInstance(project).createElement(path, provider.getValue(), name.getText());
+        ElementManager.getInstance(project).createElement(path, type.getValue(), name.getText());
 
         FXUtils.hideWindow(this);
     }
