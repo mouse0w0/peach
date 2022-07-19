@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.javafx.StyleClasses;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
@@ -25,6 +26,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
@@ -46,7 +49,8 @@ public class WelcomeUI extends BorderPane {
 
     public static void show() {
         stage = new Stage();
-        stage.setScene(new Scene(new WelcomeUI()));
+        Scene scene = new Scene(new WelcomeUI());
+        stage.setScene(scene);
         stage.setTitle(I18n.translate("welcome.title"));
         stage.getIcons().setAll(Icons.Peach_16x);
         stage.setResizable(false);
@@ -78,12 +82,7 @@ public class WelcomeUI extends BorderPane {
         ActionManager actionManager = ActionManager.getInstance();
         ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction("RecentProjectsListViewPopupMenu");
         contextMenu = actionManager.createContextMenu(filePopupMenu);
-        onContextMenuRequested = new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                contextMenu.getProperties().put(Node.class, event.getSource());
-            }
-        };
+        onContextMenuRequested = event -> contextMenu.getProperties().put(Node.class, event.getSource());
 
         recentProjects = new ListView<>();
         recentProjects.setId("recent-projects");
@@ -126,8 +125,13 @@ public class WelcomeUI extends BorderPane {
             setOnMouseClicked(event -> {
                 if (isEmpty()) return;
                 if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                    ProjectManager.getInstance().openProject(Paths.get(getItem().getPath()));
+                    Path path = Paths.get(getItem().getPath());
+                    if (Files.notExists(path)) return;
+                    ProjectManager.getInstance().openProject(path);
                 }
+            });
+            textFillProperty().addListener(observable -> {
+                System.out.println("debug");
             });
         }
 
