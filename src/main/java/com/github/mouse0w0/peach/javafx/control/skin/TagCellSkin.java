@@ -3,20 +3,23 @@ package com.github.mouse0w0.peach.javafx.control.skin;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.javafx.control.TagView;
 import com.github.mouse0w0.peach.javafx.control.skin.behavior.TagCellBehavior;
-import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.skin.LabeledSkinBase;
 import javafx.beans.InvalidationListener;
 import javafx.scene.Cursor;
+import javafx.scene.control.skin.LabeledSkinBase;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
-public class TagCellSkin<T> extends LabeledSkinBase<TagCell<T>, BehaviorBase<TagCell<T>>> {
+public class TagCellSkin<T> extends LabeledSkinBase<TagCell<T>> {
+    private final TagCellBehavior<T> behavior;
+
     private final StackPane removeBtn;
 
     private boolean updatingChildren;
 
     public TagCellSkin(TagCell<T> cell) {
-        super(cell, new TagCellBehavior<>(cell));
+        super(cell);
+
+        behavior = new TagCellBehavior<>(cell);
 
         StackPane remove = new StackPane();
         remove.getStyleClass().add("remove");
@@ -68,5 +71,13 @@ public class TagCellSkin<T> extends LabeledSkinBase<TagCell<T>, BehaviorBase<Tag
         final double contentWidth = w - btnWidth;
         removeBtn.resizeRelocate(x + contentWidth, y, btnWidth, btnHeight);
         layoutLabelInArea(x, y, contentWidth, h, null);
+    }
+
+    @Override
+    public void dispose() {
+        if (behavior != null) {
+            behavior.dispose();
+        }
+        super.dispose();
     }
 }

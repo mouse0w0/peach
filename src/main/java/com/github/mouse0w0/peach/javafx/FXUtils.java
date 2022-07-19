@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Function;
@@ -137,10 +136,10 @@ public final class FXUtils {
     }
 
     public static Optional<Window> getFocusedWindow() {
-        Iterator<Window> iterator = Window.impl_getWindows();
-        while (iterator.hasNext()) {
-            Window window = iterator.next();
-            if (window.isFocused()) return Optional.of(window);
+        for (Window window : Window.getWindows()) {
+            if (window.isFocused()) {
+                return Optional.of(window);
+            }
         }
         return Optional.empty();
     }

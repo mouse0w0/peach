@@ -2,11 +2,11 @@ package com.github.mouse0w0.peach.view;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.icon.IconManager;
+import com.github.mouse0w0.peach.javafx.control.ViewPane;
+import com.github.mouse0w0.peach.javafx.control.ViewTab;
+import com.github.mouse0w0.peach.javafx.geometry.EightPos;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.window.ProjectWindow;
-import com.github.mouse0w0.viewpane.ViewPane;
-import com.github.mouse0w0.viewpane.ViewTab;
-import com.github.mouse0w0.viewpane.geometry.EightPos;
 import javafx.scene.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

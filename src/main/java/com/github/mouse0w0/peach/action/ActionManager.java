@@ -130,7 +130,7 @@ public class ActionManager {
 
         Action action;
         try {
-            action = (Action) Class.forName(className).newInstance();
+            action = (Action) Class.forName(className).getDeclaredConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Failed to create an action instance of " + className, e);
             return;
@@ -151,7 +151,7 @@ public class ActionManager {
         ActionGroup action;
         try {
             Class<?> clazz = StringUtils.isEmpty(className) ? ActionGroup.class : Class.forName(className);
-            action = (ActionGroup) clazz.newInstance();
+            action = (ActionGroup) clazz.getDeclaredConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Failed to create an action instance of " + className, e);
             return;

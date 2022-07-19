@@ -23,11 +23,7 @@ public class PopupAlert extends PopupControl {
 
     public PopupAlert() {
         getStyleClass().setAll("popup-alert");
-
         setAnchorLocation(AnchorLocation.CONTENT_TOP_LEFT);
-
-        bridge = new CSSBridge();
-        getContent().setAll(bridge);
     }
 
     private ObjectProperty<NotificationLevel> level;

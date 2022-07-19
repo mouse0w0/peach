@@ -5,8 +5,8 @@ import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionGroups;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.viewpane.ViewPane;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -80,22 +80,23 @@ class ProjectRootPane extends BorderPane {
         return menuBar;
     }
 
-    private static final EventHandler<Event> ON_MENU_SHOWN = new EventHandler<Event>() {
+    private static final EventHandler<Event> ON_MENU_SHOWN = new EventHandler<>() {
         @Override
         public void handle(Event event) {
-            Window window = FXUtils.getFocusedWindow().orElse(null);
-            if (window != null) {
-                ContextMenu contextMenu = (ContextMenu) window;
-                Parent root = contextMenu.getScene().getRoot();
-                for (Node node : root.lookupAll(".menu-item")) {
-                    node.setOnMouseEntered(ON_MOUSE_ENTERED);
-                    node.setOnMouseExited(ON_MOUSE_EXITED);
+            for (Window window : Window.getWindows()) {
+                if (window instanceof ContextMenu contextMenu) {
+                    Parent root = contextMenu.getScene().getRoot();
+                    for (Node node : root.lookupAll(".menu-item")) {
+                        node.setOnMouseEntered(ON_MOUSE_ENTERED);
+                        node.setOnMouseExited(ON_MOUSE_EXITED);
+                    }
+                    return;
                 }
             }
         }
     };
 
-    private static final EventHandler<? super MouseEvent> ON_MOUSE_ENTERED = new EventHandler<MouseEvent>() {
+    private static final EventHandler<? super MouseEvent> ON_MOUSE_ENTERED = new EventHandler<>() {
         @Override
         public void handle(MouseEvent event) {
             Node node = (Node) event.getTarget();
@@ -106,7 +107,7 @@ class ProjectRootPane extends BorderPane {
         }
     };
 
-    private static final EventHandler<? super MouseEvent> ON_MOUSE_EXITED = new EventHandler<MouseEvent>() {
+    private static final EventHandler<? super MouseEvent> ON_MOUSE_EXITED = new EventHandler<>() {
         @Override
         public void handle(MouseEvent event) {
             StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText("");

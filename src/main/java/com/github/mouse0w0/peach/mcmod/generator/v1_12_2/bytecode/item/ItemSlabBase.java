@@ -132,7 +132,7 @@ public class ItemSlabBase extends ClassGenerator {
             mv.visitInsn(FDIV);
             mv.visitVarInsn(ALOAD, 14);
             mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/SoundType", "func_185847_b", "()F", false);
-            mv.visitLdcInsn(new Float("0.8"));
+            mv.visitLdcInsn(Float.valueOf("0.8"));
             mv.visitInsn(FMUL);
             mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_184133_a", "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/SoundEvent;Lnet/minecraft/util/SoundCategory;FF)V", false);
             mv.visitVarInsn(ALOAD, 9);
@@ -314,7 +314,7 @@ public class ItemSlabBase extends ClassGenerator {
             mv.visitInsn(FDIV);
             mv.visitVarInsn(ALOAD, 8);
             mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/SoundType", "func_185847_b", "()F", false);
-            mv.visitLdcInsn(new Float("0.8"));
+            mv.visitLdcInsn(Float.valueOf("0.8"));
             mv.visitInsn(FMUL);
             mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/world/World", "func_184133_a", "(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/SoundEvent;Lnet/minecraft/util/SoundCategory;FF)V", false);
             mv.visitVarInsn(ALOAD, 2);

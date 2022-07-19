@@ -1,0 +1,16 @@
+.view-tab-button {
+    -fx-padding: 2 8 2 8;
+}
+
+.view-tab-button:hover {
+    -fx-background-color: #cccccc;
+}
+
+.view-tab-button:selected {
+    -fx-background-color: #aaaaaa;
+}
+
+.view-pane > .side-bar-area > .division-area > .divider {
+    -fx-padding: 1 1 0 0;
+    -fx-background-color: #cccccc;
+}

@@ -7,7 +7,6 @@ import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.view.ViewManager;
-import com.sun.javafx.stage.StageHelper;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -45,18 +44,18 @@ public class WindowManager {
     public WindowManager() {
         Peach.getEventBus().addListener(Order.LAST, this::onOpenedProject);
         Peach.getEventBus().addListener(Order.LAST, this::onClosingBeforeSaveProject);
-        StageHelper.getStages().addListener(new ListChangeListener<Stage>() {
+        Window.getWindows().addListener(new ListChangeListener<Window>() {
             @Override
-            public void onChanged(Change<? extends Stage> c) {
+            public void onChanged(Change<? extends Window> c) {
                 while (c.next()) {
                     if (c.wasAdded()) {
-                        for (Stage stage : c.getAddedSubList()) {
-                            stage.focusedProperty().addListener(windowFocusedListener);
+                        for (Window window : c.getAddedSubList()) {
+                            window.focusedProperty().addListener(windowFocusedListener);
                         }
                     }
                     if (c.wasRemoved()) {
-                        for (Stage stage : c.getRemoved()) {
-                            stage.focusedProperty().removeListener(windowFocusedListener);
+                        for (Window window : c.getRemoved()) {
+                            window.focusedProperty().removeListener(windowFocusedListener);
                         }
                     }
                 }

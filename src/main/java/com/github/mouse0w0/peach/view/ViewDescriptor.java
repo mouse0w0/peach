@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.view;
 
 import com.github.mouse0w0.peach.extension.Attribute;
 import com.github.mouse0w0.peach.extension.ExtensionPoint;
-import com.github.mouse0w0.viewpane.geometry.EightPos;
+import com.github.mouse0w0.peach.javafx.geometry.EightPos;
 
 public final class ViewDescriptor {
 

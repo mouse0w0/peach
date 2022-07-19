@@ -276,7 +276,7 @@ public class BlockSlabBase extends ClassGenerator {
             mv.visitJumpInsn(IF_ACMPEQ, label2);
             mv.visitVarInsn(FLOAD, 5);
             mv.visitInsn(F2D);
-            mv.visitLdcInsn(new Double("0.5"));
+            mv.visitLdcInsn(Double.valueOf("0.5"));
             mv.visitInsn(DCMPG);
             mv.visitJumpInsn(IFGT, label1);
             mv.visitLabel(label2);
@@ -425,14 +425,14 @@ public class BlockSlabBase extends ClassGenerator {
             mv.visitInsn(DCONST_0);
             mv.visitInsn(DCONST_0);
             mv.visitInsn(DCONST_1);
-            mv.visitLdcInsn(new Double("0.5"));
+            mv.visitLdcInsn(Double.valueOf("0.5"));
             mv.visitInsn(DCONST_1);
             mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/math/AxisAlignedBB", "<init>", "(DDDDDD)V", false);
             mv.visitFieldInsn(PUTSTATIC, className, "AABB_BOTTOM_HALF", "Lnet/minecraft/util/math/AxisAlignedBB;");
             mv.visitTypeInsn(NEW, "net/minecraft/util/math/AxisAlignedBB");
             mv.visitInsn(DUP);
             mv.visitInsn(DCONST_0);
-            mv.visitLdcInsn(new Double("0.5"));
+            mv.visitLdcInsn(Double.valueOf("0.5"));
             mv.visitInsn(DCONST_0);
             mv.visitInsn(DCONST_1);
             mv.visitInsn(DCONST_1);

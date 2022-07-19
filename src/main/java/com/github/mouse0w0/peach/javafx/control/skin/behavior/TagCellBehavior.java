@@ -3,30 +3,37 @@ package com.github.mouse0w0.peach.javafx.control.skin.behavior;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.javafx.control.TagView;
 import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import javafx.scene.input.MouseButton;
+import com.sun.javafx.scene.control.inputmap.InputMap;
 import javafx.scene.input.MouseEvent;
 
-import java.util.Collections;
-
 public class TagCellBehavior<T> extends BehaviorBase<TagCell<T>> {
+    private final InputMap<TagCell<T>> inputMap;
+
     public TagCellBehavior(TagCell<T> cell) {
-        super(cell, Collections.emptyList());
+        super(cell);
+
+        inputMap = createInputMap();
+
+        addDefaultMapping(inputMap,
+                new InputMap.MouseMapping(MouseEvent.MOUSE_PRESSED, this::mousePressed));
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseButton.PRIMARY) {
-            final TagCell<T> cell = getControl();
-            if (cell.isSelected() && e.getClickCount() == 1) {
-                cell.startEdit();
-            } else if (e.getClickCount() == 2) {
-                cell.startEdit();
-            }
+    public InputMap<TagCell<T>> getInputMap() {
+        return inputMap;
+    }
 
-            final TagView<T> tagView = cell.getTagView();
-            if (tagView != null) {
-                tagView.getSelectionModel().select(cell.getIndex());
-            }
+    protected void mousePressed(MouseEvent e) {
+        final TagCell<T> cell = getNode();
+        if (cell.isSelected() && e.getClickCount() == 1) {
+            cell.startEdit();
+        } else if (e.getClickCount() == 2) {
+            cell.startEdit();
+        }
+
+        final TagView<T> tagView = cell.getTagView();
+        if (tagView != null) {
+            tagView.getSelectionModel().select(cell.getIndex());
         }
     }
 }

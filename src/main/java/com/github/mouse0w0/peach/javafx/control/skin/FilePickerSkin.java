@@ -59,17 +59,17 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
 
     @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorWidth = snapSize(editor.prefWidth(-1));
-        final double clearBtnWidth = snapSize(clearBtn.prefWidth(-1));
-        final double openChooserBtnWidth = snapSize(openChooserBtn.prefWidth(-1));
+        final double editorWidth = snapSizeX(editor.prefWidth(-1));
+        final double clearBtnWidth = snapSizeX(clearBtn.prefWidth(-1));
+        final double openChooserBtnWidth = snapSizeX(openChooserBtn.prefWidth(-1));
         return leftInset + editorWidth + clearBtnWidth + openChooserBtnWidth + rightInset;
     }
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorHeight = snapSize(editor.prefHeight(-1));
-        final double clearBtnHeight = snapSize(clearBtn.prefHeight(-1));
-        final double openChooserBtnHeight = snapSize(openChooserBtn.prefHeight(-1));
+        final double editorHeight = snapSizeY(editor.prefHeight(-1));
+        final double clearBtnHeight = snapSizeY(clearBtn.prefHeight(-1));
+        final double openChooserBtnHeight = snapSizeY(openChooserBtn.prefHeight(-1));
         return topInset + Math.max(Math.max(editorHeight, clearBtnHeight), openChooserBtnHeight) + bottomInset;
     }
 
@@ -85,8 +85,8 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
 
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
-        final double openChooserBtnWidth = snapSize(openChooserBtn.prefWidth(-1));
-        final double clearBtnWidth = snapSize(clearBtn.prefWidth(-1));
+        final double openChooserBtnWidth = snapSizeX(openChooserBtn.prefWidth(-1));
+        final double clearBtnWidth = snapSizeX(clearBtn.prefWidth(-1));
         final double editorWidth = contentWidth - clearBtnWidth - openChooserBtnWidth;
         layoutInArea(editor, contentX, contentY, editorWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
         layoutInArea(clearBtn, contentX + editorWidth, contentY,
