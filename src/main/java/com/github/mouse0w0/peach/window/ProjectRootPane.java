@@ -28,7 +28,7 @@ class ProjectRootPane extends BorderPane {
     public ProjectRootPane(Project project) {
         this.project = project;
 
-        FXUtils.addStyleSheet(this, "style/style.css");
+        FXUtils.addStylesheet(this, "style/style.css");
 
         setPrefSize(900, 600);
 

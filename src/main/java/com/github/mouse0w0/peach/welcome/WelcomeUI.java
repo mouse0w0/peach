@@ -73,7 +73,7 @@ public class WelcomeUI extends BorderPane {
     }
 
     public WelcomeUI() {
-        FXUtils.addStyleSheet(this, "style/style.css");
+        FXUtils.addStylesheet(this, "style/style.css");
 
         setId("welcome");
         setPrefSize(600, 400);

@@ -73,7 +73,7 @@ public final class FXUtils {
         StyleManager.getInstance().addUserAgentStylesheet(scene, resource.toExternalForm());
     }
 
-    public static void addStyleSheet(Scene scene, String resourceName) {
+    public static void addStylesheet(Scene scene, String resourceName) {
         ClassLoader classLoader = getClassLoaderOfCaller();
         URL resource = classLoader.getResource(resourceName);
         if (resource == null) {
@@ -82,7 +82,7 @@ public final class FXUtils {
         scene.getStylesheets().add(resource.toExternalForm());
     }
 
-    public static void addStyleSheet(Parent parent, String resourceName) {
+    public static void addStylesheet(Parent parent, String resourceName) {
         ClassLoader classLoader = getClassLoaderOfCaller();
         URL resource = classLoader.getResource(resourceName);
         if (resource == null) {
