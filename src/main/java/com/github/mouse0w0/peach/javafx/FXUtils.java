@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.javafx;
 
 import com.github.mouse0w0.i18n.I18n;
-import com.sun.javafx.css.StyleManager;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
@@ -62,15 +61,6 @@ public final class FXUtils {
         } catch (ClassNotFoundException e) {
             return Thread.currentThread().getContextClassLoader();
         }
-    }
-
-    public static void addUserAgentStylesheet(Scene scene, String resourceName) {
-        ClassLoader classLoader = getClassLoaderOfCaller();
-        URL resource = classLoader.getResource(resourceName);
-        if (resource == null) {
-            throw new NullPointerException("Resource \"" + resourceName + "\" not found");
-        }
-        StyleManager.getInstance().addUserAgentStylesheet(scene, resource.toExternalForm());
     }
 
     public static void addStylesheet(Scene scene, String resourceName) {
