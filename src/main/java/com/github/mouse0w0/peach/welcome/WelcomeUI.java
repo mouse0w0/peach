@@ -9,7 +9,6 @@ import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.FXUtils;
-import com.github.mouse0w0.peach.javafx.StyleClasses;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
@@ -85,7 +84,7 @@ public class WelcomeUI extends BorderPane {
         onContextMenuRequested = event -> contextMenu.getProperties().put(Node.class, event.getSource());
 
         recentProjects = new ListView<>();
-        recentProjects.setId("recent-projects");
+        recentProjects.setId("project-list");
         recentProjects.setPrefWidth(250);
         recentProjects.setCellFactory(list -> new Cell());
         recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
@@ -120,6 +119,8 @@ public class WelcomeUI extends BorderPane {
 
     private class Cell extends ListCell<RecentProjectInfo> {
 
+        public static final String PATH_NOT_EXISTS = "path-not-exists";
+
         public Cell() {
             setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
@@ -130,20 +131,21 @@ public class WelcomeUI extends BorderPane {
                     ProjectManager.getInstance().openProject(path);
                 }
             });
-            textFillProperty().addListener(observable -> {
-                System.out.println("debug");
-            });
         }
 
         @Override
         protected void updateItem(RecentProjectInfo item, boolean empty) {
             super.updateItem(item, empty);
+            getStyleClass().remove(PATH_NOT_EXISTS);
             if (empty) {
                 setContextMenu(null);
                 setText(null);
             } else {
                 setContextMenu(contextMenu);
                 setText(item.getName() + "\n" + item.getPath());
+                if (Files.notExists(Paths.get(item.getPath()))) {
+                    getStyleClass().add(PATH_NOT_EXISTS);
+                }
             }
         }
     }

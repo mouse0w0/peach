@@ -7,22 +7,26 @@
 }
 
 /* Welcome */
-#welcome > #recent-projects,
-#welcome > #recent-projects:focused {
+#project-list,
+#project-list:focused {
     -fx-background-color: -peach-foreground-color;
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
 
-#welcome > #recent-projects:focused .list-cell:filled:selected,
-#welcome > #recent-projects:focused .list-cell:odd:filled:selected {
+#project-list:focused .list-cell:filled:selected,
+#project-list:focused .list-cell:odd:filled:selected {
     -fx-background-color: -fx-background;
     -fx-background-insets: 0;
 }
 
-#welcome > #recent-projects .list-cell:odd,
-#welcome > #recent-projects:focused .list-cell:odd {
+#project-list .list-cell:odd,
+#project-list:focused .list-cell:odd {
     -fx-background-color: -peach-foreground-color;
+}
+
+#project-list .list-cell.path-not-exists {
+    -fx-text-fill: red;
 }
 
 #welcome .button {
