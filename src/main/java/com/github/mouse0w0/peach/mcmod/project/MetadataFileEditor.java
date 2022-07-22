@@ -57,7 +57,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         id = new TextFieldField();
         id.setText(I18n.translate("metadata.general.id"));
         id.setColSpan(ColSpan.HALF);
-        id.getChecks().add(new Check<>(ModUtils::isValidIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalModId")));
+        id.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalModId")));
         id.setValue(metadata.getId());
 
         version = new TextFieldField();

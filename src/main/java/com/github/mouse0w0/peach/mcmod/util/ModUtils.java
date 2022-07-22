@@ -9,14 +9,14 @@ public final class ModUtils {
 
     public static final Pattern IDENTIFIER = Pattern.compile("^[a-z][a-z0-9_]{1,63}$");
 
-    public static boolean isValidIdentifier(String identifier) {
+    public static boolean validateIdentifier(String identifier) {
         return identifier != null && IDENTIFIER.matcher(identifier).matches();
     }
 
     @Nullable
     public static String toIdentifier(String s) {
         String identifier = tryConvertToIdentifier(s);
-        return isValidIdentifier(identifier) ? identifier : null;
+        return validateIdentifier(identifier) ? identifier : null;
     }
 
     public static String tryConvertToIdentifier(String s) {

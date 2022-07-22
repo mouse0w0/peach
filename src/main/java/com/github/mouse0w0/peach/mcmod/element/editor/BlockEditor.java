@@ -98,7 +98,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         form = new Form();
 
         identifier = new TextFieldField();
-        identifier.getChecks().add(new Check<>(ModUtils::isValidIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalIdentifier")));
+        identifier.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalIdentifier")));
         identifier.setText(I18n.translate("block.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 
