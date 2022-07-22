@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.fileEditor;
 
-import com.github.mouse0w0.peach.util.Disposable;
+import com.github.mouse0w0.peach.dispose.Disposable;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.image.Image;

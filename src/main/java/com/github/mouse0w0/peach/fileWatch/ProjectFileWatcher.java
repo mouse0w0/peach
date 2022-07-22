@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.fileWatch;
 
+import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.util.Disposable;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 

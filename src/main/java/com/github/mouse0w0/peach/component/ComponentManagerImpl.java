@@ -1,8 +1,9 @@
 package com.github.mouse0w0.peach.component;
 
 import com.github.mouse0w0.peach.component.store.ComponentStore;
+import com.github.mouse0w0.peach.dispose.Disposable;
+import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.util.ArrayUtils;
-import com.github.mouse0w0.peach.util.Disposable;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -125,7 +126,7 @@ public abstract class ComponentManagerImpl implements ComponentManager {
     protected void disposeComponents() {
         for (Object service : services.values()) {
             if (service instanceof Disposable) {
-                ((Disposable) service).dispose();
+                Disposer.dispose((Disposable) service);
             }
         }
     }

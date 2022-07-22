@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.component;
 
-import com.github.mouse0w0.peach.util.Disposable;
+import com.github.mouse0w0.peach.dispose.Disposable;
 
 public interface ComponentManager extends Disposable {
 

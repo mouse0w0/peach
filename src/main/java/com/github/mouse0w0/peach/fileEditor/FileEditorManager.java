@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.fileEditor;
 
+import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.file.FileAppearances;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.project.Project;
@@ -111,7 +112,7 @@ public class FileEditorManager {
         if (openedEditor == null) return false;
 
         WindowManager.getInstance().getWindow(project).removeTab(openedEditor.getTab());
-        openedEditor.getFileEditor().dispose();
+        Disposer.dispose(openedEditor.getFileEditor());
         return true;
     }
 

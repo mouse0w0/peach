@@ -8,6 +8,7 @@ import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.component.ServiceDescriptor;
+import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.event.AppEvent;
 import com.github.mouse0w0.peach.extension.ExtensionException;
 import com.github.mouse0w0.peach.extension.Extensions;
@@ -121,7 +122,8 @@ public final class Peach extends ComponentManagerImpl {
 
         getEventBus().post(new AppEvent.WillBeClosed());
 
-        INSTANCE.dispose();
+        Disposer.dispose(INSTANCE);
+        Disposer.checkAllDisposed();
 
         LOGGER.info("Exited application.");
         System.exit(0);

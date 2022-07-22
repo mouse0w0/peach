@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
@@ -93,7 +94,7 @@ public final class ProjectManager {
         LOGGER.info("Closing project: {}", project.getName());
         Peach.getEventBus().post(new ProjectEvent.Closing(project));
 
-        project.dispose();
+        Disposer.dispose(project);
         openedProjects.remove(project.getPath());
 
         LOGGER.info("Closed project: {}", project.getName());
