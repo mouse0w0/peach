@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dispose;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ final class ObjectNode {
 
     public void addChild(ObjectNode node) {
         if (children == null) {
-            children = new ObjectArrayList<>();
+            children = new ReferenceArrayList<>();
         }
         children.add(node);
         node.parent = this;
