@@ -2,13 +2,13 @@ package com.github.mouse0w0.peach.fileWatch;
 
 import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.sun.nio.file.ExtendedWatchEventModifier;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,8 +22,9 @@ public class ProjectFileWatcher implements Disposable {
 
     private final Project project;
     private final Path projectPath;
-    private final List<FileChangeListener> listeners;
     private final Thread thread;
+
+    private FileChangeListener[] listeners;
 
     public static ProjectFileWatcher getInstance(Project project) {
         return project.getService(ProjectFileWatcher.class);
@@ -32,7 +33,6 @@ public class ProjectFileWatcher implements Disposable {
     public ProjectFileWatcher(Project project) {
         this.project = project;
         this.projectPath = project.getPath();
-        this.listeners = new ArrayList<>();
         this.thread = new Thread(this::run, "File Watcher-" + NEXT_ID.getAndIncrement());
         this.thread.start();
     }
@@ -45,15 +45,17 @@ public class ProjectFileWatcher implements Disposable {
         return projectPath;
     }
 
-    public void addListener(FileChangeListener listener) {
-        synchronized (this) {
-            listeners.add(listener);
+    public synchronized void addListener(FileChangeListener listener) {
+        if (listeners == null) {
+            listeners = new FileChangeListener[]{listener};
+        } else {
+            listeners = ArrayUtils.add(listeners, listener);
         }
     }
 
-    public void removeListener(FileChangeListener listener) {
-        synchronized (this) {
-            listeners.remove(listener);
+    public synchronized void removeListener(FileChangeListener listener) {
+        if (listeners != null) {
+            listeners = ArrayUtils.removeElement(listeners, listener);
         }
     }
 
@@ -71,40 +73,35 @@ public class ProjectFileWatcher implements Disposable {
         }
     }
 
-    private void fireEvents(List<WatchEvent<?>> events) {
-        synchronized (this) {
-            for (WatchEvent<?> event : events) {
-                fireEvent(event);
-            }
-        }
-    }
+    private synchronized void fireEvents(List<WatchEvent<?>> events) {
+        for (WatchEvent<?> event : events) {
+            if (event.count() != 1) return;
 
-    private void fireEvent(WatchEvent<?> event) {
-        if (event.count() != 1) return;
-
-        final WatchEvent.Kind<?> kind = event.kind();
-        if (kind == OVERFLOW) {
-            final Object context = event.context();
-            for (FileChangeListener listener : listeners) {
-                listener.onOverflow(this, context);
+            final FileChangeListener[] listeners = this.listeners;
+            final WatchEvent.Kind<?> kind = event.kind();
+            if (kind == OVERFLOW) {
+                final Object context = event.context();
+                for (FileChangeListener listener : listeners) {
+                    listener.onOverflow(this, context);
+                }
+            } else if (kind == ENTRY_CREATE) {
+                final Path path = projectPath.resolve((Path) event.context());
+                for (FileChangeListener listener : listeners) {
+                    listener.onFileCreate(this, path);
+                }
+            } else if (kind == ENTRY_DELETE) {
+                final Path path = projectPath.resolve((Path) event.context());
+                for (FileChangeListener listener : listeners) {
+                    listener.onFileDelete(this, path);
+                }
+            } else if (kind == ENTRY_MODIFY) {
+                final Path path = projectPath.resolve((Path) event.context());
+                for (FileChangeListener listener : listeners) {
+                    listener.onFileModify(this, path);
+                }
+            } else {
+                throw new Error("Cannot reachable");
             }
-        } else if (kind == ENTRY_CREATE) {
-            final Path path = projectPath.resolve((Path) event.context());
-            for (FileChangeListener listener : listeners) {
-                listener.onFileCreate(this, path);
-            }
-        } else if (kind == ENTRY_DELETE) {
-            final Path path = projectPath.resolve((Path) event.context());
-            for (FileChangeListener listener : listeners) {
-                listener.onFileDelete(this, path);
-            }
-        } else if (kind == ENTRY_MODIFY) {
-            final Path path = projectPath.resolve((Path) event.context());
-            for (FileChangeListener listener : listeners) {
-                listener.onFileModify(this, path);
-            }
-        } else {
-            throw new Error("Cannot reachable");
         }
     }
 
