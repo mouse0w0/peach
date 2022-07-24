@@ -1,11 +1,10 @@
 package com.github.mouse0w0.peach.window;
 
-import com.github.mouse0w0.eventbus.Order;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
-import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.view.ViewManager;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -42,8 +41,29 @@ public class WindowManager {
     }
 
     public WindowManager() {
-        Peach.getEventBus().addListener(Order.LAST, this::onOpenedProject);
-        Peach.getEventBus().addListener(Order.LAST, this::onClosingBeforeSaveProject);
+        Peach.getInstance().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
+            @Override
+            public void projectOpened(Project project) {
+                ProjectWindow window = allocateWindow(project);
+                window.getStage().show();
+            }
+
+            @Override
+            public void projectClosingBeforeSave(Project project) {
+
+            }
+
+            @Override
+            public void projectClosing(Project project) {
+                ProjectWindow window = getWindow(project);
+                window.getStage().hide();
+            }
+
+            @Override
+            public void projectClosed(Project project) {
+
+            }
+        });
         Window.getWindows().addListener(new ListChangeListener<Window>() {
             @Override
             public void onChanged(Change<? extends Window> c) {
@@ -122,15 +142,5 @@ public class WindowManager {
     public Project getFocusedProject() {
         if (focusedWindow == null) return null;
         return DataKeys.PROJECT.get(DataManager.getInstance().getDataContext(focusedWindow));
-    }
-
-    private void onOpenedProject(ProjectEvent.Opened event) {
-        ProjectWindow window = allocateWindow(event.getProject());
-        window.getStage().show();
-    }
-
-    private void onClosingBeforeSaveProject(ProjectEvent.ClosingBeforeSave event) {
-        ProjectWindow window = getWindow(event.getProject());
-        window.getStage().hide();
     }
 }

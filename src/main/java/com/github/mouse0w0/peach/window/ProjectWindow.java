@@ -4,7 +4,6 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.data.DataProvider;
-import com.github.mouse0w0.peach.event.project.ProjectWindowEvent;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.project.Project;
@@ -37,8 +36,8 @@ public class ProjectWindow implements DataProvider {
         stage.setScene(scene);
         stage.setTitle(project.getName());
         stage.getIcons().setAll(Icons.Peach_16x);
-        stage.setOnShown(event -> Peach.getEventBus().post(new ProjectWindowEvent.Opened(this)));
-        stage.setOnHidden(event -> Peach.getEventBus().post(new ProjectWindowEvent.Closed(this)));
+        stage.setOnShown(event -> Peach.getInstance().getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowShown(this));
+        stage.setOnHidden(event -> Peach.getInstance().getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowHidden(this));
         stage.setOnCloseRequest(event -> {
             event.consume();
             ProjectManager.getInstance().closeProject(project);

@@ -4,6 +4,9 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.component.ServiceDescriptor;
 import com.github.mouse0w0.peach.component.store.ProjectComponentStore;
+import com.github.mouse0w0.peach.dispose.Disposer;
+import com.github.mouse0w0.peach.message.MessageBus;
+import com.github.mouse0w0.peach.message.impl.MessageBusFactory;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.peach.window.WindowManager;
 import org.apache.commons.lang3.Validate;
@@ -16,10 +19,12 @@ import java.nio.file.Path;
 
 public final class Project extends ComponentManagerImpl {
     private final Path path;
+    private MessageBus messageBus;
 
     public Project(@Nonnull Path path) throws IOException {
         super(Peach.getInstance());
         this.path = Validate.notNull(path);
+        this.messageBus = MessageBusFactory.create(Peach.getInstance().getMessageBus());
         if (!Files.exists(path)) {
             throw new IllegalStateException("Project path must be exists");
         }
@@ -52,6 +57,10 @@ public final class Project extends ComponentManagerImpl {
         }
     }
 
+    public MessageBus getMessageBus() {
+        return messageBus;
+    }
+
     @Override
     protected ProjectComponentStore getComponentStore() {
         return (ProjectComponentStore) super.getComponentStore();
@@ -68,5 +77,10 @@ public final class Project extends ComponentManagerImpl {
     @Override
     public void dispose() {
         disposeComponents();
+
+        if (messageBus != null) {
+            Disposer.dispose(messageBus);
+            messageBus = null;
+        }
     }
 }

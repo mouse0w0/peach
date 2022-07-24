@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import org.slf4j.Logger;
@@ -73,7 +72,7 @@ public final class ProjectManager {
             return null;
         }
         openedProjects.put(path, project);
-        Peach.getEventBus().post(new ProjectEvent.Opened(project));
+        Peach.getInstance().getMessageBus().getPublisher(ProjectLifecycleListener.TOPIC).projectOpened(project);
         LOGGER.info("Opened project: {}", project.getName());
         return project;
     }
@@ -83,7 +82,8 @@ public final class ProjectManager {
             return true;
         }
 
-        Peach.getEventBus().post(new ProjectEvent.ClosingBeforeSave(project));
+        ProjectLifecycleListener publisher = Peach.getInstance().getMessageBus().getPublisher(ProjectLifecycleListener.TOPIC);
+        publisher.projectClosingBeforeSave(project);
         try {
             project.save();
         } catch (IOException e) {
@@ -92,13 +92,13 @@ public final class ProjectManager {
         }
 
         LOGGER.info("Closing project: {}", project.getName());
-        Peach.getEventBus().post(new ProjectEvent.Closing(project));
+        publisher.projectClosing(project);
 
         Disposer.dispose(project);
         openedProjects.remove(project.getPath());
 
         LOGGER.info("Closed project: {}", project.getName());
-        Peach.getEventBus().post(new ProjectEvent.Closed(project));
+        publisher.projectClosed(project);
         return true;
     }
 

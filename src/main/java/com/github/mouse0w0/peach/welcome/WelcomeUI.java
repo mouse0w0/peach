@@ -6,9 +6,10 @@ import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
-import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.service.RecentProjectsManager;
@@ -42,8 +43,30 @@ public class WelcomeUI extends BorderPane {
     private final EventHandler<Event> onContextMenuRequested;
 
     static {
-        Peach.getEventBus().addListener(WelcomeUI::onOpenedProject);
-        Peach.getEventBus().addListener(WelcomeUI::onClosedProject);
+        Peach.getInstance().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
+            @Override
+            public void projectOpened(Project project) {
+                stage.hide();
+            }
+
+            @Override
+            public void projectClosingBeforeSave(Project project) {
+
+            }
+
+            @Override
+            public void projectClosing(Project project) {
+
+            }
+
+            @Override
+            public void projectClosed(Project project) {
+                if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
+                    if (showWelcomeIfNoProjectOpened) show();
+                    else Peach.getInstance().exit();
+                }
+            }
+        });
     }
 
     public static void show() {
@@ -59,17 +82,6 @@ public class WelcomeUI extends BorderPane {
             }
         });
         stage.show();
-    }
-
-    private static void onOpenedProject(ProjectEvent.Opened event) {
-        stage.hide();
-    }
-
-    private static void onClosedProject(ProjectEvent.Closed event) {
-        if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
-            if (showWelcomeIfNoProjectOpened) show();
-            else Peach.getInstance().exit();
-        }
     }
 
     public WelcomeUI() {

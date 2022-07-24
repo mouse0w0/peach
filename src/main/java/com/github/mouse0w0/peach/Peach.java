@@ -1,22 +1,22 @@
 package com.github.mouse0w0.peach;
 
-import com.github.mouse0w0.eventbus.EventBus;
-import com.github.mouse0w0.eventbus.SimpleEventBus;
-import com.github.mouse0w0.eventbus.asm.AsmEventListenerFactory;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
+import com.github.mouse0w0.peach.application.AppLifecycleListener;
 import com.github.mouse0w0.peach.component.ComponentManagerImpl;
 import com.github.mouse0w0.peach.component.ServiceDescriptor;
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.event.AppEvent;
 import com.github.mouse0w0.peach.extension.ExtensionException;
 import com.github.mouse0w0.peach.extension.Extensions;
 import com.github.mouse0w0.peach.javafx.FXApplication;
+import com.github.mouse0w0.peach.message.MessageBus;
+import com.github.mouse0w0.peach.message.impl.MessageBusFactory;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -34,20 +34,14 @@ import java.util.Locale;
 import static org.apache.commons.lang3.SystemUtils.*;
 
 public final class Peach extends ComponentManagerImpl {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
-
-    private static final EventBus EVENT_BUS = SimpleEventBus.builder()
-            .eventListenerFactory(AsmEventListenerFactory.create()).build();
 
     private static final Peach INSTANCE = new Peach();
 
     private final Version version = new Version(getImplementationVersion());
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
 
-    public static EventBus getEventBus() {
-        return EVENT_BUS;
-    }
+    private MessageBus messageBus = MessageBusFactory.create(null);
 
     public static Peach getInstance() {
         return INSTANCE;
@@ -104,23 +98,32 @@ public final class Peach extends ComponentManagerImpl {
         return userPropertiesPath;
     }
 
+    public MessageBus getMessageBus() {
+        return messageBus;
+    }
+
     public void exit() {
         exit(false);
     }
 
     public void exit(boolean force) {
         LOGGER.info("Exiting application (force: {}).", force);
-        getEventBus().post(new AppEvent.Closing());
 
-        if (!force && getEventBus().post(new AppEvent.CanClose())) {
-            LOGGER.info("Cancelled exit application.");
-            return;
+        getMessageBus().getPublisher(AppLifecycleListener.TOPIC).appClosing();
+
+        if (!force) {
+            MutableBoolean cancelled = new MutableBoolean();
+            getMessageBus().getPublisher(AppLifecycleListener.TOPIC).canExitApp(cancelled);
+            if (cancelled.isTrue()) {
+                LOGGER.info("Cancelled exit application.");
+                return;
+            }
         }
 
         ProjectManager.getInstance().closeAllProjects();
         INSTANCE.saveComponents();
 
-        getEventBus().post(new AppEvent.WillBeClosed());
+        getMessageBus().getPublisher(AppLifecycleListener.TOPIC).appWillBeClosed();
 
         Disposer.dispose(INSTANCE);
         Disposer.checkAllDisposed();
@@ -150,5 +153,10 @@ public final class Peach extends ComponentManagerImpl {
     @Override
     public void dispose() {
         disposeComponents();
+
+        if (messageBus != null) {
+            Disposer.dispose(messageBus);
+            messageBus = null;
+        }
     }
 }

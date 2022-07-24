@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.service;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.PersistentStateComponent;
-import com.github.mouse0w0.peach.event.project.ProjectEvent;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonElement;
 import org.apache.commons.lang3.reflect.TypeUtils;
@@ -23,8 +23,27 @@ public class RecentProjectsManager implements PersistentStateComponent {
     }
 
     public RecentProjectsManager() {
-        Peach.getEventBus().addListener(this::onOpenedProject);
-        Peach.getEventBus().addListener(this::onClosedProject);
+        Peach.getInstance().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
+            @Override
+            public void projectOpened(Project project) {
+                updateRecentProjectInfo(project);
+            }
+
+            @Override
+            public void projectClosingBeforeSave(Project project) {
+
+            }
+
+            @Override
+            public void projectClosing(Project project) {
+
+            }
+
+            @Override
+            public void projectClosed(Project project) {
+                updateRecentProjectInfo(project);
+            }
+        });
     }
 
     public Collection<RecentProjectInfo> getRecentProjects() {
@@ -33,14 +52,6 @@ public class RecentProjectsManager implements PersistentStateComponent {
 
     public void removeRecentProject(String path) {
         recentProjects.remove(path);
-    }
-
-    private void onOpenedProject(ProjectEvent.Opened event) {
-        updateRecentProjectInfo(event.getProject());
-    }
-
-    private void onClosedProject(ProjectEvent.Closed event) {
-        updateRecentProjectInfo(event.getProject());
     }
 
     private void updateRecentProjectInfo(Project project) {
