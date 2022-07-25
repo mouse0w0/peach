@@ -10,31 +10,25 @@ import java.nio.file.Path;
 
 public class LowercaseRenameDialog<T> extends RenameDialog<T> {
 
-    public static RenameDialog<File> create(File file) {
-        LowercaseRenameDialog<File> dialog = new LowercaseRenameDialog<>(file.getName(), file.getName().toLowerCase(), file.isDirectory());
-        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton()
-                ? new File(file.getParent(), dialog.getNewName()) : null);
-        return dialog;
-    }
-
-    public static RenameDialog<File> create(File file, String newName) {
-        LowercaseRenameDialog<File> dialog = new LowercaseRenameDialog<>(file.getName(), newName, file.isDirectory());
-        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton()
-                ? new File(file.getParent(), dialog.getNewName()) : null);
-        return dialog;
-    }
-
     public static RenameDialog<Path> create(Path path) {
-        LowercaseRenameDialog<Path> dialog = new LowercaseRenameDialog<>(FileUtils.getFileName(path), FileUtils.getFileName(path).toLowerCase(), Files.isDirectory(path));
-        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
-                path.getParent().resolve(dialog.getNewName()) : null);
-        return dialog;
+        return create(path, FileUtils.getFileName(path).toLowerCase());
     }
 
     public static RenameDialog<Path> create(Path path, String newName) {
         LowercaseRenameDialog<Path> dialog = new LowercaseRenameDialog<>(FileUtils.getFileName(path), newName, Files.isDirectory(path));
         dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
                 path.getParent().resolve(dialog.getNewName()) : null);
+        return dialog;
+    }
+
+    public static RenameDialog<File> create(File file) {
+        return create(file, file.getName().toLowerCase());
+    }
+
+    public static RenameDialog<File> create(File file, String newName) {
+        LowercaseRenameDialog<File> dialog = new LowercaseRenameDialog<>(file.getName(), newName, file.isDirectory());
+        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton()
+                ? new File(file.getParent(), dialog.getNewName()) : null);
         return dialog;
     }
 
