@@ -18,17 +18,19 @@ import java.nio.file.Path;
 
 public class RenameDialog<T> extends Dialog<T> {
 
-    private final String rawName;
-    private final boolean isDirectory;
+    public static RenameDialog<Path> create(Path path) {
+        return create(path, FileUtils.getFileName(path));
+    }
 
-    private final Label label;
-    private final TextField editor;
+    public static RenameDialog<Path> create(Path path, String newName) {
+        RenameDialog<Path> dialog = new RenameDialog<>(FileUtils.getFileName(path), newName, Files.isDirectory(path));
+        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
+                path.getParent().resolve(dialog.getNewName()) : null);
+        return dialog;
+    }
 
     public static RenameDialog<File> create(File file) {
-        RenameDialog<File> dialog = new RenameDialog<>(file.getName(), file.getName(), file.isDirectory());
-        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton()
-                ? new File(file.getParent(), dialog.getNewName()) : null);
-        return dialog;
+        return create(file, file.getName());
     }
 
     public static RenameDialog<File> create(File file, String newName) {
@@ -38,19 +40,11 @@ public class RenameDialog<T> extends Dialog<T> {
         return dialog;
     }
 
-    public static RenameDialog<Path> create(Path path) {
-        RenameDialog<Path> dialog = new RenameDialog<>(FileUtils.getFileName(path), FileUtils.getFileName(path), Files.isDirectory(path));
-        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
-                path.getParent().resolve(dialog.getNewName()) : null);
-        return dialog;
-    }
+    private final String rawName;
+    private final boolean isDirectory;
 
-    public static RenameDialog<Path> create(Path path, String newName) {
-        RenameDialog<Path> dialog = new RenameDialog<>(FileUtils.getFileName(path), newName, Files.isDirectory(path));
-        dialog.setResultConverter(buttonType -> buttonType != null && !buttonType.getButtonData().isCancelButton() ?
-                path.getParent().resolve(dialog.getNewName()) : null);
-        return dialog;
-    }
+    private final Label label;
+    private final TextField editor;
 
     public RenameDialog(String rawName, String newName, boolean isDirectory) {
         super(ButtonType.OK, ButtonType.CANCEL);
