@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.javafx.control;
 
 import com.github.mouse0w0.peach.javafx.control.skin.PopupAlertSkin;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+import com.sun.javafx.stage.PopupWindowHelper;
 import com.sun.javafx.util.Utils;
 import javafx.beans.property.*;
 import javafx.css.PseudoClass;
@@ -9,7 +10,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
 import javafx.geometry.Side;
 import javafx.geometry.VPos;
-import javafx.scene.AccessibleRole;
 import javafx.scene.Node;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.Skin;
@@ -22,7 +22,10 @@ public class PopupAlert extends PopupControl {
     public static final PseudoClass SUCCESS = PseudoClass.getPseudoClass("success");
 
     public PopupAlert() {
-        getStyleClass().setAll("popup-alert");
+        this.bridge = new CSSBridge();
+        PopupWindowHelper.getContent(this).set(0, bridge);
+
+        getStyleClass().add("popup-alert");
         setAnchorLocation(AnchorLocation.CONTENT_TOP_LEFT);
     }
 
@@ -121,12 +124,6 @@ public class PopupAlert extends PopupControl {
     }
 
     private final class CSSBridge extends PopupControl.CSSBridge {
-        public CSSBridge() {
-            setAccessibleRole(AccessibleRole.TOOLTIP);
-
-            getStyleClass().setAll(PopupAlert.this.getStyleClass());
-        }
-
         @Override
         public String getUserAgentStylesheet() {
             return PopupAlert.class.getResource("PopupAlert.css").toExternalForm();
