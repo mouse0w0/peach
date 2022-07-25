@@ -1,48 +1,44 @@
 package com.github.mouse0w0.peach.javafx;
 
+import it.unimi.dsi.fastutil.Pair;
+import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+@SuppressWarnings("unchecked")
 public final class ValuePropertyUtils {
-    private static final Map<Predicate<Node>, Function<Node, Property<?>>> VALUE_PROPERTY_GETTERS =
-            new HashMap<>();
+    private static final List<Pair<Predicate<Node>, Function<Node, Property<?>>>> VALUE_PROPERTY_GETTERS =
+            new ReferenceArrayList<>();
 
     public static void register(Predicate<Node> predicate, Function<Node, Property<?>> getter) {
-        VALUE_PROPERTY_GETTERS.put(predicate, getter);
+        VALUE_PROPERTY_GETTERS.add(Pair.of(predicate, getter));
     }
 
     static {
         register(n -> n instanceof TextInputControl, n -> ((TextInputControl) n).textProperty());
-        register(n -> n instanceof ComboBox, n -> ((ComboBox<?>) n).valueProperty());
+        register(n -> n instanceof ComboBoxBase, n -> ((ComboBoxBase<?>) n).valueProperty());
         register(n -> n instanceof ChoiceBox, n -> ((ChoiceBox<?>) n).valueProperty());
-        register(n -> n instanceof CheckBox, n -> ((CheckBox) n).selectedProperty());
-        register(n -> n instanceof ToggleButton, n -> ((ToggleButton) n).selectedProperty());
-        register(n -> n instanceof Slider, n -> ((Slider) n).valueProperty());
-        register(n -> n instanceof ColorPicker, n -> ((ColorPicker) n).valueProperty());
-        register(n -> n instanceof DatePicker, n -> ((DatePicker) n).valueProperty());
         register(n -> n instanceof Spinner, n -> ((Spinner<?>) n).getValueFactory().valueProperty());
-        register(n -> n instanceof ListView, n -> new SelectedItemProperty<>(((ListView<?>) n).getSelectionModel()));
-        register(n -> n instanceof TableView, n -> new SelectedItemProperty<>(((TableView<?>) n).getSelectionModel()));
+        register(n -> n instanceof CheckBox, n -> ((CheckBox) n).selectedProperty());
+        register(n -> n instanceof Toggle, n -> ((Toggle) n).selectedProperty());
+        register(n -> n instanceof Slider, n -> ((Slider) n).valueProperty());
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> Optional<Property<T>> valueProperty(Node node) {
-        for (Map.Entry<Predicate<Node>, Function<Node, Property<?>>> entry : VALUE_PROPERTY_GETTERS.entrySet()) {
-            if (entry.getKey().test(node)) {
-                return Optional.of((Property<T>) entry.getValue().apply(node));
+        for (Pair<Predicate<Node>, Function<Node, Property<?>>> pair : VALUE_PROPERTY_GETTERS) {
+            if (pair.left().test(node)) {
+                return Optional.of((Property<T>) pair.right().apply(node));
             }
         }
         return Optional.empty();
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T getValue(Node node) {
         return (T) valueProperty(node).orElseThrow(UnsupportedOperationException::new).getValue();
     }
