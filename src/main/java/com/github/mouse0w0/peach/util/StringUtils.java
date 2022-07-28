@@ -1,5 +1,7 @@
 package com.github.mouse0w0.peach.util;
 
+import java.util.stream.Stream;
+
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     public static String substringBeforeLast(final String str, final int separator) {
@@ -29,6 +31,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             }
         }
         return false;
+    }
+
+    public static String join(final Stream<?> stream, final char separator) {
+        return join(stream.iterator(), separator);
+    }
+
+    public static String join(final Stream<?> stream, final String separator) {
+        return join(stream.iterator(), separator);
     }
 
     private StringUtils() {
