@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -86,32 +89,16 @@ public class FileUtils {
         return Files.copy(source, target, REPLACE_EXISTING);
     }
 
-    public static String toFileSystemUrlAsString(final Path path) {
-        String url = toUrlAsString(path);
-        StringBuilder result = new StringBuilder(url.length());
-        int prev = 0, next;
-        while ((next = url.indexOf('%', prev)) != -1) {
-            result.append(url, prev, next).append(parseChar(url, next + 1, next + 3));
-            prev = next + 1;
-        }
-        result.append(url, prev, url.length());
-        return result.toString();
+    public static String toURLString(final Path path) {
+        return URLDecoder.decode(toURL(path).toExternalForm(), StandardCharsets.UTF_8);
     }
 
-    private static String toUrlAsString(final Path path) {
+    public static URL toURL(final Path path) {
         try {
-            return path.toUri().toURL().toExternalForm();
+            return path.toUri().toURL();
         } catch (MalformedURLException e) {
-            throw new IllegalStateException("Failed to convert path to url", e);
+            throw new RuntimeException("Cannot convert path to url", e);
         }
-    }
-
-    private static char parseChar(String s, int start, int end) {
-        int result = 0;
-        for (int i = start; i < end; i++) {
-            result = Character.digit(s.charAt(i), 16) + (result << 4);
-        }
-        return (char) result;
     }
 
     public static boolean isEmpty(final Path path) throws IOException {
