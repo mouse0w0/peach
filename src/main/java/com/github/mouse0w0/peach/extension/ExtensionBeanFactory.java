@@ -92,6 +92,9 @@ public final class ExtensionBeanFactory<T> {
         @SuppressWarnings({"unchecked", "rawtypes"})
         private void set(Object bean, org.dom4j.Attribute attribute) throws ReflectiveOperationException {
             String value = attribute.getValue();
+            if (value == null) {
+                return;
+            }
 
             if (converter == null) {
                 Class<?> fieldType = field.getType();
