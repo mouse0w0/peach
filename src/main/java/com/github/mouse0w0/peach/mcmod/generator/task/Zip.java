@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.jar.JarEntry;
+import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Zip implements Task {
@@ -51,7 +51,7 @@ public class Zip implements Task {
 
     private static void copyFileIntoZip(Path file, String entryName, ZipOutputStream output) throws IOException {
         try (InputStream input = Files.newInputStream(file)) {
-            output.putNextEntry(new JarEntry(entryName));
+            output.putNextEntry(new ZipEntry(entryName));
             IOUtils.copy(input, output);
         }
     }
