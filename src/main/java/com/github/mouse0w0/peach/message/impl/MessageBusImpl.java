@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.message.BroadcastDirection;
 import com.github.mouse0w0.peach.message.MessageBus;
 import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.message.Topic;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +14,7 @@ import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +82,7 @@ public class MessageBusImpl implements MessageBus {
     }
 
     private <T> Object[] computeSubscribers(Topic<T> topic) {
-        List<T> result = new ReferenceArrayList<>();
+        List<T> result = new ArrayList<>();
         collectSubscribers(topic, result);
         return result.toArray();
     }

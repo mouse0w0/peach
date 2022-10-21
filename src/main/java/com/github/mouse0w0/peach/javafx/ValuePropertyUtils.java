@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.javafx;
 
 import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -13,8 +13,7 @@ import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
 public final class ValuePropertyUtils {
-    private static final List<Pair<Predicate<Node>, Function<Node, Property<?>>>> VALUE_PROPERTY_GETTERS =
-            new ReferenceArrayList<>();
+    private static final List<Pair<Predicate<Node>, Function<Node, Property<?>>>> VALUE_PROPERTY_GETTERS = new ArrayList<>();
 
     public static void register(Predicate<Node> predicate, Function<Node, Property<?>> getter) {
         VALUE_PROPERTY_GETTERS.add(Pair.of(predicate, getter));

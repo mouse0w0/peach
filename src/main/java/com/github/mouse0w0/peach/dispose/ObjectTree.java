@@ -2,14 +2,10 @@ package com.github.mouse0w0.peach.dispose;
 
 import com.google.common.collect.MapMaker;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ReferenceArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 final class ObjectTree {
@@ -58,7 +54,7 @@ final class ObjectTree {
             if (parent != null) {
                 parent.removeChild(node);
             }
-            List<Disposable> disposables = new ReferenceArrayList<>();
+            List<Disposable> disposables = new ArrayList<>();
             node.getAndRemoveRecursively(disposables);
             return disposables;
         });
@@ -70,7 +66,7 @@ final class ObjectTree {
             if (node == null) {
                 return Collections.emptyList();
             }
-            List<Disposable> disposables = new ReferenceArrayList<>();
+            List<Disposable> disposables = new ArrayList<>();
             node.getAndRemoveChildrenRecursively(disposables);
             return disposables;
         });
