@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 
 public final class JsonUtils {
     private static final Gson GSON = new GsonBuilder().create();
@@ -25,10 +26,14 @@ public final class JsonUtils {
         return new JsonPrimitive(value);
     }
 
-    public static JsonArray jsonArray(Iterable<JsonElement> elements) {
+    public static JsonArray jsonArray(Iterable<JsonElement> iterable) {
+        return jsonArray(iterable.iterator());
+    }
+
+    public static JsonArray jsonArray(Iterator<JsonElement> iterator) {
         JsonArray array = new JsonArray();
-        for (JsonElement element : elements) {
-            array.add(element);
+        while (iterator.hasNext()) {
+            array.add(iterator.next());
         }
         return array;
     }
@@ -41,10 +46,14 @@ public final class JsonUtils {
         return array;
     }
 
-    public static JsonArray jsonStringArray(Iterable<String> elements) {
+    public static JsonArray jsonStringArray(Iterable<String> iterable) {
+        return jsonStringArray(iterable.iterator());
+    }
+
+    public static JsonArray jsonStringArray(Iterator<String> iterator) {
         JsonArray array = new JsonArray();
-        for (String element : elements) {
-            array.add(element);
+        while (iterator.hasNext()) {
+            array.add(iterator.next());
         }
         return array;
     }
@@ -90,11 +99,15 @@ public final class JsonUtils {
     }
 
     public static JsonElement readJson(Path file) throws IOException {
-        return readJson(GSON, file, JsonElement.class);
+        try (Reader reader = Files.newBufferedReader(file)) {
+            return JsonParser.parseReader(reader);
+        }
     }
 
-    public static JsonElement readJson(Gson gson, Path file) throws IOException {
-        return readJson(gson, file, JsonElement.class);
+    public static JsonElement readJson(URL url) throws IOException {
+        try (Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            return JsonParser.parseReader(reader);
+        }
     }
 
     public static <T> T readJson(Path file, Class<T> classOfT) throws IOException {
@@ -125,14 +138,6 @@ public final class JsonUtils {
         try (Reader reader = Files.newBufferedReader(file)) {
             return gson.fromJson(reader, typeToken.getType());
         }
-    }
-
-    public static JsonElement readJson(URL url) throws IOException {
-        return readJson(GSON, url, JsonElement.class);
-    }
-
-    public static JsonElement readJson(Gson gson, URL url) throws IOException {
-        return readJson(gson, url, JsonElement.class);
     }
 
     public static <T> T readJson(URL url, Class<T> classOfT) throws IOException {
