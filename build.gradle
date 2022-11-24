@@ -25,7 +25,7 @@ dependencies {
     api 'org.apache.commons:commons-collections4:4.4'
     api 'commons-io:commons-io:2.11.0'
     api 'org.ow2.asm:asm-commons:9.4'
-    api 'com.google.code.gson:gson:2.9.0'
+    api 'com.google.code.gson:gson:2.10'
     api 'org.freemarker:freemarker:2.3.31'
     api 'it.unimi.dsi:fastutil:8.5.9'
     api('org.dom4j:dom4j:2.1.3') {
