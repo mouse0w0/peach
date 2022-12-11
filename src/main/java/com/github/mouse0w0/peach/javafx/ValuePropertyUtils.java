@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.javafx;
 
-import it.unimi.dsi.fastutil.Pair;
 import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -13,11 +12,8 @@ import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
 public final class ValuePropertyUtils {
-    private static final List<Pair<Predicate<Node>, Function<Node, Property<?>>>> VALUE_PROPERTY_GETTERS = new ArrayList<>();
-
-    public static void register(Predicate<Node> predicate, Function<Node, Property<?>> getter) {
-        VALUE_PROPERTY_GETTERS.add(Pair.of(predicate, getter));
-    }
+    private static final List<Predicate<Node>> PREDICATES = new ArrayList<>();
+    private static final List<Function<Node, Property<?>>> GETTERS = new ArrayList<>();
 
     static {
         register(n -> n instanceof TextInputControl, n -> ((TextInputControl) n).textProperty());
@@ -29,10 +25,15 @@ public final class ValuePropertyUtils {
         register(n -> n instanceof Slider, n -> ((Slider) n).valueProperty());
     }
 
+    public static void register(Predicate<Node> predicate, Function<Node, Property<?>> getter) {
+        PREDICATES.add(predicate);
+        GETTERS.add(getter);
+    }
+
     public static <T> Optional<Property<T>> valueProperty(Node node) {
-        for (Pair<Predicate<Node>, Function<Node, Property<?>>> pair : VALUE_PROPERTY_GETTERS) {
-            if (pair.left().test(node)) {
-                return Optional.of((Property<T>) pair.right().apply(node));
+        for (int i = 0, size = PREDICATES.size(); i < size; i++) {
+            if (PREDICATES.get(i).test(node)) {
+                return Optional.of((Property<T>) GETTERS.get(i).apply(node));
             }
         }
         return Optional.empty();
