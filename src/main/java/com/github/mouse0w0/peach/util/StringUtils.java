@@ -40,7 +40,4 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
     public static String join(final Stream<?> stream, final String separator) {
         return join(stream.iterator(), separator);
     }
-
-    private StringUtils() {
-    }
 }

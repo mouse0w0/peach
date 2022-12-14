@@ -180,7 +180,4 @@ public final class JsonUtils {
             gson.toJson(object, writer);
         }
     }
-
-    private JsonUtils() {
-    }
 }
