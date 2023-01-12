@@ -9,7 +9,6 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class FileUtils {
 
@@ -106,8 +105,8 @@ public class FileUtils {
     }
 
     public static boolean notEmpty(final Path path) throws IOException {
-        try (Stream<Path> stream = Files.list(path)) {
-            return stream.findFirst().isPresent();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+            return stream.iterator().hasNext();
         }
     }
 
