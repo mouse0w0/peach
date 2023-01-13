@@ -33,10 +33,9 @@ public class ContentPackManager {
     private void loadApplicationContentPacks() {
         try {
             FileUtils.createDirectoriesIfNotExists(CONTENT_PACK_STORE_PATH);
-            Iterator<Path> iterator = Files.list(CONTENT_PACK_STORE_PATH).iterator();
+            Iterator<Path> iterator = Files.newDirectoryStream(CONTENT_PACK_STORE_PATH, Files::isRegularFile).iterator();
             while (iterator.hasNext()) {
                 Path file = iterator.next();
-                if (!Files.isRegularFile(file)) continue;
                 try {
                     ContentPack contentPack = loadContentPack(file);
                     LOGGER.info("Loaded content pack: " + contentPack.getId());

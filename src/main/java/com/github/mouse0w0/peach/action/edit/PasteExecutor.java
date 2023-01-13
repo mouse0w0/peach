@@ -49,7 +49,7 @@ public class PasteExecutor implements Runnable {
             handleFile(source, target);
 
             if (Files.isDirectory(source)) {
-                Iterator<Path> iterator = Files.list(source).iterator();
+                Iterator<Path> iterator = Files.newDirectoryStream(source).iterator();
                 while (iterator.hasNext()) {
                     Path child = iterator.next();
                     handle(child, target.resolve(child.getFileName()));

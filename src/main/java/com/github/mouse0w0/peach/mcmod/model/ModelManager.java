@@ -38,15 +38,13 @@ public class ModelManager {
             Path state = ClassPathUtils.getPath("blockstate");
             if (state == null) throw new Error();
 
-            Files.list(state)
-                    .filter(path -> FileUtils.getFileName(path).endsWith(".json"))
+            Files.newDirectoryStream(state, path -> FileUtils.getFileName(path).endsWith(".json"))
                     .forEach(this::loadStateTemplate);
 
             Path model = ClassPathUtils.getPath("model");
             if (model == null) throw new Error();
 
-            Files.list(model)
-                    .filter(path -> FileUtils.getFileName(path).endsWith(".json"))
+            Files.newDirectoryStream(model, path -> FileUtils.getFileName(path).endsWith(".json"))
                     .forEach(this::loadModelTemplate);
         } catch (IOException e) {
             throw new UncheckedIOException(e);

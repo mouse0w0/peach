@@ -14,6 +14,7 @@ import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.collect.ImmutableList;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -137,7 +138,7 @@ public class ProjectView implements Disposable, DataProvider {
         if (Files.isDirectory(path)) {
             treeItem.expandedProperty().addListener(expandedListener);
             try {
-                if (Files.list(path).findAny().isPresent()) {
+                if (FileUtils.notEmpty(path)) {
                     treeItem.getChildren().add(new TreeItem<>());
                 }
             } catch (IOException e) {
@@ -157,7 +158,7 @@ public class ProjectView implements Disposable, DataProvider {
         children.clear();
 
         try {
-            Files.list(path).forEach(child -> children.add(createTreeItem(child)));
+            Files.newDirectoryStream(path).forEach(child -> children.add(createTreeItem(child)));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
