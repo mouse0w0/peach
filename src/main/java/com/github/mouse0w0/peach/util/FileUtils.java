@@ -126,22 +126,12 @@ public class FileUtils {
         return StringUtils.substringAfterLast(fileName, '.');
     }
 
-    public static boolean deleteIfExists(Path path) {
-        return deleteIfExists(path.toFile());
+    public static boolean delete(Path path) {
+        return delete(path.toFile());
     }
 
-    public static boolean deleteIfExists(File file) {
-        if (!file.exists()) return false;
+    public static boolean delete(File file) {
         return file.isFile() ? file.delete() : deleteDirectory(file);
-    }
-
-    public static boolean deleteDirectoryIfExists(Path path) {
-        return deleteDirectoryIfExists(path.toFile());
-    }
-
-    public static boolean deleteDirectoryIfExists(File file) {
-        if (!file.exists()) return false;
-        return deleteDirectory(file);
     }
 
     public static boolean deleteDirectory(Path path) {

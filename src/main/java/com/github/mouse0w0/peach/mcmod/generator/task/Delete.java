@@ -21,7 +21,7 @@ public class Delete implements Task {
     @Override
     public void run(Context context) throws Exception {
         for (Path path : paths) {
-            FileUtils.deleteIfExists(path);
+            FileUtils.delete(path);
         }
     }
 }

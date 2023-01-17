@@ -52,7 +52,7 @@ public class DeleteAction extends Action {
                 if (Files.isRegularFile(path)) {
                     fileEditorManager.close(path);
                 }
-                FileUtils.deleteIfExists(path);
+                FileUtils.delete(path);
             }
         }
     }
