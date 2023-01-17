@@ -9,11 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.Iterator;
+import java.nio.file.*;
 import java.util.List;
 
 public class PasteExecutor implements Runnable {
@@ -49,10 +45,10 @@ public class PasteExecutor implements Runnable {
             handleFile(source, target);
 
             if (Files.isDirectory(source)) {
-                Iterator<Path> iterator = Files.newDirectoryStream(source).iterator();
-                while (iterator.hasNext()) {
-                    Path child = iterator.next();
-                    handle(child, target.resolve(child.getFileName()));
+                try (DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
+                    for (Path child : stream) {
+                        handle(child, target.resolve(child.getFileName()));
+                    }
                 }
             }
         } catch (IOException e) {

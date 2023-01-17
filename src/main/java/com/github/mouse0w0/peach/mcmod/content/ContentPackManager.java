@@ -7,12 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class ContentPackManager {
@@ -33,14 +33,14 @@ public class ContentPackManager {
     private void loadApplicationContentPacks() {
         try {
             FileUtils.createDirectoriesIfNotExists(CONTENT_PACK_STORE_PATH);
-            Iterator<Path> iterator = Files.newDirectoryStream(CONTENT_PACK_STORE_PATH, Files::isRegularFile).iterator();
-            while (iterator.hasNext()) {
-                Path file = iterator.next();
-                try {
-                    ContentPack contentPack = loadContentPack(file);
-                    LOGGER.info("Loaded content pack: " + contentPack.getId());
-                } catch (IOException e) {
-                    LOGGER.warn("Cannot load content pack. " + file, e);
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(CONTENT_PACK_STORE_PATH, Files::isRegularFile)) {
+                for (Path file : Files.newDirectoryStream(CONTENT_PACK_STORE_PATH, Files::isRegularFile)) {
+                    try {
+                        ContentPack contentPack = loadContentPack(file);
+                        LOGGER.info("Loaded content pack: " + contentPack.getId());
+                    } catch (IOException e) {
+                        LOGGER.warn("Cannot load content pack. " + file, e);
+                    }
                 }
             }
         } catch (IOException e) {

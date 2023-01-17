@@ -36,6 +36,7 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -150,21 +151,23 @@ public class ProjectView implements Disposable, DataProvider {
         return treeItem;
     }
 
-    private void expand(TreeItem<Path> item) {
-        Path path = item.getValue();
-        if (expandedItemMap.containsKey(path)) return;
+    private void expand(TreeItem<Path> parentItem) {
+        Path parent = parentItem.getValue();
+        if (expandedItemMap.containsKey(parent)) return;
 
-        ObservableList<TreeItem<Path>> children = item.getChildren();
+        ObservableList<TreeItem<Path>> children = parentItem.getChildren();
         children.clear();
 
-        try {
-            Files.newDirectoryStream(path).forEach(child -> children.add(createTreeItem(child)));
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(parent)) {
+            for (Path child : stream) {
+                children.add(createTreeItem(child));
+            }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
         children.sort(comparator);
-        expandedItemMap.put(path, item);
+        expandedItemMap.put(parent, parentItem);
     }
 
     private void onFileCreate(Path path) {

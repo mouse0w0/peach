@@ -11,6 +11,7 @@ import com.google.common.collect.Multimap;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -36,16 +37,22 @@ public class ModelManager {
     private void load() {
         try {
             Path state = ClassPathUtils.getPath("blockstate");
-            if (state == null) throw new Error();
-
-            Files.newDirectoryStream(state, path -> FileUtils.getFileName(path).endsWith(".json"))
-                    .forEach(this::loadStateTemplate);
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(state)) {
+                for (Path path : stream) {
+                    if (FileUtils.getFileName(path).endsWith(".json")) {
+                        loadStateTemplate(path);
+                    }
+                }
+            }
 
             Path model = ClassPathUtils.getPath("model");
-            if (model == null) throw new Error();
-
-            Files.newDirectoryStream(model, path -> FileUtils.getFileName(path).endsWith(".json"))
-                    .forEach(this::loadModelTemplate);
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(model)) {
+                for (Path path : stream) {
+                    if (FileUtils.getFileName(path).endsWith(".json")) {
+                        loadModelTemplate(path);
+                    }
+                }
+            }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
