@@ -6,7 +6,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 
 public class SilentFileUtils {
-    public static void createDirectoriesIfNotExists(final Path path) throws UncheckedIOException {
+    public static void createDirectoriesIfNotExists(Path path) throws UncheckedIOException {
         try {
             FileUtils.createDirectoriesIfNotExists(path);
         } catch (IOException e) {
@@ -14,7 +14,7 @@ public class SilentFileUtils {
         }
     }
 
-    public static void createFileIfNotExists(final Path path) throws UncheckedIOException {
+    public static void createFileIfNotExists(Path path) throws UncheckedIOException {
         try {
             FileUtils.createFileIfNotExists(path);
         } catch (IOException e) {
@@ -22,7 +22,7 @@ public class SilentFileUtils {
         }
     }
 
-    public static void createParentIfNotExists(final Path path) throws UncheckedIOException {
+    public static void createParentIfNotExists(Path path) throws UncheckedIOException {
         try {
             FileUtils.createParentIfNotExists(path);
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class SilentFileUtils {
         }
     }
 
-    public static Path forceCopy(final Path source, final Path target) throws UncheckedIOException {
+    public static Path forceCopy(Path source, Path target) throws UncheckedIOException {
         try {
             return FileUtils.forceCopy(source, target);
         } catch (IOException e) {
@@ -38,7 +38,7 @@ public class SilentFileUtils {
         }
     }
 
-    public static long forceCopy(final InputStream in, final Path target) throws UncheckedIOException {
+    public static long forceCopy(InputStream in, Path target) throws UncheckedIOException {
         try {
             return FileUtils.forceCopy(in, target);
         } catch (IOException e) {
@@ -46,7 +46,7 @@ public class SilentFileUtils {
         }
     }
 
-    public static boolean isEmpty(final Path path) {
+    public static boolean isEmpty(Path path) throws UncheckedIOException {
         try {
             return FileUtils.isEmpty(path);
         } catch (IOException e) {
@@ -54,7 +54,7 @@ public class SilentFileUtils {
         }
     }
 
-    public static boolean notEmpty(final Path path) {
+    public static boolean notEmpty(Path path) throws UncheckedIOException {
         try {
             return FileUtils.notEmpty(path);
         } catch (IOException e) {
