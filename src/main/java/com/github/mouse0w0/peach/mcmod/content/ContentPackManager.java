@@ -34,7 +34,7 @@ public class ContentPackManager {
         try {
             FileUtils.createDirectoriesIfNotExists(CONTENT_PACK_STORE_PATH);
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(CONTENT_PACK_STORE_PATH, Files::isRegularFile)) {
-                for (Path file : Files.newDirectoryStream(CONTENT_PACK_STORE_PATH, Files::isRegularFile)) {
+                for (Path file : stream) {
                     try {
                         ContentPack contentPack = loadContentPack(file);
                         LOGGER.info("Loaded content pack: " + contentPack.getId());
