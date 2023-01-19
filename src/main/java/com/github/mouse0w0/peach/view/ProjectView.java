@@ -138,12 +138,8 @@ public class ProjectView implements Disposable, DataProvider {
 
         if (Files.isDirectory(path)) {
             treeItem.expandedProperty().addListener(expandedListener);
-            try {
-                if (FileUtils.notEmpty(path)) {
-                    treeItem.getChildren().add(new TreeItem<>());
-                }
-            } catch (IOException e) {
-                LOGGER.warn("Failed to access directory: " + path, e);
+            if (FileUtils.notEmptyDirectory(path)) {
+                treeItem.getChildren().add(new TreeItem<>());
             }
         }
 

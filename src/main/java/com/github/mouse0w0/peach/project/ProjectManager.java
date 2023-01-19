@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.util.SilentFileUtils;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public final class ProjectManager {
     }
 
     public Project createProject(@Nullable String name, @Nonnull Path path) {
-        SilentFileUtils.createDirectoriesIfNotExists(path);
+        FileUtils.createDirectoriesIfNotExists(path);
         Project project = openProject(path);
         project.setName(name);
         return project;

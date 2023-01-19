@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.component.store;
 
 import com.github.mouse0w0.peach.component.PersistentStateComponent;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.github.mouse0w0.peach.util.SilentFileUtils;
 import com.google.gson.JsonElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public abstract class ComponentStoreBase implements ComponentStore {
 
     public ComponentStoreBase(Path storePath) {
         this.storePath = storePath;
-        SilentFileUtils.createDirectoriesIfNotExists(storePath);
+        FileUtils.createDirectoriesIfNotExists(storePath);
     }
 
     @Override

@@ -14,8 +14,8 @@ import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.github.mouse0w0.peach.util.SilentFileUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public final class ElementManager extends IndexProvider {
         this.project = project;
         this.registry = registry;
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
-        SilentFileUtils.createDirectoriesIfNotExists(sourcesPath);
+        FileUtils.createDirectoriesIfNotExists(sourcesPath);
         indexManager.registerProvider(this);
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(Indexes.ITEM_GROUPS)))

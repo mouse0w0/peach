@@ -1,10 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.action;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
-import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
 import com.github.mouse0w0.peach.mcmod.generator.Generator;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
@@ -17,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
 public class ExportProjectAction extends Action {
@@ -46,13 +42,7 @@ public class ExportProjectAction extends Action {
             File file = FileChooserHelper.getInstance().save(null, "mcmod.export", null, fileName,
                     ExtensionFilters.JAR);
             if (file != null) {
-                try {
-                    Path source = generator.getOutputFolder().resolve("artifacts/" + fileName);
-                    FileUtils.forceCopy(source, file.toPath());
-                } catch (IOException e) {
-                    LOGGER.error("Failed to export file: " + file, e);
-                    Alert.warning(I18n.translate("mcmod.export.failure"));
-                }
+                FileUtils.forceCopy(generator.getOutputFolder().resolve("artifacts/" + fileName), file.toPath());
             }
         }, Platform::runLater);
     }

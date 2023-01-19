@@ -3,12 +3,14 @@ package com.github.mouse0w0.peach.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.regex.Pattern;
 
 public class FileUtils {
@@ -33,68 +35,110 @@ public class FileUtils {
         return FILE_NAME_WITHOUT_EXTENSION.matcher(fileName).matches();
     }
 
-    public static void createDirectoriesIfNotExists(Path path) throws IOException {
+    public static void createDirectoriesIfNotExists(Path path) throws UncheckedIOException {
         if (Files.notExists(path)) {
-            Files.createDirectories(path);
-        }
-    }
-
-    public static void createFileIfNotExists(Path path) throws IOException {
-        if (Files.notExists(path)) {
-            Path parent = path.getParent();
-            if (Files.notExists(parent)) {
-                Files.createDirectories(parent);
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e.getMessage(), e);
             }
-            Files.createFile(path);
         }
     }
 
-    public static void createParentIfNotExists(Path path) throws IOException {
+    public static void createFileIfNotExists(Path path) throws UncheckedIOException {
+        if (Files.notExists(path)) {
+            try {
+                Path parent = path.getParent();
+                if (Files.notExists(parent)) {
+                    Files.createDirectories(parent);
+                }
+                Files.createFile(path);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e.getMessage(), e);
+            }
+        }
+    }
+
+    public static void createParentIfNotExists(Path path) throws UncheckedIOException {
         Path parent = path.getParent();
         if (Files.notExists(parent)) {
-            Files.createDirectories(parent);
+            try {
+                Files.createDirectories(parent);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e.getMessage(), e);
+            }
         }
     }
 
-    public static Path copySafely(Path source, Path target, CopyOption... options) throws IOException {
+    public static Path copySafely(Path source, Path target, CopyOption... options) throws UncheckedIOException {
         createParentIfNotExists(target);
-        return Files.copy(source, target, options);
+        try {
+            return Files.copy(source, target, options);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static long copySafely(InputStream in, Path target, CopyOption... options) throws IOException {
+    public static long copySafely(InputStream in, Path target, CopyOption... options) throws UncheckedIOException {
         createParentIfNotExists(target);
-        return Files.copy(in, target, options);
+        try {
+            return Files.copy(in, target, options);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static Path copyIfNotExists(Path source, Path target, CopyOption... options) throws IOException {
+    public static Path copyIfNotExists(Path source, Path target, CopyOption... options) throws UncheckedIOException {
         if (Files.exists(target)) return target;
         createParentIfNotExists(target);
-        return Files.copy(source, target, options);
+        try {
+            return Files.copy(source, target, options);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static long copyIfNotExists(InputStream in, Path target, CopyOption... options) throws IOException {
+    public static long copyIfNotExists(InputStream in, Path target, CopyOption... options) throws UncheckedIOException {
         if (Files.exists(target)) return 0;
         createParentIfNotExists(target);
-        return Files.copy(in, target, options);
+        try {
+            return Files.copy(in, target, options);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static long forceCopy(InputStream in, Path target) throws IOException {
+    public static long forceCopy(InputStream in, Path target) throws UncheckedIOException {
         createParentIfNotExists(target);
-        return Files.copy(in, target, REPLACE_EXISTING);
+        try {
+            return Files.copy(in, target, REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static Path forceCopy(Path source, Path target) throws IOException {
+    public static Path forceCopy(Path source, Path target) throws UncheckedIOException {
         createParentIfNotExists(target);
-        return Files.copy(source, target, REPLACE_EXISTING);
+        try {
+            return Files.copy(source, target, REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static boolean isEmpty(Path path) throws IOException {
-        return !notEmpty(path);
+    public static boolean isEmptyDirectory(Path path) throws UncheckedIOException {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+            return !stream.iterator().hasNext();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
-    public static boolean notEmpty(Path path) throws IOException {
+    public static boolean notEmptyDirectory(Path path) throws UncheckedIOException {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             return stream.iterator().hasNext();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
         }
     }
 
@@ -126,26 +170,59 @@ public class FileUtils {
         return StringUtils.substringAfterLast(fileName, '.');
     }
 
-    public static boolean delete(Path path) {
-        return delete(path.toFile());
-    }
-
-    public static boolean delete(File file) {
-        return file.isFile() ? file.delete() : deleteDirectory(file);
-    }
-
-    public static boolean deleteDirectory(Path path) {
-        return deleteDirectory(path.toFile());
-    }
-
-    public static boolean deleteDirectory(File file) {
-        File[] files = file.listFiles();
-        if (files != null) {
-            for (File child : files) {
-                deleteDirectory(child);
-            }
+    public static void delete(Path path) throws UncheckedIOException {
+        if (Files.isDirectory(path)) {
+            deleteDirectory(path);
+        } else {
+            deleteFile(path);
         }
-        return file.delete();
+    }
+
+    public static void delete(File file) throws UncheckedIOException {
+        delete(file.toPath());
+    }
+
+    public static void deleteDirectory(Path path) throws UncheckedIOException {
+        try {
+            Files.walkFileTree(path, new SimpleFileVisitor<>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    try {
+                        Files.delete(file);
+                    } catch (NoSuchFileException ignored) {
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                    try {
+                        Files.delete(dir);
+                    } catch (NoSuchFileException ignored) {
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
+    }
+
+    public static void deleteDirectory(File file) throws UncheckedIOException {
+        deleteDirectory(file.toPath());
+    }
+
+    public static void deleteFile(Path path) throws UncheckedIOException {
+        try {
+            Files.delete(path);
+        } catch (NoSuchFileException ignored) {
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
+    }
+
+    public static void deleteFile(File file) throws UncheckedIOException {
+        deleteFile(file.toPath());
     }
 
     public static Path getDirectory(Path path) {
@@ -160,35 +237,35 @@ public class FileUtils {
         return path != null ? path.toFile() : null;
     }
 
-    public static Path toPath(URL url) {
+    public static Path toPath(URL url) throws IllegalArgumentException {
         try {
             return Path.of(url.toURI());
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 
-    public static File toFile(URL url) {
+    public static File toFile(URL url) throws IllegalArgumentException {
         try {
             return new File(url.toURI());
         } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 
-    public static URL toURL(Path path) {
+    public static URL toURL(Path path) throws IllegalArgumentException {
         try {
             return path.toUri().toURL();
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 
-    public static URL toURL(File file) {
+    public static URL toURL(File file) throws IllegalArgumentException {
         try {
             return file.toURI().toURL();
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 
