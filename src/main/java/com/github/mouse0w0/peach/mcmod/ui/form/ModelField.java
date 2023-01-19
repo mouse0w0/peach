@@ -13,7 +13,6 @@ import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.github.mouse0w0.peach.util.Scheduler;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
@@ -36,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
@@ -179,7 +179,7 @@ public class ModelField extends Element {
         comboBox.setPrefWidth(10000);
         comboBox.valueProperty().bindBidirectional(modelProperty());
         comboBox.disableProperty().bind(disableProperty());
-        comboBox.setConverter(new StringConverter<Identifier>() {
+        comboBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(Identifier object) {
                 return I18n.translate("model." + object.getNamespace() + "." + object.getName());
@@ -307,10 +307,9 @@ public class ModelField extends Element {
         if (loadTextureFuture != null) {
             loadTextureFuture.cancel(true);
         }
-        loadTextureFuture = Scheduler.getInstance().schedule(() -> {
-            final Set<String> result = loadTexture0(fileToModelKey.keySet());
-            Platform.runLater(() -> textures.setAll(result));
-        }, 100, TimeUnit.MILLISECONDS);
+        loadTextureFuture = CompletableFuture.supplyAsync(() -> loadTexture0(fileToModelKey.keySet()),
+                        CompletableFuture.delayedExecutor(100, TimeUnit.MILLISECONDS))
+                .thenAcceptAsync(textures::setAll, Platform::runLater);
     }
 
     private Set<String> loadTexture0(final Set<Path> modelFiles) {

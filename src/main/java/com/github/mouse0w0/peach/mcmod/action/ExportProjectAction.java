@@ -9,7 +9,6 @@ import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.util.Scheduler;
 import javafx.application.Platform;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,7 @@ public class ExportProjectAction extends Action {
                 LOGGER.error("Unexpected error.", e);
                 throw e;
             }
-        }, Scheduler.getInstance()).thenAcceptAsync(generator -> {
+        }).thenAcceptAsync(generator -> {
             McModMetadata metadata = generator.getMetadata();
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
