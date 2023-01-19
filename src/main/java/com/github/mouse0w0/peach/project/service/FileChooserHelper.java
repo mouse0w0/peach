@@ -93,7 +93,8 @@ public class FileChooserHelper implements PersistentStateComponent {
     private FileChooser createFileChooser(String id, File initialDirectory, FileChooser.ExtensionFilter[] filters) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(I18n.translate("fileChooser." + id + ".title"));
-        fileChooser.setInitialDirectory(initialDirectories.getOrDefault(id, initialDirectory));
+        File initialDir = initialDirectories.getOrDefault(id, initialDirectory);
+        if (initialDir != null && initialDir.exists()) fileChooser.setInitialDirectory(initialDir);
         fileChooser.getExtensionFilters().addAll(filters);
         return fileChooser;
     }
