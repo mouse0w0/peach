@@ -4,7 +4,6 @@ import com.github.mouse0w0.peach.util.FileUtils;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -95,15 +94,7 @@ public class Filer {
         FileUtils.copyIfNotExists(source, root.resolve(target), options);
     }
 
-    public void copy(InputStream in, String target, CopyOption... options) throws IOException {
-        FileUtils.copyIfNotExists(in, root.resolve(target), options);
-    }
-
     public void copy(Path source, Path target, CopyOption... options) throws IOException {
         FileUtils.copyIfNotExists(source, root.resolve(target), options);
-    }
-
-    public void copy(InputStream in, Path target, CopyOption... options) throws IOException {
-        FileUtils.copyIfNotExists(in, root.resolve(target), options);
     }
 }
