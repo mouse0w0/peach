@@ -147,7 +147,7 @@ public final class Peach extends ComponentManagerImpl {
 
     private String getImplementationVersion() {
         String version = Peach.class.getPackage().getImplementationVersion();
-        return version != null && !version.isEmpty() ? version : "99.99.999.999999-Indev";
+        return version != null && !version.isEmpty() ? version : "99.0.0.0-INDEV";
     }
 
     @Override
