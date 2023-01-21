@@ -25,7 +25,7 @@ public class FileChooserHelper implements PersistentStateComponent {
 
     public static final String FILE_CHOOSER_ID = "FileChooserId";
 
-    private final Map<String, File> initialDirectories = new HashMap<>();
+    private final Map<String, File> lastInitialDirectories = new HashMap<>();
 
     private final InvalidationListener textInvalidationListener = this::onTextInvalidate;
 
@@ -41,7 +41,7 @@ public class FileChooserHelper implements PersistentStateComponent {
         filePicker.valueProperty().addListener(textInvalidationListener);
         filePicker.getProperties().put(FILE_CHOOSER_ID, id);
         filePicker.setTitle(I18n.translate("fileChooser." + id + ".title"));
-        File initialDirectory = initialDirectories.get(id);
+        File initialDirectory = lastInitialDirectories.get(id);
         if (initialDirectory != null) {
             filePicker.setInitialDirectory(initialDirectory);
         }
@@ -54,7 +54,7 @@ public class FileChooserHelper implements PersistentStateComponent {
         if (file != null) {
             String id = (String) filePicker.getProperties().get(FILE_CHOOSER_ID);
             File parentFile = file.getParentFile();
-            initialDirectories.put(id, parentFile);
+            lastInitialDirectories.put(id, parentFile);
             filePicker.setInitialDirectory(parentFile);
         }
     }
@@ -64,7 +64,7 @@ public class FileChooserHelper implements PersistentStateComponent {
         FileChooser fileChooser = createFileChooser(id, initialDirectory, filters);
         File file = fileChooser.showOpenDialog(owner);
         if (file != null) {
-            initialDirectories.put(id, file.getParentFile());
+            lastInitialDirectories.put(id, file.getParentFile());
         }
         return file;
     }
@@ -74,7 +74,7 @@ public class FileChooserHelper implements PersistentStateComponent {
         FileChooser fileChooser = createFileChooser(id, initialDirectory, filters);
         List<File> file = fileChooser.showOpenMultipleDialog(owner);
         if (file != null) {
-            initialDirectories.put(id, file.get(0).getParentFile());
+            lastInitialDirectories.put(id, file.get(0).getParentFile());
         }
         return file;
     }
@@ -85,7 +85,7 @@ public class FileChooserHelper implements PersistentStateComponent {
         fileChooser.setInitialFileName(initialFileName);
         File file = fileChooser.showSaveDialog(owner);
         if (file != null) {
-            initialDirectories.put(id, file.getParentFile());
+            lastInitialDirectories.put(id, file.getParentFile());
         }
         return file;
     }
@@ -93,24 +93,25 @@ public class FileChooserHelper implements PersistentStateComponent {
     private FileChooser createFileChooser(String id, File initialDirectory, FileChooser.ExtensionFilter[] filters) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(I18n.translate("fileChooser." + id + ".title"));
-        File initialDir = initialDirectories.getOrDefault(id, initialDirectory);
-        if (initialDir != null && initialDir.exists()) fileChooser.setInitialDirectory(initialDir);
+        File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);
+        if (realInitialDirectory != null && realInitialDirectory.exists()) {
+            fileChooser.setInitialDirectory(realInitialDirectory);
+        }
         fileChooser.getExtensionFilters().addAll(filters);
         return fileChooser;
-    }
-
-    public File openDirectory(String id) {
-        return openDirectory(null, id, null);
     }
 
     public File openDirectory(Window owner, String id, File initialDirectory) {
         Validate.notNull(id);
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(I18n.translate("fileChooser." + id + ".title"));
-        directoryChooser.setInitialDirectory(initialDirectories.getOrDefault(id, initialDirectory));
+        File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);
+        if (realInitialDirectory != null && realInitialDirectory.exists()) {
+            directoryChooser.setInitialDirectory(realInitialDirectory);
+        }
         File file = directoryChooser.showDialog(owner);
         if (file != null) {
-            initialDirectories.put(id, file.getParentFile());
+            lastInitialDirectories.put(id, file.getParentFile());
         }
         return file;
     }
@@ -124,7 +125,7 @@ public class FileChooserHelper implements PersistentStateComponent {
     @Override
     public JsonElement saveState() {
         JsonObject object = new JsonObject();
-        initialDirectories.forEach((k, v) -> object.addProperty(k, v.getAbsolutePath()));
+        lastInitialDirectories.forEach((k, v) -> object.addProperty(k, v.getAbsolutePath()));
         return object;
     }
 
@@ -132,7 +133,7 @@ public class FileChooserHelper implements PersistentStateComponent {
     public void loadState(JsonElement jsonElement) {
         JsonObject object = jsonElement.getAsJsonObject();
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
-            initialDirectories.put(entry.getKey(), new File(entry.getValue().getAsString()));
+            lastInitialDirectories.put(entry.getKey(), new File(entry.getValue().getAsString()));
         }
     }
 }
