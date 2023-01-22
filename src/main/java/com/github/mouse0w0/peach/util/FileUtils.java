@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class FileUtils {
@@ -217,6 +219,22 @@ public class FileUtils {
         return path != null ? path.toFile() : null;
     }
 
+    public static List<Path> listFileToPath(List<? extends File> files) {
+        List<Path> result = new ArrayList<>(files.size());
+        for (File file : files) {
+            result.add(toPath(file));
+        }
+        return result;
+    }
+
+    public static List<File> listPathToFile(List<? extends Path> paths) {
+        List<File> result = new ArrayList<>(paths.size());
+        for (Path path : paths) {
+            result.add(toFile(path));
+        }
+        return result;
+    }
+
     public static Path toPath(URL url) throws IllegalArgumentException {
         try {
             return Path.of(url.toURI());
@@ -233,6 +251,22 @@ public class FileUtils {
         }
     }
 
+    public static List<Path> listURLToPath(List<? extends URL> urls) throws IllegalArgumentException {
+        List<Path> result = new ArrayList<>(urls.size());
+        for (URL url : urls) {
+            result.add(toPath(url));
+        }
+        return result;
+    }
+
+    public static List<File> listURLToFile(List<? extends URL> urls) throws IllegalArgumentException {
+        List<File> result = new ArrayList<>(urls.size());
+        for (URL url : urls) {
+            result.add(toFile(url));
+        }
+        return result;
+    }
+
     public static URL toURL(Path path) throws IllegalArgumentException {
         try {
             return path.toUri().toURL();
@@ -247,6 +281,22 @@ public class FileUtils {
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
+    }
+
+    public static List<URL> listPathToURL(List<? extends Path> paths) throws IllegalArgumentException {
+        List<URL> result = new ArrayList<>(paths.size());
+        for (Path path : paths) {
+            result.add(toURL(path));
+        }
+        return result;
+    }
+
+    public static List<URL> listFileToURL(List<? extends File> files) throws IllegalArgumentException {
+        List<URL> result = new ArrayList<>(files.size());
+        for (File file : files) {
+            result.add(toURL(file));
+        }
+        return result;
     }
 
     public static String toURLString(Path path) {

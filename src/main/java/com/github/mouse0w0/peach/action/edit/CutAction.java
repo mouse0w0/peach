@@ -4,16 +4,16 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
-import com.google.common.collect.ImmutableList;
+import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
 public class CutAction extends Action {
     @Override
+    @SuppressWarnings("unchecked")
     public void perform(ActionEvent event) {
         List<?> items = DataKeys.SELECTED_ITEMS.get(event);
         if (items == null || items.isEmpty()) return;
@@ -22,8 +22,7 @@ public class CutAction extends Action {
             Clipboard clipboard = Clipboard.getSystemClipboard();
             ClipboardContent content = new ClipboardContent();
             ClipboardUtils.setTransferMode(content, ClipboardUtils.TRANSFER_MODE_MOVE);
-            List<File> files = items.stream().map(item -> ((Path) item).toFile()).collect(ImmutableList.toImmutableList());
-            content.putFiles(files);
+            content.putFiles(FileUtils.listPathToFile((List<? extends Path>) items));
             clipboard.setContent(content);
         }
     }

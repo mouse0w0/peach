@@ -9,11 +9,9 @@ import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.scene.input.Clipboard;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PasteAction extends Action {
 
@@ -28,7 +26,7 @@ public class PasteAction extends Action {
         if (target == null) return;
 
         final Clipboard clipboard = Clipboard.getSystemClipboard();
-        final List<Path> paths = clipboard.getFiles().stream().map(File::toPath).collect(Collectors.toList());
+        final List<Path> paths = FileUtils.listFileToPath(clipboard.getFiles());
         final Path folder = Files.isDirectory(target) ? target : target.getParent();
         final boolean move = ClipboardUtils.hasTransferMode(clipboard, ClipboardUtils.TRANSFER_MODE_MOVE);
 
