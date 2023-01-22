@@ -21,9 +21,9 @@ public class CutAction extends Action {
         if (items.get(0) instanceof Path) {
             Clipboard clipboard = Clipboard.getSystemClipboard();
             ClipboardContent content = new ClipboardContent();
+            ClipboardUtils.setTransferMode(content, ClipboardUtils.TRANSFER_MODE_MOVE);
             List<File> files = items.stream().map(item -> ((Path) item).toFile()).collect(ImmutableList.toImmutableList());
             content.putFiles(files);
-            content.put(ClipboardUtils.TRANSFER_MODE, ClipboardUtils.TRANSFER_MODE_MOVE);
             clipboard.setContent(content);
         }
     }
