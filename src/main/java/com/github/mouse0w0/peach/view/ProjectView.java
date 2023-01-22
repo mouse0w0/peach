@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.data.DataProvider;
 import com.github.mouse0w0.peach.dispose.Disposable;
-import com.github.mouse0w0.peach.file.FileAppearances;
+import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
@@ -294,7 +294,7 @@ public class ProjectView implements Disposable, DataProvider {
                 setText(null);
                 setGraphic(null);
             } else {
-                FileAppearances.apply(item, this);
+                FileAppearance.process(item, this);
             }
         }
 

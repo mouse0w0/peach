@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.fileEditor;
 
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.file.FileAppearances;
+import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -78,7 +78,7 @@ public class FileEditorManager {
 
         FileTab tab = new FileTab(null, fileEditor.getNode());
         tab.getProperties().put(FileEditor.class, fileEditor);
-        FileAppearances.apply(file, tab);
+        FileAppearance.process(file, tab);
 
         String name = fileEditor.getName();
         if (name != null) tab.setText(FileUtils.getFileName(file));
