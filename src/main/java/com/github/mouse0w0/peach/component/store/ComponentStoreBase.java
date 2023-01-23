@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public abstract class ComponentStoreBase implements ComponentStore {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AppComponentStore.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ComponentStoreBase.class);
 
     private final Path storePath;
 
