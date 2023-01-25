@@ -37,7 +37,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 public class ModelField extends Element {
 
@@ -301,14 +300,13 @@ public class ModelField extends Element {
     };
     private final Multimap<Path, String> fileToModelKey = HashMultimap.create();
 
-    private Future<?> loadTextureFuture;
+    private volatile Future<?> loadTextureFuture;
 
     private void loadTexture() {
         if (loadTextureFuture != null) {
             loadTextureFuture.cancel(true);
         }
-        loadTextureFuture = CompletableFuture.supplyAsync(() -> loadTexture0(fileToModelKey.keySet()),
-                        CompletableFuture.delayedExecutor(100, TimeUnit.MILLISECONDS))
+        loadTextureFuture = CompletableFuture.supplyAsync(() -> loadTexture0(fileToModelKey.keySet()))
                 .thenAcceptAsync(textures::setAll, Platform::runLater);
     }
 
