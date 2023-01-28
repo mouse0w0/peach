@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.message;
 
-import org.apache.commons.lang3.Validate;
+import com.github.mouse0w0.peach.util.Validate;
 
 import javax.annotation.Nonnull;
 

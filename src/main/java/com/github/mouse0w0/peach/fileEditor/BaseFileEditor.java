@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.fileEditor;
 
+import com.github.mouse0w0.peach.util.Validate;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.scene.image.Image;
-import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 import java.nio.file.Path;

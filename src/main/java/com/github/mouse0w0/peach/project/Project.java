@@ -7,9 +7,9 @@ import com.github.mouse0w0.peach.component.store.ProjectComponentStore;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.message.MessageBus;
 import com.github.mouse0w0.peach.message.impl.MessageBusFactory;
+import com.github.mouse0w0.peach.util.Validate;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.peach.window.WindowManager;
-import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

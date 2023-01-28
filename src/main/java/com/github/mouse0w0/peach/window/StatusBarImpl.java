@@ -1,12 +1,12 @@
 package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.Validate;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;

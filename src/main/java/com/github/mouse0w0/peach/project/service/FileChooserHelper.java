@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.beans.InvalidationListener;
@@ -13,7 +14,6 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 import java.io.File;

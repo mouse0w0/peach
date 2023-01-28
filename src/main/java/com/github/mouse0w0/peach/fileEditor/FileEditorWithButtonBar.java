@@ -2,12 +2,12 @@ package com.github.mouse0w0.peach.fileEditor;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.Validate;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
 import java.nio.file.Path;
