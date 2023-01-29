@@ -331,4 +331,22 @@ public class Validate {
         }
         return value;
     }
+
+    public static void isTrue(boolean b) {
+        if (!b) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public static void isTrue(boolean b, String message) {
+        if (!b) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    public static void isTrue(boolean b, String message, Object... args) {
+        if (!b) {
+            throw new IllegalArgumentException(String.format(message, args));
+        }
+    }
 }
