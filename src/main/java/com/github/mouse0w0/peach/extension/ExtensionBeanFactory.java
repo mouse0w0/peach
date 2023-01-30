@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.extension;
 
-import org.apache.commons.lang3.Validate;
+import com.github.mouse0w0.peach.util.Validate;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
