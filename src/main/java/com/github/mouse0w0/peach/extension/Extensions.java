@@ -39,26 +39,24 @@ public final class Extensions {
             }
 
             Class<?> type;
-            boolean beanMode;
-            if (beanName != null) {
+            boolean bean = beanName != null;
+            if (bean) {
                 try {
                     type = Class.forName(beanName);
-                    beanMode = true;
                 } catch (ClassNotFoundException e) {
                     throw new ExtensionException("Not found bean class " + beanName);
                 }
             } else {
                 try {
                     type = Class.forName(interfaceName);
-                    beanMode = false;
                 } catch (ClassNotFoundException e) {
                     throw new ExtensionException("Not found interface class " + interfaceName);
                 }
             }
 
-            boolean ordered = "true".equals(extensionPoint.attributeValue("ordered", beanMode ? "false" : "true"));
+            boolean ordered = Boolean.parseBoolean(extensionPoint.attributeValue("ordered"));
 
-            ExtensionContainer<?> container = new ExtensionContainer<>(name, type, beanMode, ordered);
+            ExtensionContainer<?> container = new ExtensionContainer<>(name, type, bean, ordered);
             CONTAINERS.put(name, container);
         }
     }
