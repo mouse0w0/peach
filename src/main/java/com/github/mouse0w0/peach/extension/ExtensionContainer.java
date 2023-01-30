@@ -20,7 +20,6 @@ public final class ExtensionContainer<T> {
 
     private ExtensionBeanFactory<?> beanFactory;
 
-    @SuppressWarnings("unchecked")
     ExtensionContainer(String name, Class<T> type, boolean bean, boolean ordered) {
         this.name = name;
         this.type = type;
@@ -73,7 +72,6 @@ public final class ExtensionContainer<T> {
         }
     }
 
-    @SuppressWarnings("unchecked")
     void register(Element element) {
         if (bean) {
             if (beanFactory == null) {
