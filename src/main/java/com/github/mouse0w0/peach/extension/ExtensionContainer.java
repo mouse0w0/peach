@@ -58,18 +58,18 @@ public final class ExtensionContainer<T> {
     @SuppressWarnings("unchecked")
     synchronized void initExtensions() {
         if (this.extensions == null) {
-            List<T> extensions = new ArrayList<>(descriptors.size());
             if (ordered) {
                 descriptors.sort(Comparator.naturalOrder());
             }
+            ImmutableList.Builder<T> builder = ImmutableList.builder();
             for (ExtensionDescriptor descriptor : descriptors) {
                 T instance = (T) descriptor.newInstance();
                 if (!type.isAssignableFrom(instance.getClass())) {
                     throw new ExtensionException(type + " is not assignable from instance " + instance.getClass());
                 }
-                extensions.add(instance);
+                builder.add(instance);
             }
-            this.extensions = ImmutableList.copyOf(extensions);
+            this.extensions = builder.build();
         }
     }
 
