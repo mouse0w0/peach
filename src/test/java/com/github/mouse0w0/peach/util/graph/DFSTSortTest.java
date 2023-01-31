@@ -2,8 +2,10 @@ package com.github.mouse0w0.peach.util.graph;
 
 import org.junit.jupiter.api.Test;
 
-class DFSTopoSortTest {
+import java.util.ArrayList;
+import java.util.List;
 
+class DFSTSortTest {
     @Test
     void sort() {
         DirectedGraph<Integer> graph = new DirectedGraph<>();
@@ -14,6 +16,9 @@ class DFSTopoSortTest {
         graph.addEdge(3, 5);
         graph.addEdge(4, 6);
         graph.addEdge(5, 6);
-        DFSTopoSort<Integer> sort = new DFSTopoSort<>(graph);
+        DFSTSort<Integer> sort = new DFSTSort<>(graph);
+        List<Integer> ints = new ArrayList<>(graph.getNodes());
+        ints.sort(sort.comparator());
+        System.out.println(ints);
     }
 }
