@@ -59,13 +59,13 @@ public class DFSTSort<N> {
                         continue nextFrame;
                     } else if (b == Boolean.TRUE) { // If node in stack.
                         if (cycleNodes == null) {
-                            int size = nodeStack.size();
-                            int idx = nodeStack.indexOf(successor);
-                            List<N> result = new ArrayList<>(size - idx);
-                            for (int i = idx; i < size; i++) {
-                                result.add(nodeStack.get(i));
-                            }
-                            cycleNodes = result;
+                            int stackSize = nodeStack.size();
+                            int index = nodeStack.indexOf(successor);
+                            int arraySize = stackSize - index;
+                            @SuppressWarnings("unchecked")
+                            N[] array = (N[]) new Object[arraySize];
+                            nodeStack.getElements(index, array, 0, arraySize);
+                            cycleNodes = Arrays.asList(array);
                         }
                     }
                 }
