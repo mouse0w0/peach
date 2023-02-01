@@ -65,8 +65,9 @@ public final class DFSTBuilder<N> {
                 Iterator<N> succIterator = frame.succIterator;
                 while (succIterator.hasNext()) {
                     N succNode = succIterator.next();
-                    int succIndex = frame.succIndex = nodeIndex.applyAsInt(succNode);
+                    int succIndex = nodeIndex.applyAsInt(succNode);
                     if (dfn[succIndex] == 0) { // If node is not visited.
+                        frame.succIndex = succIndex;
                         frameStack.push(new Frame<>(succIndex, graph.getSuccessors(succNode).iterator()));
                         nodeStack.push(succIndex);
                         stacked[succIndex] = true;
