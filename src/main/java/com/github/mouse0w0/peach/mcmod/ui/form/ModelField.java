@@ -300,7 +300,7 @@ public class ModelField extends Element {
     };
     private final Multimap<Path, String> fileToModelKey = HashMultimap.create();
 
-    private volatile Future<?> loadTextureFuture;
+    private Future<?> loadTextureFuture;
 
     private void loadTexture() {
         if (loadTextureFuture != null) {
