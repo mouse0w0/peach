@@ -8,33 +8,27 @@
         <Console name="Console">
             <PatternLayout pattern="[%d{HH:mm:ss.SSS}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
         </Console>
-        <RollingRandomAccessFile name="File" fileName="${LOGGING_HOME}/latest.log"
-                                 filePattern="log/%d{yyyy_MM_dd}-%i.log.gz">
+        <RollingRandomAccessFile name="File"
+                                 immediateFlush="false"
+                                 append="false"
+                                 fileName="${LOGGING_HOME}/latest.log"
+                                 filePattern="${LOGGING_HOME}/%d{yyyy_MM_dd}-%i.log.gz">
             <PatternLayout pattern="[%d{HH:mm:ss.SSS}] [%logger{1}/%t] [%level]: %msg%n%xEx"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
             </Policies>
-            <DefaultRolloverStrategy max="30">
-                <Delete basePath="log" maxDepth="1">
+            <DefaultRolloverStrategy max="7">
+                <Delete basePath="${LOGGING_HOME}">
                     <IfFileName glob="*.log.gz"/>
-                    <IfLastModified age="14d"/>
+                    <IfLastModified age="7d"/>
                 </Delete>
             </DefaultRolloverStrategy>
         </RollingRandomAccessFile>
-        <!--        <RollingRandomAccessFile name="DebugFile" fileName="log/debug.log"-->
-        <!--                                 filePattern="log/debug-%d{yyyy_MM_dd}-%i.log.gz">-->
-        <!--            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%logger{1.}/%t] [%level]: %msg%n%xEx"/>-->
-        <!--            <Policies>-->
-        <!--                <OnStartupTriggeringPolicy/>-->
-        <!--            </Policies>-->
-        <!--            <DefaultRolloverStrategy max="5"/>-->
-        <!--        </RollingRandomAccessFile>-->
     </Appenders>
     <Loggers>
         <Root level="ALL">
             <AppenderRef ref="Console" level="${CONSOLE_LEVEL}"/>
             <AppenderRef ref="File" level="INFO"/>
-            <!--            <AppenderRef ref="DebugFile" level="DEBUG"/>-->
         </Root>
     </Loggers>
 </configuration>
