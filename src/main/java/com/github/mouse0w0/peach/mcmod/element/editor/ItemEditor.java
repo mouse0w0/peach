@@ -16,11 +16,11 @@ import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.*;
-import com.github.mouse0w0.peach.mcmod.util.InformationUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
@@ -395,7 +395,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         useDuration.setValue(item.getUseDuration());
         hitEntityLoss.setValue(item.getHitEntityLoss());
         destroyBlockLoss.setValue(item.getDestroyBlockLoss());
-        information.setValue(InformationUtils.join(item.getInformation()));
+        final String[] array = item.getInformation();
+        information.setValue(StringUtils.join(array, System.lineSeparator()));
 
         model.setModel(item.getModel());
         model.setCustomModels(item.getCustomModels());
@@ -435,7 +436,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setUseDuration(useDuration.getValue());
         item.setHitEntityLoss(hitEntityLoss.getValue());
         item.setDestroyBlockLoss(destroyBlockLoss.getValue());
-        item.setInformation(InformationUtils.spilt(information.getValue()));
+        final String str = information.getValue();
+        item.setInformation(StringUtils.splitByLineSeparator(str));
 
         item.setModel(model.getModel());
         item.setCustomModels(model.getCustomModels());

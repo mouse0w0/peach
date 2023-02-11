@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.util;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
@@ -33,11 +34,48 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return false;
     }
 
-    public static String join(Stream<?> stream, char separator) {
-        return join(stream.iterator(), separator);
+    public static String[] splitByLineSeparator(String str) {
+        if (str == null) {
+            return null;
+        }
+
+        int len = str.length();
+
+        if (len == 0) {
+            return ArrayUtils.EMPTY_STRING_ARRAY;
+        }
+
+        ArrayList<String> substrings = new ArrayList<>();
+        int start = 0;
+        int end = 0;
+        while (end < len) {
+            char c = str.charAt(end);
+            if (c == '\r') {
+                substrings.add(str.substring(start, end));
+                int next = end + 1;
+                if (next < len && str.charAt(next) == '\n') {
+                    end += 2;
+                } else {
+                    end++;
+                }
+                start = end;
+            } else if (c == '\n') {
+                substrings.add(str.substring(start, end));
+                end++;
+                start = end;
+            } else {
+                end++;
+            }
+        }
+        substrings.add(str.substring(start));
+        return substrings.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
-    public static String join(Stream<?> stream, String separator) {
-        return join(stream.iterator(), separator);
+    public static String join(Stream<?> stream, char delimiter) {
+        return join(stream.iterator(), delimiter);
+    }
+
+    public static String join(Stream<?> stream, String delimiter) {
+        return join(stream.iterator(), delimiter);
     }
 }

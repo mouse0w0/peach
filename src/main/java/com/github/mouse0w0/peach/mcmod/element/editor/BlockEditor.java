@@ -19,11 +19,11 @@ import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
-import com.github.mouse0w0.peach.mcmod.util.InformationUtils;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
@@ -397,7 +397,8 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         replaceable.setValue(element.isReplaceable());
         harvestTool.setValue(element.getHarvestTool());
         harvestLevel.setValue(element.getHarvestLevel());
-        information.setValue(InformationUtils.join(element.getInformation()));
+        final String[] array = element.getInformation();
+        information.setValue(StringUtils.join(array, System.lineSeparator()));
 
         model.setModel(element.getModel());
         model.setCustomModels(element.getCustomModels());
@@ -451,7 +452,8 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setReplaceable(replaceable.getValue());
         element.setHarvestTool(harvestTool.getValue());
         element.setHarvestLevel(harvestLevel.getValue());
-        element.setInformation(InformationUtils.spilt(information.getValue()));
+        final String str = information.getValue();
+        element.setInformation(StringUtils.splitByLineSeparator(str));
 
         element.setModel(model.getModel());
         element.setCustomModels(model.getCustomModels());
