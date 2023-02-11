@@ -13,6 +13,7 @@ import com.github.mouse0w0.peach.javafx.FXApplication;
 import com.github.mouse0w0.peach.message.MessageBus;
 import com.github.mouse0w0.peach.message.impl.MessageBusFactory;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
@@ -75,7 +76,7 @@ public final class Peach extends ComponentManagerImpl {
         LOGGER.info("Max Heap Memory: {} bytes ({} MB)", maxMemory, maxMemory >> 20);
         RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
         List<String> jvmFlags = runtimeMXBean.getInputArguments();
-        LOGGER.info("JVM Flags ({} totals): {}", jvmFlags.size(), String.join(" ", jvmFlags));
+        LOGGER.info("JVM Flags ({} totals): {}", jvmFlags.size(), StringUtils.join(jvmFlags, ' '));
         LOGGER.info("------------------------------");
     }
 
