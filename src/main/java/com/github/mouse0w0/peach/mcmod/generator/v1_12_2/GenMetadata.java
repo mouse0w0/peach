@@ -19,7 +19,7 @@ public class GenMetadata implements Task {
         jo.addProperty("mcversion", metadata.getMcVersion());
         jo.addProperty("url", metadata.getUrl());
         jo.addProperty("updateUrl", metadata.getUpdateUrl());
-        jo.add("authorList", JsonUtils.jsonStringArray(metadata.getAuthors()));
+        jo.add("authorList", JsonUtils.stringArray(metadata.getAuthors()));
         jo.addProperty("credits", metadata.getCredits());
         context.getResourcesFiler().write("mcmod.info", JsonUtils.jsonArray(jo).toString());
     }

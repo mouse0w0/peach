@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 
-public final class JsonUtils {
+public class JsonUtils {
     private static final Gson GSON = new GsonBuilder().create();
     private static final Gson GSON_PRETTY_PRINTING = new GsonBuilder().setPrettyPrinting().create();
 
@@ -26,11 +26,11 @@ public final class JsonUtils {
         return new JsonPrimitive(value);
     }
 
-    public static JsonArray jsonArray(Iterable<JsonElement> iterable) {
+    public static JsonArray jsonArray(Iterable<? extends JsonElement> iterable) {
         return jsonArray(iterable.iterator());
     }
 
-    public static JsonArray jsonArray(Iterator<JsonElement> iterator) {
+    public static JsonArray jsonArray(Iterator<? extends JsonElement> iterator) {
         JsonArray array = new JsonArray();
         while (iterator.hasNext()) {
             array.add(iterator.next());
@@ -46,14 +46,62 @@ public final class JsonUtils {
         return array;
     }
 
-    public static JsonArray jsonStringArray(Iterable<String> iterable) {
-        return jsonStringArray(iterable.iterator());
+    public static JsonArray stringArray(Iterable<? extends String> iterable) {
+        return stringArray(iterable.iterator());
     }
 
-    public static JsonArray jsonStringArray(Iterator<String> iterator) {
+    public static JsonArray stringArray(Iterator<? extends String> iterator) {
         JsonArray array = new JsonArray();
         while (iterator.hasNext()) {
             array.add(iterator.next());
+        }
+        return array;
+    }
+
+    public static JsonArray stringArray(String... strings) {
+        JsonArray array = new JsonArray();
+        for (int i = 0; i < strings.length; i++) {
+            array.add(strings[i]);
+        }
+        return array;
+    }
+
+    public static JsonArray numberArray(Iterable<? extends Number> iterable) {
+        return numberArray(iterable.iterator());
+    }
+
+    public static JsonArray numberArray(Iterator<? extends Number> iterator) {
+        JsonArray array = new JsonArray();
+        while (iterator.hasNext()) {
+            array.add(iterator.next());
+        }
+        return array;
+    }
+
+    public static JsonArray numberArray(Number... numbers) {
+        JsonArray array = new JsonArray();
+        for (int i = 0; i < numbers.length; i++) {
+            array.add(numbers[i]);
+        }
+        return array;
+    }
+
+    public static JsonArray booleanArray(Iterable<? extends Boolean> iterable) {
+        return booleanArray(iterable.iterator());
+    }
+
+    public static JsonArray booleanArray(Iterator<? extends Boolean> iterator) {
+        JsonArray array = new JsonArray();
+        while (iterator.hasNext()) {
+            array.add(iterator.next());
+        }
+        return array;
+    }
+
+    public static JsonArray booleanArray(Boolean... booleans) {
+        JsonArray array = new JsonArray();
+        for (int i = 0; i < booleans.length; i++) {
+            array.add(booleans[i]);
         }
         return array;
     }
