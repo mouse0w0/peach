@@ -7,24 +7,9 @@ import java.util.*;
 
 public class DirectedGraph<N> implements MutableGraph<N> {
     private final Map<N, Connections<N>> nodes;
-    private final boolean useIdentityStrategy;
 
     public DirectedGraph() {
-        this(false);
-    }
-
-    public DirectedGraph(boolean useIdentityStrategy) {
-        this.useIdentityStrategy = useIdentityStrategy;
-        if (useIdentityStrategy) {
-            nodes = new IdentityHashMap<>();
-        } else {
-            nodes = new HashMap<>();
-        }
-    }
-
-    @Override
-    public boolean isUseIdentityStrategy() {
-        return useIdentityStrategy;
+        this.nodes = new HashMap<>();
     }
 
     @Override
@@ -55,7 +40,7 @@ public class DirectedGraph<N> implements MutableGraph<N> {
 
     @Override
     public void addNode(N node) {
-        if (nodes.putIfAbsent(node, new Connections<>(useIdentityStrategy)) != null) {
+        if (nodes.putIfAbsent(node, new Connections<>()) != null) {
             throw new IllegalStateException("Node is already an element of this graph.");
         }
     }
@@ -64,13 +49,13 @@ public class DirectedGraph<N> implements MutableGraph<N> {
     public void addEdge(N nodeU, N nodeV) {
         Connections<N> connectionsU = nodes.get(nodeU);
         if (connectionsU == null) {
-            nodes.put(nodeU, connectionsU = new Connections<>(useIdentityStrategy));
+            nodes.put(nodeU, connectionsU = new Connections<>());
         }
         connectionsU.addSuccessor(nodeV);
 
         Connections<N> connectionsV = nodes.get(nodeV);
         if (connectionsV == null) {
-            nodes.put(nodeV, connectionsV = new Connections<>(useIdentityStrategy));
+            nodes.put(nodeV, connectionsV = new Connections<>());
         }
         connectionsV.addPredecessor(nodeU);
     }
@@ -123,12 +108,8 @@ public class DirectedGraph<N> implements MutableGraph<N> {
         private int predecessorsCount;
         private int successorsCount;
 
-        public Connections(boolean useIdentityStrategy) {
-            if (useIdentityStrategy) {
-                connections = new IdentityHashMap<>();
-            } else {
-                connections = new HashMap<>();
-            }
+        public Connections() {
+            this.connections = new HashMap<>();
         }
 
         public Set<N> getPredecessors() {
@@ -136,7 +117,7 @@ public class DirectedGraph<N> implements MutableGraph<N> {
                 @Override
                 public Iterator<N> iterator() {
                     return new AbstractIterator<>() {
-                        Iterator<Map.Entry<N, Object>> it = connections.entrySet().iterator();
+                        final Iterator<Map.Entry<N, Object>> it = connections.entrySet().iterator();
 
                         @CheckForNull
                         @Override
@@ -169,7 +150,7 @@ public class DirectedGraph<N> implements MutableGraph<N> {
                 @Override
                 public Iterator<N> iterator() {
                     return new AbstractIterator<>() {
-                        Iterator<Map.Entry<N, Object>> it = connections.entrySet().iterator();
+                        final Iterator<Map.Entry<N, Object>> it = connections.entrySet().iterator();
 
                         @CheckForNull
                         @Override

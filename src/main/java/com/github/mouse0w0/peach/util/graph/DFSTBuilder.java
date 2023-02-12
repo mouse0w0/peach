@@ -2,12 +2,13 @@ package com.github.mouse0w0.peach.util.graph;
 
 import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.objects.*;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.ToIntFunction;
 
 /**
  * DFS topological sorting implementation.
@@ -21,19 +22,9 @@ public final class DFSTBuilder<N> {
     public DFSTBuilder(Graph<N> graph) {
         N[] nodes = (N[]) graph.getNodes().toArray();
         int nodeCount = nodes.length;
-        ToIntFunction<N> nodeIndex;
-        if (graph.isUseIdentityStrategy()) {
-            Reference2IntMap<N> nodeIndexMap = new Reference2IntOpenHashMap<>(nodeCount * 2, 0.5f);
-            for (int i = 0; i < nodeCount; i++) {
-                nodeIndexMap.put(nodes[i], i);
-            }
-            nodeIndex = nodeIndexMap;
-        } else {
-            Object2IntMap<N> nodeIndexMap = new Object2IntOpenHashMap<>(nodeCount * 2, 0.5f);
-            for (int i = 0; i < nodeCount; i++) {
-                nodeIndexMap.put(nodes[i], i);
-            }
-            nodeIndex = nodeIndexMap;
+        Object2IntMap<N> nodeIndex = new Object2IntOpenHashMap<>(nodeCount * 2, 0.5f);
+        for (int i = 0; i < nodeCount; i++) {
+            nodeIndex.put(nodes[i], i);
         }
 
         ObjectArrayList<Frame<N>> frameStack = new ObjectArrayList<>();
@@ -96,19 +87,11 @@ public final class DFSTBuilder<N> {
             }
         }
 
-        if (graph.isUseIdentityStrategy()) {
-            Reference2IntMap<N> topoMap = new Reference2IntOpenHashMap<>(nodeCount * 2, 0.5f);
-            for (int i = 0; i < nodeCount; i++) {
-                topoMap.put(nodes[i], topo[i]);
-            }
-            this.comparator = Comparator.comparingInt(topoMap);
-        } else {
-            Object2IntMap<N> topoMap = new Object2IntOpenHashMap<>(nodeCount * 2, 0.5f);
-            for (int i = 0; i < nodeCount; i++) {
-                topoMap.put(nodes[i], topo[i]);
-            }
-            this.comparator = Comparator.comparingInt(topoMap);
+        Object2IntMap<N> topoMap = new Object2IntOpenHashMap<>(nodeCount * 2, 0.5f);
+        for (int i = 0; i < nodeCount; i++) {
+            topoMap.put(nodes[i], topo[i]);
         }
+        this.comparator = Comparator.comparingInt(topoMap);
         this.acyclic = acyclic;
         this.sccs = sccsBuilder.build();
     }
