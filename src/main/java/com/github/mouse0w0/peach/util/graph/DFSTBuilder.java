@@ -42,14 +42,15 @@ public final class DFSTBuilder<N> {
         int time = 1; // 0 means not visited.
         int[] dfn = new int[nodeCount];
         int[] low = new int[nodeCount];
-        int topoIndex = nodeCount; // Topological sorting in DFS is reserved.
+        int topoIndex = 0;
         int[] topo = new int[nodeCount];
         boolean acyclic = true;
         ImmutableList.Builder<List<N>> sccsBuilder = ImmutableList.builder();
         for (int i = 0; i < nodeCount; i++) {
             if (dfn[i] != 0) continue;
 
-            frameStack.push(new Frame<>(i, graph.getSuccessors(nodes[i]).iterator()));
+            // Topological sorting in DFS is reserved, get predecessors.
+            frameStack.push(new Frame<>(i, graph.getPredecessors(nodes[i]).iterator()));
             nodeStack.push(i);
             stacked[i] = true;
             dfn[i] = low[i] = time++;
@@ -68,7 +69,8 @@ public final class DFSTBuilder<N> {
                     int succIndex = nodeIndex.applyAsInt(succNode);
                     if (dfn[succIndex] == 0) { // If node is not visited.
                         frame.succIndex = succIndex;
-                        frameStack.push(new Frame<>(succIndex, graph.getSuccessors(succNode).iterator()));
+                        // Topological sorting in DFS is reserved, get predecessors.
+                        frameStack.push(new Frame<>(succIndex, graph.getPredecessors(succNode).iterator()));
                         nodeStack.push(succIndex);
                         stacked[succIndex] = true;
                         dfn[succIndex] = low[succIndex] = time++;
@@ -80,7 +82,7 @@ public final class DFSTBuilder<N> {
                 }
                 // No more successors.
                 frameStack.pop();
-                topo[currIndex] = --topoIndex;
+                topo[currIndex] = topoIndex++;
                 if (dfn[currIndex] == low[currIndex]) {
                     ImmutableList.Builder<N> sccBuilder = ImmutableList.builder();
                     int popIndex;
