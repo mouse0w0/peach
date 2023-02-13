@@ -20,7 +20,7 @@ class DFSTBuilderTest {
         List<Integer> ints = new ArrayList<>(graph.getNodes());
         ints.sort(builder.comparator());
         System.out.println(ints);
-        System.out.println(builder.getSCCs());
+        System.out.println(builder.getComponents());
     }
 
     @Test
@@ -38,6 +38,6 @@ class DFSTBuilderTest {
         List<Integer> ints = new ArrayList<>(graph.getNodes());
         ints.sort(builder.comparator());
         System.out.println(ints);
-        System.out.println(builder.getSCCs());
+        System.out.println(builder.getComponents());
     }
 }

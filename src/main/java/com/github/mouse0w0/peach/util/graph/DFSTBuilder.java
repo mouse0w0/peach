@@ -16,7 +16,7 @@ import java.util.List;
 public final class DFSTBuilder<N> {
     private final Comparator<N> comparator;
     private final boolean acyclic;
-    private final List<List<N>> sccs;
+    private final List<List<N>> components;
 
     @SuppressWarnings("unchecked")
     public DFSTBuilder(Graph<N> graph) {
@@ -93,7 +93,7 @@ public final class DFSTBuilder<N> {
         }
         this.comparator = Comparator.comparingInt(topoMap);
         this.acyclic = acyclic;
-        this.sccs = sccsBuilder.build();
+        this.components = sccsBuilder.build();
     }
 
     public Comparator<N> comparator() {
@@ -104,8 +104,11 @@ public final class DFSTBuilder<N> {
         return acyclic;
     }
 
-    public List<List<N>> getSCCs() {
-        return sccs;
+    /**
+     * @return the list of strong connected component.
+     */
+    public List<List<N>> getComponents() {
+        return components;
     }
 
     private static final class Frame<N> {
