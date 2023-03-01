@@ -15,7 +15,6 @@ import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.google.common.collect.ImmutableList;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -40,7 +39,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProjectView implements Disposable, DataProvider {
     public static final PseudoClass DROP_HOVER = PseudoClass.getPseudoClass("drop-hover");
@@ -207,10 +205,12 @@ public class ProjectView implements Disposable, DataProvider {
             TreeItem<Path> selectedItem = treeView.getSelectionModel().getSelectedItem();
             return selectedItem != null ? selectedItem.getValue() : null;
         } else if (DataKeys.SELECTED_ITEMS.is(key)) {
-            return treeView.getSelectionModel().getSelectedItems()
-                    .stream()
-                    .map(TreeItem::getValue)
-                    .collect(ImmutableList.toImmutableList());
+            List<TreeItem<Path>> selectedItems = treeView.getSelectionModel().getSelectedItems();
+            List<Path> result = new ArrayList<>(selectedItems.size());
+            for (TreeItem<Path> selectedItem : selectedItems) {
+                result.add(selectedItem.getValue());
+            }
+            return result;
         } else {
             return null;
         }
@@ -243,10 +243,11 @@ public class ProjectView implements Disposable, DataProvider {
                 Dragboard dragboard = startDragAndDrop(TransferMode.COPY_OR_MOVE);
                 ClipboardContent content = new ClipboardContent();
                 content.put(ClipboardUtils.TRANSFER_MODE, ClipboardUtils.TRANSFER_MODE_MOVE);
-                List<File> files = selectionModel.getSelectedItems()
-                        .stream()
-                        .map(treeItem -> treeItem.getValue().toFile())
-                        .collect(Collectors.toList());
+                List<TreeItem<Path>> selectedItems = selectionModel.getSelectedItems();
+                List<File> files = new ArrayList<>(selectedItems.size());
+                for (TreeItem<Path> selectedItem : selectedItems) {
+                    files.add(selectedItem.getValue().toFile());
+                }
                 content.putFiles(files);
                 dragboard.setContent(content);
             });
