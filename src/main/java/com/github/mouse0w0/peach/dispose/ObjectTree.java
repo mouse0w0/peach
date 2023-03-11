@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.dispose;
 
-import com.google.common.collect.MapMaker;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,7 @@ import java.util.function.Supplier;
 
 final class ObjectTree {
     private final Map<Disposable, ObjectNode> disposable2NodeMap = new Reference2ObjectOpenHashMap<>();
-    private final Set<Disposable> disposedObjects = Collections.newSetFromMap(new MapMaker().weakKeys().makeMap());
+    private final Set<Disposable> disposedObjects = Collections.newSetFromMap(new WeakHashMap<>());
 
     public void register(Disposable parent, Disposable child) {
         if (parent == child) {
@@ -101,14 +100,12 @@ final class ObjectTree {
         return disposedObjects.add(disposable);
     }
 
-    void checkAllDisposed() {
+    synchronized void checkAllDisposed() {
         Logger logger = LoggerFactory.getLogger(ObjectTree.class);
-        synchronized (this) {
-            disposable2NodeMap.forEach((disposable, node) -> {
-                if (node.getParent() != null) return;
-                logger.error("Memory leak detected: " + disposable + " (" + disposable.getClass() + ") " +
-                        "is registered in Disposer but isn't disposed.");
-            });
-        }
+        disposable2NodeMap.forEach((disposable, node) -> {
+            if (node.getParent() != null) return;
+            logger.error("Memory leak detected: " + disposable + " (" + disposable.getClass() + ") " +
+                    "is registered in Disposer but isn't disposed.");
+        });
     }
 }
