@@ -28,25 +28,25 @@ class Utils {
 
     public static void updateSeparatorVisibility(ObservableList<MenuItem> items) {
         boolean perv = false;
-        MenuItem seperator = null;
+        MenuItem separator = null;
         for (MenuItem item : items) {
             if (item instanceof SeparatorMenuItem) {
                 if (perv) {
                     perv = false;
-                    seperator = item;
+                    separator = item;
                 } else {
                     item.setVisible(false);
                 }
             } else if (item.isVisible()) {
-                if (seperator != null) {
-                    seperator.setVisible(true);
-                    seperator = null;
+                if (separator != null) {
+                    separator.setVisible(true);
+                    separator = null;
                 }
                 perv = true;
             }
         }
-        if (seperator != null) {
-            seperator.setVisible(false);
+        if (separator != null) {
+            separator.setVisible(false);
         }
     }
 
