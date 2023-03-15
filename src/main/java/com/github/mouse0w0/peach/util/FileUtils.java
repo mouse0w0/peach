@@ -52,8 +52,8 @@ public class FileUtils {
     }
 
     public static void createFileIfNotExists(Path path) throws UncheckedIOException {
+        createDirectoriesIfNotExists(path.getParent());
         try {
-            createParentIfNotExists(path);
             Files.createFile(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
         } catch (FileAlreadyExistsException ignored) {
         } catch (IOException e) {
@@ -62,12 +62,7 @@ public class FileUtils {
     }
 
     public static void createParentIfNotExists(Path path) throws UncheckedIOException {
-        try {
-            Files.createDirectories(path.getParent(), EMPTY_FILE_ATTRIBUTE_ARRAY);
-        } catch (FileAlreadyExistsException ignored) {
-        } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
-        }
+        createDirectoriesIfNotExists(path.getParent());
     }
 
     public static Path copy(Path source, Path target) throws UncheckedIOException {
