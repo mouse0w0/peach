@@ -5,6 +5,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class Validate {
+    private static final String DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE =
+            "The value %s is not in the specified inclusive range of %s to %s";
+    private static final String DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE =
+            "The value %s is not in the specified exclusive range of %s to %s";
+
     public static <T> T notNull(T object) {
         if (object == null) {
             throw new NullPointerException();
@@ -332,21 +337,75 @@ public class Validate {
         return value;
     }
 
-    public static void isTrue(boolean b) {
-        if (!b) {
-            throw new IllegalArgumentException();
+    public static <T> void inclusiveBetween(final T start, final T end, final Comparable<T> value) {
+        if (value.compareTo(start) < 0 || value.compareTo(end) > 0) {
+            throw new IllegalArgumentException(String.format(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE, value, start, end));
         }
     }
 
-    public static void isTrue(boolean b, String message) {
-        if (!b) {
+    public static <T> void inclusiveBetween(final T start, final T end, final Comparable<T> value, final String message) {
+        if (value.compareTo(start) < 0 || value.compareTo(end) > 0) {
             throw new IllegalArgumentException(message);
         }
     }
 
-    public static void isTrue(boolean b, String message, Object... args) {
-        if (!b) {
-            throw new IllegalArgumentException(String.format(message, args));
+    public static void inclusiveBetween(final long start, final long end, final long value) {
+        if (value < start || value > end) {
+            throw new IllegalArgumentException(String.format(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE, value, start, end));
+        }
+    }
+
+    public static void inclusiveBetween(final long start, final long end, final long value, final String message) {
+        if (value < start || value > end) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    public static void inclusiveBetween(final double start, final double end, final double value) {
+        if (value < start || value > end) {
+            throw new IllegalArgumentException(String.format(DEFAULT_INCLUSIVE_BETWEEN_EX_MESSAGE, value, start, end));
+        }
+    }
+
+    public static void inclusiveBetween(final double start, final double end, final double value, final String message) {
+        if (value < start || value > end) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    public static <T> void exclusiveBetween(final T start, final T end, final Comparable<T> value) {
+        if (value.compareTo(start) <= 0 || value.compareTo(end) >= 0) {
+            throw new IllegalArgumentException(String.format(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE, value, start, end));
+        }
+    }
+
+    public static <T> void exclusiveBetween(final T start, final T end, final Comparable<T> value, final String message) {
+        if (value.compareTo(start) <= 0 || value.compareTo(end) >= 0) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    public static void exclusiveBetween(final long start, final long end, final long value) {
+        if (value <= start || value >= end) {
+            throw new IllegalArgumentException(String.format(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE, value, start, end));
+        }
+    }
+
+    public static void exclusiveBetween(final long start, final long end, final long value, final String message) {
+        if (value <= start || value >= end) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    public static void exclusiveBetween(final double start, final double end, final double value) {
+        if (value <= start || value >= end) {
+            throw new IllegalArgumentException(String.format(DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE, value, start, end));
+        }
+    }
+
+    public static void exclusiveBetween(final double start, final double end, final double value, final String message) {
+        if (value <= start || value >= end) {
+            throw new IllegalArgumentException(message);
         }
     }
 }
