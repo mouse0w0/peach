@@ -43,41 +43,23 @@ public class FileUtils {
     }
 
     public static void createDirectoriesIfNotExists(Path path) throws UncheckedIOException {
-        try {
-            Files.createDirectories(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
-        } catch (FileAlreadyExistsException ignored) {
-        } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+        if (Files.notExists(path)) {
+            try {
+                Files.createDirectories(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e.getMessage(), e);
+            }
         }
     }
 
     public static void createFileIfNotExists(Path path) throws UncheckedIOException {
-        createDirectoriesIfNotExists(path.getParent());
-        try {
-            Files.createFile(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
-        } catch (FileAlreadyExistsException ignored) {
-        } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
-        }
-    }
-
-    public static void createParentIfNotExists(Path path) throws UncheckedIOException {
-        createDirectoriesIfNotExists(path.getParent());
-    }
-
-    public static Path copy(Path source, Path target) throws UncheckedIOException {
-        return copy(source, target, EMPTY_COPY_OPTION_ARRAY);
-    }
-
-    public static Path copy(Path source, Path target, CopyOption... options) throws UncheckedIOException {
-        if (Files.notExists(source)) {
-            throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
-        }
-        createParentIfNotExists(target);
-        try {
-            return Files.copy(source, target, options);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+        if (Files.notExists(path)) {
+            createDirectoriesIfNotExists(path.getParent());
+            try {
+                Files.createFile(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e.getMessage(), e);
+            }
         }
     }
 
@@ -89,18 +71,27 @@ public class FileUtils {
         if (Files.notExists(source)) {
             throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
         }
-        createParentIfNotExists(target);
-        try {
-            return Files.copy(source, target, options);
-        } catch (FileAlreadyExistsException e) {
-            return target;
-        } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+        if (Files.notExists(target)) {
+            createDirectoriesIfNotExists(target.getParent());
+            try {
+                return Files.copy(source, target, options);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e.getMessage(), e);
+            }
         }
+        return target;
     }
 
     public static Path forceCopy(Path source, Path target) throws UncheckedIOException {
-        return copy(source, target, REPLACE_EXISTING);
+        if (Files.notExists(source)) {
+            throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
+        }
+        createDirectoriesIfNotExists(target.getParent());
+        try {
+            return Files.copy(source, target, REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e.getMessage(), e);
+        }
     }
 
     public static boolean isEmptyDirectory(Path path) throws UncheckedIOException {

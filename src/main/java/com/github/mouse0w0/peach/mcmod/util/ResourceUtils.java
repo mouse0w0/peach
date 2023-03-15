@@ -66,7 +66,7 @@ public class ResourceUtils {
                     return null;
                 }
             } else {
-                return FileUtils.copy(source, target);
+                return FileUtils.forceCopy(source, target);
             }
         }
     }
