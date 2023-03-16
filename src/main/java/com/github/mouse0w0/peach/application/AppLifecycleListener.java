@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.message.Topic;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public interface AppLifecycleListener {
-    Topic<AppLifecycleListener> TOPIC = new Topic<>(AppLifecycleListener.class, BroadcastDirection.NONE);
+    Topic<AppLifecycleListener> TOPIC = new Topic<>("AppLifecycleListener", AppLifecycleListener.class, BroadcastDirection.NONE);
 
     void appStarted();
 

@@ -2,10 +2,10 @@ package com.github.mouse0w0.peach.mcmod.view;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
-import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import com.google.gson.JsonElement;
@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ItemFavoritesView implements PersistentStateComponent {
+public class ItemFavoritesView implements PersistentService {
 
     private static ItemFavoritesView getInstance(Project project) {
         return project.getService(ItemFavoritesView.class);

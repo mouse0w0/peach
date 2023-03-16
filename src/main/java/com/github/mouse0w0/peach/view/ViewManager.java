@@ -53,7 +53,7 @@ public class ViewManager {
 
         this.viewPane = window.getViewPane();
 
-        for (ViewDescriptor view : ViewDescriptor.EXTENSION_POINT.getExtensions()) {
+        for (ViewEP view : ViewEP.EXTENSION_POINT.getExtensions()) {
             String id = view.id;
             if (id == null || id.isEmpty()) {
                 LOGGER.error("The id of view is null or empty, skip initialize.");
@@ -62,7 +62,7 @@ public class ViewManager {
 
             String text = I18n.translate("view." + id + ".text");
             Node icon = IconManager.getInstance().createNode(view.icon);
-            Node content = view.factory.createViewContent(project);
+            Node content = view.getFactory().createViewContent(project);
 
             EightPos position = view.position;
             if (position == null) {
@@ -71,7 +71,7 @@ public class ViewManager {
             }
 
             ViewTab viewTab = new ViewTab(text, icon, content);
-            viewTab.getProperties().put(ViewDescriptor.class, view);
+            viewTab.getProperties().put(ViewEP.class, view);
 
             viewTabMap.put(id, viewTab);
 

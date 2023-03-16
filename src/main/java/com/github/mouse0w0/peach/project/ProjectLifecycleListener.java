@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.message.BroadcastDirection;
 import com.github.mouse0w0.peach.message.Topic;
 
 public interface ProjectLifecycleListener {
-    Topic<ProjectLifecycleListener> TOPIC = new Topic<>(ProjectLifecycleListener.class, BroadcastDirection.NONE);
+    Topic<ProjectLifecycleListener> TOPIC = new Topic<>("ProjectLifecycleListener", ProjectLifecycleListener.class, BroadcastDirection.NONE);
 
     void projectOpened(Project project);
 

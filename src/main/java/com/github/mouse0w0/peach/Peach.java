@@ -4,29 +4,27 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.application.AppLifecycleListener;
-import com.github.mouse0w0.peach.component.ComponentManagerImpl;
-import com.github.mouse0w0.peach.component.ServiceDescriptor;
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.extension.ExtensionException;
 import com.github.mouse0w0.peach.extension.Extensions;
 import com.github.mouse0w0.peach.javafx.FXApplication;
-import com.github.mouse0w0.peach.message.MessageBus;
-import com.github.mouse0w0.peach.message.impl.MessageBusFactory;
+import com.github.mouse0w0.peach.message.impl.CompositeMessageBus;
+import com.github.mouse0w0.peach.message.impl.MessageBusImpl;
+import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
+import com.github.mouse0w0.peach.plugin.Plugin;
+import com.github.mouse0w0.peach.plugin.PluginManagerCore;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.service.ServiceDescriptor;
+import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.mutable.MutableBoolean;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -34,15 +32,13 @@ import java.util.Locale;
 
 import static org.apache.commons.lang3.SystemUtils.*;
 
-public final class Peach extends ComponentManagerImpl {
+public final class Peach extends ServiceManagerImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(Peach.class);
 
     private static final Peach INSTANCE = new Peach();
 
     private final Version version = new Version(getImplementationVersion());
     private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
-
-    private MessageBus messageBus = MessageBusFactory.create(null);
 
     public static Peach getInstance() {
         return INSTANCE;
@@ -53,10 +49,13 @@ public final class Peach extends ComponentManagerImpl {
         initUncaughtExceptionHandler();
         printSystemInfo();
         initTranslator();
-        LOGGER.info("Initializing extensions.");
-        INSTANCE.initExtensions();
-        LOGGER.info("Initializing application services.");
-        INSTANCE.initServices(ServiceDescriptor.APPLICATION_SERVICE.getExtensions());
+        LOGGER.info("Loading plugins.");
+        PluginManagerCore.loadPlugins();
+        LOGGER.info("Initializing extension points.");
+        Extensions.loadExtensions();
+        LOGGER.info("Initializing application.");
+        INSTANCE.initialize();
+        INSTANCE.preloadServices();
         LOGGER.info("Initializing JavaFX.");
         Application.launch(FXApplication.class, args);
     }
@@ -99,10 +98,6 @@ public final class Peach extends ComponentManagerImpl {
         return userPropertiesPath;
     }
 
-    public MessageBus getMessageBus() {
-        return messageBus;
-    }
-
     public void exit() {
         exit(false);
     }
@@ -122,7 +117,7 @@ public final class Peach extends ComponentManagerImpl {
         }
 
         ProjectManager.getInstance().closeAllProjects();
-        INSTANCE.saveComponents();
+        INSTANCE.saveServices();
 
         getMessageBus().getPublisher(AppLifecycleListener.TOPIC).appWillBeClosed();
 
@@ -133,31 +128,23 @@ public final class Peach extends ComponentManagerImpl {
         System.exit(0);
     }
 
-    private void initExtensions() {
-        URL url = Peach.class.getResource("/application.xml");
-        Element plugin;
-        try {
-            plugin = new SAXReader().read(url).getRootElement();
-        } catch (DocumentException e) {
-            throw new ExtensionException("Cannot load extensions from " + url, e);
-        }
-
-        Extensions.registerExtensionPoints(plugin.element("extensionPoints"));
-        Extensions.registerExtensions(plugin.element("extensions"));
-    }
-
     private String getImplementationVersion() {
         String version = Peach.class.getPackage().getImplementationVersion();
         return version != null && !version.isEmpty() ? version : "99.0.0.0-INDEV";
     }
 
     @Override
-    public void dispose() {
-        disposeComponents();
+    protected MessageBusImpl createMessageBus() {
+        return new CompositeMessageBus();
+    }
 
-        if (messageBus != null) {
-            Disposer.dispose(messageBus);
-            messageBus = null;
-        }
+    @Override
+    protected List<ServiceDescriptor> getPluginServices(Plugin plugin) {
+        return plugin.getApplicationServices();
+    }
+
+    @Override
+    protected List<ListenerDescriptor> getPluginListeners(Plugin plugin) {
+        return plugin.getApplicationListeners();
     }
 }

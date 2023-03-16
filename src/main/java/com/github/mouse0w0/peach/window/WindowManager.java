@@ -10,6 +10,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
@@ -41,30 +42,8 @@ public class WindowManager {
     }
 
     public WindowManager() {
-        Peach.getInstance().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
-            @Override
-            public void projectOpened(Project project) {
-                ProjectWindow window = allocateWindow(project);
-                window.getStage().show();
-            }
-
-            @Override
-            public void projectClosingBeforeSave(Project project) {
-
-            }
-
-            @Override
-            public void projectClosing(Project project) {
-                ProjectWindow window = getWindow(project);
-                window.getStage().hide();
-            }
-
-            @Override
-            public void projectClosed(Project project) {
-
-            }
-        });
-        Window.getWindows().addListener(new ListChangeListener<Window>() {
+        ObservableList<Window> windows = Window.getWindows();
+        windows.addListener(new ListChangeListener<Window>() {
             @Override
             public void onChanged(Change<? extends Window> c) {
                 while (c.next()) {
@@ -82,6 +61,11 @@ public class WindowManager {
                 c.reset();
             }
         });
+        for (Window window : windows) {
+            if (window.isFocused()) {
+                focusedWindow = window;
+            }
+        }
     }
 
     public Collection<ProjectWindow> getWindows() {
@@ -142,5 +126,27 @@ public class WindowManager {
     public Project getFocusedProject() {
         if (focusedWindow == null) return null;
         return DataKeys.PROJECT.get(DataManager.getInstance().getDataContext(focusedWindow));
+    }
+
+    public static final class Listener implements ProjectLifecycleListener {
+        @Override
+        public void projectOpened(Project project) {
+            getInstance().allocateWindow(project).getStage().show();
+        }
+
+        @Override
+        public void projectClosingBeforeSave(Project project) {
+
+        }
+
+        @Override
+        public void projectClosing(Project project) {
+            getInstance().getWindow(project).getStage().hide();
+        }
+
+        @Override
+        public void projectClosed(Project project) {
+
+        }
     }
 }

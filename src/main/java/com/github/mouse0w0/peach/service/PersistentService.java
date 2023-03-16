@@ -1,10 +1,10 @@
-package com.github.mouse0w0.peach.component;
+package com.github.mouse0w0.peach.service;
 
 import com.google.gson.JsonElement;
 
 import javax.annotation.Nonnull;
 
-public interface PersistentStateComponent {
+public interface PersistentService {
 
     @Nonnull
     String getStoreFile();
@@ -17,7 +17,7 @@ public interface PersistentStateComponent {
         // Nothing to do.
     }
 
-    default void initializeComponent() {
+    default void initializeService() {
         // Nothing to do.
     }
 }

@@ -2,9 +2,9 @@ package com.github.mouse0w0.peach.project.service;
 
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FileChooserHelper implements PersistentStateComponent {
+public class FileChooserHelper implements PersistentService {
 
     public static final String FILE_CHOOSER_ID = "FileChooserId";
 

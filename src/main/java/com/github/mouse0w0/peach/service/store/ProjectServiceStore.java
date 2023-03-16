@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.component.store;
+package com.github.mouse0w0.peach.service.store;
 
 import com.github.mouse0w0.peach.project.Project;
 import org.slf4j.Logger;
@@ -11,8 +11,8 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-public class ProjectComponentStore extends ComponentStoreBase {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectComponentStore.class);
+public class ProjectServiceStore extends ServiceStoreBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectServiceStore.class);
 
     public static final String STORE_FOLDER = ".peach";
 
@@ -22,7 +22,7 @@ public class ProjectComponentStore extends ComponentStoreBase {
 
     private String projectName;
 
-    public ProjectComponentStore(Project project) {
+    public ProjectServiceStore(Project project) {
         super(project.getPath().resolve(STORE_FOLDER));
         this.project = project;
     }

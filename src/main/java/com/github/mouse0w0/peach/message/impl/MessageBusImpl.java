@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.message.BroadcastDirection;
 import com.github.mouse0w0.peach.message.MessageBus;
 import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.message.Topic;
+import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MessageBusImpl implements MessageBus {
 
@@ -30,17 +32,17 @@ public class MessageBusImpl implements MessageBus {
 
     final Map<Topic<?>, Object> publisherCache = new ConcurrentHashMap<>();
     final Map<Topic<?>, Object[]> subscriberCache = new ConcurrentHashMap<>();
-    final Collection<SubscriberHolder> subscriberHolders = ConcurrentHashMap.newKeySet();
+    final Collection<SubscriberHolder> subscriberHolders = new ConcurrentLinkedQueue<>();
 
     CompositeMessageBus parent;
 
     private Disposable connectionDisposable = Disposer.newDisposable();
     private boolean disposed = false;
 
-    MessageBusImpl() {
+    public MessageBusImpl() {
     }
 
-    MessageBusImpl(@Nonnull CompositeMessageBus parent) {
+    public MessageBusImpl(@Nonnull CompositeMessageBus parent) {
         this.parent = parent;
 
         parent.addChild(this);
@@ -69,8 +71,12 @@ public class MessageBusImpl implements MessageBus {
         return (T) publisherCache.computeIfAbsent(topic, this::createPublisher);
     }
 
+    public void addLazyListeners(Map<String, List<ListenerDescriptor>> lazyListenersMap) {
+        subscriberHolders.add(new LazyListenerMessageBusConnection(lazyListenersMap));
+    }
+
     private <T> Object createPublisher(Topic<T> topic) {
-        Class<?> subscriberType = topic.getType();
+        Class<?> subscriberType = topic.getListenerClass();
         return Proxy.newProxyInstance(subscriberType.getClassLoader(), new Class[]{subscriberType},
                 topic.getBroadcastDirection() == BroadcastDirection.TO_PARENT ?
                         new ToParentMessagePublisher<>(this, topic) :
@@ -109,10 +115,7 @@ public class MessageBusImpl implements MessageBus {
 
         disposeChildren();
 
-        if (connectionDisposable != null) {
-            Disposer.dispose(connectionDisposable);
-            connectionDisposable = null;
-        }
+        Disposer.dispose(connectionDisposable);
 
         if (parent != null) {
             parent.removeChild(this);

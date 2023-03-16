@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.project.service;
 
-import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WindowStateManager implements PersistentStateComponent {
+public class WindowStateManager implements PersistentService {
 
     private static final String STATE_ID = "StateId";
     private static final String LAST_X = "LastX";

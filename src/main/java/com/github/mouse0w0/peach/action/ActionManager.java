@@ -3,6 +3,9 @@ package com.github.mouse0w0.peach.action;
 import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.icon.IconManager;
+import com.github.mouse0w0.peach.plugin.ActionDescriptor;
+import com.github.mouse0w0.peach.plugin.Plugin;
+import com.github.mouse0w0.peach.plugin.PluginManagerCore;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.common.collect.BiMap;
@@ -11,15 +14,11 @@ import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.net.URL;
 
 public class ActionManager {
 
@@ -48,7 +47,7 @@ public class ActionManager {
     }
 
     public ActionManager() {
-        registerActions(ActionManager.class.getResource("/actions.xml"));
+        loadActions();
     }
 
     public void registerAction(String actionId, Action action) {
@@ -89,18 +88,15 @@ public class ActionManager {
         return button;
     }
 
-    private void registerActions(URL url) {
-        try {
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(url);
-            Element services = document.getRootElement();
-            services.elements().forEach(element -> processChildElement(null, element));
-        } catch (DocumentException e) {
-            throw new IllegalStateException("Cannot load actions from " + url, e);
+    private void loadActions() {
+        for (Plugin plugin : PluginManagerCore.getEnabledPlugins()) {
+            for (ActionDescriptor action : plugin.getActions()) {
+                processElement(null, action.getElement());
+            }
         }
     }
 
-    private void processChildElement(ActionGroup group, Element element) {
+    private void processElement(ActionGroup group, Element element) {
         String name = element.getName();
         if (ACTION_ELEMENT_NAME.equals(name)) {
             processActionElement(group, element);
@@ -111,7 +107,7 @@ public class ActionManager {
         } else if (REFERENCE_ELEMENT_NAME.equals(name)) {
             processReferenceElement(group, element);
         } else {
-            LOGGER.error("Undefined element name: \"{}\".", name);
+            LOGGER.error("Unknown element `{}`.", name);
         }
     }
 
@@ -120,7 +116,7 @@ public class ActionManager {
 
         String className = element.attributeValue(CLASS_ATTR_NAME);
         if (StringUtils.isEmpty(className)) {
-            LOGGER.error("The \"class\" attribute of action \"{}\" should be specified.", id);
+            LOGGER.error("The `class` attribute of action `{}` should be specified.", id);
             return;
         }
 
@@ -167,7 +163,7 @@ public class ActionManager {
 
         registerAction(id, action);
 
-        element.elements().forEach(child -> processChildElement(action, child));
+        element.elements().forEach(child -> processElement(action, child));
     }
 
     private void processSeparatorElement(ActionGroup group, Element element) {
@@ -186,7 +182,7 @@ public class ActionManager {
 
         Action action = getAction(id);
         if (action == null) {
-            LOGGER.error("Not found action by id \"{}\".", id);
+            LOGGER.error("Not found action by id `{}`.", id);
             return;
         }
 

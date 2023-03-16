@@ -1,9 +1,9 @@
-package com.github.mouse0w0.peach.service;
+package com.github.mouse0w0.peach.application.service;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.component.PersistentStateComponent;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
+import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonElement;
 import org.apache.commons.lang3.reflect.TypeUtils;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecentProjectsManager implements PersistentStateComponent {
+public class RecentProjectsManager implements PersistentService {
 
     private final Map<String, RecentProjectInfo> recentProjects = new HashMap<>();
 
@@ -23,27 +23,6 @@ public class RecentProjectsManager implements PersistentStateComponent {
     }
 
     public RecentProjectsManager() {
-        Peach.getInstance().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
-            @Override
-            public void projectOpened(Project project) {
-                updateRecentProjectInfo(project);
-            }
-
-            @Override
-            public void projectClosingBeforeSave(Project project) {
-
-            }
-
-            @Override
-            public void projectClosing(Project project) {
-
-            }
-
-            @Override
-            public void projectClosed(Project project) {
-                updateRecentProjectInfo(project);
-            }
-        });
     }
 
     public Collection<RecentProjectInfo> getRecentProjects() {
@@ -76,5 +55,27 @@ public class RecentProjectsManager implements PersistentStateComponent {
     public void loadState(JsonElement jsonElement) {
         JsonUtils.<List<RecentProjectInfo>>fromJson(jsonElement, TypeUtils.parameterize(List.class, RecentProjectInfo.class))
                 .forEach(info -> recentProjects.put(info.getPath(), info));
+    }
+
+    public static final class Listener implements ProjectLifecycleListener {
+        @Override
+        public void projectOpened(Project project) {
+            getInstance().updateRecentProjectInfo(project);
+        }
+
+        @Override
+        public void projectClosingBeforeSave(Project project) {
+
+        }
+
+        @Override
+        public void projectClosing(Project project) {
+
+        }
+
+        @Override
+        public void projectClosed(Project project) {
+            getInstance().updateRecentProjectInfo(project);
+        }
     }
 }

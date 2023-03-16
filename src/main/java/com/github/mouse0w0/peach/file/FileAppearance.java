@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.file;
 
-import com.github.mouse0w0.peach.extension.ExtensionPoint;
+import com.github.mouse0w0.peach.extension.ExtensionPointName;
 
 import java.nio.file.Path;
 
 public interface FileAppearance {
-    ExtensionPoint<FileAppearance> EXTENSION_POINT = ExtensionPoint.of("fileAppearance");
+    ExtensionPointName<FileAppearance> EXTENSION_POINT = ExtensionPointName.of("peach.fileAppearance");
 
     static void process(Path file, FileCell cell) {
         for (FileAppearance fileAppearance : FileAppearance.EXTENSION_POINT.getExtensions()) {

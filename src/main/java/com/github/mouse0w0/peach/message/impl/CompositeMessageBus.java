@@ -11,10 +11,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CompositeMessageBus extends MessageBusImpl {
     private final Collection<MessageBusImpl> children = new CopyOnWriteArrayList<>();
 
-    CompositeMessageBus() {
+    public CompositeMessageBus() {
     }
 
-    CompositeMessageBus(@Nonnull CompositeMessageBus parent) {
+    public CompositeMessageBus(@Nonnull CompositeMessageBus parent) {
         super(parent);
     }
 
