@@ -24,7 +24,8 @@
         <applicationListener topic="ProjectLifecycleListener"
                              listener="com.github.mouse0w0.peach.recentProject.RecentProjectManager$Listener"/>
         <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
-        <applicationService implementation="com.github.mouse0w0.peach.project.ProjectManager"/>
+        <applicationService interface="com.github.mouse0w0.peach.project.ProjectManager"
+                            implementation="com.github.mouse0w0.peach.project.ProjectManagerImpl"/>
         <applicationService implementation="com.github.mouse0w0.peach.icon.IconManager"/>
 
         <applicationService implementation="com.github.mouse0w0.peach.mcmod.element.ElementRegistry" preload="true"/>
