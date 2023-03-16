@@ -61,12 +61,12 @@ public class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public Menu createMenu(ActionGroup group) {
+    public Menu createMenu(@Nonnull ActionGroup group) {
         return new ActionMenu(group);
     }
 
     @Override
-    public ContextMenu createContextMenu(ActionGroup group) {
+    public ContextMenu createContextMenu(@Nonnull ActionGroup group) {
         return new ActionContextMenu(group);
     }
 

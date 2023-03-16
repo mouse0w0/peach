@@ -20,9 +20,9 @@ public interface ActionManager {
 
     void perform(String actionId, Event event);
 
-    Menu createMenu(ActionGroup group);
+    Menu createMenu(@Nonnull ActionGroup group);
 
-    ContextMenu createContextMenu(ActionGroup group);
+    ContextMenu createContextMenu(@Nonnull ActionGroup group);
 
     Button createButton(@Nonnull Action action);
 }

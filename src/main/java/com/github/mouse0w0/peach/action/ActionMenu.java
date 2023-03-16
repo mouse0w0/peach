@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.icon.IconManager;
+import com.github.mouse0w0.peach.util.Validate;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
 import javafx.event.Event;
@@ -15,7 +16,7 @@ public class ActionMenu extends Menu {
     private boolean initialized;
 
     public ActionMenu(ActionGroup group) {
-        this.group = group;
+        this.group = Validate.notNull(group);
 
         getProperties().put(Action.class, group);
         setOnShowing(this::update);
