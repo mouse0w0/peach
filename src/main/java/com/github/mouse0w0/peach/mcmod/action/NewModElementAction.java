@@ -17,12 +17,12 @@ public class NewModElementAction extends Action {
         Project project = DataKeys.PROJECT.get(event);
         Path path = DataKeys.PATH.get(event);
         if (project == null || path == null) {
-            getAppearance().setVisible(false);
+            setVisible(false);
             return;
         }
 
         Path sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
-        getAppearance().setVisible(path.startsWith(sourcesPath));
+        setVisible(path.startsWith(sourcesPath));
     }
 
     @Override

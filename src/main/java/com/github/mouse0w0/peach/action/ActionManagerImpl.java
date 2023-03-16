@@ -20,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nonnull;
 
 public class ActionManagerImpl implements ActionManager {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ActionManagerImpl.class);
 
     private static final String ACTION_ELEMENT_NAME = "action";
@@ -78,9 +77,8 @@ public class ActionManagerImpl implements ActionManager {
         }
 
         Button button = new Button();
-        Appearance appearance = action.getAppearance();
-        button.setText(appearance.getText());
-        button.setGraphic(IconManager.getInstance().createNode(appearance.getIcon()));
+        button.setText(action.getText());
+        button.setGraphic(IconManager.getInstance().createNode(action.getIcon()));
         button.setOnAction(event -> action.perform(new ActionEvent(event)));
         return button;
     }
@@ -110,7 +108,6 @@ public class ActionManagerImpl implements ActionManager {
 
     private void processActionElement(ActionGroup group, Element element) {
         String id = element.attributeValue(ID_ATTR_NAME);
-
         String className = element.attributeValue(CLASS_ATTR_NAME);
         if (StringUtils.isEmpty(className)) {
             LOGGER.error("The `class` attribute of action `{}` should be specified.", id);
@@ -129,38 +126,41 @@ public class ActionManagerImpl implements ActionManager {
             return;
         }
 
+        processAttribute(element, id, action);
+        registerAction(id, action);
+
         if (group != null) {
             group.addChild(action);
         }
-
-        processAppearance(element, id, action.getAppearance());
-
-        registerAction(id, action);
     }
 
     private void processGroupElement(ActionGroup group, Element element) {
-        String className = element.attributeValue(CLASS_ATTR_NAME, "");
+        String id = element.attributeValue(ID_ATTR_NAME);
+        String className = element.attributeValue(CLASS_ATTR_NAME);
 
         ActionGroup action;
         try {
-            Class<?> clazz = StringUtils.isEmpty(className) ? ActionGroup.class : Class.forName(className);
+            Class<?> clazz = className != null ? Class.forName(className) : ActionGroup.class;
             action = (ActionGroup) clazz.getDeclaredConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Failed to create an action instance of " + className, e);
             return;
         }
 
+        if (id == null) {
+            id = StringUtils.substringAfterLast(className, '.');
+        }
+
+        processAttribute(element, id, action);
+        registerAction(id, action);
+
         if (group != null) {
             group.addChild(action);
         }
 
-        String id = element.attributeValue(ID_ATTR_NAME, StringUtils.substringAfterLast(className, '.'));
-
-        processAppearance(element, id, action.getAppearance());
-
-        registerAction(id, action);
-
-        element.elements().forEach(child -> processElement(action, child));
+        for (Element child : element.elements()) {
+            processElement(action, child);
+        }
     }
 
     private void processSeparatorElement(ActionGroup group, Element element) {
@@ -188,14 +188,13 @@ public class ActionManagerImpl implements ActionManager {
         }
     }
 
-    private void processAppearance(Element element, String id, Appearance appearance) {
-        appearance.setText(localize(element, id, TEXT_ATTR_NAME));
-        appearance.setDescription(localize(element, id, DESCRIPTION_ATTR_NAME));
-
+    private void processAttribute(Element element, String id, Action action) {
+        String text = localize(element, id, TEXT_ATTR_NAME);
+        if (text != null) action.setText(text);
         String icon = element.attributeValue(ICON_ATTR_NAME);
-        if (icon != null && !icon.isEmpty()) {
-            appearance.setIcon(icon);
-        }
+        if (icon != null) action.setIcon(icon);
+        String description = localize(element, id, DESCRIPTION_ATTR_NAME);
+        if (description != null) action.setDescription(description);
     }
 
     private void registerAction(String actionId, Action action) {
@@ -203,6 +202,6 @@ public class ActionManagerImpl implements ActionManager {
     }
 
     private String localize(Element element, String id, String attrName) {
-        return I18n.translate(element.getName() + "." + id + "." + attrName, element.attributeValue(attrName, ""));
+        return I18n.translate(element.getName() + "." + id + "." + attrName, element.attributeValue(attrName));
     }
 }

@@ -19,8 +19,7 @@ public class NewDirectoryAction extends Action {
 
     @Override
     public void update(ActionEvent event) {
-        final Path path = DataKeys.PATH.get(event);
-        getAppearance().visibleProperty().set(path != null);
+        setVisible(DataKeys.PATH.get(event) != null);
     }
 
     @Override

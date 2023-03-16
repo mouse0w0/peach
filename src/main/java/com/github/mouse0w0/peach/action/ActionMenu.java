@@ -21,12 +21,11 @@ public class ActionMenu extends Menu {
         getProperties().put(Action.class, group);
         setOnShowing(this::update);
 
-        Appearance appearance = group.getAppearance();
-        textProperty().bind(appearance.textProperty());
-        appearance.iconProperty().addListener(new WeakInvalidationListener(iconListener));
+        textProperty().bind(group.textProperty());
+        group.iconProperty().addListener(new WeakInvalidationListener(iconListener));
         updateIcon();
-        disableProperty().bind(appearance.disableProperty());
-        visibleProperty().bind(appearance.visibleProperty());
+        disableProperty().bind(group.disableProperty());
+        visibleProperty().bind(group.visibleProperty());
 
         // Fix JavaFX don't show empty menu.
         if (group.getChildren().isEmpty()) {
@@ -59,8 +58,7 @@ public class ActionMenu extends Menu {
     }
 
     private void updateIcon() {
-        Appearance appearance = group.getAppearance();
-        String icon = appearance.getIcon();
+        String icon = group.getIcon();
         if (icon == null || icon.isEmpty()) {
             setGraphic(null);
         } else {

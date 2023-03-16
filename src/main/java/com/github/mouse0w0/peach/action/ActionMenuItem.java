@@ -15,19 +15,17 @@ public class ActionMenuItem extends MenuItem {
 
         getProperties().put(Action.class, action);
 
-        Appearance appearance = action.getAppearance();
-        textProperty().bind(appearance.textProperty());
-        appearance.iconProperty().addListener(new WeakInvalidationListener(iconListener));
+        textProperty().bind(action.textProperty());
+        action.iconProperty().addListener(new WeakInvalidationListener(iconListener));
         updateIcon();
-        disableProperty().bind(appearance.disableProperty());
-        visibleProperty().bind(appearance.visibleProperty());
+        disableProperty().bind(action.disableProperty());
+        visibleProperty().bind(action.visibleProperty());
 
         setOnAction(event -> action.perform(new ActionEvent(event)));
     }
 
     private void updateIcon() {
-        Appearance appearance = action.getAppearance();
-        String icon = appearance.getIcon();
+        String icon = action.getIcon();
         if (icon == null || icon.isEmpty()) {
             setGraphic(null);
         } else {
