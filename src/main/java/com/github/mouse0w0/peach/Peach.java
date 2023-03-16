@@ -45,13 +45,13 @@ public final class Peach extends ServiceManagerImpl {
     }
 
     public static void main(String[] args) {
-        LOGGER.info("Initializing application...");
+        LOGGER.info("Launching application.");
         initUncaughtExceptionHandler();
         printSystemInfo();
         initTranslator();
         LOGGER.info("Loading plugins.");
         PluginManagerCore.loadPlugins();
-        LOGGER.info("Initializing extension points.");
+        LOGGER.info("Loading extensions.");
         Extensions.loadExtensions();
         LOGGER.info("Initializing application.");
         INSTANCE.initialize();
