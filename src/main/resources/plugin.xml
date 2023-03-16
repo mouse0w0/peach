@@ -17,7 +17,8 @@
                             implementation="com.github.mouse0w0.peach.plugin.PluginManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.action.ActionManager"
                             implementation="com.github.mouse0w0.peach.action.ActionManagerImpl" preload="true"/>
-        <applicationService implementation="com.github.mouse0w0.peach.data.DataManager"/>
+        <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
+                            implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
         <applicationService implementation="com.github.mouse0w0.peach.window.WindowManager"/>
         <applicationListener topic="ProjectLifecycleListener"
                              listener="com.github.mouse0w0.peach.window.WindowManager$Listener"/>
