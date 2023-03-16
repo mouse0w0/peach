@@ -208,7 +208,7 @@ public class MessageBusImpl implements MessageBus {
 
         Object publish(MethodHandle handle, Object[] args) throws Throwable {
             for (Object subscriber : messageBus.getSubscribers(topic)) {
-                handle.bindTo(subscriber).invoke(args);
+                handle.bindTo(subscriber).invokeExact(args);
             }
             return null;
         }
