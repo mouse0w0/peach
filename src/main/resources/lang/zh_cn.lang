@@ -32,8 +32,8 @@ action.Rename.text=重命名
 action.Delete.text=删除
 action.ShowInExplorer.text=在资源管理器中显示
 
-action.RPOpenProject.text=打开项目
-action.RPRemoveProject.text=移除项目
+action.RecentProjectOpen.text=打开项目
+action.RecentProjectRemove.text=移除项目
 
 wizard.cancel=取消
 wizard.finish=完成

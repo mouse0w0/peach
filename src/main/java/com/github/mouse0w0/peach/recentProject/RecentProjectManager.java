@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.application.service;
+package com.github.mouse0w0.peach.recentProject;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.project.Project;
@@ -14,15 +14,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RecentProjectsManager implements PersistentService {
+public class RecentProjectManager implements PersistentService {
 
     private final Map<String, RecentProjectInfo> recentProjects = new HashMap<>();
 
-    public static RecentProjectsManager getInstance() {
-        return Peach.getInstance().getService(RecentProjectsManager.class);
+    public static RecentProjectManager getInstance() {
+        return Peach.getInstance().getService(RecentProjectManager.class);
     }
 
-    public RecentProjectsManager() {
+    public RecentProjectManager() {
     }
 
     public Collection<RecentProjectInfo> getRecentProjects() {

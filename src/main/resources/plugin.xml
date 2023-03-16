@@ -20,9 +20,9 @@
         <applicationService implementation="com.github.mouse0w0.peach.window.WindowManager"/>
         <applicationListener topic="ProjectLifecycleListener"
                              listener="com.github.mouse0w0.peach.window.WindowManager$Listener"/>
-        <applicationService implementation="com.github.mouse0w0.peach.application.service.RecentProjectsManager"/>
+        <applicationService implementation="com.github.mouse0w0.peach.recentProject.RecentProjectManager"/>
         <applicationListener topic="ProjectLifecycleListener"
-                             listener="com.github.mouse0w0.peach.application.service.RecentProjectsManager$Listener"/>
+                             listener="com.github.mouse0w0.peach.recentProject.RecentProjectManager$Listener"/>
         <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <applicationService implementation="com.github.mouse0w0.peach.project.ProjectManager"/>
         <applicationService implementation="com.github.mouse0w0.peach.icon.IconManager"/>
@@ -123,11 +123,11 @@
                     class="com.github.mouse0w0.peach.action.file.ShowInExplorerAction"/>
         </group>
 
-        <group id="RecentProjectsListViewPopupMenu">
-            <action id="RPOpenProject"
-                    class="com.github.mouse0w0.peach.welcome.action.RPOpenProjectAction"/>
-            <action id="RPRemoveProject"
-                    class="com.github.mouse0w0.peach.welcome.action.RPRemoveProjectAction"/>
+        <group id="RecentProjectPopupMenu">
+            <action id="RecentProjectOpen"
+                    class="com.github.mouse0w0.peach.recentProject.RecentProjectOpenAction"/>
+            <action id="RecentProjectRemove"
+                    class="com.github.mouse0w0.peach.recentProject.RecentProjectRemoveAction"/>
         </group>
     </actions>
 </plugin>

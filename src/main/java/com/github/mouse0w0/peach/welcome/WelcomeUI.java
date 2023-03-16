@@ -4,8 +4,6 @@ import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
-import com.github.mouse0w0.peach.application.service.RecentProjectInfo;
-import com.github.mouse0w0.peach.application.service.RecentProjectsManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icons;
@@ -13,6 +11,8 @@ import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
+import com.github.mouse0w0.peach.recentProject.RecentProjectManager;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -91,7 +91,7 @@ public class WelcomeUI extends BorderPane {
         setPrefSize(600, 400);
 
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction("RecentProjectsListViewPopupMenu");
+        ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction("RecentProjectPopupMenu");
         contextMenu = actionManager.createContextMenu(filePopupMenu);
         onContextMenuRequested = event -> contextMenu.getProperties().put(Node.class, event.getSource());
 
@@ -99,7 +99,7 @@ public class WelcomeUI extends BorderPane {
         recentProjects.setId("project-list");
         recentProjects.setPrefWidth(250);
         recentProjects.setCellFactory(list -> new Cell());
-        recentProjects.getItems().addAll(RecentProjectsManager.getInstance().getRecentProjects());
+        recentProjects.getItems().addAll(RecentProjectManager.getInstance().getRecentProjects());
         recentProjects.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
         recentProjects.getSelectionModel().selectFirst();
         DataManager.getInstance().registerDataProvider(recentProjects, key -> {

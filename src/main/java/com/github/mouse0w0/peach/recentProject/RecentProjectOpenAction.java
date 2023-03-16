@@ -1,15 +1,14 @@
-package com.github.mouse0w0.peach.welcome.action;
+package com.github.mouse0w0.peach.recentProject;
 
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
-import com.github.mouse0w0.peach.application.service.RecentProjectInfo;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.project.ProjectManager;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public final class RPOpenProjectAction extends Action {
+public final class RecentProjectOpenAction extends Action {
 
     @Override
     public void update(ActionEvent event) {
