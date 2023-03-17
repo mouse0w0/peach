@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.data;
 
-import com.google.common.collect.MapMaker;
+import com.github.mouse0w0.peach.util.WeakValueMap;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +15,7 @@ import javafx.stage.Window;
 import javax.annotation.Nonnull;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class DataManagerImpl implements DataManager {
@@ -105,7 +106,7 @@ public final class DataManagerImpl implements DataManager {
     private static final class DataContextImpl implements DataContext {
         private final DataManagerImpl dataManager;
         private final Reference<Object> ref;
-        private final Map<String, Object> cachedData = new MapMaker().weakValues().makeMap();
+        private final Map<String, Object> cachedData = new WeakValueMap<>(new HashMap<>());
 
         public DataContextImpl(DataManagerImpl dataManager, Object source) {
             this.dataManager = dataManager;
