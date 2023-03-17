@@ -12,6 +12,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
+import javafx.stage.PopupWindow;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -78,6 +80,16 @@ public final class FXUtils {
             throw new NullPointerException("Resource \"" + resourceName + "\" not found");
         }
         parent.getStylesheets().add(resource.toExternalForm());
+    }
+
+    public static Window getOwner(Window window) {
+        if (window instanceof Stage) {
+            return ((Stage) window).getOwner();
+        } else if (window instanceof PopupWindow) {
+            return ((PopupWindow) window).getOwnerWindow();
+        } else {
+            throw new UnsupportedOperationException("getOwner does not support " + window.getClass().getName());
+        }
     }
 
     public static void hideWindow(Node node) {
