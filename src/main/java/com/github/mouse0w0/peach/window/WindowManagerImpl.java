@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.window;
 
-import com.github.mouse0w0.peach.data.DataKeys;
-import com.github.mouse0w0.peach.data.DataManager;
+import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.view.ViewManager;
@@ -102,8 +101,13 @@ public class WindowManagerImpl implements WindowManager {
 
     @Override
     public Project getFocusedProject() {
-        if (focusedWindow == null) return null;
-        return DataKeys.PROJECT.get(DataManager.getInstance().getDataContext(focusedWindow));
+        for (Window w = focusedWindow; w != null; w = FXUtils.getOwner(w)) {
+            ProjectWindow projectWindow = fxWindowToWindowMap.get(w);
+            if (projectWindow != null) {
+                return projectWindow.getProject();
+            }
+        }
+        return null;
     }
 
     public ProjectWindow getOrCreateWindow(Project project) {
