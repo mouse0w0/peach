@@ -11,6 +11,7 @@ import com.github.mouse0w0.peach.project.service.WindowStateManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import javax.annotation.Nonnull;
 
@@ -34,12 +35,8 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
         stage.setScene(scene);
         stage.setTitle(project.getName());
         stage.getIcons().setAll(Icons.Peach_16x);
-        stage.setOnShown(event -> project.getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowShown(this));
-        stage.setOnHidden(event -> project.getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowHidden(this));
-        stage.setOnCloseRequest(event -> {
-            event.consume();
-            ProjectManager.getInstance().closeProject(project);
-        });
+        stage.setOnShown(this::onShown);
+        stage.setOnHidden(this::onHidden);
         return stage;
     }
 
@@ -105,5 +102,14 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
             return project;
         }
         return null;
+    }
+
+    private void onShown(WindowEvent event) {
+        project.getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowShown(this);
+    }
+
+    private void onHidden(WindowEvent event) {
+        project.getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowHidden(this);
+        ProjectManager.getInstance().closeProject(project);
     }
 }
