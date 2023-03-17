@@ -32,6 +32,6 @@ public class NewModElementAction extends Action {
         if (project == null || path == null) return;
         Path sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         if (!path.startsWith(sourcesPath)) return;
-        NewElementDialog.show(project, FileUtils.getDirectory(path), WindowManager.getInstance().getStage(project));
+        NewElementDialog.show(project, FileUtils.getDirectory(path), WindowManager.getInstance().getWindow(project).getStage());
     }
 }

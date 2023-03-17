@@ -9,7 +9,7 @@ public class StatusBarInfo implements StatusBarWidget {
     public static final String ID = "StatusBarInfo";
 
     public static StatusBarInfo getInstance(Project project) {
-        StatusBar statusBar = WindowManager.getInstance().getStatusBar(project);
+        StatusBar statusBar = WindowManager.getInstance().getWindow(project).getStatusBar();
         StatusBarWidget widget = statusBar.getWidget(ID);
         if (widget == null) {
             widget = new StatusBarInfo();

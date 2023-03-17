@@ -19,9 +19,10 @@
                             implementation="com.github.mouse0w0.peach.action.ActionManagerImpl" preload="true"/>
         <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
                             implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
-        <applicationService implementation="com.github.mouse0w0.peach.window.WindowManager"/>
+        <applicationService interface="com.github.mouse0w0.peach.window.WindowManager"
+                            implementation="com.github.mouse0w0.peach.window.WindowManagerImpl"/>
         <applicationListener topic="ProjectLifecycleListener"
-                             listener="com.github.mouse0w0.peach.window.WindowManager$Listener"/>
+                             listener="com.github.mouse0w0.peach.window.WindowManagerImpl$Listener"/>
         <applicationService implementation="com.github.mouse0w0.peach.recentProject.RecentProjectManager"/>
         <applicationListener topic="ProjectLifecycleListener"
                              listener="com.github.mouse0w0.peach.recentProject.RecentProjectManager$Listener"/>
