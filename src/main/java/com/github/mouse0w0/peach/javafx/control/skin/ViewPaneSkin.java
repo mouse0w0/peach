@@ -73,12 +73,12 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
 
     @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return snappedLeftInset() + snapSize(sideBarArea.prefWidth(-1)) + snappedRightInset();
+        return snappedLeftInset() + snapSizeX(sideBarArea.prefWidth(-1)) + snappedRightInset();
     }
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return snappedTopInset() + snapSize(sideBarArea.prefHeight(-1)) + snappedBottomInset();
+        return snappedTopInset() + snapSizeY(sideBarArea.prefHeight(-1)) + snappedBottomInset();
     }
 
     @Override
@@ -213,11 +213,11 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
         }
 
         private double computeChildPrefWidth(Node child) {
-            return child != null && child.isManaged() ? snapSize(child.prefWidth(-1)) : 0;
+            return child != null && child.isManaged() ? snapSizeX(child.prefWidth(-1)) : 0;
         }
 
         private double computeChildPrefHeight(Node child) {
-            return child != null && child.isManaged() ? snapSize(child.prefHeight(-1)) : 0;
+            return child != null && child.isManaged() ? snapSizeY(child.prefHeight(-1)) : 0;
         }
 
         @Override
@@ -237,10 +237,10 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
             boolean hasRight = right != null && right.isManaged();
             boolean hasCenter = center != null && center.isManaged();
 
-            double leftWidth = hasLeft ? snapSize(left.prefHeight(-1)) : 0;
-            double rightWidth = hasRight ? snapSize(right.prefHeight(-1)) : 0;
-            double topHeight = hasTop ? snapSize(top.prefHeight(-1)) : 0;
-            double bottomHeight = hasBottom ? snapSize(bottom.prefHeight(-1)) : 0;
+            double leftWidth = hasLeft ? snapSizeX(left.prefHeight(-1)) : 0;
+            double rightWidth = hasRight ? snapSizeX(right.prefHeight(-1)) : 0;
+            double topHeight = hasTop ? snapSizeY(top.prefHeight(-1)) : 0;
+            double bottomHeight = hasBottom ? snapSizeY(bottom.prefHeight(-1)) : 0;
 
             double centerX = leftOffset + leftWidth;
             double centerY = topOffset + topHeight;
@@ -326,7 +326,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
             double width = 0;
             for (Node child : getChildren()) {
                 if (child.isManaged()) {
-                    width += snapSize(child.prefWidth(-1));
+                    width += snapSizeX(child.prefWidth(-1));
                 }
             }
             return snappedLeftInset() + width + snappedRightInset();
@@ -337,7 +337,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
             double height = 0;
             for (Node child : getChildren()) {
                 if (child.isManaged()) {
-                    double childHeight = snapSize(child.prefHeight(-1));
+                    double childHeight = snapSizeY(child.prefHeight(-1));
                     if (childHeight > height) height = childHeight;
                 }
             }
@@ -357,7 +357,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
 
             if (topLeftBar != null && topLeftBar.isManaged()) {
                 layoutInArea(topLeftBar, left, top, contentWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
-                double childWidth = snapSize(topLeftBar.prefWidth(-1));
+                double childWidth = snapSizeX(topLeftBar.prefWidth(-1));
                 left += childWidth;
                 contentWidth -= childWidth;
             }
@@ -463,7 +463,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
             double width = 0;
             for (Node child : getChildren()) {
                 if (child.isManaged()) {
-                    width += snapSize(child.prefWidth(-1));
+                    width += snapSizeX(child.prefWidth(-1));
                 }
             }
             return snappedLeftInset() + width + snappedRightInset();
@@ -474,7 +474,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
             double height = 0;
             for (Node child : getChildren()) {
                 if (child.isManaged()) {
-                    double childHeight = snapSize(child.prefHeight(-1));
+                    double childHeight = snapSizeY(child.prefHeight(-1));
                     if (childHeight > height) height = childHeight;
                 }
             }
@@ -494,20 +494,20 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
 
             Side secondary = viewGroup.getPos().getSecondary();
 
-            if (secondary == Side.TOP || secondary == Side.LEFT) {// 自左向右布局
+            if (secondary == Side.TOP || secondary == Side.LEFT) {// left to right
                 for (Node child : getChildren()) {
                     if (child.isManaged()) {
                         layoutInArea(child, left, top, contentWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
-                        double childWidth = snapSize(child.prefWidth(-1));
+                        double childWidth = snapSizeX(child.prefWidth(-1));
                         left += childWidth;
                         contentWidth -= childWidth;
                     }
                 }
-            } else {// 自右向左布局
+            } else {// right to left
                 for (Node child : getChildren()) {
                     if (child.isManaged()) {
                         layoutInArea(child, left, top, contentWidth, contentHeight, 0, HPos.RIGHT, VPos.CENTER);
-                        contentWidth -= snapSize(child.prefWidth(-1));
+                        contentWidth -= snapSizeX(child.prefWidth(-1));
                     }
                 }
             }
@@ -719,13 +719,13 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
 
         @Override
         protected double computeMinWidth(double height) {
-            double contentWidth = content != null && content.isManaged() ? snapSize(content.minWidth(-1)) : 0;
+            double contentWidth = content != null && content.isManaged() ? snapSizeX(content.minWidth(-1)) : 0;
             return snappedLeftInset() + contentWidth + snappedRightInset();
         }
 
         @Override
         protected double computeMinHeight(double width) {
-            double contentHeight = content != null && content.isManaged() ? snapSize(content.minHeight(-1)) : 0;
+            double contentHeight = content != null && content.isManaged() ? snapSizeY(content.minHeight(-1)) : 0;
             return snappedTopInset() + contentHeight + snappedBottomInset();
         }
 
