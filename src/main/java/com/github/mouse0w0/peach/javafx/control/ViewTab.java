@@ -107,7 +107,7 @@ public class ViewTab {
 
     public final ObjectProperty<Node> contentProperty() {
         if (content == null) {
-            content = new SimpleObjectProperty<Node>(this, "content") {
+            content = new SimpleObjectProperty<>(this, "content") {
                 @Override
                 public void set(Node newValue) {
                     Node oldValue = get();

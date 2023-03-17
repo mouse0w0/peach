@@ -7,7 +7,7 @@ public final class ServiceDescriptor {
     private final PreloadMode preload;
 
     public enum PreloadMode {
-        TRUE, AWAIT, FALSE;
+        TRUE, AWAIT, FALSE
     }
 
     public ServiceDescriptor(String interfaceClassName, String implementationClassName, boolean override, PreloadMode preload) {

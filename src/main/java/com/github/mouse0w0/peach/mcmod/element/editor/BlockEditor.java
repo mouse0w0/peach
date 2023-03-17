@@ -162,7 +162,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         harvestTool = new ChoiceBoxField<>();
         harvestTool.setText(I18n.translate("block.properties.harvestTool"));
         harvestTool.setColSpan(ColSpan.HALF);
-        harvestTool.setConverter(new StringConverter<String>() {
+        harvestTool.setConverter(new StringConverter<>() {
             @Override
             public String toString(String object) {
                 return I18n.translate("toolType." + object);

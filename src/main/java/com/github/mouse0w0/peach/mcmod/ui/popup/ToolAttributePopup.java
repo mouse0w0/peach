@@ -42,7 +42,7 @@ public class ToolAttributePopup extends PopOver {
 
         type = new ChoiceBox<>();
         type.setPrefWidth(150);
-        type.setConverter(new StringConverter<String>() {
+        type.setConverter(new StringConverter<>() {
             @Override
             public String toString(String object) {
                 return ToolType.getLocalizedName(object);

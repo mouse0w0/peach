@@ -17,18 +17,10 @@ public class StandardFileAppearance implements FileAppearance {
             cell.setIcon(Icons.File.Folder);
         } else {
             switch (FileUtils.getFileExtension(fileName)) {
-                case "png":
-                    cell.setIcon(Icons.File.Image);
-                    break;
-                case "ogg":
-                    cell.setIcon(Icons.File.Sound);
-                    break;
-                case "json":
-                    cell.setIcon(Icons.File.Json);
-                    break;
-                default:
-                    cell.setIcon(Icons.File.File);
-                    break;
+                case "png" -> cell.setIcon(Icons.File.Image);
+                case "ogg" -> cell.setIcon(Icons.File.Sound);
+                case "json" -> cell.setIcon(Icons.File.Json);
+                default -> cell.setIcon(Icons.File.File);
             }
         }
         return false;

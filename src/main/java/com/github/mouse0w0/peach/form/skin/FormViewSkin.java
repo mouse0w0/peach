@@ -20,7 +20,7 @@ public class FormViewSkin extends SkinBase<FormView> {
 
     private Form form;
 
-    private final ListChangeListener<Group> groupsListener = new ListChangeListener<Group>() {
+    private final ListChangeListener<Group> groupsListener = new ListChangeListener<>() {
         @Override
         public void onChanged(Change<? extends Group> c) {
             while (c.next()) {

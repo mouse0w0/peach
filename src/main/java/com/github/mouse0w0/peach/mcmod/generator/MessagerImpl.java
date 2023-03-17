@@ -29,12 +29,8 @@ public class MessagerImpl extends Messager {
     @Override
     public void log(Level level, String msg, Throwable throwable) {
         switch (level) {
-            case WARN:
-                warnCount++;
-                break;
-            case ERROR:
-                errorCount++;
-                break;
+            case WARN -> warnCount++;
+            case ERROR -> errorCount++;
         }
         out.println(msg);
         if (throwable != null) {

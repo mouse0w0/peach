@@ -18,7 +18,7 @@ public class ViewGroup {
 
         this.selectionModel = new ViewGroupSelectionModel(this);
 
-        getTabs().addListener(new ListChangeListener<ViewTab>() {
+        getTabs().addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends ViewTab> c) {
                 while (c.next()) {
@@ -83,7 +83,7 @@ public class ViewGroup {
         public ViewGroupSelectionModel(ViewGroup viewGroup) {
             this.viewGroup = viewGroup;
 
-            viewGroup.getTabs().addListener(new ListChangeListener<ViewTab>() {
+            viewGroup.getTabs().addListener(new ListChangeListener<>() {
                 @Override
                 public void onChanged(Change<? extends ViewTab> c) {
                     while (c.next()) {

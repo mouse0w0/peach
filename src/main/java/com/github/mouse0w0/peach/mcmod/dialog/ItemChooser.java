@@ -168,7 +168,7 @@ public class ItemChooser {
         return false;
     }
 
-    private class Cell extends GridCell<ItemRef> {
+    private static class Cell extends GridCell<ItemRef> {
         private final ItemView itemView = new ItemView(32, 32);
 
         public Cell() {

@@ -8,7 +8,7 @@ public class Form {
     private final ObservableList<Group> groups = FXCollections.observableArrayList();
 
     public Form() {
-        getGroups().addListener(new ListChangeListener<Group>() {
+        getGroups().addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends Group> c) {
                 while (c.next()) {

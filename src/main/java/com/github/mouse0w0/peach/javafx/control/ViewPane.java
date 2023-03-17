@@ -19,7 +19,7 @@ public class ViewPane extends Control {
     public ViewPane() {
         getStyleClass().setAll("view-pane");
 
-        getViewGroups().addListener(new ListChangeListener<com.github.mouse0w0.peach.javafx.control.ViewGroup>() {
+        getViewGroups().addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends com.github.mouse0w0.peach.javafx.control.ViewGroup> c) {
                 while (c.next()) {

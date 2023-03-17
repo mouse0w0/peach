@@ -51,7 +51,6 @@ final class ExtensionPointImpl<T> implements ExtensionPoint<T> {
         return extensions;
     }
 
-    @SuppressWarnings("unchecked")
     synchronized void initExtensions() {
         if (this.extensions == null) {
             List<ExtensionWrapper<T>> wrappers = this.wrappers;

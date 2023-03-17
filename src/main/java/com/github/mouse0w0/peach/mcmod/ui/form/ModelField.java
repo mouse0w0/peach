@@ -250,7 +250,7 @@ public class ModelField extends Element {
 
                 FilePicker filePicker = new FilePicker();
                 filePicker.getExtensionFilters().add(ExtensionFilters.JSON);
-                filePicker.setConverter(new StringConverter<File>() {
+                filePicker.setConverter(new StringConverter<>() {
                     @Override
                     public String toString(File object) {
                         File result = resourceStore.store(object);

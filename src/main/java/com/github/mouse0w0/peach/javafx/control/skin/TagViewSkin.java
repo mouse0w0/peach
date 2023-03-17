@@ -102,7 +102,7 @@ public class TagViewSkin<T> extends SkinBase<TagView<T>> {
     }
 
     private TagCell<T> createDefaultCell() {
-        return new TagCell<T>() {
+        return new TagCell<>() {
             @Override
             protected void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);

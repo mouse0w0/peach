@@ -105,12 +105,7 @@ public class ProjectView implements Disposable, DataProvider {
         ActionManager actionManager = ActionManager.getInstance();
         ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction(ActionGroups.FILE_POPUP_MENU);
         contextMenu = actionManager.createContextMenu(filePopupMenu);
-        onContextMenuRequested = new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                contextMenu.getProperties().put(Node.class, event.getSource());
-            }
-        };
+        onContextMenuRequested = event -> contextMenu.getProperties().put(Node.class, event.getSource());
 
         TreeItem<Path> root = createTreeItem(projectPath);
         root.setExpanded(true);

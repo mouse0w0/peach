@@ -100,7 +100,7 @@ public final class FXUtils {
         scene.getWindow().hide();
     }
 
-    private static final ListChangeListener<Node> FIX_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<Node>() {
+    private static final ListChangeListener<Node> FIX_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<>() {
         @Override
         public void onChanged(Change<? extends Node> c) {
             ScrollPane scrollPane = (ScrollPane) c.getList().get(0);

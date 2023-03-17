@@ -45,7 +45,7 @@ public class AttributeModifierPopup extends PopOver {
         attribute = new ChoiceBox<>();
         attribute.setPrefWidth(150);
         attribute.getItems().addAll(Attribute.getAttributes());
-        attribute.setConverter(new StringConverter<String>() {
+        attribute.setConverter(new StringConverter<>() {
             @Override
             public String toString(String object) {
                 return Attribute.getLocalizedName(object);

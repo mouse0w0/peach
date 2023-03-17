@@ -55,20 +55,20 @@ public class NewElementDialog extends BorderPane {
                 I18n.translate("validate.illegalFileName"));
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
-                case UP:
+                case UP -> {
                     type.getSelectionModel().selectPrevious();
                     event.consume();
-                    break;
-                case DOWN:
+                }
+                case DOWN -> {
                     type.getSelectionModel().selectNext();
                     event.consume();
-                    break;
+                }
             }
         });
         name.textProperty().addListener(observable ->
                 identifier.setText(ModUtils.tryConvertToIdentifier(name.getText())));
 
-        type.setConverter(new StringConverter<ElementProvider<?>>() {
+        type.setConverter(new StringConverter<>() {
             @Override
             public String toString(ElementProvider<?> object) {
                 return I18n.translate(object.getTranslationKey());

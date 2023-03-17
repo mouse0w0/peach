@@ -37,7 +37,7 @@ public class WindowManagerImpl implements WindowManager {
 
     public WindowManagerImpl() {
         ObservableList<Window> windows = Window.getWindows();
-        windows.addListener(new ListChangeListener<Window>() {
+        windows.addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends Window> c) {
                 while (c.next()) {

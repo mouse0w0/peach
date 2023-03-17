@@ -8,7 +8,7 @@ import javafx.scene.control.FocusModel;
 public class MyFocusModel<T> extends FocusModel<T> {
     private ObservableList<T> items;
 
-    private final ListChangeListener<T> itemsChangeListener = new ListChangeListener<T>() {
+    private final ListChangeListener<T> itemsChangeListener = new ListChangeListener<>() {
         @Override
         public void onChanged(Change<? extends T> c) {
             while (c.next()) {

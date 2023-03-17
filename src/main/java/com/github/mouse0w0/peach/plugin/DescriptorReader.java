@@ -184,18 +184,10 @@ final class DescriptorReader {
                 String fullName = createFullName(namespace, reader.getLocalName());
 
                 switch (fullName) {
-                    case "peach.applicationService" -> {
-                        descriptor.addApplicationService(readService(reader));
-                    }
-                    case "peach.projectService" -> {
-                        descriptor.addProjectService(readService(reader));
-                    }
-                    case "peach.applicationListener" -> {
-                        descriptor.addApplicationListener(readListener(reader));
-                    }
-                    case "peach.projectListener" -> {
-                        descriptor.addProjectListeners(readListener(reader));
-                    }
+                    case "peach.applicationService" -> descriptor.addApplicationService(readService(reader));
+                    case "peach.projectService" -> descriptor.addProjectService(readService(reader));
+                    case "peach.applicationListener" -> descriptor.addApplicationListener(readListener(reader));
+                    case "peach.projectListener" -> descriptor.addProjectListeners(readListener(reader));
                     default -> {
                         String implementation = null;
                         String id = null;

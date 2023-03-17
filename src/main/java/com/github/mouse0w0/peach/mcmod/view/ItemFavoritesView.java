@@ -75,7 +75,7 @@ public class ItemFavoritesView implements PersistentService {
         itemSet.addAll(items);
     }
 
-    private class Cell extends GridCell<ItemRef> {
+    private static class Cell extends GridCell<ItemRef> {
         private final ItemView itemView = new ItemView(32, 32);
 
         public Cell() {

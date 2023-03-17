@@ -129,7 +129,7 @@ public class TagView<T> extends Control {
 
     public final ObjectProperty<EventHandler<TagEvent<T>>> onAddProperty() {
         if (onAdd == null) {
-            onAdd = new SimpleObjectProperty<EventHandler<TagEvent<T>>>(this, "onAdd") {
+            onAdd = new SimpleObjectProperty<>(this, "onAdd") {
                 @Override
                 protected void invalidated() {
                     setEventHandler(addEvent(), get());
@@ -151,7 +151,7 @@ public class TagView<T> extends Control {
 
     public final ObjectProperty<EventHandler<TagEvent<T>>> onRemoveProperty() {
         if (onRemove == null) {
-            onRemove = new SimpleObjectProperty<EventHandler<TagEvent<T>>>(this, "onRemove") {
+            onRemove = new SimpleObjectProperty<>(this, "onRemove") {
                 @Override
                 protected void invalidated() {
                     setEventHandler(removeEvent(), get());
@@ -173,7 +173,7 @@ public class TagView<T> extends Control {
 
     public final ObjectProperty<EventHandler<TagEvent<T>>> onEditStartProperty() {
         if (onEditStart == null) {
-            onEditStart = new SimpleObjectProperty<EventHandler<TagEvent<T>>>(this, "onEditStart") {
+            onEditStart = new SimpleObjectProperty<>(this, "onEditStart") {
                 @Override
                 protected void invalidated() {
                     setEventHandler(editStartEvent(), get());
@@ -195,7 +195,7 @@ public class TagView<T> extends Control {
 
     public final ObjectProperty<EventHandler<TagEvent<T>>> onEditCommitProperty() {
         if (onEditCommit == null) {
-            onEditCommit = new SimpleObjectProperty<EventHandler<TagEvent<T>>>(this, "onEditCommit") {
+            onEditCommit = new SimpleObjectProperty<>(this, "onEditCommit") {
                 @Override
                 protected void invalidated() {
                     setEventHandler(editCommitEvent(), get());
@@ -217,7 +217,7 @@ public class TagView<T> extends Control {
 
     public final ObjectProperty<EventHandler<TagEvent<T>>> onEditCancelProperty() {
         if (onEditCancel == null) {
-            onEditCancel = new SimpleObjectProperty<EventHandler<TagEvent<T>>>(this, "onEditCancel") {
+            onEditCancel = new SimpleObjectProperty<>(this, "onEditCancel") {
                 @Override
                 protected void invalidated() {
                     setEventHandler(editCancelEvent(), get());

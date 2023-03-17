@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -50,7 +49,7 @@ public class ProjectServiceStore extends ServiceStoreBase {
                 Files.deleteIfExists(nameFile);
                 projectName = null;
             } else {
-                Files.write(nameFile, name.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
+                Files.writeString(nameFile, name, StandardOpenOption.CREATE);
                 projectName = name;
             }
         } catch (IOException e) {

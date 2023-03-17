@@ -54,7 +54,7 @@ public class Dialog<R> implements EventTarget {
         resultConverterProperty.set(value);
     }
 
-    private final ObjectProperty<R> resultProperty = new SimpleObjectProperty<R>() {
+    private final ObjectProperty<R> resultProperty = new SimpleObjectProperty<>() {
         protected void invalidated() {
             close();
         }
@@ -88,7 +88,7 @@ public class Dialog<R> implements EventTarget {
         buttonBar.setMaxWidth(Double.MAX_VALUE);
 
         addButtonType(buttonBar, getButtons());
-        getButtons().addListener(new ListChangeListener<ButtonType>() {
+        getButtons().addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends ButtonType> c) {
                 while (c.next()) {

@@ -44,7 +44,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
         sideBarArea.setCenter(divisionArea);
 
         getViewGroups().forEach(this::createTabButtonBar);
-        getViewGroups().addListener(new ListChangeListener<ViewGroup>() {
+        getViewGroups().addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends ViewGroup> c) {
                 while (c.next()) {
@@ -155,18 +155,13 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
         }
 
         public SideBar getSideBar(Side side) {
-            switch (side) {
-                case TOP:
-                    return top;
-                case LEFT:
-                    return left;
-                case BOTTOM:
-                    return bottom;
-                case RIGHT:
-                    return right;
-                default:
-                    throw new NullPointerException();
-            }
+            return switch (side) {
+                case TOP -> top;
+                case LEFT -> left;
+                case BOTTOM -> bottom;
+                case RIGHT -> right;
+                default -> throw new NullPointerException();
+            };
         }
 
         public void setTop(SideBar top) {
@@ -377,7 +372,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
         private final ViewPaneSkin viewPaneSkin;
         private final ViewGroup viewGroup;
 
-        private final ListChangeListener<ViewTab> tabChangeListener = new ListChangeListener<ViewTab>() {
+        private final ListChangeListener<ViewTab> tabChangeListener = new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends ViewTab> c) {
                 while (c.next()) {
@@ -394,7 +389,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
                 }
             }
         };
-        private final ChangeListener<ViewTab> selectedItemListener = new ChangeListener<ViewTab>() {
+        private final ChangeListener<ViewTab> selectedItemListener = new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends ViewTab> observable, ViewTab oldValue, ViewTab newValue) {
                 if (oldValue != null) {
@@ -407,7 +402,7 @@ public class ViewPaneSkin extends SkinBase<ViewPane> {
                 }
             }
         };
-        private final ChangeListener<Node> tabContentListener = new ChangeListener<Node>() {
+        private final ChangeListener<Node> tabContentListener = new ChangeListener<>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
                 setView(newValue);

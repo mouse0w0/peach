@@ -79,7 +79,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         language = new ChoiceBoxField<>();
         language.setText(I18n.translate("metadata.general.language"));
         language.setColSpan(ColSpan.HALF);
-        language.setConverter(new StringConverter<Locale>() {
+        language.setConverter(new StringConverter<>() {
             @Override
             public String toString(Locale object) {
                 return object.getDisplayName() + " (" + object.toLanguageTag() + ")";

@@ -10,7 +10,7 @@ import java.util.Objects;
 public class MySingleSelectionModel<T> extends SingleSelectionModel<T> {
     private ObservableList<T> items;
 
-    private final ListChangeListener<T> itemsChangeListener = new ListChangeListener<T>() {
+    private final ListChangeListener<T> itemsChangeListener = new ListChangeListener<>() {
         @Override
         public void onChanged(Change<? extends T> c) {
             if (getItems().isEmpty()) {

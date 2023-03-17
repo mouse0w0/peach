@@ -20,6 +20,7 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class GenItem implements Task {
 
@@ -32,27 +33,24 @@ public class GenItem implements Task {
         String classSlabItem = null;
         for (MEBlock block : context.getElements(MEBlock.class)) {
             if (block.isDoNotRegisterItem()) continue;
-            switch (block.getType()) {
-                default:
-                    if (classBlockItem == null) {
-                        classBlockItem = context.getInternalName("item/base/ItemBlockBase");
-                        context.getClassesFiler().write(classBlockItem + ".class",
-                                new ItemBlockBase(classBlockItem).toByteArray());
-                    }
-                    loader.visitBlockItem(block.getIdentifier(), classBlockItem, classBlockLoader);
-                    break;
-                case SLAB:
-                    if (classSlabItem == null) {
-                        classSlabItem = context.getInternalName("item/base/ItemSlabBase");
-                        context.getClassesFiler().write(classSlabItem + ".class",
-                                new ItemSlabBase(
-                                        classSlabItem,
-                                        context.getInternalName("block/base/BlockSlabBase"),
-                                        context.getInternalName("block/base/SlabType"))
-                                        .toByteArray());
-                    }
-                    loader.visitBlockItem(block.getIdentifier(), classSlabItem, classBlockLoader);
-                    break;
+            if (Objects.requireNonNull(block.getType()) == BlockType.SLAB) {
+                if (classSlabItem == null) {
+                    classSlabItem = context.getInternalName("item/base/ItemSlabBase");
+                    context.getClassesFiler().write(classSlabItem + ".class",
+                            new ItemSlabBase(
+                                    classSlabItem,
+                                    context.getInternalName("block/base/BlockSlabBase"),
+                                    context.getInternalName("block/base/SlabType"))
+                                    .toByteArray());
+                }
+                loader.visitBlockItem(block.getIdentifier(), classSlabItem, classBlockLoader);
+            } else {
+                if (classBlockItem == null) {
+                    classBlockItem = context.getInternalName("item/base/ItemBlockBase");
+                    context.getClassesFiler().write(classBlockItem + ".class",
+                            new ItemBlockBase(classBlockItem).toByteArray());
+                }
+                loader.visitBlockItem(block.getIdentifier(), classBlockItem, classBlockLoader);
             }
         }
 

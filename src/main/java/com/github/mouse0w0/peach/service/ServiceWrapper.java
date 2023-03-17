@@ -15,7 +15,6 @@ final class ServiceWrapper<T> {
         this.descriptor = descriptor;
     }
 
-    @SuppressWarnings("unchecked")
     public T getService(ServiceManagerImpl serviceManager, boolean createIfNeeded) {
         T service = this.service;
         if (service != null) return service;

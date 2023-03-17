@@ -56,7 +56,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
 
         background = new FilePicker();
         background.getExtensionFilters().add(ExtensionFilters.PNG);
-        background.setConverter(new StringConverter<File>() {
+        background.setConverter(new StringConverter<>() {
             @Override
             public String toString(File object) {
                 File result = backgroundStore.store(object);
