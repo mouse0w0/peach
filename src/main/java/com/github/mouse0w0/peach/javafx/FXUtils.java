@@ -1,14 +1,11 @@
 package com.github.mouse0w0.peach.javafx;
 
 import com.github.mouse0w0.i18n.I18n;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
@@ -106,27 +103,6 @@ public final class FXUtils {
 
     public static void hideWindow(Scene scene) {
         scene.getWindow().hide();
-    }
-
-    private static final ListChangeListener<Node> FIX_TEXT_AREA_BLUR_LISTENER = new ListChangeListener<>() {
-        @Override
-        public void onChanged(Change<? extends Node> c) {
-            ScrollPane scrollPane = (ScrollPane) c.getList().get(0);
-            scrollPane.getChildrenUnmodifiable().addListener((ListChangeListener<Node>) change -> {
-                while (change.next()) {
-                    change.getAddedSubList().forEach(node -> node.setCache(false));
-                    change.getRemoved().forEach(node -> node.setCache(true));
-                }
-            });
-            c.getList().removeListener(this);
-        }
-    };
-
-    /**
-     * Fix {@link TextArea} content blur.
-     */
-    public static void fixTextAreaBlur(TextArea textArea) {
-        textArea.getChildrenUnmodifiable().addListener(FIX_TEXT_AREA_BLUR_LISTENER);
     }
 
     public static void setFixedSize(Region region, double width, double height) {

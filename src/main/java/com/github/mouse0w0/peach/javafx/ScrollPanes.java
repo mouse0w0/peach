@@ -5,9 +5,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.ScrollEvent;
 
 public final class ScrollPanes {
-
     /**
-     * Fix scroll pane without scrolling by the pixel value.
+     * Fix {@link ScrollPane} without scrolling by the pixel value.
      */
     public static void fixVerticalScroll(ScrollPane scrollPane) {
         scrollPane.addEventFilter(ScrollEvent.SCROLL, event -> {
