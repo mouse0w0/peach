@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -27,57 +28,64 @@ import java.util.function.Function;
 public final class FXUtils {
 
     public static void loadFXML(Object root, String location) {
-        loadFXML(root, location, I18n.getResourceBundle());
+        loadFXML(root, root, getCallerClassLoader(), location, I18n.getResourceBundle());
     }
 
 
     public static void loadFXML(Object root, String location, ResourceBundle resources) {
-        loadFXML(root, root, location, resources);
+        loadFXML(root, root, getCallerClassLoader(), location, resources);
     }
 
     public static <T> T loadFXML(Object root, Object controller, String location) {
-        return loadFXML(root, controller, location, I18n.getResourceBundle());
+        return loadFXML(root, controller, getCallerClassLoader(), location, I18n.getResourceBundle());
     }
 
-    public static <T> T loadFXML(Object root, Object controller, String location, ResourceBundle resources) {
+    public static <T> T loadFXML(Object root, Object controller, String location, ResourceBundle resourceBundle) {
+        return loadFXML(root, controller, getCallerClassLoader(), location, resourceBundle);
+    }
+
+    public static <T> T loadFXML(Object root, Object controller, ClassLoader classLoader, String location, ResourceBundle resourceBundle) {
+        URL resource = classLoader.getResource(location);
+        if (resource == null) {
+            throw new IllegalArgumentException("Not found resource, location=" + location);
+        }
         FXMLLoader loader = new FXMLLoader();
         loader.setRoot(root);
         loader.setController(controller);
-        ClassLoader classLoader = getClassLoaderOfCaller();
         loader.setClassLoader(classLoader);
-        loader.setLocation(classLoader.getResource(location));
-        loader.setResources(resources);
+        loader.setLocation(resource);
+        loader.setResources(resourceBundle);
         loader.setCharset(StandardCharsets.UTF_8);
         try {
             return loader.load();
         } catch (IOException e) {
-            throw new RuntimeException("Cannot load fxml", e);
+            throw new UncheckedIOException("Cannot load fxml", e);
         }
     }
 
-    private static ClassLoader getClassLoaderOfCaller() {
+    private static ClassLoader getCallerClassLoader() {
         try {
             // new Throwable().getStackTrace() faster than Thread.currentThread().getStackTrace().
-            return Class.forName(new Throwable().getStackTrace()[3].getClassName()).getClassLoader();
+            return Class.forName(new Throwable().getStackTrace()[2].getClassName()).getClassLoader();
         } catch (ClassNotFoundException e) {
             return Thread.currentThread().getContextClassLoader();
         }
     }
 
-    public static void addStylesheet(Scene scene, String resourceName) {
-        ClassLoader classLoader = getClassLoaderOfCaller();
-        URL resource = classLoader.getResource(resourceName);
+    public static void addStylesheet(Scene scene, String location) {
+        ClassLoader classLoader = getCallerClassLoader();
+        URL resource = classLoader.getResource(location);
         if (resource == null) {
-            throw new NullPointerException("Resource \"" + resourceName + "\" not found");
+            throw new IllegalArgumentException("Not found resource, location=" + location);
         }
         scene.getStylesheets().add(resource.toExternalForm());
     }
 
-    public static void addStylesheet(Parent parent, String resourceName) {
-        ClassLoader classLoader = getClassLoaderOfCaller();
-        URL resource = classLoader.getResource(resourceName);
+    public static void addStylesheet(Parent parent, String location) {
+        ClassLoader classLoader = getCallerClassLoader();
+        URL resource = classLoader.getResource(location);
         if (resource == null) {
-            throw new NullPointerException("Resource \"" + resourceName + "\" not found");
+            throw new IllegalArgumentException("Not found resource, location=" + location);
         }
         parent.getStylesheets().add(resource.toExternalForm());
     }
