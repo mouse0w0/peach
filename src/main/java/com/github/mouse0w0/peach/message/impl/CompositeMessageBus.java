@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.message.impl;
 
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.message.Topic;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,7 +14,7 @@ public class CompositeMessageBus extends MessageBusImpl {
     public CompositeMessageBus() {
     }
 
-    public CompositeMessageBus(@Nonnull CompositeMessageBus parent) {
+    public CompositeMessageBus(@NotNull CompositeMessageBus parent) {
         super(parent);
     }
 

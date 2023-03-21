@@ -25,8 +25,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class ItemEditor extends ElementEditor<MEItem> {
 
@@ -73,7 +72,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private RadioButtonField alwaysEdible;
     private ItemPickerField foodContainer;
 
-    public ItemEditor(@Nonnull Project project, @Nonnull MEItem element) {
+    public ItemEditor(@NotNull Project project, @NotNull MEItem element) {
         super(project, element);
         indexManager = IndexManager.getInstance(project);
     }

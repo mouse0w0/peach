@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.dispose;
 
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public final class Disposer {
     private static final ObjectTree TREE = new ObjectTree();
 
-    @Nonnull
+    @NotNull
     public static Disposable newDisposable() {
         return new Disposable() {
             @Override
@@ -20,7 +20,7 @@ public final class Disposer {
         };
     }
 
-    public static void register(@Nonnull Disposable parent, @Nonnull Disposable child) {
+    public static void register(@NotNull Disposable parent, @NotNull Disposable child) {
         TREE.register(parent, child);
     }
 

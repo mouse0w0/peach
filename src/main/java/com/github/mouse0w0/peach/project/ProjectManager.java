@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.nio.file.Path;
 import java.util.Collection;
 
@@ -19,11 +19,11 @@ public interface ProjectManager {
     @Nullable
     Project getProject(Path path);
 
-    Project createProject(@Nullable String name, @Nonnull Path path);
+    Project createProject(@Nullable String name, @NotNull Path path);
 
-    Project openProject(@Nonnull Path path);
+    Project openProject(@NotNull Path path);
 
-    boolean closeProject(@Nonnull Project project);
+    boolean closeProject(@NotNull Project project);
 
     void closeAllProjects();
 }

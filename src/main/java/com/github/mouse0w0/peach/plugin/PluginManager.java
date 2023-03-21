@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.plugin;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 public interface PluginManager {

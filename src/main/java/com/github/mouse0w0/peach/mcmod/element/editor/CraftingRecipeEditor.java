@@ -19,8 +19,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
 
@@ -39,7 +38,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
     private ItemPicker[] inputs = new ItemPicker[9];
     private ItemStackView output;
 
-    public CraftingRecipeEditor(@Nonnull Project project, @Nonnull MECraftingRecipe element) {
+    public CraftingRecipeEditor(@NotNull Project project, @NotNull MECraftingRecipe element) {
         super(project, element);
     }
 

@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.data;
 
 import com.github.mouse0w0.peach.util.Validate;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -14,11 +14,11 @@ public final class DataKey<T> {
     private final String name;
 
     @SuppressWarnings("unchecked")
-    public static <T> DataKey<T> create(@Nonnull String name) {
+    public static <T> DataKey<T> create(@NotNull String name) {
         return (DataKey<T>) DATA_KEYS.computeIfAbsent(name, DataKey::new);
     }
 
-    private DataKey(@Nonnull String name) {
+    private DataKey(@NotNull String name) {
         this.name = Validate.notNull(name);
     }
 

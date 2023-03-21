@@ -1,18 +1,18 @@
 package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.service.ServiceManager;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
 
 public interface Project extends ServiceManager {
 
-    @Nonnull
+    @NotNull
     Path getPath();
 
-    @Nonnull
+    @NotNull
     String getName();
 
     void setName(@Nullable String name);

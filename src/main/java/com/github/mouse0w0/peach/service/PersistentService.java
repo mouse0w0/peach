@@ -1,12 +1,11 @@
 package com.github.mouse0w0.peach.service;
 
 import com.google.gson.JsonElement;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface PersistentService {
 
-    @Nonnull
+    @NotNull
     String getStoreFile();
 
     JsonElement saveState();

@@ -14,8 +14,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.input.TransferMode;
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,7 +58,7 @@ public class ItemFavoritesView implements PersistentService {
         return content;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getStoreFile() {
         return "itemFavorites.json";

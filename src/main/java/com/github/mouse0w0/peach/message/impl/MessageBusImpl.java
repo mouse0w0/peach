@@ -7,10 +7,10 @@ import com.github.mouse0w0.peach.message.MessageBus;
 import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.message.Topic;
 import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -42,7 +42,7 @@ public class MessageBusImpl implements MessageBus {
     public MessageBusImpl() {
     }
 
-    public MessageBusImpl(@Nonnull CompositeMessageBus parent) {
+    public MessageBusImpl(@NotNull CompositeMessageBus parent) {
         this.parent = parent;
 
         parent.addChild(this);
@@ -59,7 +59,7 @@ public class MessageBusImpl implements MessageBus {
     }
 
     @Override
-    public MessageBusConnection connect(@Nonnull Disposable parentDisposable) {
+    public MessageBusConnection connect(@NotNull Disposable parentDisposable) {
         MessageBusConnectionImpl connection = new MessageBusConnectionImpl(this);
         Disposer.register(parentDisposable, connection);
         subscriberHolders.add(connection);
@@ -67,7 +67,7 @@ public class MessageBusImpl implements MessageBus {
     }
 
     @Override
-    public <T> T getPublisher(@Nonnull Topic<T> topic) {
+    public <T> T getPublisher(@NotNull Topic<T> topic) {
         return (T) publisherCache.computeIfAbsent(topic, this::createPublisher);
     }
 

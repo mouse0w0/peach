@@ -15,8 +15,8 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
 import javafx.util.StringConverter;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.nio.file.Path;
 import java.util.Locale;
 
@@ -38,7 +38,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
     private TextFieldField credits;
     private TextureField logo;
 
-    public MetadataFileEditor(@Nonnull Project project, @Nonnull Path file) {
+    public MetadataFileEditor(@NotNull Project project, @NotNull Path file) {
         super(project, file);
 
         descriptor = McModDescriptor.getInstance(project);

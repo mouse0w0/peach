@@ -8,8 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.nio.file.Path;
 
 public abstract class FileEditorWithButtonBar extends BaseFileEditor {
@@ -21,7 +21,7 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
     private Button cancel;
     private Button apply;
 
-    public FileEditorWithButtonBar(@Nonnull Project project, @Nonnull Path file) {
+    public FileEditorWithButtonBar(@NotNull Project project, @NotNull Path file) {
         super(file);
         this.project = Validate.notNull(project);
     }
@@ -77,7 +77,7 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
         return project;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Node getNode() {
         if (root == null) {

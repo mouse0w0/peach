@@ -1,16 +1,15 @@
 package com.github.mouse0w0.peach.window;
 
 import javafx.scene.Node;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface StatusBarWidget {
 
-    @Nonnull
+    @NotNull
     String getId();
 
-    @Nonnull
+    @NotNull
     Node getContent();
 
-    void install(@Nonnull StatusBar statusBar);
+    void install(@NotNull StatusBar statusBar);
 }

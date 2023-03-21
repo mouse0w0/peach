@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.util.graph;
 
 import com.google.common.collect.AbstractIterator;
 
-import javax.annotation.CheckForNull;
 import java.util.*;
 
 public class DirectedGraph<N> implements MutableGraph<N> {
@@ -119,7 +118,6 @@ public class DirectedGraph<N> implements MutableGraph<N> {
                     return new AbstractIterator<>() {
                         final Iterator<Map.Entry<N, Object>> it = connections.entrySet().iterator();
 
-                        @CheckForNull
                         @Override
                         protected N computeNext() {
                             while (it.hasNext()) {
@@ -152,7 +150,6 @@ public class DirectedGraph<N> implements MutableGraph<N> {
                     return new AbstractIterator<>() {
                         final Iterator<Map.Entry<N, Object>> it = connections.entrySet().iterator();
 
-                        @CheckForNull
                         @Override
                         protected N computeNext() {
                             while (it.hasNext()) {

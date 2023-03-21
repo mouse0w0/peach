@@ -1,8 +1,7 @@
 package com.github.mouse0w0.peach.data;
 
 import com.github.mouse0w0.peach.Peach;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface DataManager {
 
@@ -10,11 +9,11 @@ public interface DataManager {
         return Peach.getInstance().getService(DataManager.class);
     }
 
-    DataContext getDataContext(@Nonnull Object source);
+    DataContext getDataContext(@NotNull Object source);
 
-    DataProvider getDataProvider(@Nonnull Object o);
+    DataProvider getDataProvider(@NotNull Object o);
 
-    void registerDataProvider(@Nonnull Object o, @Nonnull DataProvider dataProvider);
+    void registerDataProvider(@NotNull Object o, @NotNull DataProvider dataProvider);
 
-    void unregisterDataProvider(@Nonnull Object o);
+    void unregisterDataProvider(@NotNull Object o);
 }

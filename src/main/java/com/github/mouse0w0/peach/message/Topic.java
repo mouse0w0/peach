@@ -1,43 +1,42 @@
 package com.github.mouse0w0.peach.message;
 
 import com.github.mouse0w0.peach.util.Validate;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public final class Topic<T> {
     private final String name;
     private final Class<T> listenerClass;
     private final BroadcastDirection broadcastDirection;
 
-    public Topic(@Nonnull Class<T> listenerClass) {
+    public Topic(@NotNull Class<T> listenerClass) {
         this(listenerClass.getName(), listenerClass, BroadcastDirection.TO_CHILDREN);
     }
 
-    public Topic(@Nonnull Class<T> listenerClass, @Nonnull BroadcastDirection broadcastDirection) {
+    public Topic(@NotNull Class<T> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
         this(listenerClass.getName(), listenerClass, broadcastDirection);
     }
 
-    public Topic(@Nonnull String name, @Nonnull Class<T> listenerClass) {
+    public Topic(@NotNull String name, @NotNull Class<T> listenerClass) {
         this(name, listenerClass, BroadcastDirection.TO_CHILDREN);
     }
 
-    public Topic(@Nonnull String name, @Nonnull Class<T> listenerClass, @Nonnull BroadcastDirection broadcastDirection) {
+    public Topic(@NotNull String name, @NotNull Class<T> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
         this.name = Validate.notEmpty(name);
         this.listenerClass = Validate.notNull(listenerClass);
         this.broadcastDirection = Validate.notNull(broadcastDirection);
     }
 
-    @Nonnull
+    @NotNull
     public String getName() {
         return name;
     }
 
-    @Nonnull
+    @NotNull
     public Class<T> getListenerClass() {
         return listenerClass;
     }
 
-    @Nonnull
+    @NotNull
     public BroadcastDirection getBroadcastDirection() {
         return broadcastDirection;
     }

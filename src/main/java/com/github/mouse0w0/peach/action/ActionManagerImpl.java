@@ -14,10 +14,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import org.dom4j.Element;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nonnull;
 
 public class ActionManagerImpl implements ActionManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ActionManagerImpl.class);
@@ -60,17 +59,17 @@ public class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public Menu createMenu(@Nonnull ActionGroup group) {
+    public Menu createMenu(@NotNull ActionGroup group) {
         return new ActionMenu(group);
     }
 
     @Override
-    public ContextMenu createContextMenu(@Nonnull ActionGroup group) {
+    public ContextMenu createContextMenu(@NotNull ActionGroup group) {
         return new ActionContextMenu(group);
     }
 
     @Override
-    public Button createButton(@Nonnull Action action) {
+    public Button createButton(@NotNull Action action) {
         Validate.notNull(action);
         if (action instanceof ActionGroup || action instanceof Separator) {
             throw new IllegalArgumentException("action");

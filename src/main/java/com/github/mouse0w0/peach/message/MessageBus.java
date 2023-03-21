@@ -1,15 +1,14 @@
 package com.github.mouse0w0.peach.message;
 
 import com.github.mouse0w0.peach.dispose.Disposable;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface MessageBus extends Disposable {
     MessageBus getParent();
 
     MessageBusConnection connect();
 
-    MessageBusConnection connect(@Nonnull Disposable parentDisposable);
+    MessageBusConnection connect(@NotNull Disposable parentDisposable);
 
-    <T> T getPublisher(@Nonnull Topic<T> topic);
+    <T> T getPublisher(@NotNull Topic<T> topic);
 }

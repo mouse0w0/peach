@@ -14,8 +14,8 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -116,7 +116,7 @@ public class FileChooserHelper implements PersistentService {
         return file;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getStoreFile() {
         return "fileChooserState.json";

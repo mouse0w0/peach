@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
 import gcardone.junidecode.Junidecode;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.regex.Pattern;
 
 public final class ModUtils {

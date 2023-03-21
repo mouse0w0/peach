@@ -7,8 +7,8 @@ import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonElement;
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +40,7 @@ public class RecentProjectManager implements PersistentService {
         info.setLatestOpenTimestamp(System.currentTimeMillis());
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getStoreFile() {
         return "recentProjects.json";

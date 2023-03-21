@@ -5,13 +5,12 @@ import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ElementEditor<T extends Element> extends FileEditorWithButtonBar {
     private final T element;
 
-    public ElementEditor(@Nonnull Project project, @Nonnull T element) {
+    public ElementEditor(@NotNull Project project, @NotNull T element) {
         super(project, element.getFile());
         this.element = element;
     }
@@ -24,7 +23,7 @@ public abstract class ElementEditor<T extends Element> extends FileEditorWithBut
 
     protected abstract void updateDataModel(T element);
 
-    @Nonnull
+    @NotNull
     @Override
     public Node getNode() {
         Node node = super.getNode();

@@ -29,8 +29,7 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class BlockEditor extends ElementEditor<MEBlock> {
     private final IndexManager indexManager;
@@ -88,7 +87,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private ChoiceBoxField<PathNodeType> aiPathNodeType;
 //    private Object pickItem; // TODO
 
-    public BlockEditor(@Nonnull Project project, @Nonnull MEBlock element) {
+    public BlockEditor(@NotNull Project project, @NotNull MEBlock element) {
         super(project, element);
         indexManager = IndexManager.getInstance(project);
     }

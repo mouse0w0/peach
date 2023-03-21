@@ -5,9 +5,8 @@ import com.github.mouse0w0.peach.data.DataKey;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.event.Event;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ActionEvent implements DataContext {
 
@@ -18,7 +17,7 @@ public class ActionEvent implements DataContext {
         this(event, DataManager.getInstance().getDataContext(WindowManager.getInstance().getFocusedNode()));
     }
 
-    public ActionEvent(@Nullable Event event, @Nonnull DataContext dataContext) {
+    public ActionEvent(@Nullable Event event, @NotNull DataContext dataContext) {
         this.event = event;
         this.dataContext = dataContext;
     }
@@ -28,18 +27,18 @@ public class ActionEvent implements DataContext {
         return event;
     }
 
-    @Nonnull
+    @NotNull
     public DataContext getDataContext() {
         return dataContext;
     }
 
     @Override
-    public Object getData(@Nonnull String key) {
+    public Object getData(@NotNull String key) {
         return dataContext.getData(key);
     }
 
     @Override
-    public <T> T getData(@Nonnull DataKey<T> key) {
+    public <T> T getData(@NotNull DataKey<T> key) {
         return dataContext.getData(key);
     }
 }

@@ -5,8 +5,7 @@ import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public interface ActionManager {
 
@@ -20,9 +19,9 @@ public interface ActionManager {
 
     void perform(String actionId, Event event);
 
-    Menu createMenu(@Nonnull ActionGroup group);
+    Menu createMenu(@NotNull ActionGroup group);
 
-    ContextMenu createContextMenu(@Nonnull ActionGroup group);
+    ContextMenu createContextMenu(@NotNull ActionGroup group);
 
-    Button createButton(@Nonnull Action action);
+    Button createButton(@NotNull Action action);
 }

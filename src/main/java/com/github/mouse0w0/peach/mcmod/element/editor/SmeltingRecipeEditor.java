@@ -14,8 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.FlowPane;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class SmeltingRecipeEditor extends ElementEditor<MESmeltingRecipe> {
     private static final Image BACKGROUND = new Image("/image/mcmod/smelting_recipe.png", 560, 312, true, false, true);
@@ -27,7 +26,7 @@ public class SmeltingRecipeEditor extends ElementEditor<MESmeltingRecipe> {
     private ItemPicker input;
     private ItemStackView output;
 
-    public SmeltingRecipeEditor(@Nonnull Project project, @Nonnull MESmeltingRecipe element) {
+    public SmeltingRecipeEditor(@NotNull Project project, @NotNull MESmeltingRecipe element) {
         super(project, element);
     }
 

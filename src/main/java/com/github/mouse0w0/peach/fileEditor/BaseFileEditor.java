@@ -4,8 +4,8 @@ import com.github.mouse0w0.peach.util.Validate;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.nio.file.Path;
 
 public abstract class BaseFileEditor implements FileEditor {
@@ -16,7 +16,7 @@ public abstract class BaseFileEditor implements FileEditor {
     private String name;
     private Image icon;
 
-    public BaseFileEditor(@Nonnull Path file) {
+    public BaseFileEditor(@NotNull Path file) {
         this.file = Validate.notNull(file);
         this.modified = new ReadOnlyBooleanWrapper(this, "modified");
     }
@@ -39,7 +39,7 @@ public abstract class BaseFileEditor implements FileEditor {
         this.icon = icon;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Path getFile() {
         return file;

@@ -4,8 +4,8 @@ import com.github.mouse0w0.peach.dispose.Disposable;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.nio.file.Path;
 
 public interface FileEditor extends Disposable {
@@ -14,10 +14,10 @@ public interface FileEditor extends Disposable {
 
     Image getIcon();
 
-    @Nonnull
+    @NotNull
     Path getFile();
 
-    @Nonnull
+    @NotNull
     Node getNode();
 
     ReadOnlyBooleanProperty modifiedProperty();

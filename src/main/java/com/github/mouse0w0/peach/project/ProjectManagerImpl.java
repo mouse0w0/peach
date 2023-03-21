@@ -4,11 +4,11 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -42,7 +42,7 @@ public final class ProjectManagerImpl implements ProjectManager {
     }
 
     @Override
-    public Project createProject(@Nullable String name, @Nonnull Path path) {
+    public Project createProject(@Nullable String name, @NotNull Path path) {
         FileUtils.createDirectoriesIfNotExists(path);
         Project project = openProject(path);
         project.setName(name);
@@ -50,7 +50,7 @@ public final class ProjectManagerImpl implements ProjectManager {
     }
 
     @Override
-    public Project openProject(@Nonnull Path path) {
+    public Project openProject(@NotNull Path path) {
         if (!path.isAbsolute()) {
             throw new IllegalArgumentException("The path must be absolute, path: " + path);
         }
@@ -75,7 +75,7 @@ public final class ProjectManagerImpl implements ProjectManager {
     }
 
     @Override
-    public boolean closeProject(@Nonnull Project project) {
+    public boolean closeProject(@NotNull Project project) {
         if (!project.isOpened()) {
             return true;
         }

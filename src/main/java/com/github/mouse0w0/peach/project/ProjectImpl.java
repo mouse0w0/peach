@@ -11,9 +11,9 @@ import com.github.mouse0w0.peach.service.store.ProjectServiceStore;
 import com.github.mouse0w0.peach.util.Validate;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.peach.window.WindowManager;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ProjectImpl extends ServiceManagerImpl implements Project {
     private final Path path;
 
-    public ProjectImpl(@Nonnull Path path) throws IOException {
+    public ProjectImpl(@NotNull Path path) throws IOException {
         super(Peach.getInstance());
         this.path = Validate.notNull(path);
         if (!Files.exists(path)) {
@@ -35,13 +35,13 @@ public class ProjectImpl extends ServiceManagerImpl implements Project {
         preloadServices();
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public Path getPath() {
         return path;
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getName() {
         String name = getServiceStore().getProjectName();

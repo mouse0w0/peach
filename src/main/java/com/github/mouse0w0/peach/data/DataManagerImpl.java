@@ -11,8 +11,8 @@ import javafx.scene.control.Tab;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -20,26 +20,26 @@ import java.util.Map;
 
 public final class DataManagerImpl implements DataManager {
     @Override
-    public DataContext getDataContext(@Nonnull Object source) {
+    public DataContext getDataContext(@NotNull Object source) {
         return new DataContextImpl(this, source);
     }
 
     @Override
-    public DataProvider getDataProvider(@Nonnull Object o) {
+    public DataProvider getDataProvider(@NotNull Object o) {
         if (o instanceof DataProvider) return (DataProvider) o;
         Map<Object, Object> properties = getProperties(o);
         return properties != null ? (DataProvider) properties.get(DataProvider.class) : null;
     }
 
     @Override
-    public void registerDataProvider(@Nonnull Object o, @Nonnull DataProvider dataProvider) {
+    public void registerDataProvider(@NotNull Object o, @NotNull DataProvider dataProvider) {
         Map<Object, Object> properties = getProperties(o);
         if (properties == null) throw new IllegalArgumentException("Not found properties for " + o.getClass());
         properties.put(DataProvider.class, dataProvider);
     }
 
     @Override
-    public void unregisterDataProvider(@Nonnull Object o) {
+    public void unregisterDataProvider(@NotNull Object o) {
         Map<Object, Object> properties = getProperties(o);
         if (properties != null) properties.remove(DataProvider.class);
     }
@@ -114,7 +114,7 @@ public final class DataManagerImpl implements DataManager {
         }
 
         @Override
-        public Object getData(@Nonnull String key) {
+        public Object getData(@NotNull String key) {
             Object data = cachedData.get(key);
             if (data != null) return data;
 

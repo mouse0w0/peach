@@ -12,8 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import javax.annotation.Nonnull;
+import org.jetbrains.annotations.NotNull;
 
 public class ProjectWindowImpl implements ProjectWindow, DataProvider {
     private final Project project;
@@ -97,7 +96,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
     }
 
     @Override
-    public Object getData(@Nonnull String key) {
+    public Object getData(@NotNull String key) {
         if (DataKeys.PROJECT.is(key)) {
             return project;
         }

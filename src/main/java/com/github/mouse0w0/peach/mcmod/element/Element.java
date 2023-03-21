@@ -1,15 +1,15 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.util.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.nio.file.Path;
 
 public abstract class Element {
 
     private transient Path file;
 
-    @Nonnull
+    @NotNull
     public Path getFile() {
         if (file == null) {
             throw new IllegalStateException("File is not set");
@@ -24,7 +24,7 @@ public abstract class Element {
         this.file = file;
     }
 
-    @Nonnull
+    @NotNull
     public String getFileName() {
         return StringUtils.substringBefore(file.getFileName().toString(), '.');
     }

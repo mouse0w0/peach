@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.apache.commons.lang3.reflect.TypeUtils;
+import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +62,7 @@ public class WindowStateManager implements PersistentService {
         return project.getService(WindowStateManager.class);
     }
 
-    public void register(@Nonnull Window window, @Nonnull String stateId) {
+    public void register(@NotNull Window window, @NotNull String stateId) {
         Validate.notNull(window);
         Validate.notEmpty(stateId);
 
@@ -78,7 +78,7 @@ public class WindowStateManager implements PersistentService {
         }
     }
 
-    @Nonnull
+    @NotNull
     @Override
     public String getStoreFile() {
         return "windowState.json";

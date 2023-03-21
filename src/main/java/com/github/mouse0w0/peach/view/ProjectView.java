@@ -28,10 +28,10 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -195,7 +195,7 @@ public class ProjectView implements Disposable, DataProvider {
     }
 
     @Override
-    public Object getData(@Nonnull String key) {
+    public Object getData(@NotNull String key) {
         if (DataKeys.PATH.is(key) || DataKeys.SELECTED_ITEM.is(key)) {
             TreeItem<Path> selectedItem = treeView.getSelectionModel().getSelectedItem();
             return selectedItem != null ? selectedItem.getValue() : null;
@@ -295,7 +295,7 @@ public class ProjectView implements Disposable, DataProvider {
         }
 
         @Override
-        public Object getData(@Nonnull String key) {
+        public Object getData(@NotNull String key) {
             return DataKeys.PATH.is(key) ? getItem() : null;
         }
 

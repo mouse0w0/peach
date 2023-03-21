@@ -19,10 +19,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 
 public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
@@ -43,7 +43,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     private FilePicker background;
     private ItemView icon;
 
-    public ItemGroupEditor(@Nonnull Project project, @Nonnull MEItemGroup element) {
+    public ItemGroupEditor(@NotNull Project project, @NotNull MEItemGroup element) {
         super(project, element);
         this.backgroundStore = new ResourceStore(
                 ResourceUtils.getResourcePath(project, ResourceUtils.TEXTURES),
