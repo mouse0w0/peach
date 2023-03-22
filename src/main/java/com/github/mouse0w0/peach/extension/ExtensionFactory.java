@@ -92,7 +92,7 @@ final class ExtensionFactory {
                     if (attributeName.isEmpty()) {
                         attributeName = f.getName();
                     }
-                    boolean required = attributeAnno.required();
+                    boolean required = f.getAnnotation(Required.class) != null;
                     Class<? extends Converter> converterType = attributeAnno.converter();
                     if (converterType == Converter.class) {
                         Converter<?> converter = getConverter(f);

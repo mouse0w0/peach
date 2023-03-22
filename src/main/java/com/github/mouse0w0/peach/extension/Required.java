@@ -7,8 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Attribute {
-    String value() default "";
-
-    Class<? extends Converter> converter() default Converter.class;
+public @interface Required {
 }
