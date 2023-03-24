@@ -84,10 +84,6 @@ public class WeakValueMap<K, V> implements Map<K, V> {
         throw new UnsupportedOperationException();
     }
 
-    private V getReferenceValue(Reference<V> ref) {
-        return ref != null ? ref.get() : null;
-    }
-
     @SuppressWarnings("unchecked")
     private void processQueue() {
         while (true) {
@@ -97,6 +93,10 @@ public class WeakValueMap<K, V> implements Map<K, V> {
             }
             map.remove(ref.getKey());
         }
+    }
+
+    private static <V> V getReferenceValue(Reference<V> ref) {
+        return ref != null ? ref.get() : null;
     }
 
     private static final class WeakValueReference<K, V> extends WeakReference<V> {
