@@ -84,7 +84,7 @@ final class ExtensionFactory {
         public Deserializer(Class<?> type) throws Throwable {
             MethodHandles.Lookup privateLookup = MethodHandles.privateLookupIn(type, LOOKUP);
             ImmutableList.Builder<AttributeDeserializer> attributeDeserializersBuilder = ImmutableList.builder();
-            for (Field f : type.getFields()) {
+            for (Field f : type.getDeclaredFields()) {
                 Attribute attributeAnno = f.getAnnotation(Attribute.class);
                 if (attributeAnno != null) {
                     f.setAccessible(true);
