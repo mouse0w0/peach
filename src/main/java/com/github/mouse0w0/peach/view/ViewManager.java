@@ -54,17 +54,17 @@ public class ViewManager {
         this.viewPane = window.getViewPane();
 
         for (ViewEP view : ViewEP.EXTENSION_POINT.getExtensions()) {
-            String id = view.id;
+            String id = view.getId();
             if (id == null || id.isEmpty()) {
                 LOGGER.error("The id of view is null or empty, skip initialize.");
                 continue;
             }
 
             String text = I18n.translate("view." + id + ".text");
-            Node icon = IconManager.getInstance().createNode(view.icon);
+            Node icon = IconManager.getInstance().createNode(view.getIcon());
             Node content = view.getFactory().createViewContent(project);
 
-            EightPos position = view.position;
+            EightPos position = view.getPosition();
             if (position == null) {
                 LOGGER.warn("The position of view \"{}\" is null, set to default \"LEFT_TOP\".", id);
                 position = EightPos.LEFT_TOP;

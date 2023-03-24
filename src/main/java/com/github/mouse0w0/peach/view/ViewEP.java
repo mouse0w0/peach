@@ -10,17 +10,29 @@ import com.github.mouse0w0.peach.plugin.PluginException;
 public final class ViewEP implements PluginAware {
     public static final ExtensionPointName<ViewEP> EXTENSION_POINT = ExtensionPointName.of("peach.view");
 
-    @Attribute("id")
-    public String id;
-    @Attribute("icon")
-    public String icon;
-    @Attribute("position")
-    public EightPos position;
+    @Attribute
+    private String id;
+    @Attribute
+    private String icon;
+    @Attribute
+    private EightPos position;
     @Attribute("factory")
-    public String factoryName;
+    private String factoryName;
 
     private Plugin plugin;
     private volatile ViewFactory factory;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public EightPos getPosition() {
+        return position;
+    }
 
     public Plugin getPlugin() {
         return plugin;
