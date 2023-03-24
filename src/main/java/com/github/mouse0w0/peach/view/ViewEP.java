@@ -6,9 +6,25 @@ import com.github.mouse0w0.peach.extension.PluginAware;
 import com.github.mouse0w0.peach.javafx.geometry.EightPos;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginException;
+import com.github.mouse0w0.peach.util.LazyInitializer;
 
 public final class ViewEP implements PluginAware {
     public static final ExtensionPointName<ViewEP> EXTENSION_POINT = ExtensionPointName.of("peach.view");
+
+    private static final LazyInitializer<ViewEP, ViewFactory> FACTORY;
+
+    static {
+        FACTORY = new LazyInitializer<>(ViewEP.class, "factory", ViewFactory.class, viewEP -> {
+            try {
+                return (ViewFactory) viewEP.plugin.getClassLoader().loadClass(viewEP.factoryName).getConstructor().newInstance();
+            } catch (Throwable e) {
+                throw new PluginException("Cannot create ViewFactory"
+                        + ", id=" + viewEP.id
+                        + ", factory=" + viewEP.factoryName
+                        + ", plugin=" + viewEP.plugin.getId(), e);
+            }
+        });
+    }
 
     @Attribute
     private String id;
@@ -18,9 +34,8 @@ public final class ViewEP implements PluginAware {
     private EightPos position;
     @Attribute("factory")
     private String factoryName;
-
     private Plugin plugin;
-    private volatile ViewFactory factory;
+    private ViewFactory factory;
 
     public String getId() {
         return id;
@@ -44,23 +59,6 @@ public final class ViewEP implements PluginAware {
     }
 
     public ViewFactory getFactory() {
-        ViewFactory factory = this.factory;
-        if (factory != null) return factory;
-
-        synchronized (this) {
-            factory = this.factory;
-            if (factory != null) return factory;
-
-            try {
-                factory = (ViewFactory) plugin.getClassLoader().loadClass(factoryName).getConstructor().newInstance();
-            } catch (Throwable e) {
-                throw new PluginException("Cannot create ViewFactory"
-                        + ", id=" + id
-                        + ", factoryName=" + factoryName
-                        + ", plugin=" + plugin.getId(), e);
-            }
-            this.factory = factory;
-        }
-        return factory;
+        return FACTORY.get(this);
     }
 }
