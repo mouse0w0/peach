@@ -40,24 +40,26 @@ final class ExtensionWrapper<T> {
             if (extension != null) return extension;
 
             if (initializing)
-                throw new PluginException("Cyclic extension initialization"
-                        + ", implementation=" + getImplementation()
-                        + ", plugin=" + plugin.getId());
+                throw new PluginException("Cyclic extension initialization" +
+                        ", implementation=" + getImplementation() +
+                        ", plugin=" + plugin.getId());
 
             try {
                 initializing = true;
                 Class<T> implementationClass;
                 if (implementationClassOrName instanceof String) {
-                    implementationClass = (Class<T>) plugin.getClassLoader().loadClass((String) implementationClassOrName);
+                    try {
+                        implementationClass = (Class<T>) plugin.getClassLoader().loadClass((String) implementationClassOrName);
+                    } catch (ClassNotFoundException e) {
+                        throw new PluginException("Cannot found extension implementation class" +
+                                ", implementation=" + implementationClassOrName +
+                                ", plugin=" + plugin.getId());
+                    }
                 } else {
                     implementationClass = (Class<T>) implementationClassOrName;
                 }
                 this.extension = extension = ExtensionFactory.create(implementationClass, plugin, element);
                 element = null;
-            } catch (Throwable e) {
-                throw new PluginException("Cannot create extension"
-                        + ", implementation=" + getImplementation()
-                        + ", plugin=" + plugin.getId(), e);
             } finally {
                 initializing = false;
             }

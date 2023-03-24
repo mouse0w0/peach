@@ -73,7 +73,9 @@ final class ExtensionFactory {
             }
             return (T) instance;
         } catch (Throwable e) {
-            throw new PluginException("Cannot create extension, implementation=" + implementationClass.getName() + ", plugin=" + plugin.getId() + ")", e);
+            throw new PluginException("Cannot create extension" +
+                    ", implementation=" + implementationClass.getName() +
+                    ", plugin=" + plugin.getId(), e);
         }
     }
 
