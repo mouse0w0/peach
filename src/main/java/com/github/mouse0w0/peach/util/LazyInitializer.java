@@ -24,15 +24,15 @@ public final class LazyInitializer<T, R> {
 
     @SuppressWarnings("unchecked")
     public R get(T t) {
-        R result = (R) varHandle.getVolatile(t);
+        R result = (R) varHandle.getAcquire(t);
         if (result != null) return result;
 
         synchronized (t) {
-            result = (R) varHandle.getVolatile(t);
+            result = (R) varHandle.getAcquire(t);
             if (result != null) return result;
 
             result = factory.apply(t);
-            varHandle.setVolatile(t, result);
+            varHandle.setRelease(t, result);
             return result;
         }
     }

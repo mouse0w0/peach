@@ -4,7 +4,20 @@ import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginException;
 import org.dom4j.Element;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
+
 final class ExtensionWrapper<T> {
+    private static final VarHandle EXTENSION;
+
+    static {
+        try {
+            EXTENSION = MethodHandles.lookup().findVarHandle(ExtensionWrapper.class, "extension", Object.class);
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     private final Object implementationClassOrName;
     private final Plugin plugin;
     private final String id;
@@ -32,11 +45,11 @@ final class ExtensionWrapper<T> {
 
     @SuppressWarnings("unchecked")
     public T getExtension() {
-        T extension = this.extension;
+        T extension = (T) EXTENSION.getAcquire(this);
         if (extension != null) return extension;
 
         synchronized (this) {
-            extension = this.extension;
+            extension = (T) EXTENSION.getAcquire(this);
             if (extension != null) return extension;
 
             if (initializing)
@@ -58,7 +71,8 @@ final class ExtensionWrapper<T> {
                 } else {
                     implementationClass = (Class<T>) implementationClassOrName;
                 }
-                this.extension = extension = ExtensionFactory.create(implementationClass, plugin, element);
+                extension = ExtensionFactory.create(implementationClass, plugin, element);
+                EXTENSION.setRelease(this, extension);
                 element = null;
             } finally {
                 initializing = false;

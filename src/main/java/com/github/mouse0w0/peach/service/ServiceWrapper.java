@@ -3,7 +3,20 @@ package com.github.mouse0w0.peach.service;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginException;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
+
 final class ServiceWrapper<T> {
+    private static final VarHandle SERVICE;
+
+    static {
+        try {
+            SERVICE = MethodHandles.lookup().findVarHandle(ServiceWrapper.class, "service", Object.class);
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     private final Plugin plugin;
     private final ServiceDescriptor descriptor;
 
@@ -15,12 +28,13 @@ final class ServiceWrapper<T> {
         this.descriptor = descriptor;
     }
 
+    @SuppressWarnings("unchecked")
     public T getService(ServiceManagerImpl serviceManager, boolean createIfNeeded) {
-        T service = this.service;
+        T service = (T) SERVICE.getAcquire(this);
         if (service != null) return service;
 
         synchronized (this) {
-            service = this.service;
+            service = (T) SERVICE.getAcquire(this);
             if (service != null) return service;
 
             if (!createIfNeeded) return null;
@@ -33,7 +47,9 @@ final class ServiceWrapper<T> {
 
             try {
                 initializing = true;
-                this.service = service = serviceManager.newServiceInstance(plugin.getClassLoader().loadClass(descriptor.getImplementationClassName()), plugin);
+                Class<?> serviceClass = plugin.getClassLoader().loadClass(descriptor.getImplementationClassName());
+                service = serviceManager.newServiceInstance(serviceClass, plugin);
+                SERVICE.setRelease(this, service);
             } catch (Throwable e) {
                 throw new PluginException("Cannot create service"
                         + ", interface=" + descriptor.getInterfaceClassName()
