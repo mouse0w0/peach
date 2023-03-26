@@ -35,7 +35,7 @@ public final class ViewEP implements PluginAware {
     @Attribute("factory")
     private String factoryName;
     private Plugin plugin;
-    private ViewFactory factory;
+    private volatile ViewFactory factory;
 
     public String getId() {
         return id;
