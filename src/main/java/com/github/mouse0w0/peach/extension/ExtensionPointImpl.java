@@ -9,6 +9,8 @@ import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +19,22 @@ import java.util.Map;
 final class ExtensionPointImpl<T> implements ExtensionPoint<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger("Extension");
 
+    private static final VarHandle EXTENSIONS;
+
+    static {
+        try {
+            EXTENSIONS = MethodHandles.lookup().findVarHandle(ExtensionPointImpl.class, "extensions", List.class);
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     private final Plugin plugin;
     private final String name;
     private final Class<T> extensionClass;
     private final boolean bean;
 
-    private volatile List<ExtensionWrapper<T>> wrappers = new ArrayList<>();
+    private final List<ExtensionWrapper<T>> wrappers = new ArrayList<>();
 
     private volatile List<T> extensions;
 
@@ -44,53 +56,59 @@ final class ExtensionPointImpl<T> implements ExtensionPoint<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<T> getExtensions() {
+        List<T> extensions;
+        extensions = (List<T>) EXTENSIONS.getAcquire(this);
         if (extensions == null) {
-            initExtensions();
+            synchronized (this) {
+                extensions = (List<T>) EXTENSIONS.getAcquire(this);
+                if (extensions == null) {
+                    List<ExtensionWrapper<T>> wrappers = getSortedWrappers();
+                    ImmutableList.Builder<T> builder = ImmutableList.builderWithExpectedSize(wrappers.size());
+                    for (ExtensionWrapper<T> wrapper : wrappers) {
+                        builder.add(wrapper.getExtension());
+                    }
+                    extensions = builder.build();
+                    EXTENSIONS.setRelease(this, extensions);
+                }
+            }
         }
         return extensions;
     }
 
-    synchronized void initExtensions() {
-        if (this.extensions == null) {
-            List<ExtensionWrapper<T>> wrappers = this.wrappers;
-            int size = wrappers.size();
-            if (size >= 2) {
-                wrappers = new ArrayList<>(wrappers); // Copy list.
-                Map<String, ExtensionWrapper<T>> idMap = new HashMap<>();
-                Multimap<String, ExtensionWrapper<T>> duplicateIdMap = ArrayListMultimap.create();
-                for (ExtensionWrapper<T> wrapper : wrappers) {
-                    String id = wrapper.getId();
-                    if (StringUtils.isEmpty(id)) continue;
-
-                    if (duplicateIdMap.containsKey(id)) {
-                        duplicateIdMap.put(id, wrapper);
-                    } else {
-                        ExtensionWrapper<T> duplicateWrapper = idMap.put(id, wrapper);
-                        if (duplicateWrapper != null) {
-                            duplicateIdMap.put(id, duplicateWrapper);
-                            duplicateIdMap.put(id, wrapper);
-                            idMap.remove(id);
-                        }
-                    }
-                }
-                ExtensionOrder.sort(wrappers, idMap);
-                this.wrappers = wrappers; // Set sorted list back.
-
-                for (String id : duplicateIdMap.keySet()) {
-                    StringBuilder messageBuilder = new StringBuilder("Duplicate extension with id `").append(id).append("`, as follows:");
-                    for (ExtensionWrapper<?> wrapper : duplicateIdMap.get(id)) {
-                        messageBuilder.append("\n    - implementation=").append(wrapper.getImplementation()).append(", plugin=").append(wrapper.getPlugin().getId());
-                    }
-                    LOGGER.error(messageBuilder.toString());
-                }
-            }
-            ImmutableList.Builder<T> builder = ImmutableList.builderWithExpectedSize(size);
+    private List<ExtensionWrapper<T>> getSortedWrappers() {
+        List<ExtensionWrapper<T>> wrappers = this.wrappers;
+        if (wrappers.size() >= 2) {
+            wrappers = new ArrayList<>(wrappers); // Copy list.
+            Map<String, ExtensionWrapper<T>> idMap = new HashMap<>();
+            Multimap<String, ExtensionWrapper<T>> duplicateIdMap = ArrayListMultimap.create();
             for (ExtensionWrapper<T> wrapper : wrappers) {
-                builder.add(wrapper.getExtension());
+                String id = wrapper.getId();
+                if (StringUtils.isEmpty(id)) continue;
+
+                if (duplicateIdMap.containsKey(id)) {
+                    duplicateIdMap.put(id, wrapper);
+                } else {
+                    ExtensionWrapper<T> duplicateWrapper = idMap.put(id, wrapper);
+                    if (duplicateWrapper != null) {
+                        duplicateIdMap.put(id, duplicateWrapper);
+                        duplicateIdMap.put(id, wrapper);
+                        idMap.remove(id);
+                    }
+                }
             }
-            this.extensions = builder.build();
+            ExtensionOrder.sort(wrappers, idMap);
+
+            for (String id : duplicateIdMap.keySet()) {
+                StringBuilder messageBuilder = new StringBuilder("Duplicate extension with id `").append(id).append("`, as follows:");
+                for (ExtensionWrapper<?> wrapper : duplicateIdMap.get(id)) {
+                    messageBuilder.append("\n    - implementation=").append(wrapper.getImplementation()).append(", plugin=").append(wrapper.getPlugin().getId());
+                }
+                LOGGER.error(messageBuilder.toString());
+            }
         }
+        return wrappers;
     }
 
     void register(Plugin plugin, ExtensionDescriptor descriptor) {
