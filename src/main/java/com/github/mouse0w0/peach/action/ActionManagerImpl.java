@@ -72,7 +72,7 @@ public final class ActionManagerImpl implements ActionManager {
     public Button createButton(@NotNull Action action) {
         Validate.notNull(action);
         if (action instanceof ActionGroup || action instanceof Separator) {
-            throw new IllegalArgumentException("action");
+            throw new IllegalArgumentException("The action cannot be ActionGroup and Separator");
         }
 
         Button button = new Button();
