@@ -203,7 +203,13 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     private Action processSeparatorElement(Plugin plugin, Element element) {
-        Separator separator = Separator.getInstance();
+        String id = element.attributeValue(ID_ATTR_NAME);
+        if (StringUtils.isEmpty(id)) {
+            return Separator.getInstance();
+        }
+
+        Separator separator = new Separator();
+        registerAction(plugin, id, separator);
         return separator;
     }
 
