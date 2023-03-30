@@ -25,17 +25,15 @@ public final class ActionManagerImpl implements ActionManager {
     private static final String GROUP_ELEMENT_NAME = "group";
     private static final String SEPARATOR_ELEMENT_NAME = "separator";
     private static final String REFERENCE_ELEMENT_NAME = "reference";
+    private static final String ADD_TO_GROUP_ELEMENT_NAME = "add-to-group";
 
     private static final String ID_ATTR_NAME = "id";
     private static final String CLASS_ATTR_NAME = "class";
     private static final String TEXT_ATTR_NAME = "text";
     private static final String DESCRIPTION_ATTR_NAME = "description";
     private static final String ICON_ATTR_NAME = "icon";
-
-//    private static final String ADD_TO_GROUP_ELEMENT_NAME = "add-to-group";
-//    private static final String GROUP_ID_ATTR_NAME = "group-id";
-//    private static final String ANCHOR_ATTR_NAME = "anchor";
-//    private static final String RELATIVE_TO_ACTION_ATTR_NAME = "relative-to-action";
+    private static final String GROUP_ID_ATTR_NAME = "group-id";
+    private static final String ANCHOR_ATTR_NAME = "anchor";
 
     private final BiMap<String, Action> actions = HashBiMap.create();
 
@@ -85,37 +83,39 @@ public final class ActionManagerImpl implements ActionManager {
     private void loadActions() {
         for (Plugin plugin : PluginManagerCore.getEnabledPlugins()) {
             for (ActionDescriptor action : plugin.getActions()) {
-                processElement(plugin, action.getElement(), null);
+                Element element = action.getElement();
+                switch (element.getName()) {
+                    case ACTION_ELEMENT_NAME -> processActionElement(plugin, element);
+                    case GROUP_ELEMENT_NAME -> processGroupElement(plugin, element);
+                    case SEPARATOR_ELEMENT_NAME -> processSeparatorElement(plugin, element);
+                    case REFERENCE_ELEMENT_NAME -> processReferenceElement(plugin, element);
+                    default -> LOGGER.error("Unknown element {}, plugin={}", element.getName(), plugin.getId());
+                }
             }
         }
     }
 
     private void processElement(Plugin plugin, Element element, ActionGroup parent) {
-        String name = element.getName();
-        if (ACTION_ELEMENT_NAME.equals(name)) {
-            processActionElement(plugin, element, parent);
-        } else if (GROUP_ELEMENT_NAME.equals(name)) {
-            processGroupElement(plugin, element, parent);
-        } else if (SEPARATOR_ELEMENT_NAME.equals(name)) {
-            processSeparatorElement(plugin, element, parent);
-        } else if (REFERENCE_ELEMENT_NAME.equals(name)) {
-            processReferenceElement(plugin, element, parent);
-        } else {
-            LOGGER.error("Unknown element `{}`, plugin={}", name, plugin.getId());
+        switch (element.getName()) {
+            case ACTION_ELEMENT_NAME -> processActionElement(plugin, element);
+            case GROUP_ELEMENT_NAME -> processGroupElement(plugin, element);
+            case SEPARATOR_ELEMENT_NAME -> processSeparatorElement(plugin, element);
+            case REFERENCE_ELEMENT_NAME -> processReferenceElement(plugin, element);
+            default -> LOGGER.error("Unknown element {}, plugin={}", element.getName(), plugin.getId());
         }
     }
 
-    private void processActionElement(Plugin plugin, Element element, ActionGroup parent) {
+    private Action processActionElement(Plugin plugin, Element element) {
         String id = element.attributeValue(ID_ATTR_NAME);
         if (StringUtils.isEmpty(id)) {
             LOGGER.error("Missing action id, plugin={}", plugin.getId());
-            return;
+            return null;
         }
 
         String className = element.attributeValue(CLASS_ATTR_NAME);
         if (StringUtils.isEmpty(className)) {
             LOGGER.error("Missing action class, id={}, plugin={}", id, plugin.getId());
-            return;
+            return null;
         }
 
         Action action;
@@ -123,28 +123,31 @@ public final class ActionManagerImpl implements ActionManager {
             Class<?> clazz = plugin.getClassLoader().loadClass(className);
             if (!Action.class.isAssignableFrom(clazz)) {
                 LOGGER.error("{} is not subclass of Action, id={}, plugin={}", className, id, plugin.getId());
-                return;
+                return null;
             }
             action = (Action) clazz.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Cannot create action, id=" + id + ", class=" + className + ", plugin=" + plugin.getId(), e);
-            return;
+            return null;
         }
 
         processAttribute(plugin, element, id, action);
+        registerAction(plugin, id, action);
 
-        if (registerAction(plugin, id, action)) {
-            if (parent != null) {
-                parent.addChild(action);
+        for (Element child : element.elements()) {
+            switch (child.getName()) {
+                case ADD_TO_GROUP_ELEMENT_NAME -> processAddToGroupElement(plugin, child, action);
+                default -> LOGGER.error("Unknown element {}, plugin={}", child.getName(), plugin.getId());
             }
         }
+        return action;
     }
 
-    private void processGroupElement(Plugin plugin, Element element, ActionGroup parent) {
+    private Action processGroupElement(Plugin plugin, Element element) {
         String id = element.attributeValue(ID_ATTR_NAME);
         if (StringUtils.isEmpty(id)) {
             LOGGER.error("Missing group id, plugin={}", plugin.getId());
-            return;
+            return null;
         }
 
         String className = element.attributeValue(CLASS_ATTR_NAME);
@@ -154,49 +157,128 @@ public final class ActionManagerImpl implements ActionManager {
             Class<?> clazz = className != null ? plugin.getClassLoader().loadClass(className) : ActionGroup.class;
             if (!ActionGroup.class.isAssignableFrom(clazz)) {
                 LOGGER.error("{} is not subclass of ActionGroup, id={}, plugin={}", className, id, plugin.getId());
-                return;
+                return null;
             }
             group = (ActionGroup) clazz.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             LOGGER.error("Cannot create group, id=" + id + ", class=" + className + ", plugin=" + plugin.getId(), e);
-            return;
+            return null;
         }
 
         processAttribute(plugin, element, id, group);
+        registerAction(plugin, id, group);
 
-        if (registerAction(plugin, id, group)) {
-            if (parent != null) {
-                parent.addChild(group);
-            }
-
-            for (Element child : element.elements()) {
-                processElement(plugin, child, group);
+        for (Element child : element.elements()) {
+            switch (child.getName()) {
+                case ACTION_ELEMENT_NAME -> {
+                    Action action = processActionElement(plugin, child);
+                    if (action != null) {
+                        group.addLast(action);
+                    }
+                }
+                case GROUP_ELEMENT_NAME -> {
+                    Action action = processGroupElement(plugin, child);
+                    if (action != null) {
+                        group.addLast(action);
+                    }
+                }
+                case SEPARATOR_ELEMENT_NAME -> {
+                    Action action = processSeparatorElement(plugin, child);
+                    if (action != null) {
+                        group.addLast(action);
+                    }
+                }
+                case REFERENCE_ELEMENT_NAME -> {
+                    Action action = processReferenceElement(plugin, child);
+                    if (action != null) {
+                        group.addLast(action);
+                    }
+                }
+                case ADD_TO_GROUP_ELEMENT_NAME -> processAddToGroupElement(plugin, child, group);
+                default -> LOGGER.error("Unknown element {}, plugin={}", child.getName(), plugin.getId());
             }
         }
+
+        return group;
     }
 
-    private void processSeparatorElement(Plugin plugin, Element element, ActionGroup parent) {
-        if (parent != null) {
-            parent.addChild(Separator.getInstance());
-        }
+    private Action processSeparatorElement(Plugin plugin, Element element) {
+        Separator separator = Separator.getInstance();
+        return separator;
     }
 
-    private void processReferenceElement(Plugin plugin, Element element, ActionGroup parent) {
+    private Action processReferenceElement(Plugin plugin, Element element) {
         String id = element.attributeValue(ID_ATTR_NAME);
         if (StringUtils.isEmpty(id)) {
             LOGGER.error("Missing reference id, plugin={}", plugin.getId());
-            return;
+            return null;
         }
 
         Action action = getAction(id);
         if (action == null) {
             LOGGER.error("Not found reference action, id={}, plugin={}", id, plugin.getId());
+            return null;
+        }
+
+        return action;
+    }
+
+    private void processAddToGroupElement(Plugin plugin, Element element, Action action) {
+        String groupId = element.attributeValue(GROUP_ID_ATTR_NAME);
+        if (StringUtils.isEmpty(groupId)) {
+            LOGGER.error("Missing add-to-group group-id, action={}, plugin={}", getActionId(action), plugin.getId());
+            return;
+        }
+        ActionGroup group = getParentGroup(plugin, action, groupId);
+        if (group == null) {
             return;
         }
 
-        if (parent != null) {
-            parent.addChild(action);
+        String anchor = element.attributeValue(ANCHOR_ATTR_NAME);
+        if (anchor == null || "last".equalsIgnoreCase(anchor)) {
+            group.addLast(action);
+        } else if ("first".equalsIgnoreCase(anchor)) {
+            group.addFirst(action);
+        } else if (StringUtils.startsWithIgnoreCase(anchor, "before")) {
+            int index = anchor.indexOf(' ');
+            if (index == -1) {
+                LOGGER.error("Missing anchor relative action id, action={}, plugin={}", getActionId(action), plugin.getId());
+                return;
+            }
+            String anchorActionId = anchor.substring(index + 1);
+            Action anchorAction = getAction(anchorActionId);
+            if (anchorAction == null) {
+                LOGGER.error("Not found anchor relative action, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
+                return;
+            }
+            group.addChild(action, true, anchorAction);
+        } else if (StringUtils.startsWithIgnoreCase(anchor, "after")) {
+            int index = anchor.indexOf(' ');
+            if (index == -1) {
+                LOGGER.error("Missing anchor relative action id, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
+                return;
+            }
+            String anchorActionId = anchor.substring(index + 1);
+            Action anchorAction = getAction(anchorActionId);
+            if (anchorAction == null) {
+                LOGGER.error("Not found anchor relative action, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
+                return;
+            }
+            group.addChild(action, false, anchorAction);
         }
+    }
+
+    private ActionGroup getParentGroup(Plugin plugin, Action action, String groupId) {
+        Action group = getAction(groupId);
+        if (group == null) {
+            LOGGER.error("Not found action group, id={}, action={}, plugin={}", groupId, getActionId(action), plugin.getId());
+            return null;
+        }
+        if (!(group instanceof ActionGroup)) {
+            LOGGER.error("Group is not instance of ActionGroup, id={}, action={}, plugin={}", groupId, getActionId(action), plugin.getId());
+            return null;
+        }
+        return (ActionGroup) group;
     }
 
     private void processAttribute(Plugin plugin, Element element, String id, Action action) {
@@ -208,12 +290,10 @@ public final class ActionManagerImpl implements ActionManager {
         if (description != null) action.setDescription(description);
     }
 
-    private boolean registerAction(Plugin plugin, String id, Action action) {
+    private void registerAction(Plugin plugin, String id, Action action) {
         if (actions.putIfAbsent(id, action) != null) {
             LOGGER.error("Action has been registered, id={}, plugin={}", id, plugin.getId());
-            return false;
         }
-        return true;
     }
 
     private String localize(Element element, String id, String attrName) {
