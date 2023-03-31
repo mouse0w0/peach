@@ -19,18 +19,18 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.identifier"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%itemGroup.identifier"/>
                 <TextField fx:id="identifier" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.displayName"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%itemGroup.displayName"
                       GridPane.rowIndex="1"/>
                 <TextField fx:id="displayName" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1"
                            GridPane.rowIndex="1"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.hasSearchBar"
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%itemGroup.hasSearchBar"
                       GridPane.rowIndex="2"/>
                 <RadioButton fx:id="hasSearchBar" mnemonicParsing="false" GridPane.columnIndex="1"
                              GridPane.rowIndex="2"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.background" GridPane.rowIndex="3"/>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.itemGroup.icon" GridPane.rowIndex="4"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%itemGroup.background" GridPane.rowIndex="3"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%itemGroup.icon" GridPane.rowIndex="4"/>
             </children>
         </GridPane>
     </children>

@@ -16,7 +16,7 @@
                 <RowConstraints vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%wizard.smeltingRecipe.xp"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%smeltingRecipe.xp"/>
                 <AnchorPane fx:id="recipeView" maxHeight="312.0" maxWidth="560.0" minHeight="312.0" minWidth="560.0"
                             prefHeight="312.0" prefWidth="560.0" styleClass="minecraft-style" GridPane.columnSpan="2"
                             GridPane.rowIndex="1"/>

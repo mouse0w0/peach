@@ -52,7 +52,7 @@ public class NewElementDialog extends BorderPane {
 
         Validator.error(name,
                 FileUtils::validateFileNameWithoutExtension,
-                AppL10n.localize("validate.illegalFileName"));
+                AppL10n.localize("validate.invalidFileName"));
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP -> {

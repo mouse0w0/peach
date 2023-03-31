@@ -41,7 +41,7 @@ public class LowercaseRenameDialog<T> extends RenameDialog<T> {
         if (buttonType == null || buttonType.getButtonData().isCancelButton()) {
             super.setResultAndClose(buttonType, close);
         } else if (StringUtils.hasUpperCase(getNewName())) {
-            showMessage(AppL10n.localize("dialog.rename.error.uppercaseFileName"));
+            showMessage(AppL10n.localize("dialog.rename.error.lowercaseFileName"));
         } else {
             super.setResultAndClose(buttonType, close);
         }

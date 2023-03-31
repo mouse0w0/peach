@@ -46,7 +46,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
     protected Node getContent() {
         FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml", AppL10n.getResourceBundle());
 
-        Validator.error(identifier, ModUtils::validateIdentifier, AppL10n.localize("validate.illegalIdentifier"));
+        Validator.error(identifier, ModUtils::validateIdentifier, AppL10n.localize("validate.invalidIdentifier"));
 
         group.setEditable(true);
 
