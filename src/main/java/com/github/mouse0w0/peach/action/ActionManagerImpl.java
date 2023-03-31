@@ -285,9 +285,9 @@ public final class ActionManagerImpl implements ActionManager {
 
     private void processAttribute(Plugin plugin, Element element, String id, Action action) {
         L10n l10n = L10n.get(plugin.getId());
-        String text = localize(l10n, element, id, TEXT_ATTR_NAME);
+        String text = l10n.localize(element.getName() + "." + id + "." + TEXT_ATTR_NAME);
         if (text != null) action.setText(text);
-        String description = localize(l10n, element, id, DESCRIPTION_ATTR_NAME);
+        String description = l10n.localizeOrNull(element.getName() + "." + id + "." + DESCRIPTION_ATTR_NAME);
         if (description != null) action.setDescription(description);
         String icon = element.attributeValue(ICON_ATTR_NAME);
         if (icon != null) action.setIcon(icon);
@@ -297,9 +297,5 @@ public final class ActionManagerImpl implements ActionManager {
         if (actions.putIfAbsent(id, action) != null) {
             LOGGER.error("Action has been registered, id={}, plugin={}", id, plugin.getId());
         }
-    }
-
-    private String localize(L10n l10n, Element element, String id, String attributeName) {
-        return l10n.localize(element.getName() + "." + id + "." + attributeName, element.attributeValue(attributeName));
     }
 }
