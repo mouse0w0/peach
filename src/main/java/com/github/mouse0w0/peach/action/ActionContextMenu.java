@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.action;
 import javafx.event.Event;
 import javafx.scene.control.ContextMenu;
 
-public class ActionContextMenu extends ContextMenu {
+public class ActionContextMenu extends ContextMenu implements ActionControl {
     private final ActionGroup group;
 
     ActionContextMenu(ActionGroup group) {
@@ -12,7 +12,8 @@ public class ActionContextMenu extends ContextMenu {
         Utils.fillMenu(group, getItems());
     }
 
-    public ActionGroup getGroup() {
+    @Override
+    public ActionGroup getAction() {
         return group;
     }
 

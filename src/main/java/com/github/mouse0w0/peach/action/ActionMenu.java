@@ -9,7 +9,7 @@ import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
-public class ActionMenu extends Menu {
+public class ActionMenu extends Menu implements ActionControl {
     private final ActionGroup group;
     private final PropertyChangeListener listener;
 
@@ -36,7 +36,8 @@ public class ActionMenu extends Menu {
         }
     }
 
-    public ActionGroup getGroup() {
+    @Override
+    public ActionGroup getAction() {
         return group;
     }
 

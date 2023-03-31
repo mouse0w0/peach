@@ -98,16 +98,19 @@ class ProjectRootPane extends BorderPane {
         public void handle(MouseEvent event) {
             Node node = (Node) event.getTarget();
             MenuItem menuItem = (MenuItem) node.getProperties().get(MenuItem.class);
-            Action action = ((ActionMenuItem) menuItem).getAction();
-            StatusBarInfo statusBarInfo = StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject());
-            statusBarInfo.setText(action.getDescription());
+            if (menuItem instanceof ActionControl) {
+                Action action = ((ActionControl) menuItem).getAction();
+                StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText(action.getDescription());
+            } else {
+                StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText(null);
+            }
         }
     };
 
     private static final EventHandler<? super MouseEvent> ON_MOUSE_EXITED = new EventHandler<>() {
         @Override
         public void handle(MouseEvent event) {
-            StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText("");
+            StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText(null);
         }
     };
 
