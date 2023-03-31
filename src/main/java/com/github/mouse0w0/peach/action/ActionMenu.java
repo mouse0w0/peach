@@ -18,7 +18,6 @@ public class ActionMenu extends Menu {
     ActionMenu(ActionGroup group) {
         this.group = group;
 
-        getProperties().put(Action.class, group);
         setOnShowing(this::update);
 
         setText(group.getText());
@@ -28,7 +27,6 @@ public class ActionMenu extends Menu {
 
         this.listener = this::onPropertyChanged;
         group.addListener(new WeakPropertyChangeListener(listener));
-
 
         // Fix JavaFX don't show empty menu.
         if (group.getChildren().isEmpty()) {

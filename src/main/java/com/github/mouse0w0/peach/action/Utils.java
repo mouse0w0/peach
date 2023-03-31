@@ -12,7 +12,7 @@ class Utils {
             if (action instanceof ActionGroup) {
                 items.add(new ActionMenu((ActionGroup) action));
             } else if (action instanceof Separator) {
-                items.add(new ActionSeparator(action));
+                items.add(new ActionSeparator((Separator) action));
             } else {
                 items.add(new ActionMenuItem(action));
             }

@@ -8,7 +8,6 @@ public class ActionContextMenu extends ContextMenu {
 
     ActionContextMenu(ActionGroup group) {
         this.group = group;
-        getProperties().put(Action.class, group);
         setOnShowing(this::update);
         Utils.fillMenu(group, getItems());
     }

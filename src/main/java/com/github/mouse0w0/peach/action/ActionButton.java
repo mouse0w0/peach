@@ -14,8 +14,6 @@ public class ActionButton extends Button {
     ActionButton(Action action) {
         this.action = action;
 
-        getProperties().put(Action.class, action);
-
         setText(action.getText());
         setIcon(action.getIcon());
         setDisable(action.isDisable());
