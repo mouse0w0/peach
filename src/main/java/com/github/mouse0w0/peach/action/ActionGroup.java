@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class ActionGroup extends Action {
-
     private final List<Action> children = new ArrayList<>();
     private final List<Action> unmodifiableChildren = Collections.unmodifiableList(children);
 

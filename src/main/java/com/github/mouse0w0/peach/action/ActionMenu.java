@@ -1,31 +1,34 @@
 package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.icon.IconManager;
-import com.github.mouse0w0.peach.util.Validate;
-import javafx.beans.InvalidationListener;
-import javafx.beans.WeakInvalidationListener;
+import com.github.mouse0w0.peach.util.StringUtils;
+import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
+import com.github.mouse0w0.peach.util.property.PropertyObservable;
+import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
 import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
 public class ActionMenu extends Menu {
     private final ActionGroup group;
-
-    private final InvalidationListener iconListener = observable -> updateIcon();
+    private final PropertyChangeListener listener;
 
     private boolean initialized;
 
-    public ActionMenu(ActionGroup group) {
-        this.group = Validate.notNull(group);
+    ActionMenu(ActionGroup group) {
+        this.group = group;
 
         getProperties().put(Action.class, group);
         setOnShowing(this::update);
 
-        textProperty().bind(group.textProperty());
-        group.iconProperty().addListener(new WeakInvalidationListener(iconListener));
-        updateIcon();
-        disableProperty().bind(group.disableProperty());
-        visibleProperty().bind(group.visibleProperty());
+        setText(group.getText());
+        setIcon(group.getIcon());
+        setDisable(group.isDisable());
+        setVisible(group.isVisible());
+
+        this.listener = this::onPropertyChanged;
+        group.addListener(new WeakPropertyChangeListener(listener));
+
 
         // Fix JavaFX don't show empty menu.
         if (group.getChildren().isEmpty()) {
@@ -57,12 +60,20 @@ public class ActionMenu extends Menu {
         Utils.updateSeparatorVisibility(getItems());
     }
 
-    private void updateIcon() {
-        String icon = group.getIcon();
-        if (icon == null || icon.isEmpty()) {
+    private void onPropertyChanged(PropertyObservable property, String propertyName, Object oldValue, Object newValue) {
+        switch (propertyName) {
+            case Action.TEXT_PROP -> setText((String) newValue);
+            case Action.ICON_PROP -> setIcon((String) newValue);
+            case Action.DISABLE_PROP -> setDisable((boolean) newValue);
+            case Action.VISIBLE_PROP -> setVisible((boolean) newValue);
+        }
+    }
+
+    private void setIcon(String value) {
+        if (StringUtils.isEmpty(value)) {
             setGraphic(null);
         } else {
-            setGraphic(IconManager.getInstance().createNode(icon));
+            setGraphic(IconManager.getInstance().createNode(value));
         }
     }
 }

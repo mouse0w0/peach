@@ -5,13 +5,13 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
 import com.github.mouse0w0.peach.util.property.PropertyObservable;
 import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.Button;
 
-public class ActionMenuItem extends MenuItem {
+public class ActionButton extends Button {
     private final Action action;
     private final PropertyChangeListener listener;
 
-    ActionMenuItem(Action action) {
+    ActionButton(Action action) {
         this.action = action;
 
         getProperties().put(Action.class, action);

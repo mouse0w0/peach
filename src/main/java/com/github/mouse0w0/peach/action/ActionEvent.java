@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ActionEvent implements DataContext {
-
     private final Event event;
     private final DataContext dataContext;
 

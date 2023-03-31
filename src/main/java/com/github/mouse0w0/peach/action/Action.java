@@ -1,90 +1,83 @@
 package com.github.mouse0w0.peach.action;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
+import com.github.mouse0w0.peach.util.property.PropertyListenerHelper;
+import com.github.mouse0w0.peach.util.property.PropertyObservable;
+import org.jetbrains.annotations.NotNull;
 
-public abstract class Action {
-    private StringProperty text;
-    private StringProperty icon;
-    private StringProperty description;
-    private BooleanProperty disable;
-    private BooleanProperty visible;
+public abstract class Action implements PropertyObservable {
+    public static final String TEXT_PROP = "text";
+    public static final String DESCRIPTION_PROP = "description";
+    public static final String ICON_PROP = "icon";
+    public static final String DISABLE_PROP = "disable";
+    public static final String VISIBLE_PROP = "visible";
 
-    public final StringProperty textProperty() {
-        if (text == null) {
-            text = new SimpleStringProperty(this, "text");
-        }
-        return text;
+    private PropertyListenerHelper helper;
+
+    private String text;
+    private String icon;
+    private String description;
+    private boolean disable = false;
+    private boolean visible = true;
+
+    @Override
+    public final void addListener(@NotNull PropertyChangeListener listener) {
+        helper = PropertyListenerHelper.addListener(helper, this, listener);
+    }
+
+    @Override
+    public final void removeListener(@NotNull PropertyChangeListener listener) {
+        helper = PropertyListenerHelper.removeListener(helper, listener);
     }
 
     public final String getText() {
-        return text != null ? text.get() : null;
+        return text;
     }
 
-    public final void setText(String text) {
-        textProperty().set(text);
-    }
-
-    public final StringProperty iconProperty() {
-        if (icon == null) {
-            icon = new SimpleStringProperty(this, "icon");
-        }
-        return icon;
-    }
-
-    public final String getIcon() {
-        return icon != null ? icon.get() : null;
-    }
-
-    public final void setIcon(String icon) {
-        iconProperty().set(icon);
-    }
-
-    public final StringProperty descriptionProperty() {
-        if (description == null) {
-            description = new SimpleStringProperty(this, "description");
-        }
-        return description;
+    public final void setText(String value) {
+        String oldValue = this.text;
+        this.text = value;
+        PropertyListenerHelper.firePropertyChange(helper, TEXT_PROP, oldValue, value);
     }
 
     public final String getDescription() {
-        return description != null ? description.get() : null;
+        return description;
     }
 
-    public final void setDescription(String description) {
-        descriptionProperty().set(description);
+    public final void setDescription(String value) {
+        String oldValue = this.description;
+        this.description = value;
+        PropertyListenerHelper.firePropertyChange(helper, DESCRIPTION_PROP, oldValue, value);
     }
 
-    public final BooleanProperty disableProperty() {
-        if (disable == null) {
-            disable = new SimpleBooleanProperty(this, "disable", false);
-        }
-        return disable;
+    public final String getIcon() {
+        return icon;
+    }
+
+    public final void setIcon(String value) {
+        String oldValue = this.icon;
+        this.icon = value;
+        PropertyListenerHelper.firePropertyChange(helper, ICON_PROP, oldValue, value);
     }
 
     public final boolean isDisable() {
-        return disable != null && disable.get();
+        return disable;
     }
 
-    public final void setDisable(boolean disable) {
-        disableProperty().set(disable);
-    }
-
-    public final BooleanProperty visibleProperty() {
-        if (visible == null) {
-            visible = new SimpleBooleanProperty(this, "visible", true);
-        }
-        return visible;
+    public final void setDisable(boolean value) {
+        boolean oldValue = this.disable;
+        this.disable = value;
+        PropertyListenerHelper.firePropertyChange(helper, DISABLE_PROP, oldValue, value);
     }
 
     public final boolean isVisible() {
-        return visible == null || visible.get();
+        return visible;
     }
 
-    public final void setVisible(boolean visible) {
-        visibleProperty().set(visible);
+    public final void setVisible(boolean value) {
+        boolean oldValue = this.visible;
+        this.visible = value;
+        PropertyListenerHelper.firePropertyChange(helper, VISIBLE_PROP, oldValue, value);
     }
 
     public abstract void perform(ActionEvent event);

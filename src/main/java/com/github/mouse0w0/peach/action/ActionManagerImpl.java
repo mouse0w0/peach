@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.action;
 
-import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.L10n;
 import com.github.mouse0w0.peach.plugin.ActionDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
@@ -58,11 +57,13 @@ public final class ActionManagerImpl implements ActionManager {
 
     @Override
     public Menu createMenu(@NotNull ActionGroup group) {
+        Validate.notNull(group);
         return new ActionMenu(group);
     }
 
     @Override
     public ContextMenu createContextMenu(@NotNull ActionGroup group) {
+        Validate.notNull(group);
         return new ActionContextMenu(group);
     }
 
@@ -72,12 +73,7 @@ public final class ActionManagerImpl implements ActionManager {
         if (action instanceof ActionGroup || action instanceof Separator) {
             throw new IllegalArgumentException("The action cannot be ActionGroup and Separator");
         }
-
-        Button button = new Button();
-        button.setText(action.getText());
-        button.setGraphic(IconManager.getInstance().createNode(action.getIcon()));
-        button.setOnAction(event -> action.perform(new ActionEvent(event)));
-        return button;
+        return new ActionButton(action);
     }
 
     private void loadActions() {

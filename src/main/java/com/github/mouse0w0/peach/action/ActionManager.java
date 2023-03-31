@@ -8,7 +8,6 @@ import javafx.scene.control.Menu;
 import org.jetbrains.annotations.NotNull;
 
 public interface ActionManager {
-
     static ActionManager getInstance() {
         return Peach.getInstance().getService(ActionManager.class);
     }
