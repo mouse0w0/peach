@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,7 +16,7 @@ public class Alert extends Dialog<ButtonType> {
     }
 
     public static boolean confirm(String title, String text) {
-        Alert alert = new Alert(title != null ? title : I18n.translate("dialog.confirm.title"),
+        Alert alert = new Alert(title != null ? title : AppL10n.localize("dialog.confirm.title"),
                 text, ButtonType.OK, ButtonType.CANCEL);
         return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
     }
@@ -26,7 +26,7 @@ public class Alert extends Dialog<ButtonType> {
     }
 
     public static void warning(String title, String text) {
-        new Alert(title != null ? title : I18n.translate("dialog.warning.title"), text, ButtonType.OK).show();
+        new Alert(title != null ? title : AppL10n.localize("dialog.warning.title"), text, ButtonType.OK).show();
     }
 
     public static void error(String text) {
@@ -34,7 +34,7 @@ public class Alert extends Dialog<ButtonType> {
     }
 
     public static void error(String title, String text) {
-        new Alert(title != null ? title : I18n.translate("dialog.error.title"), text, ButtonType.OK).show();
+        new Alert(title != null ? title : AppL10n.localize("dialog.error.title"), text, ButtonType.OK).show();
     }
 
     public Alert(String title, String text, ButtonType... buttonTypes) {

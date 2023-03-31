@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.google.common.base.CaseFormat;
 
 public enum OffsetType implements Localizable {
@@ -16,6 +16,6 @@ public enum OffsetType implements Localizable {
 
     @Override
     public String getLocalizedText() {
-        return I18n.translate(translationKey);
+        return AppL10n.localize(translationKey);
     }
 }

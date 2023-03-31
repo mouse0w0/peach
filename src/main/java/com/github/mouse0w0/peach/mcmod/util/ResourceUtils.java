@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.LowercaseRenameDialog;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -53,8 +53,8 @@ public class ResourceUtils {
                 target = LowercaseRenameDialog.create(target, fileName.toLowerCase()).showAndWait().orElse(null);
                 if (target == null) return null;
             } else if (Files.exists(target)) {
-                ButtonType buttonType = new PasteDialog(I18n.translate("dialog.paste.title"),
-                        I18n.format("dialog.paste.error.existsSameFile",
+                ButtonType buttonType = new PasteDialog(AppL10n.localize("dialog.paste.title"),
+                        AppL10n.localize("dialog.paste.error.existsSameFile",
                                 FileUtils.getFileName(target.getParent()), FileUtils.getFileName(target)),
                         false).showAndWait().orElse(PasteDialog.SKIP);
                 if (buttonType == PasteDialog.OVERWRITE) {

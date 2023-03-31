@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
@@ -10,6 +9,7 @@ import com.github.mouse0w0.peach.form.field.ChoiceBoxField;
 import com.github.mouse0w0.peach.form.field.TextFieldField;
 import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -50,34 +50,34 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         form = new Form();
 
         name = new TextFieldField();
-        name.setText(I18n.translate("metadata.general.name"));
+        name.setText(AppL10n.localize("metadata.general.name"));
         name.setColSpan(ColSpan.HALF);
         name.setValue(metadata.getName());
 
         id = new TextFieldField();
-        id.setText(I18n.translate("metadata.general.id"));
+        id.setText(AppL10n.localize("metadata.general.id"));
         id.setColSpan(ColSpan.HALF);
-        id.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalModId")));
+        id.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, AppL10n.localize("validate.illegalModId")));
         id.setValue(metadata.getId());
 
         version = new TextFieldField();
-        version.setText(I18n.translate("metadata.general.version"));
+        version.setText(AppL10n.localize("metadata.general.version"));
         version.setColSpan(ColSpan.HALF);
         version.setValue(metadata.getVersion());
 
         author = new TextFieldField();
-        author.setText(I18n.translate("metadata.general.author"));
+        author.setText(AppL10n.localize("metadata.general.author"));
         author.setColSpan(ColSpan.HALF);
         author.setValue(metadata.getFirstAuthor());
 
         mcVersion = new ChoiceBoxField<>();
-        mcVersion.setText(I18n.translate("metadata.general.mcVersion"));
+        mcVersion.setText(AppL10n.localize("metadata.general.mcVersion"));
         mcVersion.setColSpan(ColSpan.HALF);
         mcVersion.getItems().add("1.12.2");
         mcVersion.setValue(metadata.getMcVersion());
 
         language = new ChoiceBoxField<>();
-        language.setText(I18n.translate("metadata.general.language"));
+        language.setText(AppL10n.localize("metadata.general.language"));
         language.setColSpan(ColSpan.HALF);
         language.setConverter(new StringConverter<>() {
             @Override
@@ -94,11 +94,11 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         language.setValue(metadata.getLanguage());
 
         description = new TextFieldField();
-        description.setText(I18n.translate("metadata.general.description"));
+        description.setText(AppL10n.localize("metadata.general.description"));
         description.setValue(metadata.getDescription());
 
         Section general = new Section();
-        general.setText(I18n.translate("metadata.general.title"));
+        general.setText(AppL10n.localize("metadata.general.title"));
         general.getElements().addAll(
                 name, id,
                 version, author,
@@ -106,19 +106,19 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
                 description);
 
         url = new TextFieldField();
-        url.setText(I18n.translate("metadata.advanced.url"));
+        url.setText(AppL10n.localize("metadata.advanced.url"));
         url.setValue(metadata.getUrl());
 
         updateUrl = new TextFieldField();
-        updateUrl.setText(I18n.translate("metadata.advanced.updateUrl"));
+        updateUrl.setText(AppL10n.localize("metadata.advanced.updateUrl"));
         updateUrl.setValue(metadata.getUpdateUrl());
 
         credits = new TextFieldField();
-        credits.setText(I18n.translate("metadata.advanced.credits"));
+        credits.setText(AppL10n.localize("metadata.advanced.credits"));
         credits.setValue(metadata.getCredits());
 
         Section advanced = new Section();
-        advanced.setText(I18n.translate("metadata.advanced.title"));
+        advanced.setText(AppL10n.localize("metadata.advanced.title"));
         advanced.getElements().addAll(url, updateUrl, credits);
 
         form.getGroups().addAll(general, advanced);

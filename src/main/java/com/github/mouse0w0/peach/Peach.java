@@ -1,8 +1,5 @@
 package com.github.mouse0w0.peach;
 
-import com.github.mouse0w0.i18n.I18n;
-import com.github.mouse0w0.i18n.Translator;
-import com.github.mouse0w0.i18n.source.ClasspathFileTranslationSource;
 import com.github.mouse0w0.peach.application.AppLifecycleListener;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.extension.Extensions;
@@ -28,7 +25,6 @@ import java.lang.management.RuntimeMXBean;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Locale;
 
 import static org.apache.commons.lang3.SystemUtils.*;
 
@@ -48,7 +44,6 @@ public final class Peach extends ServiceManagerImpl {
         LOGGER.info("Launching application.");
         initUncaughtExceptionHandler();
         printSystemInfo();
-        initTranslator();
         LOGGER.info("Loading plugins.");
         PluginManagerCore.loadPlugins();
         LOGGER.info("Loading extensions.");
@@ -77,13 +72,6 @@ public final class Peach extends ServiceManagerImpl {
         List<String> jvmFlags = runtimeMXBean.getInputArguments();
         LOGGER.info("JVM Flags ({} totals): {}", jvmFlags.size(), StringUtils.join(jvmFlags, ' '));
         LOGGER.info("------------------------------");
-    }
-
-    private static void initTranslator() {
-        I18n.setTranslator(Translator.builder()
-                .locale(Locale.getDefault())
-                .source(new ClasspathFileTranslationSource("lang"))
-                .build());
     }
 
     private Peach() {

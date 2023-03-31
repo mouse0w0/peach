@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.wizard;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -31,13 +31,13 @@ public abstract class Wizard {
         content.setPadding(new Insets(8));
         content.getStyleClass().add("wizard");
 
-        previous = new Button(I18n.translate("wizard.previous"));
+        previous = new Button(AppL10n.localize("wizard.previous"));
         previous.getStyleClass().add("previous");
         previous.setOnAction(event -> onPrevious());
-        next = new Button(I18n.translate("wizard.next"));
+        next = new Button(AppL10n.localize("wizard.next"));
         next.setDefaultButton(true);
         next.setOnAction(event -> onNext());
-        cancel = new Button(I18n.translate("wizard.cancel"));
+        cancel = new Button(AppL10n.localize("wizard.cancel"));
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> onCancel());
 
@@ -123,7 +123,7 @@ public abstract class Wizard {
         getPreviousButton().setVisible(getStepCount() != 1);
         getPreviousButton().setDisable(isFirstStep());
 
-        getNextButton().setText(isLastStep() ? I18n.translate("wizard.finish") : I18n.translate("wizard.next"));
+        getNextButton().setText(isLastStep() ? AppL10n.localize("wizard.finish") : AppL10n.localize("wizard.next"));
     }
 
     public boolean isCancelled() {

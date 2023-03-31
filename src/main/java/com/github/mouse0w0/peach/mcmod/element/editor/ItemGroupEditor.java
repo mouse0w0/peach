@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -52,7 +53,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
 
     @Override
     protected Node getContent() {
-        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml");
+        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml", AppL10n.getResourceBundle());
 
         background = new FilePicker();
         background.getExtensionFilters().add(ExtensionFilters.PNG);

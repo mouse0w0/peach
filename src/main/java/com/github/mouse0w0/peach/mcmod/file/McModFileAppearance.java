@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.file;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.icon.Icons;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
@@ -49,20 +49,20 @@ public class McModFileAppearance implements FileAppearance {
             final Path relativePath = project.getPath().relativize(file);
             for (Path path : localizablePathMap.keySet()) {
                 if (relativePath.equals(path)) {
-                    cell.setText(I18n.translate(localizablePathMap.get(path), fileName));
+                    cell.setText(AppL10n.localize(localizablePathMap.get(path), fileName));
                     cell.setIcon(Icons.File.Folder);
                     return true;
                 }
             }
         } else {
             if (McModMetadata.FILE_NAME.equals(fileName)) {
-                cell.setText(I18n.translate("mod.file.metadata"));
+                cell.setText(AppL10n.localize("mod.file.metadata"));
                 cell.setIcon(Icons.File.Forge);
                 return true;
             } else {
                 ElementProvider<?> provider = ElementRegistry.getInstance().getElementProvider(file);
                 if (provider != null) {
-                    cell.setText(StringUtils.substringBefore(fileName, '.') + " (" + I18n.translate(provider.getTranslationKey()) + ")");
+                    cell.setText(StringUtils.substringBefore(fileName, '.') + " (" + AppL10n.localize(provider.getTranslationKey()) + ")");
                     cell.setIcon(Icons.File.ModElement);
                     return true;
                 }

@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.dialog;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.Validator;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
@@ -37,7 +37,7 @@ public class NewElementDialog extends BorderPane {
     public static void show(Project project, Path path, Window window) {
         Stage stage = new Stage();
         stage.setScene(new Scene(new NewElementDialog(project, path)));
-        stage.setTitle(I18n.translate("dialog.newElement.title"));
+        stage.setTitle(AppL10n.localize("dialog.newElement.title"));
         stage.initOwner(window);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
@@ -46,13 +46,13 @@ public class NewElementDialog extends BorderPane {
     public NewElementDialog(Project project, Path path) {
         this.project = project;
         this.path = path;
-        FXUtils.loadFXML(this, "ui/mcmod/NewElement.fxml");
+        FXUtils.loadFXML(this, "ui/mcmod/NewElement.fxml", AppL10n.getResourceBundle());
 
         getStylesheets().add("/style/style.css");
 
         Validator.error(name,
                 FileUtils::validateFileNameWithoutExtension,
-                I18n.translate("validate.illegalFileName"));
+                AppL10n.localize("validate.illegalFileName"));
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP -> {
@@ -71,7 +71,7 @@ public class NewElementDialog extends BorderPane {
         type.setConverter(new StringConverter<>() {
             @Override
             public String toString(ElementProvider<?> object) {
-                return I18n.translate(object.getTranslationKey());
+                return AppL10n.localize(object.getTranslationKey());
             }
 
             @Override

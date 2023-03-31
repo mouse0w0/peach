@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.fileEditor;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Validate;
 import javafx.geometry.Pos;
@@ -92,13 +92,13 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
 
         root.setCenter(getContent());
 
-        finish = new Button(I18n.translate("dialog.button.finish"));
+        finish = new Button(AppL10n.localize("dialog.button.finish"));
         finish.setDefaultButton(true);
         finish.setOnAction(event -> finish());
-        cancel = new Button(I18n.translate("dialog.button.cancel"));
+        cancel = new Button(AppL10n.localize("dialog.button.cancel"));
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> cancel());
-        apply = new Button(I18n.translate("dialog.button.apply"));
+        apply = new Button(AppL10n.localize("dialog.button.apply"));
         apply.getStyleClass().add("apply");
         apply.setOnAction(event -> apply());
 

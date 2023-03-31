@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.popup;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.javafx.Spinners;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ToolType;
 import javafx.beans.InvalidationListener;
@@ -54,11 +54,11 @@ public class ToolAttributePopup extends PopOver {
             }
         });
         type.getItems().addAll(ToolType.getToolTypes());
-        grid.addRow(0, new Text(I18n.translate("toolAttribute.type")), type);
+        grid.addRow(0, new Text(AppL10n.localize("toolAttribute.type")), type);
 
         level = Spinners.create(0, Integer.MAX_VALUE, 0);
         level.setPrefWidth(150);
-        grid.addRow(1, new Text(I18n.translate("toolAttribute.level")), level);
+        grid.addRow(1, new Text(AppL10n.localize("toolAttribute.level")), level);
 
         setOnHiding(event -> cell.commitEdit(new ToolAttribute(type.getValue(), level.getValue())));
     }

@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.mcmod.element;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -119,7 +119,7 @@ public final class ElementManager extends IndexProvider {
         Path file = path.resolve(name + "." + provider.getName() + ".json");
 
         if (Files.exists(file)) {
-            Alert.error(I18n.format("validate.existsFile", file.getFileName()));
+            Alert.error(AppL10n.localize("validate.existsFile", file.getFileName()));
             return;
         }
 

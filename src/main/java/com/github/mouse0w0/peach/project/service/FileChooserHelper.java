@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.project.service;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.util.Validate;
@@ -40,7 +40,7 @@ public class FileChooserHelper implements PersistentService {
     public void register(FilePicker filePicker, String id) {
         filePicker.valueProperty().addListener(textInvalidationListener);
         filePicker.getProperties().put(FILE_CHOOSER_ID, id);
-        filePicker.setTitle(I18n.translate("fileChooser." + id + ".title"));
+        filePicker.setTitle(AppL10n.localize("fileChooser." + id + ".title"));
         File initialDirectory = lastInitialDirectories.get(id);
         if (initialDirectory != null) {
             filePicker.setInitialDirectory(initialDirectory);
@@ -92,7 +92,7 @@ public class FileChooserHelper implements PersistentService {
 
     private FileChooser createFileChooser(String id, File initialDirectory, FileChooser.ExtensionFilter[] filters) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(I18n.translate("fileChooser." + id + ".title"));
+        fileChooser.setTitle(AppL10n.localize("fileChooser." + id + ".title"));
         File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);
         if (realInitialDirectory != null && realInitialDirectory.exists()) {
             fileChooser.setInitialDirectory(realInitialDirectory);
@@ -104,7 +104,7 @@ public class FileChooserHelper implements PersistentService {
     public File openDirectory(Window owner, String id, File initialDirectory) {
         Validate.notNull(id);
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(I18n.translate("fileChooser." + id + ".title"));
+        directoryChooser.setTitle(AppL10n.localize("fileChooser." + id + ".title"));
         File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);
         if (realInitialDirectory != null && realInitialDirectory.exists()) {
             directoryChooser.setInitialDirectory(realInitialDirectory);

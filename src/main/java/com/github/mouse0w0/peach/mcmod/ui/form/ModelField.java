@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
@@ -8,6 +7,7 @@ import com.github.mouse0w0.peach.form.Element;
 import com.github.mouse0w0.peach.javafx.binding.BidirectionalValueBinding;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
@@ -181,7 +181,7 @@ public class ModelField extends Element {
         comboBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(Identifier object) {
-                return I18n.translate("model." + object.getNamespace() + "." + object.getName());
+                return AppL10n.localize("model." + object.getNamespace() + "." + object.getName());
             }
 
             @Override

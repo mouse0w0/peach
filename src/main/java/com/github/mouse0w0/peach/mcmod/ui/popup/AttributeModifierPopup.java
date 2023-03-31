@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.popup;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.javafx.Spinners;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
@@ -56,17 +56,17 @@ public class AttributeModifierPopup extends PopOver {
                 throw new UnsupportedOperationException();
             }
         });
-        grid.addRow(0, new Text(I18n.translate("attributeModifier.attribute")), attribute);
+        grid.addRow(0, new Text(AppL10n.localize("attributeModifier.attribute")), attribute);
 
         operation = new ChoiceBox<>();
         operation.setPrefWidth(150);
         operation.getItems().addAll(AttributeModifier.Operation.values());
         operation.setConverter(LocalizableConverter.instance());
-        grid.addRow(1, new Text(I18n.translate("attributeModifier.operation")), operation);
+        grid.addRow(1, new Text(AppL10n.localize("attributeModifier.operation")), operation);
 
         amount = Spinners.create(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
         amount.setPrefWidth(150);
-        grid.addRow(2, new Text(I18n.translate("attributeModifier.amount")), amount);
+        grid.addRow(2, new Text(AppL10n.localize("attributeModifier.amount")), amount);
 
         setOnHiding(event -> cell.commitEdit(new AttributeModifier(attribute.getValue(), amount.getValue(), operation.getValue())));
     }

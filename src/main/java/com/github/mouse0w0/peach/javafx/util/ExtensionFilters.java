@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.javafx.util;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public interface ExtensionFilters {
@@ -11,6 +11,6 @@ public interface ExtensionFilters {
     ExtensionFilter JAR = create("JAR", "*.jar");
 
     static ExtensionFilter create(final String description, final String... extensions) {
-        return new ExtensionFilter(I18n.format("file.description", description), extensions);
+        return new ExtensionFilter(AppL10n.localize("file.description", description), extensions);
     }
 }

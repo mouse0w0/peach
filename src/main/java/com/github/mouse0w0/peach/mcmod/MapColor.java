@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -13,7 +13,7 @@ public class MapColor implements LocalizableWithItemIcon {
     public static final MapColor INHERIT = new MapColor("inherit", "mapColor.inherit", ItemRef.AIR) {
         @Override
         public String getLocalizedText() {
-            return I18n.translate(getTranslationKey());
+            return AppL10n.localize(getTranslationKey());
         }
 
         @Override

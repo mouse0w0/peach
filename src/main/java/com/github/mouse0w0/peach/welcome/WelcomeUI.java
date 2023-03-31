@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.welcome;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
@@ -8,6 +7,7 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -73,7 +73,7 @@ public class WelcomeUI extends BorderPane {
         stage = new Stage();
         Scene scene = new Scene(new WelcomeUI());
         stage.setScene(scene);
-        stage.setTitle(I18n.translate("welcome.title"));
+        stage.setTitle(AppL10n.localize("welcome.title"));
         stage.getIcons().setAll(Icons.Peach_16x);
         stage.setResizable(false);
         stage.setOnHidden(event -> {
@@ -110,7 +110,7 @@ public class WelcomeUI extends BorderPane {
         setLeft(recentProjects);
 
         Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
-        newProject.setText(I18n.translate("welcome.NewProject.text"));
+        newProject.setText(AppL10n.localize("welcome.NewProject.text"));
         newProject.setGraphic(new ImageView(Icons.Action.NewProject));
         Button openProject = actionManager.createButton(actionManager.getAction("OpenProject"));
         Button donate = actionManager.createButton(actionManager.getAction("Donate"));

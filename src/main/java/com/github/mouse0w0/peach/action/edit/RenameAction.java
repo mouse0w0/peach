@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.action.edit;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.RenameDialog;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,11 +29,11 @@ public class RenameAction extends Action {
             try {
                 Files.move(path, target);
             } catch (FileAlreadyExistsException e) {
-                Alert.error(I18n.translate("dialog.rename.title"),
-                        I18n.format("dialog.rename.error.fileAlreadyExists", target));
+                Alert.error(AppL10n.localize("dialog.rename.title"),
+                        AppL10n.localize("dialog.rename.error.fileAlreadyExists", target));
             } catch (IOException e) {
                 LOGGER.error("Failed to rename file because an exception has occurred.", e);
-                Alert.error(I18n.translate("dialog.rename.title"), e.toString());
+                Alert.error(AppL10n.localize("dialog.rename.title"), e.toString());
             }
         }
     }

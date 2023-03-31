@@ -5,6 +5,7 @@
     <extensionPoints>
         <extensionPoint name="applicationService" beanClass="com.github.mouse0w0.peach.service.ServiceDescriptor"/>
         <extensionPoint name="projectService" beanClass="com.github.mouse0w0.peach.service.ServiceDescriptor"/>
+        <extensionPoint name="localization" beanClass="com.github.mouse0w0.peach.l10n.L10nEP"/>
         <extensionPoint name="view" beanClass="com.github.mouse0w0.peach.view.ViewEP"/>
         <extensionPoint name="fileAppearance" interface="com.github.mouse0w0.peach.file.FileAppearance"/>
         <extensionPoint name="fileEditorProvider" interface="com.github.mouse0w0.peach.fileEditor.FileEditorProvider"/>
@@ -19,6 +20,8 @@
                             implementation="com.github.mouse0w0.peach.action.ActionManagerImpl" preload="true"/>
         <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
                             implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.l10n.L10nManager"
+                            implementation="com.github.mouse0w0.peach.l10n.L10nManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.window.WindowManager"
                             implementation="com.github.mouse0w0.peach.window.WindowManagerImpl"/>
         <applicationListener topic="ProjectLifecycleListener"
@@ -65,6 +68,8 @@
 
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.MetadataFileEditorProvider"/>
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.ElementFileEditorProvider"/>
+
+        <localization locale="zh-CN" path="l10n/zh-CN.properties"/>
     </extensions>
 
     <actions>

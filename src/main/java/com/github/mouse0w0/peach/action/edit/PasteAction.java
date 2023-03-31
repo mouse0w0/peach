@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.action.edit;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.scene.input.Clipboard;
 
@@ -36,8 +36,8 @@ public class PasteAction extends Action {
                 fileCount++;
             } else if (Files.isDirectory(path)) {
                 if (target.startsWith(path)) {
-                    Alert.error(I18n.translate("dialog.paste.title"),
-                            I18n.translate("dialog.paste.error.tryPasteIntoSubdirectory"));
+                    Alert.error(AppL10n.localize("dialog.paste.title"),
+                            AppL10n.localize("dialog.paste.error.tryPasteIntoSubdirectory"));
                     return;
                 }
                 folderCount++;
@@ -70,8 +70,8 @@ public class PasteAction extends Action {
             }
         }
 
-        if (Alert.confirm(I18n.translate(titleKey),
-                I18n.format(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount, FileUtils.getFileName(folder)))) {
+        if (Alert.confirm(AppL10n.localize(titleKey),
+                AppL10n.localize(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount, FileUtils.getFileName(folder)))) {
             new PasteExecutor(paths, folder, move).run();
         }
     }

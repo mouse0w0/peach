@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 
 import java.util.Objects;
 
@@ -24,8 +24,7 @@ public class ToolAttribute {
     }
 
     public String toLocalizedText() {
-        String localizedType = I18n.translate("toolType." + type);
-        return I18n.format("toolAttribute.text", localizedType, level);
+        return AppL10n.localize("toolAttribute.text", AppL10n.localize("toolType." + type), level);
     }
 
     @Override

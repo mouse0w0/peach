@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
@@ -8,6 +7,7 @@ import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -82,19 +82,19 @@ public class ItemEditor extends ElementEditor<MEItem> {
         form = new Form();
 
         Section properties = new Section();
-        properties.setText(I18n.translate("item.properties.title"));
+        properties.setText(AppL10n.localize("item.properties.title"));
 
         identifier = new TextFieldField();
-        identifier.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, I18n.translate("validate.illegalIdentifier")));
-        identifier.setText(I18n.translate("item.properties.identifier"));
+        identifier.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, AppL10n.localize("validate.illegalIdentifier")));
+        identifier.setText(AppL10n.localize("item.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 
         displayName = new TextFieldField();
-        displayName.setText(I18n.translate("item.properties.displayName"));
+        displayName.setText(AppL10n.localize("item.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
         type = new ComboBoxField<>();
-        type.setText(I18n.translate("item.properties.type"));
+        type.setText(AppL10n.localize("item.properties.type"));
         type.setCellFactory(LocalizableCell.factory());
         type.setButtonCell(new LocalizableCell<>());
         type.getItems().setAll(ItemType.values());
@@ -117,14 +117,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
         });
 
         itemGroup = new ComboBoxField<>();
-        itemGroup.setText(I18n.translate("item.properties.itemGroup"));
+        itemGroup.setText(AppL10n.localize("item.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
         itemGroup.getItems().setAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new SpinnerField<>(1, 64, 64);
-        maxStackSize.setText(I18n.translate("item.properties.maxStackSize"));
+        maxStackSize.setText(AppL10n.localize("item.properties.maxStackSize"));
         maxStackSize.setColSpan(ColSpan.HALF);
         maxStackSize.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             ItemType type = this.type.getValue();
@@ -138,12 +138,12 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty()));
 
         durability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        durability.setText(I18n.translate("item.properties.durability"));
+        durability.setText(AppL10n.localize("item.properties.durability"));
         durability.setColSpan(ColSpan.HALF);
         durability.disableProperty().bind(isFood);
 
         equipmentSlot = new ChoiceBoxField<>();
-        equipmentSlot.setText(I18n.translate("item.properties.equipmentSlot"));
+        equipmentSlot.setText(AppL10n.localize("item.properties.equipmentSlot"));
         equipmentSlot.setConverter(LocalizableConverter.instance());
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
         equipmentSlot.setColSpan(ColSpan.HALF);
@@ -167,26 +167,26 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty()));
 
         toolAttributes = new ToolAttributesField();
-        toolAttributes.setText(I18n.translate("item.properties.toolAttributes"));
+        toolAttributes.setText(AppL10n.localize("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
         toolAttributes.disableProperty().bind(isArmorOrFood);
 
         destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0D);
-        destroySpeed.setText(I18n.translate("item.properties.destroySpeed"));
+        destroySpeed.setText(AppL10n.localize("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
         destroySpeed.disableProperty().bind(isArmorOrFood);
 
         canDestroyAnyBlock = new RadioButtonField();
-        canDestroyAnyBlock.setText(I18n.translate("item.properties.canDestroyAnyBlock"));
+        canDestroyAnyBlock.setText(AppL10n.localize("item.properties.canDestroyAnyBlock"));
         canDestroyAnyBlock.setColSpan(ColSpan.HALF);
         canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
 
         attackDamage = new SpinnerField<>(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
-        attackDamage.setText(I18n.translate("item.properties.attackDamage"));
+        attackDamage.setText(AppL10n.localize("item.properties.attackDamage"));
         attackDamage.setColSpan(ColSpan.HALF);
 
         attackSpeed = new SpinnerField<>(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
-        attackSpeed.setText(I18n.translate("item.properties.attackSpeed"));
+        attackSpeed.setText(AppL10n.localize("item.properties.attackSpeed"));
         attackSpeed.setColSpan(ColSpan.HALF);
         type.valueProperty().addListener(observable -> {
             ItemType type = this.type.getValue();
@@ -200,45 +200,45 @@ public class ItemEditor extends ElementEditor<MEItem> {
         });
 
         enchantability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        enchantability.setText(I18n.translate("item.properties.enchantability"));
+        enchantability.setText(AppL10n.localize("item.properties.enchantability"));
         enchantability.setColSpan(ColSpan.HALF);
         enchantability.disableProperty().bind(isFood);
 
         acceptableEnchantments = new CheckComboBoxField<>();
-        acceptableEnchantments.setText(I18n.translate("item.properties.acceptableEnchantments"));
+        acceptableEnchantments.setText(AppL10n.localize("item.properties.acceptableEnchantments"));
         acceptableEnchantments.setConverter(LocalizableConverter.instance());
         acceptableEnchantments.getItems().setAll(EnchantmentType.values());
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
         attributeModifiers = new AttributeModifiersField();
-        attributeModifiers.setText(I18n.translate("item.properties.attributeModifiers"));
+        attributeModifiers.setText(AppL10n.localize("item.properties.attributeModifiers"));
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
 
         repairItem = new ItemPickerField();
-        repairItem.setText(I18n.translate("item.properties.repairItem"));
+        repairItem.setText(AppL10n.localize("item.properties.repairItem"));
         repairItem.setFitSize(32, 32);
         repairItem.setColSpan(ColSpan.HALF);
         repairItem.disableProperty().bind(isFood);
 
         recipeRemain = new ItemPickerField();
-        recipeRemain.setText(I18n.translate("item.properties.recipeRemain"));
+        recipeRemain.setText(AppL10n.localize("item.properties.recipeRemain"));
         recipeRemain.setFitSize(32, 32);
         recipeRemain.setColSpan(ColSpan.HALF);
 
         useAnimation = new ComboBoxField<>();
-        useAnimation.setText(I18n.translate("item.properties.useAnimation"));
+        useAnimation.setText(AppL10n.localize("item.properties.useAnimation"));
         useAnimation.setCellFactory(LocalizableCell.factory());
         useAnimation.setButtonCell(new LocalizableCell<>());
         useAnimation.getItems().setAll(UseAnimation.values());
         useAnimation.setColSpan(ColSpan.HALF);
 
         useDuration = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        useDuration.setText(I18n.translate("item.properties.useDuration"));
+        useDuration.setText(AppL10n.localize("item.properties.useDuration"));
         useDuration.setColSpan(ColSpan.HALF);
 
         hitEntityLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        hitEntityLoss.setText(I18n.translate("item.properties.hitEntityLoss"));
+        hitEntityLoss.setText(AppL10n.localize("item.properties.hitEntityLoss"));
         hitEntityLoss.setColSpan(ColSpan.HALF);
         hitEntityLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
@@ -259,7 +259,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty(), durability.valueProperty()));
 
         destroyBlockLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        destroyBlockLoss.setText(I18n.translate("item.properties.destroyBlockLoss"));
+        destroyBlockLoss.setText(AppL10n.localize("item.properties.destroyBlockLoss"));
         destroyBlockLoss.setColSpan(ColSpan.HALF);
         destroyBlockLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
@@ -280,7 +280,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty(), durability.valueProperty()));
 
         information = new TextAreaField();
-        information.setText(I18n.translate("item.properties.information"));
+        information.setText(AppL10n.localize("item.properties.information"));
 
         properties.getElements().addAll(
                 identifier, displayName,
@@ -297,69 +297,69 @@ public class ItemEditor extends ElementEditor<MEItem> {
                 information);
 
         Section appearance = new Section();
-        appearance.setText(I18n.translate("item.appearance.title"));
+        appearance.setText(AppL10n.localize("item.appearance.title"));
 
         model = new ModelField(getProject(), new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
-        model.setText(I18n.translate("item.appearance.model"));
+        model.setText(AppL10n.localize("item.appearance.model"));
         model.setBlockstate("item");
 
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
-        textures.setText(I18n.translate("item.appearance.texture"));
+        textures.setText(AppL10n.localize("item.appearance.texture"));
         model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
 
         hasEffect = new RadioButtonField();
-        hasEffect.setText(I18n.translate("item.appearance.hasEffect"));
+        hasEffect.setText(AppL10n.localize("item.appearance.hasEffect"));
         hasEffect.setColSpan(ColSpan.HALF);
 
         armorTexture = new TextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
         armorTexture.setFitSize(128, 64);
-        armorTexture.setText(I18n.translate("item.appearance.armorTexture"));
+        armorTexture.setText(AppL10n.localize("item.appearance.armorTexture"));
         armorTexture.visibleProperty().bind(isArmor);
 
         appearance.getElements().addAll(model, textures, hasEffect, armorTexture);
 
         Section extra = new Section();
-        extra.setText(I18n.translate("item.extra.title"));
+        extra.setText(AppL10n.localize("item.extra.title"));
 
         fuelBurnTime = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        fuelBurnTime.setText(I18n.translate("item.fuel.fuelBurnTime"));
+        fuelBurnTime.setText(AppL10n.localize("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
         equipSound = new ChoiceBoxField<>();
-        equipSound.setText(I18n.translate("item.armor.equipSound"));
+        equipSound.setText(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
         equipSound.setConverter(LocalizableConverter.instance());
         equipSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(Indexes.SOUND_EVENTS).values());
         equipSound.disableProperty().bind(isNotArmor);
 
         hunger = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
-        hunger.setText(I18n.translate("item.food.hunger"));
+        hunger.setText(AppL10n.localize("item.food.hunger"));
         hunger.setColSpan(ColSpan.HALF);
         hunger.disableProperty().bind(isNotFood);
 
         saturation = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.6);
-        saturation.setText(I18n.translate("item.food.saturation"));
+        saturation.setText(AppL10n.localize("item.food.saturation"));
         saturation.setColSpan(ColSpan.HALF);
         saturation.disableProperty().bind(isNotFood);
 
         isWolfFood = new RadioButtonField();
-        isWolfFood.setText(I18n.translate("item.food.isWolfFood"));
+        isWolfFood.setText(AppL10n.localize("item.food.isWolfFood"));
         isWolfFood.setColSpan(ColSpan.HALF);
         isWolfFood.disableProperty().bind(isNotFood);
 
         alwaysEdible = new RadioButtonField();
-        alwaysEdible.setText(I18n.translate("item.food.alwaysEdible"));
+        alwaysEdible.setText(AppL10n.localize("item.food.alwaysEdible"));
         alwaysEdible.setColSpan(ColSpan.HALF);
         alwaysEdible.disableProperty().bind(isNotFood);
 
         foodContainer = new ItemPickerField();
-        foodContainer.setText(I18n.translate("item.food.foodContainer"));
+        foodContainer.setText(AppL10n.localize("item.food.foodContainer"));
         foodContainer.setFitSize(32, 32);
         foodContainer.setColSpan(ColSpan.HALF);
         foodContainer.disableProperty().bind(isNotFood);

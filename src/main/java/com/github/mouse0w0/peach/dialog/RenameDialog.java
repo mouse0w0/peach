@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -51,13 +51,13 @@ public class RenameDialog<T> extends Dialog<T> {
         this.rawName = rawName;
         this.isDirectory = isDirectory;
 
-        setTitle(I18n.translate("dialog.rename.title"));
+        setTitle(AppL10n.localize("dialog.rename.title"));
 
         VBox vBox = new VBox(10);
         vBox.setMinSize(300, Region.USE_COMPUTED_SIZE);
         vBox.setPadding(new Insets(10));
 
-        label = new Label(I18n.format(
+        label = new Label(AppL10n.localize(
                 isDirectory ? "dialog.rename.message.folder" : "dialog.rename.message.file", rawName));
         editor = new TextField(newName);
 
@@ -103,9 +103,9 @@ public class RenameDialog<T> extends Dialog<T> {
         if (buttonType == null || buttonType.getButtonData().isCancelButton()) {
             super.setResultAndClose(buttonType, close);
         } else if (getNewName().isEmpty()) {
-            showMessage(I18n.translate("dialog.rename.error.emptyFileName"));
+            showMessage(AppL10n.localize("dialog.rename.error.emptyFileName"));
         } else if (!FileUtils.FILE_NAME_PATTERN.matcher(getNewName()).matches()) {
-            showMessage(I18n.translate("dialog.rename.error.invalidFileName"));
+            showMessage(AppL10n.localize("dialog.rename.error.invalidFileName"));
         } else {
             super.setResultAndClose(buttonType, close);
         }

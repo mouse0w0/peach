@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.action.edit;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.dialog.RenameDialog;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +53,7 @@ public class PasteExecutor implements Runnable {
             }
         } catch (IOException e) {
             LOGGER.error("Failed to paste file because an exception has occurred.", e);
-            Alert.error(I18n.translate("dialog.paste.title"), e.toString());
+            Alert.error(AppL10n.localize("dialog.paste.title"), e.toString());
         }
     }
 
@@ -66,8 +66,8 @@ public class PasteExecutor implements Runnable {
                 copyOrMove(source, target);
                 return;
             }
-            ButtonType buttonType = new PasteDialog(I18n.translate("dialog.paste.title"),
-                    I18n.format("dialog.paste.error.existsSameFile", folder, source.getFileName()), multiple)
+            ButtonType buttonType = new PasteDialog(AppL10n.localize("dialog.paste.title"),
+                    AppL10n.localize("dialog.paste.error.existsSameFile", folder, source.getFileName()), multiple)
                     .showAndWait().orElse(PasteDialog.SKIP);
             if (buttonType == PasteDialog.SKIP) {
                 return;

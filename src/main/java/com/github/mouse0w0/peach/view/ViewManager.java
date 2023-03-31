@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.view;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.javafx.control.ViewTab;
 import com.github.mouse0w0.peach.javafx.geometry.EightPos;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import javafx.scene.Node;
@@ -60,7 +60,7 @@ public class ViewManager {
                 continue;
             }
 
-            String text = I18n.translate("view." + id + ".text");
+            String text = AppL10n.localize("view." + id + ".text");
             Node icon = IconManager.getInstance().createNode(view.getIcon());
             Node content = view.getFactory().createViewContent(project);
 

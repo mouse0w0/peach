@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.newProject;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -27,13 +27,13 @@ public class NewProjectUI extends BorderPane {
         NewProjectUI newProject = new NewProjectUI();
         Stage stage = new Stage();
         stage.setScene(new Scene(newProject));
-        stage.setTitle(I18n.translate("dialog.newProject.title"));
+        stage.setTitle(AppL10n.localize("dialog.newProject.title"));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
     }
 
     public NewProjectUI() {
-        FXUtils.loadFXML(this, "ui/project/NewProject.fxml");
+        FXUtils.loadFXML(this, "ui/project/NewProject.fxml", AppL10n.getResourceBundle());
         FileChooserHelper.getInstance().register(path, "newProject");
     }
 
@@ -48,7 +48,7 @@ public class NewProjectUI extends BorderPane {
         if (path == null) return; // TODO: show alert
         if (FileUtils.notEmptyDirectory(path)) {
             // FIXME: fix the content cannot be display until resize the window.
-            if (!Alert.confirm(I18n.format("dialog.newProject.notEmpty", FileUtils.getFileName(path)))) return;
+            if (!Alert.confirm(AppL10n.localize("dialog.newProject.notEmpty", FileUtils.getFileName(path)))) return;
         }
         ProjectManager.getInstance().createProject(name.getText(), path);
     }

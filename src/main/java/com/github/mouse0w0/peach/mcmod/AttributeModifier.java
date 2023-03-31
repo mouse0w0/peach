@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.google.common.base.CaseFormat;
 
 public class AttributeModifier {
@@ -21,7 +21,7 @@ public class AttributeModifier {
 
         @Override
         public String getLocalizedText() {
-            return I18n.translate(translationKey);
+            return AppL10n.localize(translationKey);
         }
     }
 
@@ -47,11 +47,11 @@ public class AttributeModifier {
         final String localizedAttribute = Attribute.getLocalizedName(attribute);
         final double value = operation == null || operation == Operation.ADD ? amount : amount * 100.0D;
         if (operation == Operation.MULTIPLY_BASE) {
-            return I18n.format("attributeModifier.text.multiple_base", localizedAttribute, value);
+            return AppL10n.localize("attributeModifier.text.multiple_base", localizedAttribute, value);
         } else if (operation == Operation.MULTIPLY_TOTAL) {
-            return I18n.format("attributeModifier.text.multiple_total", localizedAttribute, value);
+            return AppL10n.localize("attributeModifier.text.multiple_total", localizedAttribute, value);
         } else {
-            return I18n.format("attributeModifier.text.add", localizedAttribute, value);
+            return AppL10n.localize("attributeModifier.text.add", localizedAttribute, value);
         }
     }
 

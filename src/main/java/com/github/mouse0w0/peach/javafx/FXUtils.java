@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.javafx;
 
-import com.github.mouse0w0.i18n.I18n;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,18 +20,8 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 public final class FXUtils {
-
-    public static void loadFXML(Object root, String location) {
-        loadFXML(root, root, getCallerClassLoader(), location, I18n.getResourceBundle());
-    }
-
-
     public static void loadFXML(Object root, String location, ResourceBundle resources) {
         loadFXML(root, root, getCallerClassLoader(), location, resources);
-    }
-
-    public static <T> T loadFXML(Object root, Object controller, String location) {
-        return loadFXML(root, controller, getCallerClassLoader(), location, I18n.getResourceBundle());
     }
 
     public static <T> T loadFXML(Object root, Object controller, String location, ResourceBundle resourceBundle) {

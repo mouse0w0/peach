@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
@@ -32,7 +33,7 @@ public class SmeltingRecipeEditor extends ElementEditor<MESmeltingRecipe> {
 
     @Override
     protected Node getContent() {
-        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/SmeltingRecipe.fxml");
+        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/SmeltingRecipe.fxml", AppL10n.getResourceBundle());
 
         xp.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(0, Double.MAX_VALUE, 0, 0.1));
 

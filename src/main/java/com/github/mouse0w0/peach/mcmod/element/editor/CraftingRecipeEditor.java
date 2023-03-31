@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.Validator;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
@@ -44,9 +44,9 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
 
     @Override
     protected Node getContent() {
-        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml");
+        FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml", AppL10n.getResourceBundle());
 
-        Validator.error(identifier, ModUtils::validateIdentifier, I18n.translate("validate.illegalIdentifier"));
+        Validator.error(identifier, ModUtils::validateIdentifier, AppL10n.localize("validate.illegalIdentifier"));
 
         group.setEditable(true);
 

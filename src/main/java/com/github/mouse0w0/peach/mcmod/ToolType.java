@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.Set;
@@ -23,7 +23,7 @@ public final class ToolType {
     }
 
     public static String getLocalizedName(String toolType) {
-        return I18n.translate("toolType." + toolType);
+        return AppL10n.localize("toolType." + toolType);
     }
 
     private ToolType() {

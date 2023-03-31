@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
@@ -41,7 +41,7 @@ public class LowercaseRenameDialog<T> extends RenameDialog<T> {
         if (buttonType == null || buttonType.getButtonData().isCancelButton()) {
             super.setResultAndClose(buttonType, close);
         } else if (StringUtils.hasUpperCase(getNewName())) {
-            showMessage(I18n.translate("dialog.rename.error.uppercaseFileName"));
+            showMessage(AppL10n.localize("dialog.rename.error.uppercaseFileName"));
         } else {
             super.setResultAndClose(buttonType, close);
         }

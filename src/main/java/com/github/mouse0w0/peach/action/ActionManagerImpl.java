@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.action;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.icon.IconManager;
+import com.github.mouse0w0.peach.l10n.L10n;
 import com.github.mouse0w0.peach.plugin.ActionDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginManagerCore;
@@ -288,12 +288,13 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     private void processAttribute(Plugin plugin, Element element, String id, Action action) {
-        String text = localize(element, id, TEXT_ATTR_NAME);
+        L10n l10n = L10n.get(plugin.getId());
+        String text = localize(l10n, element, id, TEXT_ATTR_NAME);
         if (text != null) action.setText(text);
+        String description = localize(l10n, element, id, DESCRIPTION_ATTR_NAME);
+        if (description != null) action.setDescription(description);
         String icon = element.attributeValue(ICON_ATTR_NAME);
         if (icon != null) action.setIcon(icon);
-        String description = localize(element, id, DESCRIPTION_ATTR_NAME);
-        if (description != null) action.setDescription(description);
     }
 
     private void registerAction(Plugin plugin, String id, Action action) {
@@ -302,7 +303,7 @@ public final class ActionManagerImpl implements ActionManager {
         }
     }
 
-    private String localize(Element element, String id, String attrName) {
-        return I18n.translate(element.getName() + "." + id + "." + attrName, element.attributeValue(attrName));
+    private String localize(L10n l10n, Element element, String id, String attributeName) {
+        return l10n.localize(element.getName() + "." + id + "." + attributeName, element.attributeValue(attributeName));
     }
 }

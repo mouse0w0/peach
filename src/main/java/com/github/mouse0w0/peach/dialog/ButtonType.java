@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.i18n.I18n;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.scene.control.ButtonBar;
 
 public class ButtonType {
@@ -49,7 +49,7 @@ public class ButtonType {
     }
 
     public String getText() {
-        return I18n.translate(translationKey);
+        return AppL10n.localize(translationKey);
     }
 
     @Override

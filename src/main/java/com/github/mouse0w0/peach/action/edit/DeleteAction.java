@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.action.edit;
 
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.util.FileUtils;
 
 import java.nio.file.Files;
@@ -43,9 +43,9 @@ public class DeleteAction extends Action {
             }
         }
 
-        String message = I18n.format(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
+        String message = AppL10n.localize(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
 
-        if (Alert.confirm(I18n.translate("dialog.delete.title"), message)) {
+        if (Alert.confirm(AppL10n.localize("dialog.delete.title"), message)) {
             FileEditorManager fileEditorManager = FileEditorManager.getInstance(event.getData(DataKeys.PROJECT));
 
             for (Path path : paths) {

@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
-import com.github.mouse0w0.i18n.I18n;
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -69,7 +69,7 @@ public class ItemChooser {
         instance.init(project, defaultItem != null ? defaultItem : ItemRef.AIR, enableIgnoreMetadata, enableOreDict);
         Stage stage = new Stage();
         stage.setScene(instance.scene);
-        stage.setTitle(I18n.translate("dialog.itemChooser.title"));
+        stage.setTitle(AppL10n.localize("dialog.itemChooser.title"));
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(window);
         stage.showAndWait();
@@ -77,7 +77,7 @@ public class ItemChooser {
     }
 
     private ItemChooser() {
-        scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemChooser.fxml"));
+        scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemChooser.fxml", AppL10n.getResourceBundle()));
 
         gridView.setCellWidth(32);
         gridView.setCellHeight(32);
