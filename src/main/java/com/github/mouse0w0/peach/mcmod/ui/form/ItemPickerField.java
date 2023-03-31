@@ -91,18 +91,6 @@ public class ItemPickerField extends ValueField<ItemRef> {
         getItemPicker().setPlayAnimation(playAnimation);
     }
 
-    public BooleanProperty enableTooltipProperty() {
-        return getItemPicker().enableTooltipProperty();
-    }
-
-    public boolean isEnableTooltip() {
-        return getItemPicker().isEnableTooltip();
-    }
-
-    public void setEnableTooltip(boolean enableTooltip) {
-        getItemPicker().setEnableTooltip(enableTooltip);
-    }
-
     public ItemPicker getItemPicker() {
         return (ItemPicker) getEditor();
     }

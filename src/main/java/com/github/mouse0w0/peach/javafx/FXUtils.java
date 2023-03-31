@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Region;
 import javafx.stage.PopupWindow;
@@ -15,7 +14,6 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -138,31 +136,6 @@ public final class FXUtils {
             }
         }
         return Optional.empty();
-    }
-
-    private static Object TOOLTIP_BEHAVIOR;
-    private static Field TOOLTIP_HOVERED_NODE;
-
-    static {
-        try {
-            Field behaviorField = Tooltip.class.getDeclaredField("BEHAVIOR");
-            behaviorField.setAccessible(true);
-            TOOLTIP_BEHAVIOR = behaviorField.get(null);
-            TOOLTIP_HOVERED_NODE = TOOLTIP_BEHAVIOR.getClass().getDeclaredField("hoveredNode");
-            TOOLTIP_HOVERED_NODE.setAccessible(true);
-        } catch (ReflectiveOperationException e) {
-            TOOLTIP_BEHAVIOR = null;
-            TOOLTIP_HOVERED_NODE = null;
-        }
-    }
-
-    public static Optional<Node> getTooltipOwnerNode() {
-        if (TOOLTIP_HOVERED_NODE == null) return Optional.empty();
-        try {
-            return Optional.ofNullable((Node) TOOLTIP_HOVERED_NODE.get(TOOLTIP_BEHAVIOR));
-        } catch (IllegalAccessException e) {
-            return Optional.empty();
-        }
     }
 
     private FXUtils() {

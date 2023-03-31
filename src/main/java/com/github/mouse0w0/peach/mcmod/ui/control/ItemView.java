@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
-import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -9,6 +8,7 @@ import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.beans.property.*;
+import javafx.css.Styleable;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Tooltip;
@@ -27,26 +27,25 @@ public class ItemView extends Control {
 
     private static Tooltip createTooltip() {
         Tooltip tooltip = new Tooltip();
-        tooltip.setOnShowing(event ->
-                FXUtils.getTooltipOwnerNode().ifPresent(node -> {
-                            ItemView itemView = (ItemView) node;
-                            ItemRef item = itemView.getItem();
-                            if (!itemView.isEnableTooltip() || item == null) return;
+        tooltip.setOnShowing(event -> {
+            Styleable parent = tooltip.getStyleableParent();
+            if (parent == null) return;
 
-                            StringBuilder sb = new StringBuilder();
+            ItemView itemView = (ItemView) parent;
+            ItemRef item = itemView.getItem();
 
-                            sb.append(item.getId());
-                            if (item.isNormal()) sb.append("#").append(item.getMetadata());
+            StringBuilder sb = new StringBuilder();
+            sb.append(item.getId());
+            if (item.isNormal()) sb.append('#').append(item.getMetadata());
 
-                            sb.append("\n--------------------\n");
+            sb.append("\n--------------------");
 
-                    for (Item data : itemView.getItemMap().get(item)) {
-                        sb.append(data.getLocalizedText()).append("\n");
-                    }
+            for (Item data : itemView.getItemMap().get(item)) {
+                sb.append('\n').append(data.getLocalizedText());
+            }
 
-                            tooltip.setText(sb.substring(0, sb.length() - 1));
-                        }
-                ));
+            tooltip.setText(sb.toString());
+        });
         return tooltip;
     }
 
@@ -146,23 +145,6 @@ public class ItemView extends Control {
 
     public final void setPlayAnimation(boolean playAnimation) {
         playAnimationProperty().set(playAnimation);
-    }
-
-    private BooleanProperty enableTooltip;
-
-    public BooleanProperty enableTooltipProperty() {
-        if (enableTooltip == null) {
-            enableTooltip = new SimpleBooleanProperty(this, "enableTooltip", true);
-        }
-        return enableTooltip;
-    }
-
-    public boolean isEnableTooltip() {
-        return enableTooltip == null || enableTooltip.get();
-    }
-
-    public void setEnableTooltip(boolean enableTooltip) {
-        enableTooltipProperty().set(enableTooltip);
     }
 
     private ObjectProperty<Map<ItemRef, List<Item>>> itemMap;
