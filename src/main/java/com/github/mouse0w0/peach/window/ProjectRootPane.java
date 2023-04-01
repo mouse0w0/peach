@@ -6,19 +6,17 @@ import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.project.Project;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import com.sun.javafx.scene.control.MenuBarButton;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.collections.ListChangeListener;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Window;
 
 class ProjectRootPane extends BorderPane {
-
     private final Project project;
-
     private final MenuBar menuBar;
     private final ViewPane viewPane;
     private final TabPane tabPane;
@@ -86,6 +84,7 @@ class ProjectRootPane extends BorderPane {
     private MenuBar createMenuBar() {
         ActionManager actionManager = ActionManager.getInstance();
         ActionGroup mainMenuGroup = actionManager.getActionGroup(ActionGroups.MAIN_MENU);
+        assert mainMenuGroup != null;
         MenuBar menuBar = new MenuBar();
         for (Action child : mainMenuGroup.getChildren()) {
             if (child instanceof ActionGroup group) {
@@ -101,22 +100,21 @@ class ProjectRootPane extends BorderPane {
         for (Node node : root.lookupAll(".menu-item")) {
             MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
             if (menuItem instanceof ActionHolder actionHolder && actionHolder.getAction().getDescription() != null) {
-                node.setOnMouseEntered(ON_MOUSE_ENTERED);
-                node.setOnMouseExited(ON_MOUSE_EXITED);
+                node.hoverProperty().addListener(HOVER_LISTENER);
             }
         }
     }
 
-    private static final EventHandler<? super MouseEvent> ON_MOUSE_ENTERED = (EventHandler<MouseEvent>) event -> {
-        Node node = (Node) event.getTarget();
-        MenuItem menuItem = (MenuItem) node.getProperties().get(MenuItem.class);
-        if (menuItem instanceof ActionHolder actionHolder) {
-            Action action = actionHolder.getAction();
+    private static final InvalidationListener HOVER_LISTENER = observable -> {
+        ReadOnlyBooleanProperty hoverProperty = (ReadOnlyBooleanProperty) observable;
+        if (hoverProperty.get()) {
+            Node node = (Node) hoverProperty.getBean();
+            MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
+            assert menuItem != null;
+            Action action = ((ActionHolder) menuItem).getAction();
             StatusBarInfo.getFocusedInstance().setText(action.getDescription());
         } else {
             StatusBarInfo.getFocusedInstance().setText(null);
         }
     };
-
-    private static final EventHandler<? super MouseEvent> ON_MOUSE_EXITED = (EventHandler<MouseEvent>) event -> StatusBarInfo.getFocusedInstance().setText(null);
 }
