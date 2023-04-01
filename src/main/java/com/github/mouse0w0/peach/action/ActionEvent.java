@@ -3,7 +3,8 @@ package com.github.mouse0w0.peach.action;
 import com.github.mouse0w0.peach.data.DataContext;
 import com.github.mouse0w0.peach.data.DataKey;
 import com.github.mouse0w0.peach.data.DataManager;
-import com.github.mouse0w0.peach.window.WindowManager;
+import com.github.mouse0w0.peach.javafx.FocusUtils;
+import com.github.mouse0w0.peach.util.Validate;
 import javafx.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +14,7 @@ public class ActionEvent implements DataContext {
     private final DataContext dataContext;
 
     public ActionEvent(@Nullable Event event) {
-        this(event, DataManager.getInstance().getDataContext(WindowManager.getInstance().getFocusedNode()));
+        this(event, DataManager.getInstance().getDataContext(Validate.notNull(FocusUtils.getFocusedNode())));
     }
 
     public ActionEvent(@Nullable Event event, @NotNull DataContext dataContext) {
