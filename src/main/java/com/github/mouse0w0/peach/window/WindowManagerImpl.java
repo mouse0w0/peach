@@ -1,15 +1,10 @@
 package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.javafx.FocusUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.view.ViewManager;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -19,48 +14,8 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 public class WindowManagerImpl implements WindowManager {
-
     private final Map<Project, ProjectWindow> windowMap = new WeakHashMap<>();
     private final Map<Window, ProjectWindow> fxWindowToWindowMap = new WeakHashMap<>();
-
-    private final InvalidationListener windowFocusedListener = new InvalidationListener() {
-        @Override
-        public void invalidated(Observable observable) {
-            ReadOnlyBooleanProperty property = (ReadOnlyBooleanProperty) observable;
-            if (property.get()) {
-                focusedWindow = (Window) property.getBean();
-            }
-        }
-    };
-
-    private Window focusedWindow;
-
-    public WindowManagerImpl() {
-        ObservableList<Window> windows = Window.getWindows();
-        windows.addListener(new ListChangeListener<>() {
-            @Override
-            public void onChanged(Change<? extends Window> c) {
-                while (c.next()) {
-                    if (c.wasAdded()) {
-                        for (Window window : c.getAddedSubList()) {
-                            window.focusedProperty().addListener(windowFocusedListener);
-                        }
-                    }
-                    if (c.wasRemoved()) {
-                        for (Window window : c.getRemoved()) {
-                            window.focusedProperty().removeListener(windowFocusedListener);
-                        }
-                    }
-                }
-                c.reset();
-            }
-        });
-        for (Window window : windows) {
-            if (window.isFocused()) {
-                focusedWindow = window;
-            }
-        }
-    }
 
     public Collection<ProjectWindow> getWindows() {
         return windowMap.values();
@@ -89,25 +44,20 @@ public class WindowManagerImpl implements WindowManager {
     }
 
     @Override
-    public Window getFocusedWindow() {
-        return focusedWindow;
-    }
-
-    @Override
-    public Node getFocusedNode() {
-        if (focusedWindow == null) return null;
-        return focusedWindow.getScene().getFocusOwner();
+    public ProjectWindow getFocusedWindow() {
+        for (Window w = FocusUtils.getFocusedWindow(); w != null; w = FXUtils.getOwner(w)) {
+            ProjectWindow projectWindow = fxWindowToWindowMap.get(w);
+            if (projectWindow != null) {
+                return projectWindow;
+            }
+        }
+        return null;
     }
 
     @Override
     public Project getFocusedProject() {
-        for (Window w = focusedWindow; w != null; w = FXUtils.getOwner(w)) {
-            ProjectWindow projectWindow = fxWindowToWindowMap.get(w);
-            if (projectWindow != null) {
-                return projectWindow.getProject();
-            }
-        }
-        return null;
+        ProjectWindow projectWindow = getFocusedWindow();
+        return projectWindow != null ? projectWindow.getProject() : null;
     }
 
     public ProjectWindow getOrCreateWindow(Project project) {
