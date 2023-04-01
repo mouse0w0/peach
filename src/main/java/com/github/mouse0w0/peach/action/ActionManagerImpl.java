@@ -14,6 +14,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import org.dom4j.Element;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,34 +42,44 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public String getActionId(Action action) {
+    public @Nullable String getActionId(@NotNull Action action) {
         return actions.inverse().get(action);
     }
 
     @Override
-    public Action getAction(String actionId) {
+    public @Nullable Action getAction(@NotNull String actionId) {
         return actions.get(actionId);
     }
 
     @Override
-    public void perform(String actionId, Event event) {
-        getAction(actionId).perform(new ActionEvent(event));
+    public @Nullable ActionGroup getActionGroup(@NotNull String actionId) {
+        Action action = actions.get(actionId);
+        return action instanceof ActionGroup ? (ActionGroup) action : null;
     }
 
     @Override
-    public Menu createMenu(@NotNull ActionGroup group) {
+    public void perform(@NotNull String actionId, @Nullable Event event) {
+        Action action = getAction(actionId);
+        if (action == null) {
+            throw new IllegalArgumentException("Not found action, id=" + actionId + ", event=" + event);
+        }
+        action.perform(new ActionEvent(event));
+    }
+
+    @Override
+    public @NotNull Menu createMenu(@NotNull ActionGroup group) {
         Validate.notNull(group);
         return new ActionMenu(group);
     }
 
     @Override
-    public ContextMenu createContextMenu(@NotNull ActionGroup group) {
+    public @NotNull ContextMenu createContextMenu(@NotNull ActionGroup group) {
         Validate.notNull(group);
         return new ActionContextMenu(group);
     }
 
     @Override
-    public Button createButton(@NotNull Action action) {
+    public @NotNull Button createButton(@NotNull Action action) {
         Validate.notNull(action);
         if (action instanceof ActionGroup || action instanceof Separator) {
             throw new IllegalArgumentException("The action cannot be ActionGroup and Separator");

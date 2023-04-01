@@ -6,21 +6,30 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface ActionManager {
     static ActionManager getInstance() {
         return Peach.getInstance().getService(ActionManager.class);
     }
 
-    String getActionId(Action action);
+    @Nullable
+    String getActionId(@NotNull Action action);
 
-    Action getAction(String actionId);
+    @Nullable
+    Action getAction(@NotNull String actionId);
 
-    void perform(String actionId, Event event);
+    @Nullable
+    ActionGroup getActionGroup(@NotNull String actionId);
 
+    void perform(@NotNull String actionId, @Nullable Event event);
+
+    @NotNull
     Menu createMenu(@NotNull ActionGroup group);
 
+    @NotNull
     ContextMenu createContextMenu(@NotNull ActionGroup group);
 
+    @NotNull
     Button createButton(@NotNull Action action);
 }
