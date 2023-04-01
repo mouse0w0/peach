@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.text.Text;
 
 public class StatusBarInfo implements StatusBarWidget {
-
     public static final String ID = "StatusBarInfo";
 
     public static StatusBarInfo getInstance(Project project) {
@@ -18,7 +17,17 @@ public class StatusBarInfo implements StatusBarWidget {
         return (StatusBarInfo) widget;
     }
 
-    private Text text = new Text();
+    public static StatusBarInfo getFocusedInstance() {
+        StatusBar statusBar = WindowManager.getInstance().getFocusedWindow().getStatusBar();
+        StatusBarWidget widget = statusBar.getWidget(ID);
+        if (widget == null) {
+            widget = new StatusBarInfo();
+            statusBar.addWidget(widget, StatusBar.Position.LEFT);
+        }
+        return (StatusBarInfo) widget;
+    }
+
+    private final Text text = new Text();
 
     public String getText() {
         return text.getText();
@@ -40,6 +49,5 @@ public class StatusBarInfo implements StatusBarWidget {
 
     @Override
     public void install(StatusBar statusBar) {
-
     }
 }
