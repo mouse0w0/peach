@@ -9,7 +9,7 @@ import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
-public class ActionMenu extends Menu implements ActionControl {
+public class ActionMenu extends Menu implements ActionHolder {
     private final ActionGroup group;
     private final PropertyChangeListener listener;
 

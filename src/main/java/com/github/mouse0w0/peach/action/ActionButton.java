@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.util.property.PropertyObservable;
 import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
 import javafx.scene.control.Button;
 
-public class ActionButton extends Button implements ActionControl {
+public class ActionButton extends Button implements ActionHolder {
     private final Action action;
     private final PropertyChangeListener listener;
 

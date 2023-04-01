@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.util.property.PropertyObservable;
 import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
 import javafx.scene.control.MenuItem;
 
-public class ActionMenuItem extends MenuItem implements ActionControl {
+public class ActionMenuItem extends MenuItem implements ActionHolder {
     private final Action action;
     private final PropertyChangeListener listener;
 

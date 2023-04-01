@@ -1,5 +1,5 @@
 package com.github.mouse0w0.peach.action;
 
-public interface ActionControl {
+public interface ActionHolder {
     Action getAction();
 }

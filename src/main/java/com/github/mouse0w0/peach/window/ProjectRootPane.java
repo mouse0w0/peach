@@ -57,9 +57,9 @@ class ProjectRootPane extends BorderPane {
                         Window window = windows.get(i);
                         if (window instanceof ContextMenu contextMenu) {
                             Node ownerNode = contextMenu.getOwnerNode();
-                            if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionControl) {
+                            if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionHolder) {
                                 applyStatusBarInfo(contextMenu);
-                            } else if (ownerNode instanceof ContextMenuContent.MenuItemContainer container && container.getItem() instanceof ActionControl) {
+                            } else if (ownerNode instanceof ContextMenuContent.MenuItemContainer container && container.getItem() instanceof ActionHolder) {
                                 applyStatusBarInfo(contextMenu);
                             }
                         }
@@ -102,7 +102,7 @@ class ProjectRootPane extends BorderPane {
         Parent root = contextMenu.getScene().getRoot();
         for (Node node : root.lookupAll(".menu-item")) {
             MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
-            if (menuItem instanceof ActionControl actionControl && actionControl.getAction().getDescription() != null) {
+            if (menuItem instanceof ActionHolder actionHolder && actionHolder.getAction().getDescription() != null) {
                 node.setOnMouseEntered(ON_MOUSE_ENTERED);
                 node.setOnMouseExited(ON_MOUSE_EXITED);
             }
@@ -112,8 +112,8 @@ class ProjectRootPane extends BorderPane {
     private static final EventHandler<? super MouseEvent> ON_MOUSE_ENTERED = (EventHandler<MouseEvent>) event -> {
         Node node = (Node) event.getTarget();
         MenuItem menuItem = (MenuItem) node.getProperties().get(MenuItem.class);
-        if (menuItem instanceof ActionControl actionControl) {
-            Action action = actionControl.getAction();
+        if (menuItem instanceof ActionHolder actionHolder) {
+            Action action = actionHolder.getAction();
             StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText(action.getDescription());
         } else {
             StatusBarInfo.getInstance(WindowManager.getInstance().getFocusedProject()).setText(null);
