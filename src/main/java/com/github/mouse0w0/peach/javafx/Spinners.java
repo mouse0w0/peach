@@ -5,9 +5,12 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 
 public final class Spinners {
-
     public static Spinner<Integer> create(int min, int max, int initialValue) {
-        Spinner<Integer> spinner = new Spinner<>(min, max, initialValue);
+        return create(min, max, initialValue, 1);
+    }
+
+    public static Spinner<Integer> create(int min, int max, int initialValue, int amountToStepBy) {
+        Spinner<Integer> spinner = new Spinner<>(min, max, initialValue, amountToStepBy);
         spinner.setEditable(true);
         setupIntegerEditor(spinner, initialValue);
         return spinner;
@@ -37,7 +40,11 @@ public final class Spinners {
     }
 
     public static Spinner<Double> create(double min, double max, double initialValue) {
-        Spinner<Double> spinner = new Spinner<>(min, max, initialValue);
+        return create(min, max, initialValue, 1);
+    }
+
+    public static Spinner<Double> create(double min, double max, double initialValue, double amountToStepBy) {
+        Spinner<Double> spinner = new Spinner<>(min, max, initialValue, amountToStepBy);
         spinner.setEditable(true);
         setupDoubleEditor(spinner, initialValue);
         return spinner;
