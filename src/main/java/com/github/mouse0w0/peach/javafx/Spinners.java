@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.javafx;
 
 import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 
 public final class Spinners {
@@ -16,16 +17,21 @@ public final class Spinners {
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty() || newValue.equals("-")) return;
-            try {
-                int value = Integer.parseInt(newValue);
-                spinner.getValueFactory().setValue(value);
-            } catch (NumberFormatException e) {
-                editor.setText(oldValue);
+            SpinnerValueFactory<Integer> valueFactory = spinner.getValueFactory();
+            if (valueFactory != null) {
+                try {
+                    valueFactory.setValue(Integer.valueOf(newValue));
+                } catch (NumberFormatException e) {
+                    editor.setText(oldValue);
+                }
             }
         });
         editor.focusedProperty().addListener(observable -> {
             if (editor.getText().isEmpty()) {
-                spinner.getValueFactory().setValue(initialValue);
+                SpinnerValueFactory<Integer> valueFactory = spinner.getValueFactory();
+                if (valueFactory != null) {
+                    valueFactory.setValue(initialValue);
+                }
             }
         });
     }
@@ -40,17 +46,23 @@ public final class Spinners {
     public static void setupDoubleEditor(Spinner<Double> spinner, double initialValue) {
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty() || newValue.equals("-") || newValue.endsWith(".")) return;
-            try {
-                double value = Double.parseDouble(newValue);
-                spinner.getValueFactory().setValue(value);
-            } catch (NumberFormatException e) {
-                editor.setText(oldValue);
+            if (newValue.isEmpty() || newValue.equals("-") || newValue.indexOf('.') == newValue.lastIndexOf('.'))
+                return;
+            SpinnerValueFactory<Double> valueFactory = spinner.getValueFactory();
+            if (valueFactory != null) {
+                try {
+                    valueFactory.setValue(Double.valueOf(newValue));
+                } catch (NumberFormatException e) {
+                    editor.setText(oldValue);
+                }
             }
         });
         editor.focusedProperty().addListener(observable -> {
             if (editor.getText().isEmpty()) {
-                spinner.getValueFactory().setValue(initialValue);
+                SpinnerValueFactory<Double> valueFactory = spinner.getValueFactory();
+                if (valueFactory != null) {
+                    valueFactory.setValue(initialValue);
+                }
             }
         });
     }
