@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
 import com.github.mouse0w0.peach.util.property.PropertyObservable;
 import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
 import javafx.scene.control.MenuItem;
+import org.jetbrains.annotations.NotNull;
 
 public class ActionMenuItem extends MenuItem implements ActionHolder {
     private final Action action;
@@ -26,7 +27,7 @@ public class ActionMenuItem extends MenuItem implements ActionHolder {
     }
 
     @Override
-    public Action getAction() {
+    public @NotNull Action getAction() {
         return action;
     }
 

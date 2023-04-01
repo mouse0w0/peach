@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.action;
 
 import javafx.event.Event;
 import javafx.scene.control.ContextMenu;
+import org.jetbrains.annotations.NotNull;
 
 public class ActionContextMenu extends ContextMenu implements ActionHolder {
     private final ActionGroup group;
@@ -13,7 +14,7 @@ public class ActionContextMenu extends ContextMenu implements ActionHolder {
     }
 
     @Override
-    public ActionGroup getAction() {
+    public @NotNull ActionGroup getAction() {
         return group;
     }
 

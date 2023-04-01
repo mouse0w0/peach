@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
 import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import org.jetbrains.annotations.NotNull;
 
 public class ActionMenu extends Menu implements ActionHolder {
     private final ActionGroup group;
@@ -37,7 +38,7 @@ public class ActionMenu extends Menu implements ActionHolder {
     }
 
     @Override
-    public ActionGroup getAction() {
+    public @NotNull ActionGroup getAction() {
         return group;
     }
 
