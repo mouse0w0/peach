@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.javafx;
 
-import javafx.collections.ObservableMap;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -107,15 +106,12 @@ public final class FXUtils {
 
     @SuppressWarnings("unchecked")
     public static <T> T getProperty(Node node, Object key) {
-        if (!node.hasProperties()) return null;
-        ObservableMap<Object, Object> properties = node.getProperties();
-        return (T) properties.get(key);
+        return node.hasProperties() ? (T) node.getProperties().get(key) : null;
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getOrComputeProperty(Node node, Object key, Function<Object, Object> mappingFunction) {
-        ObservableMap<Object, Object> properties = node.getProperties();
-        return (T) properties.computeIfAbsent(key, mappingFunction);
+    public static <T> T computeProperty(Node node, Object key, Function<Object, Object> mappingFunction) {
+        return (T) node.getProperties().computeIfAbsent(key, mappingFunction);
     }
 
     public static Optional<Window> getFocusedWindow() {
