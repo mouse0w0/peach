@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.window;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
+import org.jetbrains.annotations.NotNull;
 
 public class StatusBarInfo implements StatusBarWidget {
     public static final String ID = "StatusBarInfo";
@@ -38,16 +39,16 @@ public class StatusBarInfo implements StatusBarWidget {
     }
 
     @Override
-    public String getId() {
+    public @NotNull String getId() {
         return ID;
     }
 
     @Override
-    public Node getContent() {
+    public @NotNull Node getContent() {
         return text;
     }
 
     @Override
-    public void install(StatusBar statusBar) {
+    public void install(@NotNull StatusBar statusBar) {
     }
 }

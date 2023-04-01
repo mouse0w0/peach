@@ -4,12 +4,9 @@ import javafx.scene.Node;
 import org.jetbrains.annotations.NotNull;
 
 public interface StatusBarWidget {
+    @NotNull String getId();
 
-    @NotNull
-    String getId();
-
-    @NotNull
-    Node getContent();
+    @NotNull Node getContent();
 
     void install(@NotNull StatusBar statusBar);
 }
