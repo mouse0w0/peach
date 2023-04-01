@@ -11,20 +11,20 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
 
     public SpinnerField(int min, int max, int initialValue) {
-        this((SpinnerValueFactory<T>) new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue));
-        Spinners.setupIntegerEditor((Spinner<Integer>) getSpinner(), initialValue);
+        this(min, max, initialValue, 1);
     }
 
+    @SuppressWarnings("unchecked")
     public SpinnerField(int min, int max, int initialValue, int amountToStepBy) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue, amountToStepBy));
         Spinners.setupIntegerEditor((Spinner<Integer>) getSpinner(), initialValue);
     }
 
     public SpinnerField(double min, double max, double initialValue) {
-        this((SpinnerValueFactory<T>) new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, initialValue));
-        Spinners.setupDoubleEditor((Spinner<Double>) getSpinner(), initialValue);
+        this(min, max, initialValue, 1);
     }
 
+    @SuppressWarnings("unchecked")
     public SpinnerField(double min, double max, double initialValue, double amountToStepBy) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, initialValue, amountToStepBy));
         Spinners.setupDoubleEditor((Spinner<Double>) getSpinner(), initialValue);
