@@ -50,11 +50,7 @@ class ProjectRootPane extends BorderPane {
         Window.getWindows().addListener((ListChangeListener<Window>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
-                    var windows = c.getList();
-                    var from = c.getFrom();
-                    var to = c.getTo();
-                    for (int i = from; i < to; i++) {
-                        Window window = windows.get(i);
+                    for (Window window : c.getAddedSubList()) {
                         if (window instanceof ContextMenu contextMenu) {
                             Node ownerNode = contextMenu.getOwnerNode();
                             if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionHolder) {
