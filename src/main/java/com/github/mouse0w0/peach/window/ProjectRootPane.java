@@ -53,7 +53,9 @@ class ProjectRootPane extends BorderPane {
                     for (Window window : c.getAddedSubList()) {
                         if (window instanceof ContextMenu contextMenu) {
                             Node ownerNode = contextMenu.getOwnerNode();
-                            if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionHolder) {
+                            if (window instanceof ActionHolder) {
+                                applyStatusBarInfo(contextMenu);
+                            } else if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionHolder) {
                                 applyStatusBarInfo(contextMenu);
                             } else if (ownerNode instanceof ContextMenuContent.MenuItemContainer container && container.getItem() instanceof ActionHolder) {
                                 applyStatusBarInfo(contextMenu);
