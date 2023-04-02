@@ -70,9 +70,7 @@ jar {
     ])
 }
 
-application {
-    executableDir = ''
-}
+startScripts.enabled = false
 
 distributions {
     main {
