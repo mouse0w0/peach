@@ -22,54 +22,54 @@ import java.util.Map;
 
 import static javax.xml.stream.XMLStreamConstants.*;
 
-final class DescriptorReader {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DescriptorReader.class);
+final class PluginXmlReader {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PluginXmlReader.class);
 
-    public static PluginDescriptor read(String systemId, InputStream inputStream) throws IOException, XMLStreamException {
+    public static PluginXml read(String systemId, InputStream inputStream) throws IOException, XMLStreamException {
         try (BufferedInputStream bis = new BufferedInputStream(inputStream)) {
             return read(XMLInputFactory.newDefaultFactory().createXMLStreamReader(systemId, bis));
         }
     }
 
-    public static PluginDescriptor read(XMLStreamReader reader) throws XMLStreamException {
+    public static PluginXml read(XMLStreamReader reader) throws XMLStreamException {
         if (reader.getEventType() != START_DOCUMENT) {
             throw new XMLStreamException("Expected START_DOCUMENT event, found: " + reader.getEventType(), reader.getLocation());
         }
-        PluginDescriptor descriptor = new PluginDescriptor();
+        PluginXml xml = new PluginXml();
         while (true) {
             if (reader.next() == START_ELEMENT) break;
         }
-        readPlugin(reader, descriptor);
+        readPlugin(reader, xml);
         if (reader.next() != END_DOCUMENT) {
             throw new XMLStreamException("Expected END_DOCUMENT event, found: " + reader.getEventType(), reader.getLocation());
         }
-        return descriptor;
+        return xml;
     }
 
-    private static void readPlugin(XMLStreamReader reader, PluginDescriptor descriptor) throws XMLStreamException {
+    private static void readPlugin(XMLStreamReader reader, PluginXml xml) throws XMLStreamException {
         while (true) {
             int event = reader.next();
             if (event == START_ELEMENT) {
                 switch (reader.getLocalName()) {
-                    case "id" -> descriptor.id = reader.getElementText();
-                    case "name" -> descriptor.name = reader.getElementText();
-                    case "version" -> descriptor.version = reader.getElementText();
-                    case "logo" -> descriptor.logo = reader.getElementText();
-                    case "license" -> descriptor.license = reader.getElementText();
-                    case "description" -> descriptor.description = reader.getElementText();
-                    case "category" -> descriptor.category = reader.getElementText();
-                    case "author" -> descriptor.author = reader.getElementText();
-                    case "authorUrl" -> descriptor.authorUrl = reader.getElementText();
-                    case "authorEmail" -> descriptor.authorEmail = reader.getElementText();
-                    case "homepage" -> descriptor.homepage = reader.getElementText();
-                    case "repository" -> descriptor.repository = reader.getElementText();
-                    case "issueTrackingUrl" -> descriptor.issueTrackingUrl = reader.getElementText();
-                    case "issueTrackingEmail" -> descriptor.issueTrackingEmail = reader.getElementText();
-                    case "updateUrl" -> descriptor.updateUrl = reader.getElementText();
-                    case "dependencies" -> readDependencies(reader, descriptor);
-                    case "actions" -> readActions(reader, descriptor);
-                    case "extensionPoints" -> readExtensionPoints(reader, descriptor);
-                    case "extensions" -> readExtensions(reader, descriptor);
+                    case "id" -> xml.id = reader.getElementText();
+                    case "name" -> xml.name = reader.getElementText();
+                    case "version" -> xml.version = reader.getElementText();
+                    case "logo" -> xml.logo = reader.getElementText();
+                    case "license" -> xml.license = reader.getElementText();
+                    case "description" -> xml.description = reader.getElementText();
+                    case "category" -> xml.category = reader.getElementText();
+                    case "author" -> xml.author = reader.getElementText();
+                    case "authorUrl" -> xml.authorUrl = reader.getElementText();
+                    case "authorEmail" -> xml.authorEmail = reader.getElementText();
+                    case "homepage" -> xml.homepage = reader.getElementText();
+                    case "repository" -> xml.repository = reader.getElementText();
+                    case "issueTrackingUrl" -> xml.issueTrackingUrl = reader.getElementText();
+                    case "issueTrackingEmail" -> xml.issueTrackingEmail = reader.getElementText();
+                    case "updateUrl" -> xml.updateUrl = reader.getElementText();
+                    case "dependencies" -> readDependencies(reader, xml);
+                    case "actions" -> readActions(reader, xml);
+                    case "extensionPoints" -> readExtensionPoints(reader, xml);
+                    case "extensions" -> readExtensions(reader, xml);
                     default -> LOGGER.error("Unknown element `{}`\n{}", reader.getLocalName(), reader.getLocation());
                 }
                 skipElement(reader);
@@ -79,11 +79,11 @@ final class DescriptorReader {
         }
     }
 
-    private static void readDependencies(XMLStreamReader reader, PluginDescriptor descriptor) throws XMLStreamException {
-        List<PluginDependency> dependencies = descriptor.dependencies;
+    private static void readDependencies(XMLStreamReader reader, PluginXml xml) throws XMLStreamException {
+        List<PluginDependency> dependencies = xml.dependencies;
         if (dependencies == null) {
             dependencies = new ArrayList<>();
-            descriptor.dependencies = dependencies;
+            xml.dependencies = dependencies;
         }
 
         while (true) {
@@ -110,11 +110,11 @@ final class DescriptorReader {
         }
     }
 
-    private static void readActions(XMLStreamReader reader, PluginDescriptor descriptor) throws XMLStreamException {
-        List<ActionDescriptor> actions = descriptor.actions;
+    private static void readActions(XMLStreamReader reader, PluginXml xml) throws XMLStreamException {
+        List<ActionDescriptor> actions = xml.actions;
         if (actions == null) {
             actions = new ArrayList<>();
-            descriptor.actions = actions;
+            xml.actions = actions;
         }
 
         while (true) {
@@ -127,11 +127,11 @@ final class DescriptorReader {
         }
     }
 
-    private static void readExtensionPoints(XMLStreamReader reader, PluginDescriptor descriptor) throws XMLStreamException {
-        List<ExtensionPointDescriptor> extensionPoints = descriptor.extensionPoints;
+    private static void readExtensionPoints(XMLStreamReader reader, PluginXml xml) throws XMLStreamException {
+        List<ExtensionPointDescriptor> extensionPoints = xml.extensionPoints;
         if (extensionPoints == null) {
             extensionPoints = new ArrayList<>();
-            descriptor.extensionPoints = extensionPoints;
+            xml.extensionPoints = extensionPoints;
         }
 
         while (true) {
@@ -169,11 +169,11 @@ final class DescriptorReader {
         }
     }
 
-    private static void readExtensions(XMLStreamReader reader, PluginDescriptor descriptor) throws XMLStreamException {
-        Map<String, List<ExtensionDescriptor>> extensions = descriptor.extensions;
+    private static void readExtensions(XMLStreamReader reader, PluginXml xml) throws XMLStreamException {
+        Map<String, List<ExtensionDescriptor>> extensions = xml.extensions;
         if (extensions == null) {
             extensions = new HashMap<>();
-            descriptor.extensions = extensions;
+            xml.extensions = extensions;
         }
 
         String namespace = findAttributeValue(reader, "namespace");
@@ -184,10 +184,10 @@ final class DescriptorReader {
                 String fullName = createFullName(namespace, reader.getLocalName());
 
                 switch (fullName) {
-                    case "peach.applicationService" -> descriptor.addApplicationService(readService(reader));
-                    case "peach.projectService" -> descriptor.addProjectService(readService(reader));
-                    case "peach.applicationListener" -> descriptor.addApplicationListener(readListener(reader));
-                    case "peach.projectListener" -> descriptor.addProjectListeners(readListener(reader));
+                    case "peach.applicationService" -> xml.addApplicationService(readService(reader));
+                    case "peach.projectService" -> xml.addProjectService(readService(reader));
+                    case "peach.applicationListener" -> xml.addApplicationListener(readListener(reader));
+                    case "peach.projectListener" -> xml.addProjectListeners(readListener(reader));
                     default -> {
                         String implementation = null;
                         String id = null;
@@ -333,6 +333,6 @@ final class DescriptorReader {
         return namespace == null || namespace.isEmpty() ? name : namespace + "." + name;
     }
 
-    private DescriptorReader() {
+    private PluginXmlReader() {
     }
 }

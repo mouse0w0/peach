@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-final class PluginDescriptor {
+final class PluginXml {
     public String id;
     public String name;
     public String version;

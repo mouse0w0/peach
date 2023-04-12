@@ -42,30 +42,30 @@ final class PluginImpl implements Plugin {
 
     private boolean enabled;
 
-    public PluginImpl(PluginDescriptor descriptor, List<Path> classpath, boolean useCoreClassLoader) {
-        this.id = descriptor.id;
-        this.name = descriptor.name;
-        this.version = descriptor.version != null ? new Version(descriptor.version) : DEFAULT_VERSION;
-        this.logo = descriptor.logo;
-        this.license = descriptor.license;
-        this.description = descriptor.description;
-        this.category = descriptor.category;
-        this.author = descriptor.author;
-        this.authorUrl = descriptor.authorUrl;
-        this.authorEmail = descriptor.authorEmail;
-        this.homepage = descriptor.homepage;
-        this.repository = descriptor.repository;
-        this.issueTrackingUrl = descriptor.issueTrackingUrl;
-        this.issueTrackingEmail = descriptor.issueTrackingEmail;
-        this.updateUrl = descriptor.updateUrl;
-        this.dependencies = freezeList(descriptor.dependencies);
-        this.actions = freezeList(descriptor.actions);
-        this.extensionPoints = freezeList(descriptor.extensionPoints);
-        this.extensions = freezeExtensions(descriptor.extensions);
-        this.applicationServices = freezeList(descriptor.applicationServices);
-        this.projectServices = freezeList(descriptor.projectServices);
-        this.applicationListeners = freezeList(descriptor.applicationListeners);
-        this.projectListeners = freezeList(descriptor.projectListeners);
+    public PluginImpl(PluginXml xml, List<Path> classpath, boolean useCoreClassLoader) {
+        this.id = xml.id;
+        this.name = xml.name;
+        this.version = xml.version != null ? new Version(xml.version) : DEFAULT_VERSION;
+        this.logo = xml.logo;
+        this.license = xml.license;
+        this.description = xml.description;
+        this.category = xml.category;
+        this.author = xml.author;
+        this.authorUrl = xml.authorUrl;
+        this.authorEmail = xml.authorEmail;
+        this.homepage = xml.homepage;
+        this.repository = xml.repository;
+        this.issueTrackingUrl = xml.issueTrackingUrl;
+        this.issueTrackingEmail = xml.issueTrackingEmail;
+        this.updateUrl = xml.updateUrl;
+        this.dependencies = freezeList(xml.dependencies);
+        this.actions = freezeList(xml.actions);
+        this.extensionPoints = freezeList(xml.extensionPoints);
+        this.extensions = freezeExtensions(xml.extensions);
+        this.applicationServices = freezeList(xml.applicationServices);
+        this.projectServices = freezeList(xml.projectServices);
+        this.applicationListeners = freezeList(xml.applicationListeners);
+        this.projectListeners = freezeList(xml.projectListeners);
         this.classpath = classpath;
         this.useCoreClassLoader = useCoreClassLoader;
     }

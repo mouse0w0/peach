@@ -266,7 +266,7 @@ public class PluginManagerCore {
         }
 
         try {
-            return new PluginImpl(DescriptorReader.read(FileUtils.toURLString(pluginXmlFile), Files.newInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
+            return new PluginImpl(PluginXmlReader.read(FileUtils.toURLString(pluginXmlFile), Files.newInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
         } catch (Exception e) {
             throw new PluginLoadException(e, classpath);
         }
@@ -281,7 +281,7 @@ public class PluginManagerCore {
                 return null;
             }
 
-            return new PluginImpl(DescriptorReader.read("jar:" + FileUtils.toURLString(jar) + "!/" + PLUGIN_XML, zipFile.getInputStream(pluginFile)), classpath, useCoreClassLoader);
+            return new PluginImpl(PluginXmlReader.read("jar:" + FileUtils.toURLString(jar) + "!/" + PLUGIN_XML, zipFile.getInputStream(pluginFile)), classpath, useCoreClassLoader);
         } catch (Exception e) {
             throw new PluginLoadException(e, classpath);
         }
