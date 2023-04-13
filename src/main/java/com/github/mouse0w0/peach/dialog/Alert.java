@@ -16,9 +16,8 @@ public class Alert extends Dialog<ButtonType> {
     }
 
     public static boolean confirm(String title, String text) {
-        Alert alert = new Alert(title != null ? title : AppL10n.localize("dialog.confirm.title"),
-                text, ButtonType.OK, ButtonType.CANCEL);
-        return alert.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
+        return new Alert(title != null ? title : AppL10n.localize("dialog.confirm.title"), text, ButtonType.OK, ButtonType.CANCEL)
+                .showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK;
     }
 
     public static void warning(String text) {
