@@ -62,7 +62,11 @@ public class PluginClassLoader extends URLClassLoader {
             return url;
         }
         for (ClassLoader parent : parents) {
-            url = parent.getResource(name);
+            if (parent instanceof PluginClassLoader) {
+                url = ((PluginClassLoader) parent).findResource(name);
+            } else {
+                url = parent.getResource(name);
+            }
             if (url != null) {
                 return url;
             }
@@ -77,7 +81,12 @@ public class PluginClassLoader extends URLClassLoader {
         Enumeration<URL>[] enums = new Enumeration[parentCount + 1];
         enums[0] = findResources(name);
         for (int i = 0; i < parentCount; i++) {
-            enums[i + 1] = parents[i].getResources(name);
+            ClassLoader parent = parents[i];
+            if (parent instanceof PluginClassLoader) {
+                enums[i + 1] = ((PluginClassLoader) parent).findResources(name);
+            } else {
+                enums[i + 1] = parent.getResources(name);
+            }
         }
         return new CompoundEnumeration<>(enums);
     }
