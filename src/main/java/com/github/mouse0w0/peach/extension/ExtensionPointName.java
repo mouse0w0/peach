@@ -27,4 +27,9 @@ public final class ExtensionPointName<T> {
     public List<T> getExtensions() {
         return getPoint().getExtensions();
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
