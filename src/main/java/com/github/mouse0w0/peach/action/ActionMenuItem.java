@@ -23,7 +23,7 @@ public class ActionMenuItem extends MenuItem implements ActionHolder {
         this.listener = this::onPropertyChanged;
         action.addListener(new WeakPropertyChangeListener(listener));
 
-        setOnAction(event -> action.perform(new ActionEvent(event)));
+        setOnAction(event -> action.perform(new ActionEvent(this)));
     }
 
     @Override

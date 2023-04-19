@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.Peach;
-import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -22,7 +21,7 @@ public interface ActionManager {
     @Nullable
     ActionGroup getActionGroup(@NotNull String actionId);
 
-    void perform(@NotNull String actionId, @Nullable Event event);
+    void perform(@NotNull String actionId, @NotNull Object source);
 
     @NotNull
     Menu createMenu(@NotNull ActionGroup group);

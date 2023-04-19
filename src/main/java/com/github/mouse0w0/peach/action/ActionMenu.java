@@ -56,7 +56,7 @@ public class ActionMenu extends Menu implements ActionHolder {
     }
 
     private void update(Event event) {
-        Utils.update(group, event);
+        Utils.update(group, this);
         Utils.updateSeparatorVisibility(getItems());
     }
 

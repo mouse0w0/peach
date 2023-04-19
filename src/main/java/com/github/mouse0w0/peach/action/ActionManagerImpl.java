@@ -58,12 +58,12 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public void perform(@NotNull String actionId, @Nullable Event event) {
+    public void perform(@NotNull String actionId, @NotNull Object source) {
         Action action = getAction(actionId);
         if (action == null) {
-            throw new IllegalArgumentException("Not found action, id=" + actionId + ", event=" + event);
+            throw new IllegalArgumentException("Missing action: " + actionId);
         }
-        action.perform(new ActionEvent(event));
+        action.perform(new ActionEvent(source));
     }
 
     @Override

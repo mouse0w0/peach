@@ -19,8 +19,8 @@ class Utils {
         }
     }
 
-    public static void update(ActionGroup group, Event event) {
-        final ActionEvent actionEvent = new ActionEvent(event);
+    public static void update(ActionGroup group, Object source) {
+        final ActionEvent actionEvent = new ActionEvent(source);
         for (Action child : group.getChildren()) {
             child.update(actionEvent);
         }

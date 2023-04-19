@@ -267,7 +267,7 @@ public class ProjectView implements Disposable, DataProvider {
                 Clipboard systemClipboard = Clipboard.getSystemClipboard();
                 ClipboardContent content = ClipboardUtils.copyOf(systemClipboard);
                 systemClipboard.setContent(Collections.singletonMap(DataFormat.FILES, dragboard.getFiles()));
-                ActionManager.getInstance().perform("Paste", event);
+                ActionManager.getInstance().perform("Paste", event.getSource());
                 systemClipboard.setContent(content);
                 event.setDropCompleted(true);
                 requestFocus();
