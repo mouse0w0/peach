@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.plugin.ExtensionDescriptor;
 import com.github.mouse0w0.peach.plugin.ExtensionPointDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginManagerCore;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +17,14 @@ public final class Extensions {
 
     private static final Map<String, ExtensionPointImpl<?>> POINTS = new HashMap<>();
 
+    @NotNull
     @SuppressWarnings("unchecked")
     public static <T> ExtensionPoint<T> getPoint(String name) {
-        return (ExtensionPoint<T>) POINTS.get(name);
+        ExtensionPoint<T> point = (ExtensionPoint<T>) POINTS.get(name);
+        if (point == null) {
+            throw new IllegalArgumentException("Missing extension point: " + name);
+        }
+        return point;
     }
 
     public static void loadExtensions() {
