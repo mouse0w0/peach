@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.javafx;
 
-
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DataFormat;
