@@ -102,12 +102,15 @@ public class RenameDialog<T> extends Dialog<T> {
     protected void setResultAndClose(ButtonType buttonType, boolean close) {
         if (buttonType == null || buttonType.getButtonData().isCancelButton()) {
             super.setResultAndClose(buttonType, close);
-        } else if (getNewName().isEmpty()) {
-            showMessage(AppL10n.localize("dialog.rename.error.emptyFileName"));
-        } else if (!FileUtils.FILE_NAME_PATTERN.matcher(getNewName()).matches()) {
-            showMessage(AppL10n.localize("dialog.rename.error.invalidFileName"));
         } else {
-            super.setResultAndClose(buttonType, close);
+            String newName = getNewName();
+            if (newName.isEmpty()) {
+                showMessage(AppL10n.localize("dialog.rename.error.emptyFileName"));
+            } else if (!FileUtils.validateFileName(newName)) {
+                showMessage(AppL10n.localize("dialog.rename.error.invalidFileName"));
+            } else {
+                super.setResultAndClose(buttonType, close);
+            }
         }
     }
 
