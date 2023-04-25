@@ -58,7 +58,7 @@ public class PasteExecutor implements Runnable {
     }
 
     private void handleFile(Path source, Path target) throws IOException {
-        if (source.equals(target)) return;
+        if (move && source.equals(target)) return;
 
         while (Files.exists(target)) {
             if (skipAll) return;
