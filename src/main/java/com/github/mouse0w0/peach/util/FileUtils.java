@@ -26,18 +26,22 @@ public class FileUtils {
     public static final LinkOption[] NOFOLLOW_LINKS = {LinkOption.NOFOLLOW_LINKS};
 
     public static final Pattern FILE_NAME_PATTERN = Pattern.compile(
-            "[^\\s\\\\/:*?\"<>|](\\x20|[^\\s\\\\/:*?\"<>|])*[^\\s\\\\/:*?\"<>|]$");
+            "^(?!(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\.[^.]*)*$)" +
+            "[^<>:\"/\\\\|?*\\x00-\\x1F]*[^<>:\"/\\\\|?*\\x00-\\x1F\\s.]$",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern FILE_NAME_WITHOUT_EXTENSION = Pattern.compile(
-            "[^\\s\\\\/:*?\"<>|.](\\x20|[^\\s\\\\/:*?\"<>|.])*[^\\s\\\\/:*?\"<>|.]$");
+            "^(?!(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$)" +
+            "[^<>:\"/\\\\|?*\\x00-\\x1F.]*[^<>:\"/\\\\|?*\\x00-\\x1F\\s.]$",
+            Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static boolean validateFileName(String fileName) {
-        if (fileName == null || fileName.length() > 255) return false;
+        if (fileName == null || fileName.isEmpty()) return false;
         return FILE_NAME_PATTERN.matcher(fileName).matches();
     }
 
     public static boolean validateFileNameWithoutExtension(String fileName) {
-        if (fileName == null || fileName.length() > 255) return false;
+        if (fileName == null || fileName.isEmpty()) return false;
         return FILE_NAME_WITHOUT_EXTENSION.matcher(fileName).matches();
     }
 
