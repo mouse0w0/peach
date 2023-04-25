@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class FileUtils {
-
     public static final FileAttribute<?>[] EMPTY_FILE_ATTRIBUTE_ARRAY = new FileAttribute[0];
 
     public static final CopyOption[] EMPTY_COPY_OPTION_ARRAY = new CopyOption[0];
@@ -195,6 +194,10 @@ public class FileUtils {
 
     public static Path getDirectory(Path path) {
         return Files.isDirectory(path) ? path : path.getParent();
+    }
+
+    public static File getDirectory(File file) {
+        return file.isDirectory() ? file : file.getParentFile();
     }
 
     public static Path toPath(File file) {

@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.action.file;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
+import com.github.mouse0w0.peach.util.FileUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -16,7 +17,7 @@ public class ShowInExplorerAction extends Action {
         if (path != null) {
             File file = path.toFile();
             try {
-                Desktop.getDesktop().open(file.isFile() ? file.getParentFile() : file);
+                Desktop.getDesktop().open(FileUtils.getDirectory(file));
             } catch (IOException ignored) {
             }
         }
