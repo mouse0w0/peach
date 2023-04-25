@@ -5,20 +5,21 @@ import com.github.mouse0w0.peach.dialog.ButtonType;
 import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.dialog.RenameDialog;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 
 public class PasteExecutor implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(PasteExecutor.class);
 
-    private static final CopyOption[] REPLACE_EXISTING = {StandardCopyOption.REPLACE_EXISTING};
-
-    private final List<Path> files;
-    private final Path folder;
+    private final List<Path> paths;
+    private final Path target;
 
     private final boolean multiple;
     private final boolean move;
@@ -26,34 +27,34 @@ public class PasteExecutor implements Runnable {
     private boolean overwriteAll = false;
     private boolean skipAll = false;
 
-    public PasteExecutor(List<Path> files, Path folder, boolean move) {
-        this.files = files;
-        this.folder = folder;
-        this.multiple = files.size() > 1;
+    public PasteExecutor(List<Path> paths, Path target, boolean move) {
+        this.paths = paths;
+        this.target = target;
+        this.multiple = paths.size() > 1;
         this.move = move;
     }
 
     @Override
     public void run() {
-        for (Path file : files) {
-            handle(file, folder.resolve(file.getFileName()));
-        }
-    }
-
-    private void handle(Path source, Path target) {
         try {
-            handleFile(source, target);
-
-            if (Files.isDirectory(source)) {
-                try (DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
-                    for (Path child : stream) {
-                        handle(child, target.resolve(child.getFileName()));
-                    }
-                }
+            for (Path path : paths) {
+                handle(path, target.resolve(path.getFileName()));
             }
         } catch (IOException e) {
             LOGGER.error("Failed to paste file because an exception has occurred.", e);
             Alert.error(AppL10n.localize("dialog.paste.title"), e.toString());
+        }
+    }
+
+    private void handle(Path source, Path target) throws IOException {
+        handleFile(source, target);
+
+        if (Files.isDirectory(source)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
+                for (Path child : stream) {
+                    handle(child, target.resolve(child.getFileName()));
+                }
+            }
         }
     }
 
@@ -67,7 +68,7 @@ public class PasteExecutor implements Runnable {
                 return;
             }
             ButtonType buttonType = new PasteDialog(AppL10n.localize("dialog.paste.title"),
-                    AppL10n.localize("dialog.paste.error.existsSameFile", folder, source.getFileName()), multiple)
+                    AppL10n.localize("dialog.paste.error.existsSameFile", this.target, source.getFileName()), multiple)
                     .showAndWait().orElse(PasteDialog.SKIP);
             if (buttonType == PasteDialog.SKIP) {
                 return;
@@ -92,9 +93,9 @@ public class PasteExecutor implements Runnable {
 
     private void copyOrMove(Path source, Path target) throws IOException {
         if (move) {
-            Files.move(source, target, REPLACE_EXISTING);
+            Files.move(source, target, FileUtils.REPLACE_EXISTING);
         } else {
-            Files.copy(source, target, REPLACE_EXISTING);
+            Files.copy(source, target, FileUtils.REPLACE_EXISTING);
         }
     }
 }

@@ -22,13 +22,13 @@ public class PasteAction extends Action {
 
     @Override
     public void perform(ActionEvent event) {
-        final Path target = DataKeys.PATH.get(event);
+        Path target = DataKeys.PATH.get(event);
         if (target == null) return;
+        target = FileUtils.getDirectory(target);
 
-        final Clipboard clipboard = Clipboard.getSystemClipboard();
-        final List<Path> paths = FileUtils.listFileToPath(clipboard.getFiles());
-        final Path folder = Files.isDirectory(target) ? target : target.getParent();
-        final boolean move = ClipboardUtils.hasTransferMode(clipboard, ClipboardUtils.TRANSFER_MODE_MOVE);
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        List<Path> paths = FileUtils.listFileToPath(clipboard.getFiles());
+        boolean move = ClipboardUtils.hasTransferMode(clipboard, ClipboardUtils.TRANSFER_MODE_MOVE);
 
         int fileCount = 0, folderCount = 0;
         for (Path path : paths) {
@@ -71,8 +71,8 @@ public class PasteAction extends Action {
         }
 
         if (Alert.confirm(AppL10n.localize(titleKey),
-                AppL10n.localize(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount, FileUtils.getFileName(folder)))) {
-            new PasteExecutor(paths, folder, move).run();
+                AppL10n.localize(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount, FileUtils.getFileName(target)))) {
+            new PasteExecutor(paths, target, move).run();
         }
     }
 }
