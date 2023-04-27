@@ -2,11 +2,8 @@ package com.github.mouse0w0.peach.util.property;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class PropertyListenerHelper {
-    private static final AtomicInteger COUNTER = new AtomicInteger();
-
     private final PropertyObservable observable;
 
     private PropertyChangeListener[] changeListeners;
