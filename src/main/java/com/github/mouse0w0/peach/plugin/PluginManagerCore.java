@@ -60,7 +60,7 @@ public class PluginManagerCore {
 
         List<CompletableFuture<PluginImpl>> futures = new ArrayList<>();
         loadFromClasspath(coreClassLoader, futures);
-        loadFromDir(Path.of("plugins").toAbsolutePath(), futures);
+        loadFromDir(Path.of("plugin").toAbsolutePath(), futures);
 
         Map<String, PluginImpl> idToPluginMap = new HashMap<>();
         Multimap<String, PluginImpl> duplicatePlugins = ArrayListMultimap.create();
