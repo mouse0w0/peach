@@ -50,7 +50,7 @@ public class FileUtils {
             try {
                 Files.createDirectories(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
             } catch (IOException e) {
-                throw new UncheckedIOException(e.getMessage(), e);
+                throw unchecked(e);
             }
         }
     }
@@ -61,7 +61,7 @@ public class FileUtils {
             try {
                 Files.createFile(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
             } catch (IOException e) {
-                throw new UncheckedIOException(e.getMessage(), e);
+                throw unchecked(e);
             }
         }
     }
@@ -79,7 +79,7 @@ public class FileUtils {
             try {
                 return Files.copy(source, target, options);
             } catch (IOException e) {
-                throw new UncheckedIOException(e.getMessage(), e);
+                throw unchecked(e);
             }
         }
         return target;
@@ -93,7 +93,7 @@ public class FileUtils {
         try {
             return Files.copy(source, target, REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+            throw unchecked(e);
         }
     }
 
@@ -101,7 +101,7 @@ public class FileUtils {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             return !stream.iterator().hasNext();
         } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+            throw unchecked(e);
         }
     }
 
@@ -109,7 +109,7 @@ public class FileUtils {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             return stream.iterator().hasNext();
         } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+            throw unchecked(e);
         }
     }
 
@@ -153,29 +153,31 @@ public class FileUtils {
         delete(file.toPath());
     }
 
+    private static final FileVisitor<Path> DELETE_FILE_VISITOR = new SimpleFileVisitor<>() {
+        @Override
+        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+            try {
+                Files.delete(file);
+            } catch (NoSuchFileException ignored) {
+            }
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+            try {
+                Files.delete(dir);
+            } catch (NoSuchFileException ignored) {
+            }
+            return FileVisitResult.CONTINUE;
+        }
+    };
+
     public static void deleteDirectory(Path path) throws UncheckedIOException {
         try {
-            Files.walkFileTree(path, new SimpleFileVisitor<>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    try {
-                        Files.delete(file);
-                    } catch (NoSuchFileException ignored) {
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-
-                @Override
-                public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                    try {
-                        Files.delete(dir);
-                    } catch (NoSuchFileException ignored) {
-                    }
-                    return FileVisitResult.CONTINUE;
-                }
-            });
+            Files.walkFileTree(path, DELETE_FILE_VISITOR);
         } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+            throw unchecked(e);
         }
     }
 
@@ -188,7 +190,7 @@ public class FileUtils {
             Files.delete(path);
         } catch (NoSuchFileException ignored) {
         } catch (IOException e) {
-            throw new UncheckedIOException(e.getMessage(), e);
+            throw unchecked(e);
         }
     }
 
@@ -298,5 +300,9 @@ public class FileUtils {
 
     public static String toURLString(File file) {
         return URLDecoder.decode(toURL(file).toExternalForm(), StandardCharsets.UTF_8);
+    }
+
+    private static UncheckedIOException unchecked(IOException e) {
+        return new UncheckedIOException(e.getMessage(), e);
     }
 }
