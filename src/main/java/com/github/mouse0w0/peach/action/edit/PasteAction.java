@@ -36,11 +36,13 @@ public class PasteAction extends Action {
                 fileCount++;
             } else if (Files.isDirectory(path)) {
                 if (target.startsWith(path)) {
-                    Alert.error(AppL10n.localize("dialog.paste.title"),
-                            AppL10n.localize("dialog.paste.error.tryPasteIntoSubdirectory"));
+                    Alert.error(AppL10n.localize("dialog.paste.title"), AppL10n.localize("dialog.paste.error.pasteIntoSubdirectory"));
                     return;
                 }
                 folderCount++;
+            } else if (Files.isSymbolicLink(path)) {
+                Alert.error(AppL10n.localize("dialog.paste.title"), AppL10n.localize("dialog.paste.error.pasteSymbolicLink", path));
+                return;
             }
         }
 
