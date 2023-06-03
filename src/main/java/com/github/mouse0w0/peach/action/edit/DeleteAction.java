@@ -23,27 +23,33 @@ public class DeleteAction extends Action {
 
         List<Path> paths = (List<Path>) items;
 
-        int fileCount = 0, directoryCount = 0;
+        int fileCount = 0, directoryCount = 0, symbolicLinkCount = 0;
         for (Path path : paths) {
             if (Files.isRegularFile(path)) {
                 fileCount++;
             } else if (Files.isDirectory(path)) {
                 directoryCount++;
+            } else if (Files.isSymbolicLink(path)) {
+                symbolicLinkCount++;
             }
         }
+        int mask = 0;
+        if (fileCount != 0) mask |= 1;
+        if (directoryCount != 0) mask |= 2;
+        if (symbolicLinkCount != 0) mask |= 4;
 
-        String translationKey;
-        if (fileCount != 0 && directoryCount != 0) {
-            translationKey = "dialog.delete.message.fileAndDirectories";
-        } else {
-            if (fileCount > 0) {
-                translationKey = fileCount == 1 ? "dialog.delete.message.file" : "dialog.delete.message.files";
-            } else {
-                translationKey = directoryCount == 1 ? "dialog.delete.message.directory" : "dialog.delete.message.directories";
-            }
-        }
+        String translationKey = switch (mask) {
+            case 1 -> fileCount == 1 ? "dialog.delete.message.file" : "dialog.delete.message.files";
+            case 2 -> directoryCount == 1 ? "dialog.delete.message.directory" : "dialog.delete.message.directories";
+            case 3 -> "dialog.delete.message.fileAndDirectory";
+            case 4 ->
+                    symbolicLinkCount == 1 ? "dialog.delete.message.symbolicLink" : "dialog.delete.message.symbolicLinks";
+            case 5 -> "dialog.delete.message.fileAndSymbolicLink";
+            case 6 -> "dialog.delete.message.directoryAndSymbolicLink";
+            default -> "dialog.delete.message.fileAndDirectoryAndSymbolicLink";
+        };
 
-        String message = AppL10n.localize(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, directoryCount);
+        String message = AppL10n.localize(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, directoryCount, symbolicLinkCount);
 
         if (Alert.confirm(AppL10n.localize("dialog.delete.title"), message)) {
             FileEditorManager fileEditorManager = FileEditorManager.getInstance(event.getData(DataKeys.PROJECT));
