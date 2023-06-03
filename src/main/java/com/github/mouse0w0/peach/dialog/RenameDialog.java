@@ -58,7 +58,7 @@ public class RenameDialog<T> extends Dialog<T> {
         vBox.setPadding(new Insets(10));
 
         label = new Label(AppL10n.localize(
-                isDirectory ? "dialog.rename.message.folder" : "dialog.rename.message.file", rawName));
+                isDirectory ? "dialog.rename.message.directory" : "dialog.rename.message.file", rawName));
         editor = new TextField(newName);
 
         vBox.getChildren().addAll(label, editor, getButtonBar());

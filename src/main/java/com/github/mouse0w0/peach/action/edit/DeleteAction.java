@@ -23,27 +23,27 @@ public class DeleteAction extends Action {
 
         List<Path> paths = (List<Path>) items;
 
-        int fileCount = 0, folderCount = 0;
+        int fileCount = 0, directoryCount = 0;
         for (Path path : paths) {
             if (Files.isRegularFile(path)) {
                 fileCount++;
             } else if (Files.isDirectory(path)) {
-                folderCount++;
+                directoryCount++;
             }
         }
 
         String translationKey;
-        if (fileCount != 0 && folderCount != 0) {
-            translationKey = "dialog.delete.message.fileAndFolder";
+        if (fileCount != 0 && directoryCount != 0) {
+            translationKey = "dialog.delete.message.fileAndDirectories";
         } else {
             if (fileCount > 0) {
                 translationKey = fileCount == 1 ? "dialog.delete.message.file" : "dialog.delete.message.files";
             } else {
-                translationKey = folderCount == 1 ? "dialog.delete.message.folder" : "dialog.delete.message.folders";
+                translationKey = directoryCount == 1 ? "dialog.delete.message.directory" : "dialog.delete.message.directories";
             }
         }
 
-        String message = AppL10n.localize(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount);
+        String message = AppL10n.localize(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, directoryCount);
 
         if (Alert.confirm(AppL10n.localize("dialog.delete.title"), message)) {
             FileEditorManager fileEditorManager = FileEditorManager.getInstance(event.getData(DataKeys.PROJECT));

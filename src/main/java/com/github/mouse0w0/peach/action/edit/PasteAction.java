@@ -30,7 +30,7 @@ public class PasteAction extends Action {
         List<Path> paths = FileUtils.listFileToPath(clipboard.getFiles());
         boolean move = ClipboardUtils.hasTransferMode(clipboard, ClipboardUtils.TRANSFER_MODE_MOVE);
 
-        int fileCount = 0, folderCount = 0;
+        int fileCount = 0, directoryCount = 0;
         for (Path path : paths) {
             if (Files.isRegularFile(path)) {
                 fileCount++;
@@ -39,7 +39,7 @@ public class PasteAction extends Action {
                     Alert.error(AppL10n.localize("dialog.paste.title"), AppL10n.localize("dialog.paste.error.pasteIntoSubdirectory"));
                     return;
                 }
-                folderCount++;
+                directoryCount++;
             } else if (Files.isSymbolicLink(path)) {
                 Alert.error(AppL10n.localize("dialog.paste.title"), AppL10n.localize("dialog.paste.error.pasteSymbolicLink", path));
                 return;
@@ -50,30 +50,30 @@ public class PasteAction extends Action {
         final String messageKey;
         if (move) {
             titleKey = "dialog.move.title";
-            if (fileCount != 0 && folderCount != 0) {
-                messageKey = "dialog.move.message.fileAndFolder";
+            if (fileCount != 0 && directoryCount != 0) {
+                messageKey = "dialog.move.message.fileAndDirectory";
             } else {
                 if (fileCount > 0) {
                     messageKey = fileCount == 1 ? "dialog.move.message.file" : "dialog.move.message.files";
                 } else {
-                    messageKey = folderCount == 1 ? "dialog.move.message.folder" : "dialog.move.message.folders";
+                    messageKey = directoryCount == 1 ? "dialog.move.message.directory" : "dialog.move.message.directories";
                 }
             }
         } else {
             titleKey = "dialog.copy.title";
-            if (fileCount != 0 && folderCount != 0) {
-                messageKey = "dialog.copy.message.fileAndFolder";
+            if (fileCount != 0 && directoryCount != 0) {
+                messageKey = "dialog.copy.message.fileAndDirectory";
             } else {
                 if (fileCount > 0) {
                     messageKey = fileCount == 1 ? "dialog.copy.message.file" : "dialog.copy.message.files";
                 } else {
-                    messageKey = folderCount == 1 ? "dialog.copy.message.folder" : "dialog.copy.message.folders";
+                    messageKey = directoryCount == 1 ? "dialog.copy.message.directory" : "dialog.copy.message.directories";
                 }
             }
         }
 
         if (Alert.confirm(AppL10n.localize(titleKey),
-                AppL10n.localize(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, folderCount, FileUtils.getFileName(target)))) {
+                AppL10n.localize(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, directoryCount, FileUtils.getFileName(target)))) {
             new PasteExecutor(paths, target, move).run();
         }
     }

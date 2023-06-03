@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.dialog.TextInputDialog;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,13 +28,11 @@ public class NewDirectoryAction extends Action {
         final Path path = DataKeys.PATH.get(event);
         if (path == null) return;
 
-        final Path folder = Files.isDirectory(path) ? path : path.getParent();
-
         new TextInputDialog(AppL10n.localize("dialog.newDirectory.title"), null)
                 .showAndWait()
                 .ifPresent(directoryName -> {
                     try {
-                        Files.createDirectories(folder.resolve(directoryName));
+                        Files.createDirectories(FileUtils.getDirectory(path).resolve(directoryName));
                     } catch (FileAlreadyExistsException e) {
                         Alert.error(AppL10n.localize("dialog.newDirectory.title"),
                                 AppL10n.localize("dialog.newDirectory.error.alreadyExists", directoryName));
