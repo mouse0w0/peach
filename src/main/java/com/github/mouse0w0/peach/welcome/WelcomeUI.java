@@ -13,10 +13,7 @@ import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
 import com.github.mouse0w0.peach.recentProject.RecentProjectManager;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -36,10 +33,9 @@ public class WelcomeUI extends BorderPane {
 
     private static Stage stage;
 
-    private ListView<RecentProjectInfo> recentProjects;
+    private final ListView<RecentProjectInfo> recentProjects;
 
     private final ContextMenu contextMenu;
-    private final EventHandler<Event> onContextMenuRequested;
 
     static {
         Peach.getInstance().getMessageBus().connect().subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
@@ -92,7 +88,6 @@ public class WelcomeUI extends BorderPane {
         ActionManager actionManager = ActionManager.getInstance();
         ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction("RecentProjectPopupMenu");
         contextMenu = actionManager.createContextMenu(filePopupMenu);
-        onContextMenuRequested = event -> contextMenu.getProperties().put(Node.class, event.getSource());
 
         recentProjects = new ListView<>();
         recentProjects.setId("project-list");
@@ -132,7 +127,6 @@ public class WelcomeUI extends BorderPane {
         public static final String PATH_NOT_EXISTS = "path-not-exists";
 
         public Cell() {
-            setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
                 if (isEmpty()) return;
                 if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {

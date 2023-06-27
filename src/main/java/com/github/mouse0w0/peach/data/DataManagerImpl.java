@@ -20,6 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class DataManagerImpl implements DataManager {
+
+    public static final Object OWNER_NODE = new Object();
+
     @Override
     public DataContext getDataContext(@NotNull Object source) {
         return new DataContextImpl(this, Validate.notNull(source));
@@ -66,7 +69,7 @@ public final class DataManagerImpl implements DataManager {
         } else if (o instanceof PopupWindow popupWindow) {
             Node ownerNode = popupWindow.getOwnerNode();
             if (ownerNode == null) {
-                ownerNode = (Node) popupWindow.getProperties().get(Node.class);
+                ownerNode = (Node) popupWindow.getProperties().get(OWNER_NODE);
             }
             return ownerNode != null ? ownerNode : popupWindow.getOwnerWindow();
         } else if (o instanceof MenuItem menuItem) {
