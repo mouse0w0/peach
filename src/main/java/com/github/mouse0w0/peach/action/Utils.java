@@ -1,9 +1,13 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.icon.Icon;
+import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
+import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.image.ImageView;
+import org.jetbrains.annotations.Nullable;
 
 class Utils {
     public static void fillMenu(ActionGroup group, ObservableList<MenuItem> items) {
@@ -48,6 +52,10 @@ class Utils {
         if (separator != null) {
             separator.setVisible(false);
         }
+    }
+
+    public static void setIcon(ObjectProperty<Node> graphicProperty, @Nullable Icon icon) {
+        graphicProperty.set(icon != null ? new ImageView(icon.getImage()) : null);
     }
 
     private Utils() {

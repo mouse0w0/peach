@@ -19,7 +19,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -74,7 +73,7 @@ public class WelcomeUI extends BorderPane {
         Scene scene = new Scene(new WelcomeUI());
         stage.setScene(scene);
         stage.setTitle(AppL10n.localize("welcome.title"));
-        stage.getIcons().setAll(Icons.Peach_16x);
+        stage.getIcons().setAll(Icons.Peach.getImage());
         stage.setResizable(false);
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
@@ -111,7 +110,6 @@ public class WelcomeUI extends BorderPane {
 
         Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
         newProject.setText(AppL10n.localize("welcome.NewProject.text"));
-        newProject.setGraphic(new ImageView(Icons.Action.NewProject));
         Button openProject = actionManager.createButton(actionManager.getAction("OpenProject"));
         Button donate = actionManager.createButton(actionManager.getAction("Donate"));
 

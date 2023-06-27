@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.view;
 
+import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.javafx.control.ViewTab;
@@ -8,6 +9,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +63,8 @@ public class ViewManager {
             }
 
             String text = AppL10n.localize("view." + id + ".text");
-            Node icon = IconManager.getInstance().createNode(view.getIcon());
+            Icon icon = IconManager.getInstance().getIcon(view.getIcon());
+            Node graphic = icon != null ? new ImageView(icon.getImage()) : null;
             Node content = view.getFactory().createViewContent(project);
 
             EightPos position = view.getPosition();
@@ -70,7 +73,7 @@ public class ViewManager {
                 position = EightPos.LEFT_TOP;
             }
 
-            ViewTab viewTab = new ViewTab(text, icon, content);
+            ViewTab viewTab = new ViewTab(text, graphic, content);
             viewTab.getProperties().put(ViewEP.class, view);
 
             viewTabMap.put(id, viewTab);

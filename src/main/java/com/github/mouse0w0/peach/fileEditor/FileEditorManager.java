@@ -3,12 +3,12 @@ package com.github.mouse0w0.peach.fileEditor;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
+import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +82,7 @@ public class FileEditorManager {
 
         String name = fileEditor.getName();
         if (name != null) tab.setText(FileUtils.getFileName(file));
-        Image icon = fileEditor.getIcon();
+        Icon icon = fileEditor.getIcon();
         if (icon != null) tab.setIcon(icon);
 
         tab.setClosable(true);
@@ -118,24 +118,24 @@ public class FileEditorManager {
 
     private static class FileTab extends Tab implements FileCell {
         private ImageView imageView;
+        private Icon icon;
 
         public FileTab(String text, Node content) {
             super(text, content);
         }
 
         @Override
-        public Image getIcon() {
-            return imageView == null ? null :
-                    (getGraphic() != imageView ? null : imageView.getImage());
+        public Icon getIcon() {
+            return icon;
         }
 
         @Override
-        public void setIcon(Image icon) {
+        public void setIcon(Icon icon) {
             if (imageView == null) {
-                imageView = new ImageView(icon);
+                imageView = new ImageView();
             }
 
-            imageView.setImage(icon);
+            imageView.setImage(icon.getImage());
 
             if (getGraphic() != imageView) {
                 setGraphic(imageView);

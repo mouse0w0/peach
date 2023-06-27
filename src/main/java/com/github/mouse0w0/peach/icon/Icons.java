@@ -1,52 +1,26 @@
 package com.github.mouse0w0.peach.icon;
 
-import javafx.scene.image.Image;
-
-import java.net.URL;
-
 public interface Icons {
 
-    Image Peach_16x = load("/icon/peach-16x.png");
-
-    interface Action {
-        Image NewProject = load("/icon/plus-thick.png");
-
-        Image OpenProject = load("/icon/folder-open-outline.png");
-
-        Image ProjectSettings = load("/icon/tune.png");
-
-        Image Export = load("/icon/export.png");
-
-        Image Donate = load("/icon/currency-usd-circle-outline.png");
-    }
-
-    interface View {
-        Image Project = load("/icon/file-cabinet.png");
-
-        Image ItemFavorites = load("/icon/star.png");
-    }
+    Icon Peach = IconManager.getInstance().getIcon("Peach");
 
     interface File {
-        Image Folder = load("/icon/file/folder.png");
+        Icon Folder = getIcon("File.Folder");
 
-        Image File = load("/icon/file/file.png");
+        Icon File = getIcon("File.File");
 
-        Image Json = load("/icon/file/code-json.png");
+        Icon Image = getIcon("File.Image");
 
-        Image Sound = load("/icon/file/file-music.png");
+        Icon Sound = getIcon("File.Sound");
 
-        Image Image = load("/icon/file/image.png");
+        Icon Json = getIcon("File.Json");
 
-        Image Forge = load("/icon/file/forge.png");
+        Icon Forge = getIcon("File.Forge");
 
-        Image ModElement = load("/icon/file/alpha-e-box.png");
+        Icon ModElement = getIcon("File.ModElement");
     }
 
-    static Image load(String name) {
-        URL resource = Icons.class.getResource(name);
-        if (resource == null) {
-            throw new NullPointerException("Not found resource: " + name);
-        }
-        return new Image(resource.toExternalForm());
+    static Icon getIcon(String name) {
+        return IconManager.getInstance().getIcon(name);
     }
 }

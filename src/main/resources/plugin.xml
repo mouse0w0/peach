@@ -6,6 +6,7 @@
         <extensionPoint name="applicationService" beanClass="com.github.mouse0w0.peach.service.ServiceDescriptor"/>
         <extensionPoint name="projectService" beanClass="com.github.mouse0w0.peach.service.ServiceDescriptor"/>
         <extensionPoint name="localization" beanClass="com.github.mouse0w0.peach.l10n.L10nEP"/>
+        <extensionPoint name="iconDefinition" beanClass="com.github.mouse0w0.peach.icon.IconDefinitionEP"/>
         <extensionPoint name="view" beanClass="com.github.mouse0w0.peach.view.ViewEP"/>
         <extensionPoint name="fileAppearance" interface="com.github.mouse0w0.peach.file.FileAppearance"/>
         <extensionPoint name="fileEditorProvider" interface="com.github.mouse0w0.peach.fileEditor.FileEditorProvider"/>
@@ -16,12 +17,14 @@
                             implementation="com.github.mouse0w0.peach.service.store.AppServiceStore"/>
         <applicationService interface="com.github.mouse0w0.peach.plugin.PluginManager"
                             implementation="com.github.mouse0w0.peach.plugin.PluginManagerImpl"/>
-        <applicationService interface="com.github.mouse0w0.peach.action.ActionManager"
-                            implementation="com.github.mouse0w0.peach.action.ActionManagerImpl" preload="true"/>
-        <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
-                            implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.l10n.L10nManager"
                             implementation="com.github.mouse0w0.peach.l10n.L10nManagerImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.icon.IconManager"
+                            implementation="com.github.mouse0w0.peach.icon.IconManagerImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
+                            implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.action.ActionManager"
+                            implementation="com.github.mouse0w0.peach.action.ActionManagerImpl" preload="true"/>
         <applicationService interface="com.github.mouse0w0.peach.window.WindowManager"
                             implementation="com.github.mouse0w0.peach.window.WindowManagerImpl"/>
         <applicationListener topic="ProjectLifecycleListener"
@@ -32,7 +35,6 @@
         <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <applicationService interface="com.github.mouse0w0.peach.project.ProjectManager"
                             implementation="com.github.mouse0w0.peach.project.ProjectManagerImpl"/>
-        <applicationService implementation="com.github.mouse0w0.peach.icon.IconManager"/>
 
         <applicationService implementation="com.github.mouse0w0.peach.mcmod.element.ElementRegistry" preload="true"/>
         <applicationService implementation="com.github.mouse0w0.peach.mcmod.content.ContentPackManager" preload="true"/>
@@ -56,11 +58,11 @@
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager" preload="true"/>
 
         <projectService implementation="com.github.mouse0w0.peach.view.ProjectView"/>
-        <view id="Project" icon="Icons.View.Project" position="LEFT_TOP"
+        <view id="Project" icon="View.Project" position="LEFT_TOP"
               factory="com.github.mouse0w0.peach.view.ProjectView$Factory"/>
 
         <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView"/>
-        <view id="ItemFavorites" icon="Icons.View.ItemFavorites" position="RIGHT_TOP"
+        <view id="ItemFavorites" icon="View.ItemFavorites" position="RIGHT_TOP"
               factory="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView$Factory"/>
 
         <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance"/>
@@ -71,6 +73,8 @@
 
         <localization locale="en-US" path="l10n/en-US.properties"/>
         <localization locale="zh-CN" path="l10n/zh-CN.properties"/>
+
+        <iconDefinition path="icons.properties"/>
     </extensions>
 
     <actions>
@@ -88,14 +92,14 @@
         <group id="MainMenu">
             <group id="File">
                 <reference id="New"/>
-                <action id="OpenProject" icon="Icons.Action.OpenProject"
+                <action id="OpenProject" icon="Action.OpenProject"
                         class="com.github.mouse0w0.peach.action.file.OpenProjectAction"/>
                 <action id="CloseProject"
                         class="com.github.mouse0w0.peach.action.file.CloseProjectAction"/>
                 <separator/>
 
                 <action id="OpenSettings"/>
-                <action id="OpenProjectSettings" icon="Icons.Action.ProjectSettings"
+                <action id="OpenProjectSettings" icon="Action.ProjectSettings"
                         class="com.github.mouse0w0.peach.mcmod.action.OpenProjectSettingsAction"/>
                 <separator/>
 
@@ -103,13 +107,13 @@
             </group>
 
             <group id="Build">
-                <action id="ExportProject" icon="Icons.Action.Export"
+                <action id="ExportProject" icon="Action.ExportProject"
                         class="com.github.mouse0w0.peach.mcmod.action.ExportProjectAction"/>
             </group>
 
             <group id="Help">
                 <action id="About"/>
-                <action id="Donate" icon="Icons.Action.Donate"
+                <action id="Donate" icon="Action.Donate"
                         class="com.github.mouse0w0.peach.action.help.DonateAction"/>
             </group>
         </group>

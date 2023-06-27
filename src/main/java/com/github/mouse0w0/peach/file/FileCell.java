@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.file;
 
+import com.github.mouse0w0.peach.icon.Icon;
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 
 public interface FileCell {
     String getText();
@@ -12,7 +12,7 @@ public interface FileCell {
 
     void setGraphic(Node graphic);
 
-    Image getIcon();
+    Icon getIcon();
 
-    void setIcon(Image icon);
+    void setIcon(Icon icon);
 }

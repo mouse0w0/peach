@@ -1,45 +1,14 @@
 package com.github.mouse0w0.peach.icon;
 
 import com.github.mouse0w0.peach.Peach;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-
-public class IconManager {
-
-    public static IconManager getInstance() {
+@ApiStatus.Internal
+public interface IconManager {
+    static IconManager getInstance() {
         return Peach.getInstance().getService(IconManager.class);
     }
 
-    private static Map<String, Image> cacheIcons = new HashMap<>();
-
-    public IconManager() {
-        loadIcon(Icons.class, "Icons.");
-    }
-
-    private void loadIcon(Class<?> clazz, String prefix) {
-        for (Field field : clazz.getFields()) {
-            try {
-                String iconName = prefix + field.getName();
-                cacheIcons.put(iconName, (Image) field.get(null));
-            } catch (IllegalAccessException ignored) {
-            }
-        }
-
-        for (Class<?> inner : clazz.getClasses()) {
-            loadIcon(inner, prefix + inner.getSimpleName() + ".");
-        }
-    }
-
-    public Image getIcon(String icon) {
-        return cacheIcons.get(icon);
-    }
-
-    public Node createNode(String icon) {
-        return new ImageView(cacheIcons.get(icon));
-    }
+    Icon getIcon(@NotNull String name);
 }

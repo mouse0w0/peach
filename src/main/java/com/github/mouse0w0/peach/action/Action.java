@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
 import com.github.mouse0w0.peach.util.property.PropertyListenerHelper;
 import com.github.mouse0w0.peach.util.property.PropertyObservable;
@@ -15,8 +16,8 @@ public abstract class Action implements PropertyObservable {
     private PropertyListenerHelper helper;
 
     private String text;
-    private String icon;
     private String description;
+    private Icon icon;
     private boolean disable = false;
     private boolean visible = true;
 
@@ -50,12 +51,12 @@ public abstract class Action implements PropertyObservable {
         PropertyListenerHelper.firePropertyChange(helper, DESCRIPTION_PROP, oldValue, value);
     }
 
-    public final String getIcon() {
+    public final Icon getIcon() {
         return icon;
     }
 
-    public final void setIcon(String value) {
-        String oldValue = this.icon;
+    public final void setIcon(Icon value) {
+        Icon oldValue = this.icon;
         this.icon = value;
         PropertyListenerHelper.firePropertyChange(helper, ICON_PROP, oldValue, value);
     }

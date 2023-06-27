@@ -33,7 +33,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle(project.getName());
-        stage.getIcons().setAll(Icons.Peach_16x);
+        stage.getIcons().setAll(Icons.Peach.getImage());
         stage.setOnShown(this::onShown);
         stage.setOnHidden(this::onHidden);
         return stage;

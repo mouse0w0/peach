@@ -31,7 +31,7 @@ public class Dialog<R> implements EventTarget {
     public Dialog() {
         setResizable(false);
         initModality(Modality.APPLICATION_MODAL);
-        getIcons().add(Icons.Peach_16x);
+        getIcons().add(Icons.Peach.getImage());
     }
 
     public Dialog(ButtonType... buttonTypes) {

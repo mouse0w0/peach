@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.action;
 
-import com.github.mouse0w0.peach.icon.IconManager;
-import com.github.mouse0w0.peach.util.StringUtils;
+import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
 import com.github.mouse0w0.peach.util.property.PropertyObservable;
 import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
@@ -16,7 +15,7 @@ public class ActionButton extends Button implements ActionHolder {
         this.action = action;
 
         setText(action.getText());
-        setIcon(action.getIcon());
+        Utils.setIcon(graphicProperty(), action.getIcon());
         setDisable(action.isDisable());
         setVisible(action.isVisible());
 
@@ -34,17 +33,9 @@ public class ActionButton extends Button implements ActionHolder {
     private void onPropertyChanged(PropertyObservable property, String propertyName, Object oldValue, Object newValue) {
         switch (propertyName) {
             case Action.TEXT_PROP -> setText((String) newValue);
-            case Action.ICON_PROP -> setIcon((String) newValue);
+            case Action.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
             case Action.DISABLE_PROP -> setDisable((boolean) newValue);
             case Action.VISIBLE_PROP -> setVisible((boolean) newValue);
-        }
-    }
-
-    private void setIcon(String value) {
-        if (StringUtils.isEmpty(value)) {
-            setGraphic(null);
-        } else {
-            setGraphic(IconManager.getInstance().createNode(value));
         }
     }
 }

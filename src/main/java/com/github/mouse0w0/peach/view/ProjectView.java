@@ -12,6 +12,7 @@ import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
+import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.javafx.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -25,7 +26,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import org.jetbrains.annotations.NotNull;
@@ -220,6 +220,7 @@ public class ProjectView implements Disposable, DataProvider {
 
     private class Cell extends TreeCell<Path> implements DataProvider, FileCell {
         private ImageView imageView;
+        private Icon icon;
 
         public Cell() {
             disableProperty().bind(emptyProperty());
@@ -300,18 +301,17 @@ public class ProjectView implements Disposable, DataProvider {
         }
 
         @Override
-        public Image getIcon() {
-            return imageView == null ? null :
-                    (getGraphic() != imageView ? null : imageView.getImage());
+        public Icon getIcon() {
+            return icon;
         }
 
         @Override
-        public void setIcon(Image icon) {
+        public void setIcon(Icon icon) {
             if (imageView == null) {
-                imageView = new ImageView(icon);
+                imageView = new ImageView();
             }
 
-            imageView.setImage(icon);
+            imageView.setImage(icon.getImage());
 
             if (getGraphic() != imageView) {
                 setGraphic(imageView);

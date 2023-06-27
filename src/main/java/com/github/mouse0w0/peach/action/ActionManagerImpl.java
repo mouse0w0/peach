@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.L10n;
 import com.github.mouse0w0.peach.plugin.ActionDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
@@ -8,7 +9,6 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import javafx.event.Event;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -301,7 +301,7 @@ public final class ActionManagerImpl implements ActionManager {
         String description = l10n.localizeOrNull(element.getName() + "." + id + "." + DESCRIPTION_ATTR_NAME);
         if (description != null) action.setDescription(description);
         String icon = element.attributeValue(ICON_ATTR_NAME);
-        if (icon != null) action.setIcon(icon);
+        if (icon != null) action.setIcon(IconManager.getInstance().getIcon(icon));
     }
 
     private void registerAction(Plugin plugin, String id, Action action) {
