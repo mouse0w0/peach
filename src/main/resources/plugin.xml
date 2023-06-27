@@ -121,11 +121,11 @@
         <group id="FilePopupMenu">
             <reference id="New"/>
             <separator/>
-            <action id="Cut"
+            <action id="Cut" icon="Action.Cut"
                     class="com.github.mouse0w0.peach.action.edit.CutAction"/>
-            <action id="Copy"
+            <action id="Copy" icon="Action.Copy"
                     class="com.github.mouse0w0.peach.action.edit.CopyAction"/>
-            <action id="Paste"
+            <action id="Paste" icon="Action.Paste"
                     class="com.github.mouse0w0.peach.action.edit.PasteAction"/>
             <separator/>
             <action id="Rename"
