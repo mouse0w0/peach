@@ -79,11 +79,11 @@
 
     <actions>
         <group id="New">
-            <action id="NewModElement" icon="Icons.File.ModElement"
+            <action id="NewModElement" icon="File.ModElement"
                     class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
-            <action id="NewFile" icon="Icons.File.File"
+            <action id="NewFile" icon="File.File"
                     class="com.github.mouse0w0.peach.action.file.NewFileAction"/>
-            <action id="NewDirectory" icon="Icons.File.Folder"
+            <action id="NewDirectory" icon="File.Folder"
                     class="com.github.mouse0w0.peach.action.file.NewDirectoryAction"/>
             <separator/>
             <action id="NewProject" class="com.github.mouse0w0.peach.action.file.NewProjectAction"/>
