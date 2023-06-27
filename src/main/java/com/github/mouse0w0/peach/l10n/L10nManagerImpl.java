@@ -34,7 +34,7 @@ public final class L10nManagerImpl implements L10nManager {
     }
 
     @Override
-    public L10n get(String pluginId) {
+    public L10n getL10n(String pluginId) {
         return l10nCache.computeIfAbsent(pluginId, this::createL10n);
     }
 

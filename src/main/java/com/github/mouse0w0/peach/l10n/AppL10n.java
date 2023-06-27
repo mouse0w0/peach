@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 @ApiStatus.Internal
 public class AppL10n {
     private static final String BUNDLE = "l10n.zh-CN";
-    private static final L10n INSTANCE = L10n.get("peach");
+    private static final L10n INSTANCE = L10n.getL10n("peach");
 
     public static String localize(@PropertyKey(resourceBundle = BUNDLE) String key) {
         return INSTANCE.localize(key);

@@ -295,7 +295,7 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     private void processAttribute(Plugin plugin, Element element, String id, Action action) {
-        L10n l10n = L10n.get(plugin.getId());
+        L10n l10n = L10n.getL10n(plugin.getId());
         String text = l10n.localize(element.getName() + "." + id + "." + TEXT_ATTR_NAME);
         if (text != null) action.setText(text);
         String description = l10n.localizeOrNull(element.getName() + "." + id + "." + DESCRIPTION_ATTR_NAME);

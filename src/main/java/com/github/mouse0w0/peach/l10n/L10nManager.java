@@ -12,5 +12,5 @@ public interface L10nManager {
 
     Set<Locale> getAvailableLocales();
 
-    L10n get(String pluginId);
+    L10n getL10n(String pluginId);
 }
