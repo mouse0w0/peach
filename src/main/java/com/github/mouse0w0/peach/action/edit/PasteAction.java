@@ -17,7 +17,7 @@ public class PasteAction extends Action {
 
     @Override
     public void update(ActionEvent event) {
-        setDisable(!Clipboard.getSystemClipboard().hasFiles());
+        event.getPresentation().setDisable(!Clipboard.getSystemClipboard().hasFiles());
     }
 
     @Override

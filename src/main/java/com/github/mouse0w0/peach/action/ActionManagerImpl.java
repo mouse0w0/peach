@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.L10n;
 import com.github.mouse0w0.peach.plugin.ActionDescriptor;
@@ -63,7 +64,7 @@ public final class ActionManagerImpl implements ActionManager {
         if (action == null) {
             throw new IllegalArgumentException("Missing action: " + actionId);
         }
-        action.perform(new ActionEvent(source));
+        action.perform(new ActionEvent(null, new Presentation(action), DataManager.getInstance().getDataContext(source)));
     }
 
     @Override

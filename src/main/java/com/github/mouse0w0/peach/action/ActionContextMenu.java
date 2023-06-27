@@ -1,6 +1,8 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.data.DataManager;
 import javafx.event.Event;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +21,7 @@ public class ActionContextMenu extends ContextMenu implements ActionHolder {
     }
 
     private void update(Event event) {
-        Utils.update(group, this);
+        Utils.update(event, getItems());
         Utils.updateSeparatorVisibility(getItems());
     }
 }

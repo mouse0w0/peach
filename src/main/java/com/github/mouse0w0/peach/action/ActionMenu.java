@@ -1,9 +1,8 @@
 package com.github.mouse0w0.peach.action;
 
+import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icon;
-import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
 import com.github.mouse0w0.peach.util.property.PropertyObservable;
-import com.github.mouse0w0.peach.util.property.WeakPropertyChangeListener;
 import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -11,22 +10,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class ActionMenu extends Menu implements ActionHolder {
     private final ActionGroup group;
-    private final PropertyChangeListener listener;
+    private final Presentation presentation;
 
     private boolean initialized;
 
     ActionMenu(ActionGroup group) {
         this.group = group;
+        this.presentation = new Presentation(group);
+        this.presentation.addListener(this::onPropertyChanged);
 
-        setOnShowing(this::update);
+        setText(presentation.getText());
+        Utils.setIcon(graphicProperty(), presentation.getIcon());
 
-        setText(group.getText());
-        Utils.setIcon(graphicProperty(), (Icon) group.getIcon());
-        setDisable(group.isDisable());
-        setVisible(group.isVisible());
-
-        this.listener = this::onPropertyChanged;
-        group.addListener(new WeakPropertyChangeListener(listener));
+        setOnShowing(this::updateChildren);
 
         // Fix JavaFX don't show empty menu.
         if (group.getChildren().isEmpty()) {
@@ -54,17 +50,22 @@ public class ActionMenu extends Menu implements ActionHolder {
         }
     }
 
-    private void update(Event event) {
-        Utils.update(group, this);
+    void update(Event event) {
+        group.update(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+    }
+
+    private void updateChildren(Event event) {
+        Utils.update(event, getItems());
         Utils.updateSeparatorVisibility(getItems());
     }
 
     private void onPropertyChanged(PropertyObservable property, String propertyName, Object oldValue, Object newValue) {
         switch (propertyName) {
-            case Action.TEXT_PROP -> setText((String) newValue);
-            case Action.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
-            case Action.DISABLE_PROP -> setDisable((boolean) newValue);
-            case Action.VISIBLE_PROP -> setVisible((boolean) newValue);
+            case Presentation.TEXT_PROP -> setText((String) newValue);
+            case Presentation.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
+            case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
+            case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
         }
     }
+
 }

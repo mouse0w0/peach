@@ -2,27 +2,30 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.data.DataContext;
 import com.github.mouse0w0.peach.data.DataKey;
-import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.util.Validate;
+import javafx.event.Event;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class ActionEvent implements DataContext {
-    private final Object source;
+public final class ActionEvent implements DataContext {
+    private final Event event;
+    private final Presentation presentation;
     private final DataContext dataContext;
 
-    public ActionEvent(@NotNull Object source) {
-        this.source = Validate.notNull(source);
-        this.dataContext = DataManager.getInstance().getDataContext(source);
-    }
-
-    public ActionEvent(@NotNull Object source, @NotNull DataContext dataContext) {
-        this.source = Validate.notNull(source);
+    public ActionEvent(@Nullable Event event, @NotNull Presentation presentation, @NotNull DataContext dataContext) {
+        this.event = event;
+        this.presentation = Validate.notNull(presentation);
         this.dataContext = Validate.notNull(dataContext);
     }
 
+    @Nullable
+    public Event getEvent() {
+        return event;
+    }
+
     @NotNull
-    public Object getSource() {
-        return source;
+    public Presentation getPresentation() {
+        return presentation;
     }
 
     @NotNull

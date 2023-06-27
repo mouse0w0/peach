@@ -3,11 +3,14 @@ package com.github.mouse0w0.peach.action;
 import com.github.mouse0w0.peach.icon.Icon;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 class Utils {
     public static void fillMenu(ActionGroup group, ObservableList<MenuItem> items) {
@@ -23,14 +26,17 @@ class Utils {
         }
     }
 
-    public static void update(ActionGroup group, Object source) {
-        final ActionEvent actionEvent = new ActionEvent(source);
-        for (Action child : group.getChildren()) {
-            child.update(actionEvent);
+    public static void update(Event event, List<MenuItem> items) {
+        for (MenuItem item : items) {
+            if (item instanceof ActionMenuItem) {
+                ((ActionMenuItem) item).update(event);
+            } else if (item instanceof ActionMenu) {
+                ((ActionMenu) item).update(event);
+            }
         }
     }
 
-    public static void updateSeparatorVisibility(ObservableList<MenuItem> items) {
+    public static void updateSeparatorVisibility(List<MenuItem> items) {
         boolean perv = false;
         MenuItem separator = null;
         for (MenuItem item : items) {

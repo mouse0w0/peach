@@ -20,7 +20,7 @@ public class NewFileAction extends Action {
 
     @Override
     public void update(ActionEvent event) {
-        setVisible(DataKeys.PATH.get(event) != null);
+        event.getPresentation().setVisible(DataKeys.PATH.get(event) != null);
     }
 
     @Override
