@@ -1,12 +1,12 @@
 package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.icon.Icon;
+import com.github.mouse0w0.peach.util.property.ObservableObject;
 import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
 import com.github.mouse0w0.peach.util.property.PropertyListenerHelper;
-import com.github.mouse0w0.peach.util.property.PropertyObservable;
 import org.jetbrains.annotations.NotNull;
 
-public class Presentation implements PropertyObservable {
+public class Presentation implements ObservableObject {
     public static final String TEXT_PROP = "text";
     public static final String DESCRIPTION_PROP = "description";
     public static final String ICON_PROP = "icon";

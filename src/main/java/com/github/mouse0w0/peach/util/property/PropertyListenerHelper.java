@@ -4,13 +4,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class PropertyListenerHelper {
-    private final PropertyObservable observable;
+    private final ObservableObject observable;
 
     private PropertyChangeListener[] changeListeners;
     private int changeSize;
     private boolean locked;
 
-    public static PropertyListenerHelper addListener(PropertyListenerHelper helper, PropertyObservable observable, PropertyChangeListener listener) {
+    public static PropertyListenerHelper addListener(PropertyListenerHelper helper, ObservableObject observable, PropertyChangeListener listener) {
         if (observable == null) throw new NullPointerException("observable");
         if (listener == null) throw new NullPointerException("listener");
         return helper != null ? helper.addListener(listener) : new PropertyListenerHelper(observable, listener);
@@ -57,7 +57,7 @@ public class PropertyListenerHelper {
         }
     }
 
-    private PropertyListenerHelper(PropertyObservable observable, PropertyChangeListener listener) {
+    private PropertyListenerHelper(ObservableObject observable, PropertyChangeListener listener) {
         this.observable = observable;
         this.changeListeners = new PropertyChangeListener[]{listener};
         this.changeSize = 1;

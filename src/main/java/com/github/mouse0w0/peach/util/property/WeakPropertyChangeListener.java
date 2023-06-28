@@ -22,7 +22,7 @@ public final class WeakPropertyChangeListener implements PropertyChangeListener,
     }
 
     @Override
-    public void propertyChanged(PropertyObservable observable, String propertyName, Object oldValue, Object newValue) {
+    public void propertyChanged(ObservableObject observable, String propertyName, Object oldValue, Object newValue) {
         PropertyChangeListener listener = ref.get();
         if (listener != null) {
             listener.propertyChanged(observable, propertyName, oldValue, newValue);
