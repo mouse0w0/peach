@@ -1,6 +1,4 @@
-package com.github.mouse0w0.peach.javafx;
-
-import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+package com.github.mouse0w0.peach.javafx.util;
 
 import java.util.function.Predicate;
 

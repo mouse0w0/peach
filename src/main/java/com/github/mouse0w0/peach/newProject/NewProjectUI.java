@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.newProject;
 
 import com.github.mouse0w0.peach.dialog.Alert;
-import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;

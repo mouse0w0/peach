@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icons;
-import com.github.mouse0w0.peach.javafx.FXUtils;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;

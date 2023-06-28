@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.action.*;
-import com.github.mouse0w0.peach.javafx.FXUtils;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import com.sun.javafx.scene.control.MenuBarButton;

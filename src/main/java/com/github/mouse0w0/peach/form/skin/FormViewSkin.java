@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.form.skin;
 import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Group;
-import com.github.mouse0w0.peach.javafx.ScrollPanes;
+import com.github.mouse0w0.peach.javafx.util.ScrollPanes;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;

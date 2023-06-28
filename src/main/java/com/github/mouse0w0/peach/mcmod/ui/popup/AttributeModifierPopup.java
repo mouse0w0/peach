@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.popup;
 
-import com.github.mouse0w0.peach.javafx.Spinners;
 import com.github.mouse0w0.peach.javafx.control.TagCell;
+import com.github.mouse0w0.peach.javafx.util.Spinners;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;

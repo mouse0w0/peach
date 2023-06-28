@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.javafx;
+package com.github.mouse0w0.peach.javafx.util;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

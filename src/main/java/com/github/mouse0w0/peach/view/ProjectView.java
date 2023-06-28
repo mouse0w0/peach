@@ -13,7 +13,7 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.icon.Icon;
-import com.github.mouse0w0.peach.javafx.ClipboardUtils;
+import com.github.mouse0w0.peach.javafx.util.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;

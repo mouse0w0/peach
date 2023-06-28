@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.javafx.Check;
 import com.github.mouse0w0.peach.javafx.control.PopupAlert;
+import com.github.mouse0w0.peach.javafx.util.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;

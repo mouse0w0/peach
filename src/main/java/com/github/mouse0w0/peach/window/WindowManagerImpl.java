@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.window;
 
-import com.github.mouse0w0.peach.javafx.FXUtils;
-import com.github.mouse0w0.peach.javafx.FocusUtils;
+import com.github.mouse0w0.peach.javafx.util.FXUtils;
+import com.github.mouse0w0.peach.javafx.util.FocusUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.view.ViewManager;

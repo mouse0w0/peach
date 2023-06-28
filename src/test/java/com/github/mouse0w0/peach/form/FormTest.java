@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.form;
 import com.github.mouse0w0.peach.form.field.ComboBoxField;
 import com.github.mouse0w0.peach.form.field.SpinnerField;
 import com.github.mouse0w0.peach.form.field.TextFieldField;
-import com.github.mouse0w0.peach.javafx.Check;
+import com.github.mouse0w0.peach.javafx.util.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import javafx.application.Application;
 import javafx.scene.Scene;

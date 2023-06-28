@@ -1,7 +1,6 @@
-package com.github.mouse0w0.peach.javafx;
+package com.github.mouse0w0.peach.javafx.util;
 
 import com.github.mouse0w0.peach.javafx.control.PopupAlert;
-import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.google.common.collect.ImmutableList;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
