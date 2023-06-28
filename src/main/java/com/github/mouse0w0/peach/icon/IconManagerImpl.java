@@ -32,7 +32,7 @@ public class IconManagerImpl implements IconManager {
                 url = classLoader.getResource(path);
             }
             if (url == null) {
-                LOGGER.error("Not found icon definition, path=" + path + ", plugin=" + plugin.getId());
+                LOGGER.error("Not found icon definition, path={}, plugin={}", path, plugin.getId());
                 continue;
             }
             try (InputStream stream = url.openStream()) {
@@ -43,11 +43,11 @@ public class IconManagerImpl implements IconManager {
                     if (resource != null) {
                         iconUrls.put((String) k, resource);
                     } else {
-                        LOGGER.warn("Not found icon resource, name={}, path={}", k, v);
+                        LOGGER.warn("Not found icon resource, name={}, resource={}, path={}, plugin={}", k, v, path, plugin.getName());
                     }
                 });
             } catch (IOException e) {
-                LOGGER.error("Cannot load icon definition, path=" + path + ", plugin=" + plugin.getId(), e);
+                LOGGER.error("Cannot load icon definition, path={}, plugin={}", path, plugin.getId(), e);
             }
         }
     }
