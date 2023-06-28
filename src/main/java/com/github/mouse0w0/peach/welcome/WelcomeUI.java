@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
+import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.icon.Icons;
 import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
@@ -16,6 +17,7 @@ import com.github.mouse0w0.peach.recentProject.RecentProjectManager;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -105,6 +107,7 @@ public class WelcomeUI extends BorderPane {
 
         Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
         newProject.setText(AppL10n.localize("welcome.NewProject.text"));
+        newProject.setGraphic(new ImageView(IconManager.getInstance().getIcon("Action.NewProject").getImage()));
         Button openProject = actionManager.createButton(actionManager.getAction("OpenProject"));
         Button donate = actionManager.createButton(actionManager.getAction("Donate"));
 
