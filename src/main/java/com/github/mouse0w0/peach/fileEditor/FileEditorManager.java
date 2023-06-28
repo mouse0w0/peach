@@ -99,7 +99,7 @@ public class FileEditorManager {
         try {
             Desktop.getDesktop().open(file.toFile());
         } catch (IOException e) {
-            LOGGER.warn("Failed to open the system editor of \"" + file + "\".", e);
+            LOGGER.warn("Failed to open the system editor of `{}`.", file, e);
         }
     }
 

@@ -201,7 +201,7 @@ public class MessageBusImpl implements MessageBus {
                 case "equals":
                     return proxy == args[0] ? Boolean.TRUE : Boolean.FALSE;
                 default:
-                    LOGGER.error("Unsupported Object's method invoked for publisher: " + method.getName());
+                    LOGGER.error("Unsupported Object's method invoked for publisher: {}", method.getName());
                     return null;
             }
         }

@@ -104,8 +104,8 @@ final class ObjectTree {
         Logger logger = LoggerFactory.getLogger(ObjectTree.class);
         disposable2NodeMap.forEach((disposable, node) -> {
             if (node.getParent() != null) return;
-            logger.error("Memory leak detected: " + disposable + " (" + disposable.getClass() + ") " +
-                    "is registered in Disposer but isn't disposed.");
+            logger.error("Memory leak detected: {} ({}) is registered in Disposer but isn't disposed.",
+                    disposable, disposable.getClass());
         });
     }
 }

@@ -39,7 +39,7 @@ public abstract class ServiceStoreBase implements ServiceStore {
             try {
                 service.loadState(JsonUtils.readJson(file, JsonElement.class));
             } catch (Exception e) {
-                LOGGER.error("An exception has occurred, failed to load component " + service.getClass() + ".", e);
+                LOGGER.error("An exception has occurred, failed to load component {}", service.getClass(), e);
             }
         } else {
             service.noStateLoaded();
@@ -60,7 +60,7 @@ public abstract class ServiceStoreBase implements ServiceStore {
         try {
             JsonUtils.writeJson(file, service.saveState());
         } catch (Exception e) {
-            LOGGER.error("An exception has occurred, failed to save component " + service.getClass() + ".", e);
+            LOGGER.error("An exception has occurred, failed to save component {}", service.getClass(), e);
         }
     }
 }

@@ -135,7 +135,7 @@ public final class ActionManagerImpl implements ActionManager {
             }
             action = (Action) clazz.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
-            LOGGER.error("Cannot create action, id=" + id + ", class=" + className + ", plugin=" + plugin.getId(), e);
+            LOGGER.error("Cannot create action, class={}, id={}, plugin={}", className, id, plugin.getId(), e);
             return null;
         }
 
@@ -169,7 +169,7 @@ public final class ActionManagerImpl implements ActionManager {
             }
             group = (ActionGroup) clazz.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
-            LOGGER.error("Cannot create group, id=" + id + ", class=" + className + ", plugin=" + plugin.getId(), e);
+            LOGGER.error("Cannot create group, class={}, id={}, plugin={}", className, id, plugin.getId(), e);
             return null;
         }
 

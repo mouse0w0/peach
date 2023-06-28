@@ -37,9 +37,9 @@ public class ContentPackManager {
                 for (Path file : stream) {
                     try {
                         ContentPack contentPack = loadContentPack(file);
-                        LOGGER.info("Loaded content pack: " + contentPack.getId());
+                        LOGGER.info("Loaded content pack: {}", contentPack.getId());
                     } catch (IOException e) {
-                        LOGGER.warn("Cannot load content pack. " + file, e);
+                        LOGGER.warn("Cannot load content pack, path={}", file, e);
                     }
                 }
             }

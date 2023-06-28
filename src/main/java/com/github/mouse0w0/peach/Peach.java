@@ -57,7 +57,7 @@ public final class Peach extends ServiceManagerImpl {
 
     private static void initUncaughtExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler((t, e) ->
-                LOGGER.error("Uncaught exception detected in thread: " + t.getName(), e));
+                LOGGER.error("Uncaught exception detected in thread: {}", t.getName(), e));
     }
 
     private static void printSystemInfo() {

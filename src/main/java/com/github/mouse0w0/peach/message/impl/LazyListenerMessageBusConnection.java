@@ -37,9 +37,11 @@ final class LazyListenerMessageBusConnection implements MessageBusImpl.Subscribe
                                 .getConstructor()
                                 .newInstance());
                     } catch (Throwable e) {
-                        LOGGER.error("Cannot create listener, topic=" + listenerDescriptor.getTopic()
-                                + ", listenerClassName=" + listenerDescriptor.getListenerClassName()
-                                + ", plugin=" + listenerDescriptor.getPlugin().getId(), e);
+                        LOGGER.error("Cannot create listener, topic={}, listenerClassName={}, plugin={}",
+                                listenerDescriptor.getListenerClassName(),
+                                listenerDescriptor.getTopic(),
+                                listenerDescriptor.getPlugin().getId(),
+                                e);
                     }
                 }
                 listenersMap.put(topic, listeners);

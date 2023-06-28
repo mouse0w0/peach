@@ -49,13 +49,13 @@ public final class L10nManagerImpl implements L10nManager {
             String path = resource.getPath();
             InputStream is = resource.getPlugin().getClassLoader().getResourceAsStream(path);
             if (is == null) {
-                LOGGER.error("Not found localization resource, provider=" + resource.getPlugin().getId() + ", path=" + path);
+                LOGGER.error("Not found localization resource, provider={}, path={}", resource.getPlugin().getId(), path);
                 continue;
             }
             try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
                 loadProperties(br, lookup);
             } catch (IOException e) {
-                LOGGER.error("Cannot load localization resource, provider=" + resource.getPlugin().getId() + ", path=" + path, e);
+                LOGGER.error("Cannot load localization resource, provider={}, path={}", resource.getPlugin().getId(), path, e);
             }
         }
         return new L10nImpl(lookup);
