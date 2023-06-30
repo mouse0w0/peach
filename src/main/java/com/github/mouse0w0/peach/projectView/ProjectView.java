@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.view;
+package com.github.mouse0w0.peach.projectView;
 
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionGroups;
@@ -16,6 +16,7 @@ import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.javafx.util.ClipboardUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.view.ViewFactory;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
