@@ -34,7 +34,7 @@ public final class Peach extends ServiceManagerImpl {
     private static final Peach INSTANCE = new Peach();
 
     private final Version version;
-    private final Path userPropertiesPath;
+    private final Path userDataPath;
     private final AppLifecycleListener appLifecycle;
 
     public static Peach getInstance() {
@@ -49,7 +49,7 @@ public final class Peach extends ServiceManagerImpl {
         super(null);
 
         this.version = new Version(getImplementationVersion());
-        this.userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
+        this.userDataPath = Paths.get(SystemUtils.USER_HOME, ".peach");
         this.appLifecycle = getMessageBus().getPublisher(AppLifecycleListener.TOPIC);
     }
 
@@ -57,8 +57,8 @@ public final class Peach extends ServiceManagerImpl {
         return version;
     }
 
-    public Path getUserPropertiesPath() {
-        return userPropertiesPath;
+    public Path getUserDataPath() {
+        return userDataPath;
     }
 
     public void launch(String[] args) {
