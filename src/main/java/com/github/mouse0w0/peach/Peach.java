@@ -80,12 +80,12 @@ public final class Peach extends ServiceManagerImpl {
         Application.launch(FXApplication.class, args);
     }
 
-    private void initUncaughtExceptionHandler() {
+    private static void initUncaughtExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler((t, e) ->
                 LOGGER.error("Uncaught exception detected in thread: {}", t.getName(), e));
     }
 
-    private void printSystemInfo() {
+    private static void printSystemInfo() {
         LOGGER.info("----- System Information -----");
         LOGGER.info("Application Version: {}", getInstance().getVersion());
         LOGGER.info("Operating System: {} ({}) version {}", OS_NAME, OS_ARCH, OS_VERSION);
