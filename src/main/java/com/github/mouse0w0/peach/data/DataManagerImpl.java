@@ -22,6 +22,7 @@ import java.util.Map;
 
 @ApiStatus.Internal
 public final class DataManagerImpl implements DataManager {
+    public static final String DATA_PROVIDER = "data-provider";
     public static final String OWNER_NODE = "owner-node";
     public static final String MENU_POPUP = "menu-popup";
 
@@ -32,22 +33,25 @@ public final class DataManagerImpl implements DataManager {
 
     @Override
     public DataProvider getDataProvider(@NotNull Object o) {
-        if (o instanceof DataProvider) return (DataProvider) o;
         Map<Object, Object> properties = getProperties(o);
-        return properties != null ? (DataProvider) properties.get(DataProvider.class) : null;
+        return properties != null ? (DataProvider) properties.get(DATA_PROVIDER) : null;
     }
 
     @Override
     public void registerDataProvider(@NotNull Object o, @NotNull DataProvider dataProvider) {
-        Map<Object, Object> properties = getProperties(o);
-        if (properties == null) throw new IllegalArgumentException("Not found properties for " + o.getClass());
-        properties.put(DataProvider.class, dataProvider);
+        Map<Object, Object> properties = getOrCreateProperties(o);
+        if (properties == null) {
+            throw new UnsupportedOperationException("Cannot register DataProvider at " + o.getClass());
+        }
+        properties.put(DATA_PROVIDER, dataProvider);
     }
 
     @Override
     public void unregisterDataProvider(@NotNull Object o) {
         Map<Object, Object> properties = getProperties(o);
-        if (properties != null) properties.remove(DataProvider.class);
+        if (properties != null) {
+            properties.remove(DATA_PROVIDER);
+        }
     }
 
     private Object getData(String key, Object source) {
@@ -93,14 +97,26 @@ public final class DataManagerImpl implements DataManager {
     }
 
     private static Map<Object, Object> getProperties(Object o) {
+        if (o instanceof Node node) {
+            return node.hasProperties() ? node.getProperties() : null;
+        } else if (o instanceof Scene scene) {
+            return scene.hasProperties() ? scene.getProperties() : null;
+        } else if (o instanceof Window window) {
+            return window.hasProperties() ? window.getProperties() : null;
+        } else if (o instanceof Tab tab) {
+            return tab.hasProperties() ? tab.getProperties() : null;
+        } else {
+            return null;
+        }
+    }
+
+    private static Map<Object, Object> getOrCreateProperties(Object o) {
         if (o instanceof Node) {
             return ((Node) o).getProperties();
         } else if (o instanceof Scene) {
             return ((Scene) o).getProperties();
         } else if (o instanceof Window) {
             return ((Window) o).getProperties();
-        } else if (o instanceof MenuItem) {
-            return ((MenuItem) o).getProperties();
         } else if (o instanceof Tab) {
             return ((Tab) o).getProperties();
         } else {
