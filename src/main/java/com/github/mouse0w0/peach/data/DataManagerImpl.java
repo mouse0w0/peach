@@ -12,6 +12,7 @@ import javafx.scene.control.Tab;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.Reference;
@@ -19,9 +20,10 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
+@ApiStatus.Internal
 public final class DataManagerImpl implements DataManager {
-
-    public static final Object OWNER_NODE = new Object();
+    public static final String OWNER_NODE = "owner-node";
+    public static final String MENU_POPUP = "menu-popup";
 
     @Override
     public DataContext getDataContext(@NotNull Object source) {
@@ -58,7 +60,7 @@ public final class DataManagerImpl implements DataManager {
         return null;
     }
 
-    private Object getParent(Object o) {
+    private static Object getParent(Object o) {
         if (o instanceof Node node) {
             Parent parent = node.getParent();
             return parent != null ? parent : node.getScene();
@@ -68,21 +70,20 @@ public final class DataManagerImpl implements DataManager {
             return ((Stage) o).getOwner();
         } else if (o instanceof PopupWindow popupWindow) {
             Node ownerNode = popupWindow.getOwnerNode();
-            if (ownerNode == null) {
-                ownerNode = (Node) popupWindow.getProperties().get(OWNER_NODE);
-            }
-            return ownerNode != null ? ownerNode : popupWindow.getOwnerWindow();
+            if (ownerNode != null) return ownerNode;
+            ownerNode = (Node) popupWindow.getProperties().get(OWNER_NODE);
+            if (ownerNode != null) return ownerNode;
+            return popupWindow.getOwnerWindow();
         } else if (o instanceof MenuItem menuItem) {
-            ContextMenu parentPopup = menuItem.getParentPopup();
             Menu parent = menuItem.getParentMenu();
             if (parent != null) {
-                // Fix cannot get parent popup of Menu.
-                if (parent.getParentPopup() == null) {
-                    parent.getProperties().put(ContextMenu.class, parentPopup);
-                }
+                // Fix cannot get popup of Menu.
+                parent.getProperties().put(MENU_POPUP, menuItem.getParentPopup());
+
                 return parent;
             } else {
-                return parentPopup != null ? parentPopup : menuItem.getProperties().get(ContextMenu.class);
+                ContextMenu popup = menuItem.getParentPopup();
+                return popup != null ? popup : menuItem.getProperties().get(MENU_POPUP);
             }
         } else if (o instanceof Tab) {
             return ((Tab) o).getTabPane();
@@ -91,7 +92,7 @@ public final class DataManagerImpl implements DataManager {
         }
     }
 
-    private Map<Object, Object> getProperties(Object o) {
+    private static Map<Object, Object> getProperties(Object o) {
         if (o instanceof Node) {
             return ((Node) o).getProperties();
         } else if (o instanceof Scene) {
