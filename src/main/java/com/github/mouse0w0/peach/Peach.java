@@ -33,14 +33,35 @@ public final class Peach extends ServiceManagerImpl {
 
     private static final Peach INSTANCE = new Peach();
 
-    private final Version version = new Version(getImplementationVersion());
-    private final Path userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
+    private final Version version;
+    private final Path userPropertiesPath;
+    private final AppLifecycleListener appLifecycle;
 
     public static Peach getInstance() {
         return INSTANCE;
     }
 
     public static void main(String[] args) {
+        INSTANCE.launch(args);
+    }
+
+    private Peach() {
+        super(null);
+
+        this.version = new Version(getImplementationVersion());
+        this.userPropertiesPath = Paths.get(SystemUtils.USER_HOME, ".peach");
+        this.appLifecycle = getMessageBus().getPublisher(AppLifecycleListener.TOPIC);
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public Path getUserPropertiesPath() {
+        return userPropertiesPath;
+    }
+
+    public void launch(String[] args) {
         LOGGER.info("Launching application.");
         initUncaughtExceptionHandler();
         printSystemInfo();
@@ -51,16 +72,17 @@ public final class Peach extends ServiceManagerImpl {
         LOGGER.info("Initializing application.");
         INSTANCE.initialize();
         INSTANCE.preloadServices();
+        appLifecycle.appStarted();
         LOGGER.info("Initializing JavaFX.");
         Application.launch(FXApplication.class, args);
     }
 
-    private static void initUncaughtExceptionHandler() {
+    private void initUncaughtExceptionHandler() {
         Thread.setDefaultUncaughtExceptionHandler((t, e) ->
                 LOGGER.error("Uncaught exception detected in thread: {}", t.getName(), e));
     }
 
-    private static void printSystemInfo() {
+    private void printSystemInfo() {
         LOGGER.info("----- System Information -----");
         LOGGER.info("Application Version: {}", getInstance().getVersion());
         LOGGER.info("Operating System: {} ({}) version {}", OS_NAME, OS_ARCH, OS_VERSION);
@@ -74,18 +96,6 @@ public final class Peach extends ServiceManagerImpl {
         LOGGER.info("------------------------------");
     }
 
-    private Peach() {
-        super(null);
-    }
-
-    public Version getVersion() {
-        return version;
-    }
-
-    public Path getUserPropertiesPath() {
-        return userPropertiesPath;
-    }
-
     public void exit() {
         exit(false);
     }
@@ -93,11 +103,11 @@ public final class Peach extends ServiceManagerImpl {
     public void exit(boolean force) {
         LOGGER.info("Exiting application (force: {}).", force);
 
-        getMessageBus().getPublisher(AppLifecycleListener.TOPIC).appClosing();
+        appLifecycle.appClosing();
 
         if (!force) {
             MutableBoolean cancelled = new MutableBoolean();
-            getMessageBus().getPublisher(AppLifecycleListener.TOPIC).canExitApp(cancelled);
+            appLifecycle.canExitApp(cancelled);
             if (cancelled.isTrue()) {
                 LOGGER.info("Cancelled exit application.");
                 return;
@@ -107,7 +117,7 @@ public final class Peach extends ServiceManagerImpl {
         ProjectManager.getInstance().closeAllProjects();
         INSTANCE.saveServices();
 
-        getMessageBus().getPublisher(AppLifecycleListener.TOPIC).appWillBeClosed();
+        appLifecycle.appWillBeClosed();
 
         Disposer.dispose(INSTANCE);
         Disposer.checkAllDisposed();
