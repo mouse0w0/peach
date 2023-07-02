@@ -15,6 +15,7 @@ import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.slf4j.Logger;
@@ -70,6 +71,8 @@ public final class Peach extends ServiceManagerImpl {
         LOGGER.info("Loading extensions.");
         Extensions.loadExtensions();
         LOGGER.info("Initializing application.");
+        // Fix program pause when initializing Image class.
+        forceInit(Image.class);
         INSTANCE.initialize();
         INSTANCE.preloadServices();
         appLifecycle.appStarted();
@@ -94,6 +97,15 @@ public final class Peach extends ServiceManagerImpl {
         List<String> jvmFlags = runtimeMXBean.getInputArguments();
         LOGGER.info("JVM Flags ({} totals): {}", jvmFlags.size(), StringUtils.join(jvmFlags, ' '));
         LOGGER.info("------------------------------");
+    }
+
+    private static void forceInit(Class<?> classToInit) {
+        try {
+            Class.forName(classToInit.getName(), true,
+                    classToInit.getClassLoader());
+        } catch (ClassNotFoundException e) {
+            throw new Error(e);
+        }
     }
 
     public void exit() {
