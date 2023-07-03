@@ -41,9 +41,11 @@ public class IconManagerImpl implements IconManager {
                 properties.forEach((k, v) -> {
                     URL resource = classLoader.getResource((String) v);
                     if (resource != null) {
-                        iconUrls.put((String) k, resource);
+                        if (iconUrls.putIfAbsent((String) k, resource) != null) {
+                            LOGGER.warn("Icon already exists, name={}, path={}, iconDefinition=(path={}, plugin={})", k, v, path, plugin.getName());
+                        }
                     } else {
-                        LOGGER.warn("Not found icon resource, name={}, resource={}, path={}, plugin={}", k, v, path, plugin.getName());
+                        LOGGER.warn("Not found icon resource, name={}, path={}, iconDefinition=(path={}, plugin={})", k, v, path, plugin.getName());
                     }
                 });
             } catch (IOException e) {
