@@ -62,7 +62,7 @@ public class TextureField extends Field {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         ImagePicker imagePicker = new ImagePicker();
         imagePicker.fileProperty().bindBidirectional(valueProperty());
         imagePicker.maxWidthProperty().bind(imagePicker.fitWidthProperty());

@@ -153,7 +153,7 @@ public class ModelField extends Element {
     private ComboBox<Identifier> comboBox;
 
     @Override
-    protected Node createDefaultNode() {
+    protected Node createLabel() {
         pane = new GridPane();
         pane.setVgap(9);
         pane.setAlignment(Pos.CENTER_LEFT);

@@ -7,6 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 public abstract class Field extends Element {
+    public static final String FIELD = "form-field";
+
     private StringProperty text;
     private StringProperty promptText;
 
@@ -16,7 +18,7 @@ public abstract class Field extends Element {
     }
 
     @Override
-    protected Node createDefaultNode() {
+    protected Node createLabel() {
         Label label = new Label();
         label.getStyleClass().setAll("label", "form-item-label");
         label.setWrapText(true);
@@ -26,13 +28,13 @@ public abstract class Field extends Element {
 
     public final Node getEditor() {
         if (editor == null) {
-            editor = createDefaultEditor();
-            editor.getProperties().put(Field.class, this);
+            editor = createEditor();
+            editor.getProperties().put(FIELD, this);
         }
         return editor;
     }
 
-    protected abstract Node createDefaultEditor();
+    protected abstract Node createEditor();
 
     public final StringProperty textProperty() {
         if (text == null) {

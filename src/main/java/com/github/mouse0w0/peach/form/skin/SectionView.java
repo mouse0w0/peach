@@ -43,7 +43,7 @@ public class SectionView extends TitledPane {
                 column = 0;
                 row++;
             }
-            grid.add(element.getNode(), column, row, colSpan, 1);
+            grid.add(element.getLabel(), column, row, colSpan, 1);
             column += colSpan;
         }
     }

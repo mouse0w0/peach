@@ -28,7 +28,7 @@ public class FilePickerField extends ValueField<String> {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         FilePicker filePicker = new FilePicker();
         filePicker.valueProperty().bindBidirectional(valueProperty());
         filePicker.promptTextProperty().bind(promptTextProperty());

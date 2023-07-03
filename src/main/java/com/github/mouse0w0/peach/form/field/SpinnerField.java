@@ -67,7 +67,7 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         Spinner<T> spinner = new Spinner<>();
         spinner.setMinSize(0, 0);
         spinner.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

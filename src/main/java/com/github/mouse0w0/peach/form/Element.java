@@ -24,14 +24,14 @@ public abstract class Element {
         getStyleClass().add("form-item");
     }
 
-    public final Node getNode() {
+    public final Node getLabel() {
         if (node == null) {
-            node = createDefaultNode();
+            node = createLabel();
         }
         return node;
     }
 
-    protected abstract Node createDefaultNode();
+    protected abstract Node createLabel();
 
     final ReadOnlyObjectWrapper<Group> groupPropertyImpl() {
         if (group == null) {

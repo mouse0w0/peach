@@ -96,7 +96,7 @@ public class ItemPickerField extends ValueField<ItemRef> {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         ItemPicker itemPicker = new ItemPicker();
         itemPicker.itemProperty().bindBidirectional(valueProperty());
         itemPicker.maxWidthProperty().bind(itemPicker.fitWidthProperty());

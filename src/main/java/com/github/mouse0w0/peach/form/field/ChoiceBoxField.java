@@ -55,7 +55,7 @@ public class ChoiceBoxField<T> extends ValueField<T> {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         ChoiceBox<T> choiceBox = new ChoiceBox<>();
         choiceBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         choiceBox.valueProperty().bindBidirectional(valueProperty());

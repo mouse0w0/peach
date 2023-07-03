@@ -49,7 +49,7 @@ public abstract class ValueField<T> extends Field {
     }
 
     private static ValueField<?> getElement(Node node) {
-        return node.hasProperties() ? (ValueField<?>) node.getProperties().get(Field.class) : null;
+        return node.hasProperties() ? (ValueField<?>) node.getProperties().get(Field.FIELD) : null;
     }
 
     public abstract Property<T> valueProperty();

@@ -23,7 +23,7 @@ public class ToolAttributesField extends Field {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         ToolAttributePopup popup = new ToolAttributePopup();
         TagView<ToolAttribute> tagView = new TagView<>();
         tagView.disableProperty().bind(disableProperty());

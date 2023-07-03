@@ -92,7 +92,7 @@ public class CheckComboBoxField<T> extends Field {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         CheckComboBox<T> checkComboBox = new CheckComboBox<>();
         checkComboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         checkComboBox.disableProperty().bind(disableProperty());

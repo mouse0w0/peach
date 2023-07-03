@@ -24,7 +24,7 @@ public class AttributeModifiersField extends Field {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         AttributeModifierPopup popup = new AttributeModifierPopup();
         TagView<AttributeModifier> tagView = new TagView<>();
         tagView.disableProperty().bind(disableProperty());

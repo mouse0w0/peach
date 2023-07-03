@@ -24,7 +24,7 @@ public class TextAreaField extends ValueField<String> {
     }
 
     @Override
-    protected Node createDefaultEditor() {
+    protected Node createEditor() {
         TextArea textArea = new TextArea();
         textArea.textProperty().bindBidirectional(valueProperty());
         textArea.promptTextProperty().bind(promptTextProperty());
