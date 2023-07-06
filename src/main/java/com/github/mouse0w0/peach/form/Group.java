@@ -108,7 +108,9 @@ public class Group {
 
     public final boolean validate() {
         for (Element element : elements) {
-            if (!element.validate()) return false;
+            if (!element.validate()) {
+                return false;
+            }
         }
         return true;
     }

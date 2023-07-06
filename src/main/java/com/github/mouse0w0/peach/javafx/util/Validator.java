@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public final class Validator {
-
-    public static final String WARNING = "warning";
-    public static final String ERROR = "error";
-
     private static final PopupAlert POPUP_ALERT;
 
     private static final ChangeListener<Boolean> FOCUSED_LISTENER;
@@ -40,25 +36,21 @@ public final class Validator {
             if (validator == null) return;
 
             if (newValue) {
-                Check<?> item = validator.getInvalidCheck();
-                if (item == null) return;
-
-                POPUP_ALERT.setLevel(item.getLevel());
-                POPUP_ALERT.setText(String.format(item.getMessage(), validator.getProperty().getValue()));
-                POPUP_ALERT.show(bean, Side.TOP, 0, -3);
+                Check<?> invalidCheck = validator.getInvalidCheck();
+                if (invalidCheck != null) {
+                    POPUP_ALERT.setLevel(NotificationLevel.ERROR);
+                    POPUP_ALERT.setText(String.format(invalidCheck.getMessage(), validator.getProperty().getValue()));
+                    POPUP_ALERT.show(bean, Side.TOP, 0, -3);
+                }
             } else {
                 POPUP_ALERT.hide();
-                validator.test();
+                validator.validate();
             }
         };
     }
 
-    public static <T> void error(Node node, Predicate<T> predicate, String message) {
-        register(node, new Check<>(predicate, NotificationLevel.ERROR, message));
-    }
-
-    public static <T> void warning(Node node, Predicate<T> predicate, String message) {
-        register(node, new Check<>(predicate, NotificationLevel.WARNING, message));
+    public static <T> void register(Node node, String message, Predicate<T> predicate) {
+        register(node, Check.of(message, predicate));
     }
 
     public static void register(Node node, Check<?>... checks) {
@@ -75,12 +67,12 @@ public final class Validator {
         }
     }
 
-    public static boolean test(Node... nodes) {
+    public static boolean validate(Node... nodes) {
         boolean result = true;
         Validator firstInvalid = null;
         for (Node node : nodes) {
             Validator validator = getValidator(node);
-            if (validator != null && !validator.test()) {
+            if (validator != null && !validator.validate()) {
                 result = false;
                 if (firstInvalid == null) {
                     firstInvalid = validator;
@@ -130,28 +122,25 @@ public final class Validator {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public boolean test() {
-        invalidCheck = null;
-        for (Check item : getChecks()) {
-            if (!item.test(property.getValue())) {
-                invalidCheck = item;
-                updateStyleClasses();
-                return item.getLevel() != NotificationLevel.ERROR;
+    public boolean validate() {
+        Object value = property.getValue();
+        for (Check check : getChecks()) {
+            if (!check.test(value)) {
+                invalidCheck = check;
+                updateStyleClass(false);
+                return false;
             }
         }
-        updateStyleClasses();
+        invalidCheck = null;
+        updateStyleClass(true);
         return true;
     }
 
-    private void updateStyleClasses() {
-        Check<?> invalidCheck = getInvalidCheck();
-        NotificationLevel level = invalidCheck == null ? NotificationLevel.NONE : invalidCheck.getLevel();
+    private void updateStyleClass(boolean valid) {
         ObservableList<String> styleClass = getNode().getStyleClass();
-        styleClass.removeAll(ERROR, WARNING);
-        if (level == NotificationLevel.ERROR) {
-            styleClass.add(ERROR);
-        } else if (level == NotificationLevel.WARNING) {
-            styleClass.add(WARNING);
+        styleClass.remove(Check.INVALID_STYLE_CLASS);
+        if (!valid) {
+            styleClass.add(Check.INVALID_STYLE_CLASS);
         }
     }
 }

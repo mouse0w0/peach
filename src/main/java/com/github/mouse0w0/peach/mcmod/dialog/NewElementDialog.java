@@ -50,9 +50,7 @@ public class NewElementDialog extends BorderPane {
 
         getStylesheets().add("/style/style.css");
 
-        Validator.error(name,
-                FileUtils::validateFileNameWithoutExtension,
-                AppL10n.localize("validate.invalidFileName"));
+        Validator.register(name, AppL10n.localize("validate.invalidFileName"), FileUtils::validateFileNameWithoutExtension);
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP -> {
@@ -85,7 +83,7 @@ public class NewElementDialog extends BorderPane {
 
     @FXML
     private void onFinish() {
-        if (!Validator.test(name)) return;
+        if (!Validator.validate(name)) return;
 
         ElementManager.getInstance(project).createElement(path, type.getValue(), name.getText());
 

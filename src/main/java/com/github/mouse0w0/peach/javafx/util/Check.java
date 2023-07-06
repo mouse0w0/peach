@@ -2,35 +2,31 @@ package com.github.mouse0w0.peach.javafx.util;
 
 import java.util.function.Predicate;
 
-public class Check<T> implements Comparable<Check<T>> {
-    private final Predicate<T> predicate;
-    private final NotificationLevel level;
+public final class Check<T> implements Predicate<T> {
+    public static final String INVALID_STYLE_CLASS = "invalid";
+
     private final String message;
+    private final Predicate<T> predicate;
 
-    public Check(Predicate<T> predicate, NotificationLevel level, String message) {
-        this.predicate = predicate;
-        this.level = level;
+    public static <T> Check<T> of(String message, Predicate<T> predicate) {
+        return new Check<>(message, predicate);
+    }
+
+    private Check(String message, Predicate<T> predicate) {
         this.message = message;
-    }
-
-    public Predicate<T> getPredicate() {
-        return predicate;
-    }
-
-    public NotificationLevel getLevel() {
-        return level;
+        this.predicate = predicate;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public boolean test(T value) {
-        return predicate.test(value);
+    public Predicate<T> getPredicate() {
+        return predicate;
     }
 
     @Override
-    public int compareTo(Check<T> o) {
-        return level.compareTo(o.level);
+    public boolean test(T value) {
+        return predicate.test(value);
     }
 }

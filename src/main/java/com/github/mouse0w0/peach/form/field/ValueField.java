@@ -7,14 +7,10 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.SortedList;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 
 public abstract class ValueField<T> extends Field {
-    public static final String WARNING = "warning";
-    public static final String ERROR = "error";
-
     private static final PopupAlert POPUP_ALERT;
 
     private static final ChangeListener<Boolean> FOCUSED_LISTENER;
@@ -22,7 +18,6 @@ public abstract class ValueField<T> extends Field {
     private BooleanProperty editable;
 
     private ObservableList<Check<? super T>> checks;
-    private SortedList<Check<? super T>> sortedChecks;
     private ReadOnlyObjectWrapper<Check<? super T>> invalidCheck;
 
     static {
@@ -38,7 +33,7 @@ public abstract class ValueField<T> extends Field {
                 Check<?> item = element.getInvalidCheck();
                 if (item == null) return;
 
-                POPUP_ALERT.setLevel(item.getLevel());
+                POPUP_ALERT.setLevel(NotificationLevel.ERROR);
                 POPUP_ALERT.setText(String.format(item.getMessage(), element.getValue()));
                 POPUP_ALERT.show(bean, Side.TOP, 0, -3);
             } else {
@@ -100,38 +95,27 @@ public abstract class ValueField<T> extends Field {
     public final boolean validate() {
         if (checks == null) return true;
 
-        if (sortedChecks == null) {
-            sortedChecks = checks.sorted();
-        }
-
-        final T value = getValue();
-
-        boolean valid = true;
-        for (Check<? super T> check : sortedChecks) {
+        T value = getValue();
+        for (Check<? super T> check : checks) {
             if (!check.test(value)) {
                 invalidCheckPropertyImpl().set(check);
-                valid = check.getLevel() != NotificationLevel.ERROR;
-                break;
+                updateStyleClass(false);
+                return false;
             }
         }
 
-        if (valid) {
-            invalidCheckPropertyImpl().set(null);
+        if (invalidCheck != null) {
+            invalidCheck.set(null);
         }
-        updateStyleClass();
-        setValid(valid);
-        return valid;
+        updateStyleClass(true);
+        return true;
     }
 
-    private void updateStyleClass() {
-        Check<?> check = getInvalidCheck();
-        NotificationLevel level = check == null ? NotificationLevel.NONE : check.getLevel();
+    private void updateStyleClass(boolean valid) {
         ObservableList<String> styleClass = getEditor().getStyleClass();
-        styleClass.removeAll(ERROR, WARNING);
-        if (level == NotificationLevel.ERROR) {
-            styleClass.add(ERROR);
-        } else if (level == NotificationLevel.WARNING) {
-            styleClass.add(WARNING);
+        styleClass.remove(Check.INVALID_STYLE_CLASS);
+        if (!valid) {
+            styleClass.add(Check.INVALID_STYLE_CLASS);
         }
     }
 }

@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.javafx.util.Check;
-import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
@@ -85,7 +84,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         properties.setText(AppL10n.localize("item.properties.title"));
 
         identifier = new TextFieldField();
-        identifier.getChecks().add(new Check<>(ModUtils::validateIdentifier, NotificationLevel.ERROR, AppL10n.localize("validate.invalidIdentifier")));
+        identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier));
         identifier.setText(AppL10n.localize("item.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 

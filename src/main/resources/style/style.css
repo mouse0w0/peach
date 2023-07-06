@@ -88,17 +88,11 @@
     -fx-font-size: 1em;
 }
 
-/* Validation */
-.error {
+.invalid {
     -fx-effect: dropshadow(three-pass-box, darkred, 6, 0, 0, 0);
 }
 
-.warning {
-    -fx-effect: dropshadow(three-pass-box, gold, 6, 0, 0, 0);
-}
-
-.error:focused,
-.warning:focused {
+.invalid:focused {
     -fx-effect: null;
 }
 
