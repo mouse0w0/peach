@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.peach.icon.Icons;
+import com.github.mouse0w0.peach.icon.AppIcon;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -31,7 +31,7 @@ public class Dialog<R> implements EventTarget {
     public Dialog() {
         setResizable(false);
         initModality(Modality.APPLICATION_MODAL);
-        getIcons().add(Icons.Peach.getImage());
+        getIcons().add(AppIcon.Peach.getImage());
     }
 
     public Dialog(ButtonType... buttonTypes) {

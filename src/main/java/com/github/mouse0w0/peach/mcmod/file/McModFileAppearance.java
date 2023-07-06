@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.file;
 
 import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
-import com.github.mouse0w0.peach.icon.Icons;
+import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
@@ -50,20 +50,20 @@ public class McModFileAppearance implements FileAppearance {
             for (Path path : localizablePathMap.keySet()) {
                 if (relativePath.equals(path)) {
                     cell.setText(AppL10n.localize(localizablePathMap.get(path), fileName));
-                    cell.setIcon(Icons.File.Folder);
+                    cell.setIcon(AppIcon.File.Folder);
                     return true;
                 }
             }
         } else {
             if (McModMetadata.FILE_NAME.equals(fileName)) {
                 cell.setText(AppL10n.localize("mod.file.metadata"));
-                cell.setIcon(Icons.File.Forge);
+                cell.setIcon(AppIcon.File.Forge);
                 return true;
             } else {
                 ElementProvider<?> provider = ElementRegistry.getInstance().getElementProvider(file);
                 if (provider != null) {
                     cell.setText(StringUtils.substringBefore(fileName, '.') + " (" + AppL10n.localize(provider.getTranslationKey()) + ")");
-                    cell.setIcon(Icons.File.ModElement);
+                    cell.setIcon(AppIcon.File.ModElement);
                     return true;
                 }
             }

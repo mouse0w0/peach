@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.file;
 
-import com.github.mouse0w0.peach.icon.Icons;
+import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.util.FileUtils;
 
 import java.nio.file.Files;
@@ -14,13 +14,13 @@ public class StandardFileAppearance implements FileAppearance {
         cell.setText(fileName);
 
         if (Files.isDirectory(file)) {
-            cell.setIcon(Icons.File.Folder);
+            cell.setIcon(AppIcon.File.Folder);
         } else {
             switch (FileUtils.getFileExtension(fileName)) {
-                case "png" -> cell.setIcon(Icons.File.Image);
-                case "ogg" -> cell.setIcon(Icons.File.Sound);
-                case "json" -> cell.setIcon(Icons.File.Json);
-                default -> cell.setIcon(Icons.File.File);
+                case "png" -> cell.setIcon(AppIcon.File.Image);
+                case "ogg" -> cell.setIcon(AppIcon.File.Sound);
+                case "json" -> cell.setIcon(AppIcon.File.Json);
+                default -> cell.setIcon(AppIcon.File.File);
             }
         }
         return false;

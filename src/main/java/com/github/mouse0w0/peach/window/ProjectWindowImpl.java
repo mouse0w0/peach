@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.window;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.data.DataProvider;
-import com.github.mouse0w0.peach.icon.Icons;
+import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;

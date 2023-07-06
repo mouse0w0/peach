@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.icon;
 
-public interface Icons {
+public interface AppIcon {
 
     Icon Peach = IconManager.getInstance().getIcon("Peach");
 
