@@ -18,7 +18,7 @@ public abstract class Field extends Element {
     }
 
     @Override
-    protected Node createLabel() {
+    protected Node createNode() {
         Label label = new Label();
         label.getStyleClass().setAll("label", "form-item-label");
         label.setWrapText(true);

@@ -15,14 +15,14 @@ public abstract class Element {
 
     private Node node;
 
-    public final Node getLabel() {
+    public final Node getNode() {
         if (node == null) {
-            node = createLabel();
+            node = createNode();
         }
         return node;
     }
 
-    protected abstract Node createLabel();
+    protected abstract Node createNode();
 
     final ReadOnlyObjectWrapper<Group> groupPropertyImpl() {
         if (group == null) {

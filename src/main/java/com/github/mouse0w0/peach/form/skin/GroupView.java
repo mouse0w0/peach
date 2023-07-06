@@ -33,7 +33,7 @@ public class GroupView extends GridPane {
                 column = 0;
                 row++;
             }
-            add(element.getLabel(), column, row, colSpan, 1);
+            add(element.getNode(), column, row, colSpan, 1);
             column += colSpan;
         }
     }
