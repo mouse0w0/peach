@@ -181,7 +181,7 @@ public class ModelField extends Element {
         comboBox.setConverter(new StringConverter<>() {
             @Override
             public String toString(Identifier object) {
-                return AppL10n.localize("model." + object.getNamespace() + "." + object.getName());
+                return object != null ? AppL10n.localize("model." + object.getNamespace() + "." + object.getName()) : null;
             }
 
             @Override
@@ -222,6 +222,7 @@ public class ModelField extends Element {
     private void updateTexture() {
         if (updating) return;
         final Identifier model = getModel();
+        if (model == null) return;
         if (ModelManager.INHERIT.equals(model)) {
             textures.clear();
         } else if (ModelManager.CUSTOM.equals(model)) {
