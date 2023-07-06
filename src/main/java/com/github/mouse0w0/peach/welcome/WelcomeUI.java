@@ -71,7 +71,7 @@ public class WelcomeUI extends BorderPane {
         Scene scene = new Scene(new WelcomeUI());
         stage.setScene(scene);
         stage.setTitle(AppL10n.localize("welcome.title"));
-        stage.getIcons().setAll(Icons.Peach.getImage());
+        stage.getIcons().add(AppIcon.Peach.getImage());
         stage.setResizable(false);
         stage.setOnHidden(event -> {
             if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
