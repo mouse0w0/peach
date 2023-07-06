@@ -1,6 +1,8 @@
 package com.github.mouse0w0.peach.form;
 
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
 public abstract class Element {
@@ -11,9 +13,16 @@ public abstract class Element {
     private BooleanProperty disable;
     private BooleanProperty visible;
 
+    private StringProperty id;
+    private ObservableList<String> styleClass;
+
     private ReadOnlyBooleanWrapper valid;
 
     private Node node;
+
+    public Element() {
+        getStyleClass().add("form-item");
+    }
 
     public final Node getNode() {
         if (node == null) {
@@ -82,6 +91,29 @@ public abstract class Element {
 
     public final void setVisible(boolean visible) {
         visibleProperty().set(visible);
+    }
+
+    public final StringProperty idProperty() {
+        if (id == null) {
+            id = new SimpleStringProperty(this, "id");
+        }
+        return id;
+    }
+
+    public final String getId() {
+        return id != null ? id.get() : null;
+    }
+
+    public final void setId(String id) {
+        idProperty().set(id);
+    }
+
+    public final ObservableList<String> getStyleClass() {
+        if (styleClass == null) {
+            styleClass = FXCollections.observableArrayList();
+
+        }
+        return styleClass;
     }
 
     private ReadOnlyBooleanWrapper validPropertyImpl() {
