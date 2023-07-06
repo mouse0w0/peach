@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.form.skin.GroupView;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -97,12 +96,12 @@ public class Group {
 
     public final Node getNode() {
         if (node == null) {
-            node = createDefaultNode();
+            node = createNode();
         }
         return node;
     }
 
-    protected Node createDefaultNode() {
+    protected Node createNode() {
         return new GroupView(this);
     }
 

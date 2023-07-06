@@ -1,13 +1,11 @@
-package com.github.mouse0w0.peach.form.skin;
+package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.form.Element;
-import com.github.mouse0w0.peach.form.Section;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 
-public class SectionView extends TitledPane {
+final class SectionView extends TitledPane {
     private final Section section;
 
     private final GridPane grid;

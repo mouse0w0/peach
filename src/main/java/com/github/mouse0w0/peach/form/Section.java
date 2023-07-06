@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.form.skin.SectionView;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -63,7 +62,7 @@ public class Section extends Group {
     }
 
     @Override
-    protected Node createDefaultNode() {
+    protected Node createNode() {
         return new SectionView(this);
     }
 }

@@ -1,12 +1,10 @@
-package com.github.mouse0w0.peach.form.skin;
+package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.form.Element;
-import com.github.mouse0w0.peach.form.Group;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 
-public class GroupView extends GridPane {
+final class GroupView extends GridPane {
 
     private final Group group;
 
