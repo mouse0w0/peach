@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.form.field;
 
 import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
@@ -19,10 +18,10 @@ public class FieldView extends Region {
         this.label = label;
         this.editor = editor;
 
+        getStyleClass().add("form-item");
+
         visibleProperty().bind(field.visibleProperty());
         managedProperty().bind(field.visibleProperty());
-        idProperty().bind(field.idProperty());
-        Bindings.bindContent(getStyleClass(), field.getStyleClass());
 
         getChildren().addAll(label, editor);
 

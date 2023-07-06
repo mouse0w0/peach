@@ -18,7 +18,6 @@ import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -159,8 +158,6 @@ public class ModelField extends Element {
         pane.setAlignment(Pos.CENTER_LEFT);
         pane.visibleProperty().bind(visibleProperty());
         pane.managedProperty().bind(visibleProperty());
-        pane.idProperty().bind(idProperty());
-        Bindings.bindContent(pane.getStyleClass(), getStyleClass());
         ColumnConstraints labelColumn = new ColumnConstraints();
         labelColumn.setPercentWidth(16.67);
         pane.getColumnConstraints().add(labelColumn);
