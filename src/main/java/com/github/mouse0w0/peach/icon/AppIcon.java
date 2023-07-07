@@ -9,6 +9,8 @@ public interface AppIcon {
 
         Icon File = getIcon("File.File");
 
+        Icon Text = getIcon("File.Text");
+
         Icon Image = getIcon("File.Image");
 
         Icon Sound = getIcon("File.Sound");
