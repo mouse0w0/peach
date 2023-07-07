@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.stage.Window;
 import org.jetbrains.annotations.Nullable;
 
-public class FocusUtils {
+public final class FocusUtils {
     private static Window focusedWindow;
 
     private static final InvalidationListener WINDOW_FOCUSED_LISTENER = observable -> {
