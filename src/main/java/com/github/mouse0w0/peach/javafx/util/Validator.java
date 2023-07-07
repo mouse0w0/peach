@@ -3,36 +3,32 @@ package com.github.mouse0w0.peach.javafx.util;
 import com.github.mouse0w0.peach.javafx.control.PopupAlert;
 import com.google.common.collect.ImmutableList;
 import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
-public final class Validator {
+public final class Validator<T> {
     private static final PopupAlert POPUP_ALERT;
 
     private static final ChangeListener<Boolean> FOCUSED_LISTENER;
 
     private final Node node;
-    private final Property<?> property;
-    private final List<Check<?>> checks;
-
-    private Check<?> invalidCheck;
+    private final Property<T> property;
+    private final List<Check<T>> checks;
+    private Check<T> invalidCheck;
 
     static {
         POPUP_ALERT = new PopupAlert();
 
         FOCUSED_LISTENER = (observable, oldValue, newValue) -> {
-            ReadOnlyProperty<?> focusedProperty = (ReadOnlyProperty<?>) observable;
-            Node bean = (Node) focusedProperty.getBean();
-
-            Validator validator = getValidator(bean);
+            var property = (Property<?>) observable;
+            var node = (Node) property.getBean();
+            var validator = getValidator(node);
             if (validator == null) return;
 
             if (newValue) {
@@ -40,7 +36,7 @@ public final class Validator {
                 if (invalidCheck != null) {
                     POPUP_ALERT.setLevel(NotificationLevel.ERROR);
                     POPUP_ALERT.setText(String.format(invalidCheck.getMessage(), validator.getProperty().getValue()));
-                    POPUP_ALERT.show(bean, Side.TOP, 0, -3);
+                    POPUP_ALERT.show(node, Side.TOP, 0, -3);
                 }
             } else {
                 POPUP_ALERT.hide();
@@ -49,39 +45,37 @@ public final class Validator {
         };
     }
 
-    public static <T> void register(Node node, String message, Predicate<T> predicate) {
-        register(node, Check.of(message, predicate));
+    public static void register(TextInputControl textInput, String message, Predicate<String> predicate) {
+        register(textInput, textInput.textProperty(), Check.of(message, predicate));
     }
 
-    public static void register(Node node, Check<?>... checks) {
-        Validator validator = new Validator(node, checks);
-        node.getProperties().put(Validator.class, validator);
+    @SafeVarargs
+    public static <T> void register(Node node, Property<T> property, Check<T>... checks) {
+        node.getProperties().put(Validator.class, new Validator<>(node, property, checks));
         node.focusedProperty().addListener(FOCUSED_LISTENER);
     }
 
     public static void unregister(Node node) {
-        Validator validator = getValidator(node);
-        if (validator != null) {
-            node.getProperties().remove(Validator.class);
-            node.focusedProperty().removeListener(FOCUSED_LISTENER);
-        }
+        if (!node.hasProperties()) return;
+        if (node.getProperties().remove(Validator.class) == null) return;
+        node.focusedProperty().removeListener(FOCUSED_LISTENER);
     }
 
     public static boolean validate(Node... nodes) {
         boolean result = true;
-        Validator firstInvalid = null;
+        Validator<?> invalidated = null;
         for (Node node : nodes) {
-            Validator validator = getValidator(node);
+            Validator<?> validator = getValidator(node);
             if (validator != null && !validator.validate()) {
                 result = false;
-                if (firstInvalid == null) {
-                    firstInvalid = validator;
+                if (invalidated == null) {
+                    invalidated = validator;
                 }
             }
         }
 
-        if (firstInvalid != null) {
-            Node node = firstInvalid.getNode();
+        if (invalidated != null) {
+            Node node = invalidated.getNode();
             node.requestFocus();
             if (node instanceof TextInputControl) {
                 ((TextInputControl) node).selectAll();
@@ -90,18 +84,15 @@ public final class Validator {
         return result;
     }
 
-    public static Validator getValidator(Node node) {
-        if (!node.hasProperties()) {
-            return null;
-        }
-        return (Validator) node.getProperties().get(Validator.class);
+    @SuppressWarnings("unchecked")
+    public static <T> Validator<T> getValidator(Node node) {
+        return node.hasProperties() ? (Validator<T>) node.getProperties().get(Validator.class) : null;
     }
 
-    private Validator(Node node, Check<?>... checks) {
+    @SafeVarargs
+    private Validator(Node node, Property<T> property, Check<T>... checks) {
         this.node = node;
-        this.property = ValuePropertyUtils.valueProperty(node)
-                .orElseThrow(() -> new IllegalArgumentException("Not found the value property of " + node.getClass()));
-        Arrays.sort(checks);
+        this.property = property;
         this.checks = ImmutableList.copyOf(checks);
     }
 
@@ -109,15 +100,15 @@ public final class Validator {
         return node;
     }
 
-    public Property<?> getProperty() {
+    public Property<T> getProperty() {
         return property;
     }
 
-    public List<Check<?>> getChecks() {
+    public List<Check<T>> getChecks() {
         return checks;
     }
 
-    public Check<?> getInvalidCheck() {
+    public Check<T> getInvalidCheck() {
         return invalidCheck;
     }
 
