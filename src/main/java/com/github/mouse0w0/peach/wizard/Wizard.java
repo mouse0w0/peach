@@ -31,13 +31,13 @@ public abstract class Wizard {
         content.setPadding(new Insets(8));
         content.getStyleClass().add("wizard");
 
-        previous = new Button(AppL10n.localize("wizard.previous"));
+        previous = new Button(AppL10n.localize("button.previous"));
         previous.getStyleClass().add("previous");
         previous.setOnAction(event -> onPrevious());
-        next = new Button(AppL10n.localize("wizard.next"));
+        next = new Button(AppL10n.localize("button.next"));
         next.setDefaultButton(true);
         next.setOnAction(event -> onNext());
-        cancel = new Button(AppL10n.localize("wizard.cancel"));
+        cancel = new Button(AppL10n.localize("button.cancel"));
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> onCancel());
 
@@ -123,7 +123,7 @@ public abstract class Wizard {
         getPreviousButton().setVisible(getStepCount() != 1);
         getPreviousButton().setDisable(isFirstStep());
 
-        getNextButton().setText(isLastStep() ? AppL10n.localize("wizard.finish") : AppL10n.localize("wizard.next"));
+        getNextButton().setText(isLastStep() ? AppL10n.localize("button.finish") : AppL10n.localize("button.next"));
     }
 
     public boolean isCancelled() {
