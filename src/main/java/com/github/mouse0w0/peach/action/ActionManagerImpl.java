@@ -103,16 +103,6 @@ public final class ActionManagerImpl implements ActionManager {
         }
     }
 
-    private void processElement(Plugin plugin, Element element, ActionGroup parent) {
-        switch (element.getName()) {
-            case ACTION_ELEMENT_NAME -> processActionElement(plugin, element);
-            case GROUP_ELEMENT_NAME -> processGroupElement(plugin, element);
-            case SEPARATOR_ELEMENT_NAME -> processSeparatorElement(plugin, element);
-            case REFERENCE_ELEMENT_NAME -> processReferenceElement(plugin, element);
-            default -> LOGGER.error("Unknown element {}, plugin={}", element.getName(), plugin.getId());
-        }
-    }
-
     private Action processActionElement(Plugin plugin, Element element) {
         String id = element.attributeValue(ID_ATTR_NAME);
         if (StringUtils.isEmpty(id)) {
