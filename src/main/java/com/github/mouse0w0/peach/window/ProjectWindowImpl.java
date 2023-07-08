@@ -16,14 +16,12 @@ import org.jetbrains.annotations.NotNull;
 
 public class ProjectWindowImpl implements ProjectWindow, DataProvider {
     private final Project project;
-    private final Scene scene;
     private final ProjectRootPane root;
     private final Stage stage;
 
     ProjectWindowImpl(Project project) {
         this.project = project;
         this.root = new ProjectRootPane(project);
-        this.scene = new Scene(root);
         this.stage = createStage();
         DataManager.getInstance().registerDataProvider(stage, this);
         WindowStateManager.getInstance(project).register(stage, "MainWindow");
@@ -31,7 +29,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
 
     private Stage createStage() {
         Stage stage = new Stage();
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setTitle(project.getName());
         stage.getIcons().add(AppIcon.Peach.getImage());
         stage.setOnShown(this::onShown);
