@@ -33,6 +33,7 @@ public final class ActionManagerImpl implements ActionManager {
     private static final String TEXT_ATTR_NAME = "text";
     private static final String DESCRIPTION_ATTR_NAME = "description";
     private static final String ICON_ATTR_NAME = "icon";
+    private static final String POPUP_ATTR_NAME = "popup";
     private static final String GROUP_ID_ATTR_NAME = "group-id";
     private static final String ANCHOR_ATTR_NAME = "anchor";
 
@@ -164,6 +165,9 @@ public final class ActionManagerImpl implements ActionManager {
         }
 
         processAttribute(plugin, element, id, group);
+        if (Boolean.parseBoolean(element.attributeValue(POPUP_ATTR_NAME))) {
+            group.setPopup(true);
+        }
         registerAction(plugin, id, group);
 
         for (Element child : element.elements()) {

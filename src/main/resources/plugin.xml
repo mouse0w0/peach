@@ -78,7 +78,7 @@
     </extensions>
 
     <actions>
-        <group id="New">
+        <group id="New" popup="true">
             <action id="NewModElement" icon="File.ModElement"
                     class="com.github.mouse0w0.peach.mcmod.action.NewModElementAction"/>
             <action id="NewFile" icon="File.File"
@@ -90,7 +90,7 @@
         </group>
 
         <group id="MainMenu">
-            <group id="File">
+            <group id="File" popup="true">
                 <reference id="New"/>
                 <action id="OpenProject" icon="Action.OpenProject"
                         class="com.github.mouse0w0.peach.action.file.OpenProjectAction"/>
@@ -106,19 +106,19 @@
                 <action id="Exit" class="com.github.mouse0w0.peach.action.file.ExitAction"/>
             </group>
 
-            <group id="Build">
+            <group id="Build" popup="true">
                 <action id="ExportProject" icon="Action.ExportProject"
                         class="com.github.mouse0w0.peach.mcmod.action.ExportProjectAction"/>
             </group>
 
-            <group id="Help">
+            <group id="Help" popup="true">
                 <action id="About"/>
                 <action id="Donate" icon="Action.Donate"
                         class="com.github.mouse0w0.peach.action.help.DonateAction"/>
             </group>
         </group>
 
-        <group id="FilePopupMenu">
+        <group id="FilePopupMenu" popup="true">
             <reference id="New"/>
             <separator/>
             <action id="Cut" icon="Action.Cut"
@@ -137,7 +137,7 @@
                     class="com.github.mouse0w0.peach.action.file.ShowInExplorerAction"/>
         </group>
 
-        <group id="RecentProjectPopupMenu">
+        <group id="RecentProjectPopupMenu" popup="true">
             <action id="RecentProjectOpen"
                     class="com.github.mouse0w0.peach.recentProject.RecentProjectOpenAction"/>
             <action id="RecentProjectRemove"

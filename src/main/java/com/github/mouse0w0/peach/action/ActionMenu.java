@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.action;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.util.property.ObservableObject;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -44,10 +45,12 @@ public class ActionMenu extends Menu implements ActionHolder {
     }
 
     private void initialize() {
-        if (!initialized) {
-            initialized = true;
-            Utils.fillMenu(group, getItems());
-        }
+        if (initialized) return;
+        initialized = true;
+
+        ObservableList<MenuItem> items = getItems();
+        items.clear();
+        Utils.fillMenu(group, items);
     }
 
     void update(Event event) {

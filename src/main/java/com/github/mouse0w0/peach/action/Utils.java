@@ -13,11 +13,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 class Utils {
-    public static void fillMenu(ActionGroup group, ObservableList<MenuItem> items) {
-        items.clear();
-        for (Action action : group.getChildren()) {
-            if (action instanceof ActionGroup) {
-                items.add(new ActionMenu((ActionGroup) action));
+    public static void fillMenu(ActionGroup parent, ObservableList<MenuItem> items) {
+        for (Action action : parent.getChildren()) {
+            if (action instanceof ActionGroup group) {
+                if (group.isPopup()) {
+                    items.add(new ActionMenu(group));
+                } else {
+                    fillMenu(group, items);
+                }
             } else if (action instanceof Separator) {
                 items.add(new ActionSeparator((Separator) action));
             } else {

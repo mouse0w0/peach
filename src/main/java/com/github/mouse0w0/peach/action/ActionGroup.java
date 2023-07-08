@@ -10,6 +10,8 @@ public class ActionGroup extends Action {
     private final List<Action> children = new ArrayList<>();
     private final List<Action> unmodifiableChildren = Collections.unmodifiableList(children);
 
+    private boolean popup;
+
     public List<Action> getChildren() {
         return unmodifiableChildren;
     }
@@ -27,6 +29,14 @@ public class ActionGroup extends Action {
         if (index == -1) return;
         if (before) children.add(index, action);
         else children.add(index + 1, action);
+    }
+
+    public boolean isPopup() {
+        return popup;
+    }
+
+    public void setPopup(boolean popup) {
+        this.popup = popup;
     }
 
     @Override
