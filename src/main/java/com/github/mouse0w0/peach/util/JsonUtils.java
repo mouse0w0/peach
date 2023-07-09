@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.util;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -115,35 +115,35 @@ public class JsonUtils {
     }
 
     public static JsonElement toJson(Object src) {
-        return gson().toJsonTree(src);
+        return GSON.toJsonTree(src);
     }
 
     public static JsonElement toJson(Gson gson, Object src) {
         return gson.toJsonTree(src);
     }
 
-    public static <T> T fromJson(JsonElement jsonElement, Class<T> classOfT) {
-        return gson().fromJson(jsonElement, classOfT);
+    public static <T> T fromJson(JsonElement json, Class<T> classOfT) {
+        return GSON.fromJson(json, classOfT);
     }
 
-    public static <T> T fromJson(Gson gson, JsonElement jsonElement, Class<T> classOfT) {
-        return gson.fromJson(jsonElement, classOfT);
+    public static <T> T fromJson(Gson gson, JsonElement json, Class<T> classOfT) {
+        return gson.fromJson(json, classOfT);
     }
 
-    public static <T> T fromJson(JsonElement jsonElement, Type typeOfT) {
-        return gson().fromJson(jsonElement, typeOfT);
+    public static <T> T fromJson(JsonElement json, Type typeOfT) {
+        return GSON.fromJson(json, typeOfT);
     }
 
-    public static <T> T fromJson(Gson gson, JsonElement jsonElement, Type typeOfT) {
-        return gson.fromJson(jsonElement, typeOfT);
+    public static <T> T fromJson(Gson gson, JsonElement json, Type typeOfT) {
+        return gson.fromJson(json, typeOfT);
     }
 
-    public static <T> T fromJson(JsonElement jsonElement, TypeToken<T> typeToken) {
-        return gson().fromJson(jsonElement, typeToken.getType());
+    public static <T> T fromJson(JsonElement json, TypeToken<T> typeOfT) {
+        return GSON.fromJson(json, typeOfT);
     }
 
-    public static <T> T fromJson(Gson gson, JsonElement jsonElement, TypeToken<T> typeToken) {
-        return gson.fromJson(jsonElement, typeToken.getType());
+    public static <T> T fromJson(Gson gson, JsonElement json, TypeToken<T> typeOfT) {
+        return gson.fromJson(json, typeOfT);
     }
 
     public static JsonElement readJson(Path file) throws IOException {
@@ -178,13 +178,13 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T readJson(Path file, TypeToken<T> typeToken) throws IOException {
-        return readJson(GSON, file, typeToken);
+    public static <T> T readJson(Path file, TypeToken<T> typeOfT) throws IOException {
+        return readJson(GSON, file, typeOfT);
     }
 
-    public static <T> T readJson(Gson gson, Path file, TypeToken<T> typeToken) throws IOException {
+    public static <T> T readJson(Gson gson, Path file, TypeToken<T> typeOfT) throws IOException {
         try (Reader reader = Files.newBufferedReader(file)) {
-            return gson.fromJson(reader, typeToken.getType());
+            return gson.fromJson(reader, typeOfT);
         }
     }
 
@@ -208,24 +208,23 @@ public class JsonUtils {
         }
     }
 
-    public static <T> T readJson(URL url, TypeToken<T> typeToken) throws IOException {
-        return readJson(GSON, url, typeToken);
+    public static <T> T readJson(URL url, TypeToken<T> typeOfT) throws IOException {
+        return readJson(GSON, url, typeOfT);
     }
 
-    public static <T> T readJson(Gson gson, URL url, TypeToken<T> typeToken) throws IOException {
+    public static <T> T readJson(Gson gson, URL url, TypeToken<T> typeOfT) throws IOException {
         try (Reader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
-            return gson.fromJson(reader, typeToken.getType());
+            return gson.fromJson(reader, typeOfT);
         }
     }
 
-    public static void writeJson(Path file, Object object) throws IOException {
-        writeJson(gson(), file, object);
+    public static void writeJson(Path file, Object src) throws IOException {
+        writeJson(GSON, file, src);
     }
 
-    public static void writeJson(Gson gson, Path file, Object object) throws IOException {
-        FileUtils.createFileIfNotExists(file);
+    public static void writeJson(Gson gson, Path file, Object src) throws IOException {
         try (Writer writer = Files.newBufferedWriter(file)) {
-            gson.toJson(object, writer);
+            gson.toJson(src, writer);
         }
     }
 }
