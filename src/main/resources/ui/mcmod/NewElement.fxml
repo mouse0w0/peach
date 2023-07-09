@@ -34,8 +34,8 @@
     <bottom>
         <FlowPane alignment="CENTER_RIGHT" hgap="10.0" BorderPane.alignment="CENTER">
             <children>
-                <Button defaultButton="true" mnemonicParsing="false" onAction="#onFinish" text="%dialog.button.finish"/>
-                <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%dialog.button.cancel"/>
+                <Button defaultButton="true" mnemonicParsing="false" onAction="#onFinish" text="%button.finish"/>
+                <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel" text="%button.cancel"/>
             </children>
             <BorderPane.margin>
                 <Insets top="10.0"/>

@@ -33,9 +33,9 @@
                 <FlowPane alignment="CENTER_RIGHT" hgap="10.0">
                     <children>
                         <Button defaultButton="true" mnemonicParsing="false" onAction="#onFinish"
-                                text="%dialog.button.finish"/>
+                                text="%button.finish"/>
                         <Button cancelButton="true" mnemonicParsing="false" onAction="#onCancel"
-                                text="%dialog.button.cancel"/>
+                                text="%button.cancel"/>
                     </children>
                 </FlowPane>
             </children>
