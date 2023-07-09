@@ -92,13 +92,13 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
 
         root.setCenter(getContent());
 
-        finish = new Button(AppL10n.localize("dialog.button.finish"));
+        finish = new Button(AppL10n.localize("button.finish"));
         finish.setDefaultButton(true);
         finish.setOnAction(event -> finish());
-        cancel = new Button(AppL10n.localize("dialog.button.cancel"));
+        cancel = new Button(AppL10n.localize("button.cancel"));
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> cancel());
-        apply = new Button(AppL10n.localize("dialog.button.apply"));
+        apply = new Button(AppL10n.localize("button.apply"));
         apply.getStyleClass().add("apply");
         apply.setOnAction(event -> apply());
 
