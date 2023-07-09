@@ -41,7 +41,6 @@ public class Filer {
 
     public OutputStream newOutputStream(Path path) throws IOException {
         Path resolvedPath = root.resolve(path);
-        FileUtils.createFileIfNotExists(resolvedPath);
         return Files.newOutputStream(resolvedPath);
     }
 
@@ -54,9 +53,7 @@ public class Filer {
     }
 
     public BufferedWriter newWriter(Path path, Charset charset) throws IOException {
-        Path resolvedPath = root.resolve(path);
-        FileUtils.createFileIfNotExists(resolvedPath);
-        return Files.newBufferedWriter(resolvedPath, charset);
+        return Files.newBufferedWriter(root.resolve(path), charset);
     }
 
     public void write(String path, byte[] bytes) throws IOException {
@@ -64,9 +61,7 @@ public class Filer {
     }
 
     public void write(Path path, byte[] bytes) throws IOException {
-        Path resolvedPath = root.resolve(path);
-        FileUtils.createFileIfNotExists(resolvedPath);
-        Files.write(resolvedPath, bytes);
+        Files.write(root.resolve(path), bytes);
     }
 
     public void write(String path, CharSequence... lines) throws IOException {
