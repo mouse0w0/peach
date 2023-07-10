@@ -15,12 +15,13 @@ public abstract class Field extends Element {
     private Node editor;
 
     public Field() {
+        getStyleClass().add("form-field");
     }
 
     @Override
     protected Node createNode() {
         Label label = new Label();
-        label.getStyleClass().setAll("label", "form-item-label");
+        label.getStyleClass().add("form-field-label");
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
         return new FieldView(this, label, getEditor());
@@ -29,6 +30,7 @@ public abstract class Field extends Element {
     public final Node getEditor() {
         if (editor == null) {
             editor = createEditor();
+            editor.getStyleClass().add("form-field-editor");
             editor.getProperties().put(FIELD, this);
         }
         return editor;

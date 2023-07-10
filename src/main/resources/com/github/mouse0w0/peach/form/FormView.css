@@ -21,6 +21,6 @@
     -fx-vgap: 0.75em;
 }
 
-.form-item-label {
+.form-field-label {
     -fx-padding: 0.25em 0.25em 0.25em 0.75em;
 }

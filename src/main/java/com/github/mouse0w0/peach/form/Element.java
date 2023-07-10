@@ -19,7 +19,7 @@ public abstract class Element {
     private Node node;
 
     public Element() {
-        getStyleClass().add("form-item");
+        getStyleClass().add("form-element");
     }
 
     public final Node getNode() {
