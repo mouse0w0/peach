@@ -72,11 +72,11 @@ public class Dialog<R> implements EventTarget {
         resultProperty.set(value);
     }
 
-    public ObservableList<ButtonType> getButtons() {
+    public final ObservableList<ButtonType> getButtons() {
         return buttons;
     }
 
-    protected ButtonBar getButtonBar() {
+    protected final ButtonBar getButtonBar() {
         if (buttonBar == null) {
             buttonBar = createButtonBar();
         }
