@@ -20,8 +20,8 @@ public final class Validator<T> {
 
     private final Node node;
     private final Property<T> property;
-    private final List<Check<T>> checks;
-    private Check<T> invalidCheck;
+    private final List<Check<? super T>> checks;
+    private Check<? super T> invalidCheck;
 
     static {
         POPUP_ALERT = new PopupAlert();
@@ -51,8 +51,8 @@ public final class Validator<T> {
     }
 
     @SafeVarargs
-    public static <T> void register(Node node, Property<T> property, Check<T>... checks) {
-        node.getProperties().put(Validator.class, new Validator<>(node, property, checks));
+    public static <T> void register(Node node, Property<T> property, Check<? super T>... checks) {
+        node.getProperties().put(Validator.class, new Validator<T>(node, property, checks));
         node.focusedProperty().addListener(FOCUSED_LISTENER);
     }
 
@@ -91,7 +91,7 @@ public final class Validator<T> {
     }
 
     @SafeVarargs
-    private Validator(Node node, Property<T> property, Check<T>... checks) {
+    private Validator(Node node, Property<T> property, Check<? super T>... checks) {
         this.node = node;
         this.property = property;
         this.checks = ImmutableList.copyOf(checks);
@@ -105,11 +105,11 @@ public final class Validator<T> {
         return property;
     }
 
-    public List<Check<T>> getChecks() {
+    public List<Check<? super T>> getChecks() {
         return checks;
     }
 
-    public Check<T> getInvalidCheck() {
+    public Check<? super T> getInvalidCheck() {
         return invalidCheck;
     }
 
