@@ -3,10 +3,12 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
 import com.github.mouse0w0.peach.javafx.util.FXUtils;
+import com.github.mouse0w0.peach.javafx.util.Validator;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
+import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -55,6 +57,8 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     protected Node getContent() {
         FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml", AppL10n.getResourceBundle());
 
+        Validator.register(identifier, AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier);
+
         background = new FilePicker();
         background.getExtensionFilters().add(ExtensionFilters.PNG);
         background.setConverter(new StringConverter<>() {
@@ -95,5 +99,10 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         element.setHasSearchBar(hasSearchBar.isSelected());
         element.setBackground(background.getValue());
         element.setIcon(icon.getItem());
+    }
+
+    @Override
+    protected boolean validate() {
+        return Validator.validate(identifier);
     }
 }
