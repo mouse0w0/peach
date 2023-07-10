@@ -8,7 +8,7 @@ import javafx.scene.Node;
 public abstract class Element {
     private ReadOnlyObjectWrapper<Group> group;
 
-    private ObjectProperty<ColSpan> colSpan;
+    private IntegerProperty colSpan;
 
     private BooleanProperty disable;
     private BooleanProperty visible;
@@ -46,19 +46,23 @@ public abstract class Element {
         return group != null ? group.get() : null;
     }
 
-    public final ObjectProperty<ColSpan> colSpanProperty() {
+    public final IntegerProperty colSpanProperty() {
         if (colSpan == null) {
-            colSpan = new SimpleObjectProperty<>(this, "colSpan", ColSpan.ONE);
+            colSpan = new SimpleIntegerProperty(this, "colSpan", 12);
         }
         return colSpan;
     }
 
-    public final ColSpan getColSpan() {
-        return colSpan != null ? colSpan.get() : ColSpan.ONE;
+    public final int getColSpan() {
+        return colSpan != null ? colSpan.get() : 12;
+    }
+
+    public final void setColSpan(int colSpan) {
+        colSpanProperty().set(colSpan);
     }
 
     public final void setColSpan(ColSpan colSpan) {
-        colSpanProperty().set(colSpan);
+        colSpanProperty().set(colSpan.getSpan());
     }
 
     public final BooleanProperty disableProperty() {

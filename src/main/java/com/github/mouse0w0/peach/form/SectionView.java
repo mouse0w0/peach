@@ -36,7 +36,7 @@ final class SectionView extends TitledPane {
         int row = 0;
         int column = 0;
         for (Element element : section.getElements()) {
-            int colSpan = element.getColSpan().getSpan();
+            int colSpan = element.getColSpan();
             if (column + colSpan > 12 || column % colSpan != 0) {
                 column = 0;
                 row++;

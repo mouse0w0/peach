@@ -47,7 +47,7 @@ public class FieldView extends Region {
         final double top = snappedTopInset();
         final double bottom = snappedBottomInset();
         final double contentWidth = width - left - right;
-        final double cellWidth = contentWidth / field.getColSpan().getSpan();
+        final double cellWidth = contentWidth / field.getColSpan();
         final double labelWidth = cellWidth * 2;
         return top + Math.max(label.prefHeight(labelWidth), editor.prefHeight(contentWidth - labelWidth)) + bottom;
     }
@@ -62,7 +62,7 @@ public class FieldView extends Region {
         final double height = getHeight();
         final double contentWidth = width - left - right;
         final double contentHeight = height - top - bottom;
-        final double cellWidth = contentWidth / field.getColSpan().getSpan();
+        final double cellWidth = contentWidth / field.getColSpan();
         final double labelWidth = cellWidth * 2;
         layoutInArea(label, left, top, labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
         layoutInArea(editor, left + labelWidth, top, contentWidth - labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);

@@ -26,7 +26,7 @@ final class GroupView extends GridPane {
         int row = 0;
         int column = 0;
         for (Element element : group.getElements()) {
-            int colSpan = element.getColSpan().getSpan();
+            int colSpan = element.getColSpan();
             if (column + colSpan > 12 || column % colSpan != 0) {
                 column = 0;
                 row++;
