@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
+import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import com.google.gson.JsonElement;
@@ -14,12 +15,12 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.input.TransferMode;
 import org.apache.commons.lang3.reflect.TypeUtils;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Storage("itemFavorites.json")
 public class ItemFavoritesView implements PersistentService {
 
     private static ItemFavoritesView getInstance(Project project) {
@@ -56,12 +57,6 @@ public class ItemFavoritesView implements PersistentService {
             event.setDropCompleted(true);
         });
         return content;
-    }
-
-    @NotNull
-    @Override
-    public String getStoreFile() {
-        return "itemFavorites.json";
     }
 
     @Override

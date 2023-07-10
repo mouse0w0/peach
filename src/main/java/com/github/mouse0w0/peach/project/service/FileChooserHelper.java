@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
+import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -14,13 +15,13 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Storage("fileChooserState.json")
 public class FileChooserHelper implements PersistentService {
 
     public static final String FILE_CHOOSER_ID = "FileChooserId";
@@ -114,12 +115,6 @@ public class FileChooserHelper implements PersistentService {
             lastInitialDirectories.put(id, file.getParentFile());
         }
         return file;
-    }
-
-    @NotNull
-    @Override
-    public String getStoreFile() {
-        return "fileChooserState.json";
     }
 
     @Override

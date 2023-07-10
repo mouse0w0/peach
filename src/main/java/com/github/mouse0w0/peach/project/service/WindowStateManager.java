@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.project.service;
 
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
+import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+@Storage("windowState.json")
 public class WindowStateManager implements PersistentService {
     private static final String STATE_ID = "StateId";
     private static final String LAST_X = "LastX";
@@ -76,12 +78,6 @@ public class WindowStateManager implements PersistentService {
             window.yProperty().addListener(yListener);
             ((Stage) window).maximizedProperty().addListener(maximizedListener);
         }
-    }
-
-    @NotNull
-    @Override
-    public String getStoreFile() {
-        return "windowState.json";
     }
 
     @Override

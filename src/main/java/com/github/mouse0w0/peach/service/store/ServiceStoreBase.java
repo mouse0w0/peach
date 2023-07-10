@@ -1,8 +1,10 @@
 package com.github.mouse0w0.peach.service.store;
 
 import com.github.mouse0w0.peach.service.PersistentService;
+import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.gson.JsonElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +29,20 @@ public abstract class ServiceStoreBase implements ServiceStore {
 
     @Override
     public void loadService(PersistentService service) {
-        String storeFile = service.getStoreFile();
+        Class<?> serviceClass = service.getClass();
+        Storage serviceStorage = serviceClass.getAnnotation(Storage.class);
+        if (serviceStorage == null) {
+            LOGGER.error("Not found @Storage annotation, failed to load component {}.", serviceClass);
+            return;
+        }
 
-        if (storeFile == null || storeFile.isEmpty()) {
+        String serviceStorageFile = serviceStorage.value();
+        if (StringUtils.isEmpty(serviceStorageFile)) {
             LOGGER.error("Store file not specified, failed to load component {}.", service.getClass());
             return;
         }
 
-        Path file = getStorePath().resolve(storeFile);
+        Path file = getStorePath().resolve(serviceStorageFile);
         if (Files.exists(file)) {
             try {
                 service.loadState(JsonUtils.readJson(file, JsonElement.class));
@@ -49,18 +57,24 @@ public abstract class ServiceStoreBase implements ServiceStore {
 
     @Override
     public void saveService(PersistentService service) {
-        String storageFile = service.getStoreFile();
-
-        if (storageFile == null || storageFile.isEmpty()) {
-            LOGGER.error("Storage file not specified, failed to save component {}.", service.getClass());
+        Class<?> serviceClass = service.getClass();
+        Storage serviceStorage = serviceClass.getAnnotation(Storage.class);
+        if (serviceStorage == null) {
+            LOGGER.error("Not found @Storage annotation, failed to save component {}.", serviceClass);
             return;
         }
 
-        Path file = getStorePath().resolve(storageFile);
+        String serviceStorageFile = serviceStorage.value();
+        if (StringUtils.isEmpty(serviceStorageFile)) {
+            LOGGER.error("Storage file not specified, failed to save component {}.", serviceClass);
+            return;
+        }
+
+        Path file = getStorePath().resolve(serviceStorageFile);
         try {
             JsonUtils.writeJson(file, service.saveState());
         } catch (Exception e) {
-            LOGGER.error("An exception has occurred, failed to save component {}", service.getClass(), e);
+            LOGGER.error("An exception has occurred, failed to save component {}", serviceClass, e);
         }
     }
 }
