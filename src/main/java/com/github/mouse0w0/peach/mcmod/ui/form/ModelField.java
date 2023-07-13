@@ -169,7 +169,7 @@ public class ModelField extends Element {
         pane.getColumnConstraints().add(editorColumn);
 
         label = new Label();
-        label.getStyleClass().setAll("label", "form-item-label");
+        label.getStyleClass().add("form-field-label");
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
         pane.add(label, 0, 0);
@@ -245,7 +245,7 @@ public class ModelField extends Element {
             int row = 1;
             for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
                 Label label = new Label(modelKey);
-                label.getStyleClass().setAll("label", "form-item-label");
+                label.getStyleClass().add("form-field-label");
                 label.setWrapText(true);
                 pane.add(label, 0, row);
 
