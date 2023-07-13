@@ -223,7 +223,7 @@ public class JsonUtils {
     }
 
     public static void writeJson(Gson gson, Path file, Object src) throws IOException {
-        try (Writer writer = Files.newBufferedWriter(file)) {
+        try (Writer writer = FileUtils.newBufferedWriter(file)) {
             gson.toJson(src, writer);
         }
     }

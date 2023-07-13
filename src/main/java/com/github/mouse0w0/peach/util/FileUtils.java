@@ -1,12 +1,11 @@
 package com.github.mouse0w0.peach.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -27,12 +26,12 @@ public class FileUtils {
 
     public static final Pattern FILE_NAME_PATTERN = Pattern.compile(
             "^(?!(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\.[^.]*)*$)" +
-            "[^<>:\"/\\\\|?*\\x00-\\x1F]*[^<>:\"/\\\\|?*\\x00-\\x1F\\s.]$",
+                    "[^<>:\"/\\\\|?*\\x00-\\x1F]*[^<>:\"/\\\\|?*\\x00-\\x1F\\s.]$",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static final Pattern FILE_NAME_WITHOUT_EXTENSION = Pattern.compile(
             "^(?!(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$)" +
-            "[^<>:\"/\\\\|?*\\x00-\\x1F.]*[^<>:\"/\\\\|?*\\x00-\\x1F\\s.]$",
+                    "[^<>:\"/\\\\|?*\\x00-\\x1F.]*[^<>:\"/\\\\|?*\\x00-\\x1F\\s.]$",
             Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
     public static boolean validateFileName(String fileName) {
@@ -64,6 +63,20 @@ public class FileUtils {
                 throw unchecked(e);
             }
         }
+    }
+
+    public static OutputStream newOutputStream(Path path) throws IOException {
+        createDirectoriesIfNotExists(path.getParent());
+        return Files.newOutputStream(path, EMPTY_OPEN_OPTION_ARRAY);
+    }
+
+    public static BufferedWriter newBufferedWriter(Path path) throws IOException {
+        return newBufferedWriter(path, StandardCharsets.UTF_8);
+    }
+
+    public static BufferedWriter newBufferedWriter(Path path, Charset charset) throws IOException {
+        createDirectoriesIfNotExists(path.getParent());
+        return Files.newBufferedWriter(path, charset, EMPTY_OPEN_OPTION_ARRAY);
     }
 
     public static Path copyIfNotExists(Path source, Path target) throws UncheckedIOException {

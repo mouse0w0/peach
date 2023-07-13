@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.generator.task;
 
 import com.github.mouse0w0.peach.mcmod.generator.Context;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.collect.ImmutableSet;
 import org.apache.commons.io.IOUtils;
 
@@ -32,7 +33,7 @@ public class Zip implements Task {
 
     @Override
     public void run(Context context) throws Exception {
-        try (ZipOutputStream output = new ZipOutputStream(Files.newOutputStream(this.output))) {
+        try (ZipOutputStream output = new ZipOutputStream(FileUtils.newOutputStream(this.output))) {
             for (Path input : inputs) {
                 Path root = Files.isRegularFile(input) ? input.getParent() : input;
                 Iterator<Path> iterator = Files.walk(input).iterator();
