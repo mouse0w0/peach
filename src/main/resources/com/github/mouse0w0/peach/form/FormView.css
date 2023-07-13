@@ -17,6 +17,7 @@
 
 .form-group,
 .form-section > .content > .grid {
+    -fx-alignment: center-left;
     -fx-padding: 0.75em 0.75em 0.75em 0;
     -fx-vgap: 0.75em;
 }
