@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.util.property;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class PropertyListenerHelper {
+public final class PropertyListenerHelper {
     private final ObservableObject observable;
 
     private PropertyChangeListener[] changeListeners;
