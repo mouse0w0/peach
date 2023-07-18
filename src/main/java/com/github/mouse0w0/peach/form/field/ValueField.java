@@ -99,7 +99,7 @@ public abstract class ValueField<T> extends Field {
         for (Check<? super T> check : checks) {
             if (!check.test(value)) {
                 invalidCheckPropertyImpl().set(check);
-                updateStyleClass(false);
+                Check.setInvalid(getEditor(), true);
                 return false;
             }
         }
@@ -107,15 +107,7 @@ public abstract class ValueField<T> extends Field {
         if (invalidCheck != null) {
             invalidCheck.set(null);
         }
-        updateStyleClass(true);
+        Check.setInvalid(getEditor(), false);
         return true;
-    }
-
-    private void updateStyleClass(boolean valid) {
-        ObservableList<String> styleClass = getEditor().getStyleClass();
-        styleClass.remove(Check.INVALID_STYLE_CLASS);
-        if (!valid) {
-            styleClass.add(Check.INVALID_STYLE_CLASS);
-        }
     }
 }

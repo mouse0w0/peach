@@ -1,15 +1,26 @@
 package com.github.mouse0w0.peach.javafx.util;
 
+import javafx.css.PseudoClass;
+import javafx.scene.Node;
+
 import java.util.function.Predicate;
 
 public final class Check<T> implements Predicate<T> {
-    public static final String INVALID_STYLE_CLASS = "invalid";
+    public static final PseudoClass INVALID_CLASS = PseudoClass.getPseudoClass("invalid");
 
     private final String message;
     private final Predicate<T> predicate;
 
     public static <T> Check<T> of(String message, Predicate<T> predicate) {
         return new Check<>(message, predicate);
+    }
+
+    public static boolean isInvalid(Node node) {
+        return node.getPseudoClassStates().contains(INVALID_CLASS);
+    }
+
+    public static void setInvalid(Node node, boolean active) {
+        node.pseudoClassStateChanged(INVALID_CLASS, active);
     }
 
     private Check(String message, Predicate<T> predicate) {

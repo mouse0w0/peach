@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
@@ -119,20 +118,13 @@ public final class Validator<T> {
         for (Check check : getChecks()) {
             if (!check.test(value)) {
                 invalidCheck = check;
-                updateStyleClass(false);
+                Check.setInvalid(node, true);
                 return false;
             }
         }
         invalidCheck = null;
-        updateStyleClass(true);
+        Check.setInvalid(node, false);
         return true;
     }
 
-    private void updateStyleClass(boolean valid) {
-        ObservableList<String> styleClass = getNode().getStyleClass();
-        styleClass.remove(Check.INVALID_STYLE_CLASS);
-        if (!valid) {
-            styleClass.add(Check.INVALID_STYLE_CLASS);
-        }
-    }
 }
