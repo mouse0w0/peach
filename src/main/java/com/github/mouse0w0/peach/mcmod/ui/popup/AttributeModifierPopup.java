@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 
-public class AttributeModifierPopup extends PopOver {
+public final class AttributeModifierPopup extends PopOver {
     private final ChoiceBox<String> attribute;
     private final ChoiceBox<AttributeModifier.Operation> operation;
     private final Spinner<Double> amount;

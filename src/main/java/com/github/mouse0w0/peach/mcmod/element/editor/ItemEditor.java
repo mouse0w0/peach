@@ -12,9 +12,14 @@ import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
+import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
-import com.github.mouse0w0.peach.mcmod.ui.form.*;
+import com.github.mouse0w0.peach.mcmod.ui.cell.ToolAttributeCell;
+import com.github.mouse0w0.peach.mcmod.ui.form.ItemPickerField;
+import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
+import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
+import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -40,14 +45,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private SpinnerField<Integer> maxStackSize;
     private SpinnerField<Integer> durability;
     private ChoiceBoxField<EquipmentSlot> equipmentSlot;
-    private ToolAttributesField toolAttributes;
+    private TagViewField<ToolAttribute> toolAttributes;
     private SpinnerField<Double> destroySpeed;
     private RadioButtonField canDestroyAnyBlock;
     private SpinnerField<Double> attackDamage;
     private SpinnerField<Double> attackSpeed;
     private SpinnerField<Integer> enchantability;
     private CheckComboBoxField<EnchantmentType> acceptableEnchantments;
-    private AttributeModifiersField attributeModifiers;
+    private TagViewField<AttributeModifier> attributeModifiers;
     private ItemPickerField repairItem;
     private ItemPickerField recipeRemain;
     private ComboBoxField<UseAnimation> useAnimation;
@@ -165,10 +170,15 @@ public class ItemEditor extends ElementEditor<MEItem> {
             return false;
         }, type.valueProperty()));
 
-        toolAttributes = new ToolAttributesField();
+        toolAttributes = new TagViewField<>();
         toolAttributes.setText(AppL10n.localize("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
         toolAttributes.disableProperty().bind(isArmorOrFood);
+        toolAttributes.setCellFactory(view -> new ToolAttributeCell());
+        toolAttributes.setOnAdd(event -> {
+            toolAttributes.getItems().add(event.getIndex(), new ToolAttribute("axe", 0));
+            toolAttributes.edit(event.getIndex());
+        });
 
         destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0D);
         destroySpeed.setText(AppL10n.localize("item.properties.destroySpeed"));
@@ -210,9 +220,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
-        attributeModifiers = new AttributeModifiersField();
+        attributeModifiers = new TagViewField<>();
         attributeModifiers.setText(AppL10n.localize("item.properties.attributeModifiers"));
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
+        attributeModifiers.setCellFactory(view -> new AttributeModifierCell());
+        attributeModifiers.setOnAdd(event -> {
+            attributeModifiers.getItems().add(event.getIndex(), new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
+            attributeModifiers.edit(event.getIndex());
+        });
 
         repairItem = new ItemPickerField();
         repairItem.setText(AppL10n.localize("item.properties.repairItem"));
@@ -379,12 +394,12 @@ public class ItemEditor extends ElementEditor<MEItem> {
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
         equipmentSlot.setValue(item.getEquipmentSlot());
-        toolAttributes.setValue(item.getToolAttributes());
+        toolAttributes.setItems(item.getToolAttributes());
         destroySpeed.setValue(item.getDestroySpeed());
         canDestroyAnyBlock.setValue(item.isCanDestroyAnyBlock());
         attackDamage.setValue(item.getAttackDamage());
         attackSpeed.setValue(item.getAttackSpeed());
-        attributeModifiers.setValue(item.getAttributeModifiers());
+        attributeModifiers.setItems(item.getAttributeModifiers());
         enchantability.setValue(item.getEnchantability());
         acceptableEnchantments.setValue(item.getAcceptableEnchantments());
         repairItem.setValue(item.getRepairItem());
@@ -420,12 +435,12 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setMaxStackSize(maxStackSize.getValue());
         item.setDurability(durability.getValue());
         item.setEquipmentSlot(equipmentSlot.getValue());
-        item.setToolAttributes(toolAttributes.getValue());
+        item.setToolAttributes(toolAttributes.getItems().toArray(ToolAttribute.EMPTY_ARRAY));
         item.setDestroySpeed(destroySpeed.getValue());
         item.setCanDestroyAnyBlock(canDestroyAnyBlock.getValue());
         item.setAttackDamage(attackDamage.getValue());
         item.setAttackSpeed(attackSpeed.getValue());
-        item.setAttributeModifiers(attributeModifiers.getValue());
+        item.setAttributeModifiers(attributeModifiers.getItems().toArray(AttributeModifier.EMPTY_ARRAY));
         item.setEnchantability(enchantability.getValue());
         item.setAcceptableEnchantments(acceptableEnchantments.getValue(EnchantmentType[]::new));
         item.setRepairItem(repairItem.getValue());

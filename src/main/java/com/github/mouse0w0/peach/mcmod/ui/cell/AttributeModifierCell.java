@@ -4,12 +4,8 @@ import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.ui.popup.AttributeModifierPopup;
 
-public class AttributeModifierCell extends TagCell<AttributeModifier> {
-    private final AttributeModifierPopup popup;
-
-    public AttributeModifierCell(AttributeModifierPopup popup) {
-        this.popup = popup;
-    }
+public final class AttributeModifierCell extends TagCell<AttributeModifier> {
+    private static final AttributeModifierPopup EDITOR = new AttributeModifierPopup();
 
     @Override
     protected void updateItem(AttributeModifier item, boolean empty) {
@@ -29,7 +25,7 @@ public class AttributeModifierCell extends TagCell<AttributeModifier> {
         super.startEdit();
 
         if (isEditing()) {
-            popup.edit(this);
+            EDITOR.edit(this);
         }
     }
 }

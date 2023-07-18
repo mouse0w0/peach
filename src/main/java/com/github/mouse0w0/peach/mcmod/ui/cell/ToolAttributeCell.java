@@ -4,12 +4,8 @@ import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ui.popup.ToolAttributePopup;
 
-public class ToolAttributeCell extends TagCell<ToolAttribute> {
-    private final ToolAttributePopup popup;
-
-    public ToolAttributeCell(ToolAttributePopup popup) {
-        this.popup = popup;
-    }
+public final class ToolAttributeCell extends TagCell<ToolAttribute> {
+    private static final ToolAttributePopup EDITOR = new ToolAttributePopup();
 
     @Override
     protected void updateItem(ToolAttribute item, boolean empty) {
@@ -29,7 +25,7 @@ public class ToolAttributeCell extends TagCell<ToolAttribute> {
         super.startEdit();
 
         if (isEditing()) {
-            popup.edit(this);
+            EDITOR.edit(this);
         }
     }
 }

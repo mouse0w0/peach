@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 
-public class ToolAttributePopup extends PopOver {
+public final class ToolAttributePopup extends PopOver {
     private final ChoiceBox<String> type;
     private final Spinner<Integer> level;
 
