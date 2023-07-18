@@ -18,6 +18,7 @@ import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Skin;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class TagView<T> extends Control {
     @SuppressWarnings("unchecked")
@@ -67,6 +68,13 @@ public class TagView<T> extends Control {
     public TagView() {
         getStyleClass().add("tag-view");
 
+        setOnAdd(event -> {
+            Supplier<T> itemFactory = getItemFactory();
+            if (itemFactory != null) {
+                getItems().add(event.getIndex(), itemFactory.get());
+                edit(event.getIndex());
+            }
+        });
         setOnRemove(event -> getItems().remove(event.getIndex()));
         setOnEditCommit(event -> getItems().set(event.getIndex(), event.getValue()));
     }
@@ -75,6 +83,23 @@ public class TagView<T> extends Control {
 
     public final ObservableList<T> getItems() {
         return items;
+    }
+
+    private ObjectProperty<Supplier<T>> itemFactory;
+
+    public final ObjectProperty<Supplier<T>> itemFactoryProperty() {
+        if (itemFactory == null) {
+            itemFactory = new SimpleObjectProperty<>(this, "itemFactory");
+        }
+        return itemFactory;
+    }
+
+    public final Supplier<T> getItemFactory() {
+        return itemFactory != null ? itemFactory.get() : null;
+    }
+
+    public void setItemFactory(Supplier<T> itemFactory) {
+        itemFactoryProperty().set(itemFactory);
     }
 
     private ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactory;

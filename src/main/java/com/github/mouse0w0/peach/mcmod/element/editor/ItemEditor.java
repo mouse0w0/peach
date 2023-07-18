@@ -174,11 +174,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         toolAttributes.setText(AppL10n.localize("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
         toolAttributes.disableProperty().bind(isArmorOrFood);
+        toolAttributes.setItemFactory(() -> new ToolAttribute("axe", 0));
         toolAttributes.setCellFactory(view -> new ToolAttributeCell());
-        toolAttributes.setOnAdd(event -> {
-            toolAttributes.getItems().add(event.getIndex(), new ToolAttribute("axe", 0));
-            toolAttributes.edit(event.getIndex());
-        });
 
         destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0D);
         destroySpeed.setText(AppL10n.localize("item.properties.destroySpeed"));
@@ -223,11 +220,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         attributeModifiers = new TagViewField<>();
         attributeModifiers.setText(AppL10n.localize("item.properties.attributeModifiers"));
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
+        attributeModifiers.setItemFactory(() -> new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
         attributeModifiers.setCellFactory(view -> new AttributeModifierCell());
-        attributeModifiers.setOnAdd(event -> {
-            attributeModifiers.getItems().add(event.getIndex(), new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
-            attributeModifiers.edit(event.getIndex());
-        });
 
         repairItem = new ItemPickerField();
         repairItem.setText(AppL10n.localize("item.properties.repairItem"));
