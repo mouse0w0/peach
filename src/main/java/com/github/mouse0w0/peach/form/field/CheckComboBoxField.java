@@ -1,6 +1,5 @@
-package com.github.mouse0w0.peach.mcmod.ui.form;
+package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.form.field.Field;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
