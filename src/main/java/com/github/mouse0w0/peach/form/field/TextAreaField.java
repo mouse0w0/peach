@@ -23,11 +23,26 @@ public class TextAreaField extends ValueField<String> {
         valueProperty().setValue(value);
     }
 
+    public StringProperty promptTextProperty() {
+        return getTextArea().promptTextProperty();
+    }
+
+    public String getPromptText() {
+        return getTextArea().getPromptText();
+    }
+
+    public void setPromptText(String value) {
+        getTextArea().setPromptText(value);
+    }
+
+    public TextArea getTextArea() {
+        return (TextArea) getEditor();
+    }
+
     @Override
     protected Node createEditor() {
         TextArea textArea = new TextArea();
         textArea.textProperty().bindBidirectional(valueProperty());
-        textArea.promptTextProperty().bind(promptTextProperty());
         textArea.editableProperty().bind(editableProperty());
         textArea.disableProperty().bind(disableProperty());
         return textArea;

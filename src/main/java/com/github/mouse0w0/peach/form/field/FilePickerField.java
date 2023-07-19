@@ -23,6 +23,18 @@ public class FilePickerField extends ValueField<String> {
         valueProperty().setValue(value);
     }
 
+    public StringProperty promptTextProperty() {
+        return getFilePicker().promptTextProperty();
+    }
+
+    public String getPromptText() {
+        return getFilePicker().getPromptText();
+    }
+
+    public void setPromptText(String value) {
+        getFilePicker().setPromptText(value);
+    }
+
     public FilePicker getFilePicker() {
         return (FilePicker) getEditor();
     }
@@ -31,7 +43,6 @@ public class FilePickerField extends ValueField<String> {
     protected Node createEditor() {
         FilePicker filePicker = new FilePicker();
         filePicker.valueProperty().bindBidirectional(valueProperty());
-        filePicker.promptTextProperty().bind(promptTextProperty());
         filePicker.editableProperty().bind(editableProperty());
         filePicker.disableProperty().bind(disableProperty());
         return filePicker;

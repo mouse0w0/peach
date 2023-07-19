@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.form.field;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -26,6 +27,18 @@ public class ComboBoxField<T> extends ValueField<T> {
     @Override
     public void setValue(T value) {
         valueProperty().setValue(value);
+    }
+
+    public StringProperty promptTextProperty() {
+        return getComboBox().promptTextProperty();
+    }
+
+    public String getPromptText() {
+        return getComboBox().getPromptText();
+    }
+
+    public void setPromptText(String value) {
+        getComboBox().setPromptText(value);
     }
 
     public ObjectProperty<ObservableList<T>> itemsProperty() {
@@ -86,7 +99,6 @@ public class ComboBoxField<T> extends ValueField<T> {
         ComboBox<T> comboBox = new ComboBox<>();
         comboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         comboBox.valueProperty().bindBidirectional(valueProperty());
-        comboBox.promptTextProperty().bind(promptTextProperty());
         comboBox.disableProperty().bind(disableProperty());
         return comboBox;
     }
