@@ -10,18 +10,21 @@ import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class TagViewField<T> extends Field {
+public class TagViewField<T> extends MultiValueField<T> {
 
-    public ObservableList<T> getItems() {
+    @Override
+    public final ObservableList<T> getValues() {
         return getTagView().getItems();
     }
 
-    public final void setItems(Collection<? extends T> items) {
+    @Override
+    public final void setValues(Collection<? extends T> items) {
         getTagView().getItems().setAll(items);
     }
 
+    @Override
     @SafeVarargs
-    public final void setItems(T... items) {
+    public final void setValues(T... items) {
         getTagView().getItems().setAll(items);
     }
 

@@ -9,9 +9,31 @@ import javafx.util.StringConverter;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.IndexedCheckModel;
 
-import java.util.function.IntFunction;
+import java.util.Collection;
 
-public class CheckComboBoxField<T> extends Field {
+public class CheckComboBoxField<T> extends MultiValueField<T> {
+
+    @Override
+    public final ObservableList<T> getValues() {
+        return getCheckModel().getCheckedItems();
+    }
+
+    @Override
+    public final void setValues(Collection<? extends T> collection) {
+        final IndexedCheckModel<T> checkModel = getCheckModel();
+        for (T item : collection) {
+            checkModel.check(item);
+        }
+    }
+
+    @Override
+    @SafeVarargs
+    public final void setValues(T... items) {
+        final IndexedCheckModel<T> checkModel = getCheckModel();
+        for (T item : items) {
+            checkModel.check(item);
+        }
+    }
 
     public ObservableList<T> getItems() {
         return getCheckComboBox().getItems();
@@ -67,22 +89,6 @@ public class CheckComboBoxField<T> extends Field {
 
     public boolean isShowCheckedCount() {
         return getCheckComboBox().isShowCheckedCount();
-    }
-
-    public T[] getValue(IntFunction<T[]> generator) {
-        final ObservableList<T> items = getCheckModel().getCheckedItems();
-        final T[] array = generator.apply(items.size());
-        for (int i = 0; i < array.length; i++) {
-            array[i] = items.get(i);
-        }
-        return array;
-    }
-
-    public void setValue(T[] array) {
-        final IndexedCheckModel<T> checkModel = getCheckModel();
-        for (T t : array) {
-            checkModel.check(t);
-        }
     }
 
     @SuppressWarnings("unchecked")
