@@ -10,17 +10,17 @@ public class ColorPickerField extends ValueField<Color> {
     private final ObjectProperty<Color> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
-    public ObjectProperty<Color> valueProperty() {
+    public final ObjectProperty<Color> valueProperty() {
         return value;
     }
 
     @Override
-    public Color getValue() {
+    public final Color getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(Color value) {
+    public final void setValue(Color value) {
         valueProperty().setValue(value);
     }
 

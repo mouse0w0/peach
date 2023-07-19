@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.form.field;
 
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -35,64 +34,56 @@ public class CheckComboBoxField<T> extends MultiValueField<T> {
         }
     }
 
-    public ObservableList<T> getItems() {
+    public final ObservableList<T> getItems() {
         return getCheckComboBox().getItems();
     }
 
-    public BooleanProperty getItemBooleanProperty(int index) {
-        return getCheckComboBox().getItemBooleanProperty(index);
-    }
-
-    public BooleanProperty getItemBooleanProperty(T item) {
-        return getCheckComboBox().getItemBooleanProperty(item);
-    }
-
-    public void setCheckModel(IndexedCheckModel<T> value) {
-        getCheckComboBox().setCheckModel(value);
-    }
-
-    public IndexedCheckModel<T> getCheckModel() {
-        return getCheckComboBox().getCheckModel();
-    }
-
-    public ObjectProperty<IndexedCheckModel<T>> checkModelProperty() {
+    public final ObjectProperty<IndexedCheckModel<T>> checkModelProperty() {
         return getCheckComboBox().checkModelProperty();
     }
 
-    public ObjectProperty<StringConverter<T>> converterProperty() {
+    public final IndexedCheckModel<T> getCheckModel() {
+        return getCheckComboBox().getCheckModel();
+    }
+
+    public final void setCheckModel(IndexedCheckModel<T> value) {
+        getCheckComboBox().setCheckModel(value);
+    }
+
+    public final ObjectProperty<StringConverter<T>> converterProperty() {
         return getCheckComboBox().converterProperty();
     }
 
-    public void setConverter(StringConverter<T> value) {
+    public final void setConverter(StringConverter<T> value) {
         getCheckComboBox().setConverter(value);
     }
 
-    public StringConverter<T> getConverter() {
+    public final StringConverter<T> getConverter() {
         return getCheckComboBox().getConverter();
     }
 
-    public StringProperty titleProperty() {
+    public final StringProperty titleProperty() {
         return getCheckComboBox().titleProperty();
     }
 
-    public void setTitle(String value) {
+    public final void setTitle(String value) {
         getCheckComboBox().setTitle(value);
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return getCheckComboBox().getTitle();
     }
 
-    public void setShowCheckedCount(boolean value) {
+    public final void setShowCheckedCount(boolean value) {
         getCheckComboBox().setShowCheckedCount(value);
     }
 
-    public boolean isShowCheckedCount() {
+    public final boolean isShowCheckedCount() {
         return getCheckComboBox().isShowCheckedCount();
     }
 
     @SuppressWarnings("unchecked")
-    public CheckComboBox<T> getCheckComboBox() {
+    public final CheckComboBox<T> getCheckComboBox() {
         return (CheckComboBox<T>) getEditor();
     }
 

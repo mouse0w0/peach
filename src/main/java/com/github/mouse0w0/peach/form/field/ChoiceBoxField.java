@@ -11,46 +11,46 @@ public class ChoiceBoxField<T> extends ValueField<T> {
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
-    public ObjectProperty<T> valueProperty() {
+    public final ObjectProperty<T> valueProperty() {
         return value;
     }
 
     @Override
-    public T getValue() {
+    public final T getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(T value) {
+    public final void setValue(T value) {
         valueProperty().setValue(value);
     }
 
-    public ObjectProperty<ObservableList<T>> itemsProperty() {
+    public final ObjectProperty<ObservableList<T>> itemsProperty() {
         return getChoiceBox().itemsProperty();
     }
 
-    public ObservableList<T> getItems() {
+    public final ObservableList<T> getItems() {
         return getChoiceBox().getItems();
     }
 
-    public void setItems(ObservableList<T> value) {
+    public final void setItems(ObservableList<T> value) {
         getChoiceBox().setItems(value);
     }
 
-    public ObjectProperty<StringConverter<T>> converterProperty() {
+    public final ObjectProperty<StringConverter<T>> converterProperty() {
         return getChoiceBox().converterProperty();
     }
 
-    public void setConverter(StringConverter<T> value) {
+    public final void setConverter(StringConverter<T> value) {
         getChoiceBox().setConverter(value);
     }
 
-    public StringConverter<T> getConverter() {
+    public final StringConverter<T> getConverter() {
         return getChoiceBox().getConverter();
     }
 
     @SuppressWarnings("unchecked")
-    public ChoiceBox<T> getChoiceBox() {
+    public final ChoiceBox<T> getChoiceBox() {
         return (ChoiceBox<T>) getEditor();
     }
 

@@ -15,82 +15,82 @@ public class ComboBoxField<T> extends ValueField<T> {
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
-    public ObjectProperty<T> valueProperty() {
+    public final ObjectProperty<T> valueProperty() {
         return value;
     }
 
     @Override
-    public T getValue() {
+    public final T getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(T value) {
+    public final void setValue(T value) {
         valueProperty().setValue(value);
     }
 
-    public StringProperty promptTextProperty() {
-        return getComboBox().promptTextProperty();
-    }
-
-    public String getPromptText() {
-        return getComboBox().getPromptText();
-    }
-
-    public void setPromptText(String value) {
-        getComboBox().setPromptText(value);
-    }
-
-    public ObjectProperty<ObservableList<T>> itemsProperty() {
+    public final ObjectProperty<ObservableList<T>> itemsProperty() {
         return getComboBox().itemsProperty();
     }
 
-    public ObservableList<T> getItems() {
+    public final ObservableList<T> getItems() {
         return getComboBox().getItems();
     }
 
-    public void setItems(ObservableList<T> value) {
+    public final void setItems(ObservableList<T> value) {
         getComboBox().setItems(value);
     }
 
-    public ObjectProperty<Callback<ListView<T>, ListCell<T>>> cellFactoryProperty() {
+    public final ObjectProperty<Callback<ListView<T>, ListCell<T>>> cellFactoryProperty() {
         return getComboBox().cellFactoryProperty();
     }
 
-    public Callback<ListView<T>, ListCell<T>> getCellFactory() {
+    public final Callback<ListView<T>, ListCell<T>> getCellFactory() {
         return getComboBox().getCellFactory();
     }
 
-    public void setCellFactory(Callback<ListView<T>, ListCell<T>> value) {
+    public final void setCellFactory(Callback<ListView<T>, ListCell<T>> value) {
         getComboBox().setCellFactory(value);
     }
 
-    public ObjectProperty<StringConverter<T>> converterProperty() {
+    public final ObjectProperty<StringConverter<T>> converterProperty() {
         return getComboBox().converterProperty();
     }
 
-    public void setConverter(StringConverter<T> value) {
+    public final void setConverter(StringConverter<T> value) {
         getComboBox().setConverter(value);
     }
 
-    public StringConverter<T> getConverter() {
+    public final StringConverter<T> getConverter() {
         return getComboBox().getConverter();
     }
 
-    public ObjectProperty<ListCell<T>> buttonCellProperty() {
+    public final ObjectProperty<ListCell<T>> buttonCellProperty() {
         return getComboBox().buttonCellProperty();
     }
 
-    public ListCell<T> getButtonCell() {
+    public final ListCell<T> getButtonCell() {
         return getComboBox().getButtonCell();
     }
 
-    public void setButtonCell(ListCell<T> value) {
+    public final void setButtonCell(ListCell<T> value) {
         getComboBox().setButtonCell(value);
     }
 
+    public final StringProperty promptTextProperty() {
+        return getComboBox().promptTextProperty();
+    }
+
+    public final String getPromptText() {
+        return getComboBox().getPromptText();
+    }
+
+    public final void setPromptText(String value) {
+        getComboBox().setPromptText(value);
+    }
+
     @SuppressWarnings("unchecked")
-    public ComboBox<T> getComboBox() {
+    public final ComboBox<T> getComboBox() {
         return (ComboBox<T>) getEditor();
     }
 

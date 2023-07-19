@@ -28,32 +28,32 @@ public class TagViewField<T> extends MultiValueField<T> {
         getTagView().getItems().setAll(items);
     }
 
-    public ObjectProperty<Supplier<T>> itemFactoryProperty() {
+    public final ObjectProperty<Supplier<T>> itemFactoryProperty() {
         return getTagView().itemFactoryProperty();
     }
 
-    public Supplier<T> getItemFactory() {
+    public final Supplier<T> getItemFactory() {
         return getTagView().getItemFactory();
     }
 
-    public void setItemFactory(Supplier<T> itemFactory) {
+    public final void setItemFactory(Supplier<T> itemFactory) {
         getTagView().setItemFactory(itemFactory);
     }
 
-    public ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactoryProperty() {
+    public final ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactoryProperty() {
         return getTagView().cellFactoryProperty();
     }
 
-    public Function<TagView<T>, TagCell<T>> getCellFactory() {
+    public final Function<TagView<T>, TagCell<T>> getCellFactory() {
         return getTagView().getCellFactory();
     }
 
-    public void setCellFactory(Function<TagView<T>, TagCell<T>> cellFactory) {
+    public final void setCellFactory(Function<TagView<T>, TagCell<T>> cellFactory) {
         getTagView().setCellFactory(cellFactory);
     }
 
     @SuppressWarnings("unchecked")
-    public TagView<T> getTagView() {
+    public final TagView<T> getTagView() {
         return (TagView<T>) getEditor();
     }
 

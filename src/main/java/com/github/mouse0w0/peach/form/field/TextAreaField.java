@@ -9,33 +9,33 @@ public class TextAreaField extends ValueField<String> {
     private final StringProperty value = new SimpleStringProperty(this, "value");
 
     @Override
-    public StringProperty valueProperty() {
+    public final StringProperty valueProperty() {
         return value;
     }
 
     @Override
-    public String getValue() {
+    public final String getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(String value) {
+    public final void setValue(String value) {
         valueProperty().setValue(value);
     }
 
-    public StringProperty promptTextProperty() {
+    public final StringProperty promptTextProperty() {
         return getTextArea().promptTextProperty();
     }
 
-    public String getPromptText() {
+    public final String getPromptText() {
         return getTextArea().getPromptText();
     }
 
-    public void setPromptText(String value) {
+    public final void setPromptText(String value) {
         getTextArea().setPromptText(value);
     }
 
-    public TextArea getTextArea() {
+    public final TextArea getTextArea() {
         return (TextArea) getEditor();
     }
 

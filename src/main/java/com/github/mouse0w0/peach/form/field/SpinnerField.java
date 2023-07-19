@@ -35,17 +35,17 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
     }
 
     @Override
-    public ObjectProperty<T> valueProperty() {
+    public final ObjectProperty<T> valueProperty() {
         return value;
     }
 
     @Override
-    public T getValue() {
+    public final T getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(T value) {
+    public final void setValue(T value) {
         valueProperty().setValue(value);
     }
 
@@ -62,7 +62,7 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public Spinner<T> getSpinner() {
+    public final Spinner<T> getSpinner() {
         return (Spinner<T>) getEditor();
     }
 
