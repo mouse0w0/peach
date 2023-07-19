@@ -386,13 +386,13 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         itemGroup.setValue(element.getItemGroup());
         soundType.setValue(element.getSoundType());
         hardness.setValue(element.getHardness());
-        unbreakable.setValue(element.isUnbreakable());
+        unbreakable.set(element.isUnbreakable());
         resistance.setValue(element.getResistance());
         slipperiness.setValue(element.getSlipperiness());
         brightness.setValue(element.getBrightness());
         opacity.setValue(element.getOpacity());
-        noCollision.setValue(element.isNoCollision());
-        replaceable.setValue(element.isReplaceable());
+        noCollision.set(element.isNoCollision());
+        replaceable.set(element.isReplaceable());
         harvestTool.setValue(element.getHarvestTool());
         harvestLevel.setValue(element.getHarvestLevel());
         final String[] array = element.getInformation();
@@ -402,7 +402,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         model.setCustomModels(element.getCustomModels());
         textures.setTextures(element.getTextures());
         particleTexture.setTexture(element.getParticleTexture());
-        transparency.setValue(element.isTransparency());
+        transparency.set(element.isTransparency());
         renderType.setValue(element.getRenderType());
         offsetType.setValue(element.getOffsetType());
         itemModel.setModel(element.getItemModel());
@@ -417,12 +417,12 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         maxY.setValue(boundingBox.maxY() * 16);
         maxZ.setValue(boundingBox.maxZ() * 16);
 
-        doNotRegisterItem.setValue(element.isDoNotRegisterItem());
+        doNotRegisterItem.set(element.isDoNotRegisterItem());
         mapColor.setValue(element.getMapColor());
         beaconColor.setValue(Color.valueOf(element.getBeaconColor()));
-        beaconBase.setValue(element.isBeaconBase());
-        climbable.setValue(element.isClimbable());
-        canConnectRedstone.setValue(element.isCanConnectRedstone());
+        beaconBase.set(element.isBeaconBase());
+        climbable.set(element.isClimbable());
+        canConnectRedstone.set(element.isCanConnectRedstone());
         redstonePower.setValue(element.getRedstonePower());
         canPlantPlant.setValue(element.getCanPlantPlant());
         enchantPowerBonus.setValue(element.getEnchantPowerBonus());
@@ -441,13 +441,13 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setItemGroup(itemGroup.getValue());
         element.setSoundType(soundType.getValue());
         element.setHardness(hardness.getValue());
-        element.setUnbreakable(unbreakable.getValue());
+        element.setUnbreakable(unbreakable.get());
         element.setResistance(resistance.getValue());
         element.setSlipperiness(slipperiness.getValue());
         element.setBrightness(brightness.getValue());
         element.setOpacity(opacity.getValue());
-        element.setNoCollision(noCollision.getValue());
-        element.setReplaceable(replaceable.getValue());
+        element.setNoCollision(noCollision.get());
+        element.setReplaceable(replaceable.get());
         element.setHarvestTool(harvestTool.getValue());
         element.setHarvestLevel(harvestLevel.getValue());
         final String str = information.getValue();
@@ -457,7 +457,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         element.setCustomModels(model.getCustomModels());
         element.setTextures(textures.getTextures());
         element.setParticleTexture(particleTexture.getTexture());
-        element.setTransparency(transparency.getValue());
+        element.setTransparency(transparency.get());
         element.setRenderType(renderType.getValue());
         element.setOffsetType(offsetType.getValue());
         element.setItemModel(itemModel.getModel());
@@ -468,12 +468,12 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 minX.getValue() / 16, minY.getValue() / 16, minZ.getValue() / 16,
                 maxX.getValue() / 16, maxY.getValue() / 16, maxZ.getValue() / 16));
 
-        element.setDoNotRegisterItem(doNotRegisterItem.getValue());
+        element.setDoNotRegisterItem(doNotRegisterItem.get());
         element.setMapColor(mapColor.getValue());
         element.setBeaconColor(beaconColor.getValue().toString());
-        element.setBeaconBase(beaconBase.getValue());
-        element.setClimbable(climbable.getValue());
-        element.setCanConnectRedstone(canConnectRedstone.getValue());
+        element.setBeaconBase(beaconBase.get());
+        element.setClimbable(climbable.get());
+        element.setCanConnectRedstone(canConnectRedstone.get());
         element.setRedstonePower(redstonePower.getValue());
         element.setCanPlantPlant(canPlantPlant.getValue());
         element.setEnchantPowerBonus(enchantPowerBonus.getValue());

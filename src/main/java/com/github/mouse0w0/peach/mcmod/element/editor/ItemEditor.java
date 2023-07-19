@@ -390,7 +390,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         equipmentSlot.setValue(item.getEquipmentSlot());
         toolAttributes.setItems(item.getToolAttributes());
         destroySpeed.setValue(item.getDestroySpeed());
-        canDestroyAnyBlock.setValue(item.isCanDestroyAnyBlock());
+        canDestroyAnyBlock.set(item.isCanDestroyAnyBlock());
         attackDamage.setValue(item.getAttackDamage());
         attackSpeed.setValue(item.getAttackSpeed());
         attributeModifiers.setItems(item.getAttributeModifiers());
@@ -408,15 +408,15 @@ public class ItemEditor extends ElementEditor<MEItem> {
         model.setModel(item.getModel());
         model.setCustomModels(item.getCustomModels());
         textures.setTextures(item.getTextures());
-        hasEffect.setValue(item.isHasEffect());
+        hasEffect.set(item.isHasEffect());
         armorTexture.setTexture(item.getArmorTexture());
 
         fuelBurnTime.setValue(item.getFuelBurnTime());
         equipSound.setValue(item.getEquipSound());
         hunger.setValue(item.getHunger());
         saturation.setValue(item.getSaturation());
-        isWolfFood.setValue(item.isWolfFood());
-        alwaysEdible.setValue(item.isAlwaysEdible());
+        isWolfFood.set(item.isWolfFood());
+        alwaysEdible.set(item.isAlwaysEdible());
         foodContainer.setValue(item.getFoodContainer());
     }
 
@@ -431,7 +431,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setEquipmentSlot(equipmentSlot.getValue());
         item.setToolAttributes(toolAttributes.getItems().toArray(ToolAttribute.EMPTY_ARRAY));
         item.setDestroySpeed(destroySpeed.getValue());
-        item.setCanDestroyAnyBlock(canDestroyAnyBlock.getValue());
+        item.setCanDestroyAnyBlock(canDestroyAnyBlock.get());
         item.setAttackDamage(attackDamage.getValue());
         item.setAttackSpeed(attackSpeed.getValue());
         item.setAttributeModifiers(attributeModifiers.getItems().toArray(AttributeModifier.EMPTY_ARRAY));
@@ -449,15 +449,15 @@ public class ItemEditor extends ElementEditor<MEItem> {
         item.setModel(model.getModel());
         item.setCustomModels(model.getCustomModels());
         item.setTextures(textures.getTextures());
-        item.setHasEffect(hasEffect.getValue());
+        item.setHasEffect(hasEffect.get());
         item.setArmorTexture(armorTexture.getTexture());
 
         item.setFuelBurnTime(fuelBurnTime.getValue());
         item.setEquipSound(equipSound.getValue());
         item.setHunger(hunger.getValue());
         item.setSaturation(saturation.getValue());
-        item.setWolfFood(isWolfFood.getValue());
-        item.setAlwaysEdible(alwaysEdible.getValue());
+        item.setWolfFood(isWolfFood.get());
+        item.setAlwaysEdible(alwaysEdible.get());
         item.setFoodContainer(foodContainer.getValue());
     }
 

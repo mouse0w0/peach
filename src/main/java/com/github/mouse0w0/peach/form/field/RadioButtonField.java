@@ -13,14 +13,24 @@ public class RadioButtonField extends ValueField<Boolean> {
         return value;
     }
 
-    @Override
-    public Boolean getValue() {
+    public boolean get() {
         return value.get();
     }
 
     @Override
+    @Deprecated
+    public Boolean getValue() {
+        return get();
+    }
+
+    public void set(boolean value) {
+        valueProperty().set(value);
+    }
+
+    @Override
+    @Deprecated
     public void setValue(Boolean value) {
-        valueProperty().setValue(value);
+        set(value);
     }
 
     @Override
