@@ -53,9 +53,7 @@ public final class Spinners {
     public static void setupDoubleEditor(Spinner<Double> spinner, double initialValue) {
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.isEmpty() || newValue.equals("-")) return;
-            int dotIndex = newValue.indexOf('.');
-            if (dotIndex != -1 && dotIndex == newValue.lastIndexOf('.')) return;
+            if (newValue.isEmpty() || newValue.equals("-") || newValue.indexOf('.') == newValue.length() - 1) return;
             SpinnerValueFactory<Double> valueFactory = spinner.getValueFactory();
             if (valueFactory != null) {
                 try {
