@@ -71,7 +71,6 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
         Spinner<T> spinner = new Spinner<>();
         spinner.setMinSize(0, 0);
         spinner.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        spinner.editableProperty().bind(editableProperty());
         spinner.valueFactoryProperty().addListener((observable, oldValue, newValue) -> {
             if (oldValue != null) {
                 valueProperty().unbindBidirectional(oldValue.valueProperty());

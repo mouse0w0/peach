@@ -43,7 +43,6 @@ public class FilePickerField extends ValueField<String> {
     protected Node createEditor() {
         FilePicker filePicker = new FilePicker();
         filePicker.valueProperty().bindBidirectional(valueProperty());
-        filePicker.editableProperty().bind(editableProperty());
         filePicker.disableProperty().bind(disableProperty());
         return filePicker;
     }

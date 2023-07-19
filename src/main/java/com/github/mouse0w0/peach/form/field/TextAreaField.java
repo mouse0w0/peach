@@ -43,7 +43,6 @@ public class TextAreaField extends ValueField<String> {
     protected Node createEditor() {
         TextArea textArea = new TextArea();
         textArea.textProperty().bindBidirectional(valueProperty());
-        textArea.editableProperty().bind(editableProperty());
         textArea.disableProperty().bind(disableProperty());
         return textArea;
     }

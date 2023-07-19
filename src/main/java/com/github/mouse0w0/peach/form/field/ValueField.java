@@ -3,7 +3,10 @@ package com.github.mouse0w0.peach.form.field;
 import com.github.mouse0w0.peach.javafx.control.PopupAlert;
 import com.github.mouse0w0.peach.javafx.util.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
-import javafx.beans.property.*;
+import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,8 +17,6 @@ public abstract class ValueField<T> extends Field {
     private static final PopupAlert POPUP_ALERT;
 
     private static final ChangeListener<Boolean> FOCUSED_LISTENER;
-
-    private BooleanProperty editable;
 
     private ObservableList<Check<? super T>> checks;
     private ReadOnlyObjectWrapper<Check<? super T>> invalidCheck;
@@ -52,21 +53,6 @@ public abstract class ValueField<T> extends Field {
     public abstract T getValue();
 
     public abstract void setValue(T value);
-
-    public final BooleanProperty editableProperty() {
-        if (editable == null) {
-            editable = new SimpleBooleanProperty(this, "editable", true);
-        }
-        return editable;
-    }
-
-    public final boolean isEditable() {
-        return editable == null || editable.get();
-    }
-
-    public final void setEditable(boolean editable) {
-        editableProperty().set(editable);
-    }
 
     public final ObservableList<Check<? super T>> getChecks() {
         if (checks == null) {
