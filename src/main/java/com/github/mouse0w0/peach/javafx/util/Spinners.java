@@ -11,12 +11,13 @@ public final class Spinners {
 
     public static Spinner<Integer> create(int min, int max, int initialValue, int amountToStepBy) {
         Spinner<Integer> spinner = new Spinner<>(min, max, initialValue, amountToStepBy);
-        setupIntegerEditor(spinner, initialValue);
+        setupIntegerEditor(spinner);
         return spinner;
     }
 
-    public static void setupIntegerEditor(Spinner<Integer> spinner, int initialValue) {
+    public static void setupIntegerEditor(Spinner<Integer> spinner) {
         spinner.setEditable(true);
+        Integer initialValue = spinner.getValue();
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty() || newValue.equals("-")) return;
@@ -45,12 +46,13 @@ public final class Spinners {
 
     public static Spinner<Double> create(double min, double max, double initialValue, double amountToStepBy) {
         Spinner<Double> spinner = new Spinner<>(min, max, initialValue, amountToStepBy);
-        setupDoubleEditor(spinner, initialValue);
+        setupDoubleEditor(spinner);
         return spinner;
     }
 
-    public static void setupDoubleEditor(Spinner<Double> spinner, double initialValue) {
+    public static void setupDoubleEditor(Spinner<Double> spinner) {
         spinner.setEditable(true);
+        Double initialValue = spinner.getValue();
         TextField editor = spinner.getEditor();
         editor.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty() || newValue.equals("-") || newValue.indexOf('.') == newValue.length() - 1) return;

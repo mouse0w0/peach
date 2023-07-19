@@ -17,7 +17,7 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
     @SuppressWarnings("unchecked")
     public SpinnerField(int min, int max, int initialValue, int amountToStepBy) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue, amountToStepBy));
-        Spinners.setupIntegerEditor((Spinner<Integer>) getSpinner(), initialValue);
+        Spinners.setupIntegerEditor((Spinner<Integer>) getSpinner());
     }
 
     public SpinnerField(double min, double max, double initialValue) {
@@ -27,7 +27,7 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
     @SuppressWarnings("unchecked")
     public SpinnerField(double min, double max, double initialValue, double amountToStepBy) {
         this((SpinnerValueFactory<T>) new SpinnerValueFactory.DoubleSpinnerValueFactory(min, max, initialValue, amountToStepBy));
-        Spinners.setupDoubleEditor((Spinner<Double>) getSpinner(), initialValue);
+        Spinners.setupDoubleEditor((Spinner<Double>) getSpinner());
     }
 
     public SpinnerField(SpinnerValueFactory<T> valueFactory) {
