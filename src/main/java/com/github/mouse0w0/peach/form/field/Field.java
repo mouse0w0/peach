@@ -7,14 +7,18 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 
 public abstract class Field extends Element {
-    public static final String FIELD = "form-field";
+    public static final String FORM_FIELD_CLASS = "form-field";
+    public static final String FORM_FIELD_LABEL_CLASS = "form-field-label";
+    public static final String FORM_FIELD_EDITOR_CLASS = "form-field-editor";
+
+    public static final String FIELD_PROP = "form-field";
 
     private StringProperty text;
 
     private Node editor;
 
     public Field() {
-        getStyleClass().add("form-field");
+        getStyleClass().add(FORM_FIELD_CLASS);
     }
 
     public final StringProperty textProperty() {
@@ -35,7 +39,7 @@ public abstract class Field extends Element {
     @Override
     protected Node createNode() {
         Label label = new Label();
-        label.getStyleClass().add("form-field-label");
+        label.getStyleClass().add(FORM_FIELD_LABEL_CLASS);
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
         return new FieldView(this, label, getEditor());
@@ -44,8 +48,8 @@ public abstract class Field extends Element {
     public final Node getEditor() {
         if (editor == null) {
             editor = createEditor();
-            editor.getStyleClass().add("form-field-editor");
-            editor.getProperties().put(FIELD, this);
+            editor.getStyleClass().add(FORM_FIELD_EDITOR_CLASS);
+            editor.getProperties().put(FIELD_PROP, this);
         }
         return editor;
     }

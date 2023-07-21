@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
 import com.github.mouse0w0.peach.form.Element;
+import com.github.mouse0w0.peach.form.field.Field;
 import com.github.mouse0w0.peach.javafx.binding.BidirectionalValueBinding;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
@@ -169,7 +170,7 @@ public class ModelField extends Element {
         pane.getColumnConstraints().add(editorColumn);
 
         label = new Label();
-        label.getStyleClass().add("form-field-label");
+        label.getStyleClass().add(Field.FORM_FIELD_LABEL_CLASS);
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
         pane.add(label, 0, 0);
@@ -245,7 +246,7 @@ public class ModelField extends Element {
             int row = 1;
             for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
                 Label label = new Label(modelKey);
-                label.getStyleClass().add("form-field-label");
+                label.getStyleClass().add(Field.FORM_FIELD_LABEL_CLASS);
                 label.setWrapText(true);
                 pane.add(label, 0, row);
 

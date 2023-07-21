@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
 public abstract class Element {
+    public static final String FORM_ELEMENT_CLASS = "form-element";
+
     private ReadOnlyObjectWrapper<Group> group;
 
     private IntegerProperty colSpan;
@@ -19,7 +21,7 @@ public abstract class Element {
     private Node node;
 
     public Element() {
-        getStyleClass().add("form-element");
+        getStyleClass().add(FORM_ELEMENT_CLASS);
     }
 
     public final Node getNode() {
