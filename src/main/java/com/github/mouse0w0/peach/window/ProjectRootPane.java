@@ -1,6 +1,9 @@
 package com.github.mouse0w0.peach.window;
 
-import com.github.mouse0w0.peach.action.*;
+import com.github.mouse0w0.peach.action.Action;
+import com.github.mouse0w0.peach.action.ActionGroup;
+import com.github.mouse0w0.peach.action.ActionGroups;
+import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
@@ -10,17 +13,12 @@ import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.view.ViewEP;
-import com.sun.javafx.scene.control.ContextMenuContent;
-import com.sun.javafx.scene.control.MenuBarButton;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Window;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,25 +52,6 @@ class ProjectRootPane extends BorderPane {
         setBottom(statusBar.getContent());
 
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
-
-        Window.getWindows().addListener((ListChangeListener<Window>) c -> {
-            while (c.next()) {
-                if (c.wasAdded()) {
-                    for (Window window : c.getAddedSubList()) {
-                        if (window instanceof ContextMenu contextMenu) {
-                            Node ownerNode = contextMenu.getOwnerNode();
-                            if (window instanceof ActionHolder) {
-                                applyStatusBarInfo(contextMenu);
-                            } else if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionHolder) {
-                                applyStatusBarInfo(contextMenu);
-                            } else if (ownerNode instanceof ContextMenuContent.MenuItemContainer container && container.getItem() instanceof ActionHolder) {
-                                applyStatusBarInfo(contextMenu);
-                            }
-                        }
-                    }
-                }
-            }
-        });
     }
 
     private void initializeView(ViewPane viewPane) {
@@ -128,27 +107,4 @@ class ProjectRootPane extends BorderPane {
         }
         return menuBar;
     }
-
-    private static void applyStatusBarInfo(ContextMenu contextMenu) {
-        Parent root = contextMenu.getScene().getRoot();
-        for (Node node : root.lookupAll(".menu-item")) {
-            MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
-            if (menuItem instanceof ActionHolder actionHolder && actionHolder.getAction().getDescription() != null) {
-                node.hoverProperty().addListener(HOVER_LISTENER);
-            }
-        }
-    }
-
-    private static final InvalidationListener HOVER_LISTENER = observable -> {
-        ReadOnlyBooleanProperty hoverProperty = (ReadOnlyBooleanProperty) observable;
-        if (hoverProperty.get()) {
-            Node node = (Node) hoverProperty.getBean();
-            MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
-            assert menuItem != null;
-            Action action = ((ActionHolder) menuItem).getAction();
-            StatusBarInfo.getFocusedInstance().setText(action.getDescription());
-        } else {
-            StatusBarInfo.getFocusedInstance().setText(null);
-        }
-    };
 }

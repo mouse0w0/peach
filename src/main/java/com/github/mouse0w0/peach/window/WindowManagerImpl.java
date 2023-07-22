@@ -1,9 +1,20 @@
 package com.github.mouse0w0.peach.window;
 
+import com.github.mouse0w0.peach.action.Action;
+import com.github.mouse0w0.peach.action.ActionHolder;
 import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.javafx.util.FocusUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
+import com.sun.javafx.scene.control.ContextMenuContent;
+import com.sun.javafx.scene.control.MenuBarButton;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.ReadOnlyBooleanProperty;
+import javafx.collections.ListChangeListener;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -16,6 +27,51 @@ public class WindowManagerImpl implements WindowManager {
     private final Map<Project, ProjectWindow> windowMap = new WeakHashMap<>();
     private final Map<Window, ProjectWindow> fxWindowToWindowMap = new WeakHashMap<>();
 
+    public WindowManagerImpl() {
+        Window.getWindows().addListener((ListChangeListener<Window>) c -> {
+            while (c.next()) {
+                if (c.wasAdded()) {
+                    for (Window window : c.getAddedSubList()) {
+                        if (window instanceof ContextMenu contextMenu) {
+                            Node ownerNode = contextMenu.getOwnerNode();
+                            if (window instanceof ActionHolder) {
+                                applyStatusBarInfo(contextMenu);
+                            } else if (ownerNode instanceof MenuBarButton button && button.menu instanceof ActionHolder) {
+                                applyStatusBarInfo(contextMenu);
+                            } else if (ownerNode instanceof ContextMenuContent.MenuItemContainer container && container.getItem() instanceof ActionHolder) {
+                                applyStatusBarInfo(contextMenu);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private static final InvalidationListener HOVER_LISTENER = observable -> {
+        ReadOnlyBooleanProperty hoverProperty = (ReadOnlyBooleanProperty) observable;
+        if (hoverProperty.get()) {
+            Node node = (Node) hoverProperty.getBean();
+            MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
+            assert menuItem != null;
+            Action action = ((ActionHolder) menuItem).getAction();
+            StatusBarInfo.getFocusedInstance().setText(action.getDescription());
+        } else {
+            StatusBarInfo.getFocusedInstance().setText(null);
+        }
+    };
+
+    private static void applyStatusBarInfo(ContextMenu contextMenu) {
+        Parent root = contextMenu.getScene().getRoot();
+        for (Node node : root.lookupAll(".menu-item")) {
+            MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
+            if (menuItem instanceof ActionHolder actionHolder && actionHolder.getAction().getDescription() != null) {
+                node.hoverProperty().addListener(HOVER_LISTENER);
+            }
+        }
+    }
+
+    @Override
     public Collection<ProjectWindow> getWindows() {
         return windowMap.values();
     }
