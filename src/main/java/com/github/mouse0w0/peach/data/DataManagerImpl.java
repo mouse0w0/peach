@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Tab;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -89,8 +88,6 @@ public final class DataManagerImpl implements DataManager {
                 ContextMenu popup = menuItem.getParentPopup();
                 return popup != null ? popup : menuItem.getProperties().get(MENU_POPUP);
             }
-        } else if (o instanceof Tab) {
-            return ((Tab) o).getTabPane();
         } else {
             return null;
         }
@@ -103,8 +100,6 @@ public final class DataManagerImpl implements DataManager {
             return scene.hasProperties() ? scene.getProperties() : null;
         } else if (o instanceof Window window) {
             return window.hasProperties() ? window.getProperties() : null;
-        } else if (o instanceof Tab tab) {
-            return tab.hasProperties() ? tab.getProperties() : null;
         } else {
             return null;
         }
@@ -117,8 +112,6 @@ public final class DataManagerImpl implements DataManager {
             return ((Scene) o).getProperties();
         } else if (o instanceof Window) {
             return ((Window) o).getProperties();
-        } else if (o instanceof Tab) {
-            return ((Tab) o).getProperties();
         } else {
             return null;
         }
