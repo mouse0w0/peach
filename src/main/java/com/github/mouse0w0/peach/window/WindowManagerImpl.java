@@ -4,7 +4,6 @@ import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.javafx.util.FocusUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
-import com.github.mouse0w0.peach.view.ViewManager;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -69,8 +68,6 @@ public class WindowManagerImpl implements WindowManager {
         window = new ProjectWindowImpl(project);
         windowMap.putIfAbsent(project, window);
         fxWindowToWindowMap.put(window.getStage(), window);
-
-        ViewManager.getInstance(project).initialize(window);
         return window;
     }
 

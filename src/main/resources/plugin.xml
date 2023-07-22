@@ -46,7 +46,6 @@
                         implementation="com.github.mouse0w0.peach.service.store.ProjectServiceStore"/>
         <projectService implementation="com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher"/>
         <projectService implementation="com.github.mouse0w0.peach.project.service.WindowStateManager"/>
-        <projectService implementation="com.github.mouse0w0.peach.view.ViewManager"/>
         <projectService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <projectService interface="com.github.mouse0w0.peach.fileEditor.FileEditorManager"
                         implementation="com.github.mouse0w0.peach.fileEditor.FileEditorManagerImpl"/>

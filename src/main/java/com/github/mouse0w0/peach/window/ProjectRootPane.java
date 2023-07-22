@@ -1,9 +1,15 @@
 package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.action.*;
+import com.github.mouse0w0.peach.icon.Icon;
+import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
+import com.github.mouse0w0.peach.javafx.control.ViewTab;
+import com.github.mouse0w0.peach.javafx.geometry.EightPos;
 import com.github.mouse0w0.peach.javafx.util.FXUtils;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.view.ViewEP;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import com.sun.javafx.scene.control.MenuBarButton;
 import javafx.beans.InvalidationListener;
@@ -12,8 +18,11 @@ import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Window;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class ProjectRootPane extends BorderPane {
     private final Project project;
@@ -33,6 +42,7 @@ class ProjectRootPane extends BorderPane {
         setTop(menuBar);
 
         viewPane = new ViewPane();
+        initializeView(viewPane);
         setCenter(viewPane);
 
         tabPane = new TabPane();
@@ -63,6 +73,30 @@ class ProjectRootPane extends BorderPane {
                 }
             }
         });
+    }
+
+    private void initializeView(ViewPane viewPane) {
+        Logger logger = LoggerFactory.getLogger("View");
+        for (ViewEP view : ViewEP.EXTENSION_POINT.getExtensions()) {
+            String id = view.getId();
+            if (id == null || id.isEmpty()) {
+                logger.error("The id of view is null or empty, skip initialize.");
+                continue;
+            }
+
+            String text = AppL10n.localize("view." + id + ".text");
+            Icon icon = IconManager.getInstance().getIcon(view.getIcon());
+            Node graphic = icon != null ? new ImageView(icon.getImage()) : null;
+            Node content = view.getFactory().createViewContent(project);
+
+            EightPos position = view.getPosition();
+            if (position == null) {
+                logger.warn("The position of view `{}` is null, set to default `LEFT_TOP`.", id);
+                position = EightPos.LEFT_TOP;
+            }
+
+            viewPane.getViewGroup(position).getTabs().add(new ViewTab(text, graphic, content));
+        }
     }
 
     public Project getProject() {
