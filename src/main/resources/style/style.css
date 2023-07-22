@@ -48,6 +48,11 @@
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
+.tab-pane {
+    -fx-open-tab-animation: none;
+    -fx-close-tab-animation: none;
+}
+
 .tab-pane > .tab-header-area > .tab-header-background,
 .view-pane > .side-bar-area {
     -fx-background-color: -peach-background-color;

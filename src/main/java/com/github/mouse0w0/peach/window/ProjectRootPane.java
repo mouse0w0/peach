@@ -18,11 +18,12 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class ProjectRootPane extends BorderPane {
+class ProjectRootPane extends VBox {
     private final Project project;
     private final MenuBar menuBar;
     private final ViewPane viewPane;
@@ -37,21 +38,18 @@ class ProjectRootPane extends BorderPane {
         setPrefSize(900, 600);
 
         menuBar = createMenuBar();
-        setTop(menuBar);
 
         viewPane = new ViewPane();
+        VBox.setVgrow(viewPane, Priority.ALWAYS);
         initializeView(viewPane);
-        setCenter(viewPane);
 
         tabPane = new TabPane();
-        tabPane.setStyle("-fx-open-tab-animation: none; -fx-close-tab-animation: none;");
-        tabPane.setMinSize(100, 100);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
         viewPane.setCenter(tabPane);
 
         statusBar = new StatusBarImpl(project);
-        setBottom(statusBar.getContent());
 
-        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+        getChildren().addAll(menuBar, viewPane, statusBar.getContent());
     }
 
     private void initializeView(ViewPane viewPane) {
