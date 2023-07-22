@@ -1,10 +1,14 @@
 package com.github.mouse0w0.peach.form;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
 
 public class Section extends Group {
 
@@ -63,6 +67,26 @@ public class Section extends Group {
 
     @Override
     protected Node createNode() {
-        return new SectionView(this);
+        TitledPane titledPane = new TitledPane();
+        titledPane.setFocusTraversable(false);
+        titledPane.setMaxWidth(Double.MAX_VALUE);
+        titledPane.textProperty().bind(textProperty());
+        titledPane.collapsibleProperty().bind(collapsibleProperty());
+        titledPane.expandedProperty().bindBidirectional(expandedProperty());
+        titledPane.visibleProperty().bind(visibleProperty());
+        titledPane.managedProperty().bind(visibleProperty());
+        titledPane.idProperty().bind(idProperty());
+        Bindings.bindContent(titledPane.getStyleClass(), getStyleClass());
+
+        GridPane gridPane = new GridPane();
+        gridPane.getStyleClass().add("grid");
+        gridPane.getColumnConstraints().setAll(Utils.COLUMN_CONSTRAINTS);
+        titledPane.setContent(gridPane);
+
+        getElements().addListener((ListChangeListener<? super Element>) observable -> {
+            Utils.layoutElements(gridPane, getElements());
+        });
+        Utils.layoutElements(gridPane, getElements());
+        return titledPane;
     }
 }

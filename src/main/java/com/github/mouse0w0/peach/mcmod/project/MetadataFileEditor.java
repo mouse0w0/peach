@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.mcmod.project;
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
-import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.ChoiceBoxField;
 import com.github.mouse0w0.peach.form.field.TextFieldField;
@@ -122,7 +121,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
 
         form.getGroups().addAll(general, advanced);
 
-        return new FormView(form);
+        return form;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.form.ColSpan;
 import com.github.mouse0w0.peach.form.Form;
-import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.javafx.util.Check;
@@ -376,7 +375,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
         form.getGroups().addAll(properties, appearance, extra);
 
-        return new FormView(form);
+        return form;
     }
 
     @Override

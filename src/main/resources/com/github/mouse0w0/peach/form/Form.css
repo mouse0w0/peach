@@ -1,12 +1,12 @@
-.form-view > .scroll-pane {
+.form > .scroll-pane {
     -fx-background-color: transparent;
 }
 
-.form-view > .scroll-pane > .viewport {
+.form > .scroll-pane > .viewport {
     -fx-background-color: white;
 }
 
-.form-view > .scroll-pane > .viewport > * > .group-box {
+.form > .scroll-pane > .viewport > * > VBox {
     -fx-padding: 2em;
     -fx-spacing: 1em;
 }

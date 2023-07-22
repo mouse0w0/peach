@@ -1,10 +1,12 @@
 package com.github.mouse0w0.peach.form;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
 
 public class Group {
 
@@ -102,7 +104,18 @@ public class Group {
     }
 
     protected Node createNode() {
-        return new GroupView(this);
+        GridPane gridPane = new GridPane();
+        gridPane.setMaxWidth(Double.MAX_VALUE);
+        gridPane.getColumnConstraints().setAll(Utils.COLUMN_CONSTRAINTS);
+        gridPane.visibleProperty().bind(visibleProperty());
+        gridPane.managedProperty().bind(visibleProperty());
+        gridPane.idProperty().bind(idProperty());
+        Bindings.bindContent(gridPane.getStyleClass(), getStyleClass());
+        getElements().addListener((ListChangeListener<? super Element>) observable -> {
+            Utils.layoutElements(gridPane, getElements());
+        });
+        Utils.layoutElements(gridPane, getElements());
+        return gridPane;
     }
 
     public final boolean validate() {
