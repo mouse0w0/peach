@@ -1,9 +1,9 @@
 .root {
     -peach-foreground-color: #ffffff;
-    -peach-background-color: #f2f2f2; /* gray 95% */
-    -peach-hover-color: #d9d9d9; /* gray 85% */
-    -peach-border-color: #cccccc; /* gray 80% */
-    -peach-focused-color: #0096c9;
+    -peach-background-color: #f2f2f2; /* gray(242) 95% */
+    -peach-hover-color: #e6e6e6; /* gray(230) 90% */
+    -peach-focus-color: #d9d9d9; /* gray(217) 85% */
+    -peach-border-color: #cccccc; /* gray(204) 80% */
 }
 
 /* Welcome */
@@ -23,6 +23,7 @@
 #project-list .list-cell:odd,
 #project-list:focused .list-cell:odd {
     -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
 }
 
 #project-list .list-cell.path-not-exists {
@@ -71,13 +72,13 @@
 }
 
 .tab:hover {
-    -fx-background-color: -peach-hover-color, -peach-border-color;
-    -fx-background-insets: 0 0 0 0, 0 0 1 0;
+    -fx-background-color: -peach-hover-color;
+    -fx-background-insets: 0;
 }
 
 .tab:selected {
-    -fx-background-color: -peach-focused-color, -peach-foreground-color;
-    -fx-background-insets: 0 0 0 0, 0 0 4 0;
+    -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
 }
 
 .tab:selected .focus-indicator {
@@ -126,14 +127,15 @@
 
 #project-view .tree-cell:filled:selected,
 #project-view .tree-cell:focused {
-    -fx-background-color: -peach-border-color;
+    -fx-background-color: -peach-hover-color;
+    -fx-background-insets: 0;
     -fx-text-fill: black;
 }
 
 #project-view:focused .tree-cell:filled:selected,
 #project-view:focused .tree-cell:focused {
-    -fx-background-color: -peach-focused-color, -peach-border-color;
-    -fx-background-insets: 0 0 0 0, 0 0 0 4;
+    -fx-background-color: -peach-focus-color;
+    -fx-background-insets: 0;
     -fx-text-fill: black;
 }
 
@@ -143,7 +145,8 @@
 }
 
 #project-view .tree-cell:drop-hover {
-    -fx-background-color: -peach-focused-color;
+    -fx-background-color: -peach-focus-color;
+    -fx-background-insets: 0;
     -fx-text-fill: white;
 }
 
