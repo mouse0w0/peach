@@ -49,7 +49,7 @@ class ProjectRootPane extends VBox {
 
         statusBar = new StatusBarImpl(project);
 
-        getChildren().addAll(menuBar, viewPane, statusBar.getContent());
+        getChildren().addAll(menuBar, viewPane, statusBar.getNode());
     }
 
     private void initializeView(ViewPane viewPane) {

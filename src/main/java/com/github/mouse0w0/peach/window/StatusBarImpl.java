@@ -16,7 +16,7 @@ public class StatusBarImpl implements StatusBar {
 
     private final Project project;
 
-    private final StackPane content;
+    private final StackPane pane;
 
     private final HBox left;
     private final HBox center;
@@ -27,8 +27,8 @@ public class StatusBarImpl implements StatusBar {
     public StatusBarImpl(Project project) {
         this.project = project;
 
-        content = new StackPane();
-        content.setId("status-bar");
+        pane = new StackPane();
+        pane.setId("status-bar");
 
         left = new HBox();
         left.setAlignment(Pos.CENTER_LEFT);
@@ -42,11 +42,11 @@ public class StatusBarImpl implements StatusBar {
         right.setAlignment(Pos.CENTER_RIGHT);
         StackPane.setAlignment(right, Pos.CENTER_RIGHT);
 
-        content.getChildren().addAll(left, center, right);
+        pane.getChildren().addAll(left, center, right);
     }
 
-    public StackPane getContent() {
-        return content;
+    public StackPane getNode() {
+        return pane;
     }
 
     @Override
