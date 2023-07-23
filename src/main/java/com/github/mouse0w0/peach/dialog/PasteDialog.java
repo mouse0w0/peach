@@ -23,9 +23,9 @@ public class PasteDialog extends Alert {
         super(title, text);
         getButtonBar().setButtonOrder(ButtonBar.BUTTON_ORDER_NONE);
         if (multiple) {
-            getButtons().setAll(OVERWRITE, RENAME, SKIP, OVERWRITE_ALL, SKIP_ALL);
+            getButtonTypes().setAll(OVERWRITE, RENAME, SKIP, OVERWRITE_ALL, SKIP_ALL);
         } else {
-            getButtons().setAll(OVERWRITE, RENAME, SKIP);
+            getButtonTypes().setAll(OVERWRITE, RENAME, SKIP);
         }
     }
 }

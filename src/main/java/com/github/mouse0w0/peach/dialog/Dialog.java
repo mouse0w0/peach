@@ -20,14 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Dialog<R> implements EventTarget {
-
     private final Stage stage = new Stage();
-
-    private final ObservableList<ButtonType> buttons = FXCollections.observableArrayList();
-
-    private ButtonBar buttonBar;
-
-    private boolean closing;
 
     public Dialog() {
         setResizable(false);
@@ -37,7 +30,7 @@ public class Dialog<R> implements EventTarget {
 
     public Dialog(ButtonType... buttonTypes) {
         this();
-        getButtons().addAll(buttonTypes);
+        getButtonTypes().addAll(buttonTypes);
     }
 
     private final ObjectProperty<Callback<ButtonType, R>> resultConverterProperty
@@ -73,9 +66,13 @@ public class Dialog<R> implements EventTarget {
         resultProperty.set(value);
     }
 
-    public final ObservableList<ButtonType> getButtons() {
-        return buttons;
+    private final ObservableList<ButtonType> buttonTypes = FXCollections.observableArrayList();
+
+    public final ObservableList<ButtonType> getButtonTypes() {
+        return buttonTypes;
     }
+
+    private ButtonBar buttonBar;
 
     protected final ButtonBar getButtonBar() {
         if (buttonBar == null) {
@@ -88,8 +85,8 @@ public class Dialog<R> implements EventTarget {
         final ButtonBar buttonBar = new ButtonBar();
         buttonBar.setMaxWidth(Double.MAX_VALUE);
 
-        addButtonType(buttonBar, getButtons());
-        getButtons().addListener(new ListChangeListener<>() {
+        addButtonType(buttonBar, getButtonTypes());
+        getButtonTypes().addListener(new ListChangeListener<>() {
             @Override
             public void onChanged(Change<? extends ButtonType> c) {
                 while (c.next()) {
@@ -325,6 +322,8 @@ public class Dialog<R> implements EventTarget {
         stage.toBack();
     }
 
+    private boolean closing;
+
     public void close() {
         if (closing) return;
         closing = true;
@@ -333,7 +332,7 @@ public class Dialog<R> implements EventTarget {
 
         if (result == null) {
             ButtonType cancelButton = null;
-            for (ButtonType button : getButtons()) {
+            for (ButtonType button : getButtonTypes()) {
                 if (button == null) continue;
 
                 ButtonBar.ButtonData buttonData = button.getButtonData();
