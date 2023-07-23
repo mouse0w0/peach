@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Function;
 
@@ -122,15 +121,6 @@ public final class FXUtils {
         } else {
             node.getProperties().put(key, value);
         }
-    }
-
-    public static Optional<Window> getFocusedWindow() {
-        for (Window window : Window.getWindows()) {
-            if (window.isFocused()) {
-                return Optional.of(window);
-            }
-        }
-        return Optional.empty();
     }
 
     private FXUtils() {
