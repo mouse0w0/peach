@@ -114,6 +114,16 @@ public final class FXUtils {
         return (T) node.getProperties().computeIfAbsent(key, mappingFunction);
     }
 
+    public static void setProperty(Node node, Object key, Object value) {
+        if (value == null) {
+            if (node.hasProperties()) {
+                node.getProperties().remove(key);
+            }
+        } else {
+            node.getProperties().put(key, value);
+        }
+    }
+
     public static Optional<Window> getFocusedWindow() {
         for (Window window : Window.getWindows()) {
             if (window.isFocused()) {
