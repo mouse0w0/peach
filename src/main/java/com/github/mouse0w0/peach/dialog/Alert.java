@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class Alert extends Dialog<ButtonType> {
@@ -44,13 +43,12 @@ public class Alert extends Dialog<ButtonType> {
         super(buttonTypes);
         setTitle(title);
 
-        VBox vBox = new VBox(10);
-        vBox.setMinSize(300, Region.USE_COMPUTED_SIZE);
-        vBox.setPadding(new Insets(10));
-
         label = new Label(text, graphic);
 
-        vBox.getChildren().addAll(label, getButtonBar());
+        VBox vBox = new VBox(label, getButtonBar());
+        vBox.setMinWidth(300);
+        vBox.setSpacing(8);
+        vBox.setPadding(new Insets(8));
 
         setScene(new Scene(vBox));
     }

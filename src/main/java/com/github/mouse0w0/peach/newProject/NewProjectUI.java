@@ -29,7 +29,7 @@ public class NewProjectUI extends BorderPane {
         stage.setScene(new Scene(newProject));
         stage.setTitle(AppL10n.localize("dialog.newProject.title"));
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        stage.show();
     }
 
     public NewProjectUI() {
@@ -39,18 +39,23 @@ public class NewProjectUI extends BorderPane {
 
     @FXML
     public void onFinish() {
-        FXUtils.hideWindow(this);
-        doCreateProject();
+        if (doCreateProject()) {
+            FXUtils.hideWindow(this);
+        }
     }
 
-    private void doCreateProject() {
+    private boolean doCreateProject() {
         final Path path = this.path.getPath();
-        if (path == null) return; // TODO: show alert
+        if (path == null) {
+            return false; // TODO: show alert
+        }
         if (FileUtils.notEmptyDirectory(path)) {
-            // FIXME: fix the content cannot be display until resize the window.
-            if (!Alert.confirm(AppL10n.localize("dialog.newProject.notEmpty", FileUtils.getFileName(path)))) return;
+            if (!Alert.confirm(AppL10n.localize("dialog.newProject.notEmpty", FileUtils.getFileName(path)))) {
+                return false;
+            }
         }
         ProjectManager.getInstance().createProject(name.getText(), path);
+        return true;
     }
 
     @FXML

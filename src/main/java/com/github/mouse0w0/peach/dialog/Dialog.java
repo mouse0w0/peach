@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.dialog;
 
 import com.github.mouse0w0.peach.icon.AppIcon;
+import com.sun.javafx.tk.Toolkit;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -144,10 +145,26 @@ public class Dialog<R> implements EventTarget {
     }
 
     public void show() {
+        Toolkit.getToolkit().checkFxUserThread();
+
+        if (Double.isNaN(getWidth()) && Double.isNaN(getHeight())) {
+            stage.sizeToScene();
+        }
+
         stage.show();
     }
 
     public Optional<R> showAndWait() {
+        Toolkit.getToolkit().checkFxUserThread();
+
+        if (!Toolkit.getToolkit().canStartNestedEventLoop()) {
+            throw new IllegalStateException("showAndWait is not allowed during animation or layout processing");
+        }
+
+        if (Double.isNaN(getWidth()) && Double.isNaN(getHeight())) {
+            stage.sizeToScene();
+        }
+
         stage.showAndWait();
         return Optional.ofNullable(getResult());
     }
