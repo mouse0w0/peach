@@ -9,22 +9,12 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 public class Group {
-
-    private final ObservableList<Element> elements = FXCollections.observableArrayList();
-
-    private ReadOnlyObjectWrapper<Form> form;
-
-    private BooleanProperty visible;
-
-    private StringProperty id;
-    private ObservableList<String> styleClass;
-
-    private Node node;
+    public static final String FORM_GROUP_CLASS = "form-group";
 
     public Group() {
-        getStyleClass().setAll("form-group");
+        getStyleClass().add(FORM_GROUP_CLASS);
 
-        getElements().addListener((ListChangeListener<Element>) c -> {
+        elements.addListener((ListChangeListener<Element>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
                     for (Element element : c.getAddedSubList()) {
@@ -39,6 +29,14 @@ public class Group {
             }
         });
     }
+
+    private final ObservableList<Element> elements = FXCollections.observableArrayList();
+
+    public ObservableList<Element> getElements() {
+        return elements;
+    }
+
+    private ReadOnlyObjectWrapper<Form> form;
 
     final ReadOnlyObjectWrapper<Form> formPropertyImpl() {
         if (form == null) {
@@ -55,24 +53,7 @@ public class Group {
         return form != null ? form.get() : null;
     }
 
-    public ObservableList<Element> getElements() {
-        return elements;
-    }
-
-    public final BooleanProperty visibleProperty() {
-        if (visible == null) {
-            visible = new SimpleBooleanProperty(this, "visible", true);
-        }
-        return visible;
-    }
-
-    public final boolean isVisible() {
-        return visible == null || visible.get();
-    }
-
-    public final void setVisible(boolean visible) {
-        visibleProperty().set(visible);
-    }
+    private StringProperty id;
 
     public final StringProperty idProperty() {
         if (id == null) {
@@ -89,12 +70,33 @@ public class Group {
         idProperty().set(id);
     }
 
+    private ObservableList<String> styleClass;
+
     public final ObservableList<String> getStyleClass() {
         if (styleClass == null) {
             styleClass = FXCollections.observableArrayList();
         }
         return styleClass;
     }
+
+    private BooleanProperty visible;
+
+    public final BooleanProperty visibleProperty() {
+        if (visible == null) {
+            visible = new SimpleBooleanProperty(this, "visible", true);
+        }
+        return visible;
+    }
+
+    public final boolean isVisible() {
+        return visible == null || visible.get();
+    }
+
+    public final void setVisible(boolean visible) {
+        visibleProperty().set(visible);
+    }
+
+    private Node node;
 
     public final Node getNode() {
         if (node == null) {

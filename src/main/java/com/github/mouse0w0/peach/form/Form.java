@@ -35,7 +35,9 @@ public class Form extends Control {
 
     public final boolean validate() {
         for (Group group : groups) {
-            if (!group.validate()) return false;
+            if (!group.validate()) {
+                return false;
+            }
         }
         return true;
     }

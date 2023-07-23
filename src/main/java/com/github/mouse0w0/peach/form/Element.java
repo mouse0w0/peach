@@ -8,30 +8,11 @@ import javafx.scene.Node;
 public abstract class Element {
     public static final String FORM_ELEMENT_CLASS = "form-element";
 
-    private ReadOnlyObjectWrapper<Group> group;
-
-    private IntegerProperty colSpan;
-
-    private BooleanProperty disable;
-    private BooleanProperty visible;
-
-    private StringProperty id;
-    private ObservableList<String> styleClass;
-
-    private Node node;
-
     public Element() {
         getStyleClass().add(FORM_ELEMENT_CLASS);
     }
 
-    public final Node getNode() {
-        if (node == null) {
-            node = createNode();
-        }
-        return node;
-    }
-
-    protected abstract Node createNode();
+    private ReadOnlyObjectWrapper<Group> group;
 
     final ReadOnlyObjectWrapper<Group> groupPropertyImpl() {
         if (group == null) {
@@ -47,6 +28,8 @@ public abstract class Element {
     public final Group getGroup() {
         return group != null ? group.get() : null;
     }
+
+    private IntegerProperty colSpan;
 
     public final IntegerProperty colSpanProperty() {
         if (colSpan == null) {
@@ -67,35 +50,7 @@ public abstract class Element {
         colSpanProperty().set(colSpan.getSpan());
     }
 
-    public final BooleanProperty disableProperty() {
-        if (disable == null) {
-            disable = new SimpleBooleanProperty(this, "disable", false);
-        }
-        return disable;
-    }
-
-    public final boolean isDisable() {
-        return disable != null && disable.get();
-    }
-
-    public final void setDisable(boolean disable) {
-        disableProperty().set(disable);
-    }
-
-    public final BooleanProperty visibleProperty() {
-        if (visible == null) {
-            visible = new SimpleBooleanProperty(this, "visible", true);
-        }
-        return visible;
-    }
-
-    public final boolean isVisible() {
-        return visible == null || visible.get();
-    }
-
-    public final void setVisible(boolean visible) {
-        visibleProperty().set(visible);
-    }
+    private StringProperty id;
 
     public final StringProperty idProperty() {
         if (id == null) {
@@ -112,6 +67,8 @@ public abstract class Element {
         idProperty().set(id);
     }
 
+    private ObservableList<String> styleClass;
+
     public final ObservableList<String> getStyleClass() {
         if (styleClass == null) {
             styleClass = FXCollections.observableArrayList();
@@ -119,6 +76,51 @@ public abstract class Element {
         }
         return styleClass;
     }
+
+    private BooleanProperty disable;
+
+    public final BooleanProperty disableProperty() {
+        if (disable == null) {
+            disable = new SimpleBooleanProperty(this, "disable", false);
+        }
+        return disable;
+    }
+
+    public final boolean isDisable() {
+        return disable != null && disable.get();
+    }
+
+    public final void setDisable(boolean disable) {
+        disableProperty().set(disable);
+    }
+
+    private BooleanProperty visible;
+
+    public final BooleanProperty visibleProperty() {
+        if (visible == null) {
+            visible = new SimpleBooleanProperty(this, "visible", true);
+        }
+        return visible;
+    }
+
+    public final boolean isVisible() {
+        return visible == null || visible.get();
+    }
+
+    public final void setVisible(boolean visible) {
+        visibleProperty().set(visible);
+    }
+
+    private Node node;
+
+    public final Node getNode() {
+        if (node == null) {
+            node = createNode();
+        }
+        return node;
+    }
+
+    protected abstract Node createNode();
 
     public boolean validate() {
         return true;

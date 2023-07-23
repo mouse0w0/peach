@@ -12,13 +12,13 @@ import javafx.scene.layout.GridPane;
 
 public class Section extends Group {
 
-    private StringProperty text;
-    private BooleanProperty collapsible;
-    private BooleanProperty expanded;
+    public static final String FORM_SECTION_CLASS = "form-group";
 
     public Section() {
-        getStyleClass().setAll("form-section", "titled-pane");
+        getStyleClass().setAll(FORM_SECTION_CLASS, "titled-pane");
     }
+
+    private StringProperty text;
 
     public final StringProperty textProperty() {
         if (text == null) {
@@ -35,6 +35,8 @@ public class Section extends Group {
         textProperty().set(text);
     }
 
+    private BooleanProperty collapsible;
+
     public final BooleanProperty collapsibleProperty() {
         if (collapsible == null) {
             collapsible = new SimpleBooleanProperty(this, "collapsible", false);
@@ -49,6 +51,8 @@ public class Section extends Group {
     public final void setCollapsible(boolean collapsible) {
         collapsibleProperty().set(collapsible);
     }
+
+    private BooleanProperty expanded;
 
     public final BooleanProperty expandedProperty() {
         if (expanded == null) {
