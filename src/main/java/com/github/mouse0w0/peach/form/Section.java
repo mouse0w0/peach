@@ -12,7 +12,7 @@ import javafx.scene.layout.GridPane;
 
 public class Section extends Group {
 
-    public static final String FORM_SECTION_CLASS = "form-group";
+    public static final String FORM_SECTION_CLASS = "form-section";
 
     public Section() {
         getStyleClass().setAll(FORM_SECTION_CLASS, "titled-pane");
