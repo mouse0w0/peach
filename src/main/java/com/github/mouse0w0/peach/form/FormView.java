@@ -4,8 +4,6 @@ import com.github.mouse0w0.peach.javafx.util.ScrollPanes;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -87,7 +85,7 @@ public class FormView extends Region {
         final double y = snappedTopInset();
         final double w = snapSizeX(getWidth()) - x - snappedRightInset();
         final double h = snapSizeY(getHeight()) - y - snappedBottomInset();
-        layoutInArea(scrollPane, x, y, w, h, 0, HPos.CENTER, VPos.CENTER);
+        scrollPane.resizeRelocate(x, y, w, h);
     }
 
 
