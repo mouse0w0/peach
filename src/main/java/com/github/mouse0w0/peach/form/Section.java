@@ -52,23 +52,6 @@ public class Section extends Group {
         collapsibleProperty().set(collapsible);
     }
 
-    private BooleanProperty expanded;
-
-    public final BooleanProperty expandedProperty() {
-        if (expanded == null) {
-            expanded = new SimpleBooleanProperty(this, "expanded", true);
-        }
-        return expanded;
-    }
-
-    public final boolean isExpanded() {
-        return expanded == null || expanded.get();
-    }
-
-    public final void setExpanded(boolean expanded) {
-        expandedProperty().set(expanded);
-    }
-
     @Override
     protected Node createNode() {
         TitledPane titledPane = new TitledPane();
@@ -76,7 +59,6 @@ public class Section extends Group {
         titledPane.setMaxWidth(Double.MAX_VALUE);
         titledPane.textProperty().bind(textProperty());
         titledPane.collapsibleProperty().bind(collapsibleProperty());
-        titledPane.expandedProperty().bindBidirectional(expandedProperty());
         titledPane.visibleProperty().bind(visibleProperty());
         titledPane.managedProperty().bind(visibleProperty());
         titledPane.idProperty().bind(idProperty());
