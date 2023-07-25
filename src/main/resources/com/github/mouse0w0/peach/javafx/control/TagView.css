@@ -25,8 +25,8 @@
 
 .tag-cell {
     -fx-background-color: #e6e6e6;
-    -fx-background-radius: 1.75em 1.75em 1.75em 1.75em;
-    -fx-padding: 0 0 0 0.5em;
+    -fx-background-radius: 1em;
+    -fx-padding: 0 0 0 0.583em;
 }
 
 .tag-cell:hover,
