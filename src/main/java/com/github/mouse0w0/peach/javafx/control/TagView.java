@@ -277,7 +277,7 @@ public class TagView<T> extends Control {
 
     @Override
     public String getUserAgentStylesheet() {
-        return TagView.class.getResource("TabView.css").toExternalForm();
+        return TagView.class.getResource("TagView.css").toExternalForm();
     }
 
     public static class TagEvent<T> extends Event {
