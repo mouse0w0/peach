@@ -16,14 +16,14 @@ public class Group {
 
         elements.addListener((ListChangeListener<Element>) c -> {
             while (c.next()) {
-                if (c.wasAdded()) {
-                    for (Element element : c.getAddedSubList()) {
-                        element.groupPropertyImpl().set(Group.this);
-                    }
-                }
                 if (c.wasRemoved()) {
                     for (Element element : c.getRemoved()) {
                         element.groupPropertyImpl().set(null);
+                    }
+                }
+                if (c.wasAdded()) {
+                    for (Element element : c.getAddedSubList()) {
+                        element.groupPropertyImpl().set(Group.this);
                     }
                 }
             }

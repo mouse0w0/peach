@@ -14,15 +14,14 @@ public class Form extends Control {
 
         groups.addListener((ListChangeListener<Group>) c -> {
             while (c.next()) {
-                ObservableList<? extends Group> list = c.getList();
                 if (c.wasRemoved()) {
                     for (Group removed : c.getRemoved()) {
                         removed.formPropertyImpl().set(null);
                     }
                 }
                 if (c.wasAdded()) {
-                    for (int i = c.getFrom(), end = c.getTo(); i < end; i++) {
-                        list.get(i).formPropertyImpl().set(Form.this);
+                    for (Group added : c.getAddedSubList()) {
+                        added.formPropertyImpl().set(Form.this);
                     }
                 }
             }
