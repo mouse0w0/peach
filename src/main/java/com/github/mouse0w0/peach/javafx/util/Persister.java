@@ -1,6 +1,5 @@
-package com.github.mouse0w0.peach.form;
+package com.github.mouse0w0.peach.javafx.util;
 
-import com.github.mouse0w0.peach.javafx.util.WritableValueWrapper;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.WeakListener;
