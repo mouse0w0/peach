@@ -10,12 +10,12 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.WritableValue;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
+import javafx.collections.ObservableSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -32,6 +32,14 @@ public final class Persister {
 
     public <T> void register(@NotNull ObservableList<T> observableList, @NotNull List<T> persistentList) {
         persisterEntryList.add(new ListPersisterEntry<>(observableList, persistentList));
+    }
+
+    public <T> void register(@NotNull ObservableSet<T> observableSet, @NotNull Set<T> persistentSet) {
+        persisterEntryList.add(new SetPersisterEntry<>(observableSet, persistentSet));
+    }
+
+    public <K, V> void register(@NotNull ObservableMap<K, V> observableMap, @NotNull Map<K, V> persistentMap) {
+        persisterEntryList.add(new MapPersisterEntry<>(observableMap, persistentMap));
     }
 
     private final BooleanProperty modified = new SimpleBooleanProperty(this, "modified");
@@ -140,6 +148,62 @@ public final class Persister {
         @Override
         void reset() {
             observableList.setAll(persistentList);
+        }
+    }
+
+    private final class SetPersisterEntry<T> extends PersisterEntry {
+        private final ObservableSet<T> observableSet;
+        private final Set<T> persistentSet;
+
+        public SetPersisterEntry(ObservableSet<T> observableSet, Set<T> persistentSet) {
+            this.observableSet = observableSet;
+            this.persistentSet = persistentSet;
+            observableSet.addListener(new Invalidator(this));
+            checkModification();
+        }
+
+        boolean isModified() {
+            return !observableSet.equals(persistentSet);
+        }
+
+        @Override
+        void persist() {
+            persistentSet.clear();
+            persistentSet.addAll(observableSet);
+        }
+
+        @Override
+        void reset() {
+            observableSet.clear();
+            observableSet.addAll(persistentSet);
+        }
+    }
+
+    private final class MapPersisterEntry<K, V> extends PersisterEntry {
+        private final ObservableMap<K, V> observableMap;
+        private final Map<K, V> persistentMap;
+
+        public MapPersisterEntry(ObservableMap<K, V> observableMap, Map<K, V> persistentMap) {
+            this.observableMap = observableMap;
+            this.persistentMap = persistentMap;
+            observableMap.addListener(new Invalidator(this));
+            checkModification();
+        }
+
+        boolean isModified() {
+            return !observableMap.equals(persistentMap);
+        }
+
+        @Override
+        void persist() {
+            persistentMap.clear();
+            persistentMap.putAll(observableMap);
+        }
+
+        @Override
+        void reset() {
+            observableMap.clear();
+            observableMap.putAll(persistentMap);
         }
     }
 
