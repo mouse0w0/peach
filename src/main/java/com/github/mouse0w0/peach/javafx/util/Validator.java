@@ -1,11 +1,9 @@
 package com.github.mouse0w0.peach.javafx.util;
 
-import com.github.mouse0w0.peach.javafx.control.PopupAlert;
 import com.google.common.collect.ImmutableList;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.geometry.Side;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputControl;
 
@@ -13,9 +11,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public final class Validator<T> {
-    private static final PopupAlert POPUP_ALERT;
-
-    private static final ChangeListener<Boolean> FOCUSED_LISTENER;
+    private static final InvalidationListener FOCUSED_LISTENER;
 
     private final Node node;
     private final Property<T> property;
@@ -23,23 +19,19 @@ public final class Validator<T> {
     private Check<? super T> invalidCheck;
 
     static {
-        POPUP_ALERT = new PopupAlert();
-
-        FOCUSED_LISTENER = (observable, oldValue, newValue) -> {
-            var property = (ReadOnlyProperty<?>) observable;
-            var node = (Node) property.getBean();
+        FOCUSED_LISTENER = observable -> {
+            var focusedProperty = (ReadOnlyBooleanProperty) observable;
+            var node = (Node) focusedProperty.getBean();
             var validator = getValidator(node);
             if (validator == null) return;
 
-            if (newValue) {
-                Check<?> invalidCheck = validator.getInvalidCheck();
+            if (focusedProperty.get()) {
+                var invalidCheck = validator.getInvalidCheck();
                 if (invalidCheck != null) {
-                    POPUP_ALERT.setLevel(NotificationLevel.ERROR);
-                    POPUP_ALERT.setText(String.format(invalidCheck.getMessage(), validator.getProperty().getValue()));
-                    POPUP_ALERT.show(node, Side.TOP, 0, -3);
+                    MessagePopup.show(node, String.format(invalidCheck.getMessage(), validator.getProperty().getValue()));
                 }
             } else {
-                POPUP_ALERT.hide();
+                MessagePopup.hide();
                 validator.validate();
             }
         };
@@ -51,7 +43,7 @@ public final class Validator<T> {
 
     @SafeVarargs
     public static <T> void register(Node node, Property<T> property, Check<? super T>... checks) {
-        node.getProperties().put(Validator.class, new Validator<T>(node, property, checks));
+        node.getProperties().put(Validator.class, new Validator<>(node, property, checks));
         node.focusedProperty().addListener(FOCUSED_LISTENER);
     }
 

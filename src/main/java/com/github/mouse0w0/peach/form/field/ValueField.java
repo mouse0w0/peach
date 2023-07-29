@@ -1,8 +1,7 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.javafx.control.PopupAlert;
 import com.github.mouse0w0.peach.javafx.util.Check;
-import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+import com.github.mouse0w0.peach.javafx.util.MessagePopup;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyBooleanProperty;
@@ -10,35 +9,28 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Side;
 import javafx.scene.Node;
 
 public abstract class ValueField<T> extends Field {
-    private static final PopupAlert POPUP_ALERT;
-
-    private static final ChangeListener<Boolean> FOCUSED_LISTENER;
+    private static final InvalidationListener FOCUSED_LISTENER;
 
     private ObservableList<Check<? super T>> checks;
     private ReadOnlyObjectWrapper<Check<? super T>> invalidCheck;
 
     static {
-        POPUP_ALERT = new PopupAlert();
-
-        FOCUSED_LISTENER = (observable, oldValue, newValue) -> {
-            ReadOnlyProperty<?> focusedProperty = (ReadOnlyProperty<?>) observable;
-            Node bean = (Node) focusedProperty.getBean();
-            ValueField<?> element = getElement(bean);
+        FOCUSED_LISTENER = observable -> {
+            var focusedProperty = (ReadOnlyBooleanProperty) observable;
+            var node = (Node) focusedProperty.getBean();
+            var element = getElement(node);
             if (element == null) return;
 
-            if (newValue) {
-                Check<?> item = element.getInvalidCheck();
-                if (item == null) return;
-
-                POPUP_ALERT.setLevel(NotificationLevel.ERROR);
-                POPUP_ALERT.setText(String.format(item.getMessage(), element.getValue()));
-                POPUP_ALERT.show(bean, Side.TOP, 0, -3);
+            if (focusedProperty.get()) {
+                var invalidCheck = element.getInvalidCheck();
+                if (invalidCheck != null) {
+                    MessagePopup.show(node, String.format(invalidCheck.getMessage(), element.getValue()));
+                }
             } else {
-                POPUP_ALERT.hide();
+                MessagePopup.hide();
                 element.validate();
             }
         };
