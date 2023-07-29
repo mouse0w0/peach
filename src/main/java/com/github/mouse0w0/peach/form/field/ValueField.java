@@ -3,11 +3,11 @@ package com.github.mouse0w0.peach.form.field;
 import com.github.mouse0w0.peach.javafx.control.PopupAlert;
 import com.github.mouse0w0.peach.javafx.util.Check;
 import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Side;
@@ -57,7 +57,6 @@ public abstract class ValueField<T> extends Field {
     public final ObservableList<Check<? super T>> getChecks() {
         if (checks == null) {
             checks = FXCollections.observableArrayList();
-            getEditor().focusedProperty().addListener(FOCUSED_LISTENER);
         }
         return checks;
     }
@@ -95,5 +94,11 @@ public abstract class ValueField<T> extends Field {
         }
         Check.setInvalid(getEditor(), false);
         return true;
+    }
+
+    @Override
+    protected void decorateEditorNode(Node node) {
+        super.decorateEditorNode(node);
+        node.focusedProperty().addListener(FOCUSED_LISTENER);
     }
 }

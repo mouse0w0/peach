@@ -48,11 +48,15 @@ public abstract class Field extends Element {
     public final Node getEditor() {
         if (editor == null) {
             editor = createEditor();
-            editor.getStyleClass().add(FORM_FIELD_EDITOR_CLASS);
-            editor.getProperties().put(FIELD_PROP, this);
+            decorateEditorNode(editor);
         }
         return editor;
     }
 
     protected abstract Node createEditor();
+
+    protected void decorateEditorNode(Node node) {
+        node.getStyleClass().add(FORM_FIELD_EDITOR_CLASS);
+        node.getProperties().put(FIELD_PROP, this);
+    }
 }
