@@ -5,12 +5,7 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 
 public class MessagePopup {
-    private static final PopupAlert POPUP;
-
-    static {
-        POPUP = new PopupAlert();
-        POPUP.setLevel(NotificationLevel.INFO);
-    }
+    private static final PopupAlert POPUP = new PopupAlert();
 
     public static void show(Node node, String message) {
         POPUP.setText(message);

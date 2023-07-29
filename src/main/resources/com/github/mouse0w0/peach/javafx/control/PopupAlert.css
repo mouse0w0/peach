@@ -1,5 +1,7 @@
 .popup-alert > .content {
-    -fx-background-color: white;
+    -fx-background-color: -fx-box-border, -fx-control-inner-background;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 2;
     -fx-padding: 0.33em 0.5em 0.33em 0.5em;
 }
 
@@ -15,24 +17,4 @@
     -fx-min-height: 10;
     -fx-max-width: 10;
     -fx-max-height: 10;
-}
-
-.popup-alert:error > .content {
-    -fx-background-color: #ff9090, #ffa0a0;
-    -fx-background-insets: 0, 1;
-}
-
-.popup-alert:warning > .content {
-    -fx-background-color: #ffe060, #ffe790;
-    -fx-background-insets: 0, 1;
-}
-
-.popup-alert:info > .content {
-    -fx-background-color: #40a0ff, #60c0ff;
-    -fx-background-insets: 0, 1;
-}
-
-.popup-alert:success > .content {
-    -fx-background-color: #50e050, #80e080;
-    -fx-background-insets: 0, 1;
 }

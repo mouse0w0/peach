@@ -1,11 +1,9 @@
 package com.github.mouse0w0.peach.javafx.control;
 
 import com.github.mouse0w0.peach.javafx.control.skin.PopupAlertSkin;
-import com.github.mouse0w0.peach.javafx.util.NotificationLevel;
 import com.sun.javafx.stage.PopupWindowHelper;
 import com.sun.javafx.util.Utils;
 import javafx.beans.property.*;
-import javafx.css.PseudoClass;
 import javafx.geometry.HPos;
 import javafx.geometry.Point2D;
 import javafx.geometry.Side;
@@ -16,40 +14,12 @@ import javafx.scene.control.Skin;
 
 public class PopupAlert extends PopupControl {
 
-    public static final PseudoClass WARNING = PseudoClass.getPseudoClass("warning");
-    public static final PseudoClass ERROR = PseudoClass.getPseudoClass("error");
-    public static final PseudoClass INFO = PseudoClass.getPseudoClass("info");
-    public static final PseudoClass SUCCESS = PseudoClass.getPseudoClass("success");
-
     public PopupAlert() {
         this.bridge = new CSSBridge();
         PopupWindowHelper.getContent(this).set(0, bridge);
 
         getStyleClass().add("popup-alert");
         setAnchorLocation(AnchorLocation.CONTENT_TOP_LEFT);
-    }
-
-    private ObjectProperty<NotificationLevel> level;
-
-    public final ObjectProperty<NotificationLevel> levelProperty() {
-        if (level == null) {
-            level = new SimpleObjectProperty<>(this, "level", NotificationLevel.NONE);
-            level.addListener((observable, oldValue, newValue) -> {
-                pseudoClassStateChanged(WARNING, newValue == NotificationLevel.WARNING);
-                pseudoClassStateChanged(ERROR, newValue == NotificationLevel.ERROR);
-                pseudoClassStateChanged(INFO, newValue == NotificationLevel.INFO);
-                pseudoClassStateChanged(SUCCESS, newValue == NotificationLevel.SUCCESS);
-            });
-        }
-        return level;
-    }
-
-    public final NotificationLevel getLevel() {
-        return level == null ? NotificationLevel.NONE : level.get();
-    }
-
-    public final void setLevel(NotificationLevel level) {
-        levelProperty().set(level);
     }
 
     private StringProperty text;
