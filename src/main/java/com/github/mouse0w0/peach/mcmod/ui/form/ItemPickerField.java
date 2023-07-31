@@ -92,11 +92,11 @@ public class ItemPickerField extends ValueField<ItemRef> {
     }
 
     public ItemPicker getItemPicker() {
-        return (ItemPicker) getEditor();
+        return (ItemPicker) getEditorNode();
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         ItemPicker itemPicker = new ItemPicker();
         itemPicker.itemProperty().bindBidirectional(valueProperty());
         itemPicker.maxWidthProperty().bind(itemPicker.fitWidthProperty());

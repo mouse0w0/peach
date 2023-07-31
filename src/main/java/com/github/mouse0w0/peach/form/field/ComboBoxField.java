@@ -79,7 +79,7 @@ public class ComboBoxField<T> extends ValueField<T> {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         ComboBox<T> comboBox = new ComboBox<>(getItems());
         comboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         comboBox.valueProperty().bindBidirectional(valueProperty());

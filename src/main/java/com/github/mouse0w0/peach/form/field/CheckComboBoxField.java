@@ -84,11 +84,11 @@ public class CheckComboBoxField<T> extends MultiValueField<T> {
 
     @SuppressWarnings("unchecked")
     public final CheckComboBox<T> getCheckComboBox() {
-        return (CheckComboBox<T>) getEditor();
+        return (CheckComboBox<T>) getEditorNode();
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         CheckComboBox<T> checkComboBox = new CheckComboBox<>();
         checkComboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         checkComboBox.disableProperty().bind(disableProperty());

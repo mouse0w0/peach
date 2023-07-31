@@ -82,7 +82,7 @@ public class ModelTextureField extends Field {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         return editor;
     }
 

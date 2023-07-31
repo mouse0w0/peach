@@ -62,7 +62,7 @@ public class TagViewField<T> extends MultiValueField<T> {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         TagView<T> tagView = new TagView<>();
         Bindings.bindContentBidirectional(tagView.getItems(), values);
         tagView.itemFactoryProperty().bind(itemFactoryProperty());

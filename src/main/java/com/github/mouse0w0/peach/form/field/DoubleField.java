@@ -70,7 +70,7 @@ public class DoubleField extends ValueField<Double> {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         Spinner<Double> spinner = new Spinner<>(valueFactory);
         spinner.setMinSize(0, 0);
         spinner.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

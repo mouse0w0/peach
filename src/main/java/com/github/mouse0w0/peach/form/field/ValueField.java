@@ -76,7 +76,7 @@ public abstract class ValueField<T> extends Field {
         for (Check<? super T> check : checks) {
             if (!check.test(value)) {
                 invalidCheckPropertyImpl().set(check);
-                Check.setInvalid(getEditor(), true);
+                Check.setInvalid(getEditorNode(), true);
                 return false;
             }
         }
@@ -84,7 +84,7 @@ public abstract class ValueField<T> extends Field {
         if (invalidCheck != null) {
             invalidCheck.set(null);
         }
-        Check.setInvalid(getEditor(), false);
+        Check.setInvalid(getEditorNode(), false);
         return true;
     }
 

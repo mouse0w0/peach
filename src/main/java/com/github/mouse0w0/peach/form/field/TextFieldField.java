@@ -38,7 +38,7 @@ public class TextFieldField extends ValueField<String> {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         TextField textField = new TextField();
         textField.textProperty().bindBidirectional(valueProperty());
         textField.promptTextProperty().bind(promptTextProperty());

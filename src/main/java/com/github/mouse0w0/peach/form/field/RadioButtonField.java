@@ -32,7 +32,7 @@ public class RadioButtonField extends ValueField<Boolean> {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         RadioButton radioButton = new RadioButton();
         radioButton.selectedProperty().bindBidirectional(valueProperty());
         radioButton.disableProperty().bind(disableProperty());

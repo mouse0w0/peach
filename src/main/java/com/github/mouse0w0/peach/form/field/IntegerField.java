@@ -70,7 +70,7 @@ public class IntegerField extends ValueField<Integer> {
     }
 
     @Override
-    protected Node createEditor() {
+    protected Node createEditorNode() {
         Spinner<Integer> spinner = new Spinner<>(valueFactory);
         spinner.setMinSize(0, 0);
         spinner.setMaxSize(Integer.MAX_VALUE, Integer.MAX_VALUE);

@@ -15,7 +15,7 @@ public abstract class Field extends Element {
 
     private StringProperty text;
 
-    private Node editor;
+    private Node editorNode;
 
     public Field() {
         getStyleClass().add(FORM_FIELD_CLASS);
@@ -42,18 +42,18 @@ public abstract class Field extends Element {
         label.getStyleClass().add(FORM_FIELD_LABEL_CLASS);
         label.setWrapText(true);
         label.textProperty().bind(textProperty());
-        return new FieldView(this, label, getEditor());
+        return new FieldView(this, label, getEditorNode());
     }
 
-    public final Node getEditor() {
-        if (editor == null) {
-            editor = createEditor();
-            decorateEditorNode(editor);
+    public final Node getEditorNode() {
+        if (editorNode == null) {
+            editorNode = createEditorNode();
+            decorateEditorNode(editorNode);
         }
-        return editor;
+        return editorNode;
     }
 
-    protected abstract Node createEditor();
+    protected abstract Node createEditorNode();
 
     protected void decorateEditorNode(Node node) {
         node.getStyleClass().add(FORM_FIELD_EDITOR_CLASS);
