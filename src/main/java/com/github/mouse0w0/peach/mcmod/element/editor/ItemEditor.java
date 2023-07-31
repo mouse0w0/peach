@@ -42,23 +42,23 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private TextFieldField displayName;
     private ComboBoxField<ItemType> type;
     private ComboBoxField<ItemGroup> itemGroup;
-    private SpinnerField<Integer> maxStackSize;
-    private SpinnerField<Integer> durability;
+    private IntegerField maxStackSize;
+    private IntegerField durability;
     private ChoiceBoxField<EquipmentSlot> equipmentSlot;
     private TagViewField<ToolAttribute> toolAttributes;
-    private SpinnerField<Double> destroySpeed;
+    private DoubleField destroySpeed;
     private RadioButtonField canDestroyAnyBlock;
-    private SpinnerField<Double> attackDamage;
-    private SpinnerField<Double> attackSpeed;
-    private SpinnerField<Integer> enchantability;
+    private DoubleField attackDamage;
+    private DoubleField attackSpeed;
+    private IntegerField enchantability;
     private CheckComboBoxField<EnchantmentType> acceptableEnchantments;
     private TagViewField<AttributeModifier> attributeModifiers;
     private ItemPickerField repairItem;
     private ItemPickerField recipeRemain;
     private ComboBoxField<UseAnimation> useAnimation;
-    private SpinnerField<Integer> useDuration;
-    private SpinnerField<Integer> hitEntityLoss;
-    private SpinnerField<Integer> destroyBlockLoss;
+    private IntegerField useDuration;
+    private IntegerField hitEntityLoss;
+    private IntegerField destroyBlockLoss;
     private TextAreaField information;
 
     // Appearance
@@ -68,10 +68,10 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private TextureField armorTexture;
 
     // Extra
-    private SpinnerField<Integer> fuelBurnTime;
+    private IntegerField fuelBurnTime;
     private ChoiceBoxField<SoundEvent> equipSound;
-    private SpinnerField<Integer> hunger;
-    private SpinnerField<Double> saturation;
+    private IntegerField hunger;
+    private DoubleField saturation;
     private RadioButtonField isWolfFood;
     private RadioButtonField alwaysEdible;
     private ItemPickerField foodContainer;
@@ -127,7 +127,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         itemGroup.getItems().setAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
-        maxStackSize = new SpinnerField<>(1, 64, 64);
+        maxStackSize = new IntegerField(1, 64, 64);
         maxStackSize.setText(AppL10n.localize("item.properties.maxStackSize"));
         maxStackSize.setColSpan(ColSpan.HALF);
         maxStackSize.disableProperty().bind(Bindings.createBooleanBinding(() -> {
@@ -141,7 +141,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
             }
         }, type.valueProperty()));
 
-        durability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        durability = new IntegerField(0, Integer.MAX_VALUE, 0);
         durability.setText(AppL10n.localize("item.properties.durability"));
         durability.setColSpan(ColSpan.HALF);
         durability.disableProperty().bind(isFood);
@@ -177,7 +177,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         toolAttributes.setItemFactory(() -> new ToolAttribute("axe", 0));
         toolAttributes.setCellFactory(view -> new ToolAttributeCell());
 
-        destroySpeed = new SpinnerField<>(0.0, Double.MAX_VALUE, 0D);
+        destroySpeed = new DoubleField(0.0, Double.MAX_VALUE, 0D);
         destroySpeed.setText(AppL10n.localize("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
         destroySpeed.disableProperty().bind(isArmorOrFood);
@@ -187,11 +187,11 @@ public class ItemEditor extends ElementEditor<MEItem> {
         canDestroyAnyBlock.setColSpan(ColSpan.HALF);
         canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
 
-        attackDamage = new SpinnerField<>(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
+        attackDamage = new DoubleField(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
         attackDamage.setText(AppL10n.localize("item.properties.attackDamage"));
         attackDamage.setColSpan(ColSpan.HALF);
 
-        attackSpeed = new SpinnerField<>(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
+        attackSpeed = new DoubleField(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
         attackSpeed.setText(AppL10n.localize("item.properties.attackSpeed"));
         attackSpeed.setColSpan(ColSpan.HALF);
         type.valueProperty().addListener(observable -> {
@@ -205,7 +205,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
             }
         });
 
-        enchantability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        enchantability = new IntegerField(0, Integer.MAX_VALUE, 0);
         enchantability.setText(AppL10n.localize("item.properties.enchantability"));
         enchantability.setColSpan(ColSpan.HALF);
         enchantability.disableProperty().bind(isFood);
@@ -241,11 +241,11 @@ public class ItemEditor extends ElementEditor<MEItem> {
         useAnimation.getItems().setAll(UseAnimation.values());
         useAnimation.setColSpan(ColSpan.HALF);
 
-        useDuration = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        useDuration = new IntegerField(0, Integer.MAX_VALUE, 0);
         useDuration.setText(AppL10n.localize("item.properties.useDuration"));
         useDuration.setColSpan(ColSpan.HALF);
 
-        hitEntityLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        hitEntityLoss = new IntegerField(0, Integer.MAX_VALUE, 0);
         hitEntityLoss.setText(AppL10n.localize("item.properties.hitEntityLoss"));
         hitEntityLoss.setColSpan(ColSpan.HALF);
         hitEntityLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
@@ -266,7 +266,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
             }
         }, type.valueProperty(), durability.valueProperty()));
 
-        destroyBlockLoss = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        destroyBlockLoss = new IntegerField(0, Integer.MAX_VALUE, 0);
         destroyBlockLoss.setText(AppL10n.localize("item.properties.destroyBlockLoss"));
         destroyBlockLoss.setColSpan(ColSpan.HALF);
         destroyBlockLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
@@ -335,7 +335,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         Section extra = new Section();
         extra.setText(AppL10n.localize("item.extra.title"));
 
-        fuelBurnTime = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        fuelBurnTime = new IntegerField(0, Integer.MAX_VALUE, 0);
         fuelBurnTime.setText(AppL10n.localize("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
@@ -346,12 +346,12 @@ public class ItemEditor extends ElementEditor<MEItem> {
         equipSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(Indexes.SOUND_EVENTS).values());
         equipSound.disableProperty().bind(isNotArmor);
 
-        hunger = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        hunger = new IntegerField(0, Integer.MAX_VALUE, 0);
         hunger.setText(AppL10n.localize("item.food.hunger"));
         hunger.setColSpan(ColSpan.HALF);
         hunger.disableProperty().bind(isNotFood);
 
-        saturation = new SpinnerField<>(0.0, Double.MAX_VALUE, 0.6);
+        saturation = new DoubleField(0.0, Double.MAX_VALUE, 0.6);
         saturation.setText(AppL10n.localize("item.food.saturation"));
         saturation.setColSpan(ColSpan.HALF);
         saturation.disableProperty().bind(isNotFood);

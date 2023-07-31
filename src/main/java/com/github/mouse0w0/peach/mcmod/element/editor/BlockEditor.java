@@ -41,23 +41,23 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private ComboBoxField<Material> material;
     private ComboBoxField<ItemGroup> itemGroup;
     private ComboBoxField<SoundType> soundType;
-    private SpinnerField<Double> hardness;
+    private DoubleField hardness;
     private RadioButtonField unbreakable;
-    private SpinnerField<Double> resistance;
-    private SpinnerField<Double> slipperiness;
-    private SpinnerField<Integer> brightness;
-    private SpinnerField<Integer> opacity;
+    private DoubleField resistance;
+    private DoubleField slipperiness;
+    private IntegerField brightness;
+    private IntegerField opacity;
     private ChoiceBoxField<String> harvestTool;
-    private SpinnerField<Integer> harvestLevel;
+    private IntegerField harvestLevel;
     private RadioButtonField replaceable;
     private TextAreaField information;
 
-    private SpinnerField<Double> minX;
-    private SpinnerField<Double> minY;
-    private SpinnerField<Double> minZ;
-    private SpinnerField<Double> maxX;
-    private SpinnerField<Double> maxY;
-    private SpinnerField<Double> maxZ;
+    private DoubleField minX;
+    private DoubleField minY;
+    private DoubleField minZ;
+    private DoubleField maxX;
+    private DoubleField maxY;
+    private DoubleField maxZ;
     private RadioButtonField noCollision;
 
     private ModelField model;
@@ -77,11 +77,11 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private RadioButtonField beaconBase;
     private RadioButtonField climbable;
     private RadioButtonField canConnectRedstone;
-    private SpinnerField<Integer> redstonePower;
+    private IntegerField redstonePower;
     private ChoiceBoxField<PlantType> canPlantPlant;
-    private SpinnerField<Double> enchantPowerBonus;
-    private SpinnerField<Integer> flammability;
-    private SpinnerField<Integer> fireSpreadSpeed;
+    private DoubleField enchantPowerBonus;
+    private IntegerField flammability;
+    private IntegerField fireSpreadSpeed;
     private ChoiceBoxField<PushReaction> pushReaction;
     private ChoiceBoxField<PathNodeType> aiPathNodeType;
 //    private Object pickItem; // TODO
@@ -132,7 +132,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         soundType.getItems().addAll(indexManager.getIndex(Indexes.SOUND_TYPES).values());
         soundType.setColSpan(ColSpan.HALF);
 
-        hardness = new SpinnerField<>(0D, Double.MAX_VALUE, 0D);
+        hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
         hardness.setText(AppL10n.localize("block.properties.hardness"));
         hardness.setColSpan(ColSpan.HALF);
 
@@ -141,19 +141,19 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         unbreakable.setColSpan(ColSpan.HALF);
         hardness.disableProperty().bind(unbreakable.valueProperty());
 
-        resistance = new SpinnerField<>(0D, Double.MAX_VALUE, 0D);
+        resistance = new DoubleField(0D, Double.MAX_VALUE, 0D);
         resistance.setText(AppL10n.localize("block.properties.resistance"));
         resistance.setColSpan(ColSpan.HALF);
 
-        slipperiness = new SpinnerField<>(0D, 1D, 0.6D);
+        slipperiness = new DoubleField(0D, 1D, 0.6D);
         slipperiness.setText(AppL10n.localize("block.properties.slipperiness"));
         slipperiness.setColSpan(ColSpan.HALF);
 
-        brightness = new SpinnerField<>(0, 15, 0);
+        brightness = new IntegerField(0, 15, 0);
         brightness.setText(AppL10n.localize("block.properties.brightness"));
         brightness.setColSpan(ColSpan.HALF);
 
-        opacity = new SpinnerField<>(0, 255, 255);
+        opacity = new IntegerField(0, 255, 255);
         opacity.setText(AppL10n.localize("block.properties.opacity"));
         opacity.setColSpan(ColSpan.HALF);
 
@@ -174,7 +174,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         harvestTool.getItems().add(ToolType.NONE);
         harvestTool.getItems().addAll(ToolType.getToolTypes());
 
-        harvestLevel = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        harvestLevel = new IntegerField(0, Integer.MAX_VALUE, 0);
         harvestLevel.setText(AppL10n.localize("block.properties.harvestLevel"));
         harvestLevel.setColSpan(ColSpan.HALF);
         harvestLevel.disableProperty().bind(harvestTool.valueProperty().isEqualTo(ToolType.NONE));
@@ -260,27 +260,27 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 itemTextures
         );
 
-        minX = new SpinnerField<>(0D, 16D, 0D);
+        minX = new DoubleField(0D, 16D, 0D);
         minX.setText(AppL10n.localize("block.collision.minX"));
         minX.setColSpan(ColSpan.THIRD);
 
-        minY = new SpinnerField<>(0D, 24D, 0D);
+        minY = new DoubleField(0D, 24D, 0D);
         minY.setText(AppL10n.localize("block.collision.minY"));
         minY.setColSpan(ColSpan.THIRD);
 
-        minZ = new SpinnerField<>(0D, 16D, 0D);
+        minZ = new DoubleField(0D, 16D, 0D);
         minZ.setText(AppL10n.localize("block.collision.minZ"));
         minZ.setColSpan(ColSpan.THIRD);
 
-        maxX = new SpinnerField<>(0D, 16D, 16D);
+        maxX = new DoubleField(0D, 16D, 16D);
         maxX.setText(AppL10n.localize("block.collision.maxX"));
         maxX.setColSpan(ColSpan.THIRD);
 
-        maxY = new SpinnerField<>(0D, 24D, 16D);
+        maxY = new DoubleField(0D, 24D, 16D);
         maxY.setText(AppL10n.localize("block.collision.maxY"));
         maxY.setColSpan(ColSpan.THIRD);
 
-        maxZ = new SpinnerField<>(0D, 16D, 16D);
+        maxZ = new DoubleField(0D, 16D, 16D);
         maxZ.setText(AppL10n.localize("block.collision.maxZ"));
         maxZ.setColSpan(ColSpan.THIRD);
 
@@ -326,7 +326,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         canConnectRedstone.setText(AppL10n.localize("block.extra.canConnectRedstone"));
         canConnectRedstone.setColSpan(ColSpan.HALF);
 
-        redstonePower = new SpinnerField<>(0, 15, 0);
+        redstonePower = new IntegerField(0, 15, 0);
         redstonePower.setText(AppL10n.localize("block.extra.redstonePower"));
         redstonePower.setColSpan(ColSpan.HALF);
 
@@ -336,15 +336,15 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         canPlantPlant.getItems().addAll(PlantType.values());
         canPlantPlant.setColSpan(ColSpan.HALF);
 
-        enchantPowerBonus = new SpinnerField<>(0, Double.MAX_VALUE, 0);
+        enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
         enchantPowerBonus.setText(AppL10n.localize("block.extra.enchantPowerBonus"));
         enchantPowerBonus.setColSpan(ColSpan.HALF);
 
-        flammability = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        flammability = new IntegerField(0, Integer.MAX_VALUE, 0);
         flammability.setText(AppL10n.localize("block.extra.flammability"));
         flammability.setColSpan(ColSpan.HALF);
 
-        fireSpreadSpeed = new SpinnerField<>(0, Integer.MAX_VALUE, 0);
+        fireSpreadSpeed = new IntegerField(0, Integer.MAX_VALUE, 0);
         fireSpreadSpeed.setText(AppL10n.localize("block.extra.fireSpreadSpeed"));
         fireSpreadSpeed.setColSpan(ColSpan.HALF);
 
