@@ -21,7 +21,7 @@ public class ColorPickerField extends ValueField<Color> {
 
     @Override
     public final void setValue(Color value) {
-        valueProperty().setValue(value);
+        this.value.set(value);
     }
 
     @Override

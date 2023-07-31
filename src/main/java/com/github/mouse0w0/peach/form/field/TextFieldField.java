@@ -20,29 +20,28 @@ public class TextFieldField extends ValueField<String> {
 
     @Override
     public final void setValue(String value) {
-        valueProperty().setValue(value);
+        this.value.setValue(value);
     }
 
+    private final StringProperty promptText = new SimpleStringProperty(this, "promptText");
+
     public final StringProperty promptTextProperty() {
-        return getTextField().promptTextProperty();
+        return promptText;
     }
 
     public final String getPromptText() {
-        return getTextField().getPromptText();
+        return promptText.get();
     }
 
     public final void setPromptText(String value) {
-        getTextField().setPromptText(value);
-    }
-
-    public final TextField getTextField() {
-        return (TextField) getEditor();
+        promptText.set(value);
     }
 
     @Override
     protected Node createEditor() {
         TextField textField = new TextField();
         textField.textProperty().bindBidirectional(valueProperty());
+        textField.promptTextProperty().bind(promptTextProperty());
         textField.disableProperty().bind(disableProperty());
         return textField;
     }

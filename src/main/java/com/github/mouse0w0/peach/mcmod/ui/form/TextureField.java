@@ -27,7 +27,7 @@ public class TextureField extends Field {
     }
 
     public void setValue(File value) {
-        valueProperty().setValue(value);
+        this.value.set(value);
     }
 
     public String getTexture() {

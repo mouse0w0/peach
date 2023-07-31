@@ -24,7 +24,7 @@ public class ItemPickerField extends ValueField<ItemRef> {
 
     @Override
     public void setValue(ItemRef value) {
-        valueProperty().setValue(value);
+        this.value.set(value);
     }
 
     public BooleanProperty enableIgnoreMetadataProperty() {

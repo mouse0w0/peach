@@ -8,8 +8,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
 public class SpinnerField<T extends Number> extends ValueField<T> {
-    private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
-
     public SpinnerField(int min, int max, int initialValue) {
         this(min, max, initialValue, 1);
     }
@@ -34,6 +32,8 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
         setValueFactory(valueFactory);
     }
 
+    private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
+
     @Override
     public final ObjectProperty<T> valueProperty() {
         return value;
@@ -46,7 +46,7 @@ public class SpinnerField<T extends Number> extends ValueField<T> {
 
     @Override
     public final void setValue(T value) {
-        valueProperty().setValue(value);
+        this.value.set(value);
     }
 
     public final ObjectProperty<SpinnerValueFactory<T>> valueFactoryProperty() {

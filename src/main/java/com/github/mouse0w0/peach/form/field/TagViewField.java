@@ -43,8 +43,8 @@ public class TagViewField<T> extends MultiValueField<T> {
         return itemFactory.get();
     }
 
-    public final void setItemFactory(Supplier<T> itemFactory) {
-        itemFactoryProperty().set(itemFactory);
+    public final void setItemFactory(Supplier<T> value) {
+        itemFactory.set(value);
     }
 
     private final ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactory = new SimpleObjectProperty<>(this, "cellFactory");
@@ -57,8 +57,8 @@ public class TagViewField<T> extends MultiValueField<T> {
         return cellFactory.get();
     }
 
-    public final void setCellFactory(Function<TagView<T>, TagCell<T>> cellFactory) {
-        cellFactoryProperty().set(cellFactory);
+    public final void setCellFactory(Function<TagView<T>, TagCell<T>> value) {
+        cellFactory.set(value);
     }
 
     @Override

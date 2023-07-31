@@ -2,14 +2,13 @@ package com.github.mouse0w0.peach.form.field;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 public class ComboBoxField<T> extends ValueField<T> {
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
@@ -26,79 +25,59 @@ public class ComboBoxField<T> extends ValueField<T> {
 
     @Override
     public final void setValue(T value) {
-        valueProperty().setValue(value);
+        this.value.set(value);
     }
 
+    private final ObjectProperty<ObservableList<T>> items = new SimpleObjectProperty<>(this, "items", FXCollections.observableArrayList());
+
     public final ObjectProperty<ObservableList<T>> itemsProperty() {
-        return getComboBox().itemsProperty();
+        return items;
     }
 
     public final ObservableList<T> getItems() {
-        return getComboBox().getItems();
+        return items.get();
     }
 
     public final void setItems(ObservableList<T> value) {
-        getComboBox().setItems(value);
+        items.set(value);
     }
 
+    private final ObjectProperty<Callback<ListView<T>, ListCell<T>>> cellFactory = new SimpleObjectProperty<>(this, "cellFactory");
+
     public final ObjectProperty<Callback<ListView<T>, ListCell<T>>> cellFactoryProperty() {
-        return getComboBox().cellFactoryProperty();
+        return cellFactory;
     }
 
     public final Callback<ListView<T>, ListCell<T>> getCellFactory() {
-        return getComboBox().getCellFactory();
+        return cellFactory.get();
     }
 
     public final void setCellFactory(Callback<ListView<T>, ListCell<T>> value) {
-        getComboBox().setCellFactory(value);
+        cellFactory.set(value);
     }
 
-    public final ObjectProperty<StringConverter<T>> converterProperty() {
-        return getComboBox().converterProperty();
-    }
-
-    public final void setConverter(StringConverter<T> value) {
-        getComboBox().setConverter(value);
-    }
-
-    public final StringConverter<T> getConverter() {
-        return getComboBox().getConverter();
-    }
+    private final ObjectProperty<ListCell<T>> buttonCell = new SimpleObjectProperty<>(this, "buttonCell");
 
     public final ObjectProperty<ListCell<T>> buttonCellProperty() {
-        return getComboBox().buttonCellProperty();
+        return buttonCell;
     }
 
     public final ListCell<T> getButtonCell() {
-        return getComboBox().getButtonCell();
+        return buttonCell.get();
     }
 
     public final void setButtonCell(ListCell<T> value) {
-        getComboBox().setButtonCell(value);
-    }
-
-    public final StringProperty promptTextProperty() {
-        return getComboBox().promptTextProperty();
-    }
-
-    public final String getPromptText() {
-        return getComboBox().getPromptText();
-    }
-
-    public final void setPromptText(String value) {
-        getComboBox().setPromptText(value);
-    }
-
-    @SuppressWarnings("unchecked")
-    public final ComboBox<T> getComboBox() {
-        return (ComboBox<T>) getEditor();
+        buttonCell.set(value);
     }
 
     @Override
     protected Node createEditor() {
-        ComboBox<T> comboBox = new ComboBox<>();
+        ComboBox<T> comboBox = new ComboBox<>(getItems());
         comboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         comboBox.valueProperty().bindBidirectional(valueProperty());
+        comboBox.itemsProperty().bind(itemsProperty());
+        comboBox.cellFactoryProperty().bind(cellFactoryProperty());
+        comboBox.buttonCellProperty().bind(buttonCellProperty());
         comboBox.disableProperty().bind(disableProperty());
         return comboBox;
     }
