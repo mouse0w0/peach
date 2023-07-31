@@ -17,21 +17,18 @@ public abstract class Field extends Element {
         getStyleClass().add(FORM_FIELD_CLASS);
     }
 
-    private StringProperty text;
+    private final StringProperty text = new SimpleStringProperty(this, "text");
 
     public final StringProperty textProperty() {
-        if (text == null) {
-            text = new SimpleStringProperty(this, "text");
-        }
         return text;
     }
 
     public final String getText() {
-        return text != null ? text.get() : null;
+        return text.get();
     }
 
-    public final void setText(String text) {
-        textProperty().set(text);
+    public final void setText(String value) {
+        text.set(value);
     }
 
     private Node editorNode;
