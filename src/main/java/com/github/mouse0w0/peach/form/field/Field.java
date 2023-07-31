@@ -11,8 +11,6 @@ public abstract class Field extends Element {
     public static final String FORM_FIELD_LABEL_CLASS = "form-field-label";
     public static final String FORM_FIELD_EDITOR_CLASS = "form-field-editor";
 
-    public static final String FIELD_PROP = "form-field";
-
     public Field() {
         getStyleClass().add(FORM_FIELD_CLASS);
     }
@@ -45,7 +43,6 @@ public abstract class Field extends Element {
 
     protected void decorateEditorNode(Node node) {
         node.getStyleClass().add(FORM_FIELD_EDITOR_CLASS);
-        node.getProperties().put(FIELD_PROP, this);
     }
 
     @Override

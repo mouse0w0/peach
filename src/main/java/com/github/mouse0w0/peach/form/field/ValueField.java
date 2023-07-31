@@ -12,33 +12,25 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 
 public abstract class ValueField<T> extends Field {
-    private static final InvalidationListener FOCUSED_LISTENER;
+    private static final String FORM_VALUE_FIELD = "form-value-field";
 
-    private ObservableList<Check<? super T>> checks;
-    private ReadOnlyObjectWrapper<Check<? super T>> invalidCheck;
+    private static final InvalidationListener FOCUSED_LISTENER = observable -> {
+        var focusedProperty = (ReadOnlyBooleanProperty) observable;
+        var node = (Node) focusedProperty.getBean();
+        var valueField = (ValueField<?>) node.getProperties().get(FORM_VALUE_FIELD);
 
-    static {
-        FOCUSED_LISTENER = observable -> {
-            var focusedProperty = (ReadOnlyBooleanProperty) observable;
-            var node = (Node) focusedProperty.getBean();
-            var element = getElement(node);
-            if (element == null) return;
+        if (valueField == null) return;
 
-            if (focusedProperty.get()) {
-                var invalidCheck = element.getInvalidCheck();
-                if (invalidCheck != null) {
-                    MessagePopup.show(node, String.format(invalidCheck.getMessage(), element.getValue()));
-                }
-            } else {
-                MessagePopup.hide();
-                element.validate();
+        if (focusedProperty.get()) {
+            var invalidCheck = valueField.getInvalidCheck();
+            if (invalidCheck != null) {
+                MessagePopup.show(node, String.format(invalidCheck.getMessage(), valueField.getValue()));
             }
-        };
-    }
-
-    private static ValueField<?> getElement(Node node) {
-        return node.hasProperties() ? (ValueField<?>) node.getProperties().get(Field.FIELD_PROP) : null;
-    }
+        } else {
+            MessagePopup.hide();
+            valueField.validate();
+        }
+    };
 
     public abstract Property<T> valueProperty();
 
@@ -46,12 +38,16 @@ public abstract class ValueField<T> extends Field {
 
     public abstract void setValue(T value);
 
+    private ObservableList<Check<? super T>> checks;
+
     public final ObservableList<Check<? super T>> getChecks() {
         if (checks == null) {
             checks = FXCollections.observableArrayList();
         }
         return checks;
     }
+
+    private ReadOnlyObjectWrapper<Check<? super T>> invalidCheck;
 
     private ReadOnlyObjectWrapper<Check<? super T>> invalidCheckPropertyImpl() {
         if (invalidCheck == null) {
@@ -91,6 +87,7 @@ public abstract class ValueField<T> extends Field {
     @Override
     protected void decorateEditorNode(Node node) {
         super.decorateEditorNode(node);
+        node.getProperties().put(FORM_VALUE_FIELD, this);
         node.focusedProperty().addListener(FOCUSED_LISTENER);
     }
 }
