@@ -23,14 +23,14 @@ public class TagViewField<T> extends MultiValueField<T> {
     }
 
     @Override
-    public final void setValues(Collection<? extends T> items) {
-        values.setAll(items);
+    public final void setValues(Collection<? extends T> collection) {
+        values.setAll(collection);
     }
 
     @Override
     @SafeVarargs
-    public final void setValues(T... items) {
-        values.setAll(items);
+    public final void setValues(T... elements) {
+        values.setAll(elements);
     }
 
     private final ObjectProperty<Supplier<T>> itemFactory = new SimpleObjectProperty<>(this, "itemFactory");

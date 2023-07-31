@@ -9,5 +9,5 @@ public abstract class MultiValueField<T> extends Field {
 
     public abstract void setValues(Collection<? extends T> collection);
 
-    public abstract void setValues(T... items);
+    public abstract void setValues(T... elements);
 }

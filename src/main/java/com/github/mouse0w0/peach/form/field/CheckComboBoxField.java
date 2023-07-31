@@ -27,10 +27,10 @@ public class CheckComboBoxField<T> extends MultiValueField<T> {
 
     @Override
     @SafeVarargs
-    public final void setValues(T... items) {
+    public final void setValues(T... elements) {
         final IndexedCheckModel<T> checkModel = getCheckModel();
-        for (T item : items) {
-            checkModel.check(item);
+        for (T element : elements) {
+            checkModel.check(element);
         }
     }
 
