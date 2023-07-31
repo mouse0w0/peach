@@ -11,6 +11,14 @@ import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
 public class ComboBoxField<T> extends ValueField<T> {
+    public ComboBoxField() {
+        this(FXCollections.observableArrayList());
+    }
+
+    public ComboBoxField(ObservableList<T> items) {
+        setItems(items);
+    }
+
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
@@ -28,7 +36,7 @@ public class ComboBoxField<T> extends ValueField<T> {
         this.value.set(value);
     }
 
-    private final ObjectProperty<ObservableList<T>> items = new SimpleObjectProperty<>(this, "items", FXCollections.observableArrayList());
+    private final ObjectProperty<ObservableList<T>> items = new SimpleObjectProperty<>(this, "items");
 
     public final ObjectProperty<ObservableList<T>> itemsProperty() {
         return items;

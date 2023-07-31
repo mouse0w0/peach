@@ -9,6 +9,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.util.StringConverter;
 
 public class ChoiceBoxField<T> extends ValueField<T> {
+    public ChoiceBoxField() {
+        this(FXCollections.observableArrayList());
+    }
+
+    public ChoiceBoxField(ObservableList<T> items) {
+        setItems(items);
+    }
+
     private final ObjectProperty<T> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
@@ -26,7 +34,7 @@ public class ChoiceBoxField<T> extends ValueField<T> {
         this.value.set(value);
     }
 
-    private final ObjectProperty<ObservableList<T>> items = new SimpleObjectProperty<>(this, "items", FXCollections.observableArrayList());
+    private final ObjectProperty<ObservableList<T>> items = new SimpleObjectProperty<>(this, "items");
 
     public final ObjectProperty<ObservableList<T>> itemsProperty() {
         return items;
