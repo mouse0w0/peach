@@ -13,13 +13,11 @@ public abstract class Field extends Element {
 
     public static final String FIELD_PROP = "form-field";
 
-    private StringProperty text;
-
-    private Node editorNode;
-
     public Field() {
         getStyleClass().add(FORM_FIELD_CLASS);
     }
+
+    private StringProperty text;
 
     public final StringProperty textProperty() {
         if (text == null) {
@@ -36,14 +34,7 @@ public abstract class Field extends Element {
         textProperty().set(text);
     }
 
-    @Override
-    protected Node createNode() {
-        Label label = new Label();
-        label.getStyleClass().add(FORM_FIELD_LABEL_CLASS);
-        label.setWrapText(true);
-        label.textProperty().bind(textProperty());
-        return new FieldView(this, label, getEditorNode());
-    }
+    private Node editorNode;
 
     public final Node getEditorNode() {
         if (editorNode == null) {
@@ -58,5 +49,14 @@ public abstract class Field extends Element {
     protected void decorateEditorNode(Node node) {
         node.getStyleClass().add(FORM_FIELD_EDITOR_CLASS);
         node.getProperties().put(FIELD_PROP, this);
+    }
+
+    @Override
+    protected Node createNode() {
+        Label label = new Label();
+        label.getStyleClass().add(FORM_FIELD_LABEL_CLASS);
+        label.setWrapText(true);
+        label.textProperty().bind(textProperty());
+        return new FieldView(this, label, getEditorNode());
     }
 }
