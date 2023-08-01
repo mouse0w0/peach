@@ -8,7 +8,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.layout.Region;
 
-public class FieldView extends Region {
+final class FieldView extends Region {
     private final Field field;
 
     private final Node label;
