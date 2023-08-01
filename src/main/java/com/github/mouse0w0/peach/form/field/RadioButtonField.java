@@ -15,7 +15,7 @@ public class RadioButtonField extends ValueField<Boolean> {
 
     @Override
     public final Boolean getValue() {
-        return get();
+        return value.get();
     }
 
     public final boolean get() {
