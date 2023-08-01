@@ -36,12 +36,6 @@
         <applicationService interface="com.github.mouse0w0.peach.project.ProjectManager"
                             implementation="com.github.mouse0w0.peach.project.ProjectManagerImpl"/>
 
-        <applicationService implementation="com.github.mouse0w0.peach.mcmod.element.ElementRegistry" preload="true"/>
-        <applicationService implementation="com.github.mouse0w0.peach.mcmod.content.ContentPackManager" preload="true"/>
-        <applicationService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager" preload="true"/>
-        <applicationListener topic="ProjectWindowListener"
-                             listener="com.github.mouse0w0.peach.mcmod.project.McModProjectListener"/>
-
         <projectService interface="com.github.mouse0w0.peach.service.store.ServiceStore"
                         implementation="com.github.mouse0w0.peach.service.store.ProjectServiceStore"/>
         <projectService implementation="com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher"/>
@@ -50,6 +44,24 @@
         <projectService interface="com.github.mouse0w0.peach.fileEditor.FileEditorManager"
                         implementation="com.github.mouse0w0.peach.fileEditor.FileEditorManagerImpl"/>
 
+        <projectService implementation="com.github.mouse0w0.peach.projectView.ProjectView"/>
+        <view id="Project" icon="View.Project" position="LEFT_TOP"
+              factory="com.github.mouse0w0.peach.projectView.ProjectView$Factory"/>
+
+        <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance"/>
+
+        <localization locale="en-US" path="l10n/en-US.properties"/>
+        <localization locale="zh-CN" path="l10n/zh-CN.properties"/>
+
+        <iconDefinition path="icons.properties"/>
+
+        <!-- Minecraft Mod Development -->
+        <applicationService implementation="com.github.mouse0w0.peach.mcmod.element.ElementRegistry" preload="true"/>
+        <applicationService implementation="com.github.mouse0w0.peach.mcmod.content.ContentPackManager" preload="true"/>
+        <applicationService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager" preload="true"/>
+        <applicationListener topic="ProjectWindowListener"
+                             listener="com.github.mouse0w0.peach.mcmod.project.McModProjectListener"/>
+
         <projectService implementation="com.github.mouse0w0.peach.mcmod.project.McModDescriptor"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.IndexManager" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider" preload="true"/>
@@ -57,24 +69,14 @@
                         preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager" preload="true"/>
 
-        <projectService implementation="com.github.mouse0w0.peach.projectView.ProjectView"/>
-        <view id="Project" icon="View.Project" position="LEFT_TOP"
-              factory="com.github.mouse0w0.peach.projectView.ProjectView$Factory"/>
-
         <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView"/>
         <view id="ItemFavorites" icon="View.ItemFavorites" position="RIGHT_TOP"
               factory="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView$Factory"/>
 
-        <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance"/>
         <fileAppearance implementation="com.github.mouse0w0.peach.mcmod.file.McModFileAppearance" order="first"/>
 
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.MetadataFileEditorProvider"/>
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.ElementFileEditorProvider"/>
-
-        <localization locale="en-US" path="l10n/en-US.properties"/>
-        <localization locale="zh-CN" path="l10n/zh-CN.properties"/>
-
-        <iconDefinition path="icons.properties"/>
     </extensions>
 
     <actions>
