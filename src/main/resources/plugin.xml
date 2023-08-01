@@ -48,7 +48,7 @@
         <view id="Project" icon="View.Project" position="LEFT_TOP"
               factory="com.github.mouse0w0.peach.projectView.ProjectView$Factory"/>
 
-        <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance"/>
+        <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance" order="last"/>
 
         <localization locale="en-US" path="l10n/en-US.properties"/>
         <localization locale="zh-CN" path="l10n/zh-CN.properties"/>
@@ -73,7 +73,7 @@
         <view id="ItemFavorites" icon="View.ItemFavorites" position="RIGHT_TOP"
               factory="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView$Factory"/>
 
-        <fileAppearance implementation="com.github.mouse0w0.peach.mcmod.file.McModFileAppearance" order="first"/>
+        <fileAppearance implementation="com.github.mouse0w0.peach.mcmod.file.McModFileAppearance"/>
 
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.MetadataFileEditorProvider"/>
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.ElementFileEditorProvider"/>
