@@ -22,7 +22,6 @@ public abstract class ServiceStoreBase implements ServiceStore {
         FileUtils.createDirectoriesIfNotExists(storePath);
     }
 
-    @Override
     public Path getStorePath() {
         return storePath;
     }
