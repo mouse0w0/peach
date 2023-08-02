@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 public class ComboBoxField<T> extends ValueField<T> {
     public ComboBoxField() {
@@ -50,6 +51,21 @@ public class ComboBoxField<T> extends ValueField<T> {
         items.set(value);
     }
 
+    private final ObjectProperty<StringConverter<T>> converter =
+            new SimpleObjectProperty<>(this, "converter");
+
+    public ObjectProperty<StringConverter<T>> converterProperty() {
+        return converter;
+    }
+
+    public final StringConverter<T> getConverter() {
+        return converter.get();
+    }
+
+    public final void setConverter(StringConverter<T> value) {
+        converter.set(value);
+    }
+
     private final ObjectProperty<Callback<ListView<T>, ListCell<T>>> cellFactory = new SimpleObjectProperty<>(this, "cellFactory");
 
     public final ObjectProperty<Callback<ListView<T>, ListCell<T>>> cellFactoryProperty() {
@@ -84,6 +100,7 @@ public class ComboBoxField<T> extends ValueField<T> {
         comboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         comboBox.valueProperty().bindBidirectional(valueProperty());
         comboBox.itemsProperty().bind(itemsProperty());
+        comboBox.converterProperty().bind(converterProperty());
         comboBox.cellFactoryProperty().bind(cellFactoryProperty());
         comboBox.buttonCellProperty().bind(buttonCellProperty());
         comboBox.disableProperty().bind(disableProperty());
