@@ -71,9 +71,21 @@ public abstract class ServiceStoreBase implements ServiceStore {
 
         Path file = getStorePath().resolve(serviceStorageFile);
         try {
-            JsonUtils.writeJson(file, service.saveState());
+            JsonElement state = service.saveState();
+            if (isStateNullOrEmpty(state)) {
+                FileUtils.delete(file);
+            } else {
+                JsonUtils.writeJson(file, state);
+            }
         } catch (Exception e) {
             LOGGER.error("An exception has occurred, failed to save component {}", serviceClass, e);
         }
+    }
+
+    private static boolean isStateNullOrEmpty(JsonElement state) {
+        return state == null ||
+                state.isJsonNull() ||
+                state.isJsonArray() && state.getAsJsonArray().isEmpty() ||
+                state.isJsonObject() && state.getAsJsonObject().isEmpty();
     }
 }
