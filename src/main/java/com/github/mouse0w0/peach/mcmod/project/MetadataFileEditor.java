@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.form.Form;
 import com.github.mouse0w0.peach.form.FormView;
 import com.github.mouse0w0.peach.form.Section;
 import com.github.mouse0w0.peach.form.field.ChoiceBoxField;
+import com.github.mouse0w0.peach.form.field.ComboBoxField;
 import com.github.mouse0w0.peach.form.field.TextFieldField;
 import com.github.mouse0w0.peach.javafx.util.Check;
 import com.github.mouse0w0.peach.l10n.AppL10n;
@@ -30,7 +31,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
     private TextFieldField version;
     private TextFieldField author;
     private ChoiceBoxField<String> mcVersion;
-    private ChoiceBoxField<Locale> language;
+    private ComboBoxField<Locale> language;
     private TextFieldField description;
     private TextFieldField url;
     private TextFieldField updateUrl;
@@ -75,7 +76,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         mcVersion.getItems().add("1.12.2");
         mcVersion.setValue(metadata.getMcVersion());
 
-        language = new ChoiceBoxField<>();
+        language = new ComboBoxField<>();
         language.setText(AppL10n.localize("metadata.general.language"));
         language.setColSpan(ColSpan.HALF);
         language.setConverter(new StringConverter<>() {
