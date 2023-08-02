@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.javafx.control.ViewPane;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.project.service.WindowStateManager;
+import com.github.mouse0w0.peach.windowState.WindowStateService;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
@@ -24,7 +24,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
         this.root = new ProjectRootPane(project);
         this.stage = createStage();
         DataManager.getInstance().registerDataProvider(stage, this);
-        WindowStateManager.getInstance(project).register(stage, "MainWindow");
+        WindowStateService.getInstance(project).register(stage, "MainWindow");
     }
 
     private Stage createStage() {

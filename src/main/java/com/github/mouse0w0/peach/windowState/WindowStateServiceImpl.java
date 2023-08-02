@@ -1,6 +1,5 @@
-package com.github.mouse0w0.peach.project.service;
+package com.github.mouse0w0.peach.windowState;
 
-import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -22,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Storage("windowState.json")
-public class WindowStateManager implements PersistentService {
+public class WindowStateServiceImpl implements WindowStateService, PersistentService {
     private static final String STATE_ID = "StateId";
     private static final String LAST_X = "LastX";
     private static final String LAST_Y = "LastY";
@@ -60,10 +59,7 @@ public class WindowStateManager implements PersistentService {
         }
     };
 
-    public static WindowStateManager getInstance(Project project) {
-        return project.getService(WindowStateManager.class);
-    }
-
+    @Override
     public void register(@NotNull Window window, @NotNull String stateId) {
         Validate.notNull(window);
         Validate.notEmpty(stateId);
