@@ -44,7 +44,7 @@ public abstract class ServiceStoreBase implements ServiceStore {
         Path file = getStorePath().resolve(serviceStorageFile);
         if (Files.exists(file)) {
             try {
-                service.loadState(JsonUtils.readJson(file, JsonElement.class));
+                service.loadState(JsonUtils.readJson(file));
             } catch (Exception e) {
                 LOGGER.error("An exception has occurred, failed to load component {}", service.getClass(), e);
             }
