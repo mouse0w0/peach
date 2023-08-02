@@ -26,12 +26,10 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
     private static final String LAST_X = "LastX";
     private static final String LAST_Y = "LastY";
 
-    private final Map<String, WindowState> stateMap = new HashMap<>();
-
     private final EventHandler<WindowEvent> hidden = event -> {
         Window window = (Window) event.getSource();
-        String stateId = (String) window.getProperties().get(STATE_ID);
-        stateMap.computeIfAbsent(stateId, k -> new WindowState()).store(window);
+        String stateId = getStateId(window);
+        getOrCreateWindowState(stateId).store(window);
     };
     private final ChangeListener<Number> xListener = (observable, oldValue, newValue) -> {
         ReadOnlyDoubleProperty xProperty = (ReadOnlyDoubleProperty) observable;
@@ -50,22 +48,38 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
     private final InvalidationListener maximizedListener = (observable) -> {
         ReadOnlyBooleanProperty maximizedProperty = (ReadOnlyBooleanProperty) observable;
         Window window = (Window) maximizedProperty.getBean();
-        String stateId = (String) window.getProperties().get(STATE_ID);
+        String stateId = getStateId(window);
         if (maximizedProperty.get()) {
-            stateMap.computeIfAbsent(stateId, k -> new WindowState()).storeWhenMaximized(window);
+            getOrCreateWindowState(stateId).storeWhenMaximized(window);
         } else {
-            WindowState state = stateMap.get(stateId);
-            if (state != null) state.applyWhenNotMaximized(window);
+            WindowState state = getWindowState(stateId);
+            if (state != null) state.applyLocationAndSize(window);
         }
     };
+
+    private static String getStateId(Window window) {
+        return (String) window.getProperties().get(STATE_ID);
+    }
+
+    private final Map<String, WindowState> windowStates = new HashMap<>();
+
+    private WindowState getWindowState(String stateId) {
+        return windowStates.get(stateId);
+    }
+
+    private WindowState getOrCreateWindowState(String stateId) {
+        return windowStates.computeIfAbsent(stateId, k -> new WindowState());
+    }
 
     @Override
     public void register(@NotNull Window window, @NotNull String stateId) {
         Validate.notNull(window);
         Validate.notEmpty(stateId);
 
-        WindowState state = stateMap.get(stateId);
-        if (state != null) state.apply(window);
+        WindowState state = getWindowState(stateId);
+        if (state != null) {
+            state.apply(window);
+        }
 
         window.getProperties().put(STATE_ID, stateId);
         window.addEventFilter(WindowEvent.WINDOW_HIDDEN, hidden);
@@ -78,12 +92,12 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
 
     @Override
     public JsonElement saveState() {
-        return JsonUtils.toJson(stateMap);
+        return JsonUtils.toJson(windowStates);
     }
 
     @Override
     public void loadState(JsonElement jsonElement) {
-        stateMap.putAll(JsonUtils.fromJson(jsonElement, TypeUtils.parameterize(Map.class, String.class, WindowState.class)));
+        windowStates.putAll(JsonUtils.fromJson(jsonElement, TypeUtils.parameterize(Map.class, String.class, WindowState.class)));
     }
 
     private static final class WindowState {
@@ -116,16 +130,14 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
         }
 
         public void apply(Window window) {
-            if (maximized) {
-                if (window instanceof Stage) {
-                    ((Stage) window).setMaximized(true);
-                }
+            if (maximized && window instanceof Stage) {
+                ((Stage) window).setMaximized(true);
             } else {
-                applyWhenNotMaximized(window);
+                applyLocationAndSize(window);
             }
         }
 
-        public void applyWhenNotMaximized(Window window) {
+        public void applyLocationAndSize(Window window) {
             window.setX(x);
             window.setY(y);
             window.setWidth(width);
