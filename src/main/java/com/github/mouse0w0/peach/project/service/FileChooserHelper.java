@@ -125,8 +125,8 @@ public class FileChooserHelper implements PersistentService {
     }
 
     @Override
-    public void loadState(JsonElement jsonElement) {
-        JsonObject object = jsonElement.getAsJsonObject();
+    public void loadState(JsonElement state) {
+        JsonObject object = state.getAsJsonObject();
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             lastInitialDirectories.put(entry.getKey(), new File(entry.getValue().getAsString()));
         }

@@ -96,8 +96,8 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
     }
 
     @Override
-    public void loadState(JsonElement jsonElement) {
-        windowStates.putAll(JsonUtils.fromJson(jsonElement, TypeUtils.parameterize(Map.class, String.class, WindowState.class)));
+    public void loadState(JsonElement state) {
+        windowStates.putAll(JsonUtils.fromJson(state, TypeUtils.parameterize(Map.class, String.class, WindowState.class)));
     }
 
     private static final class WindowState {

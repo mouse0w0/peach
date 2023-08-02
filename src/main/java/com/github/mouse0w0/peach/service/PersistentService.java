@@ -6,7 +6,7 @@ public interface PersistentService {
 
     JsonElement saveState();
 
-    void loadState(JsonElement jsonElement);
+    void loadState(JsonElement state);
 
     default void noStateLoaded() {
         // Nothing to do.

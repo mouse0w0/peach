@@ -65,8 +65,8 @@ public class ItemFavoritesView implements PersistentService {
     }
 
     @Override
-    public void loadState(JsonElement jsonElement) {
-        items.addAll(JsonUtils.<List<ItemRef>>fromJson(jsonElement, TypeUtils.parameterize(List.class, ItemRef.class)));
+    public void loadState(JsonElement state) {
+        items.addAll(JsonUtils.<List<ItemRef>>fromJson(state, TypeUtils.parameterize(List.class, ItemRef.class)));
         itemSet.addAll(items);
     }
 

@@ -47,8 +47,8 @@ public class RecentProjectManager implements PersistentService {
     }
 
     @Override
-    public void loadState(JsonElement jsonElement) {
-        JsonUtils.<List<RecentProjectInfo>>fromJson(jsonElement, TypeUtils.parameterize(List.class, RecentProjectInfo.class))
+    public void loadState(JsonElement state) {
+        JsonUtils.<List<RecentProjectInfo>>fromJson(state, TypeUtils.parameterize(List.class, RecentProjectInfo.class))
                 .forEach(info -> recentProjects.put(info.getPath(), info));
     }
 
