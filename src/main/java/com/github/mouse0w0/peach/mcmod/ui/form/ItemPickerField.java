@@ -82,6 +82,7 @@ public class ItemPickerField extends ValueField<ItemRef> {
     @Override
     protected Node createEditorNode() {
         ItemPicker itemPicker = new ItemPicker();
+        itemPicker.getStyleClass().add("minecraft-small-slot-32x");
         itemPicker.itemProperty().bindBidirectional(valueProperty());
         itemPicker.disableProperty().bind(disableProperty());
         return itemPicker;

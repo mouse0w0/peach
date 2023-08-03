@@ -181,6 +181,21 @@
     -fx-background-color: #c5c5c5;
 }
 
+.minecraft-small-slot-32x {
+    -fx-padding: 2px;
+    -fx-background-color: #8b8b8b, #373737, #ffffff, #8b8b8b;
+    -fx-background-insets: 0 0 0 0, 0 2 2 0, 2 0 0 2, 2 2 2 2;
+}
+
+.minecraft-small-slot-32x:hover {
+    -fx-background-color: #8b8b8b, #373737, #ffffff, #c5c5c5;
+    -fx-background-insets: 0 0 0 0, 0 2 2 0, 2 0 0 2, 2 2 2 2;
+}
+
+.minecraft-small-slot-32x:disabled {
+    -fx-opacity: 0.4;
+}
+
 .form-view > .scroll-pane > .scroll-bar:vertical {
     -fx-background-color: transparent;
     -fx-background-insets: 0;

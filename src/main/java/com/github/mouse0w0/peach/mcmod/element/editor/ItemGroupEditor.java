@@ -76,6 +76,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         grid.add(background, 1, 3);
 
         icon = new ItemPicker(32);
+        icon.getStyleClass().add("minecraft-small-slot-32x");
         icon.setBackground(new Background(new BackgroundFill(Color.gray(0.8), null, null)));
         grid.add(icon, 1, 4);
 
