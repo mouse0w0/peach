@@ -67,53 +67,29 @@ public class ItemView extends Control {
         });
     }
 
-    public ItemView(double width, double height) {
-        this(ItemRef.AIR, width, height);
+    public ItemView(double size) {
+        this();
+        setSize(size);
     }
 
-    public ItemView(ItemRef item, double width, double height) {
+    public ItemView(ItemRef item, double size) {
         this();
         setItem(item);
-        setFitSize(width, height);
+        setSize(size);
     }
 
-    private DoubleProperty fitWidth;
+    private final DoubleProperty size = new SimpleDoubleProperty(this, "size");
 
-    public final void setFitWidth(double value) {
-        fitWidthProperty().set(value);
+    public final DoubleProperty sizeProperty() {
+        return size;
     }
 
-    public final double getFitWidth() {
-        return fitWidth == null ? 0 : fitWidth.get();
+    public final double getSize() {
+        return size.get();
     }
 
-    public final DoubleProperty fitWidthProperty() {
-        if (fitWidth == null) {
-            fitWidth = new SimpleDoubleProperty(this, "fitWidth");
-        }
-        return fitWidth;
-    }
-
-    private DoubleProperty fitHeight;
-
-    public final void setFitHeight(double value) {
-        fitHeightProperty().set(value);
-    }
-
-    public final double getFitHeight() {
-        return fitHeight == null ? 0 : fitHeight.get();
-    }
-
-    public final DoubleProperty fitHeightProperty() {
-        if (fitHeight == null) {
-            fitHeight = new SimpleDoubleProperty(this, "fitHeight");
-        }
-        return fitHeight;
-    }
-
-    public final void setFitSize(double width, double height) {
-        setFitWidth(width);
-        setFitHeight(height);
+    public final void setSize(double value) {
+        size.set(value);
     }
 
     private final ObjectProperty<ItemRef> item = new SimpleObjectProperty<>(this, "item", ItemRef.AIR);
@@ -126,8 +102,8 @@ public class ItemView extends Control {
         return item.get();
     }
 
-    public final void setItem(ItemRef item) {
-        this.item.set(item);
+    public final void setItem(ItemRef value) {
+        item.set(value);
     }
 
     private BooleanProperty playAnimation;

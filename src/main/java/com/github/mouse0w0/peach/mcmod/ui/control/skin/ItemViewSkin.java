@@ -28,10 +28,11 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         consumeMouseEvents(false);
 
         imageView = new ImageView();
-        imageView.fitWidthProperty().bind(itemView.fitWidthProperty());
-        imageView.fitHeightProperty().bind(itemView.fitHeightProperty());
+        imageView.fitWidthProperty().bind(itemView.sizeProperty());
+        imageView.fitHeightProperty().bind(itemView.sizeProperty());
         getChildren().add(imageView);
 
+        itemView.sizeProperty().addListener(observable -> getSkinnable().requestLayout());
         itemView.itemProperty().addListener(observable -> update());
         itemView.playAnimationProperty().addListener(observable -> update());
         update();
@@ -74,5 +75,40 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             keyFrames.add(new KeyFrame(Duration.seconds(i), event -> imageView.setImage(image)));
         }
         return timeline;
+    }
+
+    @Override
+    protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + getSkinnable().getSize() + rightInset;
+    }
+
+    @Override
+    protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + getSkinnable().getSize() + bottomInset;
+    }
+
+    @Override
+    protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + getSkinnable().getSize() + rightInset;
+    }
+
+    @Override
+    protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + getSkinnable().getSize() + bottomInset;
+    }
+
+    @Override
+    protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + getSkinnable().getSize() + rightInset;
+    }
+
+    @Override
+    protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + getSkinnable().getSize() + bottomInset;
+    }
+
+    @Override
+    protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
+        imageView.resizeRelocate(contentX, contentY, contentWidth, contentHeight);
     }
 }

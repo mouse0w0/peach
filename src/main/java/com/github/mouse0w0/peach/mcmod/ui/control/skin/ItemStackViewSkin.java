@@ -23,8 +23,7 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
         item = new ItemPicker();
         item.getStyleClass().setAll("item");
         item.itemProperty().bindBidirectional(control.itemProperty());
-        item.fitWidthProperty().bind(control.fitWidthProperty());
-        item.fitHeightProperty().bind(control.fitHeightProperty());
+        item.sizeProperty().bind(control.sizeProperty());
         item.itemMapProperty().bind(control.itemMapProperty());
 
         amount = new TextField();
@@ -68,6 +67,36 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
             if (newAmount == 1 && amount.getText().isEmpty()) return;
             amount.setText(Integer.toString(newAmount));
         });
+    }
+
+    @Override
+    protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + getSkinnable().getSize() + rightInset;
+    }
+
+    @Override
+    protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + getSkinnable().getSize() + bottomInset;
+    }
+
+    @Override
+    protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + getSkinnable().getSize() + rightInset;
+    }
+
+    @Override
+    protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + getSkinnable().getSize() + bottomInset;
+    }
+
+    @Override
+    protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + getSkinnable().getSize() + rightInset;
+    }
+
+    @Override
+    protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + getSkinnable().getSize() + bottomInset;
     }
 
     @Override

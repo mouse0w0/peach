@@ -13,13 +13,13 @@ public class ItemPicker extends ItemView {
         initialize();
     }
 
-    public ItemPicker(double width, double height) {
-        super(width, height);
+    public ItemPicker(double size) {
+        super(size);
         initialize();
     }
 
-    public ItemPicker(double width, double height, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        super(width, height);
+    public ItemPicker(double size, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        super(size);
         setEnableIgnoreMetadata(enableIgnoreMetadata);
         setEnableOreDict(enableOreDict);
         initialize();

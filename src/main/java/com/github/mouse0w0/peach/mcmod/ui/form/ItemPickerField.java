@@ -51,32 +51,16 @@ public class ItemPickerField extends ValueField<ItemRef> {
         getItemPicker().setEnableOreDict(enableOreDict);
     }
 
-    public void setFitWidth(double value) {
-        getItemPicker().setFitWidth(value);
+    public DoubleProperty sizeProperty() {
+        return getItemPicker().sizeProperty();
     }
 
-    public double getFitWidth() {
-        return getItemPicker().getFitWidth();
+    public double getSize() {
+        return getItemPicker().getSize();
     }
 
-    public DoubleProperty fitWidthProperty() {
-        return getItemPicker().fitWidthProperty();
-    }
-
-    public void setFitHeight(double value) {
-        getItemPicker().setFitHeight(value);
-    }
-
-    public double getFitHeight() {
-        return getItemPicker().getFitHeight();
-    }
-
-    public DoubleProperty fitHeightProperty() {
-        return getItemPicker().fitHeightProperty();
-    }
-
-    public void setFitSize(double width, double height) {
-        getItemPicker().setFitSize(width, height);
+    public void setSize(double value) {
+        getItemPicker().setSize(value);
     }
 
     public BooleanProperty playAnimationProperty() {
@@ -99,8 +83,6 @@ public class ItemPickerField extends ValueField<ItemRef> {
     protected Node createEditorNode() {
         ItemPicker itemPicker = new ItemPicker();
         itemPicker.itemProperty().bindBidirectional(valueProperty());
-        itemPicker.maxWidthProperty().bind(itemPicker.fitWidthProperty());
-        itemPicker.maxHeightProperty().bind(itemPicker.fitHeightProperty());
         itemPicker.disableProperty().bind(disableProperty());
         return itemPicker;
     }

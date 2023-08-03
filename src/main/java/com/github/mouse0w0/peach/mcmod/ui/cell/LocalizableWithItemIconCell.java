@@ -8,7 +8,7 @@ import javafx.util.Callback;
 
 public class LocalizableWithItemIconCell<T extends LocalizableWithItemIcon> extends ListCell<T> {
 
-    private final ItemView itemView = new ItemView(16, 16);
+    private final ItemView itemView = new ItemView(16);
 
     public static <T extends LocalizableWithItemIcon> Callback<ListView<T>, ListCell<T>> factory() {
         return view -> new LocalizableWithItemIconCell<>();

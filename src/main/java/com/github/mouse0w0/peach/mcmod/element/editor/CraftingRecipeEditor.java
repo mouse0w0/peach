@@ -60,13 +60,12 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
         inputGridPane.setVgap(8);
         recipeView.getChildren().add(inputGridPane);
         for (int i = 0; i < 9; i++) {
-            ItemView itemViews = inputs[i] = new ItemPicker(64, 64, true, true);
+            ItemView itemViews = inputs[i] = new ItemPicker(64, true, true);
             itemViews.setPlayAnimation(true);
             inputGridPane.add(itemViews, i % 3, i / 3);
         }
 
-        output = new ItemStackView();
-        output.setFitSize(64, 64);
+        output = new ItemStackView(64);
         FXUtils.setFixedSize(output, 72, 72);
         AnchorPane.setTopAnchor(output, 121d);
         AnchorPane.setLeftAnchor(output, 424d);

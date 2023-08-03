@@ -224,14 +224,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
         attributeModifiers.setCellFactory(view -> new AttributeModifierCell());
 
         repairItem = new ItemPickerField();
+        repairItem.setSize(32);
         repairItem.setText(AppL10n.localize("item.properties.repairItem"));
-        repairItem.setFitSize(32, 32);
         repairItem.setColSpan(ColSpan.HALF);
         repairItem.disableProperty().bind(isFood);
 
         recipeRemain = new ItemPickerField();
+        recipeRemain.setSize(32);
         recipeRemain.setText(AppL10n.localize("item.properties.recipeRemain"));
-        recipeRemain.setFitSize(32, 32);
         recipeRemain.setColSpan(ColSpan.HALF);
 
         useAnimation = new ComboBoxField<>();
@@ -367,8 +367,8 @@ public class ItemEditor extends ElementEditor<MEItem> {
         alwaysEdible.disableProperty().bind(isNotFood);
 
         foodContainer = new ItemPickerField();
+        foodContainer.setSize(32);
         foodContainer.setText(AppL10n.localize("item.food.foodContainer"));
-        foodContainer.setFitSize(32, 32);
         foodContainer.setColSpan(ColSpan.HALF);
         foodContainer.disableProperty().bind(isNotFood);
 

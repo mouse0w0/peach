@@ -71,7 +71,7 @@ public class ItemFavoritesView implements PersistentService {
     }
 
     private static class Cell extends GridCell<ItemRef> {
-        private final ItemView itemView = new ItemView(32, 32);
+        private final ItemView itemView = new ItemView(32);
 
         public Cell() {
             setGraphic(itemView);

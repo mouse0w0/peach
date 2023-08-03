@@ -75,8 +75,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
         });
         grid.add(background, 1, 3);
 
-        icon = new ItemPicker(32, 32);
-        FXUtils.setFixedSize(icon, 32, 32);
+        icon = new ItemPicker(32);
         icon.setBackground(new Background(new BackgroundFill(Color.gray(0.8), null, null)));
         grid.add(icon, 1, 4);
 

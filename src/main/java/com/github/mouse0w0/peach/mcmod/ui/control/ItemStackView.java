@@ -21,43 +21,23 @@ public class ItemStackView extends Control {
         getStyleClass().setAll("item-stack-view");
     }
 
-    private DoubleProperty fitWidth;
-
-    public final void setFitWidth(double value) {
-        fitWidthProperty().set(value);
+    public ItemStackView(double size) {
+        this();
+        setSize(size);
     }
 
-    public final double getFitWidth() {
-        return fitWidth == null ? 0 : fitWidth.get();
+    private final DoubleProperty size = new SimpleDoubleProperty(this, "size", 16);
+
+    public final DoubleProperty sizeProperty() {
+        return size;
     }
 
-    public final DoubleProperty fitWidthProperty() {
-        if (fitWidth == null) {
-            fitWidth = new SimpleDoubleProperty(this, "fitWidth");
-        }
-        return fitWidth;
+    public final double getSize() {
+        return size.get();
     }
 
-    private DoubleProperty fitHeight;
-
-    public final void setFitHeight(double value) {
-        fitHeightProperty().set(value);
-    }
-
-    public final double getFitHeight() {
-        return fitHeight == null ? 0 : fitHeight.get();
-    }
-
-    public final DoubleProperty fitHeightProperty() {
-        if (fitHeight == null) {
-            fitHeight = new SimpleDoubleProperty(this, "fitHeight");
-        }
-        return fitHeight;
-    }
-
-    public final void setFitSize(double width, double height) {
-        setFitWidth(width);
-        setFitHeight(height);
+    public final void setSize(double value) {
+        size.set(value);
     }
 
     private final ObjectProperty<ItemRef> item = new SimpleObjectProperty<>(this, "item", ItemRef.AIR);
