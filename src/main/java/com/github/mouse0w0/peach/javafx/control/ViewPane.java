@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.javafx.control;
 
 import com.github.mouse0w0.peach.javafx.control.skin.ViewPaneSkin;
-import com.github.mouse0w0.peach.javafx.geometry.EightPos;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;

@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.javafx.control;
 
-import com.github.mouse0w0.peach.javafx.geometry.EightPos;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;

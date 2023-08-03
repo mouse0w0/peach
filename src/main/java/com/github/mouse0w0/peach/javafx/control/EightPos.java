@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.javafx.geometry;
+package com.github.mouse0w0.peach.javafx.control;
 
 import javafx.geometry.Side;
 

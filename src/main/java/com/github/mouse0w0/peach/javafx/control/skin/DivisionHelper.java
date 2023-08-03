@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.javafx.control.skin;
 
 import com.github.mouse0w0.peach.javafx.control.DividerType;
-import com.github.mouse0w0.peach.javafx.geometry.EightPos;
+import com.github.mouse0w0.peach.javafx.control.EightPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.Side;
 

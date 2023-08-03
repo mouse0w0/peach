@@ -1,10 +1,6 @@
 package com.github.mouse0w0.peach.javafx.control.skin;
 
-import com.github.mouse0w0.peach.javafx.control.DividerType;
-import com.github.mouse0w0.peach.javafx.control.ViewGroup;
-import com.github.mouse0w0.peach.javafx.control.ViewPane;
-import com.github.mouse0w0.peach.javafx.control.ViewTab;
-import com.github.mouse0w0.peach.javafx.geometry.EightPos;
+import com.github.mouse0w0.peach.javafx.control.*;
 import com.sun.javafx.scene.control.behavior.ButtonBehavior;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
