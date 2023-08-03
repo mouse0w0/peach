@@ -181,16 +181,17 @@
     -fx-background-color: #c5c5c5;
 }
 
-.file-editor > .button-bar {
-    -fx-padding: 0.75em;
-}
-
-.file-editor > .button-bar > .button,
-.wizard > .button-bar > .button {
-    -fx-min-width: 50;
-}
-
 .form-view > .scroll-pane > .scroll-bar:vertical {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
+}
+
+HBox.button-bar {
+    -fx-spacing: 8px;
+    -fx-padding: 0.833em;
+    -fx-alignment: center-right;
+}
+
+HBox.button-bar > .button {
+    -fx-min-width: 50;
 }

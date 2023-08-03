@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.fileEditor;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.Validate;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -102,9 +101,8 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
         apply.getStyleClass().add("apply");
         apply.setOnAction(event -> apply());
 
-        HBox buttonBar = new HBox(9, finish, cancel, apply);
+        HBox buttonBar = new HBox(finish, cancel, apply);
         buttonBar.getStyleClass().add("button-bar");
-        buttonBar.setAlignment(Pos.CENTER_RIGHT);
         root.setBottom(buttonBar);
         return root;
     }

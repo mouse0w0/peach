@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.wizard;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -41,10 +40,8 @@ public abstract class Wizard {
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> onCancel());
 
-        HBox buttonBar = new HBox(8, previous, next, cancel);
+        HBox buttonBar = new HBox(previous, next, cancel);
         buttonBar.getStyleClass().add("button-bar");
-        buttonBar.setAlignment(Pos.CENTER_RIGHT);
-
         content.setBottom(buttonBar);
     }
 
