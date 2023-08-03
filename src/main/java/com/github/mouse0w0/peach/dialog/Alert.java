@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
+import com.github.mouse0w0.peach.javafx.control.ButtonType;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.geometry.Insets;
 import javafx.scene.Node;

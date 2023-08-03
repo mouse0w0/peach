@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.dialog;
+package com.github.mouse0w0.peach.javafx.control;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import javafx.scene.Node;
