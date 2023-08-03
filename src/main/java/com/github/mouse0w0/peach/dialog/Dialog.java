@@ -106,16 +106,11 @@ public class Dialog<R> implements EventTarget {
     }
 
     private void removeButtonType(ButtonBar buttonBar, List<? extends ButtonType> list) {
-        buttonBar.getButtons().removeIf(button -> list.contains(button.getProperties().get(ButtonType.class)));
+        buttonBar.getButtons().removeIf(button -> list.contains(ButtonType.getButtonType(button)));
     }
 
     protected Node createButton(ButtonType buttonType) {
-        Button button = new Button(buttonType.getText());
-        ButtonBar.ButtonData buttonData = buttonType.getButtonData();
-        ButtonBar.setButtonData(button, buttonData);
-        button.setDefaultButton(buttonData.isDefaultButton());
-        button.setCancelButton(buttonData.isCancelButton());
-        button.getProperties().put(ButtonType.class, buttonType);
+        Button button = buttonType.createButton();
         button.addEventHandler(ActionEvent.ACTION, e -> {
             if (e.isConsumed()) return;
             setResultAndClose(buttonType, true);

@@ -1,10 +1,11 @@
 package com.github.mouse0w0.peach.dialog;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 
 public class ButtonType {
-
     public static final ButtonType APPLY = new ButtonType(
             "button.apply", ButtonBar.ButtonData.APPLY);
 
@@ -32,8 +33,14 @@ public class ButtonType {
     public static final ButtonType PREVIOUS = new ButtonType(
             "button.previous", ButtonBar.ButtonData.BACK_PREVIOUS);
 
+    public static final String BUTTON_TYPE_PROPERTY = "ButtonType";
+
     private final String translationKey;
     private final ButtonBar.ButtonData buttonData;
+
+    public static ButtonType getButtonType(Node button) {
+        return button.hasProperties() ? (ButtonType) button.getProperties().get(BUTTON_TYPE_PROPERTY) : null;
+    }
 
     public ButtonType(String translationKey, ButtonBar.ButtonData buttonData) {
         this.translationKey = translationKey;
@@ -50,6 +57,16 @@ public class ButtonType {
 
     public String getText() {
         return AppL10n.localize(translationKey);
+    }
+
+    public Button createButton() {
+        Button button = new Button(getText());
+        ButtonBar.ButtonData buttonData = getButtonData();
+        ButtonBar.setButtonData(button, buttonData);
+        button.setDefaultButton(buttonData.isDefaultButton());
+        button.setCancelButton(buttonData.isCancelButton());
+        button.getProperties().put(BUTTON_TYPE_PROPERTY, this);
+        return button;
     }
 
     @Override
