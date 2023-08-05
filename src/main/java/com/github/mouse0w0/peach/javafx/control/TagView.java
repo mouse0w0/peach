@@ -98,7 +98,7 @@ public class TagView<T> extends Control {
         return itemFactory != null ? itemFactory.get() : null;
     }
 
-    public void setItemFactory(Supplier<T> itemFactory) {
+    public final void setItemFactory(Supplier<T> itemFactory) {
         itemFactoryProperty().set(itemFactory);
     }
 
