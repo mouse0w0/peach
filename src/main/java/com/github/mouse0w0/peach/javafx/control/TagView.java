@@ -85,38 +85,33 @@ public class TagView<T> extends Control {
         return items;
     }
 
-    private ObjectProperty<Supplier<T>> itemFactory;
+    private final ObjectProperty<Supplier<T>> itemFactory = new SimpleObjectProperty<>(this, "itemFactory");
 
     public final ObjectProperty<Supplier<T>> itemFactoryProperty() {
-        if (itemFactory == null) {
-            itemFactory = new SimpleObjectProperty<>(this, "itemFactory");
-        }
         return itemFactory;
     }
 
     public final Supplier<T> getItemFactory() {
-        return itemFactory != null ? itemFactory.get() : null;
+        return itemFactory.get();
     }
 
-    public final void setItemFactory(Supplier<T> itemFactory) {
-        itemFactoryProperty().set(itemFactory);
+    public final void setItemFactory(Supplier<T> value) {
+        itemFactory.set(value);
     }
 
-    private ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactory;
+    private final ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactory = new SimpleObjectProperty<>(this, "cellFactory");
+    ;
 
     public final ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactoryProperty() {
-        if (cellFactory == null) {
-            cellFactory = new SimpleObjectProperty<>(this, "cellFactory");
-        }
         return cellFactory;
     }
 
     public final Function<TagView<T>, TagCell<T>> getCellFactory() {
-        return cellFactory != null ? cellFactory.get() : null;
+        return cellFactory.get();
     }
 
-    public final void setCellFactory(Function<TagView<T>, TagCell<T>> cellFactory) {
-        cellFactoryProperty().set(cellFactory);
+    public final void setCellFactory(Function<TagView<T>, TagCell<T>> value) {
+        cellFactory.set(value);
     }
 
     private final SelectionModel<T> selectionModel = new MySingleSelectionModel<>(items);
