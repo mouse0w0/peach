@@ -166,7 +166,12 @@ public class FileUtils {
         delete(file.toPath());
     }
 
-    private static final FileVisitor<Path> DELETE_FILE_VISITOR = new SimpleFileVisitor<>() {
+    private static final FileVisitor<Path> DELETE_FILE_VISITOR = new FileVisitor<>() {
+        @Override
+        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+            return FileVisitResult.CONTINUE;
+        }
+
         @Override
         public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
             try {
@@ -174,6 +179,11 @@ public class FileUtils {
             } catch (NoSuchFileException ignored) {
             }
             return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+            throw exc;
         }
 
         @Override
