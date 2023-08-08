@@ -90,15 +90,15 @@ public class ItemEditor extends ElementEditor<MEItem> {
 
         identifier = new TextFieldField();
         identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier));
-        identifier.setText(AppL10n.localize("item.properties.identifier"));
+        identifier.setLabel(AppL10n.localize("item.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 
         displayName = new TextFieldField();
-        displayName.setText(AppL10n.localize("item.properties.displayName"));
+        displayName.setLabel(AppL10n.localize("item.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
         type = new ComboBoxField<>();
-        type.setText(AppL10n.localize("item.properties.type"));
+        type.setLabel(AppL10n.localize("item.properties.type"));
         type.setCellFactory(LocalizableCell.factory());
         type.setButtonCell(new LocalizableCell<>());
         type.getItems().setAll(ItemType.values());
@@ -121,14 +121,14 @@ public class ItemEditor extends ElementEditor<MEItem> {
         });
 
         itemGroup = new ComboBoxField<>();
-        itemGroup.setText(AppL10n.localize("item.properties.itemGroup"));
+        itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
         itemGroup.getItems().setAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new IntegerField(1, 64, 64);
-        maxStackSize.setText(AppL10n.localize("item.properties.maxStackSize"));
+        maxStackSize.setLabel(AppL10n.localize("item.properties.maxStackSize"));
         maxStackSize.setColSpan(ColSpan.HALF);
         maxStackSize.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             ItemType type = this.type.getValue();
@@ -142,12 +142,12 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty()));
 
         durability = new IntegerField(0, Integer.MAX_VALUE, 0);
-        durability.setText(AppL10n.localize("item.properties.durability"));
+        durability.setLabel(AppL10n.localize("item.properties.durability"));
         durability.setColSpan(ColSpan.HALF);
         durability.disableProperty().bind(isFood);
 
         equipmentSlot = new ChoiceBoxField<>();
-        equipmentSlot.setText(AppL10n.localize("item.properties.equipmentSlot"));
+        equipmentSlot.setLabel(AppL10n.localize("item.properties.equipmentSlot"));
         equipmentSlot.setConverter(LocalizableConverter.instance());
         equipmentSlot.getItems().setAll(EquipmentSlot.values());
         equipmentSlot.setColSpan(ColSpan.HALF);
@@ -171,28 +171,28 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty()));
 
         toolAttributes = new TagViewField<>();
-        toolAttributes.setText(AppL10n.localize("item.properties.toolAttributes"));
+        toolAttributes.setLabel(AppL10n.localize("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
         toolAttributes.disableProperty().bind(isArmorOrFood);
         toolAttributes.setItemFactory(() -> new ToolAttribute("axe", 0));
         toolAttributes.setCellFactory(view -> new ToolAttributeCell());
 
         destroySpeed = new DoubleField(0.0, Double.MAX_VALUE, 0D);
-        destroySpeed.setText(AppL10n.localize("item.properties.destroySpeed"));
+        destroySpeed.setLabel(AppL10n.localize("item.properties.destroySpeed"));
         destroySpeed.setColSpan(ColSpan.HALF);
         destroySpeed.disableProperty().bind(isArmorOrFood);
 
         canDestroyAnyBlock = new RadioButtonField();
-        canDestroyAnyBlock.setText(AppL10n.localize("item.properties.canDestroyAnyBlock"));
+        canDestroyAnyBlock.setLabel(AppL10n.localize("item.properties.canDestroyAnyBlock"));
         canDestroyAnyBlock.setColSpan(ColSpan.HALF);
         canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
 
         attackDamage = new DoubleField(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
-        attackDamage.setText(AppL10n.localize("item.properties.attackDamage"));
+        attackDamage.setLabel(AppL10n.localize("item.properties.attackDamage"));
         attackDamage.setColSpan(ColSpan.HALF);
 
         attackSpeed = new DoubleField(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
-        attackSpeed.setText(AppL10n.localize("item.properties.attackSpeed"));
+        attackSpeed.setLabel(AppL10n.localize("item.properties.attackSpeed"));
         attackSpeed.setColSpan(ColSpan.HALF);
         type.valueProperty().addListener(observable -> {
             ItemType type = this.type.getValue();
@@ -206,47 +206,47 @@ public class ItemEditor extends ElementEditor<MEItem> {
         });
 
         enchantability = new IntegerField(0, Integer.MAX_VALUE, 0);
-        enchantability.setText(AppL10n.localize("item.properties.enchantability"));
+        enchantability.setLabel(AppL10n.localize("item.properties.enchantability"));
         enchantability.setColSpan(ColSpan.HALF);
         enchantability.disableProperty().bind(isFood);
 
         acceptableEnchantments = new CheckComboBoxField<>();
-        acceptableEnchantments.setText(AppL10n.localize("item.properties.acceptableEnchantments"));
+        acceptableEnchantments.setLabel(AppL10n.localize("item.properties.acceptableEnchantments"));
         acceptableEnchantments.setConverter(LocalizableConverter.instance());
         acceptableEnchantments.getItems().setAll(EnchantmentType.values());
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
         attributeModifiers = new TagViewField<>();
-        attributeModifiers.setText(AppL10n.localize("item.properties.attributeModifiers"));
+        attributeModifiers.setLabel(AppL10n.localize("item.properties.attributeModifiers"));
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
         attributeModifiers.setItemFactory(() -> new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
         attributeModifiers.setCellFactory(view -> new AttributeModifierCell());
 
         repairItem = new ItemPickerField();
         repairItem.setSize(32);
-        repairItem.setText(AppL10n.localize("item.properties.repairItem"));
+        repairItem.setLabel(AppL10n.localize("item.properties.repairItem"));
         repairItem.setColSpan(ColSpan.HALF);
         repairItem.disableProperty().bind(isFood);
 
         recipeRemain = new ItemPickerField();
         recipeRemain.setSize(32);
-        recipeRemain.setText(AppL10n.localize("item.properties.recipeRemain"));
+        recipeRemain.setLabel(AppL10n.localize("item.properties.recipeRemain"));
         recipeRemain.setColSpan(ColSpan.HALF);
 
         useAnimation = new ComboBoxField<>();
-        useAnimation.setText(AppL10n.localize("item.properties.useAnimation"));
+        useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
         useAnimation.setCellFactory(LocalizableCell.factory());
         useAnimation.setButtonCell(new LocalizableCell<>());
         useAnimation.getItems().setAll(UseAnimation.values());
         useAnimation.setColSpan(ColSpan.HALF);
 
         useDuration = new IntegerField(0, Integer.MAX_VALUE, 0);
-        useDuration.setText(AppL10n.localize("item.properties.useDuration"));
+        useDuration.setLabel(AppL10n.localize("item.properties.useDuration"));
         useDuration.setColSpan(ColSpan.HALF);
 
         hitEntityLoss = new IntegerField(0, Integer.MAX_VALUE, 0);
-        hitEntityLoss.setText(AppL10n.localize("item.properties.hitEntityLoss"));
+        hitEntityLoss.setLabel(AppL10n.localize("item.properties.hitEntityLoss"));
         hitEntityLoss.setColSpan(ColSpan.HALF);
         hitEntityLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
@@ -267,7 +267,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty(), durability.valueProperty()));
 
         destroyBlockLoss = new IntegerField(0, Integer.MAX_VALUE, 0);
-        destroyBlockLoss.setText(AppL10n.localize("item.properties.destroyBlockLoss"));
+        destroyBlockLoss.setLabel(AppL10n.localize("item.properties.destroyBlockLoss"));
         destroyBlockLoss.setColSpan(ColSpan.HALF);
         destroyBlockLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
@@ -288,7 +288,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
         }, type.valueProperty(), durability.valueProperty()));
 
         information = new TextAreaField();
-        information.setText(AppL10n.localize("item.properties.information"));
+        information.setLabel(AppL10n.localize("item.properties.information"));
 
         properties.getElements().addAll(
                 identifier, displayName,
@@ -316,18 +316,18 @@ public class ItemEditor extends ElementEditor<MEItem> {
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
-        textures.setText(AppL10n.localize("item.appearance.texture"));
+        textures.setLabel(AppL10n.localize("item.appearance.texture"));
         model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
 
         hasEffect = new RadioButtonField();
-        hasEffect.setText(AppL10n.localize("item.appearance.hasEffect"));
+        hasEffect.setLabel(AppL10n.localize("item.appearance.hasEffect"));
         hasEffect.setColSpan(ColSpan.HALF);
 
         armorTexture = new TextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
         armorTexture.setFitSize(128, 64);
-        armorTexture.setText(AppL10n.localize("item.appearance.armorTexture"));
+        armorTexture.setLabel(AppL10n.localize("item.appearance.armorTexture"));
         armorTexture.visibleProperty().bind(isArmor);
 
         appearance.getElements().addAll(model, textures, hasEffect, armorTexture);
@@ -336,39 +336,39 @@ public class ItemEditor extends ElementEditor<MEItem> {
         extra.setText(AppL10n.localize("item.extra.title"));
 
         fuelBurnTime = new IntegerField(0, Integer.MAX_VALUE, 0);
-        fuelBurnTime.setText(AppL10n.localize("item.fuel.fuelBurnTime"));
+        fuelBurnTime.setLabel(AppL10n.localize("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
         equipSound = new ChoiceBoxField<>();
-        equipSound.setText(AppL10n.localize("item.armor.equipSound"));
+        equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
         equipSound.setConverter(LocalizableConverter.instance());
         equipSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(Indexes.SOUND_EVENTS).values());
         equipSound.disableProperty().bind(isNotArmor);
 
         hunger = new IntegerField(0, Integer.MAX_VALUE, 0);
-        hunger.setText(AppL10n.localize("item.food.hunger"));
+        hunger.setLabel(AppL10n.localize("item.food.hunger"));
         hunger.setColSpan(ColSpan.HALF);
         hunger.disableProperty().bind(isNotFood);
 
         saturation = new DoubleField(0.0, Double.MAX_VALUE, 0.6);
-        saturation.setText(AppL10n.localize("item.food.saturation"));
+        saturation.setLabel(AppL10n.localize("item.food.saturation"));
         saturation.setColSpan(ColSpan.HALF);
         saturation.disableProperty().bind(isNotFood);
 
         isWolfFood = new RadioButtonField();
-        isWolfFood.setText(AppL10n.localize("item.food.isWolfFood"));
+        isWolfFood.setLabel(AppL10n.localize("item.food.isWolfFood"));
         isWolfFood.setColSpan(ColSpan.HALF);
         isWolfFood.disableProperty().bind(isNotFood);
 
         alwaysEdible = new RadioButtonField();
-        alwaysEdible.setText(AppL10n.localize("item.food.alwaysEdible"));
+        alwaysEdible.setLabel(AppL10n.localize("item.food.alwaysEdible"));
         alwaysEdible.setColSpan(ColSpan.HALF);
         alwaysEdible.disableProperty().bind(isNotFood);
 
         foodContainer = new ItemPickerField();
         foodContainer.setSize(32);
-        foodContainer.setText(AppL10n.localize("item.food.foodContainer"));
+        foodContainer.setLabel(AppL10n.localize("item.food.foodContainer"));
         foodContainer.setColSpan(ColSpan.HALF);
         foodContainer.disableProperty().bind(isNotFood);
 

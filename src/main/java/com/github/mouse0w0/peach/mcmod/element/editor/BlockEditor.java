@@ -97,68 +97,68 @@ public class BlockEditor extends ElementEditor<MEBlock> {
 
         identifier = new TextFieldField();
         identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier));
-        identifier.setText(AppL10n.localize("block.properties.identifier"));
+        identifier.setLabel(AppL10n.localize("block.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 
         displayName = new TextFieldField();
-        displayName.setText(AppL10n.localize("block.properties.displayName"));
+        displayName.setLabel(AppL10n.localize("block.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
         type = new ChoiceBoxField<>();
-        type.setText(AppL10n.localize("block.properties.type"));
+        type.setLabel(AppL10n.localize("block.properties.type"));
         type.setConverter(LocalizableConverter.instance());
         type.getItems().addAll(BlockType.values());
         type.setValue(BlockType.NORMAL);
         type.setColSpan(ColSpan.HALF);
 
         material = new ComboBoxField<>();
-        material.setText(AppL10n.localize("block.properties.material"));
+        material.setLabel(AppL10n.localize("block.properties.material"));
         material.setCellFactory(LocalizableWithItemIconCell.factory());
         material.setButtonCell(LocalizableWithItemIconCell.create());
         material.getItems().addAll(indexManager.getIndex(Indexes.MATERIALS).values());
         material.setColSpan(ColSpan.HALF);
 
         itemGroup = new ComboBoxField<>();
-        itemGroup.setText(AppL10n.localize("block.properties.itemGroup"));
+        itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
         itemGroup.getItems().addAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         soundType = new ComboBoxField<>();
-        soundType.setText(AppL10n.localize("block.properties.soundType"));
+        soundType.setLabel(AppL10n.localize("block.properties.soundType"));
         soundType.setCellFactory(LocalizableWithItemIconCell.factory());
         soundType.setButtonCell(LocalizableWithItemIconCell.create());
         soundType.getItems().addAll(indexManager.getIndex(Indexes.SOUND_TYPES).values());
         soundType.setColSpan(ColSpan.HALF);
 
         hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
-        hardness.setText(AppL10n.localize("block.properties.hardness"));
+        hardness.setLabel(AppL10n.localize("block.properties.hardness"));
         hardness.setColSpan(ColSpan.HALF);
 
         unbreakable = new RadioButtonField();
-        unbreakable.setText(AppL10n.localize("block.properties.unbreakable"));
+        unbreakable.setLabel(AppL10n.localize("block.properties.unbreakable"));
         unbreakable.setColSpan(ColSpan.HALF);
         hardness.disableProperty().bind(unbreakable.valueProperty());
 
         resistance = new DoubleField(0D, Double.MAX_VALUE, 0D);
-        resistance.setText(AppL10n.localize("block.properties.resistance"));
+        resistance.setLabel(AppL10n.localize("block.properties.resistance"));
         resistance.setColSpan(ColSpan.HALF);
 
         slipperiness = new DoubleField(0D, 1D, 0.6D);
-        slipperiness.setText(AppL10n.localize("block.properties.slipperiness"));
+        slipperiness.setLabel(AppL10n.localize("block.properties.slipperiness"));
         slipperiness.setColSpan(ColSpan.HALF);
 
         brightness = new IntegerField(0, 15, 0);
-        brightness.setText(AppL10n.localize("block.properties.brightness"));
+        brightness.setLabel(AppL10n.localize("block.properties.brightness"));
         brightness.setColSpan(ColSpan.HALF);
 
         opacity = new IntegerField(0, 255, 255);
-        opacity.setText(AppL10n.localize("block.properties.opacity"));
+        opacity.setLabel(AppL10n.localize("block.properties.opacity"));
         opacity.setColSpan(ColSpan.HALF);
 
         harvestTool = new ChoiceBoxField<>();
-        harvestTool.setText(AppL10n.localize("block.properties.harvestTool"));
+        harvestTool.setLabel(AppL10n.localize("block.properties.harvestTool"));
         harvestTool.setColSpan(ColSpan.HALF);
         harvestTool.setConverter(new StringConverter<>() {
             @Override
@@ -175,12 +175,12 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         harvestTool.getItems().addAll(ToolType.getToolTypes());
 
         harvestLevel = new IntegerField(0, Integer.MAX_VALUE, 0);
-        harvestLevel.setText(AppL10n.localize("block.properties.harvestLevel"));
+        harvestLevel.setLabel(AppL10n.localize("block.properties.harvestLevel"));
         harvestLevel.setColSpan(ColSpan.HALF);
         harvestLevel.disableProperty().bind(harvestTool.valueProperty().isEqualTo(ToolType.NONE));
 
         information = new TextAreaField();
-        information.setText(AppL10n.localize("block.properties.information"));
+        information.setLabel(AppL10n.localize("block.properties.information"));
 
         Section properties = new Section();
         properties.setText(AppL10n.localize("block.properties.title"));
@@ -203,28 +203,28 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         textures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
-        textures.setText(AppL10n.localize("block.appearance.texture"));
+        textures.setLabel(AppL10n.localize("block.appearance.texture"));
         model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
 
         particleTexture = new TextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
-        particleTexture.setText(AppL10n.localize("block.appearance.particleTexture"));
+        particleTexture.setLabel(AppL10n.localize("block.appearance.particleTexture"));
         particleTexture.setFitSize(64, 64);
 
         transparency = new RadioButtonField();
-        transparency.setText(AppL10n.localize("block.appearance.transparency"));
+        transparency.setLabel(AppL10n.localize("block.appearance.transparency"));
         transparency.setColSpan(ColSpan.HALF);
         transparency.valueProperty().addListener(observable -> opacity.setValue(transparency.getValue() ? 0 : 255));
 
         renderType = new ChoiceBoxField<>();
-        renderType.setText(AppL10n.localize("block.appearance.renderType"));
+        renderType.setLabel(AppL10n.localize("block.appearance.renderType"));
         renderType.setConverter(LocalizableConverter.instance());
         renderType.getItems().addAll(RenderType.values());
         renderType.setColSpan(ColSpan.HALF);
 
         offsetType = new ChoiceBoxField<>();
-        offsetType.setText(AppL10n.localize("block.appearance.offsetType"));
+        offsetType.setLabel(AppL10n.localize("block.appearance.offsetType"));
         offsetType.setConverter(LocalizableConverter.instance());
         offsetType.getItems().addAll(OffsetType.values());
         offsetType.setColSpan(ColSpan.HALF);
@@ -244,7 +244,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         itemTextures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
-        itemTextures.setText(AppL10n.localize("block.appearance.itemTexture"));
+        itemTextures.setLabel(AppL10n.localize("block.appearance.itemTexture"));
         itemTextures.visibleProperty().bind(Bindings.isNotEmpty(itemModel.getTextures()));
         itemModel.getTextures().addListener((InvalidationListener) observable -> itemTextures.setTextureKeys(itemModel.getTextures()));
 
@@ -261,31 +261,31 @@ public class BlockEditor extends ElementEditor<MEBlock> {
         );
 
         minX = new DoubleField(0D, 16D, 0D);
-        minX.setText(AppL10n.localize("block.collision.minX"));
+        minX.setLabel(AppL10n.localize("block.collision.minX"));
         minX.setColSpan(ColSpan.THIRD);
 
         minY = new DoubleField(0D, 24D, 0D);
-        minY.setText(AppL10n.localize("block.collision.minY"));
+        minY.setLabel(AppL10n.localize("block.collision.minY"));
         minY.setColSpan(ColSpan.THIRD);
 
         minZ = new DoubleField(0D, 16D, 0D);
-        minZ.setText(AppL10n.localize("block.collision.minZ"));
+        minZ.setLabel(AppL10n.localize("block.collision.minZ"));
         minZ.setColSpan(ColSpan.THIRD);
 
         maxX = new DoubleField(0D, 16D, 16D);
-        maxX.setText(AppL10n.localize("block.collision.maxX"));
+        maxX.setLabel(AppL10n.localize("block.collision.maxX"));
         maxX.setColSpan(ColSpan.THIRD);
 
         maxY = new DoubleField(0D, 24D, 16D);
-        maxY.setText(AppL10n.localize("block.collision.maxY"));
+        maxY.setLabel(AppL10n.localize("block.collision.maxY"));
         maxY.setColSpan(ColSpan.THIRD);
 
         maxZ = new DoubleField(0D, 16D, 16D);
-        maxZ.setText(AppL10n.localize("block.collision.maxZ"));
+        maxZ.setLabel(AppL10n.localize("block.collision.maxZ"));
         maxZ.setColSpan(ColSpan.THIRD);
 
         noCollision = new RadioButtonField();
-        noCollision.setText(AppL10n.localize("block.collision.noCollision"));
+        noCollision.setLabel(AppL10n.localize("block.collision.noCollision"));
         noCollision.setColSpan(ColSpan.HALF);
 
         Section collision = new Section();
@@ -296,66 +296,66 @@ public class BlockEditor extends ElementEditor<MEBlock> {
                 noCollision);
 
         doNotRegisterItem = new RadioButtonField();
-        doNotRegisterItem.setText(AppL10n.localize("block.extra.doNotRegisterItem"));
+        doNotRegisterItem.setLabel(AppL10n.localize("block.extra.doNotRegisterItem"));
         doNotRegisterItem.setColSpan(ColSpan.HALF);
 
         mapColor = new ComboBoxField<>();
-        mapColor.setText(AppL10n.localize("block.extra.mapColor"));
+        mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
         mapColor.setCellFactory(LocalizableWithItemIconCell.factory());
         mapColor.setButtonCell(LocalizableWithItemIconCell.create());
         mapColor.getItems().addAll(indexManager.getIndex(Indexes.MAP_COLORS).values());
         mapColor.setColSpan(ColSpan.HALF);
 
         beaconColor = new ColorPickerField();
-        beaconColor.setText(AppL10n.localize("block.extra.beaconColor"));
+        beaconColor.setLabel(AppL10n.localize("block.extra.beaconColor"));
         beaconColor.setColSpan(ColSpan.HALF);
 
         beaconBase = new RadioButtonField();
-        beaconBase.setText(AppL10n.localize("block.extra.beaconBase"));
+        beaconBase.setLabel(AppL10n.localize("block.extra.beaconBase"));
         beaconBase.setColSpan(ColSpan.HALF);
 
         climbable = new RadioButtonField();
-        climbable.setText(AppL10n.localize("block.extra.climbable"));
+        climbable.setLabel(AppL10n.localize("block.extra.climbable"));
         climbable.setColSpan(ColSpan.HALF);
 
         replaceable = new RadioButtonField();
-        replaceable.setText(AppL10n.localize("block.extra.replaceable"));
+        replaceable.setLabel(AppL10n.localize("block.extra.replaceable"));
         replaceable.setColSpan(ColSpan.HALF);
 
         canConnectRedstone = new RadioButtonField();
-        canConnectRedstone.setText(AppL10n.localize("block.extra.canConnectRedstone"));
+        canConnectRedstone.setLabel(AppL10n.localize("block.extra.canConnectRedstone"));
         canConnectRedstone.setColSpan(ColSpan.HALF);
 
         redstonePower = new IntegerField(0, 15, 0);
-        redstonePower.setText(AppL10n.localize("block.extra.redstonePower"));
+        redstonePower.setLabel(AppL10n.localize("block.extra.redstonePower"));
         redstonePower.setColSpan(ColSpan.HALF);
 
         canPlantPlant = new ChoiceBoxField<>();
-        canPlantPlant.setText(AppL10n.localize("block.extra.canPlantPlant"));
+        canPlantPlant.setLabel(AppL10n.localize("block.extra.canPlantPlant"));
         canPlantPlant.setConverter(LocalizableConverter.instance());
         canPlantPlant.getItems().addAll(PlantType.values());
         canPlantPlant.setColSpan(ColSpan.HALF);
 
         enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
-        enchantPowerBonus.setText(AppL10n.localize("block.extra.enchantPowerBonus"));
+        enchantPowerBonus.setLabel(AppL10n.localize("block.extra.enchantPowerBonus"));
         enchantPowerBonus.setColSpan(ColSpan.HALF);
 
         flammability = new IntegerField(0, Integer.MAX_VALUE, 0);
-        flammability.setText(AppL10n.localize("block.extra.flammability"));
+        flammability.setLabel(AppL10n.localize("block.extra.flammability"));
         flammability.setColSpan(ColSpan.HALF);
 
         fireSpreadSpeed = new IntegerField(0, Integer.MAX_VALUE, 0);
-        fireSpreadSpeed.setText(AppL10n.localize("block.extra.fireSpreadSpeed"));
+        fireSpreadSpeed.setLabel(AppL10n.localize("block.extra.fireSpreadSpeed"));
         fireSpreadSpeed.setColSpan(ColSpan.HALF);
 
         pushReaction = new ChoiceBoxField<>();
-        pushReaction.setText(AppL10n.localize("block.extra.pushReaction"));
+        pushReaction.setLabel(AppL10n.localize("block.extra.pushReaction"));
         pushReaction.setConverter(LocalizableConverter.instance());
         pushReaction.getItems().addAll(PushReaction.values());
         pushReaction.setColSpan(ColSpan.HALF);
 
         aiPathNodeType = new ChoiceBoxField<>();
-        aiPathNodeType.setText(AppL10n.localize("block.extra.aiPathNodeType"));
+        aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
         aiPathNodeType.setConverter(LocalizableConverter.instance());
         aiPathNodeType.getItems().addAll(PathNodeType.values());
         aiPathNodeType.setColSpan(ColSpan.HALF);

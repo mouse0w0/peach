@@ -50,34 +50,34 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         form = new Form();
 
         name = new TextFieldField();
-        name.setText(AppL10n.localize("metadata.general.name"));
+        name.setLabel(AppL10n.localize("metadata.general.name"));
         name.setColSpan(ColSpan.HALF);
         name.setValue(metadata.getName());
 
         id = new TextFieldField();
-        id.setText(AppL10n.localize("metadata.general.id"));
+        id.setLabel(AppL10n.localize("metadata.general.id"));
         id.setColSpan(ColSpan.HALF);
         id.getChecks().add(Check.of(AppL10n.localize("validate.invalidModId"), ModUtils::validateIdentifier));
         id.setValue(metadata.getId());
 
         version = new TextFieldField();
-        version.setText(AppL10n.localize("metadata.general.version"));
+        version.setLabel(AppL10n.localize("metadata.general.version"));
         version.setColSpan(ColSpan.HALF);
         version.setValue(metadata.getVersion());
 
         author = new TextFieldField();
-        author.setText(AppL10n.localize("metadata.general.author"));
+        author.setLabel(AppL10n.localize("metadata.general.author"));
         author.setColSpan(ColSpan.HALF);
         author.setValue(metadata.getFirstAuthor());
 
         mcVersion = new ChoiceBoxField<>();
-        mcVersion.setText(AppL10n.localize("metadata.general.mcVersion"));
+        mcVersion.setLabel(AppL10n.localize("metadata.general.mcVersion"));
         mcVersion.setColSpan(ColSpan.HALF);
         mcVersion.getItems().add("1.12.2");
         mcVersion.setValue(metadata.getMcVersion());
 
         language = new ComboBoxField<>();
-        language.setText(AppL10n.localize("metadata.general.language"));
+        language.setLabel(AppL10n.localize("metadata.general.language"));
         language.setColSpan(ColSpan.HALF);
         language.setConverter(new StringConverter<>() {
             @Override
@@ -94,7 +94,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         language.setValue(metadata.getLanguage());
 
         description = new TextFieldField();
-        description.setText(AppL10n.localize("metadata.general.description"));
+        description.setLabel(AppL10n.localize("metadata.general.description"));
         description.setValue(metadata.getDescription());
 
         Section general = new Section();
@@ -106,15 +106,15 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
                 description);
 
         url = new TextFieldField();
-        url.setText(AppL10n.localize("metadata.advanced.url"));
+        url.setLabel(AppL10n.localize("metadata.advanced.url"));
         url.setValue(metadata.getUrl());
 
         updateUrl = new TextFieldField();
-        updateUrl.setText(AppL10n.localize("metadata.advanced.updateUrl"));
+        updateUrl.setLabel(AppL10n.localize("metadata.advanced.updateUrl"));
         updateUrl.setValue(metadata.getUpdateUrl());
 
         credits = new TextFieldField();
-        credits.setText(AppL10n.localize("metadata.advanced.credits"));
+        credits.setLabel(AppL10n.localize("metadata.advanced.credits"));
         credits.setValue(metadata.getCredits());
 
         Section advanced = new Section();

@@ -15,18 +15,18 @@ public abstract class Field extends Element {
         getStyleClass().add(FORM_FIELD_CLASS);
     }
 
-    private final StringProperty text = new SimpleStringProperty(this, "text");
+    private final StringProperty label = new SimpleStringProperty(this, "label");
 
-    public final StringProperty textProperty() {
-        return text;
+    public final StringProperty labelProperty() {
+        return label;
     }
 
-    public final String getText() {
-        return text.get();
+    public final String getLabel() {
+        return label.get();
     }
 
-    public final void setText(String value) {
-        text.set(value);
+    public final void setLabel(String value) {
+        label.set(value);
     }
 
     private Node editorNode;
@@ -50,7 +50,7 @@ public abstract class Field extends Element {
         Label label = new Label();
         label.getStyleClass().add(FORM_FIELD_LABEL_CLASS);
         label.setWrapText(true);
-        label.textProperty().bind(textProperty());
+        label.textProperty().bind(labelProperty());
         return new FieldView(this, label, getEditorNode());
     }
 }
