@@ -11,10 +11,15 @@ import javafx.scene.layout.GridPane;
 public class Group {
     public static final String FORM_GROUP_CLASS = "form-group";
 
+    public Group(Element... elements) {
+        this();
+        getElements().addAll(elements);
+    }
+
     public Group() {
         getStyleClass().add(FORM_GROUP_CLASS);
 
-        elements.addListener((ListChangeListener<Element>) c -> {
+        getElements().addListener((ListChangeListener<Element>) c -> {
             while (c.next()) {
                 if (c.wasRemoved()) {
                     for (Element element : c.getRemoved()) {

@@ -5,9 +5,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class Form {
+    public Form(Group... groups) {
+        this();
+        getGroups().addAll(groups);
+    }
 
     public Form() {
-        groups.addListener((ListChangeListener<Group>) c -> {
+        getGroups().addListener((ListChangeListener<Group>) c -> {
             while (c.next()) {
                 if (c.wasRemoved()) {
                     for (Group removed : c.getRemoved()) {

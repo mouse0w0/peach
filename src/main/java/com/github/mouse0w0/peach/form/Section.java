@@ -14,6 +14,11 @@ public class Section extends Group {
 
     public static final String FORM_SECTION_CLASS = "form-section";
 
+    public Section(Element... elements) {
+        this();
+        getElements().addAll(elements);
+    }
+
     public Section() {
         getStyleClass().setAll(FORM_SECTION_CLASS, "titled-pane");
     }
