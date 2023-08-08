@@ -21,9 +21,7 @@ import java.util.List;
 public class FilePicker extends Control {
 
     public enum Type {
-        OPEN_FILE,
-        OPEN_DIRECTORY,
-        SAVE_FILE
+        OPEN_FILE, OPEN_DIRECTORY, SAVE_FILE
     }
 
     public FilePicker() {
@@ -53,7 +51,23 @@ public class FilePicker extends Control {
         });
     }
 
-    // Properties
+    private ObjectProperty<Type> type;
+
+    public final ObjectProperty<Type> typeProperty() {
+        if (type == null) {
+            type = new SimpleObjectProperty<>(this, "type", Type.OPEN_FILE);
+        }
+        return type;
+    }
+
+    public final Type getType() {
+        return type != null ? type.get() : Type.OPEN_FILE;
+    }
+
+    public final void setType(Type value) {
+        typeProperty().set(value);
+    }
+
     private StringProperty value;
 
     public final StringProperty valueProperty() {
@@ -81,23 +95,6 @@ public class FilePicker extends Control {
         valueProperty().set(value);
     }
 
-    private ObjectProperty<Type> type;
-
-    public final ObjectProperty<Type> typeProperty() {
-        if (type == null) {
-            type = new SimpleObjectProperty<>(this, "type", Type.OPEN_FILE);
-        }
-        return type;
-    }
-
-    public final Type getType() {
-        return type != null ? type.get() : Type.OPEN_FILE;
-    }
-
-    public final void setType(Type type) {
-        typeProperty().set(type);
-    }
-
     private ObjectProperty<StringConverter<File>> converter;
 
     public final ObjectProperty<StringConverter<File>> converterProperty() {
@@ -111,36 +108,41 @@ public class FilePicker extends Control {
         return converter != null ? converter.get() : null;
     }
 
-    public final void setConverter(StringConverter<File> converter) {
-        converterProperty().set(converter);
+    public final void setConverter(StringConverter<File> value) {
+        converterProperty().set(value);
     }
 
     private File file;
 
     public final File getFile() {
-        if (file != null) return file;
-        final String text = getValue();
-        if (text.isEmpty()) return null;
-        final StringConverter<File> converter = getConverter();
-        return file = converter != null ? converter.fromString(text) : new File(text);
+        if (file != null) {
+            return file;
+        }
+        String value = getValue();
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        StringConverter<File> converter = getConverter();
+        return file = converter != null ? converter.fromString(value) : new File(value);
     }
 
     public final Path getPath() {
-        final File file = getFile();
+        File file = getFile();
         return file != null ? file.toPath() : null;
     }
 
-    public final void setFile(File file) {
-        if (file == null) {
+    public final void setFile(File value) {
+        if (value == null) {
             setValue("");
         } else {
-            final StringConverter<File> converter = getConverter();
-            setValue(converter != null ? converter.toString(file) : file.toString());
+            StringConverter<File> converter = getConverter();
+            setValue(converter != null ? converter.toString(value) : value.toString());
+            file = value;
         }
     }
 
-    public final void setPath(Path path) {
-        setFile(path != null ? path.toFile() : null);
+    public final void setPath(Path value) {
+        setFile(value != null ? value.toFile() : null);
     }
 
     private StringProperty promptText;
@@ -173,8 +175,8 @@ public class FilePicker extends Control {
         return editable == null || editable.get();
     }
 
-    public final void setEditable(boolean editable) {
-        editableProperty().set(editable);
+    public final void setEditable(boolean value) {
+        editableProperty().set(value);
     }
 
     private StringProperty title;
@@ -190,8 +192,8 @@ public class FilePicker extends Control {
         return title != null ? title.get() : null;
     }
 
-    public final void setTitle(String title) {
-        titleProperty().set(title);
+    public final void setTitle(String value) {
+        titleProperty().set(value);
     }
 
     private ObjectProperty<File> initialDirectory;
@@ -207,8 +209,8 @@ public class FilePicker extends Control {
         return initialDirectory != null ? initialDirectory.get() : null;
     }
 
-    public final void setInitialDirectory(File initialDirectory) {
-        initialDirectoryProperty().set(initialDirectory);
+    public final void setInitialDirectory(File value) {
+        initialDirectoryProperty().set(value);
     }
 
     private ObjectProperty<String> initialFileName;
@@ -224,13 +226,16 @@ public class FilePicker extends Control {
         return initialFileName != null ? initialFileName.get() : null;
     }
 
-    public final void setInitialFileName(final String value) {
+    public final void setInitialFileName(String value) {
         initialFileNameProperty().set(value);
     }
 
-    private final ObservableList<FileChooser.ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+    private ObservableList<FileChooser.ExtensionFilter> extensionFilters;
 
     public final ObservableList<FileChooser.ExtensionFilter> getExtensionFilters() {
+        if (extensionFilters == null) {
+            extensionFilters = FXCollections.observableArrayList();
+        }
         return extensionFilters;
     }
 
@@ -247,53 +252,57 @@ public class FilePicker extends Control {
         return selectedExtensionFilter != null ? selectedExtensionFilter.get() : null;
     }
 
-    public final void setSelectedExtensionFilter(FileChooser.ExtensionFilter filter) {
-        selectedExtensionFilterProperty().set(filter);
+    public final void setSelectedExtensionFilter(FileChooser.ExtensionFilter value) {
+        selectedExtensionFilterProperty().set(value);
     }
 
     public void showDialog() {
-        FilePicker.Type type = getType();
-        File oldFile = getFile();
         Window owner = getScene().getWindow();
-        File file = null;
-        if (type == FilePicker.Type.OPEN_DIRECTORY) {
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setTitle(getTitle());
-            if (oldFile == null) {
-                File initialDirectory = getInitialDirectory();
-                if (initialDirectory == null || initialDirectory.isDirectory()) {
-                    directoryChooser.setInitialDirectory(getInitialDirectory());
-                }
-            } else {
-                directoryChooser.setInitialDirectory(oldFile.getParentFile());
-            }
-            file = directoryChooser.showDialog(owner);
-        } else {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle(getTitle());
-            if (oldFile == null) {
-                File initialDirectory = getInitialDirectory();
-                if (initialDirectory == null || initialDirectory.isDirectory()) {
-                    fileChooser.setInitialDirectory(initialDirectory);
-                }
-                fileChooser.setInitialFileName(getInitialFileName());
-            } else {
-                fileChooser.setInitialDirectory(oldFile.getParentFile());
-                fileChooser.setInitialFileName(oldFile.getName());
-            }
-            fileChooser.getExtensionFilters().setAll(getExtensionFilters());
-            fileChooser.setSelectedExtensionFilter(getSelectedExtensionFilter());
+        File result = switch (getType()) {
+            case OPEN_FILE -> createFileChooser().showOpenDialog(owner);
+            case SAVE_FILE -> createFileChooser().showSaveDialog(owner);
+            case OPEN_DIRECTORY -> createDirectoryChooser().showDialog(owner);
+        };
 
-            if (type == FilePicker.Type.OPEN_FILE) {
-                file = fileChooser.showOpenDialog(owner);
-            } else if (type == FilePicker.Type.SAVE_FILE) {
-                file = fileChooser.showSaveDialog(owner);
-            }
+        if (result != null) {
+            setFile(result);
         }
+    }
 
+    private DirectoryChooser createDirectoryChooser() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle(getTitle());
+        File file = getFile();
         if (file != null) {
-            setFile(file);
+            directoryChooser.setInitialDirectory(file.getParentFile());
+        } else {
+            File initialDirectory = getInitialDirectory();
+            if (initialDirectory != null && initialDirectory.isDirectory()) {
+                directoryChooser.setInitialDirectory(getInitialDirectory());
+            }
         }
+        return directoryChooser;
+    }
+
+    private FileChooser createFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle(getTitle());
+        File file = getFile();
+        if (file != null) {
+            fileChooser.setInitialDirectory(file.getParentFile());
+            fileChooser.setInitialFileName(file.getName());
+        } else {
+            File initialDirectory = getInitialDirectory();
+            if (initialDirectory != null && initialDirectory.isDirectory()) {
+                fileChooser.setInitialDirectory(initialDirectory);
+            }
+            fileChooser.setInitialFileName(getInitialFileName());
+        }
+        if (extensionFilters != null) {
+            fileChooser.getExtensionFilters().setAll(extensionFilters);
+        }
+        fileChooser.setSelectedExtensionFilter(getSelectedExtensionFilter());
+        return fileChooser;
     }
 
     @Override
