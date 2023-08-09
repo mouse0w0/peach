@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.javafx.util;
 
-import com.github.mouse0w0.peach.javafx.control.PopupAlert;
+import com.github.mouse0w0.peach.javafx.control.Tip;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 
 public class MessagePopup {
-    private static final PopupAlert POPUP = new PopupAlert();
+    private static final Tip POPUP = new Tip();
 
     public static void show(Node node, String message) {
         POPUP.setText(message);

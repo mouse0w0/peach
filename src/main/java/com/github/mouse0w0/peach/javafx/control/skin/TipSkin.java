@@ -1,21 +1,20 @@
 package com.github.mouse0w0.peach.javafx.control.skin;
 
-import com.github.mouse0w0.peach.javafx.control.PopupAlert;
-import javafx.geometry.Pos;
+import com.github.mouse0w0.peach.javafx.control.Tip;
 import javafx.scene.AccessibleRole;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Skin;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
-public class PopupAlertSkin implements Skin<PopupAlert> {
-
-    private PopupAlert skinnable;
+public class TipSkin implements Skin<Tip> {
+    private Tip skinnable;
 
     private final HBox content;
 
-    public PopupAlertSkin(PopupAlert skinnable) {
+    public TipSkin(Tip skinnable) {
         this.skinnable = skinnable;
 
         Label label = new Label();
@@ -23,7 +22,10 @@ public class PopupAlertSkin implements Skin<PopupAlert> {
         label.textProperty().bind(skinnable.textProperty());
         label.graphicProperty().bind(skinnable.graphicProperty());
 
-        StackPane closeButton = new StackPane();
+        Region close = new Region();
+        close.getStyleClass().add("close");
+
+        StackPane closeButton = new StackPane(close);
         closeButton.setAccessibleRole(AccessibleRole.BUTTON);
         closeButton.getStyleClass().setAll("close-button");
         closeButton.visibleProperty().bind(skinnable.closableProperty());
@@ -32,12 +34,11 @@ public class PopupAlertSkin implements Skin<PopupAlert> {
 
         content = new HBox();
         content.getStyleClass().setAll("content");
-        content.setAlignment(Pos.CENTER_LEFT);
         content.getChildren().setAll(label, closeButton);
     }
 
     @Override
-    public PopupAlert getSkinnable() {
+    public Tip getSkinnable() {
         return skinnable;
     }
 

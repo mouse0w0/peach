@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.javafx.control;
 
-import com.github.mouse0w0.peach.javafx.control.skin.PopupAlertSkin;
+import com.github.mouse0w0.peach.javafx.control.skin.TipSkin;
 import com.sun.javafx.stage.PopupWindowHelper;
 import com.sun.javafx.util.Utils;
 import javafx.beans.property.*;
@@ -12,13 +12,13 @@ import javafx.scene.Node;
 import javafx.scene.control.PopupControl;
 import javafx.scene.control.Skin;
 
-public class PopupAlert extends PopupControl {
+public class Tip extends PopupControl {
 
-    public PopupAlert() {
-        this.bridge = new CSSBridge();
-        PopupWindowHelper.getContent(this).set(0, bridge);
+    public Tip() {
+        bridge = new CSSBridge();
+        PopupWindowHelper.getContent(this).setAll(bridge);
 
-        getStyleClass().add("popup-alert");
+        getStyleClass().add("tip");
         setAnchorLocation(AnchorLocation.CONTENT_TOP_LEFT);
     }
 
@@ -90,13 +90,13 @@ public class PopupAlert extends PopupControl {
 
     @Override
     protected Skin<?> createDefaultSkin() {
-        return new PopupAlertSkin(this);
+        return new TipSkin(this);
     }
 
     private final class CSSBridge extends PopupControl.CSSBridge {
         @Override
         public String getUserAgentStylesheet() {
-            return PopupAlert.class.getResource("PopupAlert.css").toExternalForm();
+            return Tip.class.getResource("Tip.css").toExternalForm();
         }
     }
 }
