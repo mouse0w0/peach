@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.javafx.control;
 import com.github.mouse0w0.peach.javafx.control.skin.TagCellSkin;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
@@ -16,12 +17,28 @@ public class TagCell<T> extends IndexedCell<T> {
     public TagCell() {
         getStyleClass().add("tag-cell");
 
-        visibleProperty().bind(emptyProperty().not());
-        managedProperty().bind(emptyProperty().not());
+        BooleanBinding notEmpty = emptyProperty().not();
+        visibleProperty().bind(notEmpty);
+        managedProperty().bind(notEmpty);
 
         tagView.addListener(observable -> {
             SelectionModel<T> sm = getTagView().getSelectionModel();
             sm.selectedIndexProperty().addListener(new WeakInvalidationListener(selectedIndexListener));
+        });
+
+        setOnMousePressed(e -> {
+            if (!e.isPrimaryButtonDown()) return;
+
+            if (isSelected() && e.getClickCount() == 1) {
+                startEdit();
+            } else if (e.getClickCount() == 2) {
+                startEdit();
+            }
+
+            TagView<T> tagView = getTagView();
+            if (tagView != null) {
+                tagView.getSelectionModel().select(getIndex());
+            }
         });
     }
 
