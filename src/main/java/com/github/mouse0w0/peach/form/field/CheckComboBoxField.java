@@ -90,7 +90,7 @@ public class CheckComboBoxField<T> extends MultiValueField<T> {
     @Override
     protected Node createEditorNode() {
         CheckComboBox<T> checkComboBox = new CheckComboBox<>();
-        checkComboBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        checkComboBox.setMaxWidth(Double.MAX_VALUE);
         checkComboBox.disableProperty().bind(disableProperty());
         return checkComboBox;
     }

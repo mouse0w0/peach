@@ -27,7 +27,7 @@ public class ColorPickerField extends ValueField<Color> {
     @Override
     protected Node createEditorNode() {
         ColorPicker colorPicker = new ColorPicker();
-        colorPicker.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        colorPicker.setMaxWidth(Double.MAX_VALUE);
         colorPicker.valueProperty().bindBidirectional(valueProperty());
         colorPicker.disableProperty().bind(disableProperty());
         return colorPicker;
