@@ -57,7 +57,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     protected Node getContent() {
         FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml", AppL10n.getResourceBundle());
 
-        Validator.register(identifier, AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier);
+        Validator.of(identifier, AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier);
 
         background = new FilePicker();
         background.getExtensionFilters().add(ExtensionFilters.PNG);

@@ -50,7 +50,7 @@ public class NewElementDialog extends BorderPane {
 
         getStylesheets().add("/style/style.css");
 
-        Validator.register(name, AppL10n.localize("validate.invalidFileName"), FileUtils::validateFileNameWithoutExtension);
+        Validator.of(name, AppL10n.localize("validate.invalidFileName"), FileUtils::validateFileNameWithoutExtension);
         name.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP -> {
