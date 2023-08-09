@@ -21,7 +21,6 @@ public class FormView extends Region {
         getChildren().add(scrollPane);
 
         container = new VBox();
-        container.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         scrollPane.setContent(container);
 
         ListChangeListener<Group> groupsListener = c -> {
