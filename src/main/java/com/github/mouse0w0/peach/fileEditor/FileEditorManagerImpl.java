@@ -117,8 +117,8 @@ public class FileEditorManagerImpl implements FileEditorManager {
     }
 
     private static final class FileTab extends Tab implements FileCell {
-        private ImageView imageView;
         private Icon icon;
+        private ImageView imageView;
 
         public FileTab(String text, Node content) {
             super(text, content);
@@ -131,13 +131,15 @@ public class FileEditorManagerImpl implements FileEditorManager {
 
         @Override
         public void setIcon(Icon icon) {
+            this.icon = icon;
+
             if (imageView == null) {
                 imageView = new ImageView();
             }
 
             imageView.setImage(icon.getImage());
 
-            if (getGraphic() != imageView) {
+            if (getGraphic() == null) {
                 setGraphic(imageView);
             }
         }
