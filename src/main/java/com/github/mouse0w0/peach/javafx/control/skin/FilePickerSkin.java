@@ -1,34 +1,43 @@
 package com.github.mouse0w0.peach.javafx.control.skin;
 
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
-import javafx.css.PseudoClass;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
+import com.sun.javafx.scene.control.FakeFocusTextField;
 import javafx.scene.AccessibleRole;
 import javafx.scene.Cursor;
 import javafx.scene.control.SkinBase;
-import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class FilePickerSkin extends SkinBase<FilePicker> {
-    private static final PseudoClass FOCUSED = PseudoClass.getPseudoClass("focused");
-
-    private final TextField editor;
+    private final FakeFocusTextField editor;
     private final StackPane clearButton;
     private final StackPane openButton;
 
-    public FilePickerSkin(FilePicker filePicker) {
-        super(filePicker);
-        consumeMouseEvents(false);
+    public FilePickerSkin(FilePicker control) {
+        super(control);
 
-        editor = new TextField();
+        editor = new FakeFocusTextField();
         editor.getStyleClass().setAll("editor");
-        editor.textProperty().bindBidirectional(filePicker.valueProperty());
-        editor.promptTextProperty().bind(filePicker.promptTextProperty());
-        editor.editableProperty().bind(filePicker.editableProperty());
-        editor.focusedProperty().addListener(observable ->
-                pseudoClassStateChanged(FOCUSED, editor.isFocused()));
+        editor.textProperty().bindBidirectional(control.valueProperty());
+        editor.promptTextProperty().bind(control.promptTextProperty());
+        editor.editableProperty().bind(control.editableProperty());
+        editor.focusTraversableProperty().bind(control.editableProperty());
+        control.focusedProperty().addListener(observable -> editor.setFakeFocus(control.isFocused()));
+        control.addEventFilter(KeyEvent.ANY, e -> {
+            if (control.isEditable()) {
+                if (e.getTarget().equals(editor)) return;
+
+                if (e.getCode() == KeyCode.ESCAPE) return;
+
+                editor.fireEvent(e.copyFor(editor, editor));
+
+                if (e.getCode() == KeyCode.ENTER) return;
+
+                e.consume();
+            }
+        });
 
         Region clear = new Region();
         clear.getStyleClass().add("clear");
@@ -37,7 +46,7 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
         clearButton.getStyleClass().add("clear-button");
         clearButton.setAccessibleRole(AccessibleRole.BUTTON);
         clearButton.setCursor(Cursor.HAND);
-        clearButton.visibleProperty().bind(filePicker.valueProperty().isNotEmpty());
+        clearButton.visibleProperty().bind(control.valueProperty().isNotEmpty());
         clearButton.setOnMousePressed(event -> {
             event.consume();
             getSkinnable().setValue("");
@@ -59,40 +68,44 @@ public class FilePickerSkin extends SkinBase<FilePicker> {
     }
 
     @Override
-    protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorWidth = snapSizeX(editor.prefWidth(-1));
-        final double clearBtnWidth = snapSizeX(clearButton.prefWidth(-1));
-        final double openChooserBtnWidth = snapSizeX(openButton.prefWidth(-1));
-        return leftInset + editorWidth + clearBtnWidth + openChooserBtnWidth + rightInset;
-    }
-
-    @Override
-    protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        final double editorHeight = snapSizeY(editor.prefHeight(-1));
-        final double clearBtnHeight = snapSizeY(clearButton.prefHeight(-1));
-        final double openChooserBtnHeight = snapSizeY(openButton.prefHeight(-1));
-        return topInset + Math.max(Math.max(editorHeight, clearBtnHeight), openChooserBtnHeight) + bottomInset;
+    protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double editorWidth = snapSizeX(editor.minWidth(-1));
+        double clearButtonWidth = snapSizeX(clearButton.minWidth(-1));
+        double openButtonWidth = snapSizeX(openButton.minWidth(-1));
+        return leftInset + editorWidth + clearButtonWidth + openButtonWidth + rightInset;
     }
 
     @Override
     protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return computePrefHeight(width, topInset, rightInset, bottomInset, leftInset);
+        double editorHeight = snapSizeY(editor.minHeight(-1));
+        double clearButtonHeight = snapSizeY(clearButton.minHeight(-1));
+        double openButtonHeight = snapSizeY(openButton.minHeight(-1));
+        return topInset + Math.max(Math.max(editorHeight, clearButtonHeight), openButtonHeight) + bottomInset;
     }
 
     @Override
-    protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return computePrefHeight(width, topInset, rightInset, bottomInset, leftInset);
+    protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double editorWidth = snapSizeX(editor.prefWidth(-1));
+        double clearButtonWidth = snapSizeX(clearButton.prefWidth(-1));
+        double openButtonWidth = snapSizeX(openButton.prefWidth(-1));
+        return leftInset + editorWidth + clearButtonWidth + openButtonWidth + rightInset;
+    }
+
+    @Override
+    protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        double editorHeight = snapSizeY(editor.prefHeight(-1));
+        double clearButtonHeight = snapSizeY(clearButton.prefHeight(-1));
+        double openButtonHeight = snapSizeY(openButton.prefHeight(-1));
+        return topInset + Math.max(Math.max(editorHeight, clearButtonHeight), openButtonHeight) + bottomInset;
     }
 
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
-        final double openChooserBtnWidth = snapSizeX(openButton.prefWidth(-1));
-        final double clearBtnWidth = snapSizeX(clearButton.prefWidth(-1));
-        final double editorWidth = contentWidth - clearBtnWidth - openChooserBtnWidth;
-        layoutInArea(editor, contentX, contentY, editorWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
-        layoutInArea(clearButton, contentX + editorWidth, contentY,
-                clearBtnWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
-        layoutInArea(openButton, contentX + editorWidth + clearBtnWidth, contentY,
-                openChooserBtnWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
+        double openButtonWidth = snapSizeX(openButton.prefWidth(-1));
+        double clearButtonWidth = snapSizeX(clearButton.prefWidth(-1));
+        double editorWidth = contentWidth - clearButtonWidth - openButtonWidth;
+        editor.resizeRelocate(contentX, contentY, editorWidth, contentHeight);
+        clearButton.resizeRelocate(contentX + editorWidth, contentY, clearButtonWidth, contentHeight);
+        openButton.resizeRelocate(contentX + editorWidth + clearButtonWidth, contentY, openButtonWidth, contentHeight);
     }
 }

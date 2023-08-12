@@ -24,10 +24,14 @@ public class FilePicker extends Control {
         OPEN_FILE, OPEN_DIRECTORY, SAVE_FILE
     }
 
-    public FilePicker() {
-        getStyleClass().setAll("file-picker");
+    public FilePicker(Type type) {
+        this();
+        setType(type);
+    }
 
-        setFocusTraversable(false);
+    public FilePicker() {
+        getStyleClass().add("file-picker");
+        setFocusTraversable(true);
 
         addEventHandler(DragEvent.DRAG_OVER, event -> {
             event.consume();
