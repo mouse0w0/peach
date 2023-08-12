@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.form;
 
-import com.github.mouse0w0.peach.javafx.util.ScrollPanes;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
@@ -17,7 +16,6 @@ public class FormView extends Region {
 
         scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
-        ScrollPanes.fixVerticalScroll(scrollPane);
         getChildren().add(scrollPane);
 
         container = new VBox();
