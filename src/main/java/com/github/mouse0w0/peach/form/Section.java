@@ -61,7 +61,6 @@ public class Section extends Group {
     protected Node createNode() {
         TitledPane titledPane = new TitledPane();
         titledPane.setFocusTraversable(false);
-        titledPane.setMaxWidth(Double.MAX_VALUE);
         titledPane.textProperty().bind(textProperty());
         titledPane.collapsibleProperty().bind(collapsibleProperty());
         titledPane.visibleProperty().bind(visibleProperty());

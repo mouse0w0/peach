@@ -112,7 +112,6 @@ public class Group {
 
     protected Node createNode() {
         GridPane gridPane = new GridPane();
-        gridPane.setMaxWidth(Double.MAX_VALUE);
         gridPane.getColumnConstraints().setAll(Utils.COLUMN_CONSTRAINTS);
         gridPane.visibleProperty().bind(visibleProperty());
         gridPane.managedProperty().bind(visibleProperty());
