@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.project.service;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
-import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
@@ -41,7 +40,6 @@ public class FileChooserHelper implements PersistentService {
     public void register(FilePicker filePicker, String id) {
         filePicker.valueProperty().addListener(textInvalidationListener);
         filePicker.getProperties().put(FILE_CHOOSER_ID, id);
-        filePicker.setTitle(AppL10n.localize("fileChooser." + id + ".title"));
         File initialDirectory = lastInitialDirectories.get(id);
         if (initialDirectory != null) {
             filePicker.setInitialDirectory(initialDirectory);
@@ -60,9 +58,9 @@ public class FileChooserHelper implements PersistentService {
         }
     }
 
-    public File open(Window owner, String id, File initialDirectory, FileChooser.ExtensionFilter... filters) {
+    public File open(Window owner, String id, String title, File initialDirectory, FileChooser.ExtensionFilter... filters) {
         Validate.notNull(id);
-        FileChooser fileChooser = createFileChooser(id, initialDirectory, filters);
+        FileChooser fileChooser = createFileChooser(id, title, initialDirectory, filters);
         File file = fileChooser.showOpenDialog(owner);
         if (file != null) {
             lastInitialDirectories.put(id, file.getParentFile());
@@ -70,9 +68,9 @@ public class FileChooserHelper implements PersistentService {
         return file;
     }
 
-    public List<File> openMultiple(Window owner, String id, File initialDirectory, FileChooser.ExtensionFilter... filters) {
+    public List<File> openMultiple(Window owner, String title, String id, File initialDirectory, FileChooser.ExtensionFilter... filters) {
         Validate.notNull(id);
-        FileChooser fileChooser = createFileChooser(id, initialDirectory, filters);
+        FileChooser fileChooser = createFileChooser(id, title, initialDirectory, filters);
         List<File> file = fileChooser.showOpenMultipleDialog(owner);
         if (file != null) {
             lastInitialDirectories.put(id, file.get(0).getParentFile());
@@ -80,9 +78,9 @@ public class FileChooserHelper implements PersistentService {
         return file;
     }
 
-    public File save(Window owner, String id, File initialDirectory, String initialFileName, FileChooser.ExtensionFilter... filters) {
+    public File save(Window owner, String id, String title, File initialDirectory, String initialFileName, FileChooser.ExtensionFilter... filters) {
         Validate.notNull(id);
-        FileChooser fileChooser = createFileChooser(id, initialDirectory, filters);
+        FileChooser fileChooser = createFileChooser(id, title, initialDirectory, filters);
         fileChooser.setInitialFileName(initialFileName);
         File file = fileChooser.showSaveDialog(owner);
         if (file != null) {
@@ -91,9 +89,9 @@ public class FileChooserHelper implements PersistentService {
         return file;
     }
 
-    private FileChooser createFileChooser(String id, File initialDirectory, FileChooser.ExtensionFilter[] filters) {
+    private FileChooser createFileChooser(String id, String title, File initialDirectory, FileChooser.ExtensionFilter[] filters) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(AppL10n.localize("fileChooser." + id + ".title"));
+        fileChooser.setTitle(title);
         File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);
         if (realInitialDirectory != null && realInitialDirectory.exists()) {
             fileChooser.setInitialDirectory(realInitialDirectory);
@@ -102,10 +100,10 @@ public class FileChooserHelper implements PersistentService {
         return fileChooser;
     }
 
-    public File openDirectory(Window owner, String id, File initialDirectory) {
+    public File openDirectory(Window owner, String id, String title, File initialDirectory) {
         Validate.notNull(id);
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(AppL10n.localize("fileChooser." + id + ".title"));
+        directoryChooser.setTitle(title);
         File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);
         if (realInitialDirectory != null && realInitialDirectory.exists()) {
             directoryChooser.setInitialDirectory(realInitialDirectory);

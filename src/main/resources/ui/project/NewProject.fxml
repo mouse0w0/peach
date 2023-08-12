@@ -27,7 +27,8 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%dialog.newProject.path"
                               GridPane.rowIndex="1"/>
                         <TextField fx:id="name" text="untitled" GridPane.columnIndex="1"/>
-                        <FilePicker fx:id="path" type="OPEN_DIRECTORY" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <FilePicker fx:id="path" type="OPEN_DIRECTORY" title="%fileChooser.newProject.title"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                     </children>
                 </GridPane>
                 <FlowPane alignment="CENTER_RIGHT" hgap="10.0">

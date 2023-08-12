@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
+import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.generator.Generator;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.project.Project;
@@ -38,7 +39,7 @@ public class ExportProjectAction extends Action {
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 
-            File file = FileChooserHelper.getInstance().save(null, "mcmod.export", null, fileName,
+            File file = FileChooserHelper.getInstance().save(null, "mcmod.export", AppL10n.localize("fileChooser.mcmod.export.title"), null, fileName,
                     ExtensionFilters.JAR);
             if (file != null) {
                 FileUtils.forceCopy(generator.getOutputFolder().resolve("artifacts/" + fileName), file.toPath());
