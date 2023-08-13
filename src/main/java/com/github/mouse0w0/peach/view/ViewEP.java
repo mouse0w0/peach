@@ -3,9 +3,9 @@ package com.github.mouse0w0.peach.view;
 import com.github.mouse0w0.peach.extension.Attribute;
 import com.github.mouse0w0.peach.extension.ExtensionPointName;
 import com.github.mouse0w0.peach.extension.PluginAware;
-import com.github.mouse0w0.peach.javafx.control.EightPos;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginException;
+import com.github.mouse0w0.peach.ui.control.EightPos;
 import com.github.mouse0w0.peach.util.LazyInitializer;
 
 public final class ViewEP implements PluginAware {

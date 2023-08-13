@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.project.service;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.javafx.control.FilePicker;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
+import com.github.mouse0w0.peach.ui.control.FilePicker;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

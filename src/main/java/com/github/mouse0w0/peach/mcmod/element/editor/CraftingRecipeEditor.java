@@ -1,7 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
-import com.github.mouse0w0.peach.javafx.util.Validator;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
@@ -10,6 +8,8 @@ import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

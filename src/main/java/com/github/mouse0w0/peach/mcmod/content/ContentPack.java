@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.i18n.Translator;
 import com.github.mouse0w0.i18n.source.FileTranslationSource;
-import com.github.mouse0w0.peach.javafx.util.ImageUtils;
 import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.ui.util.ImageUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.github.mouse0w0.version.VersionRange;
 import com.google.gson.JsonArray;

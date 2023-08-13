@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.ui.control.FilePicker;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;

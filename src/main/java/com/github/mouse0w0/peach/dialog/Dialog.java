@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.dialog;
 
 import com.github.mouse0w0.peach.icon.AppIcon;
-import com.github.mouse0w0.peach.javafx.control.ButtonType;
+import com.github.mouse0w0.peach.ui.control.ButtonType;
 import com.sun.javafx.tk.Toolkit;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;

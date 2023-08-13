@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.cell;
 
-import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.ui.popup.AttributeModifierPopup;
+import com.github.mouse0w0.peach.ui.control.TagCell;
 
 public final class AttributeModifierCell extends TagCell<AttributeModifier> {
     private static final AttributeModifierPopup EDITOR = new AttributeModifierPopup();

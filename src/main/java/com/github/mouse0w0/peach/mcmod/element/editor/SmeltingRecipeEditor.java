@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Spinner;

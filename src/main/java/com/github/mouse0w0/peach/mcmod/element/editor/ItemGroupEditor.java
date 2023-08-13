@@ -1,9 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.javafx.control.FilePicker;
-import com.github.mouse0w0.peach.javafx.util.ExtensionFilters;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
-import com.github.mouse0w0.peach.javafx.util.Validator;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
@@ -12,6 +8,10 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.FilePicker;
+import com.github.mouse0w0.peach.ui.util.ExtensionFilters;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;

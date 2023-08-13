@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.cell;
 
-import com.github.mouse0w0.peach.javafx.control.TagCell;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.ui.popup.ToolAttributePopup;
+import com.github.mouse0w0.peach.ui.control.TagCell;
 
 public final class ToolAttributeCell extends TagCell<ToolAttribute> {
     private static final ToolAttributePopup EDITOR = new ToolAttributePopup();

@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.element.provider;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
-import com.github.mouse0w0.peach.javafx.util.ImageUtils;
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.Item;
@@ -14,6 +13,7 @@ import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.util.ImageUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.collect.Iterables;
 

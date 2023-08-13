@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.dialog;
 
-import com.github.mouse0w0.peach.javafx.control.ButtonType;
+import com.github.mouse0w0.peach.ui.control.ButtonType;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;

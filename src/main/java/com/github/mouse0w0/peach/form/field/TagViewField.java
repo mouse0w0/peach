@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.javafx.control.TagCell;
-import com.github.mouse0w0.peach.javafx.control.TagView;
+import com.github.mouse0w0.peach.ui.control.TagCell;
+import com.github.mouse0w0.peach.ui.control.TagView;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

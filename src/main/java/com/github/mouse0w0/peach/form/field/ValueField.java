@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.javafx.util.Check;
-import com.github.mouse0w0.peach.javafx.util.MessagePopup;
+import com.github.mouse0w0.peach.ui.util.Check;
+import com.github.mouse0w0.peach.ui.util.MessagePopup;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyBooleanProperty;

@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.form.field;
 
-import com.github.mouse0w0.peach.javafx.util.Spinners;
+import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;

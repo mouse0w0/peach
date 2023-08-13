@@ -2,11 +2,11 @@ package com.github.mouse0w0.peach.newProject;
 
 import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.icon.AppIcon;
-import com.github.mouse0w0.peach.javafx.layout.Container;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.ui.layout.Container;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.mcmod.newProject;
 
-import com.github.mouse0w0.peach.javafx.control.FilePicker;
-import com.github.mouse0w0.peach.javafx.util.GridPanes;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.newProject.NewProjectBuilder;
 import com.github.mouse0w0.peach.newProject.NewProjectContext;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.FilePicker;
+import com.github.mouse0w0.peach.ui.util.GridPanes;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

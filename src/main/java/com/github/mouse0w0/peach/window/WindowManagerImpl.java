@@ -2,10 +2,10 @@ package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionHolder;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
-import com.github.mouse0w0.peach.javafx.util.FocusUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.ui.util.FocusUtils;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import com.sun.javafx.scene.control.MenuBarButton;
 import javafx.beans.InvalidationListener;

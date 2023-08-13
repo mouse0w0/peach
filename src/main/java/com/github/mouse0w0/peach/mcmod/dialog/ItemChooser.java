@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.dialog;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
-import com.github.mouse0w0.peach.javafx.util.FXUtils;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
@@ -10,6 +9,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.animation.KeyFrame;
