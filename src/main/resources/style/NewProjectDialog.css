@@ -1,0 +1,29 @@
+.list-cell {
+    -fx-padding: 0.5em 1em;
+}
+
+.list-cell:odd {
+    -fx-background-color: transparent;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: -peach-hover-color;
+}
+
+.list-view:focused > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+    -fx-background-color: -peach-focus-color;
+    -fx-text-fill: black;
+}
+
+.list-cell:focused {
+    -fx-background-color: -peach-focus-color;
+    -fx-text-fill: black;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: -peach-foreground-color;
+}
+
+.scroll-pane > .viewport > * > * {
+    -fx-padding: 16px;
+}

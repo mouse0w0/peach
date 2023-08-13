@@ -10,6 +10,7 @@
         <extensionPoint name="view" beanClass="com.github.mouse0w0.peach.view.ViewEP"/>
         <extensionPoint name="fileAppearance" interface="com.github.mouse0w0.peach.file.FileAppearance"/>
         <extensionPoint name="fileEditorProvider" interface="com.github.mouse0w0.peach.fileEditor.FileEditorProvider"/>
+        <extensionPoint name="newProjectProvider" interface="com.github.mouse0w0.peach.newProject.NewProjectProvider"/>
     </extensionPoints>
 
     <extensions namespace="peach">
@@ -80,6 +81,8 @@
 
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.MetadataFileEditorProvider"/>
         <fileEditorProvider implementation="com.github.mouse0w0.peach.mcmod.fileEditor.ElementFileEditorProvider"/>
+
+        <newProjectProvider implementation="com.github.mouse0w0.peach.mcmod.newProject.ForgeNewProjectProvider"/>
     </extensions>
 
     <actions>
