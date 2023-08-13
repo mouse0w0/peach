@@ -6,11 +6,11 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FXApplication extends Application {
+public final class FXApplication extends Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(FXApplication.class);
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         LOGGER.info("Starting JavaFX Application.");
         WelcomeUI.show();
         LOGGER.info("Started JavaFX Application.");
