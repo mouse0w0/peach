@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.newProject;
 
 import com.github.mouse0w0.peach.javafx.control.FilePicker;
+import com.github.mouse0w0.peach.javafx.util.GridPanes;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.newProject.NewProjectBuilder;
 import com.github.mouse0w0.peach.newProject.NewProjectContext;
@@ -8,9 +9,7 @@ import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 
 public final class ForgeNewProjectBuilder implements NewProjectBuilder {
     private final GridPane grid = new GridPane();
@@ -18,10 +17,7 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
     private final FilePicker path = new FilePicker(FilePicker.Type.OPEN_DIRECTORY);
 
     public ForgeNewProjectBuilder() {
-        ColumnConstraints primaryColumnConstraints = new ColumnConstraints();
-        ColumnConstraints secondaryColumnConstraints = new ColumnConstraints();
-        secondaryColumnConstraints.setHgrow(Priority.ALWAYS);
-        grid.getColumnConstraints().addAll(primaryColumnConstraints, secondaryColumnConstraints);
+        grid.getColumnConstraints().addAll(GridPanes.DEFAULT_COLUMN_CONSTRAINTS, GridPanes.HGROW_COLUMN_CONSTRAINTS);
         grid.setHgap(16);
         grid.setVgap(12);
         grid.addRow(0, new Label(AppL10n.localize("dialog.newProject.name")), name);
