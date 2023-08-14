@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.ui;
 
-import com.github.mouse0w0.peach.welcome.WelcomeUI;
+import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.welcome.WelcomeWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -12,7 +13,12 @@ public final class FXApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         LOGGER.info("Starting JavaFX Application.");
-        WelcomeUI.show();
+        WelcomeWindow.showNow();
         LOGGER.info("Started JavaFX Application.");
+    }
+
+    @Override
+    public void stop() {
+        Peach.getInstance().exit(true);
     }
 }

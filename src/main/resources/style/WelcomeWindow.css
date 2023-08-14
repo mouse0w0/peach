@@ -1,0 +1,36 @@
+#welcome-window .button {
+    -fx-background-color: transparent;
+}
+
+#welcome-window .button:hover,
+#welcome-window .button:focused {
+    -fx-text-fill: #0096c9;
+}
+
+#welcome-window #version {
+    -fx-padding: 0.5em;
+    -fx-text-fill: #808080;
+}
+
+#project-list-view,
+#project-list-view:focused {
+    -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+#project-list-view:focused .list-cell:filled:selected,
+#project-list-view:focused .list-cell:odd:filled:selected {
+    -fx-background-color: -fx-background;
+    -fx-background-insets: 0;
+}
+
+#project-list-view .list-cell:odd,
+#project-list-view:focused .list-cell:odd {
+    -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
+}
+
+#project-list-view .list-cell.path-not-exists {
+    -fx-text-fill: red;
+}
