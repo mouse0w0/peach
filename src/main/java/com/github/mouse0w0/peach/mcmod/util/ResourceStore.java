@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import com.github.mouse0w0.peach.dialog.Alert;
+import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

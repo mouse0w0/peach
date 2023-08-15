@@ -3,9 +3,9 @@ package com.github.mouse0w0.peach.action.edit;
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
-import com.github.mouse0w0.peach.dialog.Alert;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.util.FileUtils;
 
 import java.nio.file.Files;

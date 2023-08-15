@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import com.github.mouse0w0.peach.dialog.LowercaseRenameDialog;
-import com.github.mouse0w0.peach.dialog.PasteDialog;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
+import com.github.mouse0w0.peach.ui.dialog.LowercaseRenameDialog;
+import com.github.mouse0w0.peach.ui.dialog.PasteDialog;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.scene.image.Image;

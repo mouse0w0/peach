@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.dialog;
+package com.github.mouse0w0.peach.ui.dialog;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.ui.control.ButtonType;

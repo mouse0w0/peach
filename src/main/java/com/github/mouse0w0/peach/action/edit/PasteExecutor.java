@@ -1,10 +1,10 @@
 package com.github.mouse0w0.peach.action.edit;
 
-import com.github.mouse0w0.peach.dialog.Alert;
-import com.github.mouse0w0.peach.dialog.PasteDialog;
-import com.github.mouse0w0.peach.dialog.RenameDialog;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
+import com.github.mouse0w0.peach.ui.dialog.Alert;
+import com.github.mouse0w0.peach.ui.dialog.PasteDialog;
+import com.github.mouse0w0.peach.ui.dialog.RenameDialog;
 import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
