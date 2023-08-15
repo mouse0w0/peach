@@ -1,10 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.form.ColSpan;
-import com.github.mouse0w0.peach.form.Form;
-import com.github.mouse0w0.peach.form.FormView;
-import com.github.mouse0w0.peach.form.Section;
-import com.github.mouse0w0.peach.form.field.*;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
@@ -21,6 +16,11 @@ import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.form.ColSpan;
+import com.github.mouse0w0.peach.ui.form.Form;
+import com.github.mouse0w0.peach.ui.form.FormView;
+import com.github.mouse0w0.peach.ui.form.Section;
+import com.github.mouse0w0.peach.ui.form.field.*;
 import com.github.mouse0w0.peach.ui.util.Check;
 import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.InvalidationListener;

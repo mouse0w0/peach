@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form.field;
+package com.github.mouse0w0.peach.ui.form.field;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;

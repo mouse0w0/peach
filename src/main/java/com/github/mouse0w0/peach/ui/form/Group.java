@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form;
+package com.github.mouse0w0.peach.ui.form;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;

@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.peach.form.field.Field;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.ui.control.ImagePicker;
+import com.github.mouse0w0.peach.ui.form.field.Field;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;

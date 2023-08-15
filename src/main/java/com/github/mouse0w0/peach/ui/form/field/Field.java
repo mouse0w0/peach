@@ -1,6 +1,6 @@
-package com.github.mouse0w0.peach.form.field;
+package com.github.mouse0w0.peach.ui.form.field;
 
-import com.github.mouse0w0.peach.form.Element;
+import com.github.mouse0w0.peach.ui.form.Element;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Node;

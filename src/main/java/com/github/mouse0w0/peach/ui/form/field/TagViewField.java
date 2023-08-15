@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form.field;
+package com.github.mouse0w0.peach.ui.form.field;
 
 import com.github.mouse0w0.peach.ui.control.TagCell;
 import com.github.mouse0w0.peach.ui.control.TagView;

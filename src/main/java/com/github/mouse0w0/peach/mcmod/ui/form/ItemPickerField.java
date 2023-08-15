@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.peach.form.field.ValueField;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
+import com.github.mouse0w0.peach.ui.form.field.ValueField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;

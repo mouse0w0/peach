@@ -1,17 +1,17 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
-import com.github.mouse0w0.peach.form.ColSpan;
-import com.github.mouse0w0.peach.form.Form;
-import com.github.mouse0w0.peach.form.FormView;
-import com.github.mouse0w0.peach.form.Section;
-import com.github.mouse0w0.peach.form.field.ChoiceBoxField;
-import com.github.mouse0w0.peach.form.field.ComboBoxField;
-import com.github.mouse0w0.peach.form.field.TextFieldField;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.form.ColSpan;
+import com.github.mouse0w0.peach.ui.form.Form;
+import com.github.mouse0w0.peach.ui.form.FormView;
+import com.github.mouse0w0.peach.ui.form.Section;
+import com.github.mouse0w0.peach.ui.form.field.ChoiceBoxField;
+import com.github.mouse0w0.peach.ui.form.field.ComboBoxField;
+import com.github.mouse0w0.peach.ui.form.field.TextFieldField;
 import com.github.mouse0w0.peach.ui.util.Check;
 import javafx.scene.Node;
 import javafx.util.StringConverter;

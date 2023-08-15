@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form;
+package com.github.mouse0w0.peach.ui.form;
 
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;

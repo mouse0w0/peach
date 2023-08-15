@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.form;
+package com.github.mouse0w0.peach.ui.form;
 
 public enum ColSpan {
     ONE(12),
