@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.dialog;
+package com.github.mouse0w0.peach.mcmod.ui.dialog;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;

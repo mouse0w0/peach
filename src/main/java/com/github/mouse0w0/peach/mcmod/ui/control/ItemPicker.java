@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.dialog.ItemChooser;
+import com.github.mouse0w0.peach.mcmod.ui.dialog.ItemChooser;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.input.MouseButton;
