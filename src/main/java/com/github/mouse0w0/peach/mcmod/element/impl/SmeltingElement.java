@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 
-public class MESmeltingRecipe extends Element {
+public class SmeltingElement extends Element {
 
     private ItemRef input;
     private ItemStack output;

@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode;
 
-import com.github.mouse0w0.peach.mcmod.element.impl.MESmeltingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingElement;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import org.objectweb.asm.MethodVisitor;
 
@@ -59,7 +59,7 @@ public class SmeltingRecipeLoaderClassGenerator extends ClassGenerator {
         }
     }
 
-    public void visitSmelting(MESmeltingRecipe smelting) {
+    public void visitSmelting(SmeltingElement smelting) {
 
         ASMUtils.push(initMethod, smelting.getInput().getId());
         ASMUtils.push(initMethod, smelting.getInput().getMetadata());

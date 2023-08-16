@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.CraftingElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
 import com.google.gson.JsonArray;
@@ -15,7 +15,7 @@ public class GenCraftingRecipe implements Task {
 
     @Override
     public void run(Context context) throws Exception {
-        for (MECraftingRecipe crafting : context.getElements(MECraftingRecipe.class)) {
+        for (CraftingElement crafting : context.getElements(CraftingElement.class)) {
             JsonObject jo = new JsonObject();
             if (crafting.isShapeless()) {
                 generateShapeless(crafting, jo);
@@ -27,7 +27,7 @@ public class GenCraftingRecipe implements Task {
         }
     }
 
-    private void generateResult(MECraftingRecipe recipe, JsonObject jo) {
+    private void generateResult(CraftingElement recipe, JsonObject jo) {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
         result.addProperty("item", itemStack.getId());
@@ -36,7 +36,7 @@ public class GenCraftingRecipe implements Task {
         jo.add("result", result);
     }
 
-    private void generateShaped(MECraftingRecipe recipe, JsonObject jo) {
+    private void generateShaped(CraftingElement recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shaped");
         JsonArray pattern = new JsonArray();
         Map<ItemRef, Character> keyMap = new HashMap<>();
@@ -87,7 +87,7 @@ public class GenCraftingRecipe implements Task {
         return pattern;
     }
 
-    private void generateShapeless(MECraftingRecipe recipe, JsonObject jo) {
+    private void generateShapeless(CraftingElement recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shapeless");
         JsonArray ingredients = new JsonArray();
         for (ItemRef input : recipe.getInputs()) {

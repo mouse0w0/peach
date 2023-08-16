@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemEditor;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
@@ -22,15 +22,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class ItemProvider extends ElementProvider<MEItem> {
+public class ItemProvider extends ElementProvider<ItemElement> {
     public ItemProvider() {
-        super(MEItem.class, "item");
+        super(ItemElement.class, "item");
     }
 
     @Override
-    public MEItem newElement(Project project, Path file, String identifier, String name) {
+    public ItemElement newElement(Project project, Path file, String identifier, String name) {
         final IndexManager indexManager = IndexManager.getInstance(project);
-        final MEItem item = new MEItem();
+        final ItemElement item = new ItemElement();
         item.setFile(file);
         item.setIdentifier(identifier);
         item.setDisplayName(name);
@@ -42,12 +42,12 @@ public class ItemProvider extends ElementProvider<MEItem> {
     }
 
     @Override
-    public FileEditor newEditor(Project project, MEItem element) {
+    public FileEditor newEditor(Project project, ItemElement element) {
         return new ItemEditor(project, element);
     }
 
     @Override
-    public Object[] addIndex(Project project, IndexProvider provider, MEItem element) {
+    public Object[] addIndex(Project project, IndexProvider provider, ItemElement element) {
         String modId = McModDescriptor.getInstance(project).getModId();
 
         Item item = new Item(element.getIdentifier(), 0, null, false);

@@ -3,21 +3,21 @@ package com.github.mouse0w0.peach.mcmod.element.provider;
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.mcmod.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemGroupEditor;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.nio.file.Path;
 
-public class ItemGroupProvider extends ElementProvider<MEItemGroup> {
+public class ItemGroupProvider extends ElementProvider<ItemGroupElement> {
     public ItemGroupProvider() {
-        super(MEItemGroup.class, "group");
+        super(ItemGroupElement.class, "group");
     }
 
     @Override
-    public MEItemGroup newElement(Project project, Path file, String identifier, String name) {
-        final MEItemGroup itemGroup = new MEItemGroup();
+    public ItemGroupElement newElement(Project project, Path file, String identifier, String name) {
+        final ItemGroupElement itemGroup = new ItemGroupElement();
         itemGroup.setFile(file);
         itemGroup.setIdentifier(identifier);
         itemGroup.setDisplayName(name);
@@ -25,12 +25,12 @@ public class ItemGroupProvider extends ElementProvider<MEItemGroup> {
     }
 
     @Override
-    public FileEditor newEditor(Project project, MEItemGroup element) {
+    public FileEditor newEditor(Project project, ItemGroupElement element) {
         return new ItemGroupEditor(project, element);
     }
 
     @Override
-    public Object[] addIndex(Project project, IndexProvider provider, MEItemGroup element) {
+    public Object[] addIndex(Project project, IndexProvider provider, ItemGroupElement element) {
         ItemGroup itemGroup = new ItemGroup(element.getIdentifier(), null, element.getIcon());
         itemGroup.setLocalizedText(element.getDisplayName());
 

@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
@@ -31,7 +31,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemEditor extends ElementEditor<MEItem> {
+public class ItemEditor extends ElementEditor<ItemElement> {
 
     private final IndexManager indexManager;
 
@@ -76,7 +76,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     private RadioButtonField alwaysEdible;
     private ItemPickerField foodContainer;
 
-    public ItemEditor(@NotNull Project project, @NotNull MEItem element) {
+    public ItemEditor(@NotNull Project project, @NotNull ItemElement element) {
         super(project, element);
         indexManager = IndexManager.getInstance(project);
     }
@@ -380,7 +380,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     }
 
     @Override
-    protected void initialize(MEItem item) {
+    protected void initialize(ItemElement item) {
         identifier.setValue(item.getIdentifier());
         displayName.setValue(item.getDisplayName());
         type.setValue(item.getType());
@@ -421,7 +421,7 @@ public class ItemEditor extends ElementEditor<MEItem> {
     }
 
     @Override
-    protected void updateDataModel(MEItem item) {
+    protected void updateDataModel(ItemElement item) {
         item.setIdentifier(identifier.getValue().trim());
         item.setDisplayName(displayName.getValue().trim());
         item.setType(type.getValue());

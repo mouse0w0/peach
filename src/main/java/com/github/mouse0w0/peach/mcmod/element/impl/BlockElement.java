@@ -8,7 +8,7 @@ import com.github.mouse0w0.peach.util.ArrayUtils;
 import java.util.Collections;
 import java.util.Map;
 
-public class MEBlock extends Element implements LocalizableElement {
+public class BlockElement extends Element implements LocalizableElement {
     public static final BoundingBox FULL_BLOCK = new BoundingBox(0, 0, 0, 1, 1, 1);
 
     private String identifier;

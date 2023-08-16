@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.editor.BlockEditor;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
+import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
@@ -20,15 +20,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class BlockProvider extends ElementProvider<MEBlock> {
+public class BlockProvider extends ElementProvider<BlockElement> {
     public BlockProvider() {
-        super(MEBlock.class, "block");
+        super(BlockElement.class, "block");
     }
 
     @Override
-    public MEBlock newElement(Project project, Path file, String identifier, String name) {
+    public BlockElement newElement(Project project, Path file, String identifier, String name) {
         final IndexManager indexManager = IndexManager.getInstance(project);
-        final MEBlock block = new MEBlock();
+        final BlockElement block = new BlockElement();
         block.setFile(file);
         block.setIdentifier(identifier);
         block.setDisplayName(name);
@@ -41,12 +41,12 @@ public class BlockProvider extends ElementProvider<MEBlock> {
     }
 
     @Override
-    public FileEditor newEditor(Project project, MEBlock element) {
+    public FileEditor newEditor(Project project, BlockElement element) {
         return new BlockEditor(project, element);
     }
 
     @Override
-    public Object[] addIndex(Project project, IndexProvider provider, MEBlock element) {
+    public Object[] addIndex(Project project, IndexProvider provider, BlockElement element) {
         if (element.isDoNotRegisterItem()) return null;
 
         String modId = McModDescriptor.getInstance(project).getModId();

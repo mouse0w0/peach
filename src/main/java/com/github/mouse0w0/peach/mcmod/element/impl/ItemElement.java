@@ -8,7 +8,7 @@ import com.github.mouse0w0.peach.util.ArrayUtils;
 import java.util.Collections;
 import java.util.Map;
 
-public class MEItem extends Element implements LocalizableElement {
+public class ItemElement extends Element implements LocalizableElement {
 
     private String identifier;
     private String displayName;

@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 
-public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
+public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemGroupEditor.class);
 
     private final ResourceStore backgroundStore;
@@ -46,7 +46,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     private FilePicker background;
     private ItemView icon;
 
-    public ItemGroupEditor(@NotNull Project project, @NotNull MEItemGroup element) {
+    public ItemGroupEditor(@NotNull Project project, @NotNull ItemGroupElement element) {
         super(project, element);
         this.backgroundStore = new ResourceStore(
                 ResourceUtils.getResourcePath(project, ResourceUtils.TEXTURES),
@@ -84,7 +84,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     }
 
     @Override
-    protected void initialize(MEItemGroup element) {
+    protected void initialize(ItemGroupElement element) {
         identifier.setText(element.getIdentifier());
         displayName.setText(element.getDisplayName());
         hasSearchBar.setSelected(element.isHasSearchBar());
@@ -93,7 +93,7 @@ public class ItemGroupEditor extends ElementEditor<MEItemGroup> {
     }
 
     @Override
-    protected void updateDataModel(MEItemGroup element) {
+    protected void updateDataModel(ItemGroupElement element) {
         element.setIdentifier(identifier.getText().trim());
         element.setDisplayName(displayName.getText());
         element.setHasSearchBar(hasSearchBar.isSelected());

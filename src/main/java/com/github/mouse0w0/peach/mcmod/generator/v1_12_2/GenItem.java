@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItem;
+import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.Filer;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
@@ -31,7 +31,7 @@ public class GenItem implements Task {
         String classBlockLoader = context.getInternalName("block/BlockLoader");
         String classBlockItem = null;
         String classSlabItem = null;
-        for (MEBlock block : context.getElements(MEBlock.class)) {
+        for (BlockElement block : context.getElements(BlockElement.class)) {
             if (block.isDoNotRegisterItem()) continue;
             if (Objects.requireNonNull(block.getType()) == BlockType.SLAB) {
                 if (classSlabItem == null) {
@@ -55,7 +55,7 @@ public class GenItem implements Task {
         }
 
         String classItemGroups = context.getInternalName("init/ItemGroups");
-        for (MEItem item : context.getElements(MEItem.class)) {
+        for (ItemElement item : context.getElements(ItemElement.class)) {
             String namespace = context.getNamespace();
             String identifier = item.getIdentifier();
 

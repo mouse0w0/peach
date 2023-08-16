@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
-import com.github.mouse0w0.peach.mcmod.element.impl.MEItemGroup;
+import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
 import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
@@ -13,7 +13,7 @@ public class GenItemGroup implements Task {
     public void run(Context context) throws Exception {
         ItemGroupLoaderClassGenerator loader = new ItemGroupLoaderClassGenerator(context.getInternalName("itemGroup/ItemGroupLoader"));
 
-        for (MEItemGroup itemGroup : context.getElements(MEItemGroup.class)) {
+        for (ItemGroupElement itemGroup : context.getElements(ItemGroupElement.class)) {
             String className = context.getInternalName("itemGroup/" + JavaUtils.lowerUnderscoreToUpperCamel(itemGroup.getIdentifier()) + "ItemGroup");
 
             ItemGroupClassGenerator cg = new ItemGroupClassGenerator(className);

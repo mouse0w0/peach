@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
+import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
@@ -30,7 +30,7 @@ import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 
-public class BlockEditor extends ElementEditor<MEBlock> {
+public class BlockEditor extends ElementEditor<BlockElement> {
     private final IndexManager indexManager;
 
     private Form form;
@@ -86,7 +86,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     private ChoiceBoxField<PathNodeType> aiPathNodeType;
 //    private Object pickItem; // TODO
 
-    public BlockEditor(@NotNull Project project, @NotNull MEBlock element) {
+    public BlockEditor(@NotNull Project project, @NotNull BlockElement element) {
         super(project, element);
         indexManager = IndexManager.getInstance(project);
     }
@@ -378,7 +378,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     }
 
     @Override
-    protected void initialize(MEBlock element) {
+    protected void initialize(BlockElement element) {
         identifier.setValue(element.getIdentifier());
         displayName.setValue(element.getDisplayName());
         type.setValue(element.getType());
@@ -433,7 +433,7 @@ public class BlockEditor extends ElementEditor<MEBlock> {
     }
 
     @Override
-    protected void updateDataModel(MEBlock element) {
+    protected void updateDataModel(BlockElement element) {
         element.setIdentifier(identifier.getValue().trim());
         element.setDisplayName(displayName.getValue());
         element.setType(type.getValue());

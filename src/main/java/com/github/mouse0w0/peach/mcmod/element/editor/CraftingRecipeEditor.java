@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
-import com.github.mouse0w0.peach.mcmod.element.impl.MECraftingRecipe;
+import com.github.mouse0w0.peach.mcmod.element.impl.CraftingElement;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -21,7 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import org.jetbrains.annotations.NotNull;
 
-public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
+public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
 
     private static final Image BACKGROUND = new Image("/image/mcmod/crafting_recipe.png", 560, 312, true, false, true);
 
@@ -38,7 +38,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
     private ItemPicker[] inputs = new ItemPicker[9];
     private ItemStackView output;
 
-    public CraftingRecipeEditor(@NotNull Project project, @NotNull MECraftingRecipe element) {
+    public CraftingRecipeEditor(@NotNull Project project, @NotNull CraftingElement element) {
         super(project, element);
     }
 
@@ -75,7 +75,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
     }
 
     @Override
-    protected void initialize(MECraftingRecipe element) {
+    protected void initialize(CraftingElement element) {
         identifier.setText(element.getIdentifier());
         namespace.setValue(element.getNamespace());
         group.setValue(element.getGroup());
@@ -85,7 +85,7 @@ public class CraftingRecipeEditor extends ElementEditor<MECraftingRecipe> {
     }
 
     @Override
-    protected void updateDataModel(MECraftingRecipe element) {
+    protected void updateDataModel(CraftingElement element) {
         element.setIdentifier(identifier.getText().trim());
         element.setNamespace(namespace.getValue());
         element.setGroup(group.getValue());

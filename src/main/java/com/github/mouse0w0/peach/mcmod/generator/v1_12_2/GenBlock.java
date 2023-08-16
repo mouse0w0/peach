@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
 import com.github.mouse0w0.peach.mcmod.*;
-import com.github.mouse0w0.peach.mcmod.element.impl.MEBlock;
+import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.Filer;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
@@ -34,7 +34,7 @@ public class GenBlock implements Task {
         String classWallBlock = null;
         String classPaneBlock = null;
 
-        for (MEBlock block : context.getElements(MEBlock.class)) {
+        for (BlockElement block : context.getElements(BlockElement.class)) {
             String namespace = context.getNamespace();
             String identifier = block.getIdentifier();
 
@@ -128,9 +128,9 @@ public class GenBlock implements Task {
             if (block.getRenderType() != RenderType.SOLID) cg.visitRenderType(block.getRenderType());
             if (block.getOffsetType() != OffsetType.NONE) cg.visitOffsetType(block.getOffsetType());
 
-            if (block.isNoCollision() || !MEBlock.FULL_BLOCK.equals(block.getBoundingBox())) cg.visitNoFullCube();
+            if (block.isNoCollision() || !BlockElement.FULL_BLOCK.equals(block.getBoundingBox())) cg.visitNoFullCube();
             if (block.isNoCollision()) cg.visitNoCollision();
-            if (!MEBlock.FULL_BLOCK.equals(block.getBoundingBox())) cg.visitBoundingBox(block.getBoundingBox());
+            if (!BlockElement.FULL_BLOCK.equals(block.getBoundingBox())) cg.visitBoundingBox(block.getBoundingBox());
 
             Color beaconColor = Color.valueOf(block.getBeaconColor());
             if (beaconColor.isOpaque()) cg.visitBeaconColor(beaconColor);
