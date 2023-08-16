@@ -14,14 +14,13 @@ import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.MultipleSelectionModel;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -32,28 +31,14 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ItemChooser {
-
-    private static ItemChooser instance;
+public class ItemChooser extends Stage {
+    private final TextField filter;
+    private final RadioButton defaultMode;
+    private final RadioButton ignoreMetadataMode;
+    private final RadioButton oreDictMode;
+    private final GridView<ItemRef> gridView;
 
     private Map<ItemRef, List<Item>> itemMap;
-
-    private Scene scene;
-
-    @FXML
-    private TextField filter;
-
-    @FXML
-    private ToggleGroup mode;
-    @FXML
-    private RadioButton normal;
-    @FXML
-    private RadioButton ignoreMetadata;
-    @FXML
-    private RadioButton oreDict;
-
-    @FXML
-    private GridView<ItemRef> gridView;
 
     private ItemRef defaultItem;
 
@@ -64,33 +49,71 @@ public class ItemChooser {
     }
 
     public static ItemRef pick(Window window, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        if (instance == null) instance = new ItemChooser();
+        ItemChooser itemChooser = new ItemChooser();
         Project project = WindowManager.getInstance().getWindow(window).getProject();
-        instance.init(project, defaultItem != null ? defaultItem : ItemRef.AIR, enableIgnoreMetadata, enableOreDict);
-        Stage stage = new Stage();
-        stage.setScene(instance.scene);
-        stage.setTitle(AppL10n.localize("dialog.itemChooser.title"));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(window);
-        stage.showAndWait();
-        return instance.getSelectedItem();
+        itemChooser.init(project, defaultItem != null ? defaultItem : ItemRef.AIR, enableIgnoreMetadata, enableOreDict);
+        itemChooser.initOwner(window);
+        itemChooser.showAndWait();
+        return itemChooser.getSelectedItem();
     }
 
     private ItemChooser() {
-        scene = new Scene(FXUtils.loadFXML(null, this, "ui/mcmod/ItemChooser.fxml", AppL10n.getResourceBundle()));
+        setTitle(AppL10n.localize("dialog.itemChooser.title"));
+        setWidth(802);
+        setHeight(600);
+        initModality(Modality.APPLICATION_MODAL);
 
+        Label filterLabel = new Label(AppL10n.localize("dialog.itemChooser.filter"));
+        filter = new TextField();
+        filter.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                updateItem();
+                event.consume();
+            }
+        });
+        filter.textProperty().addListener(observable -> filterTimeline.playFromStart());
+
+        defaultMode = new RadioButton(AppL10n.localize("dialog.itemChooser.mode.default"));
+        ignoreMetadataMode = new RadioButton(AppL10n.localize("dialog.itemChooser.mode.ignoreMetadata"));
+        oreDictMode = new RadioButton(AppL10n.localize("dialog.itemChooser.mode.oreDict"));
+
+        ToggleGroup modeGroup = new ToggleGroup();
+        modeGroup.getToggles().addAll(defaultMode, ignoreMetadataMode, oreDictMode);
+        modeGroup.selectedToggleProperty().addListener(observable -> updateItem());
+
+        HBox headerBar = new HBox(10, filterLabel, filter, defaultMode, ignoreMetadataMode, oreDictMode);
+        headerBar.setPadding(new Insets(10));
+
+        gridView = new GridView<>();
         gridView.setCellWidth(32);
         gridView.setCellHeight(32);
         gridView.setVerticalCellSpacing(0);
         gridView.setHorizontalCellSpacing(0);
         gridView.setCellFactory(view -> new Cell());
 
-        filter.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) updateItem();
+        Button ok = new Button(AppL10n.localize("button.ok"));
+        ok.setDefaultButton(true);
+        ok.setOnAction(event -> hide());
+        Button cancel = new Button(AppL10n.localize("button.cancel"));
+        cancel.setCancelButton(true);
+        cancel.setOnAction(event -> {
+            MultipleSelectionModel<ItemRef> selectionModel = gridView.getSelectionModel();
+            selectionModel.clearSelection();
+            selectionModel.select(defaultItem);
+            hide();
         });
-        filter.textProperty().addListener(observable -> filterTimeline.playFromStart());
+        HBox buttonBar = new HBox(ok, cancel);
+        buttonBar.getStyleClass().add("button-bar");
 
-        mode.selectedToggleProperty().addListener(observable -> updateItem());
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(headerBar);
+        borderPane.setCenter(gridView);
+        borderPane.setBottom(buttonBar);
+
+        Scene scene = new Scene(borderPane);
+        FXUtils.addStylesheet(scene, "style/style.css");
+        FXUtils.addStylesheet(scene, "ui/mcmod/ItemChooser.css");
+        setScene(scene);
     }
 
     public ItemRef getDefaultItem() {
@@ -101,31 +124,18 @@ public class ItemChooser {
         return gridView.getSelectionModel().getSelectedItem();
     }
 
-    @FXML
-    private void onFinish() {
-        FXUtils.hideWindow(scene);
-    }
-
-    @FXML
-    private void onCancel() {
-        MultipleSelectionModel<ItemRef> selectionModel = gridView.getSelectionModel();
-        selectionModel.clearSelection();
-        selectionModel.select(defaultItem);
-        FXUtils.hideWindow(scene);
-    }
-
     private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
         this.itemMap = IndexManager.getInstance(project).getIndex(Indexes.ITEMS);
 
 //        filter.setText(null);
 
-        ignoreMetadata.setDisable(!enableIgnoreMetadata);
-        oreDict.setDisable(!enableOreDict);
+        ignoreMetadataMode.setDisable(!enableIgnoreMetadata);
+        oreDictMode.setDisable(!enableOreDict);
 
-        if (defaultItem.isOreDict()) oreDict.setSelected(true);
-        else if (defaultItem.isIgnoreMetadata()) ignoreMetadata.setSelected(true);
-        else normal.setSelected(true);
+        if (defaultItem.isOreDict()) oreDictMode.setSelected(true);
+        else if (defaultItem.isIgnoreMetadata()) ignoreMetadataMode.setSelected(true);
+        else defaultMode.setSelected(true);
 
         updateItem();
 
@@ -142,9 +152,9 @@ public class ItemChooser {
 
     private Predicate<ItemRef> buildItemFilter() {
         Predicate<ItemRef> predicate;
-        if (ignoreMetadata.isSelected()) {
+        if (ignoreMetadataMode.isSelected()) {
             predicate = ItemRef::isIgnoreMetadata;
-        } else if (oreDict.isSelected()) {
+        } else if (oreDictMode.isSelected()) {
             predicate = ItemRef::isOreDict;
         } else {
             predicate = ItemRef::isNormal;
