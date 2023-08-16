@@ -23,8 +23,6 @@ import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -74,7 +72,6 @@ public class ProjectView implements Disposable, DataProvider {
     private TreeView<Path> treeView;
 
     private ContextMenu contextMenu;
-    private EventHandler<Event> onContextMenuRequested;
 
     private FileChangeListener fileChangeListener;
 
@@ -87,14 +84,6 @@ public class ProjectView implements Disposable, DataProvider {
         this.projectPath = project.getPath();
     }
 
-    public Comparator<TreeItem<Path>> getComparator() {
-        return comparator;
-    }
-
-    public void setComparator(Comparator<TreeItem<Path>> comparator) {
-        this.comparator = comparator;
-    }
-
     public Node initViewContent() {
         treeView = new TreeView<>();
         treeView.setId("project-view");
@@ -104,7 +93,7 @@ public class ProjectView implements Disposable, DataProvider {
         DataManager.getInstance().registerDataProvider(treeView, this);
 
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup filePopupMenu = (ActionGroup) actionManager.getAction(ActionGroups.FILE_POPUP_MENU);
+        ActionGroup filePopupMenu = actionManager.getActionGroup(ActionGroups.FILE_POPUP_MENU);
         contextMenu = actionManager.createContextMenu(filePopupMenu);
 
         TreeItem<Path> root = createTreeItem(projectPath);
@@ -226,7 +215,6 @@ public class ProjectView implements Disposable, DataProvider {
             disableProperty().bind(emptyProperty());
 
             setContextMenu(contextMenu);
-            setOnContextMenuRequested(onContextMenuRequested);
             setOnMouseClicked(event -> {
                 Path file = getItem();
                 if (event.getClickCount() == 2 && Files.isRegularFile(file)) {
