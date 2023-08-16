@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class ProjectManagerImpl implements ProjectManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectManagerImpl.class);
 
+    private final ProjectLifecycleListener publisher = Peach.getInstance().getMessageBus().getPublisher(ProjectLifecycleListener.TOPIC);
     private final Map<Path, Project> openedProjects = new ConcurrentHashMap<>();
 
     @Override
@@ -69,7 +71,7 @@ public final class ProjectManagerImpl implements ProjectManager {
             throw new Error();
         }
         openedProjects.put(path, project);
-        Peach.getInstance().getMessageBus().getPublisher(ProjectLifecycleListener.TOPIC).projectOpened(project);
+        publisher.projectOpened(project);
         LOGGER.info("Opened project: {}", project.getName());
         return project;
     }
@@ -77,10 +79,15 @@ public final class ProjectManagerImpl implements ProjectManager {
     @Override
     public boolean closeProject(@NotNull Project project) {
         if (!project.isOpened()) {
-            return true;
+            return false;
         }
 
-        ProjectLifecycleListener publisher = Peach.getInstance().getMessageBus().getPublisher(ProjectLifecycleListener.TOPIC);
+        MutableBoolean cancelled = new MutableBoolean();
+        publisher.canCloseProject(project, cancelled);
+        if (cancelled.isTrue()) {
+            return false;
+        }
+
         publisher.projectClosingBeforeSave(project);
         try {
             project.save();

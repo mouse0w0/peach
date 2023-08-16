@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonElement;
+import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.util.Collection;
@@ -56,6 +57,11 @@ public class RecentProjectManager implements PersistentService {
         @Override
         public void projectOpened(Project project) {
             getInstance().updateRecentProjectInfo(project);
+        }
+
+        @Override
+        public void canCloseProject(Project project, MutableBoolean cancelled) {
+
         }
 
         @Override
