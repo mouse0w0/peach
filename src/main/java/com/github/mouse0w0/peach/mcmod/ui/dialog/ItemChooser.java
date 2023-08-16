@@ -133,7 +133,7 @@ public class ItemChooser extends Stage {
         ignoreMetadataMode.setDisable(!enableIgnoreMetadata);
         oreDictMode.setDisable(!enableOreDict);
 
-        if (defaultItem.isOreDict()) oreDictMode.setSelected(true);
+        if (defaultItem.isOreDictionary()) oreDictMode.setSelected(true);
         else if (defaultItem.isIgnoreMetadata()) ignoreMetadataMode.setSelected(true);
         else defaultMode.setSelected(true);
 
@@ -155,7 +155,7 @@ public class ItemChooser extends Stage {
         if (ignoreMetadataMode.isSelected()) {
             predicate = ItemRef::isIgnoreMetadata;
         } else if (oreDictMode.isSelected()) {
-            predicate = ItemRef::isOreDict;
+            predicate = ItemRef::isOreDictionary;
         } else {
             predicate = ItemRef::isNormal;
         }

@@ -59,7 +59,7 @@ public final class ProjectContentPackManager extends IndexProvider {
     }
 
     private void addOreDict(OreDict oreDict) {
-        List<Item> itemData = getItemDataList(ItemRef.createOreDict(oreDict.getId()));
+        List<Item> itemData = getItemDataList(ItemRef.createOreDictionary(oreDict.getId()));
         oreDict.getEntries().forEach(itemRef -> itemData.addAll(getIndex(Indexes.ITEMS).get(itemRef)));
     }
 

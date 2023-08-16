@@ -100,7 +100,7 @@ public class GenCraftingRecipe implements Task {
 
     private JsonObject itemRefToJson(ItemRef itemRef) {
         JsonObject result = new JsonObject();
-        if (itemRef.isOreDict()) {
+        if (itemRef.isOreDictionary()) {
             result.addProperty("type", "forge:ore_dict");
             result.addProperty("ore", itemRef.getId());
         } else {

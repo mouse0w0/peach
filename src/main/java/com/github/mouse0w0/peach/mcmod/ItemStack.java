@@ -1,11 +1,8 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.peach.util.Validate;
-
 import java.util.Objects;
 
 public class ItemStack {
-
     public static final ItemStack EMPTY = new ItemStack(ItemRef.AIR);
 
     private ItemRef item;
@@ -16,8 +13,8 @@ public class ItemStack {
     }
 
     public ItemStack(ItemRef item, int amount) {
-        this.item = Validate.notNull(item);
-        this.amount = amount;
+        setItem(item);
+        setAmount(amount);
     }
 
     public ItemRef getItem() {
@@ -25,7 +22,10 @@ public class ItemStack {
     }
 
     public void setItem(ItemRef item) {
-        this.item = Validate.notNull(item);
+        if (item == null) {
+            throw new NullPointerException("item");
+        }
+        this.item = item;
     }
 
     public String getId() {
