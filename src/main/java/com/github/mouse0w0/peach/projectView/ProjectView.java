@@ -219,8 +219,8 @@ public class ProjectView implements Disposable, DataProvider {
     }
 
     private class Cell extends TreeCell<Path> implements DataProvider, FileCell {
-        private ImageView imageView;
         private Icon icon;
+        private ImageView imageView;
 
         public Cell() {
             disableProperty().bind(emptyProperty());
@@ -307,13 +307,15 @@ public class ProjectView implements Disposable, DataProvider {
 
         @Override
         public void setIcon(Icon icon) {
+            this.icon = icon;
+
             if (imageView == null) {
                 imageView = new ImageView();
             }
 
             imageView.setImage(icon.getImage());
 
-            if (getGraphic() != imageView) {
+            if (getGraphic() == null) {
                 setGraphic(imageView);
             }
         }
