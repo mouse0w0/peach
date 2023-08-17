@@ -33,6 +33,20 @@ public class DeleteAction extends Action {
                 symbolicLinkCount++;
             }
         }
+
+        if (Alert.confirm(AppL10n.localize("dialog.delete.title"), getDeleteMessage(FileUtils.getFileName(paths.get(0)), fileCount, directoryCount, symbolicLinkCount))) {
+            FileEditorManager fileEditorManager = FileEditorManager.getInstance(event.getData(DataKeys.PROJECT));
+
+            for (Path path : paths) {
+                if (Files.isRegularFile(path)) {
+                    fileEditorManager.close(path);
+                }
+                FileUtils.delete(path);
+            }
+        }
+    }
+
+    private static String getDeleteMessage(String fileName, int fileCount, int directoryCount, int symbolicLinkCount) {
         int mask = 0;
         if (fileCount != 0) mask |= 1;
         if (directoryCount != 0) mask |= 2;
@@ -46,20 +60,10 @@ public class DeleteAction extends Action {
                     symbolicLinkCount == 1 ? "dialog.delete.message.symbolicLink" : "dialog.delete.message.symbolicLinks";
             case 5 -> "dialog.delete.message.fileAndSymbolicLink";
             case 6 -> "dialog.delete.message.directoryAndSymbolicLink";
-            default -> "dialog.delete.message.fileAndDirectoryAndSymbolicLink";
+            case 7 -> "dialog.delete.message.fileAndDirectoryAndSymbolicLink";
+            default -> throw new Error();
         };
 
-        String message = AppL10n.localize(translationKey, FileUtils.getFileName(paths.get(0)), fileCount, directoryCount, symbolicLinkCount);
-
-        if (Alert.confirm(AppL10n.localize("dialog.delete.title"), message)) {
-            FileEditorManager fileEditorManager = FileEditorManager.getInstance(event.getData(DataKeys.PROJECT));
-
-            for (Path path : paths) {
-                if (Files.isRegularFile(path)) {
-                    fileEditorManager.close(path);
-                }
-                FileUtils.delete(path);
-            }
-        }
+        return AppL10n.localize(translationKey, fileName, fileCount, directoryCount, symbolicLinkCount);
     }
 }
