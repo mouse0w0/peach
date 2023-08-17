@@ -100,7 +100,6 @@ public class TagView<T> extends Control {
     }
 
     private final ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactory = new SimpleObjectProperty<>(this, "cellFactory");
-    ;
 
     public final ObjectProperty<Function<TagView<T>, TagCell<T>>> cellFactoryProperty() {
         return cellFactory;
