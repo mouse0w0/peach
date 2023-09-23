@@ -28,8 +28,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,8 +39,6 @@ import java.util.*;
 
 public class ProjectView implements Disposable, DataProvider {
     public static final PseudoClass DROP_HOVER = PseudoClass.getPseudoClass("drop-hover");
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectView.class);
 
     private final Project project;
     private final Path projectPath;
@@ -157,7 +153,7 @@ public class ProjectView implements Disposable, DataProvider {
                 if (parent == null) return;
 
                 // Parent can be expanded now.
-                if (parent.getChildren().size() == 0) {
+                if (parent.getChildren().isEmpty()) {
                     parent.getChildren().add(new TreeItem<>());
                 }
                 return;
