@@ -1,7 +1,9 @@
-package com.github.mouse0w0.peach.mcmod.project;
+package com.github.mouse0w0.peach.mcmod.fileEditor;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
+import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;

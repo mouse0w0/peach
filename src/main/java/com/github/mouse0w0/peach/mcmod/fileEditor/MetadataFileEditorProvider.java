@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.mcmod.fileEditor;
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.fileEditor.FileEditorProvider;
 import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
-import com.github.mouse0w0.peach.mcmod.project.MetadataFileEditor;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 
