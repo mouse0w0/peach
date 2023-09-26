@@ -22,7 +22,7 @@ class Utils {
                     fillMenu(group, items);
                 }
             } else if (action instanceof Separator) {
-                items.add(new ActionSeparator((Separator) action));
+                items.add(new ActionSeparator());
             } else {
                 items.add(new ActionMenuItem(action));
             }
