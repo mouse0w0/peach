@@ -9,7 +9,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionMenu extends Menu implements ActionHolder {
+public final class ActionMenu extends Menu implements ActionHolder {
     private final ActionGroup group;
     private final Presentation presentation;
 

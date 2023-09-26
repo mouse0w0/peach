@@ -7,7 +7,7 @@ import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionMenuItem extends MenuItem implements ActionHolder {
+public final class ActionMenuItem extends MenuItem implements ActionHolder {
     private final Action action;
     private final Presentation presentation;
 

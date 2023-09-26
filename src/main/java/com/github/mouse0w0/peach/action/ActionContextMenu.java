@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionContextMenu extends ContextMenu implements ActionHolder {
+public final class ActionContextMenu extends ContextMenu implements ActionHolder {
     private final ActionGroup group;
 
     ActionContextMenu(ActionGroup group) {

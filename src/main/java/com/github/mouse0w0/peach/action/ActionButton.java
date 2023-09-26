@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.util.property.ObservableObject;
 import javafx.scene.control.Button;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionButton extends Button implements ActionHolder {
+public final class ActionButton extends Button implements ActionHolder {
     private final Action action;
     private final Presentation presentation;
 
