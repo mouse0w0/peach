@@ -1,6 +1,7 @@
-package com.github.mouse0w0.peach.window;
+package com.github.mouse0w0.peach.window.status;
 
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
 import org.jetbrains.annotations.NotNull;

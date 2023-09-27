@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ViewPane;
+import com.github.mouse0w0.peach.window.status.StatusBar;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 

@@ -7,6 +7,7 @@ import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.control.ViewPane;
+import com.github.mouse0w0.peach.window.status.StatusBar;
 import com.github.mouse0w0.peach.windowState.WindowStateService;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;

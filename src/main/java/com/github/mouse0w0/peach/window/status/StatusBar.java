@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.window;
+package com.github.mouse0w0.peach.window.status;
 
 import com.github.mouse0w0.peach.project.Project;
 import org.jetbrains.annotations.NotNull;

@@ -13,6 +13,8 @@ import com.github.mouse0w0.peach.ui.control.ViewPane;
 import com.github.mouse0w0.peach.ui.control.ViewTab;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.view.ViewEP;
+import com.github.mouse0w0.peach.window.status.StatusBar;
+import com.github.mouse0w0.peach.window.status.StatusBarImpl;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;

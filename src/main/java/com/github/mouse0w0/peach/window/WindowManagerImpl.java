@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.FocusUtils;
+import com.github.mouse0w0.peach.window.status.StatusBarInfo;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import com.sun.javafx.scene.control.MenuBarButton;
 import javafx.beans.InvalidationListener;
