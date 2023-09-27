@@ -1,19 +1,16 @@
 package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.icon.Icon;
-import com.github.mouse0w0.peach.util.property.ObservableObject;
-import com.github.mouse0w0.peach.util.property.PropertyChangeListener;
-import com.github.mouse0w0.peach.util.property.PropertyListenerHelper;
 import org.jetbrains.annotations.NotNull;
 
-public class Presentation implements ObservableObject {
+public final class Presentation {
     public static final String TEXT_PROP = "text";
     public static final String DESCRIPTION_PROP = "description";
     public static final String ICON_PROP = "icon";
     public static final String DISABLE_PROP = "disable";
     public static final String VISIBLE_PROP = "visible";
 
-    private PropertyListenerHelper helper;
+    private final ChangeListener changeListener;
 
     private String text;
     private String description;
@@ -21,69 +18,70 @@ public class Presentation implements ObservableObject {
     private boolean disable = false;
     private boolean visible = true;
 
-    public Presentation(Action action) {
+    public Presentation(@NotNull Action action, ChangeListener changeListener) {
+        this.changeListener = changeListener;
         this.text = action.getText();
         this.description = action.getDescription();
         this.icon = action.getIcon();
     }
 
-    public final String getText() {
+    public String getText() {
         return text;
     }
 
-    public final void setText(String value) {
+    public void setText(String value) {
         String oldValue = this.text;
         this.text = value;
-        PropertyListenerHelper.firePropertyChange(helper, TEXT_PROP, oldValue, value);
+        notifyChanged(TEXT_PROP, oldValue, value);
     }
 
-    public final String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public final void setDescription(String value) {
+    public void setDescription(String value) {
         String oldValue = this.description;
         this.description = value;
-        PropertyListenerHelper.firePropertyChange(helper, DESCRIPTION_PROP, oldValue, value);
+        notifyChanged(DESCRIPTION_PROP, oldValue, value);
     }
 
-    public final Icon getIcon() {
+    public Icon getIcon() {
         return icon;
     }
 
-    public final void setIcon(Icon value) {
+    public void setIcon(Icon value) {
         Icon oldValue = this.icon;
         this.icon = value;
-        PropertyListenerHelper.firePropertyChange(helper, ICON_PROP, oldValue, value);
+        notifyChanged(ICON_PROP, oldValue, value);
     }
 
-    public final boolean isDisable() {
+    public boolean isDisable() {
         return disable;
     }
 
-    public final void setDisable(boolean value) {
+    public void setDisable(boolean value) {
         boolean oldValue = this.disable;
         this.disable = value;
-        PropertyListenerHelper.firePropertyChange(helper, DISABLE_PROP, oldValue, value);
+        notifyChanged(DISABLE_PROP, oldValue, value);
     }
 
-    public final boolean isVisible() {
+    public boolean isVisible() {
         return visible;
     }
 
-    public final void setVisible(boolean value) {
+    public void setVisible(boolean value) {
         boolean oldValue = this.visible;
         this.visible = value;
-        PropertyListenerHelper.firePropertyChange(helper, VISIBLE_PROP, oldValue, value);
+        notifyChanged(VISIBLE_PROP, oldValue, value);
     }
 
-    @Override
-    public final void addListener(@NotNull PropertyChangeListener listener) {
-        helper = PropertyListenerHelper.addListener(helper, this, listener);
+    private void notifyChanged(String propertyName, Object oldValue, Object newValue) {
+        if (changeListener != null) {
+            changeListener.propertyChanged(propertyName, oldValue, newValue);
+        }
     }
 
-    @Override
-    public final void removeListener(@NotNull PropertyChangeListener listener) {
-        helper = PropertyListenerHelper.removeListener(helper, listener);
+    public interface ChangeListener {
+        void propertyChanged(String propertyName, Object oldValue, Object newValue);
     }
 }

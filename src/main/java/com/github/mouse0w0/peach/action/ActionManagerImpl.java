@@ -65,7 +65,7 @@ public final class ActionManagerImpl implements ActionManager {
         if (action == null) {
             throw new IllegalArgumentException("Missing action: " + actionId);
         }
-        action.perform(new ActionEvent(null, new Presentation(action), DataManager.getInstance().getDataContext(source)));
+        action.perform(new ActionEvent(null, new Presentation(action, null), DataManager.getInstance().getDataContext(source)));
     }
 
     @Override

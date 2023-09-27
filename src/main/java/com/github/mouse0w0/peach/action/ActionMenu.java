@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icon;
-import com.github.mouse0w0.peach.util.property.ObservableObject;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.control.Menu;
@@ -17,8 +16,7 @@ public final class ActionMenu extends Menu implements ActionHolder {
 
     ActionMenu(ActionGroup group) {
         this.group = group;
-        this.presentation = new Presentation(group);
-        this.presentation.addListener(this::onPropertyChanged);
+        this.presentation = new Presentation(group, this::onPropertyChanged);
 
         setText(presentation.getText());
         Utils.setIcon(graphicProperty(), presentation.getIcon());
@@ -30,6 +28,15 @@ public final class ActionMenu extends Menu implements ActionHolder {
             initialized = true;
         } else {
             getItems().add(new MenuItem());
+        }
+    }
+
+    private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
+        switch (propertyName) {
+            case Presentation.TEXT_PROP -> setText((String) newValue);
+            case Presentation.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
+            case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
+            case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
         }
     }
 
@@ -62,13 +69,5 @@ public final class ActionMenu extends Menu implements ActionHolder {
         Utils.updateSeparatorVisibility(getItems());
     }
 
-    private void onPropertyChanged(ObservableObject property, String propertyName, Object oldValue, Object newValue) {
-        switch (propertyName) {
-            case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
-            case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
-            case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
-        }
-    }
 
 }
