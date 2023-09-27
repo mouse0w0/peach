@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.action;
 import javafx.scene.control.SeparatorMenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public final class ActionSeparator extends SeparatorMenuItem implements ActionHolder {
-    ActionSeparator() {
+public final class ActionSeparatorMenuItem extends SeparatorMenuItem implements ActionHolder {
+    ActionSeparatorMenuItem() {
     }
 
     @Override
