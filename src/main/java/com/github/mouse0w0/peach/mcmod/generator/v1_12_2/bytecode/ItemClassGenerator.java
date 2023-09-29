@@ -458,8 +458,8 @@ public class ItemClassGenerator extends ClassGenerator {
             av.visitEnd();
         }
         mv.visitCode();
-        mv.visitVarInsn(ALOAD, 3);
         for (int i = 0; i < count; i++) {
+            mv.visitVarInsn(ALOAD, 3);
             ASMUtils.push(mv, prefix + i);
             mv.visitInsn(ICONST_0);
             mv.visitTypeInsn(ANEWARRAY, "java/lang/Object");
