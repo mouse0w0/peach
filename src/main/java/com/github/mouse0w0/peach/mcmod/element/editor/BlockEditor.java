@@ -395,8 +395,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         replaceable.set(element.isReplaceable());
         harvestTool.setValue(element.getHarvestTool());
         harvestLevel.setValue(element.getHarvestLevel());
-        final String[] array = element.getInformation();
-        information.setValue(StringUtils.join(array, System.lineSeparator()));
+        information.setValue(StringUtils.join(element.getInformation(), '\n'));
 
         model.setModel(element.getModel());
         model.setCustomModels(element.getCustomModels());
@@ -450,8 +449,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         element.setReplaceable(replaceable.get());
         element.setHarvestTool(harvestTool.getValue());
         element.setHarvestLevel(harvestLevel.getValue());
-        final String str = information.getValue();
-        element.setInformation(StringUtils.splitByLineSeparator(str));
+        element.setInformation(StringUtils.splitByLineSeparator(information.getValue()));
 
         element.setModel(model.getModel());
         element.setCustomModels(model.getCustomModels());

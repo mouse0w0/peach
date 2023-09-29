@@ -402,8 +402,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         useDuration.setValue(item.getUseDuration());
         hitEntityLoss.setValue(item.getHitEntityLoss());
         destroyBlockLoss.setValue(item.getDestroyBlockLoss());
-        final String[] array = item.getInformation();
-        information.setValue(StringUtils.join(array, System.lineSeparator()));
+        information.setValue(StringUtils.join(item.getInformation(), '\n'));
 
         model.setModel(item.getModel());
         model.setCustomModels(item.getCustomModels());
@@ -443,8 +442,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         item.setUseDuration(useDuration.getValue());
         item.setHitEntityLoss(hitEntityLoss.getValue());
         item.setDestroyBlockLoss(destroyBlockLoss.getValue());
-        final String str = information.getValue();
-        item.setInformation(StringUtils.splitByLineSeparator(str));
+        item.setInformation(StringUtils.splitByLineSeparator(information.getValue()));
 
         item.setModel(model.getModel());
         item.setCustomModels(model.getCustomModels());
