@@ -12,6 +12,7 @@ import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockLoaderCla
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.block.*;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import javafx.scene.paint.Color;
@@ -123,6 +124,8 @@ public class GenBlock implements Task {
                 cg.visitOpacity(block.getOpacity());
             if (!ToolType.NONE.equals(block.getHarvestTool()))
                 cg.visitHarvestToolAndLevel(block.getHarvestTool(), block.getHarvestLevel());
+            if (ArrayUtils.isNotEmpty(block.getInformation()))
+                cg.visitInformation(namespace, identifier, block.getInformation().length);
 
             if (block.isTransparency()) cg.visitTransparency();
             if (block.getRenderType() != RenderType.SOLID) cg.visitRenderType(block.getRenderType());

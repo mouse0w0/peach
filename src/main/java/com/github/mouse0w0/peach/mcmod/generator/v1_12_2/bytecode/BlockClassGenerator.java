@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.Srgs;
 import com.google.common.base.CaseFormat;
 import javafx.scene.paint.Color;
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -154,6 +155,29 @@ public class BlockClassGenerator extends ClassGenerator {
         ASMUtils.push(initMethod, harvestTool);
         ASMUtils.push(initMethod, harvestLevel);
         initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "setHarvestLevel", "(Ljava/lang/String;I)V", false);
+    }
+
+    public void visitInformation(String namespace, String identifier, int count) {
+        String prefix = "tile." + namespace + "." + identifier + ".";
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_190948_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/util/ITooltipFlag;)V", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List<Ljava/lang/String;>;Lnet/minecraft/client/util/ITooltipFlag;)V", null);
+        {
+            AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
+            av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
+            av.visitEnd();
+        }
+        mv.visitCode();
+        for (int i = 0; i < count; i++) {
+            mv.visitVarInsn(ALOAD, 3);
+            ASMUtils.push(mv, prefix + i);
+            mv.visitInsn(ICONST_0);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/Object");
+            mv.visitMethodInsn(INVOKESTATIC, "net/minecraft/client/resources/I18n", "func_135052_a", "(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;", false);
+            mv.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true);
+            mv.visitInsn(POP);
+        }
+        mv.visitInsn(RETURN);
+        mv.visitMaxs(3, 5);
+        mv.visitEnd();
     }
 
     public void visitTransparency() {
