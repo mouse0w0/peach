@@ -15,6 +15,7 @@ import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -83,6 +84,7 @@ public class ItemChooser extends Stage {
 
         HBox headerBar = new HBox(10, filterLabel, filter, defaultMode, ignoreMetadataMode, oreDictMode);
         headerBar.setPadding(new Insets(10));
+        headerBar.setAlignment(Pos.CENTER_LEFT);
 
         gridView = new GridView<>();
         gridView.setCellWidth(32);
