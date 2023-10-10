@@ -1,13 +1,11 @@
 package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 
-import java.util.Set;
+import java.util.List;
 
 public final class Attribute {
-    private static final Set<String> ATTRIBUTES;
-
     public static final String MAX_HEALTH = "generic.maxHealth";
     public static final String KNOCKBACK_RESISTANCE = "generic.knockbackResistance";
     public static final String MOVEMENT_SPEED = "generic.movementSpeed";
@@ -20,13 +18,15 @@ public final class Attribute {
     public static final String REACH_DISTANCE = "generic.reachDistance";
     public static final String SWIM_SPEED = "forge.swimSpeed";
 
+    private static final List<String> ATTRIBUTES;
+
     static {
-        ATTRIBUTES = ImmutableSet.of(MAX_HEALTH, KNOCKBACK_RESISTANCE, MOVEMENT_SPEED,
+        ATTRIBUTES = ImmutableList.of(MAX_HEALTH, KNOCKBACK_RESISTANCE, MOVEMENT_SPEED,
                 FLYING_SPEED, ATTACK_DAMAGE, ATTACK_SPEED, ARMOR, ARMOR_TOUGHNESS, LUCK,
                 REACH_DISTANCE, SWIM_SPEED);
     }
 
-    public static Set<String> getAttributes() {
+    public static List<String> getAttributes() {
         return ATTRIBUTES;
     }
 
