@@ -10,12 +10,12 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public final class McModProjectListener implements ProjectWindowListener {
+public final class ModProjectListener implements ProjectWindowListener {
     @Override
     public void windowShown(ProjectWindow window) {
         Project project = window.getProject();
 
-        McModDescriptor descriptor = McModDescriptor.getInstance(project);
+        ModProjectService descriptor = ModProjectService.getInstance(project);
 
         Path metadataFile = descriptor.getMetadataFile();
         if (Files.notExists(metadataFile)) {

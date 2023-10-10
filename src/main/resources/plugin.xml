@@ -64,9 +64,9 @@
         <applicationService implementation="com.github.mouse0w0.peach.mcmod.content.ContentPackManager" preload="true"/>
         <applicationService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager" preload="true"/>
         <applicationListener topic="ProjectWindowListener"
-                             listener="com.github.mouse0w0.peach.mcmod.project.McModProjectListener"/>
+                             listener="com.github.mouse0w0.peach.mcmod.project.ModProjectListener"/>
 
-        <projectService implementation="com.github.mouse0w0.peach.mcmod.project.McModDescriptor"/>
+        <projectService implementation="com.github.mouse0w0.peach.mcmod.project.ModProjectService"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.IndexManager" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.content.ProjectContentPackManager"

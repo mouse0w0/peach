@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class McModMetadata {
+public class ModMetadata {
 
     public static final String FILE_NAME = "project.forge.json";
 

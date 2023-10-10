@@ -10,34 +10,34 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public final class McModDescriptor implements Disposable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(McModDescriptor.class);
+public final class ModProjectService implements Disposable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModProjectService.class);
 
     private final Project project;
 
     private final Path metadataFile;
-    private McModMetadata metadata;
+    private ModMetadata metadata;
 
     private final Path resourcesPath;
 
-    public static McModDescriptor getInstance(Project project) {
-        return project.getService(McModDescriptor.class);
+    public static ModProjectService getInstance(Project project) {
+        return project.getService(ModProjectService.class);
     }
 
-    public McModDescriptor(Project project) {
+    public ModProjectService(Project project) {
         this.project = project;
 
-        this.metadataFile = project.getPath().resolve(McModMetadata.FILE_NAME);
+        this.metadataFile = project.getPath().resolve(ModMetadata.FILE_NAME);
 
         if (Files.exists(metadataFile)) {
             try {
-                this.metadata = JsonUtils.readJson(metadataFile, McModMetadata.class);
+                this.metadata = JsonUtils.readJson(metadataFile, ModMetadata.class);
             } catch (IOException e) {
                 LOGGER.error("Failed to load metadata.", e);
-                this.metadata = new McModMetadata();
+                this.metadata = new ModMetadata();
             }
         } else {
-            this.metadata = new McModMetadata();
+            this.metadata = new ModMetadata();
         }
 
         this.resourcesPath = project.getPath().resolve("resources");
@@ -55,7 +55,7 @@ public final class McModDescriptor implements Disposable {
         return metadataFile;
     }
 
-    public McModMetadata getMetadata() {
+    public ModMetadata getMetadata() {
         return metadata;
     }
 

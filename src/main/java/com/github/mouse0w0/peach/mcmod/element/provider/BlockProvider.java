@@ -10,7 +10,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.google.common.collect.Iterables;
@@ -49,7 +49,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
     public Object[] addIndex(Project project, IndexProvider provider, BlockElement element) {
         if (element.isDoNotRegisterItem()) return null;
 
-        String modId = McModDescriptor.getInstance(project).getModId();
+        String modId = ModProjectService.getInstance(project).getModId();
 
         Item item = new Item(element.getIdentifier(), 0, null, false);
         item.setLocalizedText(element.getDisplayName());

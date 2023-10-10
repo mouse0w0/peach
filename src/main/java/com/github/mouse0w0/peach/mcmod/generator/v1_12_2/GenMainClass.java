@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
-import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -15,7 +15,7 @@ public class GenMainClass implements Task {
 
     @Override
     public void run(Context context) throws Exception {
-        McModMetadata metadata = context.getMetadata();
+        ModMetadata metadata = context.getMetadata();
         String className = JavaUtils.lowerUnderscoreToUpperCamel(metadata.getId());
         String internalClassName = context.getInternalName(className);
 

@@ -10,8 +10,8 @@ import com.github.mouse0w0.peach.mcmod.generator.task.Zip;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
-import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.collect.HashMultimap;
@@ -31,7 +31,7 @@ public final class Generator implements Context {
 
     private final Project project;
 
-    private McModMetadata metadata;
+    private ModMetadata metadata;
     private String id;
     private Path projectFolder;
     private Path sourceFolder;
@@ -65,7 +65,7 @@ public final class Generator implements Context {
     }
 
     @Override
-    public McModMetadata getMetadata() {
+    public ModMetadata getMetadata() {
         return metadata;
     }
 
@@ -176,7 +176,7 @@ public final class Generator implements Context {
             this.resourceFolder = projectFolder.resolve("resources");
             this.modelsFolder = resourceFolder.resolve("models");
             this.texturesFolder = resourceFolder.resolve("textures");
-            this.metadata = McModDescriptor.getInstance(project).getMetadata();
+            this.metadata = ModProjectService.getInstance(project).getMetadata();
             this.id = metadata.getId();
             this.outputFolder = project.getPath().resolve("build");
             this.modelManager = ModelManager.getInstance();

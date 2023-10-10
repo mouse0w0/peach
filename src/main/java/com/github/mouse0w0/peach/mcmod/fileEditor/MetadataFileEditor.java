@@ -2,8 +2,8 @@ package com.github.mouse0w0.peach.mcmod.fileEditor;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
-import com.github.mouse0w0.peach.mcmod.project.McModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -23,8 +23,8 @@ import java.nio.file.Path;
 import java.util.Locale;
 
 public class MetadataFileEditor extends FileEditorWithButtonBar {
-    private final McModDescriptor descriptor;
-    private final McModMetadata metadata;
+    private final ModProjectService descriptor;
+    private final ModMetadata metadata;
 
     private Form form;
 
@@ -43,7 +43,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
     public MetadataFileEditor(@NotNull Project project, @NotNull Path file) {
         super(project, file);
 
-        descriptor = McModDescriptor.getInstance(project);
+        descriptor = ModProjectService.getInstance(project);
         metadata = descriptor.getMetadata();
     }
 

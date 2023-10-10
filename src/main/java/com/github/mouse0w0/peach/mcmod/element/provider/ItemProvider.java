@@ -10,7 +10,7 @@ import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
-import com.github.mouse0w0.peach.mcmod.project.McModDescriptor;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.ImageUtils;
@@ -48,7 +48,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
 
     @Override
     public Object[] addIndex(Project project, IndexProvider provider, ItemElement element) {
-        String modId = McModDescriptor.getInstance(project).getModId();
+        String modId = ModProjectService.getInstance(project).getModId();
 
         Item item = new Item(element.getIdentifier(), 0, null, false);
         item.setLocalizedText(element.getDisplayName());
