@@ -10,6 +10,8 @@ public enum ItemType implements Localizable {
     ARMOR,
     FOOD;
 
+    public static final ItemType[] VALUES = values();
+
     private final String translationKey;
 
     ItemType() {

@@ -8,6 +8,8 @@ public enum OffsetType implements Localizable {
     XZ,
     XYZ;
 
+    public static final OffsetType[] VALUES = values();
+
     private final String translationKey;
 
     OffsetType() {

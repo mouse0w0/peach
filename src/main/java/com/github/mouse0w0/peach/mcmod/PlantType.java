@@ -13,6 +13,8 @@ public enum PlantType implements Localizable {
     NETHER,
     CROP;
 
+    public static final PlantType[] VALUES = values();
+
     private final String translationKey;
 
     PlantType() {

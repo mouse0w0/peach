@@ -101,7 +101,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         type.setLabel(AppL10n.localize("item.properties.type"));
         type.setCellFactory(LocalizableCell.factory());
         type.setButtonCell(new LocalizableCell<>());
-        type.getItems().setAll(ItemType.values());
+        type.getItems().setAll(ItemType.VALUES);
         type.setColSpan(ColSpan.HALF);
         BooleanBinding isFood = type.valueProperty().isEqualTo(ItemType.FOOD);
         BooleanBinding isNotFood = type.valueProperty().isNotEqualTo(ItemType.FOOD);
@@ -149,16 +149,16 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         equipmentSlot = new ChoiceBoxField<>();
         equipmentSlot.setLabel(AppL10n.localize("item.properties.equipmentSlot"));
         equipmentSlot.setConverter(LocalizableConverter.instance());
-        equipmentSlot.getItems().setAll(EquipmentSlot.values());
+        equipmentSlot.getItems().addAll(EquipmentSlot.ALL_SLOTS);
         equipmentSlot.setColSpan(ColSpan.HALF);
         equipmentSlot.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             final ItemType type = this.type.getValue();
             if (type == ItemType.FOOD) {
-                equipmentSlot.getItems().setAll(EquipmentSlot.values());
+                equipmentSlot.getItems().setAll(EquipmentSlot.ALL_SLOTS);
                 equipmentSlot.setValue(EquipmentSlot.NONE);
                 return true;
             } else if (type == ItemType.NORMAL) {
-                equipmentSlot.getItems().setAll(EquipmentSlot.values());
+                equipmentSlot.getItems().setAll(EquipmentSlot.ALL_SLOTS);
                 equipmentSlot.setValue(EquipmentSlot.NONE);
             } else if (type == ItemType.SWORD || type == ItemType.TOOL) {
                 equipmentSlot.getItems().setAll(EquipmentSlot.HAND_SLOTS);
@@ -213,7 +213,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setLabel(AppL10n.localize("item.properties.acceptableEnchantments"));
         acceptableEnchantments.setConverter(LocalizableConverter.instance());
-        acceptableEnchantments.getItems().setAll(EnchantmentType.values());
+        acceptableEnchantments.getItems().setAll(EnchantmentType.VALUES);
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
@@ -238,7 +238,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
         useAnimation.setCellFactory(LocalizableCell.factory());
         useAnimation.setButtonCell(new LocalizableCell<>());
-        useAnimation.getItems().setAll(UseAnimation.values());
+        useAnimation.getItems().setAll(UseAnimation.VALUES);
         useAnimation.setColSpan(ColSpan.HALF);
 
         useDuration = new IntegerField(0, Integer.MAX_VALUE, 0);

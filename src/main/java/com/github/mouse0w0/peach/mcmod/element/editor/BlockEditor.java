@@ -107,7 +107,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         type = new ChoiceBoxField<>();
         type.setLabel(AppL10n.localize("block.properties.type"));
         type.setConverter(LocalizableConverter.instance());
-        type.getItems().addAll(BlockType.values());
+        type.getItems().addAll(BlockType.VALUES);
         type.setValue(BlockType.NORMAL);
         type.setColSpan(ColSpan.HALF);
 
@@ -220,13 +220,13 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         renderType = new ChoiceBoxField<>();
         renderType.setLabel(AppL10n.localize("block.appearance.renderType"));
         renderType.setConverter(LocalizableConverter.instance());
-        renderType.getItems().addAll(RenderType.values());
+        renderType.getItems().addAll(RenderType.VALUES);
         renderType.setColSpan(ColSpan.HALF);
 
         offsetType = new ChoiceBoxField<>();
         offsetType.setLabel(AppL10n.localize("block.appearance.offsetType"));
         offsetType.setConverter(LocalizableConverter.instance());
-        offsetType.getItems().addAll(OffsetType.values());
+        offsetType.getItems().addAll(OffsetType.VALUES);
         offsetType.setColSpan(ColSpan.HALF);
 
         itemModel = new ModelField(getProject(), new ResourceStore(
@@ -333,7 +333,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         canPlantPlant = new ChoiceBoxField<>();
         canPlantPlant.setLabel(AppL10n.localize("block.extra.canPlantPlant"));
         canPlantPlant.setConverter(LocalizableConverter.instance());
-        canPlantPlant.getItems().addAll(PlantType.values());
+        canPlantPlant.getItems().addAll(PlantType.VALUES);
         canPlantPlant.setColSpan(ColSpan.HALF);
 
         enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
@@ -351,13 +351,13 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         pushReaction = new ChoiceBoxField<>();
         pushReaction.setLabel(AppL10n.localize("block.extra.pushReaction"));
         pushReaction.setConverter(LocalizableConverter.instance());
-        pushReaction.getItems().addAll(PushReaction.values());
+        pushReaction.getItems().addAll(PushReaction.VALUES);
         pushReaction.setColSpan(ColSpan.HALF);
 
         aiPathNodeType = new ChoiceBoxField<>();
         aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
         aiPathNodeType.setConverter(LocalizableConverter.instance());
-        aiPathNodeType.getItems().addAll(PathNodeType.values());
+        aiPathNodeType.getItems().addAll(PathNodeType.VALUES);
         aiPathNodeType.setColSpan(ColSpan.HALF);
 
         Section extra = new Section();

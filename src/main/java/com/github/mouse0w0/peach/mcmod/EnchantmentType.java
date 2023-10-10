@@ -17,6 +17,7 @@ public enum EnchantmentType implements Localizable {
     BOW,
     WEARABLE;
 
+    public static final EnchantmentType[] VALUES = values();
     public static final EnchantmentType[] EMPTY_ARRAY = new EnchantmentType[0];
 
     private final String translationKey;

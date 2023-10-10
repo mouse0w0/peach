@@ -16,6 +16,7 @@ public enum EquipmentSlot implements Localizable {
         NONE, HAND, ARMOR
     }
 
+    public static final EquipmentSlot[] ALL_SLOTS = values();
     public static final EquipmentSlot[] HAND_SLOTS = {NONE, MAINHAND, OFFHAND};
     public static final EquipmentSlot[] ARMOR_SLOTS = {NONE, HEAD, CHEST, LEGS, FEET};
 

@@ -14,6 +14,8 @@ public enum PushReaction implements Localizable {
     IGNORE,
     PUSH_ONLY;
 
+    public static final PushReaction[] VALUES = values();
+
     private final String translationKey;
 
     PushReaction() {

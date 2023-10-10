@@ -20,6 +20,8 @@ public enum BlockType implements Localizable {
     TRAPDOOR("trapdoor"),
     PANE("pane");
 
+    public static final BlockType[] VALUES = values();
+
     private final String blockstate;
     private final String translationKey;
 

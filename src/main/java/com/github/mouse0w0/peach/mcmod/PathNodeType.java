@@ -23,6 +23,8 @@ public enum PathNodeType implements Localizable {
     DOOR_WOOD_CLOSED,
     DOOR_IRON_CLOSED;
 
+    public static final PathNodeType[] VALUES = values();
+
     private final String translationKey;
 
     PathNodeType() {

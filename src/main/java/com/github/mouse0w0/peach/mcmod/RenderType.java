@@ -9,6 +9,8 @@ public enum RenderType implements Localizable {
     CUTOUT,
     TRANSLUCENT;
 
+    public static final RenderType[] VALUES = values();
+
     private final String translationKey;
 
     RenderType() {

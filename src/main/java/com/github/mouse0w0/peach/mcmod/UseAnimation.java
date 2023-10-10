@@ -10,6 +10,8 @@ public enum UseAnimation implements Localizable {
     BLOCK,
     BOW;
 
+    public static final UseAnimation[] VALUES = values();
+
     private final String translationKey;
 
     UseAnimation() {
