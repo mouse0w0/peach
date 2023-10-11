@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 public final class ModProjectService implements Disposable {
@@ -29,14 +29,14 @@ public final class ModProjectService implements Disposable {
 
         this.metadataFile = project.getPath().resolve(ModMetadata.FILE_NAME);
 
-        if (Files.exists(metadataFile)) {
-            try {
-                this.metadata = JsonUtils.readJson(metadataFile, ModMetadata.class);
-            } catch (IOException e) {
-                LOGGER.error("Failed to load metadata.", e);
-                this.metadata = new ModMetadata();
-            }
-        } else {
+        try {
+            this.metadata = JsonUtils.readJson(metadataFile, ModMetadata.class);
+        } catch (NoSuchFileException ignored) {
+        } catch (IOException e) {
+            LOGGER.error("Failed to load metadata.", e);
+        }
+
+        if (metadata == null) {
             this.metadata = new ModMetadata();
         }
 

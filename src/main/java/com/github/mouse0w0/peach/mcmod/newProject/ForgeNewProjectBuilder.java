@@ -1,15 +1,20 @@
 package com.github.mouse0w0.peach.mcmod.newProject;
 
+import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
 import com.github.mouse0w0.peach.newProject.NewProjectBuilder;
 import com.github.mouse0w0.peach.newProject.NewProjectContext;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.FilePicker;
 import com.github.mouse0w0.peach.ui.util.GridPanes;
+import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+
+import java.nio.file.Path;
 
 public final class ForgeNewProjectBuilder implements NewProjectBuilder {
     private final GridPane grid = new GridPane();
@@ -48,6 +53,8 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
 
     @Override
     public void setupProject(Project project, NewProjectContext context) {
-
+        Path metadataFile = project.getPath().resolve(ModMetadata.FILE_NAME);
+        FileUtils.createFileIfNotExists(metadataFile);
+        FileEditorManager.getInstance(project).open(metadataFile);
     }
 }
