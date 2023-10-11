@@ -7,8 +7,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ModMetadata {
-
-    public static final String FILE_NAME = "project.forge.json";
+    public static final String FILE_NAME = "project.mod.json";
 
     private String name = "untitled";
     private String id = "untitled";
