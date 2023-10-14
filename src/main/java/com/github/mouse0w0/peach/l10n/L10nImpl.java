@@ -24,12 +24,13 @@ final class L10nImpl extends ResourceBundle implements L10n {
 
     @Override
     public @Nullable String localizeOrNull(String key) {
-        return localizeOrDefault(key, null);
+        return lookup.get(key);
     }
 
     @Override
     public @Nullable String localizeOrNull(String key, Object... args) {
-        return localizeOrDefault(key, null, args);
+        String s = lookup.get(key);
+        return s != null ? s.formatted(args) : null;
     }
 
     @Override
@@ -41,7 +42,10 @@ final class L10nImpl extends ResourceBundle implements L10n {
     @Override
     public @Nullable String localizeOrDefault(String key, @Nullable String defaultValue, Object... args) {
         String s = lookup.get(key);
-        return s != null ? s.formatted(args) : defaultValue;
+        if (s != null) {
+            return s.formatted(args);
+        }
+        return defaultValue != null ? defaultValue.formatted(args) : null;
     }
 
     @Override
@@ -69,18 +73,6 @@ final class L10nImpl extends ResourceBundle implements L10n {
     @NotNull
     @Override
     public Enumeration<String> getKeys() {
-        return new Enumeration<>() {
-            final Iterator<String> it = lookup.keySet().iterator();
-
-            @Override
-            public boolean hasMoreElements() {
-                return it.hasNext();
-            }
-
-            @Override
-            public String nextElement() {
-                return it.next();
-            }
-        };
+        return Collections.enumeration(lookup.keySet());
     }
 }
