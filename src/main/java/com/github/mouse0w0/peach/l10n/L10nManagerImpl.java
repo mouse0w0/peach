@@ -44,6 +44,9 @@ public final class L10nManagerImpl implements L10nManager {
         if (resources == null) {
             resources = locale2Resources.get(fallbackLocale);
         }
+        if (resources == null) {
+            return EmptyL10n.INSTANCE;
+        }
         Map<String, String> lookup = new HashMap<>();
         for (L10nEP resource : resources) {
             String path = resource.getPath();
