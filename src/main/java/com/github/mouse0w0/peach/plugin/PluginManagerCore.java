@@ -7,6 +7,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Multimap;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,8 @@ import java.util.concurrent.CompletionException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class PluginManagerCore {
-    public static final String CORE_PLUGIN_ID = "peach.core";
+@ApiStatus.Internal
+public final class PluginManagerCore {
     public static final String PLUGIN_XML = "plugin.xml";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PluginManagerCore.class);
@@ -223,7 +224,7 @@ public class PluginManagerCore {
                         String urlPath = url.getPath();
                         int idx = urlPath.lastIndexOf('!');
                         Path path = Path.of(urlPath.substring(6, idx));
-                        futures.add(CompletableFuture.supplyAsync(() -> loadFromJar(path, true)));
+                        futures.add(CompletableFuture.supplyAsync(() -> loadFromZip(path, true)));
                     }
                 }
             }
@@ -233,13 +234,18 @@ public class PluginManagerCore {
     }
 
     private static void loadFromDir(Path dir, List<CompletableFuture<PluginImpl>> futures) {
-        if (Files.notExists(dir)) return;
+        if (Files.notExists(dir)) {
+            return;
+        }
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path path : stream) {
                 if (Files.isDirectory(path)) {
                     futures.add(CompletableFuture.supplyAsync(() -> loadFromPluginDir(path, false)));
-                } else if (path.toString().endsWith(".jar")) {
-                    futures.add(CompletableFuture.supplyAsync(() -> loadFromJar(path, false)));
+                } else {
+                    String pathString = path.toString();
+                    if (pathString.endsWith(".jar") || pathString.endsWith(".zip")) {
+                        futures.add(CompletableFuture.supplyAsync(() -> loadFromZip(path, false)));
+                    }
                 }
             }
         } catch (IOException e) {
@@ -272,18 +278,21 @@ public class PluginManagerCore {
         }
     }
 
-    private static PluginImpl loadFromJar(Path jar, boolean useCoreClassLoader) {
-        List<Path> classpath = ImmutableList.of(jar);
+    private static PluginImpl loadFromZip(Path zip, boolean useCoreClassLoader) {
+        List<Path> classpath = ImmutableList.of(zip);
 
-        try (ZipFile zipFile = new ZipFile(jar.toFile())) {
-            ZipEntry pluginFile = zipFile.getEntry(PLUGIN_XML);
-            if (pluginFile == null) {
+        try (ZipFile zipFile = new ZipFile(zip.toFile())) {
+            ZipEntry pluginXmlFile = zipFile.getEntry(PLUGIN_XML);
+            if (pluginXmlFile == null) {
                 return null;
             }
 
-            return new PluginImpl(PluginXmlReader.read("jar:" + FileUtils.toURLString(jar) + "!/" + PLUGIN_XML, zipFile.getInputStream(pluginFile)), classpath, useCoreClassLoader);
+            return new PluginImpl(PluginXmlReader.read("jar:" + FileUtils.toURLString(zip) + "!/" + PLUGIN_XML, zipFile.getInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
         } catch (Exception e) {
             throw new PluginLoadException(e, classpath);
         }
+    }
+
+    private PluginManagerCore() {
     }
 }
