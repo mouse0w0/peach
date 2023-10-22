@@ -40,7 +40,7 @@ public final class DFSTBuilder<N> {
         for (int i = 0; i < nodeCount; i++) {
             if (dfn[i] != 0) continue;
 
-            // Topological sorting in DFS is reserved, get predecessors.
+            // Topological sorting in DFS is reversed, get predecessors.
             frameStack.push(new Frame<>(i, graph.getPredecessors(nodes[i]).iterator()));
             nodeStack.push(i);
             stacked[i] = true;
@@ -60,7 +60,7 @@ public final class DFSTBuilder<N> {
                     int succIndex = nodeIndex.applyAsInt(succNode);
                     if (dfn[succIndex] == 0) { // If node is not visited.
                         frame.succIndex = succIndex;
-                        // Topological sorting in DFS is reserved, get predecessors.
+                        // Topological sorting in DFS is reversed, get predecessors.
                         frameStack.push(new Frame<>(succIndex, graph.getPredecessors(succNode).iterator()));
                         nodeStack.push(succIndex);
                         stacked[succIndex] = true;
