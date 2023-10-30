@@ -10,7 +10,7 @@ import com.github.mouse0w0.peach.mcmod.generator.task.Zip;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.*;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -31,7 +31,7 @@ public final class Generator implements Context {
 
     private final Project project;
 
-    private ModMetadata metadata;
+    private ModProjectMetadata metadata;
     private String id;
     private Path projectFolder;
     private Path sourceFolder;
@@ -65,7 +65,7 @@ public final class Generator implements Context {
     }
 
     @Override
-    public ModMetadata getMetadata() {
+    public ModProjectMetadata getMetadata() {
         return metadata;
     }
 

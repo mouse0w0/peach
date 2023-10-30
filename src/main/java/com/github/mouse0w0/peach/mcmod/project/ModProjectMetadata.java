@@ -1,24 +1,20 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
-import com.github.mouse0w0.peach.util.StringUtils;
-
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
-public class ModMetadata {
-    public static final String FILE_NAME = "project.mod.json";
+public class ModProjectMetadata {
+    public static final String FILE_NAME = "mod.project.json";
 
     private String name = "untitled";
     private String id = "untitled";
     private String version = "1.0.0";
-    private List<String> authors = Collections.emptyList();
     private String mcVersion = "1.12.2";
     private Locale language = Locale.getDefault();
+    private String author;
     private String description;
+    private String credits;
     private String url;
     private String updateUrl;
-    private String credits;
 
     public String getName() {
         return name;
@@ -52,6 +48,22 @@ public class ModMetadata {
         this.mcVersion = mcVersion;
     }
 
+    public Locale getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Locale language) {
+        this.language = language;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -60,32 +72,12 @@ public class ModMetadata {
         this.description = description;
     }
 
-    public List<String> getAuthors() {
-        return authors;
+    public String getCredits() {
+        return credits;
     }
 
-    public String getFirstAuthor() {
-        return authors != null && authors.size() >= 1 ? authors.get(0) : "";
-    }
-
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
-    }
-
-    public void setFirstAuthor(String author) {
-        if (StringUtils.isEmpty(author)) {
-            authors = Collections.emptyList();
-        } else {
-            authors = Collections.singletonList(author);
-        }
-    }
-
-    public Locale getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Locale language) {
-        this.language = language;
+    public void setCredits(String credits) {
+        this.credits = credits;
     }
 
     public String getUrl() {
@@ -102,13 +94,5 @@ public class ModMetadata {
 
     public void setUpdateUrl(String updateUrl) {
         this.updateUrl = updateUrl;
-    }
-
-    public String getCredits() {
-        return credits;
-    }
-
-    public void setCredits(String credits) {
-        this.credits = credits;
     }
 }

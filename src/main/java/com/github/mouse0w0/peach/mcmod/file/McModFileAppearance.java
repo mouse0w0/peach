@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
-import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.util.FileUtils;
@@ -55,7 +55,7 @@ public class McModFileAppearance implements FileAppearance {
                 }
             }
         } else {
-            if (ModMetadata.FILE_NAME.equals(fileName)) {
+            if (ModProjectMetadata.FILE_NAME.equals(fileName)) {
                 cell.setText(AppL10n.localize("mod.file.metadata"));
                 cell.setIcon(AppIcon.File.Forge);
                 return true;

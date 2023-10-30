@@ -16,7 +16,7 @@ public final class ModProjectService implements Disposable {
     private final Project project;
 
     private final Path metadataFile;
-    private ModMetadata metadata;
+    private ModProjectMetadata metadata;
 
     private final Path resourcesPath;
 
@@ -27,17 +27,17 @@ public final class ModProjectService implements Disposable {
     public ModProjectService(Project project) {
         this.project = project;
 
-        this.metadataFile = project.getPath().resolve(ModMetadata.FILE_NAME);
+        this.metadataFile = project.getPath().resolve(ModProjectMetadata.FILE_NAME);
 
         try {
-            this.metadata = JsonUtils.readJson(metadataFile, ModMetadata.class);
+            this.metadata = JsonUtils.readJson(metadataFile, ModProjectMetadata.class);
         } catch (NoSuchFileException ignored) {
         } catch (IOException e) {
             LOGGER.error("Failed to load metadata.", e);
         }
 
         if (metadata == null) {
-            this.metadata = new ModMetadata();
+            this.metadata = new ModProjectMetadata();
         }
 
         this.resourcesPath = project.getPath().resolve("resources");
@@ -55,7 +55,7 @@ public final class ModProjectService implements Disposable {
         return metadataFile;
     }
 
-    public ModMetadata getMetadata() {
+    public ModProjectMetadata getMetadata() {
         return metadata;
     }
 

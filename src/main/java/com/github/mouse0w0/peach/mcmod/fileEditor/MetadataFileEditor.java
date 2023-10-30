@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.fileEditor;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModUtils;
@@ -24,20 +24,20 @@ import java.util.Locale;
 
 public class MetadataFileEditor extends FileEditorWithButtonBar {
     private final ModProjectService descriptor;
-    private final ModMetadata metadata;
+    private final ModProjectMetadata metadata;
 
     private Form form;
 
     private TextFieldField name;
     private TextFieldField id;
     private TextFieldField version;
-    private TextFieldField author;
     private ChoiceBoxField<String> mcVersion;
     private ComboBoxField<Locale> language;
+    private TextFieldField authors;
     private TextFieldField description;
+    private TextFieldField credits;
     private TextFieldField url;
     private TextFieldField updateUrl;
-    private TextFieldField credits;
     private TextureField logo;
 
     public MetadataFileEditor(@NotNull Project project, @NotNull Path file) {
@@ -67,11 +67,6 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         version.setColSpan(ColSpan.HALF);
         version.setValue(metadata.getVersion());
 
-        author = new TextFieldField();
-        author.setLabel(AppL10n.localize("metadata.general.author"));
-        author.setColSpan(ColSpan.HALF);
-        author.setValue(metadata.getFirstAuthor());
-
         mcVersion = new ChoiceBoxField<>();
         mcVersion.setLabel(AppL10n.localize("metadata.general.mcVersion"));
         mcVersion.setColSpan(ColSpan.HALF);
@@ -95,35 +90,39 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         language.getItems().addAll(Locale.getAvailableLocales());
         language.setValue(metadata.getLanguage());
 
+        authors = new TextFieldField();
+        authors.setLabel(AppL10n.localize("metadata.general.author"));
+        authors.setColSpan(ColSpan.HALF);
+        authors.setValue(metadata.getAuthor());
+
         description = new TextFieldField();
         description.setLabel(AppL10n.localize("metadata.general.description"));
         description.setValue(metadata.getDescription());
+
+        credits = new TextFieldField();
+        credits.setLabel(AppL10n.localize("metadata.general.credits"));
+        credits.setValue(metadata.getCredits());
+
+        url = new TextFieldField();
+        url.setLabel(AppL10n.localize("metadata.general.url"));
+        url.setValue(metadata.getUrl());
+
+        updateUrl = new TextFieldField();
+        updateUrl.setLabel(AppL10n.localize("metadata.general.updateUrl"));
+        updateUrl.setValue(metadata.getUpdateUrl());
 
         Section general = new Section();
         general.setText(AppL10n.localize("metadata.general.title"));
         general.getElements().addAll(
                 name, id,
-                version, author,
-                mcVersion, language,
-                description);
+                version, mcVersion,
+                language, authors,
+                description,
+                credits,
+                url,
+                updateUrl);
 
-        url = new TextFieldField();
-        url.setLabel(AppL10n.localize("metadata.advanced.url"));
-        url.setValue(metadata.getUrl());
-
-        updateUrl = new TextFieldField();
-        updateUrl.setLabel(AppL10n.localize("metadata.advanced.updateUrl"));
-        updateUrl.setValue(metadata.getUpdateUrl());
-
-        credits = new TextFieldField();
-        credits.setLabel(AppL10n.localize("metadata.advanced.credits"));
-        credits.setValue(metadata.getCredits());
-
-        Section advanced = new Section();
-        advanced.setText(AppL10n.localize("metadata.advanced.title"));
-        advanced.getElements().addAll(url, updateUrl, credits);
-
-        form.getGroups().addAll(general, advanced);
+        form.getGroups().add(general);
 
         return new FormView(form);
     }
@@ -135,7 +134,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         metadata.setVersion(version.getValue());
         metadata.setMcVersion(mcVersion.getValue());
         metadata.setDescription(description.getValue());
-        metadata.setFirstAuthor(author.getValue());
+        metadata.setAuthor(authors.getValue());
         metadata.setLanguage(language.getValue());
         metadata.setUrl(url.getValue());
         metadata.setUpdateUrl(updateUrl.getValue());

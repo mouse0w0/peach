@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.generator.Generator;
-import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.service.FileChooserHelper;
 import com.github.mouse0w0.peach.ui.util.ExtensionFilters;
@@ -35,7 +35,7 @@ public class ExportProjectAction extends Action {
                 throw e;
             }
         }).thenAcceptAsync(generator -> {
-            ModMetadata metadata = generator.getMetadata();
+            ModProjectMetadata metadata = generator.getMetadata();
 
             String fileName = metadata.getId() + "-" + metadata.getVersion() + ".jar";
 

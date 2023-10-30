@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.generator;
 
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.project.ModMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.google.common.collect.Multimap;
 import freemarker.template.Configuration;
 
@@ -13,7 +13,7 @@ public interface Context {
 
     Messager getMessager();
 
-    ModMetadata getMetadata();
+    ModProjectMetadata getMetadata();
 
     Path getProjectFolder();
 
