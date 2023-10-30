@@ -38,10 +38,16 @@ public class JsonUtils {
         return array;
     }
 
+    public static JsonArray jsonArray(JsonElement element) {
+        JsonArray array = new JsonArray(1);
+        array.add(element);
+        return array;
+    }
+
     public static JsonArray jsonArray(JsonElement... elements) {
         JsonArray array = new JsonArray(elements.length);
-        for (JsonElement element : elements) {
-            array.add(element);
+        for (int i = 0; i < elements.length; i++) {
+            array.add(elements[i]);
         }
         return array;
     }
@@ -58,8 +64,14 @@ public class JsonUtils {
         return array;
     }
 
+    public static JsonArray stringArray(String string) {
+        JsonArray array = new JsonArray(1);
+        array.add(string);
+        return array;
+    }
+
     public static JsonArray stringArray(String... strings) {
-        JsonArray array = new JsonArray();
+        JsonArray array = new JsonArray(strings.length);
         for (int i = 0; i < strings.length; i++) {
             array.add(strings[i]);
         }
@@ -78,8 +90,14 @@ public class JsonUtils {
         return array;
     }
 
+    public static JsonArray numberArray(Number number) {
+        JsonArray array = new JsonArray(1);
+        array.add(number);
+        return array;
+    }
+
     public static JsonArray numberArray(Number... numbers) {
-        JsonArray array = new JsonArray();
+        JsonArray array = new JsonArray(numbers.length);
         for (int i = 0; i < numbers.length; i++) {
             array.add(numbers[i]);
         }
@@ -98,10 +116,16 @@ public class JsonUtils {
         return array;
     }
 
-    public static JsonArray booleanArray(Boolean... booleans) {
-        JsonArray array = new JsonArray();
-        for (int i = 0; i < booleans.length; i++) {
-            array.add(booleans[i]);
+    public static JsonArray booleanArray(Boolean value) {
+        JsonArray array = new JsonArray(1);
+        array.add(value);
+        return array;
+    }
+
+    public static JsonArray booleanArray(Boolean... values) {
+        JsonArray array = new JsonArray(values.length);
+        for (int i = 0; i < values.length; i++) {
+            array.add(values[i]);
         }
         return array;
     }
