@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
 String buildNumber = 'git rev-list --count HEAD'.execute().text.trim();
