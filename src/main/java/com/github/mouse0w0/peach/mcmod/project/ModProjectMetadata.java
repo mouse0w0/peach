@@ -10,11 +10,11 @@ public class ModProjectMetadata {
     private String version = "1.0.0";
     private String mcVersion = "1.12.2";
     private Locale language = Locale.getDefault();
-    private String author;
-    private String description;
-    private String credits;
-    private String url;
-    private String updateUrl;
+    private String author = "";
+    private String description = "";
+    private String credits = "";
+    private String url = "";
+    private String updateUrl = "";
 
     public String getName() {
         return name;
