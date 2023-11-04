@@ -11,8 +11,13 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
 
 public class Section extends Group {
-
     public static final String FORM_SECTION_CLASS = "form-section";
+
+    public Section(String text, Element... elements) {
+        this();
+        setText(text);
+        getElements().addAll(elements);
+    }
 
     public Section(Element... elements) {
         this();
