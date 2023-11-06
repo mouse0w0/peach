@@ -21,7 +21,7 @@ public class ProjectFileWatcher implements Disposable {
     private static final AtomicInteger NEXT_ID = new AtomicInteger();
 
     private final Project project;
-    private final Path projectPath;
+    private final Path path;
     private final Thread thread;
 
     private FileChangeListener[] listeners;
@@ -32,7 +32,7 @@ public class ProjectFileWatcher implements Disposable {
 
     public ProjectFileWatcher(Project project) {
         this.project = project;
-        this.projectPath = project.getPath();
+        this.path = project.getPath();
         this.thread = new Thread(this::run, "File Watcher-" + NEXT_ID.getAndIncrement());
         this.thread.start();
     }
@@ -41,8 +41,8 @@ public class ProjectFileWatcher implements Disposable {
         return project;
     }
 
-    public Path getProjectPath() {
-        return projectPath;
+    public Path getPath() {
+        return path;
     }
 
     public synchronized void addListener(FileChangeListener listener) {
@@ -55,13 +55,16 @@ public class ProjectFileWatcher implements Disposable {
 
     public synchronized void removeListener(FileChangeListener listener) {
         if (listeners != null) {
-            listeners = ArrayUtils.removeElement(listeners, listener);
+            int index = ArrayUtils.indexOf(listeners, listener);
+            if (index != ArrayUtils.INDEX_NOT_FOUND) {
+                listeners = ArrayUtils.remove(listeners, index);
+            }
         }
     }
 
     private void run() {
         try (WatchService watcher = FileSystems.getDefault().newWatchService()) {
-            final WatchKey watchKey = projectPath.register(watcher, KINDS, MODIFIERS);
+            WatchKey watchKey = path.register(watcher, KINDS, MODIFIERS);
             while (true) {
                 watcher.take();
                 fireEvents(watchKey.pollEvents());
@@ -73,31 +76,29 @@ public class ProjectFileWatcher implements Disposable {
         }
     }
 
-    private synchronized void fireEvents(List<WatchEvent<?>> events) {
+    private void fireEvents(List<WatchEvent<?>> events) {
+        if (listeners == null) return;
         for (WatchEvent<?> event : events) {
-            if (event.count() != 1) return;
-
-            final FileChangeListener[] listeners = this.listeners;
-            final WatchEvent.Kind<?> kind = event.kind();
+            WatchEvent.Kind<?> kind = event.kind();
             if (kind == OVERFLOW) {
-                final Object context = event.context();
+                Object context = event.context();
                 for (FileChangeListener listener : listeners) {
                     listener.onOverflow(this, context);
                 }
             } else if (kind == ENTRY_CREATE) {
-                final Path path = projectPath.resolve((Path) event.context());
+                Path resolved = path.resolve((Path) event.context());
                 for (FileChangeListener listener : listeners) {
-                    listener.onFileCreate(this, path);
+                    listener.onFileCreate(this, resolved);
                 }
             } else if (kind == ENTRY_DELETE) {
-                final Path path = projectPath.resolve((Path) event.context());
+                Path resolved = path.resolve((Path) event.context());
                 for (FileChangeListener listener : listeners) {
-                    listener.onFileDelete(this, path);
+                    listener.onFileDelete(this, resolved);
                 }
             } else if (kind == ENTRY_MODIFY) {
-                final Path path = projectPath.resolve((Path) event.context());
+                Path resolved = path.resolve((Path) event.context());
                 for (FileChangeListener listener : listeners) {
-                    listener.onFileModify(this, path);
+                    listener.onFileModify(this, resolved);
                 }
             } else {
                 throw new Error("Cannot reachable");
