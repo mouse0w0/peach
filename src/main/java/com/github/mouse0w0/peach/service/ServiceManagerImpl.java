@@ -53,12 +53,14 @@ public abstract class ServiceManagerImpl implements ServiceManager {
         if (wrapper != null) {
             service = wrapper.getService(this, createIfNeeded);
             if (service != null) {
-                services.put(serviceClassName, service);
+                services.putIfAbsent(serviceClassName, service);
             }
             return service;
         }
-        if (parent != null) return parent.getService(serviceClassName, createIfNeeded);
-        return null;
+        if (parent != null) {
+            return parent.getService(serviceClassName, createIfNeeded);
+        }
+        throw new PluginException("Not found service " + serviceClassName);
     }
 
     @Override
