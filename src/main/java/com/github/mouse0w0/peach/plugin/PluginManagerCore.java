@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -217,13 +219,13 @@ public final class PluginManagerCore {
                     case "file" -> {
                         String urlPath = url.getPath();
                         int idx = urlPath.lastIndexOf('/');
-                        Path path = Path.of(urlPath.substring(1, idx));
+                        Path path = Path.of(URLDecoder.decode(urlPath.substring(1, idx), StandardCharsets.UTF_8));
                         futures.add(CompletableFuture.supplyAsync(() -> loadFromPluginDir(path, true)));
                     }
                     case "jar" -> {
                         String urlPath = url.getPath();
                         int idx = urlPath.lastIndexOf('!');
-                        Path path = Path.of(urlPath.substring(6, idx));
+                        Path path = Path.of(URLDecoder.decode(urlPath.substring(6, idx), StandardCharsets.UTF_8));
                         futures.add(CompletableFuture.supplyAsync(() -> loadFromZip(path, true)));
                     }
                 }
