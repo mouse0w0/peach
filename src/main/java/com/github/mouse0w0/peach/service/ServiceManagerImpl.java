@@ -36,13 +36,13 @@ public abstract class ServiceManagerImpl implements ServiceManager {
     }
 
     @Override
-    public <T> T getService(Class<T> classOfT) {
-        return getService(classOfT.getName(), true);
+    public <T> T getService(Class<T> serviceClass) {
+        return getService(serviceClass.getName(), true);
     }
 
     @Override
-    public <T> T getServiceIfCreated(Class<T> classOfT) {
-        return getService(classOfT.getName(), false);
+    public <T> T getServiceIfCreated(Class<T> serviceClass) {
+        return getService(serviceClass.getName(), false);
     }
 
     @SuppressWarnings("unchecked")
