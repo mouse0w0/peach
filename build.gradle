@@ -71,9 +71,32 @@ jar {
 
 startScripts.enabled = false
 
+tasks.register('cleanPlugins') {
+    doFirst {
+        delete layout.buildDirectory.dir('plugin')
+    }
+}
+
+file('plugin').eachDir { pluginDir ->
+    tasks.register("zipPlugin(${pluginDir.getName()})", Zip.class) { task ->
+        task.from pluginDir
+        task.destinationDirectory = layout.buildDirectory.dir("plugin")
+        task.archiveFileName = pluginDir.getName() + '.zip'
+        task.group 'plugin'
+        task.mustRunAfter cleanPlugins
+    }
+}
+
+tasks.register('zipPlugins') { task ->
+    task.outputs.dir layout.buildDirectory.dir('plugin')
+    task.dependsOn cleanPlugins
+    task.dependsOn tasks.matching { t -> t.group == 'plugin' }
+}
+
 distributions {
     main {
         contents {
+            from(zipPlugins) { into 'plugin' }
             from('content-pack') { into 'content-pack' }
             from('license') { into 'license' }
             from('executable')
