@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.mcmod.index.Indexes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.animation.KeyFrame;
@@ -30,7 +31,6 @@ import javafx.util.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class ItemChooser extends Stage {
     private final TextField filter;
@@ -145,11 +145,7 @@ public class ItemChooser extends Stage {
     }
 
     private void updateItem() {
-        List<ItemRef> items = itemMap.keySet()
-                .stream() // 10000个元素以下时，串行比并行Stream要好。
-                .filter(buildItemFilter())
-                .collect(Collectors.toList());
-        gridView.getItems().setAll(items);
+        gridView.getItems().setAll(ListUtils.filterCollect(itemMap.keySet(), buildItemFilter()));
     }
 
     private Predicate<ItemRef> buildItemFilter() {
