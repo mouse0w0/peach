@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import gcardone.junidecode.Junidecode;
+import com.anyascii.AnyAscii;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;
@@ -19,23 +19,32 @@ public class IdentifierUtils {
     }
 
     public static String tryConvertToIdentifier(String s) {
-        s = Junidecode.unidecode(s).trim();
-        StringBuilder sb = new StringBuilder(s.length());
-        for (char c : s.toCharArray()) {
-            if (isASCII(c)) {
-                if (Character.isWhitespace(c)) {
-                    sb.append("_");
-                } else {
-                    sb.append(Character.toLowerCase(c));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            String trans = AnyAscii.transliterate(s.codePointAt(i));
+            for (int j = 0; j < trans.length(); j++) {
+                char transChar = trans.charAt(j);
+                if (isIdentifierPart(transChar)) {
+                    sb.append(transChar);
+                } else if (isUppercaseLetter(transChar)) {
+                    sb.append((char) (transChar - 'A' + 'a'));
+                } else if (Character.isWhitespace(transChar)) {
+                    sb.append('_');
                 }
-            } else {
-                sb.append(Integer.toHexString(c));
             }
         }
         return sb.toString();
     }
 
-    private static boolean isASCII(char c) {
-        return c <= 127;
+    public static boolean isIdentifierStart(char c) {
+        return c >= 'a' && c <= 'z';
+    }
+
+    public static boolean isIdentifierPart(char c) {
+        return c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '_';
+    }
+
+    private static boolean isUppercaseLetter(char c) {
+        return c >= 'A' && c <= 'Z';
     }
 }
