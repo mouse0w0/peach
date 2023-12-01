@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.element.impl.CraftingElement;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
@@ -46,7 +46,7 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
     protected Node getContent() {
         FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/CraftingRecipe.fxml", AppL10n.getResourceBundle());
 
-        Validator.of(identifier, AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier);
+        Validator.of(identifier, AppL10n.localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier);
 
         group.setEditable(true);
 

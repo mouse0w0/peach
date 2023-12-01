@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.form.ColSpan;
 import com.github.mouse0w0.peach.ui.form.Form;
@@ -59,7 +59,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         id = new TextFieldField();
         id.setLabel(AppL10n.localize("metadata.general.id"));
         id.setColSpan(ColSpan.HALF);
-        id.getChecks().add(Check.of(AppL10n.localize("validate.invalidModId"), ModUtils::validateIdentifier));
+        id.getChecks().add(Check.of(AppL10n.localize("validate.invalidModId"), IdentifierUtils::validateIdentifier));
         id.setValue(metadata.getId());
 
         version = new TextFieldField();

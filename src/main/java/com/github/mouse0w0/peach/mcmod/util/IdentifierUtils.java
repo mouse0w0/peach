@@ -5,8 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Pattern;
 
-public final class ModUtils {
-
+public class IdentifierUtils {
     public static final Pattern IDENTIFIER = Pattern.compile("^[a-z][a-z0-9_]{1,63}$");
 
     public static boolean validateIdentifier(String identifier) {

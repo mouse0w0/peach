@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
@@ -64,7 +64,7 @@ public class NewElementDialog extends BorderPane {
             }
         });
         name.textProperty().addListener(observable ->
-                identifier.setText(ModUtils.tryConvertToIdentifier(name.getText())));
+                identifier.setText(IdentifierUtils.tryConvertToIdentifier(name.getText())));
 
         type.setConverter(new StringConverter<>() {
             @Override

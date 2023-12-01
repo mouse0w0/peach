@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -57,7 +57,7 @@ public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
     protected Node getContent() {
         FlowPane root = FXUtils.loadFXML(null, this, "ui/mcmod/ItemGroup.fxml", AppL10n.getResourceBundle());
 
-        Validator.of(identifier, AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier);
+        Validator.of(identifier, AppL10n.localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier);
 
         background = new FilePicker();
         background.getExtensionFilters().add(ExtensionFilters.PNG);

@@ -12,7 +12,7 @@ import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -96,7 +96,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         form = new Form();
 
         identifier = new TextFieldField();
-        identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), ModUtils::validateIdentifier));
+        identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier));
         identifier.setLabel(AppL10n.localize("block.properties.identifier"));
         identifier.setColSpan(ColSpan.HALF);
 

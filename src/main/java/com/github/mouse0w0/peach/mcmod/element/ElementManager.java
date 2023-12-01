@@ -10,7 +10,7 @@ import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.Indexes;
-import com.github.mouse0w0.peach.mcmod.util.ModUtils;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
@@ -123,7 +123,7 @@ public final class ElementManager extends IndexProvider {
             return;
         }
 
-        saveElement(provider.newElement(project, file, ModUtils.toIdentifier(name), name));
+        saveElement(provider.newElement(project, file, IdentifierUtils.toIdentifier(name), name));
 
         FileEditorManager.getInstance(project).open(file);
     }
