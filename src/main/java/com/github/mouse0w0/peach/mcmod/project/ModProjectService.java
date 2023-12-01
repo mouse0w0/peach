@@ -14,11 +14,9 @@ public final class ModProjectService implements Disposable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModProjectService.class);
 
     private final Project project;
-
     private final Path metadataFile;
-    private ModProjectMetadata metadata;
 
-    private final Path resourcesPath;
+    private ModProjectMetadata metadata;
 
     public static ModProjectService getInstance(Project project) {
         return project.getService(ModProjectService.class);
@@ -26,7 +24,6 @@ public final class ModProjectService implements Disposable {
 
     public ModProjectService(Project project) {
         this.project = project;
-
         this.metadataFile = project.getPath().resolve(ModProjectMetadata.FILE_NAME);
 
         try {
@@ -39,8 +36,6 @@ public final class ModProjectService implements Disposable {
         if (metadata == null) {
             this.metadata = new ModProjectMetadata();
         }
-
-        this.resourcesPath = project.getPath().resolve("resources");
     }
 
     public Project getProject() {
@@ -65,10 +60,6 @@ public final class ModProjectService implements Disposable {
         } catch (IOException e) {
             LOGGER.error("Failed to write metadata.", e);
         }
-    }
-
-    public Path getResourcesPath() {
-        return resourcesPath;
     }
 
     @Override
