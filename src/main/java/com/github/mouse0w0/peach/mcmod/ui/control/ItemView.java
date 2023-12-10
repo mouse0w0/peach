@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.ui.control;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.window.WindowManager;
@@ -143,7 +143,7 @@ public class ItemView extends Control {
     private Map<ItemRef, List<Item>> getDefaultItemMap() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
-        return IndexManager.getInstance(project).getIndex(Indexes.ITEMS);
+        return IndexManager.getInstance(project).getIndex(IndexTypes.ITEMS);
     }
 
     @Override

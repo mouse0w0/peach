@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
@@ -124,7 +124,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
-        itemGroup.getItems().setAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
+        itemGroup.getItems().setAll(indexManager.getIndex(IndexTypes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new IntegerField(1, 64, 64);
@@ -343,7 +343,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
         equipSound.setConverter(LocalizableConverter.instance());
-        equipSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(Indexes.SOUND_EVENTS).values());
+        equipSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(IndexTypes.SOUND_EVENTS).values());
         equipSound.disableProperty().bind(isNotArmor);
 
         hunger = new IntegerField(0, Integer.MAX_VALUE, 0);

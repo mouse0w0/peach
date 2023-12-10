@@ -7,9 +7,9 @@ import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
+import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -29,7 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class ElementManager extends IndexProvider {
+public final class ElementManager extends GenericIndexProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ElementManager.class);
 
@@ -44,18 +44,18 @@ public final class ElementManager extends IndexProvider {
     }
 
     public ElementManager(Project project, IndexManager indexManager, ElementRegistry registry) {
-        super("PROJECT", 200);
+        super("project", 9000);
         this.project = project;
         this.registry = registry;
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         FileUtils.createDirectoriesIfNotExists(sourcesPath);
-        indexManager.registerProvider(this);
+        indexManager.addProvider(this);
         this.gson = new GsonBuilder()
-                .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(Indexes.ITEM_GROUPS)))
-                .registerTypeAdapter(Material.class, new Material.Persister(indexManager.getIndex(Indexes.MATERIALS)))
-                .registerTypeAdapter(SoundType.class, new SoundType.Persister(indexManager.getIndex(Indexes.SOUND_TYPES)))
-                .registerTypeAdapter(MapColor.class, new MapColor.Persister(indexManager.getIndex(Indexes.MAP_COLORS)))
-                .registerTypeAdapter(SoundEvent.class, new SoundEvent.Persister(indexManager.getIndex(Indexes.SOUND_EVENTS)))
+                .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(IndexTypes.ITEM_GROUPS)))
+                .registerTypeAdapter(Material.class, new Material.Persister(indexManager.getIndex(IndexTypes.MATERIALS)))
+                .registerTypeAdapter(SoundType.class, new SoundType.Persister(indexManager.getIndex(IndexTypes.SOUND_TYPES)))
+                .registerTypeAdapter(MapColor.class, new MapColor.Persister(indexManager.getIndex(IndexTypes.MAP_COLORS)))
+                .registerTypeAdapter(SoundEvent.class, new SoundEvent.Persister(indexManager.getIndex(IndexTypes.SOUND_EVENTS)))
                 .create();
         this.fileChangeListener = new FileChangeListener() {
             @Override

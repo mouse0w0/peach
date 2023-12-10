@@ -9,7 +9,7 @@ import com.github.mouse0w0.peach.mcmod.element.editor.ItemEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -35,9 +35,9 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         item.setIdentifier(identifier);
         item.setDisplayName(name);
         item.setEquipmentSlot(EquipmentSlot.NONE);
-        item.setItemGroup(Iterables.getFirst(indexManager.getIndex(Indexes.ITEM_GROUPS).values(), null));
+        item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUPS).values(), null));
         item.setModel(new Identifier("minecraft:generated"));
-        item.setEquipSound(indexManager.getIndex(Indexes.SOUND_EVENTS).get("minecraft:item.armor.equip_generic"));
+        item.setEquipSound(indexManager.getIndex(IndexTypes.SOUND_EVENTS).get("minecraft:item.armor.equip_generic"));
         return item;
     }
 
@@ -60,7 +60,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
             item.setImage(ResourceUtils.MISSING_TEXTURE);
         }
 
-        Map<ItemRef, List<Item>> items = provider.getIndex(Indexes.ITEMS);
+        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEMS);
         ItemRef item1 = ItemRef.createItem(modId + ":" + item.getId(), item.getMetadata());
         items.put(item1, Collections.singletonList(item));
         ItemRef item2 = ItemRef.createIgnoreMetadata(modId + ":" + item.getId());
@@ -70,7 +70,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<ItemRef, List<Item>> items = provider.getIndex(Indexes.ITEMS);
+        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEMS);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

@@ -1,41 +1,16 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
-import com.github.mouse0w0.peach.util.Validate;
-
-import java.util.HashMap;
 import java.util.Map;
 
-public class IndexProvider implements Comparable<IndexProvider> {
+public interface IndexProvider extends Comparable<IndexProvider> {
+    String getName();
 
-    private final Map<Index<?>, Object> indexes = new HashMap<>();
+    int getPriority();
 
-    private final String name;
-    private final int priority;
-
-    public IndexProvider(String name) {
-        this(name, 0);
-    }
-
-    public IndexProvider(String name, int priority) {
-        this.name = Validate.notEmpty(name);
-        this.priority = priority;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    @SuppressWarnings("unchecked")
-    public final <T> T getIndex(Index<T> index) {
-        return (T) indexes.computeIfAbsent(index, Index::create);
-    }
+    <K, V> Map<K, V> getIndex(IndexType<K, V> indexType);
 
     @Override
-    public int compareTo(IndexProvider o) {
-        return Integer.compare(priority, o.priority);
+    default int compareTo(IndexProvider o) {
+        return Integer.compare(getPriority(), o.getPriority());
     }
 }

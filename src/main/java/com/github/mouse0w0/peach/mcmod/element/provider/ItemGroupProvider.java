@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.ItemGroup;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemGroupEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.nio.file.Path;
@@ -34,12 +34,12 @@ public class ItemGroupProvider extends ElementProvider<ItemGroupElement> {
         ItemGroup itemGroup = new ItemGroup(element.getIdentifier(), null, element.getIcon());
         itemGroup.setLocalizedText(element.getDisplayName());
 
-        provider.getIndex(Indexes.ITEM_GROUPS).put(element.getIdentifier(), itemGroup);
+        provider.getIndex(IndexTypes.ITEM_GROUPS).put(element.getIdentifier(), itemGroup);
         return new Object[]{element.getIdentifier()};
     }
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        provider.getIndex(Indexes.ITEM_GROUPS).remove(objects[0]);
+        provider.getIndex(IndexTypes.ITEM_GROUPS).remove(objects[0]);
     }
 }

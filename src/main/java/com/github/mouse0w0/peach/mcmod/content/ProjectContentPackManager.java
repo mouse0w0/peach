@@ -1,14 +1,14 @@
 package com.github.mouse0w0.peach.mcmod.content;
 
 import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.util.*;
 
-public final class ProjectContentPackManager extends IndexProvider {
+public final class ProjectContentPackManager extends GenericIndexProvider {
     private final Map<String, ContentPack> contentPacks = new LinkedHashMap<>();
 
     public static ProjectContentPackManager getInstance(Project project) {
@@ -16,11 +16,11 @@ public final class ProjectContentPackManager extends IndexProvider {
     }
 
     public ProjectContentPackManager(IndexManager indexManager) {
-        super("LIBRARY", 100);
+        super("library", 5000);
 
         addContentPacks(ContentPackManager.getInstance().getContentPacks());
 
-        indexManager.registerProvider(this);
+        indexManager.addProvider(this);
     }
 
     public void addContentPacks(Collection<ContentPack> contentPacks) {
@@ -35,19 +35,19 @@ public final class ProjectContentPackManager extends IndexProvider {
         contentPack.getData(Item.class).forEach(this::addItem);
         contentPack.getData(OreDict.class).forEach(this::addOreDict);
 
-        Map<String, ItemGroup> itemGroupIndex = getIndex(Indexes.ITEM_GROUPS);
+        Map<String, ItemGroup> itemGroupIndex = getIndex(IndexTypes.ITEM_GROUPS);
         contentPack.getData(ItemGroup.class).forEach(itemGroup -> itemGroupIndex.put(itemGroup.getId(), itemGroup));
 
-        Map<String, Material> materialIndex = getIndex(Indexes.MATERIALS);
+        Map<String, Material> materialIndex = getIndex(IndexTypes.MATERIALS);
         contentPack.getData(Material.class).forEach(material -> materialIndex.put(material.getId(), material));
 
-        Map<String, SoundType> soundTypeIndex = getIndex(Indexes.SOUND_TYPES);
+        Map<String, SoundType> soundTypeIndex = getIndex(IndexTypes.SOUND_TYPES);
         contentPack.getData(SoundType.class).forEach(soundType -> soundTypeIndex.put(soundType.getId(), soundType));
 
-        Map<String, MapColor> mapColorIndex = getIndex(Indexes.MAP_COLORS);
+        Map<String, MapColor> mapColorIndex = getIndex(IndexTypes.MAP_COLORS);
         contentPack.getData(MapColor.class).forEach(mapColor -> mapColorIndex.put(mapColor.getId(), mapColor));
 
-        Map<String, SoundEvent> soundEventIndex = getIndex(Indexes.SOUND_EVENTS);
+        Map<String, SoundEvent> soundEventIndex = getIndex(IndexTypes.SOUND_EVENTS);
         contentPack.getData(SoundEvent.class).forEach(soundEvent -> soundEventIndex.put(soundEvent.getId(), soundEvent));
     }
 
@@ -60,10 +60,10 @@ public final class ProjectContentPackManager extends IndexProvider {
 
     private void addOreDict(OreDict oreDict) {
         List<Item> itemData = getItemDataList(ItemRef.createOreDictionary(oreDict.getId()));
-        oreDict.getEntries().forEach(itemRef -> itemData.addAll(getIndex(Indexes.ITEMS).get(itemRef)));
+        oreDict.getEntries().forEach(itemRef -> itemData.addAll(getIndex(IndexTypes.ITEMS).get(itemRef)));
     }
 
     private List<Item> getItemDataList(ItemRef item) {
-        return getIndex(Indexes.ITEMS).computeIfAbsent(item, k -> new ArrayList<>(1));
+        return getIndex(IndexTypes.ITEMS).computeIfAbsent(item, k -> new ArrayList<>(1));
     }
 }

@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.Indexes;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
@@ -115,21 +115,21 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         material.setLabel(AppL10n.localize("block.properties.material"));
         material.setCellFactory(LocalizableWithItemIconCell.factory());
         material.setButtonCell(LocalizableWithItemIconCell.create());
-        material.getItems().addAll(indexManager.getIndex(Indexes.MATERIALS).values());
+        material.getItems().addAll(indexManager.getIndex(IndexTypes.MATERIALS).values());
         material.setColSpan(ColSpan.HALF);
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
-        itemGroup.getItems().addAll(indexManager.getIndex(Indexes.ITEM_GROUPS).values());
+        itemGroup.getItems().addAll(indexManager.getIndex(IndexTypes.ITEM_GROUPS).values());
         itemGroup.setColSpan(ColSpan.HALF);
 
         soundType = new ComboBoxField<>();
         soundType.setLabel(AppL10n.localize("block.properties.soundType"));
         soundType.setCellFactory(LocalizableWithItemIconCell.factory());
         soundType.setButtonCell(LocalizableWithItemIconCell.create());
-        soundType.getItems().addAll(indexManager.getIndex(Indexes.SOUND_TYPES).values());
+        soundType.getItems().addAll(indexManager.getIndex(IndexTypes.SOUND_TYPES).values());
         soundType.setColSpan(ColSpan.HALF);
 
         hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
@@ -303,7 +303,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
         mapColor.setCellFactory(LocalizableWithItemIconCell.factory());
         mapColor.setButtonCell(LocalizableWithItemIconCell.create());
-        mapColor.getItems().addAll(indexManager.getIndex(Indexes.MAP_COLORS).values());
+        mapColor.getItems().addAll(indexManager.getIndex(IndexTypes.MAP_COLORS).values());
         mapColor.setColSpan(ColSpan.HALF);
 
         beaconColor = new ColorPickerField();
