@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import org.apache.commons.collections4.map.CompositeMap;
 
@@ -20,8 +21,7 @@ public final class IndexManager {
 
     public void addProvider(IndexProvider provider) {
         Validate.notNull(provider);
-        providers.add(provider);
-        providers.sort(Comparator.naturalOrder());
+        ListUtils.binarySearchInsert(providers, provider);
     }
 
     @SuppressWarnings("unchecked")
