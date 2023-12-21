@@ -8,6 +8,6 @@ public class BuiltinIndexProvider extends GenericIndexProvider {
 
         indexManager.addProvider(this);
 
-        getIndex(IndexTypes.MAP_COLORS).put(MapColor.INHERIT.getId(), MapColor.INHERIT);
+        getIndex(IndexTypes.MAP_COLOR).put(MapColor.INHERIT.getId(), MapColor.INHERIT);
     }
 }

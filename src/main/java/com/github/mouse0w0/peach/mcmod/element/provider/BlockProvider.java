@@ -32,7 +32,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         block.setFile(file);
         block.setIdentifier(identifier);
         block.setDisplayName(name);
-        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUPS).keySet(), null));
+        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keySet(), null));
         block.setMaterial("minecraft:rock");
         block.setSoundType("minecraft:stone");
         block.setMapColor("inherit");
@@ -56,7 +56,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         item.setLocalizedText(element.getDisplayName());
         item.setImage(ResourceUtils.CUBE_TEXTURE);
 
-        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEMS);
+        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
         ItemRef item1 = ItemRef.createItem(modId + ":" + item.getId(), item.getMetadata());
         items.put(item1, Collections.singletonList(item));
         ItemRef item2 = ItemRef.createIgnoreMetadata(modId + ":" + item.getId());
@@ -66,7 +66,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEMS);
+        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

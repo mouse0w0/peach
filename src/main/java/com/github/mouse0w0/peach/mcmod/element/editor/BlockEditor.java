@@ -112,7 +112,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         material = new ComboBoxField<>();
         material.setLabel(AppL10n.localize("block.properties.material"));
-        var materialMap = indexManager.getIndex(IndexTypes.MATERIALS);
+        var materialMap = indexManager.getIndex(IndexTypes.MATERIAL);
         material.setCellFactory(LocalizableWithItemIconCell.factory(materialMap));
         material.setButtonCell(LocalizableWithItemIconCell.create(materialMap));
         material.getItems().addAll(materialMap.keySet());
@@ -120,7 +120,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
-        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUPS);
+        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUP);
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory(itemGroupMap));
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create(itemGroupMap));
         itemGroup.getItems().addAll(itemGroupMap.keySet());
@@ -128,7 +128,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         soundType = new ComboBoxField<>();
         soundType.setLabel(AppL10n.localize("block.properties.soundType"));
-        var soundTypeMap = indexManager.getIndex(IndexTypes.SOUND_TYPES);
+        var soundTypeMap = indexManager.getIndex(IndexTypes.SOUND_TYPE);
         soundType.setCellFactory(LocalizableWithItemIconCell.factory(soundTypeMap));
         soundType.setButtonCell(LocalizableWithItemIconCell.create(soundTypeMap));
         soundType.getItems().addAll(soundTypeMap.keySet());
@@ -303,7 +303,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         mapColor = new ComboBoxField<>();
         mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
-        var mapColorMap = indexManager.getIndex(IndexTypes.MAP_COLORS);
+        var mapColorMap = indexManager.getIndex(IndexTypes.MAP_COLOR);
         mapColor.setCellFactory(LocalizableWithItemIconCell.factory(mapColorMap));
         mapColor.setButtonCell(LocalizableWithItemIconCell.create(mapColorMap));
         mapColor.getItems().addAll(mapColorMap.keySet());

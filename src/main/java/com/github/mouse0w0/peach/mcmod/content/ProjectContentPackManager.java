@@ -35,19 +35,19 @@ public final class ProjectContentPackManager extends GenericIndexProvider {
         contentPack.getData(Item.class).forEach(this::addItem);
         contentPack.getData(OreDict.class).forEach(this::addOreDict);
 
-        Map<String, ItemGroup> itemGroupIndex = getIndex(IndexTypes.ITEM_GROUPS);
+        Map<String, ItemGroup> itemGroupIndex = getIndex(IndexTypes.ITEM_GROUP);
         contentPack.getData(ItemGroup.class).forEach(itemGroup -> itemGroupIndex.put(itemGroup.getId(), itemGroup));
 
-        Map<String, Material> materialIndex = getIndex(IndexTypes.MATERIALS);
+        Map<String, Material> materialIndex = getIndex(IndexTypes.MATERIAL);
         contentPack.getData(Material.class).forEach(material -> materialIndex.put(material.getId(), material));
 
-        Map<String, SoundType> soundTypeIndex = getIndex(IndexTypes.SOUND_TYPES);
+        Map<String, SoundType> soundTypeIndex = getIndex(IndexTypes.SOUND_TYPE);
         contentPack.getData(SoundType.class).forEach(soundType -> soundTypeIndex.put(soundType.getId(), soundType));
 
-        Map<String, MapColor> mapColorIndex = getIndex(IndexTypes.MAP_COLORS);
+        Map<String, MapColor> mapColorIndex = getIndex(IndexTypes.MAP_COLOR);
         contentPack.getData(MapColor.class).forEach(mapColor -> mapColorIndex.put(mapColor.getId(), mapColor));
 
-        Map<String, SoundEvent> soundEventIndex = getIndex(IndexTypes.SOUND_EVENTS);
+        Map<String, SoundEvent> soundEventIndex = getIndex(IndexTypes.SOUND_EVENT);
         contentPack.getData(SoundEvent.class).forEach(soundEvent -> soundEventIndex.put(soundEvent.getId(), soundEvent));
     }
 
@@ -60,10 +60,10 @@ public final class ProjectContentPackManager extends GenericIndexProvider {
 
     private void addOreDict(OreDict oreDict) {
         List<Item> itemData = getItemDataList(ItemRef.createOreDictionary(oreDict.getId()));
-        oreDict.getEntries().forEach(itemRef -> itemData.addAll(getIndex(IndexTypes.ITEMS).get(itemRef)));
+        oreDict.getEntries().forEach(itemRef -> itemData.addAll(getIndex(IndexTypes.ITEM).get(itemRef)));
     }
 
     private List<Item> getItemDataList(ItemRef item) {
-        return getIndex(IndexTypes.ITEMS).computeIfAbsent(item, k -> new ArrayList<>(1));
+        return getIndex(IndexTypes.ITEM).computeIfAbsent(item, k -> new ArrayList<>(1));
     }
 }

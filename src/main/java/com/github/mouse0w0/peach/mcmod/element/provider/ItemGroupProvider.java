@@ -34,12 +34,12 @@ public class ItemGroupProvider extends ElementProvider<ItemGroupElement> {
         ItemGroup itemGroup = new ItemGroup(element.getIdentifier(), null, element.getIcon());
         itemGroup.setLocalizedText(element.getDisplayName());
 
-        provider.getIndex(IndexTypes.ITEM_GROUPS).put(element.getIdentifier(), itemGroup);
+        provider.getIndex(IndexTypes.ITEM_GROUP).put(element.getIdentifier(), itemGroup);
         return new Object[]{element.getIdentifier()};
     }
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        provider.getIndex(IndexTypes.ITEM_GROUPS).remove(objects[0]);
+        provider.getIndex(IndexTypes.ITEM_GROUP).remove(objects[0]);
     }
 }

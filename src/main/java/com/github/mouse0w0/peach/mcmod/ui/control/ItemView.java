@@ -143,7 +143,7 @@ public class ItemView extends Control {
     private Index<ItemRef, List<Item>> getDefaultIndex() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
-        return IndexManager.getInstance(project).getIndex(IndexTypes.ITEMS);
+        return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
     }
 
     @Override

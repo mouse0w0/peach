@@ -128,7 +128,7 @@ public class ItemChooser extends Stage {
 
     private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
-        this.itemIndex = IndexManager.getInstance(project).getIndex(IndexTypes.ITEMS);
+        this.itemIndex = IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
 
 //        filter.setText(null);
 

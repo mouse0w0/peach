@@ -120,7 +120,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
-        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUPS);
+        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUP);
         itemGroup.setCellFactory(LocalizableWithItemIconCell.factory(itemGroupMap));
         itemGroup.setButtonCell(LocalizableWithItemIconCell.create(itemGroupMap));
         itemGroup.getItems().addAll(itemGroupMap.keySet());
@@ -341,7 +341,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         equipSound = new ComboBoxField<>();
         equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
-        var soundEventMap = indexManager.getIndex(IndexTypes.SOUND_EVENTS);
+        var soundEventMap = indexManager.getIndex(IndexTypes.SOUND_EVENT);
         equipSound.setCellFactory(LocalizableWithItemIconCell.factory(soundEventMap));
         equipSound.setButtonCell(LocalizableWithItemIconCell.create(soundEventMap));
         equipSound.getItems().addAll(soundEventMap.keySet());

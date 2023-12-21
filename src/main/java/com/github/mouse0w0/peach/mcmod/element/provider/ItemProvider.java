@@ -35,7 +35,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         item.setIdentifier(identifier);
         item.setDisplayName(name);
         item.setEquipmentSlot(EquipmentSlot.NONE);
-        item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUPS).keySet(), null));
+        item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keySet(), null));
         item.setModel(new Identifier("minecraft:generated"));
         item.setEquipSound("minecraft:item.armor.equip_generic");
         return item;
@@ -60,7 +60,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
             item.setImage(ResourceUtils.MISSING_TEXTURE);
         }
 
-        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEMS);
+        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
         ItemRef item1 = ItemRef.createItem(modId + ":" + item.getId(), item.getMetadata());
         items.put(item1, Collections.singletonList(item));
         ItemRef item2 = ItemRef.createIgnoreMetadata(modId + ":" + item.getId());
@@ -70,7 +70,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEMS);
+        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }
