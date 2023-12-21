@@ -5,6 +5,7 @@ import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
@@ -29,7 +30,6 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 public class ItemChooser extends Stage {
@@ -39,7 +39,7 @@ public class ItemChooser extends Stage {
     private final RadioButton oreDictMode;
     private final GridView<ItemRef> gridView;
 
-    private Map<ItemRef, List<Item>> itemMap;
+    private Index<ItemRef, List<Item>> itemIndex;
 
     private ItemRef defaultItem;
 
@@ -128,7 +128,7 @@ public class ItemChooser extends Stage {
 
     private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
-        this.itemMap = IndexManager.getInstance(project).getIndex(IndexTypes.ITEMS);
+        this.itemIndex = IndexManager.getInstance(project).getIndex(IndexTypes.ITEMS);
 
 //        filter.setText(null);
 
@@ -145,7 +145,7 @@ public class ItemChooser extends Stage {
     }
 
     private void updateItem() {
-        gridView.getItems().setAll(ListUtils.filterCollect(itemMap.keySet(), buildItemFilter()));
+        gridView.getItems().setAll(ListUtils.filterCollect(itemIndex.keySet(), buildItemFilter()));
     }
 
     private Predicate<ItemRef> buildItemFilter() {
@@ -168,7 +168,7 @@ public class ItemChooser extends Stage {
 
     private boolean filterItem(ItemRef item, String pattern) {
         if (item.getId().contains(pattern)) return true;
-        for (Item data : itemMap.get(item)) {
+        for (Item data : itemIndex.get(item)) {
             if (data.getLocalizedText().contains(pattern)) {
                 return true;
             }

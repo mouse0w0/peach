@@ -48,9 +48,9 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         ItemRef itemSelector = itemView.getItem();
         if (itemSelector == null) {
-            items = itemView.getItemMap().get(ItemRef.AIR);
+            items = itemView.getIndex().get(ItemRef.AIR);
         } else {
-            items = itemView.getItemMap().get(itemSelector);
+            items = itemView.getIndex().get(itemSelector);
         }
 
         if (items == null || items.size() == 0) {

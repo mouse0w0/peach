@@ -32,9 +32,10 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         block.setFile(file);
         block.setIdentifier(identifier);
         block.setDisplayName(name);
-        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUPS).values(), null));
-        block.setMaterial(indexManager.getIndex(IndexTypes.MATERIALS).get("minecraft:rock"));
-        block.setSoundType(indexManager.getIndex(IndexTypes.SOUND_TYPES).get("minecraft:stone"));
+        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUPS).keySet(), null));
+        block.setMaterial("minecraft:rock");
+        block.setSoundType("minecraft:stone");
+        block.setMapColor("inherit");
         block.setModel(new Identifier("minecraft:cube_all"));
         block.setItemModel(ModelManager.INHERIT);
         return block;

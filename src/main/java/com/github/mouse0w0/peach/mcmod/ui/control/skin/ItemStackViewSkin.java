@@ -24,7 +24,7 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
         item.getStyleClass().setAll("item");
         item.itemProperty().bindBidirectional(control.itemProperty());
         item.sizeProperty().bind(control.sizeProperty());
-        item.itemMapProperty().bind(control.itemMapProperty());
+        item.indexProperty().bind(control.indexProperty());
 
         amount = new TextField();
         amount.getStyleClass().setAll("amount");

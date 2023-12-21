@@ -12,11 +12,11 @@ public class GenItemGroupConstants implements Task {
         ItemGroupsClassGenerator groups = new ItemGroupsClassGenerator(context.getInternalName("init/ItemGroups"));
 
         for (BlockElement block : context.getElements(BlockElement.class)) {
-            groups.visitItemGroup(block.getItemGroup().getId());
+            groups.visitItemGroup(block.getItemGroup());
         }
 
         for (ItemElement item : context.getElements(ItemElement.class)) {
-            groups.visitItemGroup(item.getItemGroup().getId());
+            groups.visitItemGroup(item.getItemGroup());
         }
 
         context.getClassesFiler().write(groups.getThisName() + ".class", groups.toByteArray());

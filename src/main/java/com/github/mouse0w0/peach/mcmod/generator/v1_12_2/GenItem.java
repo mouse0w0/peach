@@ -71,11 +71,11 @@ public class GenItem implements Task {
             else if (type == ItemType.SWORD)
                 cg.visitSwordItem(namespace + "$" + identifier, 0);
             else if (type == ItemType.ARMOR)
-                cg.visitArmorItem(namespace + "$" + identifier, item.getEquipSound().getId());
+                cg.visitArmorItem(namespace + "$" + identifier, item.getEquipSound());
 
             cg.visitIdentifier(identifier);
             cg.visitTranslationKey(namespace + "." + identifier);
-            cg.visitItemGroup(classItemGroups, item.getItemGroup().getId());
+            cg.visitItemGroup(classItemGroups, item.getItemGroup());
             cg.visitMaxStackSize(item.getMaxStackSize());
             if (item.getDurability() != 0) cg.visitDurability(item.getDurability());
             if (item.getDestroySpeed() != 1D) cg.visitDestroySpeed((float) item.getDestroySpeed());

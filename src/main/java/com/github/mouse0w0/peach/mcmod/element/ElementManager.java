@@ -5,19 +5,15 @@ import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,13 +26,11 @@ import java.util.Map;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class ElementManager extends GenericIndexProvider {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(ElementManager.class);
 
     private final Project project;
     private final ElementRegistry registry;
     private final Path sourcesPath;
-    private final Gson gson;
     private final FileChangeListener fileChangeListener;
 
     public static ElementManager getInstance(Project project) {
@@ -50,13 +44,6 @@ public final class ElementManager extends GenericIndexProvider {
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         FileUtils.createDirectoriesIfNotExists(sourcesPath);
         indexManager.addProvider(this);
-        this.gson = new GsonBuilder()
-                .registerTypeAdapter(ItemGroup.class, new ItemGroup.Persister(indexManager.getIndex(IndexTypes.ITEM_GROUPS)))
-                .registerTypeAdapter(Material.class, new Material.Persister(indexManager.getIndex(IndexTypes.MATERIALS)))
-                .registerTypeAdapter(SoundType.class, new SoundType.Persister(indexManager.getIndex(IndexTypes.SOUND_TYPES)))
-                .registerTypeAdapter(MapColor.class, new MapColor.Persister(indexManager.getIndex(IndexTypes.MAP_COLORS)))
-                .registerTypeAdapter(SoundEvent.class, new SoundEvent.Persister(indexManager.getIndex(IndexTypes.SOUND_EVENTS)))
-                .create();
         this.fileChangeListener = new FileChangeListener() {
             @Override
             public void onFileDelete(ProjectFileWatcher watcher, Path path) {
@@ -93,7 +80,7 @@ public final class ElementManager extends GenericIndexProvider {
             throw new IllegalArgumentException("Cannot load element");
         }
         try {
-            Element element = JsonUtils.readJson(gson, file, provider.getType());
+            Element element = JsonUtils.readJson(file, provider.getType());
             element.setFile(file);
             return (T) element;
         } catch (IOException e) {
@@ -105,7 +92,7 @@ public final class ElementManager extends GenericIndexProvider {
 
     public void saveElement(Element element) {
         try {
-            JsonUtils.writeJson(gson, element.getFile(), element);
+            JsonUtils.writeJson(element.getFile(), element);
         } catch (IOException e) {
             LOGGER.error("Failed to save element.", e);
             // TODO: show dialog

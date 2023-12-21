@@ -31,16 +31,14 @@ import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockEditor extends ElementEditor<BlockElement> {
-    private final IndexManager indexManager;
-
     private Form form;
 
     private TextFieldField identifier;
     private TextFieldField displayName;
     private ChoiceBoxField<BlockType> type;
-    private ComboBoxField<Material> material;
-    private ComboBoxField<ItemGroup> itemGroup;
-    private ComboBoxField<SoundType> soundType;
+    private ComboBoxField<String> material;
+    private ComboBoxField<String> itemGroup;
+    private ComboBoxField<String> soundType;
     private DoubleField hardness;
     private RadioButtonField unbreakable;
     private DoubleField resistance;
@@ -72,7 +70,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 //    private Object dropItem; // TODO
 
     private RadioButtonField doNotRegisterItem;
-    private ComboBoxField<MapColor> mapColor;
+    private ComboBoxField<String> mapColor;
     private ColorPickerField beaconColor;
     private RadioButtonField beaconBase;
     private RadioButtonField climbable;
@@ -88,11 +86,12 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
     public BlockEditor(@NotNull Project project, @NotNull BlockElement element) {
         super(project, element);
-        indexManager = IndexManager.getInstance(project);
     }
 
     @Override
     protected Node getContent() {
+        var indexManager = IndexManager.getInstance(getProject());
+
         form = new Form();
 
         identifier = new TextFieldField();
@@ -113,23 +112,26 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         material = new ComboBoxField<>();
         material.setLabel(AppL10n.localize("block.properties.material"));
-        material.setCellFactory(LocalizableWithItemIconCell.factory());
-        material.setButtonCell(LocalizableWithItemIconCell.create());
-        material.getItems().addAll(indexManager.getIndex(IndexTypes.MATERIALS).values());
+        var materialMap = indexManager.getIndex(IndexTypes.MATERIALS);
+        material.setCellFactory(LocalizableWithItemIconCell.factory(materialMap));
+        material.setButtonCell(LocalizableWithItemIconCell.create(materialMap));
+        material.getItems().addAll(materialMap.keySet());
         material.setColSpan(ColSpan.HALF);
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
-        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
-        itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
-        itemGroup.getItems().addAll(indexManager.getIndex(IndexTypes.ITEM_GROUPS).values());
+        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUPS);
+        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory(itemGroupMap));
+        itemGroup.setButtonCell(LocalizableWithItemIconCell.create(itemGroupMap));
+        itemGroup.getItems().addAll(itemGroupMap.keySet());
         itemGroup.setColSpan(ColSpan.HALF);
 
         soundType = new ComboBoxField<>();
         soundType.setLabel(AppL10n.localize("block.properties.soundType"));
-        soundType.setCellFactory(LocalizableWithItemIconCell.factory());
-        soundType.setButtonCell(LocalizableWithItemIconCell.create());
-        soundType.getItems().addAll(indexManager.getIndex(IndexTypes.SOUND_TYPES).values());
+        var soundTypeMap = indexManager.getIndex(IndexTypes.SOUND_TYPES);
+        soundType.setCellFactory(LocalizableWithItemIconCell.factory(soundTypeMap));
+        soundType.setButtonCell(LocalizableWithItemIconCell.create(soundTypeMap));
+        soundType.getItems().addAll(soundTypeMap.keySet());
         soundType.setColSpan(ColSpan.HALF);
 
         hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
@@ -301,9 +303,10 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         mapColor = new ComboBoxField<>();
         mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
-        mapColor.setCellFactory(LocalizableWithItemIconCell.factory());
-        mapColor.setButtonCell(LocalizableWithItemIconCell.create());
-        mapColor.getItems().addAll(indexManager.getIndex(IndexTypes.MAP_COLORS).values());
+        var mapColorMap = indexManager.getIndex(IndexTypes.MAP_COLORS);
+        mapColor.setCellFactory(LocalizableWithItemIconCell.factory(mapColorMap));
+        mapColor.setButtonCell(LocalizableWithItemIconCell.create(mapColorMap));
+        mapColor.getItems().addAll(mapColorMap.keySet());
         mapColor.setColSpan(ColSpan.HALF);
 
         beaconColor = new ColorPickerField();

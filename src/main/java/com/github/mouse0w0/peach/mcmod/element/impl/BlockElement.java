@@ -14,9 +14,9 @@ public class BlockElement extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
     private BlockType type = BlockType.NORMAL;
-    private Material material;
-    private ItemGroup itemGroup;
-    private SoundType soundType;
+    private String material;
+    private String itemGroup;
+    private String soundType;
     private double hardness;
     private boolean unbreakable; // set hardness -1.
     private double resistance;
@@ -46,7 +46,7 @@ public class BlockElement extends Element implements LocalizableElement {
     private ItemStack dropItem;
 
     private boolean doNotRegisterItem;
-    private MapColor mapColor = MapColor.INHERIT;
+    private String mapColor;
     private String beaconColor = "0x00000000";
     private boolean beaconBase;
     private boolean climbable;
@@ -85,27 +85,27 @@ public class BlockElement extends Element implements LocalizableElement {
         this.type = type;
     }
 
-    public Material getMaterial() {
+    public String getMaterial() {
         return material;
     }
 
-    public void setMaterial(Material material) {
+    public void setMaterial(String material) {
         this.material = material;
     }
 
-    public ItemGroup getItemGroup() {
+    public String getItemGroup() {
         return itemGroup;
     }
 
-    public void setItemGroup(ItemGroup itemGroup) {
+    public void setItemGroup(String itemGroup) {
         this.itemGroup = itemGroup;
     }
 
-    public SoundType getSoundType() {
+    public String getSoundType() {
         return soundType;
     }
 
-    public void setSoundType(SoundType soundType) {
+    public void setSoundType(String soundType) {
         this.soundType = soundType;
     }
 
@@ -293,11 +293,11 @@ public class BlockElement extends Element implements LocalizableElement {
         this.doNotRegisterItem = doNotRegisterItem;
     }
 
-    public MapColor getMapColor() {
+    public String getMapColor() {
         return mapColor;
     }
 
-    public void setMapColor(MapColor mapColor) {
+    public void setMapColor(String mapColor) {
         this.mapColor = mapColor;
     }
 

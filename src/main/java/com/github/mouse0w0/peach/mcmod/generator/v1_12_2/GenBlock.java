@@ -45,10 +45,10 @@ public class GenBlock implements Task {
                 case NORMAL:
                 case DIRT:
                 case STONE:
-                    cg.visitBlock("net/minecraft/block/Block", block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock("net/minecraft/block/Block", block.getMaterial(), block.getMapColor());
                     break;
                 case PILLAR:
-                    cg.visitBlock("net/minecraft/block/BlockRotatedPillar", block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock("net/minecraft/block/BlockRotatedPillar", block.getMaterial(), block.getMapColor());
                     break;
                 case HORIZONTAL_OPPOSITE:
                     cg.visitHorizontalOpposite();
@@ -57,7 +57,7 @@ public class GenBlock implements Task {
                         classHorizontalBlock = context.getInternalName("block/base/BlockHorizontalBase");
                         context.getClassesFiler().write(classHorizontalBlock + ".class", new BlockHorizontalBase(classHorizontalBlock).toByteArray());
                     }
-                    cg.visitBlock(classHorizontalBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock(classHorizontalBlock, block.getMaterial(), block.getMapColor());
                     break;
                 case DIRECTIONAL_OPPOSITE:
                     cg.visitDirectionalOpposite();
@@ -66,10 +66,10 @@ public class GenBlock implements Task {
                         classDirectionalBlock = context.getInternalName("block/base/BlockDirectionalBase");
                         context.getClassesFiler().write(classDirectionalBlock + ".class", new BlockDirectionalBase(classDirectionalBlock).toByteArray());
                     }
-                    cg.visitBlock(classDirectionalBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock(classDirectionalBlock, block.getMaterial(), block.getMapColor());
                     break;
                 case STAIRS:
-                    cg.visitStairsBlock(block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitStairsBlock(block.getMaterial(), block.getMapColor());
                     break;
                 case SLAB:
                     if (classSlabBlock == null) {
@@ -78,34 +78,34 @@ public class GenBlock implements Task {
                         classSlabBlock = context.getInternalName("block/base/BlockSlabBase");
                         context.getClassesFiler().write(classSlabBlock + ".class", new BlockSlabBase(classSlabBlock, classSlabType).toByteArray());
                     }
-                    cg.visitBlock(classSlabBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock(classSlabBlock, block.getMaterial(), block.getMapColor());
                     break;
                 case FENCE:
-                    cg.visitBlock("net/minecraft/block/BlockFence", block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock("net/minecraft/block/BlockFence", block.getMaterial(), block.getMapColor());
                     break;
                 case FENCE_GATE:
                     if (classFenceGateBlock == null) {
                         classFenceGateBlock = context.getInternalName("block/base/BlockFenceGateBase");
                         context.getClassesFiler().write(classFenceGateBlock + ".class", new BlockFenceGateBase(classFenceGateBlock).toByteArray());
                     }
-                    cg.visitBlock(classFenceGateBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock(classFenceGateBlock, block.getMaterial(), block.getMapColor());
                     break;
                 case WALL:
                     if (classWallBlock == null) {
                         classWallBlock = context.getInternalName("block/base/BlockWallBase");
                         context.getClassesFiler().write(classWallBlock + ".class", new BlockWallBase(classWallBlock).toByteArray());
                     }
-                    cg.visitBlock(classWallBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock(classWallBlock, block.getMaterial(), block.getMapColor());
                     break;
                 case TRAPDOOR:
-                    cg.visitBlock("net/minecraft/block/BlockTrapDoor", block.getMaterial().getId());
-                    cg.visitMapColor(block.getMapColor().getId());
+                    cg.visitBlock("net/minecraft/block/BlockTrapDoor", block.getMaterial());
+                    cg.visitMapColor(block.getMapColor());
                 case PANE:
                     if (classPaneBlock == null) {
                         classPaneBlock = context.getInternalName("block/base/BlockPaneBase");
                         context.getClassesFiler().write(classPaneBlock + ".class", new BlockPaneBase(classPaneBlock).toByteArray());
                     }
-                    cg.visitBlock(classPaneBlock, block.getMaterial().getId(), block.getMapColor().getId());
+                    cg.visitBlock(classPaneBlock, block.getMaterial(), block.getMapColor());
                     break;
                 default:
                     throw new UnsupportedOperationException();
@@ -113,8 +113,8 @@ public class GenBlock implements Task {
 
             cg.visitIdentifier(identifier);
             cg.visitTranslationKey(namespace + "." + identifier);
-            cg.visitItemGroup(classItemGroups, block.getItemGroup().getId());
-            cg.visitSoundType(block.getSoundType().getId());
+            cg.visitItemGroup(classItemGroups, block.getItemGroup());
+            cg.visitSoundType(block.getSoundType());
             if (block.isUnbreakable()) cg.visitHardness(-1);
             else if (block.getHardness() != 0) cg.visitHardness((float) block.getHardness());
             if (block.getResistance() != 0) cg.visitResistance((float) block.getResistance());

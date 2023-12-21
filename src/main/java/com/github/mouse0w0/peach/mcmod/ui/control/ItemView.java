@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.Item;
 import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
@@ -18,7 +19,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 
 import java.util.List;
-import java.util.Map;
 
 public class ItemView extends Control {
     private static final Tooltip TOOLTIP = createTooltip();
@@ -40,7 +40,7 @@ public class ItemView extends Control {
 
             sb.append("\n--------------------");
 
-            for (Item data : itemView.getItemMap().get(item)) {
+            for (Item data : itemView.getIndex().get(item)) {
                 sb.append('\n').append(data.getLocalizedText());
             }
 
@@ -123,24 +123,24 @@ public class ItemView extends Control {
         playAnimationProperty().set(playAnimation);
     }
 
-    private ObjectProperty<Map<ItemRef, List<Item>>> itemMap;
+    private ObjectProperty<Index<ItemRef, List<Item>>> index;
 
-    public final ObjectProperty<Map<ItemRef, List<Item>>> itemMapProperty() {
-        if (itemMap == null) {
-            itemMap = new SimpleObjectProperty<>(this, "itemMap", getDefaultItemMap());
+    public final ObjectProperty<Index<ItemRef, List<Item>>> indexProperty() {
+        if (index == null) {
+            index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
         }
-        return itemMap;
+        return index;
     }
 
-    public final Map<ItemRef, List<Item>> getItemMap() {
-        return itemMap == null ? getDefaultItemMap() : itemMap.get();
+    public final Index<ItemRef, List<Item>> getIndex() {
+        return indexProperty().get();
     }
 
-    public final void setItemMap(Map<ItemRef, List<Item>> itemMap) {
-        itemMapProperty().set(itemMap);
+    public final void setIndex(Index<ItemRef, List<Item>> index) {
+        indexProperty().set(index);
     }
 
-    private Map<ItemRef, List<Item>> getDefaultItemMap() {
+    private Index<ItemRef, List<Item>> getDefaultIndex() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
         return IndexManager.getInstance(project).getIndex(IndexTypes.ITEMS);

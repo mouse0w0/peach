@@ -13,7 +13,7 @@ public class ItemElement extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
     private ItemType type = ItemType.NORMAL;
-    private ItemGroup itemGroup;
+    private String itemGroup;
     private int maxStackSize = 64;
     private int durability;
     private double destroySpeed = 1D;
@@ -40,7 +40,7 @@ public class ItemElement extends Element implements LocalizableElement {
     private String armorTexture;
 
     private int fuelBurnTime;
-    private SoundEvent equipSound;
+    private String equipSound;
     private int hunger;
     private double saturation = 0.6D;
     private boolean isWolfFood;
@@ -71,11 +71,11 @@ public class ItemElement extends Element implements LocalizableElement {
         this.type = type;
     }
 
-    public ItemGroup getItemGroup() {
+    public String getItemGroup() {
         return itemGroup;
     }
 
-    public void setItemGroup(ItemGroup itemGroup) {
+    public void setItemGroup(String itemGroup) {
         this.itemGroup = itemGroup;
     }
 
@@ -271,11 +271,11 @@ public class ItemElement extends Element implements LocalizableElement {
         this.armorTexture = armorTexture;
     }
 
-    public SoundEvent getEquipSound() {
+    public String getEquipSound() {
         return equipSound;
     }
 
-    public void setEquipSound(SoundEvent equipSound) {
+    public void setEquipSound(String equipSound) {
         this.equipSound = equipSound;
     }
 

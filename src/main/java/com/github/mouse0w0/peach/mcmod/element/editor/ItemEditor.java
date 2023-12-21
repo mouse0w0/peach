@@ -32,16 +32,13 @@ import javafx.scene.Node;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemEditor extends ElementEditor<ItemElement> {
-
-    private final IndexManager indexManager;
-
     private Form form;
 
     // Properties
     private TextFieldField identifier;
     private TextFieldField displayName;
     private ComboBoxField<ItemType> type;
-    private ComboBoxField<ItemGroup> itemGroup;
+    private ComboBoxField<String> itemGroup;
     private IntegerField maxStackSize;
     private IntegerField durability;
     private ChoiceBoxField<EquipmentSlot> equipmentSlot;
@@ -69,7 +66,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
     // Extra
     private IntegerField fuelBurnTime;
-    private ChoiceBoxField<SoundEvent> equipSound;
+    private ComboBoxField<String> equipSound;
     private IntegerField hunger;
     private DoubleField saturation;
     private RadioButtonField isWolfFood;
@@ -78,11 +75,12 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
     public ItemEditor(@NotNull Project project, @NotNull ItemElement element) {
         super(project, element);
-        indexManager = IndexManager.getInstance(project);
     }
 
     @Override
     protected Node getContent() {
+        var indexManager = IndexManager.getInstance(getProject());
+
         form = new Form();
 
         Section properties = new Section();
@@ -122,9 +120,10 @@ public class ItemEditor extends ElementEditor<ItemElement> {
 
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
-        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory());
-        itemGroup.setButtonCell(LocalizableWithItemIconCell.create());
-        itemGroup.getItems().setAll(indexManager.getIndex(IndexTypes.ITEM_GROUPS).values());
+        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUPS);
+        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory(itemGroupMap));
+        itemGroup.setButtonCell(LocalizableWithItemIconCell.create(itemGroupMap));
+        itemGroup.getItems().addAll(itemGroupMap.keySet());
         itemGroup.setColSpan(ColSpan.HALF);
 
         maxStackSize = new IntegerField(1, 64, 64);
@@ -339,11 +338,13 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         fuelBurnTime.setLabel(AppL10n.localize("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
-        equipSound = new ChoiceBoxField<>();
+        equipSound = new ComboBoxField<>();
         equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
-        equipSound.setConverter(LocalizableConverter.instance());
-        equipSound.getItems().addAll(IndexManager.getInstance(getProject()).getIndex(IndexTypes.SOUND_EVENTS).values());
+        var soundEventMap = indexManager.getIndex(IndexTypes.SOUND_EVENTS);
+        equipSound.setCellFactory(LocalizableWithItemIconCell.factory(soundEventMap));
+        equipSound.setButtonCell(LocalizableWithItemIconCell.create(soundEventMap));
+        equipSound.getItems().addAll(soundEventMap.keySet());
         equipSound.disableProperty().bind(isNotArmor);
 
         hunger = new IntegerField(0, Integer.MAX_VALUE, 0);
