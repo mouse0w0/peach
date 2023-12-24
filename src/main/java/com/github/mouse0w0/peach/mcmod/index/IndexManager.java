@@ -7,7 +7,7 @@ import com.github.mouse0w0.peach.util.Validate;
 import java.util.*;
 
 public final class IndexManager {
-    private static final Comparator<IndexProvider> INDEX_PROVIDER_COMPARATOR = (a, b) -> Integer.compare(b.getPriority(), a.getPriority());
+    private static final Comparator<IndexProvider> INDEX_PROVIDER_COMPARATOR = Comparator.comparingInt(IndexProvider::getOrder);
 
     private final List<IndexProvider> providers = new ArrayList<>();
     private final Map<IndexType<?, ?>, Index<?, ?>> indexes = new HashMap<>();

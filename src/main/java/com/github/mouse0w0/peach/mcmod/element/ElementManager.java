@@ -38,7 +38,7 @@ public final class ElementManager extends GenericIndexProvider {
     }
 
     public ElementManager(Project project, IndexManager indexManager, ElementRegistry registry) {
-        super("project", 9000);
+        super("project", 0);
         this.project = project;
         this.registry = registry;
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);

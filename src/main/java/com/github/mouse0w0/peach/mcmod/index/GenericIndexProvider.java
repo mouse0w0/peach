@@ -10,15 +10,11 @@ public class GenericIndexProvider implements IndexProvider {
     private final Map<IndexType<?, ?>, Map<?, ?>> indexes = new HashMap<>();
 
     private final String name;
-    private final int priority;
+    private final int order;
 
-    public GenericIndexProvider(String name) {
-        this(name, 0);
-    }
-
-    public GenericIndexProvider(String name, int priority) {
+    public GenericIndexProvider(String name, int order) {
         this.name = Validate.notEmpty(name);
-        this.priority = priority;
+        this.order = order;
     }
 
     @Override
@@ -27,8 +23,8 @@ public class GenericIndexProvider implements IndexProvider {
     }
 
     @Override
-    public int getPriority() {
-        return priority;
+    public int getOrder() {
+        return order;
     }
 
     @Override

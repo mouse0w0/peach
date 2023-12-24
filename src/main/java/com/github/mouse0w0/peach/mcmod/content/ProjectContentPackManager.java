@@ -16,7 +16,7 @@ public final class ProjectContentPackManager extends GenericIndexProvider {
     }
 
     public ProjectContentPackManager(IndexManager indexManager) {
-        super("library", 5000);
+        super("library", 200);
 
         addContentPacks(ContentPackManager.getInstance().getContentPacks());
 

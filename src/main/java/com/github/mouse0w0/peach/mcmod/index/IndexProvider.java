@@ -5,7 +5,7 @@ import java.util.Map;
 public interface IndexProvider {
     String getName();
 
-    int getPriority();
+    int getOrder();
 
     <K, V> Map<K, V> getIndex(IndexType<K, V> indexType);
 }

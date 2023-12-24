@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.MapColor;
 
 public class BuiltinIndexProvider extends GenericIndexProvider {
     public BuiltinIndexProvider(IndexManager indexManager) {
-        super("builtin", 10000);
+        super("builtin", 100);
 
         indexManager.addProvider(this);
 
