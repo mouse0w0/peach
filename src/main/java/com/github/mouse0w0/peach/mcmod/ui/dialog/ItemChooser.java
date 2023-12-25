@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.mcmod.ui.dialog;
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
@@ -37,22 +37,22 @@ public class ItemChooser extends Stage {
     private final RadioButton defaultMode;
     private final RadioButton ignoreMetadataMode;
     private final RadioButton oreDictMode;
-    private final GridView<ItemRef> gridView;
+    private final GridView<IdMetadata> gridView;
 
-    private Index<ItemRef, List<Item>> itemIndex;
+    private Index<IdMetadata, List<Item>> itemIndex;
 
-    private ItemRef defaultItem;
+    private IdMetadata defaultItem;
 
     private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
 
-    public static ItemRef pick(Node ownerNode, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    public static IdMetadata pick(Node ownerNode, IdMetadata defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         return pick(ownerNode.getScene().getWindow(), defaultItem, enableIgnoreMetadata, enableOreDict);
     }
 
-    public static ItemRef pick(Window window, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    public static IdMetadata pick(Window window, IdMetadata defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         ItemChooser itemChooser = new ItemChooser();
         Project project = WindowManager.getInstance().getWindow(window).getProject();
-        itemChooser.init(project, defaultItem != null ? defaultItem : ItemRef.AIR, enableIgnoreMetadata, enableOreDict);
+        itemChooser.init(project, defaultItem != null ? defaultItem : IdMetadata.AIR, enableIgnoreMetadata, enableOreDict);
         itemChooser.initOwner(window);
         itemChooser.showAndWait();
         return itemChooser.getSelectedItem();
@@ -99,7 +99,7 @@ public class ItemChooser extends Stage {
         Button cancel = new Button(AppL10n.localize("button.cancel"));
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> {
-            MultipleSelectionModel<ItemRef> selectionModel = gridView.getSelectionModel();
+            MultipleSelectionModel<IdMetadata> selectionModel = gridView.getSelectionModel();
             selectionModel.clearSelection();
             selectionModel.select(defaultItem);
             hide();
@@ -118,15 +118,15 @@ public class ItemChooser extends Stage {
         setScene(scene);
     }
 
-    public ItemRef getDefaultItem() {
+    public IdMetadata getDefaultItem() {
         return defaultItem;
     }
 
-    public ItemRef getSelectedItem() {
+    public IdMetadata getSelectedItem() {
         return gridView.getSelectionModel().getSelectedItem();
     }
 
-    private void init(Project project, ItemRef defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
+    private void init(Project project, IdMetadata defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.defaultItem = defaultItem;
         this.itemIndex = IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
 
@@ -148,14 +148,14 @@ public class ItemChooser extends Stage {
         gridView.getItems().setAll(ListUtils.filterCollect(itemIndex.keySet(), buildItemFilter()));
     }
 
-    private Predicate<ItemRef> buildItemFilter() {
-        Predicate<ItemRef> predicate;
+    private Predicate<IdMetadata> buildItemFilter() {
+        Predicate<IdMetadata> predicate;
         if (ignoreMetadataMode.isSelected()) {
-            predicate = ItemRef::isIgnoreMetadata;
+            predicate = IdMetadata::isIgnoreMetadata;
         } else if (oreDictMode.isSelected()) {
-            predicate = ItemRef::isOreDictionary;
+            predicate = IdMetadata::isOreDictionary;
         } else {
-            predicate = ItemRef::isNormal;
+            predicate = IdMetadata::isNormal;
         }
 
         final String pattern = filter.getText();
@@ -166,7 +166,7 @@ public class ItemChooser extends Stage {
         return predicate;
     }
 
-    private boolean filterItem(ItemRef item, String pattern) {
+    private boolean filterItem(IdMetadata item, String pattern) {
         if (item.getId().contains(pattern)) return true;
         for (Item data : itemIndex.get(item)) {
             if (data.getLocalizedText().contains(pattern)) {
@@ -176,7 +176,7 @@ public class ItemChooser extends Stage {
         return false;
     }
 
-    private static class Cell extends GridCell<ItemRef> {
+    private static class Cell extends GridCell<IdMetadata> {
         private final ItemView itemView = new ItemView(32);
 
         public Cell() {
@@ -184,7 +184,7 @@ public class ItemChooser extends Stage {
         }
 
         @Override
-        protected void updateItem(ItemRef item, boolean empty) {
+        protected void updateItem(IdMetadata item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 itemView.setItem(null);

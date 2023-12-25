@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.ui.form.field.ValueField;
 import javafx.beans.property.BooleanProperty;
@@ -9,21 +9,21 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 
-public class ItemPickerField extends ValueField<ItemRef> {
-    private final ObjectProperty<ItemRef> value = new SimpleObjectProperty<>(this, "value");
+public class ItemPickerField extends ValueField<IdMetadata> {
+    private final ObjectProperty<IdMetadata> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
-    public ObjectProperty<ItemRef> valueProperty() {
+    public ObjectProperty<IdMetadata> valueProperty() {
         return value;
     }
 
     @Override
-    public ItemRef getValue() {
+    public IdMetadata getValue() {
         return value.get();
     }
 
     @Override
-    public void setValue(ItemRef value) {
+    public void setValue(IdMetadata value) {
         this.value.set(value);
     }
 

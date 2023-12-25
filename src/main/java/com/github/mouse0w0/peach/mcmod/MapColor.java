@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class MapColor implements LocalizableWithItemIcon {
-    public static final MapColor INHERIT = new MapColor("inherit", "mapColor.inherit", ItemRef.AIR) {
+    public static final MapColor INHERIT = new MapColor("inherit", "mapColor.inherit", IdMetadata.AIR) {
         @Override
         public String getLocalizedText() {
             return AppL10n.localize(getTranslationKey());
@@ -24,11 +24,11 @@ public class MapColor implements LocalizableWithItemIcon {
 
     private String id;
     private String translationKey;
-    private ItemRef icon;
+    private IdMetadata icon;
 
     private transient String localizedText;
 
-    public MapColor(String id, String translationKey, ItemRef icon) {
+    public MapColor(String id, String translationKey, IdMetadata icon) {
         this.id = id;
         this.translationKey = translationKey;
         this.icon = icon;
@@ -43,7 +43,7 @@ public class MapColor implements LocalizableWithItemIcon {
     }
 
     @Override
-    public ItemRef getIcon() {
+    public IdMetadata getIcon() {
         return icon;
     }
 

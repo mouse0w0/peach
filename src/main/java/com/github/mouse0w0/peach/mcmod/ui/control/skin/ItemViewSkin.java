@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,9 +46,9 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         }
         imageView.setImage(null);
 
-        ItemRef itemSelector = itemView.getItem();
+        IdMetadata itemSelector = itemView.getItem();
         if (itemSelector == null) {
-            items = itemView.getIndex().get(ItemRef.AIR);
+            items = itemView.getIndex().get(IdMetadata.AIR);
         } else {
             items = itemView.getIndex().get(itemSelector);
         }

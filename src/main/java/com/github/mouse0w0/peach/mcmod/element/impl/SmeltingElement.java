@@ -1,20 +1,20 @@
 package com.github.mouse0w0.peach.mcmod.element.impl;
 
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 
 public class SmeltingElement extends Element {
 
-    private ItemRef input;
+    private IdMetadata input;
     private ItemStack output;
     private double xp;
 
-    public ItemRef getInput() {
+    public IdMetadata getInput() {
         return input;
     }
 
-    public void setInput(ItemRef input) {
+    public void setInput(IdMetadata input) {
         this.input = input;
     }
 

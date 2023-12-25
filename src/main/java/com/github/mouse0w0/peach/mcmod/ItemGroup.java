@@ -11,11 +11,11 @@ import java.util.Map;
 public class ItemGroup implements LocalizableWithItemIcon {
     private String id;
     private String translationKey;
-    private ItemRef icon;
+    private IdMetadata icon;
 
     private transient String localizedText;
 
-    public ItemGroup(String id, String translationKey, ItemRef icon) {
+    public ItemGroup(String id, String translationKey, IdMetadata icon) {
         this.id = id;
         this.translationKey = translationKey;
         this.icon = icon;
@@ -30,7 +30,7 @@ public class ItemGroup implements LocalizableWithItemIcon {
     }
 
     @Override
-    public ItemRef getIcon() {
+    public IdMetadata getIcon() {
         return icon;
     }
 

@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingElement;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
@@ -90,7 +90,7 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
         element.setNamespace(namespace.getValue());
         element.setGroup(group.getValue());
         element.setShapeless(shapeless.isSelected());
-        element.setInputs(ArrayUtils.map(inputs, ItemView::getItem, ItemRef[]::new));
+        element.setInputs(ArrayUtils.map(inputs, ItemView::getItem, IdMetadata[]::new));
         element.setOutput(output.getItemStack());
     }
 

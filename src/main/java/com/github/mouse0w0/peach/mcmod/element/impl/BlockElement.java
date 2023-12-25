@@ -59,7 +59,7 @@ public class BlockElement extends Element implements LocalizableElement {
     private int fireSpreadSpeed;
     private PushReaction pushReaction = PushReaction.INHERIT;
     private PathNodeType aiPathNodeType = PathNodeType.INHERIT;
-//    private ItemRef pickItem;
+//    private IdMetadata pickItem;
 
     public String getIdentifier() {
         return identifier;
@@ -397,11 +397,11 @@ public class BlockElement extends Element implements LocalizableElement {
         this.aiPathNodeType = aiPathNodeType;
     }
 
-//    public ItemRef getPickItem() {
+//    public IdMetadata getPickItem() {
 //        return pickItem;
 //    }
 //
-//    public void setPickItem(ItemRef pickItem) {
+//    public void setPickItem(IdMetadata pickItem) {
 //        this.pickItem = pickItem;
 //    }
 

@@ -52,18 +52,18 @@ public final class ProjectContentPackManager extends GenericIndexProvider {
     }
 
     private void addItem(Item itemData) {
-        ItemRef item = ItemRef.createItem(itemData.getId(), itemData.getMetadata());
+        IdMetadata item = IdMetadata.of(itemData.getId(), itemData.getMetadata());
         getItemDataList(item).add(itemData);
-        ItemRef ignoreMetadata = ItemRef.createIgnoreMetadata(itemData.getId());
+        IdMetadata ignoreMetadata = IdMetadata.ignoreMetadata(itemData.getId());
         getItemDataList(ignoreMetadata).add(itemData);
     }
 
     private void addOreDict(OreDict oreDict) {
-        List<Item> itemData = getItemDataList(ItemRef.createOreDictionary(oreDict.getId()));
+        List<Item> itemData = getItemDataList(IdMetadata.oreDictionary(oreDict.getId()));
         oreDict.getEntries().forEach(itemRef -> itemData.addAll(getIndex(IndexTypes.ITEM).get(itemRef)));
     }
 
-    private List<Item> getItemDataList(ItemRef item) {
+    private List<Item> getItemDataList(IdMetadata item) {
         return getIndex(IndexTypes.ITEM).computeIfAbsent(item, k -> new ArrayList<>(1));
     }
 }

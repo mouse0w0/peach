@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.element.provider;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.element.editor.BlockEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -56,17 +56,17 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         item.setLocalizedText(element.getDisplayName());
         item.setImage(ResourceUtils.CUBE_TEXTURE);
 
-        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
-        ItemRef item1 = ItemRef.createItem(modId + ":" + item.getId(), item.getMetadata());
+        Map<IdMetadata, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
+        IdMetadata item1 = IdMetadata.of(modId + ":" + item.getId(), item.getMetadata());
         items.put(item1, Collections.singletonList(item));
-        ItemRef item2 = ItemRef.createIgnoreMetadata(modId + ":" + item.getId());
+        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + item.getId());
         items.put(item2, Collections.singletonList(item));
         return new Object[]{item1, item2};
     }
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<ItemRef, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

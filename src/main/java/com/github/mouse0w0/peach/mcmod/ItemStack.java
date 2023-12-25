@@ -3,25 +3,25 @@ package com.github.mouse0w0.peach.mcmod;
 import java.util.Objects;
 
 public class ItemStack {
-    public static final ItemStack EMPTY = new ItemStack(ItemRef.AIR);
+    public static final ItemStack EMPTY = new ItemStack(IdMetadata.AIR);
 
-    private ItemRef item;
+    private IdMetadata item;
     private int amount;
 
-    public ItemStack(ItemRef item) {
+    public ItemStack(IdMetadata item) {
         this(item, 1);
     }
 
-    public ItemStack(ItemRef item, int amount) {
+    public ItemStack(IdMetadata item, int amount) {
         setItem(item);
         setAmount(amount);
     }
 
-    public ItemRef getItem() {
+    public IdMetadata getItem() {
         return item;
     }
 
-    public void setItem(ItemRef item) {
+    public void setItem(IdMetadata item) {
         if (item == null) {
             throw new NullPointerException("item");
         }

@@ -5,9 +5,9 @@ import java.util.List;
 public class OreDict {
 
     private String id;
-    private List<ItemRef> entries;
+    private List<IdMetadata> entries;
 
-    public OreDict(String id, List<ItemRef> entries) {
+    public OreDict(String id, List<IdMetadata> entries) {
         this.id = id;
         this.entries = entries;
     }
@@ -16,7 +16,7 @@ public class OreDict {
         return id;
     }
 
-    public List<ItemRef> getEntries() {
+    public List<IdMetadata> getEntries() {
         return entries;
     }
 }

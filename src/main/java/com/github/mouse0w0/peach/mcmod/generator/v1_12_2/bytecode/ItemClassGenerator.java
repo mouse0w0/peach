@@ -253,7 +253,7 @@ public class ItemClassGenerator extends ClassGenerator {
         mv.visitEnd();
     }
 
-    public void visitContainerItem(ItemRef containerItem) {
+    public void visitContainerItem(IdMetadata containerItem) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "containerItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
@@ -296,7 +296,7 @@ public class ItemClassGenerator extends ClassGenerator {
         }
     }
 
-    public void visitRepairItem(ItemRef repairItem) {
+    public void visitRepairItem(IdMetadata repairItem) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "repairItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
@@ -478,7 +478,7 @@ public class ItemClassGenerator extends ClassGenerator {
         initMethod.visitInsn(POP);
     }
 
-    public void visitFoodContainerItem(ItemRef containerItem) {
+    public void visitFoodContainerItem(IdMetadata containerItem) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "foodContainerItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();

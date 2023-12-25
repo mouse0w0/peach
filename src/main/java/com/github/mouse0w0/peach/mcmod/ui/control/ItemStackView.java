@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -40,17 +40,17 @@ public class ItemStackView extends Control {
         size.set(value);
     }
 
-    private final ObjectProperty<ItemRef> item = new SimpleObjectProperty<>(this, "item", ItemRef.AIR);
+    private final ObjectProperty<IdMetadata> item = new SimpleObjectProperty<>(this, "item", IdMetadata.AIR);
 
-    public final ObjectProperty<ItemRef> itemProperty() {
+    public final ObjectProperty<IdMetadata> itemProperty() {
         return item;
     }
 
-    public final ItemRef getItem() {
+    public final IdMetadata getItem() {
         return item.get();
     }
 
-    public final void setItem(ItemRef item) {
+    public final void setItem(IdMetadata item) {
         this.item.set(item);
     }
 
@@ -78,7 +78,7 @@ public class ItemStackView extends Control {
 
     public final void setItemStack(ItemStack itemStack) {
         if (itemStack == null) {
-            setItem(ItemRef.AIR);
+            setItem(IdMetadata.AIR);
             setAmount(1);
         } else {
             setItem(itemStack.getItem());
@@ -90,24 +90,24 @@ public class ItemStackView extends Control {
         return new ItemStack(getItem(), getAmount());
     }
 
-    private ObjectProperty<Index<ItemRef, List<Item>>> index;
+    private ObjectProperty<Index<IdMetadata, List<Item>>> index;
 
-    public final ObjectProperty<Index<ItemRef, List<Item>>> indexProperty() {
+    public final ObjectProperty<Index<IdMetadata, List<Item>>> indexProperty() {
         if (index == null) {
             index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
         }
         return index;
     }
 
-    public final Index<ItemRef, List<Item>> getIndex() {
+    public final Index<IdMetadata, List<Item>> getIndex() {
         return indexProperty().get();
     }
 
-    public final void setIndex(Index<ItemRef, List<Item>> index) {
+    public final void setIndex(Index<IdMetadata, List<Item>> index) {
         indexProperty().set(index);
     }
 
-    private Index<ItemRef, List<Item>> getDefaultIndex() {
+    private Index<IdMetadata, List<Item>> getDefaultIndex() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
         return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);

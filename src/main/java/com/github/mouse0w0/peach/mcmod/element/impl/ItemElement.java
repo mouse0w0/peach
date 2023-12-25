@@ -22,8 +22,8 @@ public class ItemElement extends Element implements LocalizableElement {
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
     private int enchantability;
     private EnchantmentType[] acceptableEnchantments = EnchantmentType.EMPTY_ARRAY;
-    private ItemRef repairItem = ItemRef.AIR;
-    private ItemRef recipeRemain = ItemRef.AIR;
+    private IdMetadata repairItem = IdMetadata.AIR;
+    private IdMetadata recipeRemain = IdMetadata.AIR;
     private EquipmentSlot equipmentSlot = EquipmentSlot.NONE;
     private UseAnimation useAnimation = UseAnimation.NONE;
     private int useDuration;
@@ -45,7 +45,7 @@ public class ItemElement extends Element implements LocalizableElement {
     private double saturation = 0.6D;
     private boolean isWolfFood;
     private boolean alwaysEdible;
-    private ItemRef foodContainer = ItemRef.AIR;
+    private IdMetadata foodContainer = IdMetadata.AIR;
 
     public String getIdentifier() {
         return identifier;
@@ -143,19 +143,19 @@ public class ItemElement extends Element implements LocalizableElement {
         this.acceptableEnchantments = acceptableEnchantments;
     }
 
-    public ItemRef getRepairItem() {
+    public IdMetadata getRepairItem() {
         return repairItem;
     }
 
-    public void setRepairItem(ItemRef repairItem) {
+    public void setRepairItem(IdMetadata repairItem) {
         this.repairItem = repairItem;
     }
 
-    public ItemRef getRecipeRemain() {
+    public IdMetadata getRecipeRemain() {
         return recipeRemain;
     }
 
-    public void setRecipeRemain(ItemRef recipeRemain) {
+    public void setRecipeRemain(IdMetadata recipeRemain) {
         this.recipeRemain = recipeRemain;
     }
 
@@ -311,11 +311,11 @@ public class ItemElement extends Element implements LocalizableElement {
         this.alwaysEdible = alwaysEdible;
     }
 
-    public ItemRef getFoodContainer() {
+    public IdMetadata getFoodContainer() {
         return foodContainer;
     }
 
-    public void setFoodContainer(ItemRef foodContainer) {
+    public void setFoodContainer(IdMetadata foodContainer) {
         this.foodContainer = foodContainer;
     }
 

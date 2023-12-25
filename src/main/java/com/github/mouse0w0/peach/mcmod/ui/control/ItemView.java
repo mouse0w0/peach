@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Item;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
@@ -32,7 +32,7 @@ public class ItemView extends Control {
             if (parent == null) return;
 
             ItemView itemView = (ItemView) parent;
-            ItemRef item = itemView.getItem();
+            IdMetadata item = itemView.getItem();
 
             StringBuilder sb = new StringBuilder();
             sb.append(item.getId());
@@ -56,7 +56,7 @@ public class ItemView extends Control {
         setTooltip(TOOLTIP);
 
         setOnDragDetected(event -> {
-            ItemRef item = getItem();
+            IdMetadata item = getItem();
             if (item == null || item.isAir()) return;
 
             Dragboard dragboard = startDragAndDrop(TransferMode.LINK);
@@ -72,7 +72,7 @@ public class ItemView extends Control {
         setSize(size);
     }
 
-    public ItemView(ItemRef item, double size) {
+    public ItemView(IdMetadata item, double size) {
         this();
         setItem(item);
         setSize(size);
@@ -92,17 +92,17 @@ public class ItemView extends Control {
         size.set(value);
     }
 
-    private final ObjectProperty<ItemRef> item = new SimpleObjectProperty<>(this, "item", ItemRef.AIR);
+    private final ObjectProperty<IdMetadata> item = new SimpleObjectProperty<>(this, "item", IdMetadata.AIR);
 
-    public final ObjectProperty<ItemRef> itemProperty() {
+    public final ObjectProperty<IdMetadata> itemProperty() {
         return item;
     }
 
-    public final ItemRef getItem() {
+    public final IdMetadata getItem() {
         return item.get();
     }
 
-    public final void setItem(ItemRef value) {
+    public final void setItem(IdMetadata value) {
         item.set(value);
     }
 
@@ -123,24 +123,24 @@ public class ItemView extends Control {
         playAnimationProperty().set(playAnimation);
     }
 
-    private ObjectProperty<Index<ItemRef, List<Item>>> index;
+    private ObjectProperty<Index<IdMetadata, List<Item>>> index;
 
-    public final ObjectProperty<Index<ItemRef, List<Item>>> indexProperty() {
+    public final ObjectProperty<Index<IdMetadata, List<Item>>> indexProperty() {
         if (index == null) {
             index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
         }
         return index;
     }
 
-    public final Index<ItemRef, List<Item>> getIndex() {
+    public final Index<IdMetadata, List<Item>> getIndex() {
         return indexProperty().get();
     }
 
-    public final void setIndex(Index<ItemRef, List<Item>> index) {
+    public final void setIndex(Index<IdMetadata, List<Item>> index) {
         indexProperty().set(index);
     }
 
-    private Index<ItemRef, List<Item>> getDefaultIndex() {
+    private Index<IdMetadata, List<Item>> getDefaultIndex() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
         return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);

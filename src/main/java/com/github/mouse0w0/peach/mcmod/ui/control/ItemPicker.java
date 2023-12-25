@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.dialog.ItemChooser;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -31,19 +31,19 @@ public class ItemPicker extends ItemView {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
 
-            ItemRef item = (ItemRef) event.getDragboard().getContent(ITEM);
+            IdMetadata item = (IdMetadata) event.getDragboard().getContent(ITEM);
             if (item == null) return;
 
             event.acceptTransferModes(TransferMode.LINK);
         });
         setOnDragDropped(event -> {
             event.consume();
-            setItem((ItemRef) event.getDragboard().getContent(ITEM));
+            setItem((IdMetadata) event.getDragboard().getContent(ITEM));
             event.setDropCompleted(true);
         });
         setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.MIDDLE) {
-                setItem(ItemRef.AIR);
+                setItem(IdMetadata.AIR);
             } else if (event.getClickCount() == 2) {
                 show();
             }

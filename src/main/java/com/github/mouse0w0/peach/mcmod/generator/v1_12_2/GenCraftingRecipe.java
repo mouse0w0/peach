@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.impl.CraftingElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
@@ -39,7 +39,7 @@ public class GenCraftingRecipe implements Task {
     private void generateShaped(CraftingElement recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shaped");
         JsonArray pattern = new JsonArray();
-        Map<ItemRef, Character> keyMap = new HashMap<>();
+        Map<IdMetadata, Character> keyMap = new HashMap<>();
         for (String s : getPattern(recipe.getInputs(), keyMap)) {
             pattern.add(s);
         }
@@ -50,10 +50,10 @@ public class GenCraftingRecipe implements Task {
         jo.add("key", key);
     }
 
-    private String[] getPattern(ItemRef[] inputs, Map<ItemRef, Character> keyMap) {
+    private String[] getPattern(IdMetadata[] inputs, Map<IdMetadata, Character> keyMap) {
         StringBuilder sb = new StringBuilder(9);
         for (int i = 0; i < 9; i++) {
-            ItemRef input = inputs[i];
+            IdMetadata input = inputs[i];
             if (!input.isAir()) {
                 sb.append(keyMap.computeIfAbsent(input, $ -> (char) ('A' + keyMap.size())));
             } else {
@@ -90,7 +90,7 @@ public class GenCraftingRecipe implements Task {
     private void generateShapeless(CraftingElement recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shapeless");
         JsonArray ingredients = new JsonArray();
-        for (ItemRef input : recipe.getInputs()) {
+        for (IdMetadata input : recipe.getInputs()) {
             if (input != null && !input.isAir()) {
                 ingredients.add(itemRefToJson(input));
             }
@@ -98,14 +98,14 @@ public class GenCraftingRecipe implements Task {
         jo.add("ingredients", ingredients);
     }
 
-    private JsonObject itemRefToJson(ItemRef itemRef) {
+    private JsonObject itemRefToJson(IdMetadata idMetadata) {
         JsonObject result = new JsonObject();
-        if (itemRef.isOreDictionary()) {
+        if (idMetadata.isOreDictionary()) {
             result.addProperty("type", "forge:ore_dict");
-            result.addProperty("ore", itemRef.getId());
+            result.addProperty("ore", idMetadata.getId());
         } else {
-            result.addProperty("item", itemRef.getId());
-            result.addProperty("data", itemRef.getMetadata());
+            result.addProperty("item", idMetadata.getId());
+            result.addProperty("data", idMetadata.getMetadata());
         }
         return result;
     }

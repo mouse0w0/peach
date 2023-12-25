@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.view;
 
 import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
-import com.github.mouse0w0.peach.mcmod.ItemRef;
+import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
@@ -27,10 +27,10 @@ public class ItemFavoritesView implements PersistentService {
         return project.getService(ItemFavoritesView.class);
     }
 
-    private final ObservableList<ItemRef> items = FXCollections.observableArrayList();
-    private final Set<ItemRef> itemSet = new HashSet<>();
+    private final ObservableList<IdMetadata> items = FXCollections.observableArrayList();
+    private final Set<IdMetadata> itemSet = new HashSet<>();
 
-    private GridView<ItemRef> content;
+    private GridView<IdMetadata> content;
 
     public Node initViewContent() {
         content = new GridView<>();
@@ -43,14 +43,14 @@ public class ItemFavoritesView implements PersistentService {
             event.consume();
             if (event.getGestureSource() == event.getTarget()) return;
 
-            ItemRef item = (ItemRef) event.getDragboard().getContent(ItemView.ITEM);
+            IdMetadata item = (IdMetadata) event.getDragboard().getContent(ItemView.ITEM);
             if (item == null) return;
 
             event.acceptTransferModes(TransferMode.LINK);
         });
         content.setOnDragDropped(event -> {
             event.consume();
-            ItemRef item = (ItemRef) event.getDragboard().getContent(ItemView.ITEM);
+            IdMetadata item = (IdMetadata) event.getDragboard().getContent(ItemView.ITEM);
             if (itemSet.add(item)) {
                 items.add(item);
             }
@@ -66,11 +66,11 @@ public class ItemFavoritesView implements PersistentService {
 
     @Override
     public void loadState(JsonElement state) {
-        items.addAll(JsonUtils.<List<ItemRef>>fromJson(state, TypeUtils.parameterize(List.class, ItemRef.class)));
+        items.addAll(JsonUtils.<List<IdMetadata>>fromJson(state, TypeUtils.parameterize(List.class, IdMetadata.class)));
         itemSet.addAll(items);
     }
 
-    private static class Cell extends GridCell<ItemRef> {
+    private static class Cell extends GridCell<IdMetadata> {
         private final ItemView itemView = new ItemView(32);
 
         public Cell() {
@@ -78,7 +78,7 @@ public class ItemFavoritesView implements PersistentService {
         }
 
         @Override
-        protected void updateItem(ItemRef item, boolean empty) {
+        protected void updateItem(IdMetadata item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 itemView.setItem(null);
