@@ -9,6 +9,8 @@ import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginException;
 import com.github.mouse0w0.peach.plugin.PluginManagerCore;
 import com.github.mouse0w0.peach.service.store.ServiceStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class ServiceManagerImpl implements ServiceManager {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceManagerImpl.class);
+
     protected final ServiceManagerImpl parent;
 
     private final Map<String, Object> services = new ConcurrentHashMap<>();
@@ -108,6 +112,9 @@ public abstract class ServiceManagerImpl implements ServiceManager {
             if (wrapper != null) {
                 services.putIfAbsent(serviceClassName, wrapper.getService(this, true));
             }
+        }).exceptionally(t -> {
+            LOGGER.error("Cannot preload service, serviceClassName=" + serviceClassName, t.getCause());
+            return null;
         });
     }
 
