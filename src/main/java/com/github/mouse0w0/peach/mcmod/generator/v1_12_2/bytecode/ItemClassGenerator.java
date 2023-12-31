@@ -25,14 +25,14 @@ public class ItemClassGenerator extends ClassGenerator {
     }
 
     public void visitNormalItem() {
-        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/ItemData", null);
+        cw.visit(V1_8, ACC_PUBLIC | ACC_SUPER, thisName, null, "net/minecraft/item/Item", null);
 
         ASMUtils.visitSource(cw);
 
         initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
         initMethod.visitCode();
         initMethod.visitVarInsn(ALOAD, 0);
-        initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemData", "<init>", "()V", false);
+        initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/Item", "<init>", "()V", false);
     }
 
     public void visitFoodItem(int hunger, float saturation, boolean isWolfFood) {
@@ -62,7 +62,7 @@ public class ItemClassGenerator extends ClassGenerator {
 
         ASMUtils.visitSource(cw);
 
-        cw.visitInnerClass("net/minecraft/item/ItemData$ToolMaterial", "net/minecraft/item/ItemData", "ToolMaterial", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
+        cw.visitInnerClass("net/minecraft/item/Item$ToolMaterial", "net/minecraft/item/Item", "ToolMaterial", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
 
         {
             initMethod = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
@@ -74,8 +74,8 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitInsn(FCONST_0);
             ASMUtils.push(initMethod, damage);
             initMethod.visitInsn(ICONST_0);
-            initMethod.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/common/util/EnumHelper", "addToolMaterial", "(Ljava/lang/String;IIFFI)Lnet/minecraft/item/ItemData$ToolMaterial;", false);
-            initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemSword", "<init>", "(Lnet/minecraft/item/ItemData$ToolMaterial;)V", false);
+            initMethod.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/common/util/EnumHelper", "addToolMaterial", "(Ljava/lang/String;IIFFI)Lnet/minecraft/item/Item$ToolMaterial;", false);
+            initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemSword", "<init>", "(Lnet/minecraft/item/Item$ToolMaterial;)V", false);
         }
     }
 
@@ -137,7 +137,7 @@ public class ItemClassGenerator extends ClassGenerator {
     public void visitTranslationKey(String translationKey) {
         initMethod.visitVarInsn(ALOAD, 0);
         ASMUtils.push(initMethod, translationKey);
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77655_b", "(Ljava/lang/String;)Lnet/minecraft/item/ItemData;", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77655_b", "(Ljava/lang/String;)Lnet/minecraft/item/Item;", false);
         initMethod.visitInsn(POP);
     }
 
@@ -146,21 +146,21 @@ public class ItemClassGenerator extends ClassGenerator {
 
         initMethod.visitVarInsn(ALOAD, 0);
         initMethod.visitFieldInsn(GETSTATIC, owner, _IDENTIFIER, "Lnet/minecraft/creativetab/CreativeTabs;");
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77637_a", "(Lnet/minecraft/creativetab/CreativeTabs;)Lnet/minecraft/item/ItemData;", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77637_a", "(Lnet/minecraft/creativetab/CreativeTabs;)Lnet/minecraft/item/Item;", false);
         initMethod.visitInsn(POP);
     }
 
     public void visitMaxStackSize(int maxStackSize) {
         initMethod.visitVarInsn(ALOAD, 0);
         ASMUtils.push(initMethod, maxStackSize);
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77625_d", "(I)Lnet/minecraft/item/ItemData;", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77625_d", "(I)Lnet/minecraft/item/Item;", false);
         initMethod.visitInsn(POP);
     }
 
     public void visitDurability(int durability) {
         initMethod.visitVarInsn(ALOAD, 0);
         ASMUtils.push(initMethod, durability);
-        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77656_e", "(I)Lnet/minecraft/item/ItemData;", false);
+        initMethod.visitMethodInsn(INVOKEVIRTUAL, thisName, "func_77656_e", "(I)Lnet/minecraft/item/Item;", false);
         initMethod.visitInsn(POP);
     }
 
@@ -258,7 +258,7 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitContainerItem(IdMetadata containerItem) {
         {
-            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "containerItem", "Lnet/minecraft/item/ItemData;", null, null);
+            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "containerItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
         }
 
@@ -270,8 +270,8 @@ public class ItemClassGenerator extends ClassGenerator {
             ASMUtils.push(initMethod, containerItem.getId());
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
-            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/ItemData");
-            initMethod.visitFieldInsn(PUTFIELD, thisName, "containerItem", "Lnet/minecraft/item/ItemData;");
+            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
+            initMethod.visitFieldInsn(PUTFIELD, thisName, "containerItem", "Lnet/minecraft/item/Item;");
         }
 
         {
@@ -289,10 +289,10 @@ public class ItemClassGenerator extends ClassGenerator {
             mv.visitTypeInsn(NEW, "net/minecraft/item/ItemStack");
             mv.visitInsn(DUP);
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, thisName, "containerItem", "Lnet/minecraft/item/ItemData;");
+            mv.visitFieldInsn(GETFIELD, thisName, "containerItem", "Lnet/minecraft/item/Item;");
             mv.visitInsn(ICONST_1);
             mv.visitInsn(ICONST_0);
-            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/ItemData;II)V", false);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/Item;II)V", false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(5, 2);
             mv.visitEnd();
@@ -301,7 +301,7 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitRepairItem(IdMetadata repairItem) {
         {
-            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "repairItem", "Lnet/minecraft/item/ItemData;", null, null);
+            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "repairItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
         }
 
@@ -313,17 +313,17 @@ public class ItemClassGenerator extends ClassGenerator {
             ASMUtils.push(initMethod, repairItem.getId());
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
-            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/ItemData");
-            initMethod.visitFieldInsn(PUTFIELD, thisName, "repairItem", "Lnet/minecraft/item/ItemData;");
+            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
+            initMethod.visitFieldInsn(PUTFIELD, thisName, "repairItem", "Lnet/minecraft/item/Item;");
         }
 
         {
             MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_82789_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z", null, null);
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 2);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/item/ItemStack", "func_77973_b", "()Lnet/minecraft/item/ItemData;", false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/item/ItemStack", "func_77973_b", "()Lnet/minecraft/item/Item;", false);
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, thisName, "repairItem", "Lnet/minecraft/item/ItemData;");
+            mv.visitFieldInsn(GETFIELD, thisName, "repairItem", "Lnet/minecraft/item/Item;");
             Label label0 = new Label();
             mv.visitJumpInsn(IF_ACMPNE, label0);
             mv.visitVarInsn(ALOAD, 2);
@@ -483,7 +483,7 @@ public class ItemClassGenerator extends ClassGenerator {
 
     public void visitFoodContainerItem(IdMetadata containerItem) {
         {
-            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "foodContainerItem", "Lnet/minecraft/item/ItemData;", null, null);
+            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "foodContainerItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
         }
 
@@ -495,8 +495,8 @@ public class ItemClassGenerator extends ClassGenerator {
             ASMUtils.push(initMethod, containerItem.getId());
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
-            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/ItemData");
-            initMethod.visitFieldInsn(PUTFIELD, thisName, "foodContainerItem", "Lnet/minecraft/item/ItemData;");
+            initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
+            initMethod.visitFieldInsn(PUTFIELD, thisName, "foodContainerItem", "Lnet/minecraft/item/Item;");
         }
 
         {
@@ -511,10 +511,10 @@ public class ItemClassGenerator extends ClassGenerator {
             mv.visitTypeInsn(NEW, "net/minecraft/item/ItemStack");
             mv.visitInsn(DUP);
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, thisName, "foodContainerItem", "Lnet/minecraft/item/ItemData;");
+            mv.visitFieldInsn(GETFIELD, thisName, "foodContainerItem", "Lnet/minecraft/item/Item;");
             mv.visitInsn(ICONST_1);
             ASMUtils.push(mv, containerItem.getMetadata());
-            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/ItemData;II)V", false);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/Item;II)V", false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(5, 4);
             mv.visitEnd();

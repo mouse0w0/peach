@@ -99,9 +99,9 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
                     JsonObject entryObject = entry.getAsJsonObject();
                     String entryId = entryObject.get("id").getAsString();
                     int entryMetadata = entryObject.get("metadata").getAsInt();
-                    List<ItemData> entryItemData = map.get(IdMetadata.of(entryId, entryMetadata));
-                    if (entryItemData != null) {
-                        oreDictionaryEntries.addAll(entryItemData);
+                    List<ItemData> entryItemDatumData = map.get(IdMetadata.of(entryId, entryMetadata));
+                    if (entryItemDatumData != null) {
+                        oreDictionaryEntries.addAll(entryItemDatumData);
                     }
                 }
             }

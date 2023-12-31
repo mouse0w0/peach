@@ -47,7 +47,7 @@ public class ItemGroupClassGenerator extends ClassGenerator {
 
     public void visitIcon(IdMetadata icon) {
         {
-            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC, "ICON", "Lnet/minecraft/item/ItemData;", null, null);
+            FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC, "ICON", "Lnet/minecraft/item/Item;", null, null);
             {
                 AnnotationVisitor av = fv.visitAnnotation("Lnet/minecraftforge/fml/common/registry/GameRegistry$ObjectHolder;", true);
                 av.visit("value", icon.getId());
@@ -60,7 +60,7 @@ public class ItemGroupClassGenerator extends ClassGenerator {
             MethodVisitor mv = cw.visitMethod(ACC_STATIC, "<clinit>", "()V", null, null);
             mv.visitCode();
             mv.visitInsn(ACONST_NULL);
-            mv.visitFieldInsn(PUTSTATIC, thisName, "ICON", "Lnet/minecraft/item/ItemData;");
+            mv.visitFieldInsn(PUTSTATIC, thisName, "ICON", "Lnet/minecraft/item/Item;");
             mv.visitInsn(RETURN);
             mv.visitMaxs(1, 0);
             mv.visitEnd();
@@ -76,10 +76,10 @@ public class ItemGroupClassGenerator extends ClassGenerator {
             mv.visitCode();
             mv.visitTypeInsn(NEW, "net/minecraft/item/ItemStack");
             mv.visitInsn(DUP);
-            mv.visitFieldInsn(GETSTATIC, thisName, "ICON", "Lnet/minecraft/item/ItemData;");
+            mv.visitFieldInsn(GETSTATIC, thisName, "ICON", "Lnet/minecraft/item/Item;");
             mv.visitInsn(ICONST_1);
             ASMUtils.push(mv, icon.getMetadata());
-            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/ItemData;II)V", false);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/Item;II)V", false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(5, 1);
             mv.visitEnd();

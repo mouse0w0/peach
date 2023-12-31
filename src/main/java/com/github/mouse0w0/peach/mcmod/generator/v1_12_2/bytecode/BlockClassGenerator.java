@@ -71,7 +71,7 @@ public class BlockClassGenerator extends ClassGenerator {
 
     private void visitMaterialAndMapColor(String material, String mapColor) {
         initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/Material", Srgs.MATERIALS.get(material), "Lnet/minecraft/block/material/Material;");
-        if ("inherit".equals(mapColor)) {
+        if ("INHERIT".equals(mapColor)) {
             initMethod.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/Material", Srgs.MATERIALS.get(material), "Lnet/minecraft/block/material/Material;");
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/material/Material", "func_151565_r", "()Lnet/minecraft/block/material/MapColor;", false);
         } else {
@@ -80,7 +80,7 @@ public class BlockClassGenerator extends ClassGenerator {
     }
 
     public void visitMapColor(String mapColor) {
-        if ("inherit".equals(mapColor)) return;
+        if ("INHERIT".equals(mapColor)) return;
 
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_180659_g", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/material/MapColor;", null, null);
         mv.visitCode();

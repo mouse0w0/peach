@@ -60,7 +60,7 @@ public class GenItem implements Task {
             String identifier = item.getIdentifier();
 
             // Generate class
-            ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/ItemData" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)));
+            ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/Item" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)));
             ItemType type = item.getType();
             if (type == ItemType.NORMAL)
                 cg.visitNormalItem();
