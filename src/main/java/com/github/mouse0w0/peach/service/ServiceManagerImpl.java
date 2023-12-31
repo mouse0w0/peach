@@ -113,7 +113,7 @@ public abstract class ServiceManagerImpl implements ServiceManager {
                 services.putIfAbsent(serviceClassName, wrapper.getService(this, true));
             }
         }).exceptionally(t -> {
-            LOGGER.error("Cannot preload service, serviceClassName=" + serviceClassName, t.getCause());
+            LOGGER.error("Cannot preload service, service=" + serviceClassName, t.getCause());
             return null;
         });
     }
