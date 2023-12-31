@@ -100,6 +100,7 @@ public final class ActionManagerImpl implements ActionManager {
                     case REFERENCE_ELEMENT_NAME -> processReferenceElement(plugin, element);
                     default -> LOGGER.error("Unknown element {}, plugin={}", element.getName(), plugin.getId());
                 }
+                action.freeElement();
             }
         }
     }
