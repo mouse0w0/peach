@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
@@ -40,8 +40,8 @@ public class ItemView extends Control {
 
             sb.append("\n--------------------");
 
-            for (Item data : itemView.getIndex().get(item)) {
-                sb.append('\n').append(data.getLocalizedText());
+            for (ItemData data : itemView.getIndex().get(item)) {
+                sb.append('\n').append(data.getName());
             }
 
             tooltip.setText(sb.toString());
@@ -123,24 +123,24 @@ public class ItemView extends Control {
         playAnimationProperty().set(playAnimation);
     }
 
-    private ObjectProperty<Index<IdMetadata, List<Item>>> index;
+    private ObjectProperty<Index<IdMetadata, List<ItemData>>> index;
 
-    public final ObjectProperty<Index<IdMetadata, List<Item>>> indexProperty() {
+    public final ObjectProperty<Index<IdMetadata, List<ItemData>>> indexProperty() {
         if (index == null) {
             index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
         }
         return index;
     }
 
-    public final Index<IdMetadata, List<Item>> getIndex() {
+    public final Index<IdMetadata, List<ItemData>> getIndex() {
         return indexProperty().get();
     }
 
-    public final void setIndex(Index<IdMetadata, List<Item>> index) {
+    public final void setIndex(Index<IdMetadata, List<ItemData>> index) {
         indexProperty().set(index);
     }
 
-    private Index<IdMetadata, List<Item>> getDefaultIndex() {
+    private Index<IdMetadata, List<ItemData>> getDefaultIndex() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
         return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);

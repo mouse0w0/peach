@@ -1,10 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.element.provider;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
-import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Identifier;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -16,6 +15,7 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.ImageUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.common.collect.Iterables;
+import javafx.scene.image.Image;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -34,7 +34,6 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         item.setFile(file);
         item.setIdentifier(identifier);
         item.setDisplayName(name);
-        item.setEquipmentSlot(EquipmentSlot.NONE);
         item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keySet(), null));
         item.setModel(new Identifier("minecraft:generated"));
         item.setEquipSound("minecraft:item.armor.equip_generic");
@@ -50,27 +49,26 @@ public class ItemProvider extends ElementProvider<ItemElement> {
     public Object[] addIndex(Project project, IndexProvider provider, ItemElement element) {
         String modId = ModProjectService.getInstance(project).getModId();
 
-        Item item = new Item(element.getIdentifier(), 0, null, false);
-        item.setLocalizedText(element.getDisplayName());
-
         String layer0 = element.getTextures().get("layer0");
+        Image image;
         if (StringUtils.isNotEmpty(layer0)) {
-            item.setImage(ImageUtils.of(ResourceUtils.getTextureFile(project, layer0), 64, 64, true, false));
+            image = ImageUtils.of(ResourceUtils.getTextureFile(project, layer0), 64, 64, true, false);
         } else {
-            item.setImage(ResourceUtils.MISSING_TEXTURE);
+            image = ResourceUtils.MISSING_TEXTURE;
         }
 
-        Map<IdMetadata, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
-        IdMetadata item1 = IdMetadata.of(modId + ":" + item.getId(), item.getMetadata());
-        items.put(item1, Collections.singletonList(item));
-        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + item.getId());
-        items.put(item2, Collections.singletonList(item));
+        ItemData itemData = new ItemData(element.getIdentifier(), 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), image);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
+        IdMetadata item1 = IdMetadata.of(modId + ":" + itemData.getId(), itemData.getMetadata());
+        items.put(item1, Collections.singletonList(itemData));
+        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + itemData.getId());
+        items.put(item2, Collections.singletonList(itemData));
         return new Object[]{item1, item2};
     }
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<IdMetadata, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

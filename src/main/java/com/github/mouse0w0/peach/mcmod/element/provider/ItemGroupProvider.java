@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.element.provider;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
-import com.github.mouse0w0.peach.mcmod.ItemGroup;
+import com.github.mouse0w0.peach.mcmod.IconicData;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemGroupEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
@@ -31,10 +31,7 @@ public class ItemGroupProvider extends ElementProvider<ItemGroupElement> {
 
     @Override
     public Object[] addIndex(Project project, IndexProvider provider, ItemGroupElement element) {
-        ItemGroup itemGroup = new ItemGroup(element.getIdentifier(), null, element.getIcon());
-        itemGroup.setLocalizedText(element.getDisplayName());
-
-        provider.getIndex(IndexTypes.ITEM_GROUP).put(element.getIdentifier(), itemGroup);
+        provider.getIndex(IndexTypes.ITEM_GROUP).put(element.getIdentifier(), new IconicData(element.getIdentifier(), element.getDisplayName(), element.getIcon()));
         return new Object[]{element.getIdentifier()};
     }
 

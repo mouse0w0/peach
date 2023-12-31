@@ -1,0 +1,13 @@
+<plugin>
+    <id>minecraft-1.12.2</id>
+    <name>Minecraft 1.12.2</name>
+
+    <dependencies>
+        <dependency>peach</dependency>
+    </dependencies>
+
+    <extensions namespace="peach">
+        <localization locale="zh-CN" path="lang/zh-CN.properties"/>
+        <vanillaData version="1.12.2"/>
+    </extensions>
+</plugin>

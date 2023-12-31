@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.mcmod.index.Index;
 
 import java.util.Objects;
 
@@ -23,8 +24,9 @@ public class ToolAttribute {
         return level;
     }
 
-    public String toLocalizedText() {
-        return AppL10n.localize("toolAttribute.text", AppL10n.localize("toolType." + type), level);
+    public String toLocalizedText(Index<String, GameData> toolTypeIndex) {
+        GameData toolTypeData = toolTypeIndex.get(type);
+        return AppL10n.localize("toolAttribute.text", toolTypeData != null ? toolTypeData.getName() : type, level);
     }
 
     @Override

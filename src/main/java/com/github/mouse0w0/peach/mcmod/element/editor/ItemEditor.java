@@ -1,15 +1,16 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.AttributeModifier;
+import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
+import com.github.mouse0w0.peach.mcmod.ItemType;
+import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
+import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
-import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
-import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
-import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
-import com.github.mouse0w0.peach.mcmod.ui.cell.ToolAttributeCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.*;
 import com.github.mouse0w0.peach.mcmod.ui.form.ItemPickerField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
@@ -24,6 +25,7 @@ import com.github.mouse0w0.peach.ui.form.FormView;
 import com.github.mouse0w0.peach.ui.form.Section;
 import com.github.mouse0w0.peach.ui.form.field.*;
 import com.github.mouse0w0.peach.ui.util.Check;
+import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
@@ -48,11 +50,11 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     private DoubleField attackDamage;
     private DoubleField attackSpeed;
     private IntegerField enchantability;
-    private CheckComboBoxField<EnchantmentType> acceptableEnchantments;
+    private CheckComboBoxField<String> acceptableEnchantments;
     private TagViewField<AttributeModifier> attributeModifiers;
     private ItemPickerField repairItem;
     private ItemPickerField recipeRemain;
-    private ComboBoxField<UseAnimation> useAnimation;
+    private ComboBoxField<String> useAnimation;
     private IntegerField useDuration;
     private IntegerField hitEntityLoss;
     private IntegerField destroyBlockLoss;
@@ -110,21 +112,22 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         isFood.addListener(observable -> {
             if (isFood.get()) {
                 durability.setValue(0);
-                useAnimation.setValue(UseAnimation.EAT);
+                useAnimation.setValue("EAT");
                 useDuration.setValue(32);
             } else {
-                useAnimation.setValue(UseAnimation.NONE);
+                useAnimation.setValue("NONE");
                 useDuration.setValue(0);
             }
         });
 
+
+        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
-        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUP);
-        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory(itemGroupMap));
-        itemGroup.setButtonCell(LocalizableWithItemIconCell.create(itemGroupMap));
-        itemGroup.getItems().addAll(itemGroupMap.keySet());
         itemGroup.setColSpan(ColSpan.HALF);
+        itemGroup.setCellFactory(IconicDataCell.factory(itemGroupMap));
+        itemGroup.setButtonCell(IconicDataCell.create(itemGroupMap));
+        itemGroup.getItems().addAll(itemGroupMap.keySet());
 
         maxStackSize = new IntegerField(1, 64, 64);
         maxStackSize.setLabel(AppL10n.localize("item.properties.maxStackSize"));
@@ -169,12 +172,13 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             return false;
         }, type.valueProperty()));
 
+        var toolTypeIndex = indexManager.getIndex(IndexTypes.TOOL_TYPE);
         toolAttributes = new TagViewField<>();
         toolAttributes.setLabel(AppL10n.localize("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
         toolAttributes.disableProperty().bind(isArmorOrFood);
         toolAttributes.setItemFactory(() -> new ToolAttribute("axe", 0));
-        toolAttributes.setCellFactory(view -> new ToolAttributeCell());
+        toolAttributes.setCellFactory(view -> new ToolAttributeCell(toolTypeIndex));
 
         destroySpeed = new DoubleField(0.0, Double.MAX_VALUE, 0D);
         destroySpeed.setLabel(AppL10n.localize("item.properties.destroySpeed"));
@@ -209,18 +213,20 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         enchantability.setColSpan(ColSpan.HALF);
         enchantability.disableProperty().bind(isFood);
 
+        var enchantmentTypeIndex = indexManager.getIndex(IndexTypes.ENCHANTMENT_TYPE);
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setLabel(AppL10n.localize("item.properties.acceptableEnchantments"));
-        acceptableEnchantments.setConverter(LocalizableConverter.instance());
-        acceptableEnchantments.getItems().setAll(EnchantmentType.VALUES);
+        acceptableEnchantments.setConverter(GameDataConverter.create(enchantmentTypeIndex));
+        acceptableEnchantments.getItems().addAll(enchantmentTypeIndex.keySet());
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
+        var attributeIndex = indexManager.getIndex(IndexTypes.ATTRIBUTE);
         attributeModifiers = new TagViewField<>();
         attributeModifiers.setLabel(AppL10n.localize("item.properties.attributeModifiers"));
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
-        attributeModifiers.setItemFactory(() -> new AttributeModifier(Attribute.MAX_HEALTH, 0, AttributeModifier.Operation.ADD));
-        attributeModifiers.setCellFactory(view -> new AttributeModifierCell());
+        attributeModifiers.setItemFactory(() -> new AttributeModifier("generic.maxHealth", 0, AttributeModifier.Operation.ADD));
+        attributeModifiers.setCellFactory(view -> new AttributeModifierCell(attributeIndex));
 
         repairItem = new ItemPickerField();
         repairItem.setSize(32);
@@ -233,11 +239,12 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         recipeRemain.setLabel(AppL10n.localize("item.properties.recipeRemain"));
         recipeRemain.setColSpan(ColSpan.HALF);
 
+        var useAnimationIndex = indexManager.getIndex(IndexTypes.USE_ANIMATION);
         useAnimation = new ComboBoxField<>();
         useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
-        useAnimation.setCellFactory(LocalizableCell.factory());
-        useAnimation.setButtonCell(new LocalizableCell<>());
-        useAnimation.getItems().setAll(UseAnimation.VALUES);
+        useAnimation.setCellFactory(GameDataCell.factory(useAnimationIndex));
+        useAnimation.setButtonCell(GameDataCell.create(useAnimationIndex));
+        useAnimation.getItems().addAll(useAnimationIndex.keySet());
         useAnimation.setColSpan(ColSpan.HALF);
 
         useDuration = new IntegerField(0, Integer.MAX_VALUE, 0);
@@ -338,13 +345,13 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         fuelBurnTime.setLabel(AppL10n.localize("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
+        var soundEventIndex = indexManager.getIndex(IndexTypes.SOUND_EVENT);
         equipSound = new ComboBoxField<>();
         equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
-        var soundEventMap = indexManager.getIndex(IndexTypes.SOUND_EVENT);
-        equipSound.setCellFactory(LocalizableWithItemIconCell.factory(soundEventMap));
-        equipSound.setButtonCell(LocalizableWithItemIconCell.create(soundEventMap));
-        equipSound.getItems().addAll(soundEventMap.keySet());
+        equipSound.setCellFactory(GameDataCell.factory(soundEventIndex));
+        equipSound.setButtonCell(GameDataCell.create(soundEventIndex));
+        equipSound.getItems().addAll(soundEventIndex.keySet());
         equipSound.disableProperty().bind(isNotArmor);
 
         hunger = new IntegerField(0, Integer.MAX_VALUE, 0);
@@ -436,7 +443,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         item.setAttackSpeed(attackSpeed.getValue());
         item.setAttributeModifiers(attributeModifiers.getValues().toArray(AttributeModifier.EMPTY_ARRAY));
         item.setEnchantability(enchantability.getValue());
-        item.setAcceptableEnchantments(acceptableEnchantments.getValues().toArray(EnchantmentType.EMPTY_ARRAY));
+        item.setAcceptableEnchantments(acceptableEnchantments.getValues().toArray(ArrayUtils.EMPTY_STRING_ARRAY));
         item.setRepairItem(repairItem.getValue());
         item.setRecipeRemain(recipeRemain.getValue());
         item.setUseAnimation(useAnimation.getValue());

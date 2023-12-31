@@ -33,7 +33,7 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
 
         ASMUtils.visitDefaultConstructor(cw);
         {
-            registerItemMethod = cw.visitMethod(ACC_PUBLIC | ACC_STATIC, "registerItem", "(Lnet/minecraftforge/event/RegistryEvent$Register;)V", "(Lnet/minecraftforge/event/RegistryEvent$Register<Lnet/minecraft/item/Item;>;)V", null);
+            registerItemMethod = cw.visitMethod(ACC_PUBLIC | ACC_STATIC, "registerItem", "(Lnet/minecraftforge/event/RegistryEvent$Register;)V", "(Lnet/minecraftforge/event/RegistryEvent$Register<Lnet/minecraft/item/ItemData;>;)V", null);
             {
                 AnnotationVisitor av = registerItemMethod.visitAnnotation("Lnet/minecraftforge/fml/common/eventhandler/SubscribeEvent;", true);
                 av.visitEnd();
@@ -57,7 +57,7 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
             registerItemModelMethod.visitCode();
         }
         {
-            MethodVisitor mv = cw.visitMethod(ACC_PRIVATE | ACC_STATIC, "registerItemModel", "(Lnet/minecraft/item/Item;)V", null, null);
+            MethodVisitor mv = cw.visitMethod(ACC_PRIVATE | ACC_STATIC, "registerItemModel", "(Lnet/minecraft/item/ItemData;)V", null, null);
             {
                 AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
                 av.visitEnum("value", "Lnet/minecraftforge/fml/relauncher/Side;", "CLIENT");
@@ -69,10 +69,10 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
             mv.visitTypeInsn(NEW, "net/minecraft/client/renderer/block/model/ModelResourceLocation");
             mv.visitInsn(DUP);
             mv.visitVarInsn(ALOAD, 0);
-            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/item/Item", "getRegistryName", "()Lnet/minecraft/util/ResourceLocation;", false);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/item/ItemData", "getRegistryName", "()Lnet/minecraft/util/ResourceLocation;", false);
             mv.visitLdcInsn("inventory");
             mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/client/renderer/block/model/ModelResourceLocation", "<init>", "(Lnet/minecraft/util/ResourceLocation;Ljava/lang/String;)V", false);
-            mv.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/client/model/ModelLoader", "setCustomModelResourceLocation", "(Lnet/minecraft/item/Item;ILnet/minecraft/client/renderer/block/model/ModelResourceLocation;)V", false);
+            mv.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/client/model/ModelLoader", "setCustomModelResourceLocation", "(Lnet/minecraft/item/ItemData;ILnet/minecraft/client/renderer/block/model/ModelResourceLocation;)V", false);
             mv.visitInsn(RETURN);
             mv.visitMaxs(6, 1);
             mv.visitEnd();
@@ -87,39 +87,39 @@ public class ItemLoaderClassGenerator extends ClassGenerator {
     public void visitItem(String identifier, String className) {
         String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
 
-        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
+        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/ItemData;", null, null);
         fv.visitEnd();
 
         clinitMethod.visitTypeInsn(NEW, className);
         clinitMethod.visitInsn(DUP);
         clinitMethod.visitMethodInsn(INVOKESPECIAL, className, "<init>", "()V", false);
-        clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/ItemData;");
 
         registerItemMethod.visitVarInsn(ALOAD, 1);
-        registerItemMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        registerItemMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/ItemData;");
         registerItemMethod.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/registries/IForgeRegistry", "register", "(Lnet/minecraftforge/registries/IForgeRegistryEntry;)V", true);
 
-        registerItemModelMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
-        registerItemModelMethod.visitMethodInsn(INVOKESTATIC, thisName, "registerItemModel", "(Lnet/minecraft/item/Item;)V", false);
+        registerItemModelMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/ItemData;");
+        registerItemModelMethod.visitMethodInsn(INVOKESTATIC, thisName, "registerItemModel", "(Lnet/minecraft/item/ItemData;)V", false);
     }
 
     public void visitBlockItem(String identifier, String itemClassName, String blockLoaderClassName) {
         String _IDENTIFIER = JavaUtils.lowerUnderscoreToUpperUnderscore(identifier);
-        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/Item;", null, null);
+        FieldVisitor fv = cw.visitField(ACC_PUBLIC | ACC_FINAL | ACC_STATIC, _IDENTIFIER, "Lnet/minecraft/item/ItemData;", null, null);
         fv.visitEnd();
 
         clinitMethod.visitTypeInsn(NEW, itemClassName);
         clinitMethod.visitInsn(DUP);
         clinitMethod.visitFieldInsn(GETSTATIC, blockLoaderClassName, _IDENTIFIER, "Lnet/minecraft/block/Block;");
         clinitMethod.visitMethodInsn(INVOKESPECIAL, itemClassName, "<init>", "(Lnet/minecraft/block/Block;)V", false);
-        clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        clinitMethod.visitFieldInsn(PUTSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/ItemData;");
 
         registerItemMethod.visitVarInsn(ALOAD, 1);
-        registerItemMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
+        registerItemMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/ItemData;");
         registerItemMethod.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/registries/IForgeRegistry", "register", "(Lnet/minecraftforge/registries/IForgeRegistryEntry;)V", true);
 
-        registerItemModelMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/Item;");
-        registerItemModelMethod.visitMethodInsn(INVOKESTATIC, thisName, "registerItemModel", "(Lnet/minecraft/item/Item;)V", false);
+        registerItemModelMethod.visitFieldInsn(GETSTATIC, thisName, _IDENTIFIER, "Lnet/minecraft/item/ItemData;");
+        registerItemModelMethod.visitMethodInsn(INVOKESTATIC, thisName, "registerItemModel", "(Lnet/minecraft/item/ItemData;)V", false);
     }
 
     @Override

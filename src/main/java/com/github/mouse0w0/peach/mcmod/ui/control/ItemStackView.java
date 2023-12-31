@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -90,24 +90,24 @@ public class ItemStackView extends Control {
         return new ItemStack(getItem(), getAmount());
     }
 
-    private ObjectProperty<Index<IdMetadata, List<Item>>> index;
+    private ObjectProperty<Index<IdMetadata, List<ItemData>>> index;
 
-    public final ObjectProperty<Index<IdMetadata, List<Item>>> indexProperty() {
+    public final ObjectProperty<Index<IdMetadata, List<ItemData>>> indexProperty() {
         if (index == null) {
             index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
         }
         return index;
     }
 
-    public final Index<IdMetadata, List<Item>> getIndex() {
+    public final Index<IdMetadata, List<ItemData>> getIndex() {
         return indexProperty().get();
     }
 
-    public final void setIndex(Index<IdMetadata, List<Item>> index) {
+    public final void setIndex(Index<IdMetadata, List<ItemData>> index) {
         indexProperty().set(index);
     }
 
-    private Index<IdMetadata, List<Item>> getDefaultIndex() {
+    private Index<IdMetadata, List<ItemData>> getDefaultIndex() {
         Project project = WindowManager.getInstance().getFocusedProject();
         if (project == null) return null;
         return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);

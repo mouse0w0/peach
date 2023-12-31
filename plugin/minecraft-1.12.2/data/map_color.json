@@ -1,0 +1,366 @@
+[
+  {
+    "id": "AIR",
+    "icon": {
+      "id": "minecraft:air",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GRASS",
+    "icon": {
+      "id": "minecraft:grass",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SAND",
+    "icon": {
+      "id": "minecraft:sand",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CLOTH",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "TNT",
+    "icon": {
+      "id": "minecraft:tnt",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ICE",
+    "icon": {
+      "id": "minecraft:ice",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "IRON",
+    "icon": {
+      "id": "minecraft:iron_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "FOLIAGE",
+    "icon": {
+      "id": "minecraft:leaves",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SNOW",
+    "icon": {
+      "id": "minecraft:snow",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CLAY",
+    "icon": {
+      "id": "minecraft:clay",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "DIRT",
+    "icon": {
+      "id": "minecraft:dirt",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "STONE",
+    "icon": {
+      "id": "minecraft:stone",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "WATER",
+    "icon": {
+      "id": "minecraft:water",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "WOOD",
+    "icon": {
+      "id": "minecraft:log",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "QUARTZ",
+    "icon": {
+      "id": "minecraft:quartz_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ADOBE",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 1
+    }
+  },
+  {
+    "id": "MAGENTA",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 2
+    }
+  },
+  {
+    "id": "LIGHT_BLUE",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 3
+    }
+  },
+  {
+    "id": "YELLOW",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 4
+    }
+  },
+  {
+    "id": "LIME",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 5
+    }
+  },
+  {
+    "id": "PINK",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 6
+    }
+  },
+  {
+    "id": "GRAY",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 7
+    }
+  },
+  {
+    "id": "SILVER",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 8
+    }
+  },
+  {
+    "id": "CYAN",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 9
+    }
+  },
+  {
+    "id": "PURPLE",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 10
+    }
+  },
+  {
+    "id": "BLUE",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 11
+    }
+  },
+  {
+    "id": "BROWN",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 12
+    }
+  },
+  {
+    "id": "GREEN",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 13
+    }
+  },
+  {
+    "id": "RED",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 14
+    }
+  },
+  {
+    "id": "BLACK",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 15
+    }
+  },
+  {
+    "id": "GOLD",
+    "icon": {
+      "id": "minecraft:gold_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "DIAMOND",
+    "icon": {
+      "id": "minecraft:diamond_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "LAPIS",
+    "icon": {
+      "id": "minecraft:lapis_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "EMERALD",
+    "icon": {
+      "id": "minecraft:emerald_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "OBSIDIAN",
+    "icon": {
+      "id": "minecraft:obsidian",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "NETHERRACK",
+    "icon": {
+      "id": "minecraft:netherrack",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "WHITE_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ORANGE_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 1
+    }
+  },
+  {
+    "id": "MAGENTA_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 2
+    }
+  },
+  {
+    "id": "LIGHT_BLUE_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 3
+    }
+  },
+  {
+    "id": "YELLOW_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 4
+    }
+  },
+  {
+    "id": "LIME_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 5
+    }
+  },
+  {
+    "id": "PINK_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 6
+    }
+  },
+  {
+    "id": "GRAY_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 7
+    }
+  },
+  {
+    "id": "SILVER_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 8
+    }
+  },
+  {
+    "id": "CYAN_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 9
+    }
+  },
+  {
+    "id": "PURPLE_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 10
+    }
+  },
+  {
+    "id": "BLUE_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 11
+    }
+  },
+  {
+    "id": "BROWN_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 12
+    }
+  },
+  {
+    "id": "GREEN_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 13
+    }
+  },
+  {
+    "id": "RED_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 14
+    }
+  },
+  {
+    "id": "BLACK_STAINED_HARDENED_CLAY",
+    "icon": {
+      "id": "minecraft:stained_hardened_clay",
+      "metadata": 15
+    }
+  }
+]

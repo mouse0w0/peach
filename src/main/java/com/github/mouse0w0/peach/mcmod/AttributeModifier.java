@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.google.common.base.CaseFormat;
 
 public class AttributeModifier {
@@ -43,9 +44,10 @@ public class AttributeModifier {
         return operation;
     }
 
-    public String toLocalizedText() {
-        final String localizedAttribute = Attribute.getLocalizedName(attribute);
-        final double value = operation == null || operation == Operation.ADD ? amount : amount * 100.0D;
+    public String toLocalizedText(Index<String, GameData> attributeIndex) {
+        GameData attributeData = attributeIndex.get(attribute);
+        String localizedAttribute = attributeData != null ? attributeData.getName() : attribute;
+        double value = operation == null || operation == Operation.ADD ? amount : amount * 100.0D;
         if (operation == Operation.MULTIPLY_BASE) {
             return AppL10n.localize("attributeModifier.text.multiple_base", localizedAttribute, value);
         } else if (operation == Operation.MULTIPLY_TOTAL) {

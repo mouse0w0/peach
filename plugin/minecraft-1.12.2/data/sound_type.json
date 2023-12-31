@@ -1,0 +1,86 @@
+[
+  {
+    "id": "WOOD",
+    "icon": {
+      "id": "minecraft:log",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GROUND",
+    "icon": {
+      "id": "minecraft:dirt",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "PLANT",
+    "icon": {
+      "id": "minecraft:grass",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "STONE",
+    "icon": {
+      "id": "minecraft:stone",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "METAL",
+    "icon": {
+      "id": "minecraft:iron_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GLASS",
+    "icon": {
+      "id": "minecraft:glass",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CLOTH",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SAND",
+    "icon": {
+      "id": "minecraft:sand",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SNOW",
+    "icon": {
+      "id": "minecraft:snow",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "LADDER",
+    "icon": {
+      "id": "minecraft:ladder",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ANVIL",
+    "icon": {
+      "id": "minecraft:anvil",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SLIME",
+    "icon": {
+      "id": "minecraft:slime",
+      "metadata": 0
+    }
+  }
+]

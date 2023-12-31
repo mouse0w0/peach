@@ -1,11 +1,19 @@
 package com.github.mouse0w0.peach.mcmod.ui.cell;
 
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
+import com.github.mouse0w0.peach.mcmod.GameData;
+import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.ui.popup.AttributeModifierPopup;
 import com.github.mouse0w0.peach.ui.control.TagCell;
 
 public final class AttributeModifierCell extends TagCell<AttributeModifier> {
-    private static final AttributeModifierPopup EDITOR = new AttributeModifierPopup();
+    private final Index<String, GameData> attributeIndex;
+    private final AttributeModifierPopup popup;
+
+    public AttributeModifierCell(Index<String, GameData> attributeIndex) {
+        this.attributeIndex = attributeIndex;
+        this.popup = new AttributeModifierPopup(attributeIndex);
+    }
 
     @Override
     protected void updateItem(AttributeModifier item, boolean empty) {
@@ -14,7 +22,7 @@ public final class AttributeModifierCell extends TagCell<AttributeModifier> {
         if (empty) {
             setText(null);
         } else {
-            setText(item.toLocalizedText());
+            setText(item.toLocalizedText(attributeIndex));
         }
     }
 
@@ -25,7 +33,7 @@ public final class AttributeModifierCell extends TagCell<AttributeModifier> {
         super.startEdit();
 
         if (isEditing()) {
-            EDITOR.edit(this);
+            popup.edit(this);
         }
     }
 }

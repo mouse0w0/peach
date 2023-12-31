@@ -1,10 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode;
 
-import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.BoundingBox;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.Srgs;
-import com.google.common.base.CaseFormat;
 import javafx.scene.paint.Color;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -189,21 +188,21 @@ public class BlockClassGenerator extends ClassGenerator {
         mv.visitEnd();
     }
 
-    public void visitRenderType(RenderType renderType) {
+    public void visitRenderType(String renderType) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_180664_k", "()Lnet/minecraft/util/BlockRenderLayer;", null, null);
         mv.visitCode();
-        mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/BlockRenderLayer", renderType.name(), "Lnet/minecraft/util/BlockRenderLayer;");
+        mv.visitFieldInsn(GETSTATIC, "net/minecraft/util/BlockRenderLayer", renderType, "Lnet/minecraft/util/BlockRenderLayer;");
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 1);
         mv.visitEnd();
     }
 
-    public void visitOffsetType(OffsetType offsetType) {
+    public void visitOffsetType(String offsetType) {
         cw.visitInnerClass("net/minecraft/block/Block$EnumOffsetType", "net/minecraft/block/Block", "EnumOffsetType", ACC_PUBLIC | ACC_FINAL | ACC_STATIC | ACC_ENUM);
 
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_176218_Q", "()Lnet/minecraft/block/Block$EnumOffsetType;", null, null);
         mv.visitCode();
-        mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/Block$EnumOffsetType", offsetType.name(), "Lnet/minecraft/block/Block$EnumOffsetType;");
+        mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/Block$EnumOffsetType", offsetType, "Lnet/minecraft/block/Block$EnumOffsetType;");
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 1);
         mv.visitEnd();
@@ -374,25 +373,25 @@ public class BlockClassGenerator extends ClassGenerator {
         mv.visitEnd();
     }
 
-    public void visitPushReaction(PushReaction pushReaction) {
+    public void visitPushReaction(String pushReaction) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_149656_h", "(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/block/material/EnumPushReaction;", null, null);
         mv.visitCode();
-        mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/EnumPushReaction", pushReaction.name(), "Lnet/minecraft/block/material/EnumPushReaction;");
+        mv.visitFieldInsn(GETSTATIC, "net/minecraft/block/material/EnumPushReaction", pushReaction, "Lnet/minecraft/block/material/EnumPushReaction;");
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 2);
         mv.visitEnd();
     }
 
-    public void visitAiPathNodeType(PathNodeType aiPathNodeType) {
+    public void visitAiPathNodeType(String aiPathNodeType) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "getAiPathNodeType", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityLiving;)Lnet/minecraft/pathfinding/PathNodeType;", null, null);
         mv.visitCode();
-        mv.visitFieldInsn(GETSTATIC, "net/minecraft/pathfinding/PathNodeType", aiPathNodeType.name(), "Lnet/minecraft/pathfinding/PathNodeType;");
+        mv.visitFieldInsn(GETSTATIC, "net/minecraft/pathfinding/PathNodeType", aiPathNodeType, "Lnet/minecraft/pathfinding/PathNodeType;");
         mv.visitInsn(ARETURN);
         mv.visitMaxs(1, 5);
         mv.visitEnd();
     }
 
-    public void visitCanPlantPlant(PlantType plantType) {
+    public void visitCanPlantPlant(String plantType) {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "canSustainPlant", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/EnumFacing;Lnet/minecraftforge/common/IPlantable;)Z", null, null);
         mv.visitCode();
         mv.visitVarInsn(ALOAD, 5);
@@ -401,7 +400,7 @@ public class BlockClassGenerator extends ClassGenerator {
         mv.visitVarInsn(ALOAD, 4);
         mv.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/math/BlockPos", "func_177972_a", "(Lnet/minecraft/util/EnumFacing;)Lnet/minecraft/util/math/BlockPos;", false);
         mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/common/IPlantable", "getPlantType", "(Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraftforge/common/EnumPlantType;", true);
-        mv.visitFieldInsn(GETSTATIC, "net/minecraftforge/common/EnumPlantType", CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, plantType.name()), "Lnet/minecraftforge/common/EnumPlantType;");
+        mv.visitFieldInsn(GETSTATIC, "net/minecraftforge/common/EnumPlantType", plantType, "Lnet/minecraftforge/common/EnumPlantType;");
         Label label0 = new Label();
         mv.visitJumpInsn(IF_ACMPNE, label0);
         mv.visitInsn(ICONST_1);

@@ -1,6 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.peach.dispose.Disposable;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import org.slf4j.Logger;
@@ -36,6 +38,8 @@ public final class ModProjectService implements Disposable {
         if (metadata == null) {
             this.metadata = new ModProjectMetadata();
         }
+
+        IndexManager.getInstance(project).addProvider(VanillaDataManager.getInstance().getVanillaData(metadata.getMcVersion()));
     }
 
     public Project getProject() {

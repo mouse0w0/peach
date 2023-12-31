@@ -1,0 +1,254 @@
+[
+  {
+    "id": "AIR",
+    "icon": {
+      "id": "minecraft:air",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GRASS",
+    "icon": {
+      "id": "minecraft:grass",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GROUND",
+    "icon": {
+      "id": "minecraft:dirt",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "WOOD",
+    "icon": {
+      "id": "minecraft:log",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ROCK",
+    "icon": {
+      "id": "minecraft:stone",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "IRON",
+    "icon": {
+      "id": "minecraft:iron_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ANVIL",
+    "icon": {
+      "id": "minecraft:anvil",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "WATER",
+    "icon": {
+      "id": "minecraft:water",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "LAVA",
+    "icon": {
+      "id": "minecraft:lava",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "LEAVES",
+    "icon": {
+      "id": "minecraft:leaves",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "PLANKS",
+    "icon": {
+      "id": "minecraft:planks",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "VINE",
+    "icon": {
+      "id": "minecraft:vine",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SPONGE",
+    "icon": {
+      "id": "minecraft:sponge",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CLOTH",
+    "icon": {
+      "id": "minecraft:wool",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "FIRE",
+    "icon": {
+      "id": "minecraft:fire",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SAND",
+    "icon": {
+      "id": "minecraft:sand",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CIRCUITS",
+    "icon": {
+      "id": "minecraft:redstone",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CARPET",
+    "icon": {
+      "id": "minecraft:carpet",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GLASS",
+    "icon": {
+      "id": "minecraft:glass",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "REDSTONE_LIGHT",
+    "icon": {
+      "id": "minecraft:redstone_lamp",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "TNT",
+    "icon": {
+      "id": "minecraft:tnt",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CORAL",
+    "icon": {
+      "id": "minecraft:air",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "ICE",
+    "icon": {
+      "id": "minecraft:ice",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "PACKED_ICE",
+    "icon": {
+      "id": "minecraft:packed_ice",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "SNOW",
+    "icon": {
+      "id": "minecraft:snow_layer",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CRAFTED_SNOW",
+    "icon": {
+      "id": "minecraft:snow",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CACTUS",
+    "icon": {
+      "id": "minecraft:cactus",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CLAY",
+    "icon": {
+      "id": "minecraft:clay",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "GOURD",
+    "icon": {
+      "id": "minecraft:melon_block",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "DRAGON_EGG",
+    "icon": {
+      "id": "minecraft:dragon_egg",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "PORTAL",
+    "icon": {
+      "id": "minecraft:portal",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "CAKE",
+    "icon": {
+      "id": "minecraft:cake",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "WEB",
+    "icon": {
+      "id": "minecraft:web",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "PISTON",
+    "icon": {
+      "id": "minecraft:piston",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "BARRIER",
+    "icon": {
+      "id": "minecraft:barrier",
+      "metadata": 0
+    }
+  },
+  {
+    "id": "STRUCTURE_VOID",
+    "icon": {
+      "id": "minecraft:structure_void",
+      "metadata": 0
+    }
+  }
+]

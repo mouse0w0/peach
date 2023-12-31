@@ -1,0 +1,13 @@
+[
+  "generic.maxHealth",
+  "generic.knockbackResistance",
+  "generic.movementSpeed",
+  "generic.flyingSpeed",
+  "generic.attackDamage",
+  "generic.attackSpeed",
+  "generic.armor",
+  "generic.armorToughness",
+  "generic.luck",
+  "generic.reachDistance",
+  "forge.swimSpeed"
+]

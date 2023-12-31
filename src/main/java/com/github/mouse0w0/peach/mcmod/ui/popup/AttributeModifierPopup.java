@@ -1,8 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.ui.popup;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.Attribute;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
+import com.github.mouse0w0.peach.mcmod.GameData;
+import com.github.mouse0w0.peach.mcmod.index.Index;
+import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.ui.control.TagCell;
 import com.github.mouse0w0.peach.ui.util.Spinners;
@@ -13,10 +15,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import javafx.util.StringConverter;
 import org.controlsfx.control.PopOver;
 
 public final class AttributeModifierPopup extends PopOver {
+    private final Index<String, GameData> attributeIndex;
+
     private final ChoiceBox<String> attribute;
     private final ChoiceBox<AttributeModifier.Operation> operation;
     private final Spinner<Double> amount;
@@ -31,7 +34,9 @@ public final class AttributeModifierPopup extends PopOver {
         }
     };
 
-    public AttributeModifierPopup() {
+    public AttributeModifierPopup(Index<String, GameData> attributeIndex) {
+        this.attributeIndex = attributeIndex;
+
         getRoot().minHeightProperty().unbind();
         setArrowLocation(ArrowLocation.TOP_CENTER);
         setAnimated(false);
@@ -44,18 +49,8 @@ public final class AttributeModifierPopup extends PopOver {
 
         attribute = new ChoiceBox<>();
         attribute.setPrefWidth(150);
-        attribute.getItems().addAll(Attribute.getAttributes());
-        attribute.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(String object) {
-                return Attribute.getLocalizedName(object);
-            }
-
-            @Override
-            public String fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
+        attribute.getItems().addAll(attributeIndex.keySet());
+        attribute.setConverter(GameDataConverter.create(attributeIndex));
         grid.addRow(0, new Text(AppL10n.localize("attributeModifier.attribute")), attribute);
 
         operation = new ChoiceBox<>();

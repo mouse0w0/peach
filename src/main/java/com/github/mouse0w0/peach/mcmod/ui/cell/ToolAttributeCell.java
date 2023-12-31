@@ -1,11 +1,19 @@
 package com.github.mouse0w0.peach.mcmod.ui.cell;
 
+import com.github.mouse0w0.peach.mcmod.GameData;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
+import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.ui.popup.ToolAttributePopup;
 import com.github.mouse0w0.peach.ui.control.TagCell;
 
 public final class ToolAttributeCell extends TagCell<ToolAttribute> {
-    private static final ToolAttributePopup EDITOR = new ToolAttributePopup();
+    private final Index<String, GameData> toolTypeIndex;
+    private final ToolAttributePopup popup;
+
+    public ToolAttributeCell(Index<String, GameData> toolTypeIndex) {
+        this.toolTypeIndex = toolTypeIndex;
+        this.popup = new ToolAttributePopup(toolTypeIndex);
+    }
 
     @Override
     protected void updateItem(ToolAttribute item, boolean empty) {
@@ -14,7 +22,7 @@ public final class ToolAttributeCell extends TagCell<ToolAttribute> {
         if (empty) {
             setText(null);
         } else {
-            setText(item.toLocalizedText());
+            setText(item.toLocalizedText(toolTypeIndex));
         }
     }
 
@@ -25,7 +33,7 @@ public final class ToolAttributeCell extends TagCell<ToolAttribute> {
         super.startEdit();
 
         if (isEditing()) {
-            EDITOR.edit(this);
+            popup.edit(this);
         }
     }
 }

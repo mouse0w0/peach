@@ -21,11 +21,11 @@ public class ItemElement extends Element implements LocalizableElement {
     private ToolAttribute[] toolAttributes = ToolAttribute.EMPTY_ARRAY;
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
     private int enchantability;
-    private EnchantmentType[] acceptableEnchantments = EnchantmentType.EMPTY_ARRAY;
+    private String[] acceptableEnchantments = ArrayUtils.EMPTY_STRING_ARRAY;
     private IdMetadata repairItem = IdMetadata.AIR;
     private IdMetadata recipeRemain = IdMetadata.AIR;
     private EquipmentSlot equipmentSlot = EquipmentSlot.NONE;
-    private UseAnimation useAnimation = UseAnimation.NONE;
+    private String useAnimation = "NONE";
     private int useDuration;
     private double attackDamage = 1D;
     private double attackSpeed = 4D;
@@ -135,11 +135,11 @@ public class ItemElement extends Element implements LocalizableElement {
         this.enchantability = enchantability;
     }
 
-    public EnchantmentType[] getAcceptableEnchantments() {
+    public String[] getAcceptableEnchantments() {
         return acceptableEnchantments;
     }
 
-    public void setAcceptableEnchantments(EnchantmentType[] acceptableEnchantments) {
+    public void setAcceptableEnchantments(String[] acceptableEnchantments) {
         this.acceptableEnchantments = acceptableEnchantments;
     }
 
@@ -167,11 +167,11 @@ public class ItemElement extends Element implements LocalizableElement {
         this.equipmentSlot = equipmentSlot;
     }
 
-    public UseAnimation getUseAnimation() {
+    public String getUseAnimation() {
         return useAnimation;
     }
 
-    public void setUseAnimation(UseAnimation useAnimation) {
+    public void setUseAnimation(String useAnimation) {
         this.useAnimation = useAnimation;
     }
 

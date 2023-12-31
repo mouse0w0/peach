@@ -30,10 +30,10 @@ public class SmeltingRecipeLoaderClassGenerator extends ClassGenerator {
             mv.visitVarInsn(ALOAD, 0);
             mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/registries/IForgeRegistry", "getValue", "(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraftforge/registries/IForgeRegistryEntry;", true);
-            mv.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/item/ItemData");
             mv.visitInsn(ICONST_1);
             mv.visitVarInsn(ILOAD, 1);
-            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/Item;II)V", false);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/ItemData;II)V", false);
             mv.visitTypeInsn(NEW, "net/minecraft/item/ItemStack");
             mv.visitInsn(DUP);
             mv.visitFieldInsn(GETSTATIC, "net/minecraftforge/fml/common/registry/ForgeRegistries", "ITEMS", "Lnet/minecraftforge/registries/IForgeRegistry;");
@@ -42,10 +42,10 @@ public class SmeltingRecipeLoaderClassGenerator extends ClassGenerator {
             mv.visitVarInsn(ALOAD, 2);
             mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             mv.visitMethodInsn(INVOKEINTERFACE, "net/minecraftforge/registries/IForgeRegistry", "getValue", "(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraftforge/registries/IForgeRegistryEntry;", true);
-            mv.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
+            mv.visitTypeInsn(CHECKCAST, "net/minecraft/item/ItemData");
             mv.visitVarInsn(ILOAD, 3);
             mv.visitVarInsn(ILOAD, 4);
-            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/Item;II)V", false);
+            mv.visitMethodInsn(INVOKESPECIAL, "net/minecraft/item/ItemStack", "<init>", "(Lnet/minecraft/item/ItemData;II)V", false);
             mv.visitVarInsn(FLOAD, 5);
             mv.visitMethodInsn(INVOKESTATIC, "net/minecraftforge/fml/common/registry/GameRegistry", "addSmelting", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;F)V", false);
             mv.visitInsn(RETURN);

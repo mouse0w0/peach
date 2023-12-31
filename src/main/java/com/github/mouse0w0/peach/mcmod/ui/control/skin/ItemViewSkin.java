@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,7 +19,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
     private final ImageView imageView;
 
-    private List<Item> items;
+    private List<ItemData> itemData;
     private Timeline timeline;
 
     public ItemViewSkin(ItemView itemView) {
@@ -48,21 +48,21 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         IdMetadata itemSelector = itemView.getItem();
         if (itemSelector == null) {
-            items = itemView.getIndex().get(IdMetadata.AIR);
+            itemData = itemView.getIndex().get(IdMetadata.AIR);
         } else {
-            items = itemView.getIndex().get(itemSelector);
+            itemData = itemView.getIndex().get(itemSelector);
         }
 
-        if (items == null || items.size() == 0) {
+        if (itemData == null || itemData.size() == 0) {
             imageView.setImage(MISSING);
             return;
         }
 
-        if (itemView.isPlayAnimation() && items.size() > 1) {
+        if (itemView.isPlayAnimation() && itemData.size() > 1) {
             timeline = createTimeline();
             timeline.play();
         } else {
-            imageView.setImage(items.get(0).getImage());
+            imageView.setImage(itemData.get(0).getTexture());
         }
     }
 
@@ -70,8 +70,8 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         Timeline timeline = new Timeline();
         ObservableList<KeyFrame> keyFrames = timeline.getKeyFrames();
         timeline.setCycleCount(Timeline.INDEFINITE);
-        for (int i = 0; i < items.size(); i++) {
-            Image image = items.get(i).getImage();
+        for (int i = 0; i < itemData.size(); i++) {
+            Image image = itemData.get(i).getTexture();
             keyFrames.add(new KeyFrame(Duration.seconds(i), event -> imageView.setImage(image)));
         }
         return timeline;

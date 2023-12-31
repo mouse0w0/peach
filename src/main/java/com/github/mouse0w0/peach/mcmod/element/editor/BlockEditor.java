@@ -1,14 +1,16 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
 import com.github.mouse0w0.peach.l10n.AppL10n;
-import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.BlockType;
+import com.github.mouse0w0.peach.mcmod.BoundingBox;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.model.Blockstate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
-import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableWithItemIconCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.GameDataCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.IconicDataCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
 import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
@@ -27,7 +29,6 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 
 public class BlockEditor extends ElementEditor<BlockElement> {
@@ -45,7 +46,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     private DoubleField slipperiness;
     private IntegerField brightness;
     private IntegerField opacity;
-    private ChoiceBoxField<String> harvestTool;
+    private ComboBoxField<String> harvestTool;
     private IntegerField harvestLevel;
     private RadioButtonField replaceable;
     private TextAreaField information;
@@ -62,8 +63,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     private ModelTextureField textures;
     private TextureField particleTexture;
     private RadioButtonField transparency;
-    private ChoiceBoxField<RenderType> renderType;
-    private ChoiceBoxField<OffsetType> offsetType;
+    private ComboBoxField<String> renderType;
+    private ComboBoxField<String> offsetType;
     private ModelField itemModel;
     private ModelTextureField itemTextures;
 
@@ -76,12 +77,12 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     private RadioButtonField climbable;
     private RadioButtonField canConnectRedstone;
     private IntegerField redstonePower;
-    private ChoiceBoxField<PlantType> canPlantPlant;
+    private ComboBoxField<String> canPlantPlant;
     private DoubleField enchantPowerBonus;
     private IntegerField flammability;
     private IntegerField fireSpreadSpeed;
-    private ChoiceBoxField<PushReaction> pushReaction;
-    private ChoiceBoxField<PathNodeType> aiPathNodeType;
+    private ComboBoxField<String> pushReaction;
+    private ComboBoxField<String> aiPathNodeType;
 //    private Object pickItem; // TODO
 
     public BlockEditor(@NotNull Project project, @NotNull BlockElement element) {
@@ -105,34 +106,34 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
         type = new ChoiceBoxField<>();
         type.setLabel(AppL10n.localize("block.properties.type"));
+        type.setColSpan(ColSpan.HALF);
         type.setConverter(LocalizableConverter.instance());
         type.getItems().addAll(BlockType.VALUES);
         type.setValue(BlockType.NORMAL);
-        type.setColSpan(ColSpan.HALF);
 
+        var materialIndex = indexManager.getIndex(IndexTypes.MATERIAL);
         material = new ComboBoxField<>();
         material.setLabel(AppL10n.localize("block.properties.material"));
-        var materialMap = indexManager.getIndex(IndexTypes.MATERIAL);
-        material.setCellFactory(LocalizableWithItemIconCell.factory(materialMap));
-        material.setButtonCell(LocalizableWithItemIconCell.create(materialMap));
-        material.getItems().addAll(materialMap.keySet());
         material.setColSpan(ColSpan.HALF);
+        material.setCellFactory(IconicDataCell.factory(materialIndex));
+        material.setButtonCell(IconicDataCell.create(materialIndex));
+        material.getItems().addAll(materialIndex.keySet());
 
+        var itemGroupIndex = indexManager.getIndex(IndexTypes.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
-        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUP);
-        itemGroup.setCellFactory(LocalizableWithItemIconCell.factory(itemGroupMap));
-        itemGroup.setButtonCell(LocalizableWithItemIconCell.create(itemGroupMap));
-        itemGroup.getItems().addAll(itemGroupMap.keySet());
         itemGroup.setColSpan(ColSpan.HALF);
+        itemGroup.setCellFactory(IconicDataCell.factory(itemGroupIndex));
+        itemGroup.setButtonCell(IconicDataCell.create(itemGroupIndex));
+        itemGroup.getItems().addAll(itemGroupIndex.keySet());
 
+        var soundTypeIndex = indexManager.getIndex(IndexTypes.SOUND_TYPE);
         soundType = new ComboBoxField<>();
         soundType.setLabel(AppL10n.localize("block.properties.soundType"));
-        var soundTypeMap = indexManager.getIndex(IndexTypes.SOUND_TYPE);
-        soundType.setCellFactory(LocalizableWithItemIconCell.factory(soundTypeMap));
-        soundType.setButtonCell(LocalizableWithItemIconCell.create(soundTypeMap));
-        soundType.getItems().addAll(soundTypeMap.keySet());
         soundType.setColSpan(ColSpan.HALF);
+        soundType.setCellFactory(IconicDataCell.factory(soundTypeIndex));
+        soundType.setButtonCell(IconicDataCell.create(soundTypeIndex));
+        soundType.getItems().addAll(soundTypeIndex.keySet());
 
         hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
         hardness.setLabel(AppL10n.localize("block.properties.hardness"));
@@ -159,27 +160,18 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         opacity.setLabel(AppL10n.localize("block.properties.opacity"));
         opacity.setColSpan(ColSpan.HALF);
 
-        harvestTool = new ChoiceBoxField<>();
+        var toolTypeIndex = indexManager.getIndex(IndexTypes.TOOL_TYPE);
+        harvestTool = new ComboBoxField<>();
         harvestTool.setLabel(AppL10n.localize("block.properties.harvestTool"));
         harvestTool.setColSpan(ColSpan.HALF);
-        harvestTool.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(String object) {
-                return AppL10n.localize("toolType." + object);
-            }
-
-            @Override
-            public String fromString(String string) {
-                throw new UnsupportedOperationException();
-            }
-        });
-        harvestTool.getItems().add(ToolType.NONE);
-        harvestTool.getItems().addAll(ToolType.getToolTypes());
+        harvestTool.setCellFactory(GameDataCell.factory(toolTypeIndex));
+        harvestTool.setButtonCell(GameDataCell.create(toolTypeIndex));
+        harvestTool.getItems().addAll(toolTypeIndex.keySet());
 
         harvestLevel = new IntegerField(0, Integer.MAX_VALUE, 0);
         harvestLevel.setLabel(AppL10n.localize("block.properties.harvestLevel"));
         harvestLevel.setColSpan(ColSpan.HALF);
-        harvestLevel.disableProperty().bind(harvestTool.valueProperty().isEqualTo(ToolType.NONE));
+        harvestLevel.disableProperty().bind(harvestTool.valueProperty().isEqualTo("NONE"));
 
         information = new TextAreaField();
         information.setLabel(AppL10n.localize("block.properties.information"));
@@ -219,17 +211,21 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         transparency.setColSpan(ColSpan.HALF);
         transparency.valueProperty().addListener(observable -> opacity.setValue(transparency.getValue() ? 0 : 255));
 
-        renderType = new ChoiceBoxField<>();
+        var renderTypeIndex = indexManager.getIndex(IndexTypes.RENDER_TYPE);
+        renderType = new ComboBoxField<>();
         renderType.setLabel(AppL10n.localize("block.appearance.renderType"));
-        renderType.setConverter(LocalizableConverter.instance());
-        renderType.getItems().addAll(RenderType.VALUES);
         renderType.setColSpan(ColSpan.HALF);
+        renderType.setCellFactory(GameDataCell.factory(renderTypeIndex));
+        renderType.setButtonCell(GameDataCell.create(renderTypeIndex));
+        renderType.getItems().addAll(renderTypeIndex.keySet());
 
-        offsetType = new ChoiceBoxField<>();
+        var offsetTypeIndex = indexManager.getIndex(IndexTypes.OFFSET_TYPE);
+        offsetType = new ComboBoxField<>();
         offsetType.setLabel(AppL10n.localize("block.appearance.offsetType"));
-        offsetType.setConverter(LocalizableConverter.instance());
-        offsetType.getItems().addAll(OffsetType.VALUES);
         offsetType.setColSpan(ColSpan.HALF);
+        offsetType.setCellFactory(GameDataCell.factory(offsetTypeIndex));
+        offsetType.setButtonCell(GameDataCell.create(offsetTypeIndex));
+        offsetType.getItems().addAll(offsetTypeIndex.keySet());
 
         itemModel = new ModelField(getProject(), new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
@@ -301,13 +297,13 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         doNotRegisterItem.setLabel(AppL10n.localize("block.extra.doNotRegisterItem"));
         doNotRegisterItem.setColSpan(ColSpan.HALF);
 
+        var mapColorIndex = indexManager.getIndex(IndexTypes.MAP_COLOR);
         mapColor = new ComboBoxField<>();
         mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
-        var mapColorMap = indexManager.getIndex(IndexTypes.MAP_COLOR);
-        mapColor.setCellFactory(LocalizableWithItemIconCell.factory(mapColorMap));
-        mapColor.setButtonCell(LocalizableWithItemIconCell.create(mapColorMap));
-        mapColor.getItems().addAll(mapColorMap.keySet());
         mapColor.setColSpan(ColSpan.HALF);
+        mapColor.setCellFactory(IconicDataCell.factory(mapColorIndex));
+        mapColor.setButtonCell(IconicDataCell.create(mapColorIndex));
+        mapColor.getItems().addAll(mapColorIndex.keySet());
 
         beaconColor = new ColorPickerField();
         beaconColor.setLabel(AppL10n.localize("block.extra.beaconColor"));
@@ -333,11 +329,13 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         redstonePower.setLabel(AppL10n.localize("block.extra.redstonePower"));
         redstonePower.setColSpan(ColSpan.HALF);
 
-        canPlantPlant = new ChoiceBoxField<>();
+        var plantTypeIndex = indexManager.getIndex(IndexTypes.PLANT_TYPE);
+        canPlantPlant = new ComboBoxField<>();
         canPlantPlant.setLabel(AppL10n.localize("block.extra.canPlantPlant"));
-        canPlantPlant.setConverter(LocalizableConverter.instance());
-        canPlantPlant.getItems().addAll(PlantType.VALUES);
         canPlantPlant.setColSpan(ColSpan.HALF);
+        canPlantPlant.setCellFactory(GameDataCell.factory(plantTypeIndex));
+        canPlantPlant.setButtonCell(GameDataCell.create(plantTypeIndex));
+        canPlantPlant.getItems().addAll(plantTypeIndex.keySet());
 
         enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
         enchantPowerBonus.setLabel(AppL10n.localize("block.extra.enchantPowerBonus"));
@@ -351,17 +349,21 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         fireSpreadSpeed.setLabel(AppL10n.localize("block.extra.fireSpreadSpeed"));
         fireSpreadSpeed.setColSpan(ColSpan.HALF);
 
-        pushReaction = new ChoiceBoxField<>();
+        var pushReactionIndex = indexManager.getIndex(IndexTypes.PUSH_REACTION);
+        pushReaction = new ComboBoxField<>();
         pushReaction.setLabel(AppL10n.localize("block.extra.pushReaction"));
-        pushReaction.setConverter(LocalizableConverter.instance());
-        pushReaction.getItems().addAll(PushReaction.VALUES);
         pushReaction.setColSpan(ColSpan.HALF);
+        pushReaction.setCellFactory(GameDataCell.factory(pushReactionIndex));
+        pushReaction.setButtonCell(GameDataCell.create(pushReactionIndex));
+        pushReaction.getItems().addAll(pushReactionIndex.keySet());
 
-        aiPathNodeType = new ChoiceBoxField<>();
+        var pathNodeTypeIndex = indexManager.getIndex(IndexTypes.PATH_NODE_TYPE);
+        aiPathNodeType = new ComboBoxField<>();
         aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
-        aiPathNodeType.setConverter(LocalizableConverter.instance());
-        aiPathNodeType.getItems().addAll(PathNodeType.VALUES);
         aiPathNodeType.setColSpan(ColSpan.HALF);
+        aiPathNodeType.setCellFactory(GameDataCell.factory(pathNodeTypeIndex));
+        aiPathNodeType.setButtonCell(GameDataCell.create(pathNodeTypeIndex));
+        aiPathNodeType.getItems().addAll(pathNodeTypeIndex.keySet());
 
         Section extra = new Section();
         extra.setText(AppL10n.localize("block.extra.title"));

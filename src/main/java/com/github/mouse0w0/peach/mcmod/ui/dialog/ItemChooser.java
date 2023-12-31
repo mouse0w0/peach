@@ -4,7 +4,7 @@ import com.github.mouse0w0.gridview.GridView;
 import com.github.mouse0w0.gridview.cell.GridCell;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
@@ -39,7 +39,7 @@ public class ItemChooser extends Stage {
     private final RadioButton oreDictMode;
     private final GridView<IdMetadata> gridView;
 
-    private Index<IdMetadata, List<Item>> itemIndex;
+    private Index<IdMetadata, List<ItemData>> itemIndex;
 
     private IdMetadata defaultItem;
 
@@ -168,8 +168,8 @@ public class ItemChooser extends Stage {
 
     private boolean filterItem(IdMetadata item, String pattern) {
         if (item.getId().contains(pattern)) return true;
-        for (Item data : itemIndex.get(item)) {
-            if (data.getLocalizedText().contains(pattern)) {
+        for (ItemData data : itemIndex.get(item)) {
+            if (data.getName().contains(pattern)) {
                 return true;
             }
         }

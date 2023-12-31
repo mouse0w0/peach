@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
-import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.BlockType;
+import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.Filer;
@@ -122,14 +123,14 @@ public class GenBlock implements Task {
             if (block.getBrightness() != 0) cg.visitBrightness(block.getBrightness());
             if (block.isTransparency() ? block.getOpacity() != 0 : block.getOpacity() != 255)
                 cg.visitOpacity(block.getOpacity());
-            if (!ToolType.NONE.equals(block.getHarvestTool()))
+            if (!"NONE".equals(block.getHarvestTool()))
                 cg.visitHarvestToolAndLevel(block.getHarvestTool(), block.getHarvestLevel());
             if (ArrayUtils.isNotEmpty(block.getInformation()))
                 cg.visitInformation(namespace, identifier, block.getInformation().length);
 
             if (block.isTransparency()) cg.visitTransparency();
-            if (block.getRenderType() != RenderType.SOLID) cg.visitRenderType(block.getRenderType());
-            if (block.getOffsetType() != OffsetType.NONE) cg.visitOffsetType(block.getOffsetType());
+            if (!"SOLID".equals(block.getRenderType())) cg.visitRenderType(block.getRenderType());
+            if (!"NONE".equals(block.getOffsetType())) cg.visitOffsetType(block.getOffsetType());
 
             if (block.isNoCollision() || !BlockElement.FULL_BLOCK.equals(block.getBoundingBox())) cg.visitNoFullCube();
             if (block.isNoCollision()) cg.visitNoCollision();
@@ -142,12 +143,12 @@ public class GenBlock implements Task {
             if (block.isReplaceable()) cg.visitReplaceable();
             if (block.isCanConnectRedstone()) cg.visitCanConnectRedstone();
             if (block.getRedstonePower() != 0) cg.visitRedstonePower(block.getRedstonePower());
-            if (block.getCanPlantPlant() != PlantType.NONE) cg.visitCanPlantPlant(block.getCanPlantPlant());
+            if ("NONE".equals(block.getCanPlantPlant())) cg.visitCanPlantPlant(block.getCanPlantPlant());
             if (block.getEnchantPowerBonus() != 0) cg.visitEnchantPowerBonus((float) block.getEnchantPowerBonus());
             if (block.getFlammability() != 0) cg.visitFlammability(block.getFlammability());
             if (block.getFireSpreadSpeed() != 0) cg.visitFireSpreadSpeed(block.getFireSpreadSpeed());
-            if (block.getPushReaction() != PushReaction.INHERIT) cg.visitPushReaction(block.getPushReaction());
-            if (block.getAiPathNodeType() != PathNodeType.INHERIT) cg.visitAiPathNodeType(block.getAiPathNodeType());
+            if (!"INHERIT".equals(block.getPushReaction())) cg.visitPushReaction(block.getPushReaction());
+            if (!"INHERIT".equals(block.getAiPathNodeType())) cg.visitAiPathNodeType(block.getAiPathNodeType());
             context.getClassesFiler().write(cg.getThisName() + ".class", cg.toByteArray());
 
             loader.visitBlock(identifier, cg.getThisName());

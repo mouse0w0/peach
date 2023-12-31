@@ -1,6 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.element.impl;
 
-import com.github.mouse0w0.peach.mcmod.*;
+import com.github.mouse0w0.peach.mcmod.BlockType;
+import com.github.mouse0w0.peach.mcmod.BoundingBox;
+import com.github.mouse0w0.peach.mcmod.Identifier;
+import com.github.mouse0w0.peach.mcmod.ItemStack;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.LocalizableElement;
 import com.github.mouse0w0.peach.util.ArrayUtils;
@@ -14,9 +17,9 @@ public class BlockElement extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
     private BlockType type = BlockType.NORMAL;
-    private String material;
+    private String material = "ROCK";
     private String itemGroup;
-    private String soundType;
+    private String soundType = "STONE";
     private double hardness;
     private boolean unbreakable; // set hardness -1.
     private double resistance;
@@ -24,7 +27,7 @@ public class BlockElement extends Element implements LocalizableElement {
     private int brightness;
     private int opacity = 255;
     //    private boolean gravity; // as block type?
-    private String harvestTool = ToolType.NONE;
+    private String harvestTool = "NONE";
     private int harvestLevel;
     private String[] information = ArrayUtils.EMPTY_STRING_ARRAY;
 
@@ -33,8 +36,8 @@ public class BlockElement extends Element implements LocalizableElement {
     private Map<String, String> textures = Collections.emptyMap();
     private String particleTexture;
     private boolean transparency;
-    private RenderType renderType = RenderType.SOLID;
-    private OffsetType offsetType = OffsetType.NONE;
+    private String renderType = "SOLID";
+    private String offsetType = "NONE";
     private Identifier itemModel;
     private Map<String, String> customItemModels = Collections.emptyMap();
     private Map<String, String> itemTextures = Collections.emptyMap();
@@ -46,19 +49,19 @@ public class BlockElement extends Element implements LocalizableElement {
     private ItemStack dropItem;
 
     private boolean doNotRegisterItem;
-    private String mapColor;
+    private String mapColor = "INHERIT";
     private String beaconColor = "0x00000000";
     private boolean beaconBase;
     private boolean climbable;
     private boolean replaceable; // what?
     private boolean canConnectRedstone;
     private int redstonePower;
-    private PlantType canPlantPlant = PlantType.NONE;
+    private String canPlantPlant = "NONE";
     private double enchantPowerBonus;
     private int flammability;
     private int fireSpreadSpeed;
-    private PushReaction pushReaction = PushReaction.INHERIT;
-    private PathNodeType aiPathNodeType = PathNodeType.INHERIT;
+    private String pushReaction = "INHERIT";
+    private String aiPathNodeType = "INHERIT";
 //    private IdMetadata pickItem;
 
     public String getIdentifier() {
@@ -221,19 +224,19 @@ public class BlockElement extends Element implements LocalizableElement {
         this.transparency = transparency;
     }
 
-    public RenderType getRenderType() {
+    public String getRenderType() {
         return renderType;
     }
 
-    public void setRenderType(RenderType renderType) {
+    public void setRenderType(String renderType) {
         this.renderType = renderType;
     }
 
-    public OffsetType getOffsetType() {
+    public String getOffsetType() {
         return offsetType;
     }
 
-    public void setOffsetType(OffsetType offsetType) {
+    public void setOffsetType(String offsetType) {
         this.offsetType = offsetType;
     }
 
@@ -349,11 +352,11 @@ public class BlockElement extends Element implements LocalizableElement {
         this.redstonePower = redstonePower;
     }
 
-    public PlantType getCanPlantPlant() {
+    public String getCanPlantPlant() {
         return canPlantPlant;
     }
 
-    public void setCanPlantPlant(PlantType canPlantPlant) {
+    public void setCanPlantPlant(String canPlantPlant) {
         this.canPlantPlant = canPlantPlant;
     }
 
@@ -381,19 +384,19 @@ public class BlockElement extends Element implements LocalizableElement {
         this.fireSpreadSpeed = fireSpreadSpeed;
     }
 
-    public PushReaction getPushReaction() {
+    public String getPushReaction() {
         return pushReaction;
     }
 
-    public void setPushReaction(PushReaction pushReaction) {
+    public void setPushReaction(String pushReaction) {
         this.pushReaction = pushReaction;
     }
 
-    public PathNodeType getAiPathNodeType() {
+    public String getAiPathNodeType() {
         return aiPathNodeType;
     }
 
-    public void setAiPathNodeType(PathNodeType aiPathNodeType) {
+    public void setAiPathNodeType(String aiPathNodeType) {
         this.aiPathNodeType = aiPathNodeType;
     }
 

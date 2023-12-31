@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.provider;
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.Identifier;
-import com.github.mouse0w0.peach.mcmod.Item;
+import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.element.editor.BlockEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -33,9 +33,6 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         block.setIdentifier(identifier);
         block.setDisplayName(name);
         block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keySet(), null));
-        block.setMaterial("minecraft:rock");
-        block.setSoundType("minecraft:stone");
-        block.setMapColor("inherit");
         block.setModel(new Identifier("minecraft:cube_all"));
         block.setItemModel(ModelManager.INHERIT);
         return block;
@@ -52,21 +49,18 @@ public class BlockProvider extends ElementProvider<BlockElement> {
 
         String modId = ModProjectService.getInstance(project).getModId();
 
-        Item item = new Item(element.getIdentifier(), 0, null, false);
-        item.setLocalizedText(element.getDisplayName());
-        item.setImage(ResourceUtils.CUBE_TEXTURE);
-
-        Map<IdMetadata, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
-        IdMetadata item1 = IdMetadata.of(modId + ":" + item.getId(), item.getMetadata());
-        items.put(item1, Collections.singletonList(item));
-        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + item.getId());
-        items.put(item2, Collections.singletonList(item));
+        ItemData itemData = new ItemData(element.getIdentifier(), 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
+        IdMetadata item1 = IdMetadata.of(modId + ":" + itemData.getId(), itemData.getMetadata());
+        items.put(item1, Collections.singletonList(itemData));
+        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + itemData.getId());
+        items.put(item2, Collections.singletonList(itemData));
         return new Object[]{item1, item2};
     }
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<IdMetadata, List<Item>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

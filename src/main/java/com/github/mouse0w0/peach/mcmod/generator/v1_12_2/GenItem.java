@@ -60,7 +60,7 @@ public class GenItem implements Task {
             String identifier = item.getIdentifier();
 
             // Generate class
-            ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/Item" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)));
+            ItemClassGenerator cg = new ItemClassGenerator(context.getInternalName("item/ItemData" + JavaUtils.lowerUnderscoreToUpperCamel(identifier)));
             ItemType type = item.getType();
             if (type == ItemType.NORMAL)
                 cg.visitNormalItem();
@@ -93,12 +93,12 @@ public class GenItem implements Task {
                 cg.visitToolAttribute(toolAttribute);
             }
             if (item.getEnchantability() != 0) cg.visitEnchantability(item.getEnchantability());
-            for (EnchantmentType enchantmentType : item.getAcceptableEnchantments()) {
+            for (String enchantmentType : item.getAcceptableEnchantments()) {
                 cg.visitAcceptableEnchantment(enchantmentType);
             }
             if (!item.getRepairItem().isAir()) cg.visitRepairItem(item.getRepairItem());
             if (!item.getRecipeRemain().isAir()) cg.visitContainerItem(item.getRecipeRemain());
-            if (item.getUseAnimation() != UseAnimation.NONE) cg.visitUseAnimation(item.getUseAnimation());
+            if (!"NONE".equals(item.getUseAnimation())) cg.visitUseAnimation(item.getUseAnimation());
             if (item.getUseDuration() != 0) cg.visitUseDuration(item.getUseDuration());
             if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
             if (item.getDestroyBlockLoss() != 0) cg.visitDestroyBlockLoss(item.getDestroyBlockLoss());
