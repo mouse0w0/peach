@@ -70,8 +70,6 @@
         <projectService implementation="com.github.mouse0w0.peach.mcmod.project.ModProjectService"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.IndexManager" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider" preload="true"/>
-        <projectService implementation="com.github.mouse0w0.peach.mcmod.content.ProjectContentPackManager"
-                        preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager" preload="true"/>
 
         <projectService implementation="com.github.mouse0w0.peach.mcmod.view.ItemFavoritesView"/>
