@@ -114,7 +114,9 @@ public class GenBlock implements Task {
 
             cg.visitIdentifier(identifier);
             cg.visitTranslationKey(namespace + "." + identifier);
-            cg.visitItemGroup(classItemGroups, block.getItemGroup());
+            if (!"NONE".equals(block.getItemGroup())) {
+                cg.visitItemGroup(classItemGroups, block.getItemGroup());
+            }
             cg.visitSoundType(block.getSoundType());
             if (block.isUnbreakable()) cg.visitHardness(-1);
             else if (block.getHardness() != 0) cg.visitHardness((float) block.getHardness());

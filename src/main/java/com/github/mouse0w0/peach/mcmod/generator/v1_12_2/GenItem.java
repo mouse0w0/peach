@@ -75,7 +75,9 @@ public class GenItem implements Task {
 
             cg.visitIdentifier(identifier);
             cg.visitTranslationKey(namespace + "." + identifier);
-            cg.visitItemGroup(classItemGroups, item.getItemGroup());
+            if (!"NONE".equals(item.getItemGroup())) {
+                cg.visitItemGroup(classItemGroups, item.getItemGroup());
+            }
             cg.visitMaxStackSize(item.getMaxStackSize());
             if (item.getDurability() != 0) cg.visitDurability(item.getDurability());
             if (item.getDestroySpeed() != 1D) cg.visitDestroySpeed((float) item.getDestroySpeed());
