@@ -18,7 +18,7 @@ public interface IndexTypes {
     IndexType<String, IconicData> MAP_COLOR = IndexType.of("map_color");
     IndexType<String, GameData> ENCHANTMENT_TYPE = IndexType.of("enchantment_type");
     IndexType<String, GameData> OFFSET_TYPE = IndexType.of("offset_type");
-    IndexType<String, GameData> PATH_NODE_TYPE = IndexType.of("path_node_type");
+    IndexType<String, GameData> AI_PATH_NODE_TYPE = IndexType.of("ai_path_node_type");
     IndexType<String, GameData> PLANT_TYPE = IndexType.of("plant_type");
     IndexType<String, GameData> PUSH_REACTION = IndexType.of("push_reaction");
     IndexType<String, GameData> RENDER_TYPE = IndexType.of("render_type");

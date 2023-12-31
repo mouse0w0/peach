@@ -44,7 +44,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         loadGameData(IndexTypes.ATTRIBUTE);
         loadGameData(IndexTypes.ENCHANTMENT_TYPE);
         loadGameData(IndexTypes.OFFSET_TYPE);
-        loadGameData(IndexTypes.PATH_NODE_TYPE);
+        loadGameData(IndexTypes.AI_PATH_NODE_TYPE);
         loadGameData(IndexTypes.PLANT_TYPE);
         loadGameData(IndexTypes.PUSH_REACTION);
         loadGameData(IndexTypes.RENDER_TYPE);

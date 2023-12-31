@@ -357,13 +357,13 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         pushReaction.setButtonCell(GameDataCell.create(pushReactionIndex));
         pushReaction.getItems().addAll(pushReactionIndex.keySet());
 
-        var pathNodeTypeIndex = indexManager.getIndex(IndexTypes.PATH_NODE_TYPE);
+        var aiPathNodeTypeIndex = indexManager.getIndex(IndexTypes.AI_PATH_NODE_TYPE);
         aiPathNodeType = new ComboBoxField<>();
         aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
         aiPathNodeType.setColSpan(ColSpan.HALF);
-        aiPathNodeType.setCellFactory(GameDataCell.factory(pathNodeTypeIndex));
-        aiPathNodeType.setButtonCell(GameDataCell.create(pathNodeTypeIndex));
-        aiPathNodeType.getItems().addAll(pathNodeTypeIndex.keySet());
+        aiPathNodeType.setCellFactory(GameDataCell.factory(aiPathNodeTypeIndex));
+        aiPathNodeType.setButtonCell(GameDataCell.create(aiPathNodeTypeIndex));
+        aiPathNodeType.getItems().addAll(aiPathNodeTypeIndex.keySet());
 
         Section extra = new Section();
         extra.setText(AppL10n.localize("block.extra.title"));
