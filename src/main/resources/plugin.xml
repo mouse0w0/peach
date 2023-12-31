@@ -56,7 +56,6 @@
 
         <fileAppearance implementation="com.github.mouse0w0.peach.file.StandardFileAppearance" order="last"/>
 
-        <localization locale="en-US" path="l10n/en-US.properties"/>
         <localization locale="zh-CN" path="l10n/zh-CN.properties"/>
 
         <iconDefinition path="icons.properties"/>
