@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.RadioButton?>
@@ -9,18 +8,11 @@
 <?import javafx.scene.text.Text?>
 <FlowPane alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <GridPane hgap="50.0" prefWidth="580.0">
+        <GridPane vgap="9.0" hgap="50.0" prefWidth="580.0">
             <columnConstraints>
                 <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES"/>
                 <ColumnConstraints halignment="LEFT" hgrow="ALWAYS"/>
             </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                <RowConstraints vgrow="SOMETIMES"/>
-            </rowConstraints>
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="%craftingRecipe.identifier"/>
                 <TextField fx:id="identifier" GridPane.columnIndex="1"/>
@@ -36,9 +28,6 @@
                             prefHeight="312.0" prefWidth="560.0" styleClass="minecraft-style" GridPane.columnSpan="2"
                             GridPane.rowIndex="4"/>
             </children>
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-            </padding>
         </GridPane>
     </children>
 </FlowPane>
