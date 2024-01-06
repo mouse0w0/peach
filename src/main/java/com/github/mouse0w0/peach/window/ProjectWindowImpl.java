@@ -25,7 +25,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
         this.root = new ProjectRootPane(project);
         this.stage = createStage();
         DataManager.getInstance().registerDataProvider(stage, this);
-        WindowStateService.getInstance(project).register(stage, "MainWindow");
+        WindowStateService.getInstance(project).setup(stage, "MainWindow");
     }
 
     private Stage createStage() {

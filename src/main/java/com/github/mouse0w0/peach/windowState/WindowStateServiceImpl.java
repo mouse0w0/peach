@@ -72,7 +72,7 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
     }
 
     @Override
-    public void register(@NotNull Window window, @NotNull String stateId) {
+    public void setup(@NotNull Window window, @NotNull String stateId) {
         Validate.notNull(window);
         Validate.notEmpty(stateId);
 

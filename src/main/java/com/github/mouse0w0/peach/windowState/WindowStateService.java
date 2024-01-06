@@ -15,5 +15,5 @@ public interface WindowStateService {
         return project != null ? project.getService(WindowStateService.class) : Peach.getInstance().getService(WindowStateService.class);
     }
 
-    void register(@NotNull Window window, @NotNull String stateId);
+    void setup(@NotNull Window window, @NotNull String stateId);
 }
