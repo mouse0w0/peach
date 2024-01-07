@@ -75,7 +75,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
                 int maxStackSize = object.get("maxStackSize").getAsInt();
                 int maxDamage = object.get("maxDamage").getAsInt();
                 boolean isBlock = object.get("isBlock").getAsBoolean();
-                String name = getItemTranslationKey(id, metadata);
+                String name = l10n.localize(getItemTranslationKey(id, metadata));
                 Image texture = getItemTexture(id, metadata);
                 ItemData itemData = new ItemData(id, metadata, maxStackSize, maxDamage, isBlock, name, texture);
                 map.computeIfAbsent(IdMetadata.of(id, metadata), k -> new ArrayList<>()).add(itemData);
