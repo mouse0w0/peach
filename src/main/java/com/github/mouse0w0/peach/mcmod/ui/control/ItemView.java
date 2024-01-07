@@ -32,16 +32,21 @@ public class ItemView extends Control {
             if (parent == null) return;
 
             ItemView itemView = (ItemView) parent;
-            IdMetadata item = itemView.getItem();
+            IdMetadata idMetadata = itemView.getItem();
 
             StringBuilder sb = new StringBuilder();
-            sb.append(item.getId());
-            if (item.isNormal()) sb.append('#').append(item.getMetadata());
+            sb.append(idMetadata.getId());
+            if (idMetadata.isNormal()) {
+                sb.append('#').append(idMetadata.getMetadata());
+            }
 
             sb.append("\n--------------------");
 
-            for (ItemData data : itemView.getIndex().get(item)) {
-                sb.append('\n').append(data.getName());
+            List<ItemData> itemDataList = itemView.getIndex().get(idMetadata);
+            if (itemDataList != null) {
+                for (ItemData itemData : itemDataList) {
+                    sb.append('\n').append(itemData.getName());
+                }
             }
 
             tooltip.setText(sb.toString());
