@@ -145,7 +145,7 @@ public class GenBlock implements Task {
             if (block.isReplaceable()) cg.visitReplaceable();
             if (block.isCanConnectRedstone()) cg.visitCanConnectRedstone();
             if (block.getRedstonePower() != 0) cg.visitRedstonePower(block.getRedstonePower());
-            if ("NONE".equals(block.getCanPlantPlant())) cg.visitCanPlantPlant(block.getCanPlantPlant());
+            if (!"NONE".equals(block.getCanPlantPlant())) cg.visitCanPlantPlant(block.getCanPlantPlant());
             if (block.getEnchantPowerBonus() != 0) cg.visitEnchantPowerBonus((float) block.getEnchantPowerBonus());
             if (block.getFlammability() != 0) cg.visitFlammability(block.getFlammability());
             if (block.getFireSpreadSpeed() != 0) cg.visitFireSpreadSpeed(block.getFireSpreadSpeed());
