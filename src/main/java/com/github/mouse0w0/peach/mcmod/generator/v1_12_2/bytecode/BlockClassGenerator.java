@@ -157,7 +157,7 @@ public class BlockClassGenerator extends ClassGenerator {
     }
 
     public void visitInformation(String namespace, String identifier, int count) {
-        String prefix = "tile." + namespace + "." + identifier + ".";
+        String prefix = "tile." + namespace + "." + identifier + ".tooltip.";
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_190948_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/util/ITooltipFlag;)V", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List<Ljava/lang/String;>;Lnet/minecraft/client/util/ITooltipFlag;)V", null);
         {
             AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);

@@ -453,7 +453,7 @@ public class ItemClassGenerator extends ClassGenerator {
     }
 
     public void visitInformation(String namespace, String identifier, int count) {
-        String prefix = "item." + namespace + "." + identifier + ".";
+        String prefix = "item." + namespace + "." + identifier + ".tooltip.";
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "func_77624_a", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List;Lnet/minecraft/client/util/ITooltipFlag;)V", "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Ljava/util/List<Ljava/lang/String;>;Lnet/minecraft/client/util/ITooltipFlag;)V", null);
         {
             AnnotationVisitor av = mv.visitAnnotation("Lnet/minecraftforge/fml/relauncher/SideOnly;", true);
