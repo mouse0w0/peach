@@ -36,7 +36,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
     private TextFieldField identifier;
     private TextFieldField displayName;
-    private ChoiceBoxField<BlockType> type;
+    private ComboBoxField<BlockType> type;
     private ComboBoxField<String> material;
     private ComboBoxField<String> itemGroup;
     private ComboBoxField<String> soundType;
@@ -104,7 +104,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         displayName.setLabel(AppL10n.localize("block.properties.displayName"));
         displayName.setColSpan(ColSpan.HALF);
 
-        type = new ChoiceBoxField<>();
+        type = new ComboBoxField<>();
         type.setLabel(AppL10n.localize("block.properties.type"));
         type.setColSpan(ColSpan.HALF);
         type.setConverter(LocalizableConverter.instance());
