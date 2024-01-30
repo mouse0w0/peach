@@ -141,7 +141,7 @@ public abstract class ServiceManagerImpl implements ServiceManager {
         }
         T instance = (T) constructor.newInstance(parameters);
         if (instance instanceof Disposable) {
-            Disposer.register(this, (Disposable) instance);
+            Disposer.register(serviceParentDisposable, (Disposable) instance);
         }
         if (instance instanceof PersistentService) {
             getServiceStore().loadService((PersistentService) instance);
@@ -168,7 +168,7 @@ public abstract class ServiceManagerImpl implements ServiceManager {
 
     @Override
     public void dispose() {
-        Disposer.dispose(serviceParentDisposable);
+        Disposer.disposeIfRegistered(serviceParentDisposable);
         services.clear();
 
         if (messageBus != null) {
