@@ -25,11 +25,11 @@ public final class Disposer {
     }
 
     public static void dispose(Disposable disposable) {
-        TREE.dispose(disposable);
+        TREE.dispose(disposable, true);
     }
 
-    public static void disposeChildren(Disposable disposable) {
-        TREE.disposeChildren(disposable);
+    public static void disposeIfRegistered(Disposable disposable) {
+        TREE.dispose(disposable, false);
     }
 
     public static void checkAllDisposed() {

@@ -33,20 +33,17 @@ final class ObjectNode {
         node.parent = null;
     }
 
-    public void getAndRemoveRecursively(List<? super Disposable> result) {
-        getAndRemoveChildrenRecursively(result);
-        if (tree.removeFromTree(disposable)) {
-            result.add(disposable);
-        }
-    }
-
-    public void getAndRemoveChildrenRecursively(List<? super Disposable> result) {
+    public void markAndCollectRecursively(List<? super Disposable> result) {
         if (children != null) {
             for (ObjectNode child : children) {
-                child.getAndRemoveRecursively(result);
+                child.markAndCollectRecursively(result);
             }
             children.clear();
             children = null;
+        }
+
+        if (tree.markDisposed(disposable)) {
+            result.add(disposable);
         }
     }
 }

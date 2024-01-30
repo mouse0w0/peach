@@ -39,34 +39,26 @@ final class ObjectTree {
         }
     }
 
-    public void dispose(Disposable disposable) {
+    public void dispose(Disposable disposable, boolean processUnregistered) {
         doDispose(() -> {
             if (disposedObjects.contains(disposable)) {
                 return Collections.emptyList();
             }
             ObjectNode node = getNode(disposable);
             if (node == null) {
-                disposedObjects.add(disposable);
-                return Collections.singletonList(disposable);
+                if (processUnregistered) {
+                    disposedObjects.add(disposable);
+                    return Collections.singletonList(disposable);
+                } else {
+                    return Collections.emptyList();
+                }
             }
             ObjectNode parent = node.getParent();
             if (parent != null) {
                 parent.removeChild(node);
             }
             List<Disposable> disposables = new ArrayList<>();
-            node.getAndRemoveRecursively(disposables);
-            return disposables;
-        });
-    }
-
-    public void disposeChildren(Disposable disposable) {
-        doDispose(() -> {
-            ObjectNode node = getNode(disposable);
-            if (node == null) {
-                return Collections.emptyList();
-            }
-            List<Disposable> disposables = new ArrayList<>();
-            node.getAndRemoveChildrenRecursively(disposables);
+            node.markAndCollectRecursively(disposables);
             return disposables;
         });
     }
@@ -95,7 +87,7 @@ final class ObjectTree {
      * @param disposable The disposable
      * @return If true, disposable isn't disposed.
      */
-    boolean removeFromTree(Disposable disposable) {
+    boolean markDisposed(Disposable disposable) {
         disposable2NodeMap.remove(disposable);
         return disposedObjects.add(disposable);
     }
