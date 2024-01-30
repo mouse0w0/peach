@@ -34,9 +34,8 @@
                              listener="com.github.mouse0w0.peach.window.WindowManagerImpl$Listener"/>
         <applicationService interface="com.github.mouse0w0.peach.windowState.WindowStateService"
                             implementation="com.github.mouse0w0.peach.windowState.WindowStateServiceImpl"/>
-        <applicationService implementation="com.github.mouse0w0.peach.recentProject.RecentProjectManager"/>
-        <applicationListener topic="ProjectLifecycleListener"
-                             listener="com.github.mouse0w0.peach.recentProject.RecentProjectManager$Listener"/>
+        <applicationService interface="com.github.mouse0w0.peach.recentProject.RecentProjectManager"
+                            implementation="com.github.mouse0w0.peach.recentProject.RecentProjectManagerImpl"/>
         <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <applicationService interface="com.github.mouse0w0.peach.project.ProjectManager"
                             implementation="com.github.mouse0w0.peach.project.ProjectManagerImpl"/>
