@@ -13,7 +13,7 @@ public final class RecentProjectOpenAction extends Action {
     @Override
     public void update(ActionEvent event) {
         RecentProjectInfo info = (RecentProjectInfo) DataKeys.SELECTED_ITEM.get(event);
-        event.getPresentation().setVisible(Files.exists(Paths.get(info.getPath())));
+        event.getPresentation().setDisable(Files.notExists(Paths.get(info.getPath())));
     }
 
     @Override
