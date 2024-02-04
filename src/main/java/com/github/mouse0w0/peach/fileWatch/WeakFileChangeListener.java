@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.fileWatch;
 import java.lang.ref.WeakReference;
 import java.nio.file.Path;
 
-public final class WeakFileChangeListener extends FileChangeListener {
+public final class WeakFileChangeListener implements FileChangeListener {
     private final WeakReference<FileChangeListener> ref;
 
     public WeakFileChangeListener(FileChangeListener listener) {
