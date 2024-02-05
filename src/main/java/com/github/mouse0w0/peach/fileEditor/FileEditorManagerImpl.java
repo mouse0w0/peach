@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.fileEditor;
 
+import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
@@ -20,7 +21,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileEditorManagerImpl implements FileEditorManager {
+public class FileEditorManagerImpl implements FileEditorManager, Disposable {
     private static final Logger LOGGER = LoggerFactory.getLogger("FileEditor");
 
     private final Project project;
@@ -89,6 +90,8 @@ public class FileEditorManagerImpl implements FileEditorManager {
             close(file);
         });
 
+        Disposer.register(this, fileEditor);
+
         openedEditors.put(file, new OpenedEditor(fileEditor, tab));
         WindowManager.getInstance().getWindow(project).openTab(tab);
     }
@@ -114,6 +117,10 @@ public class FileEditorManagerImpl implements FileEditorManager {
         WindowManager.getInstance().getWindow(project).removeTab(openedEditor.getTab());
         Disposer.dispose(openedEditor.getEditor());
         return true;
+    }
+
+    @Override
+    public void dispose() {
     }
 
     private static final class FileTab extends Tab implements FileCell {
