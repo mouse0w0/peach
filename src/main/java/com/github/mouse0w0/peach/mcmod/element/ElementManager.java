@@ -2,8 +2,6 @@ package com.github.mouse0w0.peach.mcmod.element;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
-import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
-import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
@@ -31,7 +29,6 @@ public final class ElementManager extends GenericIndexProvider {
     private final Project project;
     private final ElementRegistry registry;
     private final Path sourcesPath;
-    private final FileChangeListener fileChangeListener;
 
     public static ElementManager getInstance(Project project) {
         return project.getService(ElementManager.class);
@@ -44,13 +41,12 @@ public final class ElementManager extends GenericIndexProvider {
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         FileUtils.createDirectoriesIfNotExists(sourcesPath);
         indexManager.addProvider(this);
-        this.fileChangeListener = new FileChangeListener() {
+        project.getMessageBus().connect().subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
             @Override
-            public void onFileDelete(ProjectFileWatcher watcher, Path path) {
+            public void onFileDelete(Path path) {
                 removeIndex(path);
             }
-        };
-        ProjectFileWatcher.getInstance(project).addListener(new WeakFileChangeListener(fileChangeListener));
+        });
         indexElements();
     }
 

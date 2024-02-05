@@ -11,7 +11,6 @@ import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
-import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
 import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.ClipboardUtils;
@@ -69,8 +68,6 @@ public class ProjectView implements Disposable, DataProvider {
 
     private ContextMenu contextMenu;
 
-    private FileChangeListener fileChangeListener;
-
     public static ProjectView getInstance(Project project) {
         return project.getService(ProjectView.class);
     }
@@ -96,18 +93,17 @@ public class ProjectView implements Disposable, DataProvider {
         root.setExpanded(true);
         treeView.setRoot(root);
 
-        fileChangeListener = new FileChangeListener() {
+        project.getMessageBus().connect(this).subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
             @Override
-            public void onFileCreate(ProjectFileWatcher watcher, Path path) {
+            public void onFileCreate(Path path) {
                 ProjectView.this.onFileCreate(path);
             }
 
             @Override
-            public void onFileDelete(ProjectFileWatcher watcher, Path path) {
+            public void onFileDelete(Path path) {
                 ProjectView.this.onFileDelete(path);
             }
-        };
-        ProjectFileWatcher.getInstance(project).addListener(fileChangeListener);
+        });
         return treeView;
     }
 
@@ -175,11 +171,6 @@ public class ProjectView implements Disposable, DataProvider {
     }
 
     @Override
-    public void dispose() {
-        ProjectFileWatcher.getInstance(project).removeListener(fileChangeListener);
-    }
-
-    @Override
     public Object getData(@NotNull String key) {
         if (DataKeys.PATH.is(key) || DataKeys.SELECTED_ITEM.is(key)) {
             TreeItem<Path> selectedItem = treeView.getSelectionModel().getSelectedItem();
@@ -194,6 +185,11 @@ public class ProjectView implements Disposable, DataProvider {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void dispose() {
+
     }
 
     public static class Factory implements ViewFactory {

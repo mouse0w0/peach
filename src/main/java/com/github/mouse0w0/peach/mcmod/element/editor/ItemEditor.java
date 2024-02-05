@@ -313,7 +313,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         Section appearance = new Section();
         appearance.setText(AppL10n.localize("item.appearance.title"));
 
-        model = new ModelField(getProject(), new ResourceStore(
+        model = new ModelField(getProject(), this, new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
         model.setText(AppL10n.localize("item.appearance.model"));

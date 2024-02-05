@@ -1,8 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.form;
 
+import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
-import com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher;
-import com.github.mouse0w0.peach.fileWatch.WeakFileChangeListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
@@ -40,20 +39,40 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 public class ModelField extends Element {
-
-    private final Project project;
     private final ModelManager modelManager;
     private final ResourceStore resourceStore;
 
-    public ModelField(Project project, ResourceStore resourceStore) {
-        this.project = project;
+    public ModelField(Project project, Disposable parentDisposable, ResourceStore resourceStore) {
         this.modelManager = ModelManager.getInstance();
         this.resourceStore = resourceStore;
 
         modelProperty().addListener(observable -> updateTexture());
         customModels.addListener((InvalidationListener) observable -> updateTexture());
+        project.getMessageBus().connect(parentDisposable).subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
+            @Override
+            public void onFileDelete(Path path) {
+                if (fileToModelKey.containsKey(path)) {
+                    Platform.runLater(() -> {
+                        try {
+                            updating = true;
+                            for (String modelKey : fileToModelKey.get(path)) {
+                                customModels.remove(modelKey);
+                            }
+                        } finally {
+                            updating = false;
+                        }
+                        updateTexture();
+                    });
+                }
+            }
 
-        ProjectFileWatcher.getInstance(project).addListener(new WeakFileChangeListener(fileChangeListener));
+            @Override
+            public void onFileModify(Path path) {
+                if (fileToModelKey.containsKey(path)) {
+                    Platform.runLater(() -> loadTexture());
+                }
+            }
+        });
     }
 
     private StringProperty text;
@@ -275,31 +294,6 @@ public class ModelField extends Element {
 
     private boolean updating;
 
-    private final FileChangeListener fileChangeListener = new FileChangeListener() {
-        @Override
-        public void onFileDelete(ProjectFileWatcher watcher, Path path) {
-            if (fileToModelKey.containsKey(path)) {
-                Platform.runLater(() -> {
-                    try {
-                        updating = true;
-                        for (String modelKey : fileToModelKey.get(path)) {
-                            customModels.remove(modelKey);
-                        }
-                    } finally {
-                        updating = false;
-                    }
-                    updateTexture();
-                });
-            }
-        }
-
-        @Override
-        public void onFileModify(ProjectFileWatcher watcher, Path path) {
-            if (fileToModelKey.containsKey(path)) {
-                Platform.runLater(() -> loadTexture());
-            }
-        }
-    };
     private final Multimap<Path, String> fileToModelKey = HashMultimap.create();
 
     private Future<?> loadTextureFuture;

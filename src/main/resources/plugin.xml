@@ -42,7 +42,7 @@
 
         <projectService interface="com.github.mouse0w0.peach.service.store.ServiceStore"
                         implementation="com.github.mouse0w0.peach.service.store.ProjectServiceStore"/>
-        <projectService implementation="com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher"/>
+        <projectService implementation="com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher" preload="true"/>
         <projectService interface="com.github.mouse0w0.peach.windowState.WindowStateService"
                         implementation="com.github.mouse0w0.peach.windowState.WindowStateServiceImpl"/>
         <projectService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>

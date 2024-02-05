@@ -188,7 +188,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
                 harvestTool, harvestLevel,
                 information);
 
-        model = new ModelField(getProject(), new ResourceStore(
+        model = new ModelField(getProject(), this, new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_MODELS), ".json"));
         model.setText(AppL10n.localize("block.appearance.model"));
@@ -227,7 +227,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         offsetType.setButtonCell(GameDataCell.create(offsetTypeIndex));
         offsetType.getItems().addAll(offsetTypeIndex.keySet());
 
-        itemModel = new ModelField(getProject(), new ResourceStore(
+        itemModel = new ModelField(getProject(), this, new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
         itemModel.setText(AppL10n.localize("block.appearance.itemModel"));
