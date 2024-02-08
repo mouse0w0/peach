@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
+import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.newProject.NewProjectBuilder;
 import com.github.mouse0w0.peach.newProject.NewProjectContext;
 import com.github.mouse0w0.peach.project.Project;
@@ -58,7 +59,15 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
         ModProjectMetadata metadata = ModProjectService.getInstance(project).getMetadata();
         metadata.setName(context.getProjectName());
         metadata.setId(IdentifierUtils.toIdentifier(context.getProjectName()));
-        Path metadataFile = project.getPath().resolve(ModProjectMetadata.FILE_NAME);
+        Path projectPath = project.getPath();
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.SOURCES));
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.BLOCK_MODELS));
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.ITEM_MODELS));
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.BLOCK_TEXTURES));
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.ITEM_TEXTURES));
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.ARMOR_TEXTURES));
+        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.GUI_TEXTURES));
+        Path metadataFile = projectPath.resolve(ModProjectMetadata.FILE_NAME);
         FileUtils.createFileIfNotExists(metadataFile);
         FileEditorManager.getInstance(project).open(metadataFile);
     }
