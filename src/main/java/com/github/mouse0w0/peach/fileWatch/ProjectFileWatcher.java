@@ -63,7 +63,7 @@ public class ProjectFileWatcher implements Disposable {
         for (WatchEvent<?> event : watchKey.pollEvents()) {
             WatchEvent.Kind<?> kind = event.kind();
             if (kind == ENTRY_CREATE) {
-                publisher.onFileCreate((Path) event.context());
+                publisher.onFileCreate(path.resolve((Path) event.context()));
             } else if (kind == ENTRY_DELETE) {
                 publisher.onFileDelete(path.resolve((Path) event.context()));
             } else if (kind == ENTRY_MODIFY) {
