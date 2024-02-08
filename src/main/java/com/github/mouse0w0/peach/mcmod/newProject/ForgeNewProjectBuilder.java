@@ -3,6 +3,8 @@ package com.github.mouse0w0.peach.mcmod.newProject;
 import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
+import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.newProject.NewProjectBuilder;
 import com.github.mouse0w0.peach.newProject.NewProjectContext;
 import com.github.mouse0w0.peach.project.Project;
@@ -53,6 +55,9 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
 
     @Override
     public void setupProject(Project project, NewProjectContext context) {
+        ModProjectMetadata metadata = ModProjectService.getInstance(project).getMetadata();
+        metadata.setName(context.getProjectName());
+        metadata.setId(IdentifierUtils.toIdentifier(context.getProjectName()));
         Path metadataFile = project.getPath().resolve(ModProjectMetadata.FILE_NAME);
         FileUtils.createFileIfNotExists(metadataFile);
         FileEditorManager.getInstance(project).open(metadataFile);
