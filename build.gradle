@@ -96,7 +96,6 @@ distributions {
     main {
         contents {
             from(zipPlugins) { into 'plugin' }
-            from('content-pack') { into 'content-pack' }
             from('license') { into 'license' }
             from('executable')
             from('CHANGELOG.md')
