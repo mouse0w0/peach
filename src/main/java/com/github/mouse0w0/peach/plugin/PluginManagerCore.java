@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.plugin;
 
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.github.mouse0w0.peach.util.graph.DFSTBuilder;
 import com.github.mouse0w0.peach.util.graph.DirectedGraph;
+import com.github.mouse0w0.peach.util.graph.TopoSort;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -117,7 +117,7 @@ public final class PluginManagerCore {
                 }
             }
         }
-        DFSTBuilder<PluginImpl> builder = new DFSTBuilder<>(pluginGraph);
+        TopoSort<PluginImpl> builder = new TopoSort<>(pluginGraph);
         List<PluginImpl> enabledPlugins = new ArrayList<>();
         for (List<PluginImpl> scc : builder.getComponents()) {
             if (scc.size() == 1) {

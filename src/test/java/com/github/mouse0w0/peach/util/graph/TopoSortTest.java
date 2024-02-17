@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-class DFSTBuilderTest {
+class TopoSortTest {
     @Test
     void sort() {
         DirectedGraph<Integer> graph = new DirectedGraph<>();
@@ -16,7 +16,7 @@ class DFSTBuilderTest {
         graph.addEdge(3, 5);
         graph.addEdge(4, 6);
         graph.addEdge(5, 6);
-        DFSTBuilder<Integer> builder = new DFSTBuilder<>(graph);
+        TopoSort<Integer> builder = new TopoSort<>(graph);
         List<Integer> ints = new ArrayList<>(graph.getNodes());
         ints.sort(builder.comparator());
         System.out.println(ints);
@@ -34,7 +34,7 @@ class DFSTBuilderTest {
         graph.addEdge(4, 1);
         graph.addEdge(4, 6);
         graph.addEdge(5, 6);
-        DFSTBuilder<Integer> builder = new DFSTBuilder<>(graph);
+        TopoSort<Integer> builder = new TopoSort<>(graph);
         List<Integer> ints = new ArrayList<>(graph.getNodes());
         ints.sort(builder.comparator());
         System.out.println(ints);

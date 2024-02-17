@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * DFS topological sorting implementation.
  */
-public final class DFSTBuilder<N> {
+public final class TopoSort<N> {
     private final Comparator<N> comparator;
     private final boolean acyclic;
     private final List<List<N>> components;
 
     @SuppressWarnings("unchecked")
-    public DFSTBuilder(Graph<N> graph) {
+    public TopoSort(Graph<N> graph) {
         N[] nodes = (N[]) graph.getNodes().toArray();
         int nodeCount = nodes.length;
         Object2IntMap<N> nodeIndex = new Object2IntOpenHashMap<>(nodeCount * 2, 0.5f);

@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.extension;
 
 import com.github.mouse0w0.peach.util.StringUtils;
-import com.github.mouse0w0.peach.util.graph.DFSTBuilder;
 import com.github.mouse0w0.peach.util.graph.DirectedGraph;
+import com.github.mouse0w0.peach.util.graph.TopoSort;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.Collections;
@@ -126,7 +126,7 @@ public final class ExtensionOrder {
             }
         }
 
-        DFSTBuilder<Object> builder = new DFSTBuilder<>(graph);
+        TopoSort<Object> builder = new TopoSort<>(graph);
         if (builder.isAcyclic()) {
             wrappers.sort(builder.comparator());
         } else {
