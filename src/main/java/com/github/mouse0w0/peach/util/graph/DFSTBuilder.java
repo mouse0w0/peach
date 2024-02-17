@@ -57,7 +57,7 @@ public final class DFSTBuilder<N> {
                 Iterator<N> succIterator = frame.succIterator;
                 while (succIterator.hasNext()) {
                     N succNode = succIterator.next();
-                    int succIndex = nodeIndex.applyAsInt(succNode);
+                    int succIndex = nodeIndex.getInt(succNode);
                     if (dfn[succIndex] == 0) { // If node is not visited.
                         frame.succIndex = succIndex;
                         // Topological sorting in DFS is reversed, get predecessors.
@@ -112,8 +112,8 @@ public final class DFSTBuilder<N> {
     }
 
     private static final class Frame<N> {
-        private int nodeIndex;
-        private Iterator<N> succIterator;
+        private final int nodeIndex;
+        private final Iterator<N> succIterator;
         private int succIndex = -1;
 
         public Frame(int nodeIndex, Iterator<N> succIterator) {
