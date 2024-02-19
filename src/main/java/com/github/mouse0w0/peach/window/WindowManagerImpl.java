@@ -19,7 +19,6 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import java.util.Collection;
 import java.util.Map;
@@ -136,23 +135,8 @@ public class WindowManagerImpl implements WindowManager {
         }
 
         @Override
-        public void canCloseProject(Project project, MutableBoolean cancelled) {
-
-        }
-
-        @Override
-        public void projectClosingBeforeSave(Project project) {
-
-        }
-
-        @Override
         public void projectClosing(Project project) {
             WindowManager.getInstance().getWindow(project).hide();
-        }
-
-        @Override
-        public void projectClosed(Project project) {
-
         }
     }
 }

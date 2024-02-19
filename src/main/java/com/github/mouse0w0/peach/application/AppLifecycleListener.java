@@ -7,11 +7,15 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 public interface AppLifecycleListener {
     Topic<AppLifecycleListener> TOPIC = new Topic<>("AppLifecycleListener", AppLifecycleListener.class, BroadcastDirection.NONE);
 
-    void appStarted();
+    default void appStarted() {
+    }
 
-    void appClosing();
+    default void appClosing() {
+    }
 
-    void canExitApp(MutableBoolean cancelled);
+    default void canExitApp(MutableBoolean cancelled) {
+    }
 
-    void appWillBeClosed();
+    default void appWillBeClosed() {
+    }
 }
