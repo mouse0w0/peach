@@ -185,10 +185,11 @@ public class MessageBusImpl implements MessageBus {
                 }
 
                 if (args == null) {
-                    return publishWithoutArgs(MethodHandleCache.get(method, args));
+                    publishWithoutArgs(MethodHandleCache.get(method, args));
                 } else {
-                    return publish(MethodHandleCache.get(method, args), args);
+                    publish(MethodHandleCache.get(method, args), args);
                 }
+                return null;
             }
         }
 
@@ -206,18 +207,16 @@ public class MessageBusImpl implements MessageBus {
             }
         }
 
-        Object publish(MethodHandle handle, Object[] args) throws Throwable {
+        void publish(MethodHandle handle, Object[] args) throws Throwable {
             for (Object subscriber : messageBus.getSubscribers(topic)) {
                 handle.bindTo(subscriber).invokeExact(args);
             }
-            return null;
         }
 
-        Object publishWithoutArgs(MethodHandle handle) throws Throwable {
+        void publishWithoutArgs(MethodHandle handle) throws Throwable {
             for (Object subscriber : messageBus.getSubscribers(topic)) {
                 handle.invoke(subscriber);
             }
-            return null;
         }
     }
 
@@ -227,23 +226,21 @@ public class MessageBusImpl implements MessageBus {
         }
 
         @Override
-        Object publish(MethodHandle handle, Object[] args) throws Throwable {
+        void publish(MethodHandle handle, Object[] args) throws Throwable {
             for (MessageBusImpl bus = messageBus; bus != null; bus = bus.parent) {
                 for (Object subscriber : bus.getSubscribers(topic)) {
-                    handle.bindTo(subscriber).invoke(args);
+                    handle.bindTo(subscriber).invokeExact(args);
                 }
             }
-            return null;
         }
 
         @Override
-        Object publishWithoutArgs(MethodHandle handle) throws Throwable {
+        void publishWithoutArgs(MethodHandle handle) throws Throwable {
             for (MessageBusImpl bus = messageBus; bus != null; bus = bus.parent) {
                 for (Object subscriber : bus.getSubscribers(topic)) {
                     handle.invoke(subscriber);
                 }
             }
-            return null;
         }
     }
 }
