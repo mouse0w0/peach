@@ -37,11 +37,6 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
         // Nothing to do
     }
 
-    @Override
-    public void dispose() {
-        // Nothing to do
-    }
-
     public final void finish() {
         if (validate()) {
             onApply();

@@ -58,4 +58,9 @@ public abstract class BaseFileEditor implements FileEditor {
     protected void setModified(boolean modified) {
         this.modified.set(modified);
     }
+
+    @Override
+    public void dispose() {
+        // Nothing to do
+    }
 }
