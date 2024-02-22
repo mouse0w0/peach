@@ -7,11 +7,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ListUtils {
-    public static <E> List<E> filterCollect(Iterable<? extends E> iterable, Predicate<? super E> filter) {
-        return filterCollect(iterable, filter, new ArrayList<>());
+    public static <E> List<E> filter(Iterable<? extends E> iterable, Predicate<? super E> filter) {
+        return filter(iterable, filter, new ArrayList<>());
     }
 
-    public static <E> List<E> filterCollect(Iterable<? extends E> iterable, Predicate<? super E> filter, List<E> result) {
+    public static <E> List<E> filter(Iterable<? extends E> iterable, Predicate<? super E> filter, List<E> result) {
         for (E e : iterable) {
             if (filter.test(e)) {
                 result.add(e);
