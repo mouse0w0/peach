@@ -10,8 +10,8 @@ import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProjectBaseAction;
 import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
-import com.github.mouse0w0.peach.recentProject.RecentProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
+import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import javafx.collections.ObservableList;
@@ -99,7 +99,7 @@ public final class WelcomeWindow extends Stage {
 
     private void updateRecentProjects() {
         ObservableList<RecentProjectInfo> items = projectListView.getItems();
-        items.setAll(RecentProjectManager.getInstance().getRecentProjects());
+        items.setAll(RecentProjectsManager.getInstance().getRecentProjects());
         items.sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
     }
 

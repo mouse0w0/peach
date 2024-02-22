@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 @Storage("recentProjects.json")
-public final class RecentProjectManagerImpl implements RecentProjectManager, PersistentService, Disposable {
+public final class RecentProjectsManagerImpl implements RecentProjectsManager, PersistentService, Disposable {
 
     private final Map<String, RecentProjectInfo> recentProjects = new HashMap<>();
     private final RecentProjectsChange publisher;
     private final MessageBusConnection connection;
 
-    public RecentProjectManagerImpl() {
+    public RecentProjectsManagerImpl() {
         MessageBus messageBus = Peach.getInstance().getMessageBus();
         publisher = messageBus.getPublisher(RecentProjectsChange.TOPIC);
         connection = messageBus.connect();
