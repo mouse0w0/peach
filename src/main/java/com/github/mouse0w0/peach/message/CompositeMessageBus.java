@@ -1,13 +1,14 @@
-package com.github.mouse0w0.peach.message.impl;
+package com.github.mouse0w0.peach.message;
 
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.message.Topic;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@ApiStatus.Internal
 public class CompositeMessageBus extends MessageBusImpl {
     private final Collection<MessageBusImpl> children = new CopyOnWriteArrayList<>();
 

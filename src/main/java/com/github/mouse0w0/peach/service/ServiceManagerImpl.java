@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.service;
 import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.message.MessageBus;
-import com.github.mouse0w0.peach.message.impl.MessageBusImpl;
+import com.github.mouse0w0.peach.message.MessageBusImpl;
 import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginException;

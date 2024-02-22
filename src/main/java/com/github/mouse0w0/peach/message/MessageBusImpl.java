@@ -1,12 +1,9 @@
-package com.github.mouse0w0.peach.message.impl;
+package com.github.mouse0w0.peach.message;
 
 import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.message.BroadcastDirection;
-import com.github.mouse0w0.peach.message.MessageBus;
-import com.github.mouse0w0.peach.message.MessageBusConnection;
-import com.github.mouse0w0.peach.message.Topic;
 import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@ApiStatus.Internal
 public class MessageBusImpl implements MessageBus {
 
     interface SubscriberHolder {

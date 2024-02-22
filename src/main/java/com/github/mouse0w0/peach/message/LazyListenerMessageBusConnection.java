@@ -1,7 +1,7 @@
-package com.github.mouse0w0.peach.message.impl;
+package com.github.mouse0w0.peach.message;
 
-import com.github.mouse0w0.peach.message.Topic;
 import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
+import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@ApiStatus.Internal
 final class LazyListenerMessageBusConnection implements MessageBusImpl.SubscriberHolder {
     private static final Logger LOGGER = LoggerFactory.getLogger(LazyListenerMessageBusConnection.class);
 

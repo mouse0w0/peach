@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.project;
 
 import com.github.mouse0w0.peach.Peach;
-import com.github.mouse0w0.peach.message.impl.CompositeMessageBus;
-import com.github.mouse0w0.peach.message.impl.MessageBusImpl;
+import com.github.mouse0w0.peach.message.CompositeMessageBus;
+import com.github.mouse0w0.peach.message.MessageBusImpl;
 import com.github.mouse0w0.peach.plugin.ListenerDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.service.ServiceDescriptor;

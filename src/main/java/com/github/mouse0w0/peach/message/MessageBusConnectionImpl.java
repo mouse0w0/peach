@@ -1,13 +1,13 @@
-package com.github.mouse0w0.peach.message.impl;
+package com.github.mouse0w0.peach.message;
 
 import com.github.mouse0w0.peach.dispose.Disposer;
-import com.github.mouse0w0.peach.message.MessageBusConnection;
-import com.github.mouse0w0.peach.message.Topic;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+@ApiStatus.Internal
 final class MessageBusConnectionImpl implements MessageBusConnection, MessageBusImpl.SubscriberHolder {
     private MessageBusImpl messageBus;
     private final AtomicReference<Object[]> subscriptions = new AtomicReference<>();
