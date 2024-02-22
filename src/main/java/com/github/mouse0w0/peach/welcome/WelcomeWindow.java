@@ -2,13 +2,13 @@ package com.github.mouse0w0.peach.welcome;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.action.ActionManager;
-import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.recentProject.RecentProjectBaseAction;
 import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
 import com.github.mouse0w0.peach.recentProject.RecentProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
@@ -61,8 +61,8 @@ public final class WelcomeWindow extends Stage {
         projectListView.setCellFactory(view -> new Cell());
         updateRecentProjects();
         DataManager.getInstance().registerDataProvider(projectListView, key -> {
-            if (DataKeys.SELECTED_ITEM.is(key)) return projectListView.getSelectionModel().getSelectedItem();
-            else if (DataKeys.SELECTED_ITEMS.is(key)) return projectListView.getSelectionModel().getSelectedItems();
+            if (RecentProjectBaseAction.RECENT_PROJECT_SELECTED_ITEM.is(key))
+                return projectListView.getSelectionModel().getSelectedItem();
             else return null;
         });
         connection = Peach.getInstance().getMessageBus().connect();
