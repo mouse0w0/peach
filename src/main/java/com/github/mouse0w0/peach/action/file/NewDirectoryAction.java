@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -25,17 +24,16 @@ public class NewDirectoryAction extends Action {
 
     @Override
     public void perform(ActionEvent event) {
-        final Path path = DataKeys.PATH.get(event);
+        Path path = DataKeys.PATH.get(event);
         if (path == null) return;
 
-        new TextInputDialog(AppL10n.localize("dialog.newDirectory.title"), null)
-                .showAndWait()
-                .ifPresent(directoryName -> {
+        new TextInputDialog(AppL10n.localize("dialog.newDirectory.title"), null).showAndWait().ifPresent(directoryName -> {
                     try {
-                        Files.createDirectories(FileUtils.getDirectory(path).resolve(directoryName));
-                    } catch (FileAlreadyExistsException e) {
-                        Alert.error(AppL10n.localize("dialog.newDirectory.title"),
-                                AppL10n.localize("dialog.newDirectory.error.alreadyExists", directoryName));
+                        Path directoryPath = FileUtils.getDirectory(path).resolve(directoryName);
+                        if (Files.exists(directoryPath)) {
+                            Alert.error(AppL10n.localize("dialog.newDirectory.title"), AppL10n.localize("dialog.newDirectory.error.alreadyExists", directoryName));
+                        }
+                        Files.createDirectories(directoryPath);
                     } catch (IOException e) {
                         LOGGER.error("Failed to new directory because an exception has occurred.", e);
                         Alert.error(AppL10n.localize("dialog.newDirectory.title"), e.toString());
