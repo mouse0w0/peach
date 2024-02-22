@@ -8,16 +8,8 @@ public final class Topic<T> {
     private final Class<T> listenerClass;
     private final BroadcastDirection broadcastDirection;
 
-    public Topic(@NotNull Class<T> listenerClass) {
-        this(listenerClass.getName(), listenerClass, BroadcastDirection.TO_CHILDREN);
-    }
-
     public Topic(@NotNull Class<T> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
         this(listenerClass.getName(), listenerClass, broadcastDirection);
-    }
-
-    public Topic(@NotNull String name, @NotNull Class<T> listenerClass) {
-        this(name, listenerClass, BroadcastDirection.TO_CHILDREN);
     }
 
     public Topic(@NotNull String name, @NotNull Class<T> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
