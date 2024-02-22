@@ -7,11 +7,14 @@ import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
+import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
 import com.github.mouse0w0.peach.recentProject.RecentProjectManager;
+import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.Validate;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,6 +35,7 @@ public final class WelcomeWindow extends Stage {
 
     private final ContextMenu contextMenu;
     private final ListView<RecentProjectInfo> projectListView;
+    private final MessageBusConnection connection;
 
     public static void showIfNoProjectOpened() {
         if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
@@ -55,14 +59,15 @@ public final class WelcomeWindow extends Stage {
         projectListView.setId("project-list-view");
         projectListView.setPrefWidth(250);
         projectListView.setCellFactory(view -> new Cell());
-        projectListView.getItems().addAll(RecentProjectManager.getInstance().getRecentProjects());
-        projectListView.getItems().sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
-        projectListView.getSelectionModel().selectFirst();
+        updateRecentProjects();
         DataManager.getInstance().registerDataProvider(projectListView, key -> {
             if (DataKeys.SELECTED_ITEM.is(key)) return projectListView.getSelectionModel().getSelectedItem();
             else if (DataKeys.SELECTED_ITEMS.is(key)) return projectListView.getSelectionModel().getSelectedItems();
             else return null;
         });
+        connection = Peach.getInstance().getMessageBus().connect();
+        connection.subscribe(RecentProjectsChange.TOPIC, this::updateRecentProjects);
+        setOnHidden(event -> connection.disconnect());
 
         Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
         newProject.setText(AppL10n.localize("welcome.NewProject.text"));
@@ -90,6 +95,12 @@ public final class WelcomeWindow extends Stage {
         FXUtils.addStylesheet(scene, "style/style.css");
         FXUtils.addStylesheet(scene, "style/WelcomeWindow.css");
         setScene(scene);
+    }
+
+    private void updateRecentProjects() {
+        ObservableList<RecentProjectInfo> items = projectListView.getItems();
+        items.setAll(RecentProjectManager.getInstance().getRecentProjects());
+        items.sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
     }
 
     private class Cell extends ListCell<RecentProjectInfo> {

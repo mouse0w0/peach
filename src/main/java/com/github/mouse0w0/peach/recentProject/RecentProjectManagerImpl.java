@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.recentProject;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dispose.Disposable;
+import com.github.mouse0w0.peach.message.MessageBus;
 import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
@@ -20,10 +21,13 @@ import java.util.Map;
 public final class RecentProjectManagerImpl implements RecentProjectManager, PersistentService, Disposable {
 
     private final Map<String, RecentProjectInfo> recentProjects = new HashMap<>();
+    private final RecentProjectsChange publisher;
     private final MessageBusConnection connection;
 
     public RecentProjectManagerImpl() {
-        connection = Peach.getInstance().getMessageBus().connect();
+        MessageBus messageBus = Peach.getInstance().getMessageBus();
+        publisher = messageBus.getPublisher(RecentProjectsChange.TOPIC);
+        connection = messageBus.connect();
         connection.subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
             @Override
             public void projectOpened(Project project) {
@@ -40,6 +44,7 @@ public final class RecentProjectManagerImpl implements RecentProjectManager, Per
     @Override
     public void removeRecentProject(String path) {
         recentProjects.remove(path);
+        publisher.onChanged();
     }
 
     private void updateRecentProject(Project project) {
@@ -47,6 +52,7 @@ public final class RecentProjectManagerImpl implements RecentProjectManager, Per
         RecentProjectInfo info = recentProjects.computeIfAbsent(path, RecentProjectInfo::new);
         info.setName(project.getName());
         info.setLatestOpenTimestamp(System.currentTimeMillis());
+        publisher.onChanged();
     }
 
     @Override
