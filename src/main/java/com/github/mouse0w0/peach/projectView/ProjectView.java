@@ -172,10 +172,10 @@ public class ProjectView implements Disposable, DataProvider {
 
     @Override
     public Object getData(@NotNull String key) {
-        if (DataKeys.PATH.is(key) || DataKeys.SELECTED_ITEM.is(key)) {
+        if (DataKeys.PATH.is(key)) {
             TreeItem<Path> selectedItem = treeView.getSelectionModel().getSelectedItem();
             return selectedItem != null ? selectedItem.getValue() : null;
-        } else if (DataKeys.SELECTED_ITEMS.is(key)) {
+        } else if (DataKeys.PATHS.is(key)) {
             List<TreeItem<Path>> selectedItems = treeView.getSelectionModel().getSelectedItems();
             List<Path> result = new ArrayList<>(selectedItems.size());
             for (TreeItem<Path> selectedItem : selectedItems) {

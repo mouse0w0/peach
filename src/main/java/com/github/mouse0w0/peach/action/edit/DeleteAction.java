@@ -14,15 +14,9 @@ import java.util.List;
 
 public class DeleteAction extends Action {
     @Override
-    @SuppressWarnings("unchecked")
     public void perform(ActionEvent event) {
-        List<?> items = DataKeys.SELECTED_ITEMS.get(event);
-        if (items == null || items.isEmpty()) return;
-
-        if (!(items.get(0) instanceof Path)) return;
-
-        List<Path> paths = (List<Path>) items;
-
+        List<Path> paths = DataKeys.PATHS.get(event);
+        if (paths == null || paths.isEmpty()) return;
         int fileCount = 0, directoryCount = 0, symbolicLinkCount = 0;
         for (Path path : paths) {
             if (Files.isRegularFile(path)) {

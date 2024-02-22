@@ -12,4 +12,5 @@ public interface DataKeys {
     DataKey<List<?>> SELECTED_ITEMS = DataKey.create("SelectedItems");
 
     DataKey<Path> PATH = DataKey.create("Path");
+    DataKey<List<Path>> PATHS = DataKey.create("Paths");
 }

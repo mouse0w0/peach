@@ -13,17 +13,13 @@ import java.util.List;
 
 public class CutAction extends Action {
     @Override
-    @SuppressWarnings("unchecked")
     public void perform(ActionEvent event) {
-        List<?> items = DataKeys.SELECTED_ITEMS.get(event);
-        if (items == null || items.isEmpty()) return;
-
-        if (items.get(0) instanceof Path) {
-            Clipboard clipboard = Clipboard.getSystemClipboard();
-            ClipboardContent content = new ClipboardContent();
-            ClipboardUtils.setTransferMode(content, ClipboardUtils.TRANSFER_MODE_MOVE);
-            content.putFiles(FileUtils.listPathToFile((List<? extends Path>) items));
-            clipboard.setContent(content);
-        }
+        List<Path> paths = DataKeys.PATHS.get(event);
+        if (paths == null || paths.isEmpty()) return;
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        ClipboardUtils.setTransferMode(content, ClipboardUtils.TRANSFER_MODE_MOVE);
+        content.putFiles(FileUtils.listPathToFile(paths));
+        clipboard.setContent(content);
     }
 }
