@@ -20,17 +20,16 @@ public class PasteExecutor implements Runnable {
 
     private final List<Path> paths;
     private final Path target;
-
     private final boolean multiple;
     private final boolean move;
 
     private boolean overwriteAll = false;
     private boolean skipAll = false;
 
-    public PasteExecutor(List<Path> paths, Path target, boolean move) {
+    public PasteExecutor(List<Path> paths, Path target, boolean multiple, boolean move) {
         this.paths = paths;
         this.target = target;
-        this.multiple = paths.size() > 1;
+        this.multiple = multiple;
         this.move = move;
     }
 
@@ -47,9 +46,12 @@ public class PasteExecutor implements Runnable {
     }
 
     private void handle(Path source, Path target) throws IOException {
-        handleFile(source, target);
+        if (move && source.equals(target)) return;
 
-        if (Files.isDirectory(source)) {
+        if (Files.isRegularFile(source)) {
+            handleFile(source, target);
+        } else if (Files.isDirectory(source)) {
+            Files.createDirectories(target);
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(source)) {
                 for (Path child : stream) {
                     handle(child, target.resolve(child.getFileName()));
@@ -59,8 +61,6 @@ public class PasteExecutor implements Runnable {
     }
 
     private void handleFile(Path source, Path target) throws IOException {
-        if (move && source.equals(target)) return;
-
         while (Files.exists(target)) {
             if (skipAll) return;
             if (overwriteAll) {
@@ -68,7 +68,7 @@ public class PasteExecutor implements Runnable {
                 return;
             }
             ButtonType buttonType = new PasteDialog(AppL10n.localize("dialog.paste.title"),
-                    AppL10n.localize("dialog.paste.error.existsSameFile", this.target, source.getFileName()), multiple)
+                    AppL10n.localize("dialog.paste.error.existsSameFile", target, source.getFileName()), multiple)
                     .showAndWait().orElse(PasteDialog.SKIP);
             if (buttonType == PasteDialog.SKIP) {
                 return;

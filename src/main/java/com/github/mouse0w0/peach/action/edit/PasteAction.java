@@ -46,8 +46,8 @@ public class PasteAction extends Action {
             }
         }
 
-        final String titleKey;
-        final String messageKey;
+        String titleKey;
+        String messageKey;
         if (move) {
             titleKey = "dialog.move.title";
             if (fileCount != 0 && directoryCount != 0) {
@@ -74,7 +74,7 @@ public class PasteAction extends Action {
 
         if (Alert.confirm(AppL10n.localize(titleKey),
                 AppL10n.localize(messageKey, FileUtils.getFileName(paths.get(0)), fileCount, directoryCount, FileUtils.getFileName(target)))) {
-            new PasteExecutor(paths, target, move).run();
+            new PasteExecutor(paths, target, fileCount > 1 || directoryCount > 0, move).run();
         }
     }
 }
