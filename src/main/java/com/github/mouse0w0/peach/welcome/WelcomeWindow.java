@@ -7,6 +7,8 @@ import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.message.MessageBusConnection;
+import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProjectBaseAction;
 import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
@@ -33,9 +35,10 @@ import java.util.Comparator;
 public final class WelcomeWindow extends Stage {
     private static final String NOT_EXISTS_CLASS = "not-exists";
 
+    private final MessageBusConnection connection;
+
     private final ContextMenu contextMenu;
     private final ListView<RecentProjectInfo> projectListView;
-    private final MessageBusConnection connection;
 
     public static void showIfNoProjectOpened() {
         if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
@@ -52,6 +55,15 @@ public final class WelcomeWindow extends Stage {
         getIcons().add(AppIcon.Peach.getImage());
         setResizable(false);
 
+        connection = Peach.getInstance().getMessageBus().connect();
+        setOnHidden(event -> connection.disconnect());
+        connection.subscribe(ProjectLifecycleListener.TOPIC, new ProjectLifecycleListener() {
+            @Override
+            public void projectOpened(Project project) {
+                hide();
+            }
+        });
+
         ActionManager actionManager = ActionManager.getInstance();
         contextMenu = actionManager.createContextMenu(Validate.notNull(actionManager.getActionGroup("RecentProjectPopupMenu")));
 
@@ -65,9 +77,8 @@ public final class WelcomeWindow extends Stage {
                 return projectListView.getSelectionModel().getSelectedItem();
             else return null;
         });
-        connection = Peach.getInstance().getMessageBus().connect();
+
         connection.subscribe(RecentProjectsChange.TOPIC, this::updateRecentProjects);
-        setOnHidden(event -> connection.disconnect());
 
         Button newProject = actionManager.createButton(actionManager.getAction("NewProject"));
         newProject.setText(AppL10n.localize("welcome.NewProject.text"));
@@ -111,7 +122,6 @@ public final class WelcomeWindow extends Stage {
                     Path path = Paths.get(getItem().getPath());
                     if (Files.notExists(path)) return;
                     ProjectManager.getInstance().openProject(path);
-                    hide();
                 }
             });
         }
