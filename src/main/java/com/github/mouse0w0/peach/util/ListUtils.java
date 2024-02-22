@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.util;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ListUtils {
@@ -15,6 +16,17 @@ public class ListUtils {
             if (filter.test(e)) {
                 result.add(e);
             }
+        }
+        return result;
+    }
+
+    public static <T, R> List<R> map(Iterable<? extends T> iterable, Function<? super T, ? extends R> mapper) {
+        return map(iterable, mapper, new ArrayList<>());
+    }
+
+    public static <T, R> List<R> map(Iterable<? extends T> iterable, Function<? super T, ? extends R> mapper, List<R> result) {
+        for (T t : iterable) {
+            result.add(mapper.apply(t));
         }
         return result;
     }

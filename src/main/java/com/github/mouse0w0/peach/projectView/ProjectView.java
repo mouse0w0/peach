@@ -15,6 +15,7 @@ import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.ClipboardUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -57,7 +58,7 @@ public class ProjectView implements Disposable, DataProvider {
         }
     };
 
-    private Comparator<TreeItem<Path>> comparator = Comparator.comparing(TreeItem::getValue, (o1, o2) -> {
+    private final Comparator<TreeItem<Path>> comparator = Comparator.comparing(TreeItem::getValue, (o1, o2) -> {
         boolean isDir1 = Files.isDirectory(o1);
         boolean isDir2 = Files.isDirectory(o2);
         if (isDir1 == isDir2) return o1.compareTo(o2);
@@ -176,12 +177,7 @@ public class ProjectView implements Disposable, DataProvider {
             TreeItem<Path> selectedItem = treeView.getSelectionModel().getSelectedItem();
             return selectedItem != null ? selectedItem.getValue() : null;
         } else if (DataKeys.PATHS.is(key)) {
-            List<TreeItem<Path>> selectedItems = treeView.getSelectionModel().getSelectedItems();
-            List<Path> result = new ArrayList<>(selectedItems.size());
-            for (TreeItem<Path> selectedItem : selectedItems) {
-                result.add(selectedItem.getValue());
-            }
-            return result;
+            return ListUtils.map(treeView.getSelectionModel().getSelectedItems(), TreeItem::getValue);
         } else {
             return null;
         }
