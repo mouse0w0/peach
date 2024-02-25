@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.data;
 
+import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.util.Validate;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +29,11 @@ public final class DataKey<T> {
 
     public boolean is(String key) {
         return name.equals(key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public T get(ActionEvent event) {
+        return (T) event.getData(name);
     }
 
     @SuppressWarnings("unchecked")

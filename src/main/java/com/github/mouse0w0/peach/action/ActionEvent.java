@@ -7,7 +7,7 @@ import javafx.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class ActionEvent implements DataContext {
+public final class ActionEvent {
     private final Event event;
     private final Presentation presentation;
     private final DataContext dataContext;
@@ -33,12 +33,10 @@ public final class ActionEvent implements DataContext {
         return dataContext;
     }
 
-    @Override
     public Object getData(@NotNull String key) {
         return dataContext.getData(key);
     }
 
-    @Override
     public <T> T getData(@NotNull DataKey<T> key) {
         return dataContext.getData(key);
     }
