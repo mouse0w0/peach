@@ -57,6 +57,9 @@ public class PasteExecutor implements Runnable {
                     handle(child, target.resolve(child.getFileName()));
                 }
             }
+            if (move) {
+                Files.delete(source);
+            }
         }
     }
 
