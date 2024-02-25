@@ -16,6 +16,7 @@ public final class ActionButton extends Button implements ActionHolder {
         setText(action.getText());
         Utils.setIcon(graphicProperty(), action.getIcon());
 
+        skinProperty().addListener(observable -> update());
         setOnAction(this::perform);
     }
 
@@ -35,5 +36,9 @@ public final class ActionButton extends Button implements ActionHolder {
 
     private void perform(javafx.event.ActionEvent event) {
         action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+    }
+
+    private void update() {
+        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
     }
 }
