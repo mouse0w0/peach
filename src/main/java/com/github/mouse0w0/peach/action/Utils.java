@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.action;
 import com.github.mouse0w0.peach.icon.Icon;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
@@ -13,13 +12,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 class Utils {
-    public static void fillMenu(ActionGroup parent, ObservableList<MenuItem> items) {
-        for (Action action : parent.getChildren()) {
+    public static void fillMenu(ActionGroup parent, ActionEvent event, ObservableList<MenuItem> items) {
+        items.clear();
+        for (Action action : parent.getChildren(event)) {
             if (action instanceof ActionGroup group) {
                 if (group.isPopup()) {
                     items.add(new ActionMenu(group));
                 } else {
-                    fillMenu(group, items);
+                    fillMenu(group, event, items);
                 }
             } else if (action instanceof Separator) {
                 items.add(new ActionSeparatorMenuItem());
@@ -29,12 +29,12 @@ class Utils {
         }
     }
 
-    public static void update(Event event, List<MenuItem> items) {
+    public static void update(List<MenuItem> items) {
         for (MenuItem item : items) {
             if (item instanceof ActionMenuItem) {
-                ((ActionMenuItem) item).update(event);
+                ((ActionMenuItem) item).update();
             } else if (item instanceof ActionMenu) {
-                ((ActionMenu) item).update(event);
+                ((ActionMenu) item).update();
             }
         }
     }

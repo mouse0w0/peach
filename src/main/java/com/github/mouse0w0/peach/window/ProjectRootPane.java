@@ -99,7 +99,7 @@ class ProjectRootPane extends VBox {
         ActionGroup mainMenuGroup = actionManager.getActionGroup(ActionGroups.MAIN_MENU);
         assert mainMenuGroup != null;
         MenuBar menuBar = new MenuBar();
-        for (Action child : mainMenuGroup.getChildren()) {
+        for (Action child : mainMenuGroup.getChildren(null)) {
             if (child instanceof ActionGroup group) {
                 Menu menu = actionManager.createMenu(group);
                 menuBar.getMenus().add(menu);

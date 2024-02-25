@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icon;
-import javafx.event.Event;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +37,7 @@ public final class ActionMenuItem extends MenuItem implements ActionHolder {
         action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
     }
 
-    void update(Event event) {
-        action.update(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+    void update() {
+        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
     }
 }

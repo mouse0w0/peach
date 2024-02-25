@@ -153,16 +153,20 @@ public final class ActionManagerImpl implements ActionManager {
         String className = element.attributeValue(CLASS_ATTR_NAME);
 
         ActionGroup group;
-        try {
-            Class<?> clazz = className != null ? plugin.getClassLoader().loadClass(className) : ActionGroup.class;
-            if (!ActionGroup.class.isAssignableFrom(clazz)) {
-                LOGGER.error("{} is not subclass of ActionGroup, id={}, plugin={}", className, id, plugin.getId());
+        if (className != null) {
+            try {
+                Class<?> clazz = plugin.getClassLoader().loadClass(className);
+                if (!ActionGroup.class.isAssignableFrom(clazz)) {
+                    LOGGER.error("{} is not subclass of ActionGroup, id={}, plugin={}", className, id, plugin.getId());
+                    return null;
+                }
+                group = (ActionGroup) clazz.getConstructor().newInstance();
+            } catch (ReflectiveOperationException e) {
+                LOGGER.error("Cannot create group, class={}, id={}, plugin={}", className, id, plugin.getId(), e);
                 return null;
             }
-            group = (ActionGroup) clazz.getConstructor().newInstance();
-        } catch (ReflectiveOperationException e) {
-            LOGGER.error("Cannot create group, class={}, id={}, plugin={}", className, id, plugin.getId(), e);
-            return null;
+        } else {
+            group = new DefaultActionGroup();
         }
 
         processAttribute(plugin, element, id, group);
@@ -176,25 +180,25 @@ public final class ActionManagerImpl implements ActionManager {
                 case ACTION_ELEMENT_NAME -> {
                     Action action = processActionElement(plugin, child);
                     if (action != null) {
-                        group.addLast(action);
+                        addToGroup(plugin, group, action);
                     }
                 }
                 case GROUP_ELEMENT_NAME -> {
                     Action action = processGroupElement(plugin, child);
                     if (action != null) {
-                        group.addLast(action);
+                        addToGroup(plugin, group, action);
                     }
                 }
                 case SEPARATOR_ELEMENT_NAME -> {
                     Action action = processSeparatorElement(plugin, child);
                     if (action != null) {
-                        group.addLast(action);
+                        addToGroup(plugin, group, action);
                     }
                 }
                 case REFERENCE_ELEMENT_NAME -> {
                     Action action = processReferenceElement(plugin, child);
                     if (action != null) {
-                        group.addLast(action);
+                        addToGroup(plugin, group, action);
                     }
                 }
                 case ADD_TO_GROUP_ELEMENT_NAME -> processAddToGroupElement(plugin, child, group);
@@ -232,22 +236,35 @@ public final class ActionManagerImpl implements ActionManager {
         return action;
     }
 
+    private void addToGroup(Plugin plugin, Action group, Action action) {
+        if (!(group instanceof DefaultActionGroup)) {
+            LOGGER.error("Cannot add action to group, group should be instance of DefaultActionGroup, group={}, action={}, plugin={}", getActionId(group), getActionId(action), plugin.getId());
+        } else {
+            ((DefaultActionGroup) group).addLast(action);
+        }
+    }
+
     private void processAddToGroupElement(Plugin plugin, Element element, Action action) {
         String groupId = element.attributeValue(GROUP_ID_ATTR_NAME);
         if (StringUtils.isEmpty(groupId)) {
             LOGGER.error("Missing add-to-group group-id, action={}, plugin={}", getActionId(action), plugin.getId());
             return;
         }
-        ActionGroup group = getParentGroup(plugin, action, groupId);
+        Action group = getAction(groupId);
         if (group == null) {
+            LOGGER.error("Not found add-to-group group, group={}, action={}, plugin={}", groupId, getActionId(action), plugin.getId());
+            return;
+        }
+        if (!(group instanceof DefaultActionGroup)) {
+            LOGGER.error("Cannot add action to group, group should be instance of DefaultActionGroup, group={}, action={}, plugin={}", groupId, getActionId(action), plugin.getId());
             return;
         }
 
         String anchor = element.attributeValue(ANCHOR_ATTR_NAME);
         if (anchor == null || "last".equalsIgnoreCase(anchor)) {
-            group.addLast(action);
+            ((DefaultActionGroup) group).addLast(action);
         } else if ("first".equalsIgnoreCase(anchor)) {
-            group.addFirst(action);
+            ((DefaultActionGroup) group).addFirst(action);
         } else if (StringUtils.startsWithIgnoreCase(anchor, "before")) {
             int index = anchor.indexOf(' ');
             if (index == -1) {
@@ -260,7 +277,7 @@ public final class ActionManagerImpl implements ActionManager {
                 LOGGER.error("Not found anchor relative action, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
                 return;
             }
-            group.addChild(action, true, anchorAction);
+            ((DefaultActionGroup) group).addBefore(action, anchorAction);
         } else if (StringUtils.startsWithIgnoreCase(anchor, "after")) {
             int index = anchor.indexOf(' ');
             if (index == -1) {
@@ -273,21 +290,8 @@ public final class ActionManagerImpl implements ActionManager {
                 LOGGER.error("Not found anchor relative action, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
                 return;
             }
-            group.addChild(action, false, anchorAction);
+            ((DefaultActionGroup) group).addAfter(action, anchorAction);
         }
-    }
-
-    private ActionGroup getParentGroup(Plugin plugin, Action action, String groupId) {
-        Action group = getAction(groupId);
-        if (group == null) {
-            LOGGER.error("Not found action group, id={}, action={}, plugin={}", groupId, getActionId(action), plugin.getId());
-            return null;
-        }
-        if (!(group instanceof ActionGroup)) {
-            LOGGER.error("Group is not instance of ActionGroup, id={}, action={}, plugin={}", groupId, getActionId(action), plugin.getId());
-            return null;
-        }
-        return (ActionGroup) group;
     }
 
     private void processAttribute(Plugin plugin, Element element, String id, Action action) {

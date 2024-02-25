@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.Icon;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -12,7 +11,7 @@ public final class ActionMenu extends Menu implements ActionHolder {
     private final ActionGroup group;
     private final Presentation presentation;
 
-    private boolean initialized;
+    private final MenuItem placeholder = new MenuItem();
 
     ActionMenu(ActionGroup group) {
         this.group = group;
@@ -24,11 +23,7 @@ public final class ActionMenu extends Menu implements ActionHolder {
         setOnShowing(this::updateChildren);
 
         // Fix JavaFX don't show empty menu.
-        if (group.getChildren().isEmpty()) {
-            initialized = true;
-        } else {
-            getItems().add(new MenuItem());
-        }
+        getItems().add(placeholder);
     }
 
     private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
@@ -47,27 +42,23 @@ public final class ActionMenu extends Menu implements ActionHolder {
 
     @Override
     public void show() {
-        initialize();
+        fillMenu();
         super.show();
+        if (getItems().isEmpty()) {
+            getItems().add(placeholder);
+        }
     }
 
-    private void initialize() {
-        if (initialized) return;
-        initialized = true;
-
-        ObservableList<MenuItem> items = getItems();
-        items.clear();
-        Utils.fillMenu(group, items);
-    }
-
-    void update(Event event) {
-        group.update(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+    private void fillMenu() {
+        Utils.fillMenu(group, new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)), getItems());
     }
 
     private void updateChildren(Event event) {
-        Utils.update(event, getItems());
+        Utils.update(getItems());
         Utils.updateSeparatorVisibility(getItems());
     }
 
-
+    void update() {
+        group.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+    }
 }
