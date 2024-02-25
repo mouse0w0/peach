@@ -32,8 +32,14 @@ public final class DataManagerImpl implements DataManager {
 
     @Override
     public DataProvider getDataProvider(@NotNull Object o) {
+        if (o instanceof DataProvider) {
+            return (DataProvider) o;
+        }
         Map<Object, Object> properties = getProperties(o);
-        return properties != null ? (DataProvider) properties.get(DATA_PROVIDER) : null;
+        if (properties != null) {
+            return (DataProvider) properties.get(DATA_PROVIDER);
+        }
+        return null;
     }
 
     @Override
