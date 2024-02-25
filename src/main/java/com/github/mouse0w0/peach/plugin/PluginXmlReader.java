@@ -4,7 +4,6 @@ import com.github.mouse0w0.peach.extension.ExtensionOrder;
 import com.github.mouse0w0.peach.service.ServiceDescriptor;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.version.VersionRange;
-import org.dom4j.CDATA;
 import org.dom4j.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -278,6 +277,7 @@ final class PluginXmlReader {
             case CHARACTERS, SPACE -> readCharacters(reader);
             case ENTITY_REFERENCE -> readEntityReference(reader);
             case CDATA -> readCDATA(reader);
+            case COMMENT -> null; // Skip comment
             default -> throw new XMLStreamException("Unexpected event: " + reader.getEventType(), reader.getLocation());
         };
     }
@@ -307,7 +307,9 @@ final class PluginXmlReader {
             }
 
             Node node = readNode(reader);
-            element.add(node);
+            if (node != null) {
+                element.add(node);
+            }
         }
 
         return element;
