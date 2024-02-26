@@ -145,11 +145,11 @@
                     class="com.github.mouse0w0.peach.action.file.ShowInExplorerAction"/>
         </group>
 
-        <group id="RecentProjectPopupMenu" popup="true">
-            <action id="RecentProjectOpen"
-                    class="com.github.mouse0w0.peach.recentProject.RecentProjectOpenAction"/>
-            <action id="RecentProjectRemove"
-                    class="com.github.mouse0w0.peach.recentProject.RecentProjectRemoveAction"/>
+        <group id="WelcomeWindow.RecentProjects" popup="true">
+            <action id="WelcomeWindow.RecentProjectOpen"
+                    class="com.github.mouse0w0.peach.welcome.RecentProjectOpenAction"/>
+            <action id="WelcomeWindow.RecentProjectRemove"
+                    class="com.github.mouse0w0.peach.welcome.RecentProjectRemoveAction"/>
         </group>
     </actions>
 </plugin>

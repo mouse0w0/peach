@@ -10,7 +10,6 @@ import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.recentProject.RecentProjectBaseAction;
 import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
@@ -65,7 +64,7 @@ public final class WelcomeWindow extends Stage {
         });
 
         ActionManager actionManager = ActionManager.getInstance();
-        contextMenu = actionManager.createContextMenu(Validate.notNull(actionManager.getActionGroup("RecentProjectPopupMenu")));
+        contextMenu = actionManager.createContextMenu(Validate.notNull(actionManager.getActionGroup("WelcomeWindow.RecentProjects")));
 
         projectListView = new ListView<>();
         projectListView.setId("project-list-view");
