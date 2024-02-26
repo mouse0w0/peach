@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.projectView;
 
 import com.github.mouse0w0.peach.action.ActionGroup;
-import com.github.mouse0w0.peach.action.ActionGroups;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
@@ -87,7 +86,7 @@ public class ProjectView implements Disposable, DataProvider {
         DataManager.getInstance().registerDataProvider(treeView, this);
 
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup filePopupMenu = actionManager.getActionGroup(ActionGroups.FILE_POPUP_MENU);
+        ActionGroup filePopupMenu = actionManager.getActionGroup("ProjectViewPopupMenu");
         contextMenu = actionManager.createContextMenu(filePopupMenu);
 
         TreeItem<Path> root = createTreeItem(projectPath);

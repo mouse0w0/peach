@@ -124,7 +124,7 @@
             </group>
         </group>
 
-        <group id="FilePopupMenu" popup="true">
+        <group id="ProjectViewPopupMenu" popup="true">
             <reference id="New"/>
             <separator/>
             <action id="Cut" icon="Action.Cut"
