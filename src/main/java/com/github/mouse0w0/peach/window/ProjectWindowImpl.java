@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.window;
 
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionGroup;
-import com.github.mouse0w0.peach.action.ActionGroups;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
@@ -99,7 +98,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
 
     private MenuBar createMenuBar() {
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup mainMenuGroup = actionManager.getActionGroup(ActionGroups.MAIN_MENU);
+        ActionGroup mainMenuGroup = actionManager.getActionGroup("MainMenu");
         assert mainMenuGroup != null;
         MenuBar menuBar = new MenuBar();
         for (Action child : mainMenuGroup.getChildren(null)) {
