@@ -105,12 +105,10 @@
                 <action id="CloseProject"
                         class="com.github.mouse0w0.peach.action.file.CloseProjectAction"/>
                 <separator/>
-
                 <action id="OpenSettings"/>
                 <action id="OpenProjectSettings" icon="Action.ProjectSettings"
                         class="com.github.mouse0w0.peach.mcmod.action.OpenProjectSettingsAction"/>
                 <separator/>
-
                 <action id="Exit" class="com.github.mouse0w0.peach.action.file.ExitAction"/>
             </group>
 
