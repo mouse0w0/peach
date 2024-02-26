@@ -101,7 +101,7 @@
                 <action id="OpenProject" icon="Action.OpenProject"
                         class="com.github.mouse0w0.peach.action.file.OpenProjectAction"/>
                 <group id="RecentProjects" popup="true"
-                       class="com.github.mouse0w0.peach.recentProject.RecentProjectsGroup"/>
+                       class="com.github.mouse0w0.peach.action.file.RecentProjectsGroup"/>
                 <action id="CloseProject"
                         class="com.github.mouse0w0.peach.action.file.CloseProjectAction"/>
                 <separator/>

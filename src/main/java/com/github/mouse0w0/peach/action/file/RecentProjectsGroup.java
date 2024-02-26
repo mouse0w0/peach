@@ -1,10 +1,12 @@
-package com.github.mouse0w0.peach.recentProject;
+package com.github.mouse0w0.peach.action.file;
 
 import com.github.mouse0w0.peach.action.Action;
 import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
+import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Paths;
