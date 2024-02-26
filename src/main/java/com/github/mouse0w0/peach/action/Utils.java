@@ -13,7 +13,6 @@ import java.util.List;
 
 class Utils {
     public static void fillMenu(ActionGroup parent, ActionEvent event, ObservableList<MenuItem> items) {
-        items.clear();
         for (Action action : parent.getChildren(event)) {
             if (action instanceof ActionGroup group) {
                 if (group.isPopup()) {

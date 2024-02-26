@@ -50,6 +50,7 @@ public final class ActionMenu extends Menu implements ActionHolder {
     }
 
     private void fillMenu() {
+        getItems().clear();
         Utils.fillMenu(group, new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)), getItems());
     }
 

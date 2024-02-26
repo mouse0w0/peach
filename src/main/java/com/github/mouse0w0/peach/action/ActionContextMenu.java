@@ -54,6 +54,7 @@ public final class ActionContextMenu extends ContextMenu implements ActionHolder
     }
 
     private void fillMenu() {
+        getItems().clear();
         Utils.fillMenu(group, new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)), getItems());
     }
 
