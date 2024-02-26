@@ -11,6 +11,18 @@
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
 }
 
+.menu-item > .graphic-container {
+    -fx-padding: 0em -12px 0em 0em;
+}
+
+.menu-item > .label {
+    -fx-padding: 0em 1em 0em 16px;
+}
+
+.menu-item > .right-container {
+    -fx-padding: 0em 0.333em 0em 0em;
+}
+
 .tab-pane {
     -fx-open-tab-animation: none;
     -fx-close-tab-animation: none;
