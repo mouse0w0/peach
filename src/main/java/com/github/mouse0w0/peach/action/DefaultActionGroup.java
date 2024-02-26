@@ -23,6 +23,16 @@ public class DefaultActionGroup extends ActionGroup {
         add(action, constraints, ActionManager.getInstance());
     }
 
+    public boolean contains(Action action) {
+        if (children.contains(action)) return true;
+        for (int i = 0; i < pendingActionSize; i += 2) {
+            if (pendingAction[i].equals(action)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public synchronized void add(Action action, Constraints constraints, ActionManager actionManager) {
         if (action == this) {
             throw new IllegalArgumentException("Cannot add a group to itself. group=" + actionManager.getActionId(this));
@@ -36,6 +46,20 @@ public class DefaultActionGroup extends ActionGroup {
             addPendingAction(action, constraints);
         }
         processPendingAction(actionManager);
+    }
+
+    public synchronized boolean remove(Action action) {
+        if (children.remove(action)) return true;
+        for (int i = 0; i < pendingActionSize; i += 2) {
+            if (pendingAction[i].equals(action)) {
+                pendingActionSize -= 2;
+                System.arraycopy(pendingAction, i + 2, pendingAction, i, pendingActionSize - i);
+                pendingAction[pendingActionSize] = null;
+                pendingAction[pendingActionSize + 1] = null;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addPendingAction(Action action, Constraints constraints) {
