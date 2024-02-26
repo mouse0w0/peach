@@ -237,11 +237,17 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     private void addToGroup(Plugin plugin, Action group, Action action, Constraints constraints) {
-        if (!(group instanceof DefaultActionGroup)) {
+        if (!(group instanceof DefaultActionGroup defaultActionGroup)) {
             LOGGER.error("Cannot add action to group, group should be instance of DefaultActionGroup, group={}, action={}, plugin={}", getActionId(group), getActionId(action), plugin.getId());
-        } else {
-            ((DefaultActionGroup) group).add(action, constraints, this);
+            return;
         }
+
+        if (!(action instanceof Separator) && defaultActionGroup.contains(action)) {
+            LOGGER.error("Cannot add an action twice. group={}, action={}, plugin={}", getActionId(group), getActionId(action), plugin.getId());
+            return;
+        }
+
+        defaultActionGroup.add(action, constraints, this);
     }
 
     private void processAddToGroupElement(Plugin plugin, Element element, Action action) {

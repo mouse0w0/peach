@@ -38,6 +38,10 @@ public class DefaultActionGroup extends ActionGroup {
             throw new IllegalArgumentException("Cannot add a group to itself. group=" + actionManager.getActionId(this));
         }
 
+        if (!(action instanceof Separator) && contains(action)) {
+            throw new IllegalArgumentException("Cannot add an action twice. action=" + actionManager.getActionId(action) + ", group=" + actionManager.getActionId(this));
+        }
+
         if (constraints.getAnchor() == Anchor.FIRST) {
             children.add(0, action);
         } else if (constraints.getAnchor() == Anchor.LAST) {
