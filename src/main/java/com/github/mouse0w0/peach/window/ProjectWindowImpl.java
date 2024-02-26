@@ -39,15 +39,12 @@ import org.slf4j.LoggerFactory;
 public class ProjectWindowImpl implements ProjectWindow, DataProvider {
     private final Project project;
     private final Stage stage;
-    private final MenuBar menuBar;
     private final ViewPane viewPane;
     private final TabPane tabPane;
     private final StatusBarImpl statusBar;
 
     ProjectWindowImpl(Project project) {
         this.project = project;
-
-        menuBar = createMenuBar();
 
         viewPane = new ViewPane();
         VBox.setVgrow(viewPane, Priority.ALWAYS);
@@ -59,7 +56,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
 
         statusBar = new StatusBarImpl(project);
 
-        VBox root = new VBox(menuBar, viewPane, statusBar.getNode());
+        VBox root = new VBox(createMenuBar(), viewPane, statusBar.getNode());
         root.setPrefSize(900, 600);
 
         Scene scene = new Scene(root);
