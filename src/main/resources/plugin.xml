@@ -95,6 +95,15 @@
             <action id="NewProject" class="com.github.mouse0w0.peach.action.file.NewProjectAction"/>
         </group>
 
+        <group id="CutCopyPaste">
+            <action id="Cut" icon="Action.Cut"
+                    class="com.github.mouse0w0.peach.action.edit.CutAction"/>
+            <action id="Copy" icon="Action.Copy"
+                    class="com.github.mouse0w0.peach.action.edit.CopyAction"/>
+            <action id="Paste" icon="Action.Paste"
+                    class="com.github.mouse0w0.peach.action.edit.PasteAction"/>
+        </group>
+
         <group id="MainMenu">
             <group id="File" popup="true">
                 <reference id="New"/>
@@ -127,12 +136,7 @@
         <group id="ProjectViewPopupMenu" popup="true">
             <reference id="New"/>
             <separator/>
-            <action id="Cut" icon="Action.Cut"
-                    class="com.github.mouse0w0.peach.action.edit.CutAction"/>
-            <action id="Copy" icon="Action.Copy"
-                    class="com.github.mouse0w0.peach.action.edit.CopyAction"/>
-            <action id="Paste" icon="Action.Paste"
-                    class="com.github.mouse0w0.peach.action.edit.PasteAction"/>
+            <reference id="CutCopyPaste"/>
             <separator/>
             <action id="Rename"
                     class="com.github.mouse0w0.peach.action.edit.RenameAction"/>
