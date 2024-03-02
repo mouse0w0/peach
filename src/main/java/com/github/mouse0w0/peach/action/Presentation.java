@@ -9,14 +9,16 @@ public final class Presentation {
     public static final String ICON_PROP = "icon";
     public static final String DISABLE_PROP = "disable";
     public static final String VISIBLE_PROP = "visible";
+    public static final String SELECTED_PROP = "selected";
 
     private final ChangeListener changeListener;
 
     private String text;
     private String description;
     private Icon icon;
-    private boolean disable = false;
+    private boolean disable;
     private boolean visible = true;
+    private boolean selected;
 
     public Presentation(@NotNull Action action, ChangeListener changeListener) {
         this.changeListener = changeListener;
@@ -73,6 +75,16 @@ public final class Presentation {
         boolean oldValue = this.visible;
         this.visible = value;
         notifyChanged(VISIBLE_PROP, oldValue, value);
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean value) {
+        boolean oldValue = this.selected;
+        this.selected = value;
+        notifyChanged(SELECTED_PROP, oldValue, value);
     }
 
     private void notifyChanged(String propertyName, Object oldValue, Object newValue) {

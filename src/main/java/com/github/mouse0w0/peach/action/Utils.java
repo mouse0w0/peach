@@ -20,6 +20,8 @@ class Utils {
                 } else {
                     fillMenu(group, event, items);
                 }
+            } else if (action instanceof ToggleAction toggleAction) {
+                items.add(new ActionToggleMenuItem(toggleAction));
             } else if (action instanceof Separator) {
                 items.add(new ActionSeparatorMenuItem());
             } else {
@@ -32,6 +34,8 @@ class Utils {
         for (MenuItem item : items) {
             if (item instanceof ActionMenuItem) {
                 ((ActionMenuItem) item).update();
+            } else if (item instanceof ActionToggleMenuItem) {
+                ((ActionToggleMenuItem) item).update();
             } else if (item instanceof ActionMenu) {
                 ((ActionMenu) item).update();
             }
