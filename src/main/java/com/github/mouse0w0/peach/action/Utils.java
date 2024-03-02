@@ -32,12 +32,8 @@ class Utils {
 
     public static void update(List<MenuItem> items) {
         for (MenuItem item : items) {
-            if (item instanceof ActionMenuItem) {
-                ((ActionMenuItem) item).update();
-            } else if (item instanceof ActionToggleMenuItem) {
-                ((ActionToggleMenuItem) item).update();
-            } else if (item instanceof ActionMenu) {
-                ((ActionMenu) item).update();
+            if (item instanceof Updatable updatable) {
+                updatable.update();
             }
         }
     }

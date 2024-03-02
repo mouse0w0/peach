@@ -7,7 +7,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public final class ActionMenu extends Menu implements ActionHolder {
+public final class ActionMenu extends Menu implements ActionHolder, Updatable {
     private final ActionGroup group;
     private final Presentation presentation;
 
@@ -49,6 +49,11 @@ public final class ActionMenu extends Menu implements ActionHolder {
         }
     }
 
+    @Override
+    public void update() {
+        group.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+    }
+
     private void fillMenu() {
         getItems().clear();
         Utils.fillMenu(group, new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)), getItems());
@@ -57,9 +62,5 @@ public final class ActionMenu extends Menu implements ActionHolder {
     private void updateChildren(Event event) {
         Utils.update(getItems());
         Utils.updateSeparatorVisibility(getItems());
-    }
-
-    void update() {
-        group.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
     }
 }

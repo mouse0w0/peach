@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.icon.Icon;
 import javafx.scene.control.CheckMenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder {
+public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder, Updatable {
     private final ToggleAction action;
     private final Presentation presentation;
 
@@ -41,11 +41,12 @@ public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder 
         return action;
     }
 
-    private void perform(javafx.event.ActionEvent event) {
-        action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+    @Override
+    public void update() {
+        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
     }
 
-    void update() {
-        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+    private void perform(javafx.event.ActionEvent event) {
+        action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
     }
 }

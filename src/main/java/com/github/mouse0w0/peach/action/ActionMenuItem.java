@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.icon.Icon;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public final class ActionMenuItem extends MenuItem implements ActionHolder {
+public final class ActionMenuItem extends MenuItem implements ActionHolder, Updatable {
     private final Action action;
     private final Presentation presentation;
 
@@ -33,11 +33,12 @@ public final class ActionMenuItem extends MenuItem implements ActionHolder {
         return action;
     }
 
-    private void perform(javafx.event.ActionEvent event) {
-        action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+    @Override
+    public void update() {
+        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
     }
 
-    void update() {
-        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+    private void perform(javafx.event.ActionEvent event) {
+        action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
     }
 }
