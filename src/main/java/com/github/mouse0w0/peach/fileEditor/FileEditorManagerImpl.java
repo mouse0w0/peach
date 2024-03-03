@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FileEditorManagerImpl implements FileEditorManager, Disposable {
+public class FileEditorManagerImpl implements FileEditorManager, Disposable.Default {
     private static final Logger LOGGER = LoggerFactory.getLogger("FileEditor");
 
     private final Project project;
@@ -117,10 +117,6 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable {
         WindowManager.getInstance().getWindow(project).removeTab(openedEditor.getTab());
         Disposer.dispose(openedEditor.getEditor());
         return true;
-    }
-
-    @Override
-    public void dispose() {
     }
 
     private static final class FileTab extends Tab implements FileCell {

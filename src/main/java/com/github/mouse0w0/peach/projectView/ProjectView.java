@@ -36,7 +36,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-public class ProjectView implements Disposable, DataProvider {
+public class ProjectView implements DataProvider, Disposable.Default {
     public static final PseudoClass DROP_HOVER = PseudoClass.getPseudoClass("drop-hover");
 
     private final Project project;
@@ -180,11 +180,6 @@ public class ProjectView implements Disposable, DataProvider {
         } else {
             return null;
         }
-    }
-
-    @Override
-    public void dispose() {
-
     }
 
     public static class Factory implements ViewFactory {
