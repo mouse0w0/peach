@@ -22,7 +22,6 @@ import com.github.mouse0w0.peach.window.status.StatusBarImpl;
 import com.github.mouse0w0.peach.windowState.WindowStateService;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -98,13 +97,11 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
 
     private MenuBar createMenuBar() {
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup mainMenuGroup = actionManager.getActionGroup("MainMenu");
-        assert mainMenuGroup != null;
+        ActionGroup mainMenu = (ActionGroup) actionManager.getAction("MainMenu");
         MenuBar menuBar = new MenuBar();
-        for (Action child : mainMenuGroup.getChildren(null)) {
+        for (Action child : mainMenu.getChildren(null)) {
             if (child instanceof ActionGroup group) {
-                Menu menu = actionManager.createMenu(group);
-                menuBar.getMenus().add(menu);
+                menuBar.getMenus().add(actionManager.createMenu(group));
             }
         }
         return menuBar;

@@ -49,14 +49,8 @@ public final class ActionManagerImpl implements ActionManager {
     }
 
     @Override
-    public @Nullable Action getAction(@NotNull String actionId) {
+    public Action getAction(@NotNull String actionId) {
         return actions.get(actionId);
-    }
-
-    @Override
-    public @Nullable ActionGroup getActionGroup(@NotNull String actionId) {
-        Action action = actions.get(actionId);
-        return action instanceof ActionGroup ? (ActionGroup) action : null;
     }
 
     @Override

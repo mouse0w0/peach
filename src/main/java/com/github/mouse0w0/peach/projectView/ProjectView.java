@@ -86,8 +86,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
         DataManager.getInstance().registerDataProvider(treeView, this);
 
         ActionManager actionManager = ActionManager.getInstance();
-        ActionGroup filePopupMenu = actionManager.getActionGroup("ProjectViewPopupMenu");
-        contextMenu = actionManager.createContextMenu(filePopupMenu);
+        contextMenu = actionManager.createContextMenu((ActionGroup) actionManager.getAction("ProjectViewPopupMenu"));
 
         TreeItem<Path> root = createTreeItem(projectPath);
         root.setExpanded(true);

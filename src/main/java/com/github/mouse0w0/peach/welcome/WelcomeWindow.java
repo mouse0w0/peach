@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.welcome;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.icon.AppIcon;
@@ -14,7 +15,6 @@ import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.util.Validate;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -64,7 +64,7 @@ public final class WelcomeWindow extends Stage {
         });
 
         ActionManager actionManager = ActionManager.getInstance();
-        contextMenu = actionManager.createContextMenu(Validate.notNull(actionManager.getActionGroup("WelcomeWindow.RecentProjects")));
+        contextMenu = actionManager.createContextMenu((ActionGroup) actionManager.getAction("WelcomeWindow.RecentProjects"));
 
         projectListView = new ListView<>();
         projectListView.setId("project-list-view");

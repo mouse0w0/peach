@@ -15,11 +15,7 @@ public interface ActionManager {
     @Nullable
     String getActionId(@NotNull Action action);
 
-    @Nullable
     Action getAction(@NotNull String actionId);
-
-    @Nullable
-    ActionGroup getActionGroup(@NotNull String actionId);
 
     void perform(@NotNull String actionId, @NotNull Object source);
 
