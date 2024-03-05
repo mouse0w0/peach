@@ -174,25 +174,25 @@ public final class ActionManagerImpl implements ActionManager {
                 case ACTION_ELEMENT_NAME -> {
                     Action action = processActionElement(plugin, child);
                     if (action != null) {
-                        addToGroup(plugin, group, action, Constraints.LAST);
+                        addToGroup(plugin, group, action, Order.LAST);
                     }
                 }
                 case GROUP_ELEMENT_NAME -> {
                     Action action = processGroupElement(plugin, child);
                     if (action != null) {
-                        addToGroup(plugin, group, action, Constraints.LAST);
+                        addToGroup(plugin, group, action, Order.LAST);
                     }
                 }
                 case SEPARATOR_ELEMENT_NAME -> {
                     Action action = processSeparatorElement(plugin, child);
                     if (action != null) {
-                        addToGroup(plugin, group, action, Constraints.LAST);
+                        addToGroup(plugin, group, action, Order.LAST);
                     }
                 }
                 case REFERENCE_ELEMENT_NAME -> {
                     Action action = processReferenceElement(plugin, child);
                     if (action != null) {
-                        addToGroup(plugin, group, action, Constraints.LAST);
+                        addToGroup(plugin, group, action, Order.LAST);
                     }
                 }
                 case ADD_TO_GROUP_ELEMENT_NAME -> processAddToGroupElement(plugin, child, group);
@@ -230,7 +230,7 @@ public final class ActionManagerImpl implements ActionManager {
         return action;
     }
 
-    private void addToGroup(Plugin plugin, Action group, Action action, Constraints constraints) {
+    private void addToGroup(Plugin plugin, Action group, Action action, Order order) {
         if (!(group instanceof DefaultActionGroup defaultActionGroup)) {
             LOGGER.error("Cannot add action to group, group should be instance of DefaultActionGroup, group={}, action={}, plugin={}", getActionId(group), getActionId(action), plugin.getId());
             return;
@@ -241,7 +241,7 @@ public final class ActionManagerImpl implements ActionManager {
             return;
         }
 
-        defaultActionGroup.add(action, constraints, this);
+        defaultActionGroup.add(action, order, this);
     }
 
     private void processAddToGroupElement(Plugin plugin, Element element, Action action) {
@@ -259,23 +259,23 @@ public final class ActionManagerImpl implements ActionManager {
 
         String anchor = element.attributeValue(ANCHOR_ATTR_NAME);
         if (anchor == null || "last".equalsIgnoreCase(anchor)) {
-            addToGroup(plugin, group, action, Constraints.LAST);
+            addToGroup(plugin, group, action, Order.LAST);
         } else if ("first".equalsIgnoreCase(anchor)) {
-            addToGroup(plugin, group, action, Constraints.FIRST);
+            addToGroup(plugin, group, action, Order.FIRST);
         } else if (StringUtils.startsWithIgnoreCase(anchor, "before")) {
             int index = anchor.indexOf(' ');
             if (index == -1) {
                 LOGGER.error("Missing add-to-group anchor relative action id, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
                 return;
             }
-            addToGroup(plugin, group, action, new Constraints(Anchor.BEFORE, anchor.substring(index + 1)));
+            addToGroup(plugin, group, action, new Order(Anchor.BEFORE, anchor.substring(index + 1)));
         } else if (StringUtils.startsWithIgnoreCase(anchor, "after")) {
             int index = anchor.indexOf(' ');
             if (index == -1) {
                 LOGGER.error("Missing add-to-group anchor relative action id, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
                 return;
             }
-            addToGroup(plugin, group, action, new Constraints(Anchor.AFTER, anchor.substring(index + 1)));
+            addToGroup(plugin, group, action, new Order(Anchor.AFTER, anchor.substring(index + 1)));
         } else {
             LOGGER.error("Invalid add-to-group anchor, anchor={}, action={}, plugin={}", anchor, getActionId(action), plugin.getId());
         }

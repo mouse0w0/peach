@@ -19,8 +19,8 @@ public class DefaultActionGroup extends ActionGroup {
         return unmodifiableChildren;
     }
 
-    public void add(Action action, Constraints constraints) {
-        add(action, constraints, ActionManager.getInstance());
+    public void add(Action action, Order order) {
+        add(action, order, ActionManager.getInstance());
     }
 
     public boolean contains(Action action) {
@@ -33,7 +33,7 @@ public class DefaultActionGroup extends ActionGroup {
         return false;
     }
 
-    public synchronized void add(Action action, Constraints constraints, ActionManager actionManager) {
+    public synchronized void add(Action action, Order order, ActionManager actionManager) {
         if (action == this) {
             throw new IllegalArgumentException("Cannot add a group to itself. group=" + actionManager.getActionId(this));
         }
@@ -42,12 +42,12 @@ public class DefaultActionGroup extends ActionGroup {
             throw new IllegalArgumentException("Cannot add an action twice. action=" + actionManager.getActionId(action) + ", group=" + actionManager.getActionId(this));
         }
 
-        if (constraints.getAnchor() == Anchor.FIRST) {
+        if (order.getAnchor() == Anchor.FIRST) {
             children.add(0, action);
-        } else if (constraints.getAnchor() == Anchor.LAST) {
+        } else if (order.getAnchor() == Anchor.LAST) {
             children.add(action);
         } else {
-            addPendingAction(action, constraints);
+            addPendingAction(action, order);
         }
         processPendingAction(actionManager);
     }
@@ -66,16 +66,16 @@ public class DefaultActionGroup extends ActionGroup {
         return false;
     }
 
-    private void addPendingAction(Action action, Constraints constraints) {
+    private void addPendingAction(Action action, Order order) {
         if (pendingAction == null) {
-            pendingAction = new Object[]{action, constraints};
+            pendingAction = new Object[]{action, order};
             pendingActionSize = 2;
         } else {
             if (pendingActionSize + 2 >= pendingAction.length) {
                 pendingAction = Arrays.copyOf(pendingAction, pendingAction.length * 2);
             }
             pendingAction[pendingActionSize++] = action;
-            pendingAction[pendingActionSize++] = constraints;
+            pendingAction[pendingActionSize++] = order;
         }
     }
 
@@ -83,8 +83,8 @@ public class DefaultActionGroup extends ActionGroup {
         int i = 0;
         while (i < pendingActionSize) {
             Action action = (Action) pendingAction[i];
-            Constraints constraints = (Constraints) pendingAction[i + 1];
-            Action relativeToAction = actionManager.getAction(constraints.getRelativeToActionId());
+            Order order = (Order) pendingAction[i + 1];
+            Action relativeToAction = actionManager.getAction(order.getRelativeToActionId());
             if (relativeToAction == null) {
                 i += 2;
                 continue;
@@ -96,7 +96,7 @@ public class DefaultActionGroup extends ActionGroup {
                 continue;
             }
 
-            if (constraints.getAnchor() == Anchor.BEFORE) {
+            if (order.getAnchor() == Anchor.BEFORE) {
                 children.add(relativeToActionIndex, action);
             } else {
                 children.add(relativeToActionIndex + 1, action);
