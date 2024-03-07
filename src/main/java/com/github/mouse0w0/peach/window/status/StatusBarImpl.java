@@ -2,6 +2,8 @@ package com.github.mouse0w0.peach.window.status;
 
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.action.ActionManager;
+import com.github.mouse0w0.peach.dispose.Disposable;
+import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.ListUtils;
 import javafx.collections.ObservableList;
@@ -15,7 +17,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatusBarImpl implements StatusBar {
+public class StatusBarImpl implements StatusBar, Disposable {
     private final Project project;
 
     private final StackPane pane;
@@ -111,14 +113,22 @@ public class StatusBarImpl implements StatusBar {
     public boolean removeWidget(String id) {
         WidgetBean widgetBean = idToBeanMap.remove(id);
         if (widgetBean == null) return false;
-
+        nodeToBeanMap.remove(widgetBean.node);
         getChildren(widgetBean.position).remove(widgetBean.node);
+        Disposer.dispose(widgetBean.widget);
         return true;
     }
 
     private ObservableList<Node> getChildren(StatusBarPosition position) {
         if (position == StatusBarPosition.LEFT) return left.getChildren();
         else return right.getChildren();
+    }
+
+    @Override
+    public void dispose() {
+        for (WidgetBean widgetBean : idToBeanMap.values()) {
+            Disposer.dispose(widgetBean.widget);
+        }
     }
 
     private static final class WidgetBean {

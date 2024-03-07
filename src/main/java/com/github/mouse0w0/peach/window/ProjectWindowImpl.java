@@ -6,6 +6,8 @@ import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.data.DataManager;
 import com.github.mouse0w0.peach.data.DataProvider;
+import com.github.mouse0w0.peach.dispose.Disposable;
+import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.icon.IconManager;
@@ -34,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProjectWindowImpl implements ProjectWindow, DataProvider {
+public final class ProjectWindowImpl implements ProjectWindow, DataProvider, Disposable {
     private final Project project;
     private final Stage stage;
     private final ViewPane viewPane;
@@ -65,6 +67,7 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
         stage.setTitle(project.getName());
         stage.getIcons().add(AppIcon.Peach.getImage());
         stage.setOnShown(this::onShown);
+        stage.setOnCloseRequest(this::onCloseRequest);
         stage.setOnHidden(this::onHidden);
 
         DataManager.getInstance().registerDataProvider(stage, this);
@@ -175,8 +178,18 @@ public class ProjectWindowImpl implements ProjectWindow, DataProvider {
         project.getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowShown(this);
     }
 
+    private void onCloseRequest(WindowEvent event) {
+        ProjectManager.getInstance().closeProject(project);
+        event.consume();
+    }
+
     private void onHidden(WindowEvent event) {
         project.getMessageBus().getPublisher(ProjectWindowListener.TOPIC).windowHidden(this);
-        ProjectManager.getInstance().closeProject(project);
+        Disposer.dispose(this);
+    }
+
+    @Override
+    public void dispose() {
+        Disposer.dispose(statusBar);
     }
 }
