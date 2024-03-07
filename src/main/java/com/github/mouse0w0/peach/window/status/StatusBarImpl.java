@@ -1,48 +1,72 @@
 package com.github.mouse0w0.peach.window.status;
 
+import com.github.mouse0w0.peach.action.ActionGroup;
+import com.github.mouse0w0.peach.action.ActionManager;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.util.Validate;
+import com.github.mouse0w0.peach.util.ListUtils;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import org.jetbrains.annotations.NotNull;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class StatusBarImpl implements StatusBar {
-
     private final Project project;
 
     private final StackPane pane;
 
     private final HBox left;
-    private final HBox center;
     private final HBox right;
 
-    private final Map<String, WidgetBean> widgetMap = new HashMap<>();
+    private final Map<String, WidgetBean> idToBeanMap = new HashMap<>();
+    private final Map<Node, WidgetBean> nodeToBeanMap = new HashMap<>();
+    private final Comparator<Node> nodeComparator = Comparator.comparingInt(node -> nodeToBeanMap.get(node).index);
 
     public StatusBarImpl(Project project) {
         this.project = project;
 
-        pane = new StackPane();
-        pane.setId("status-bar");
-
         left = new HBox();
+        left.getStyleClass().add("left");
         left.setAlignment(Pos.CENTER_LEFT);
         StackPane.setAlignment(left, Pos.CENTER_LEFT);
 
-        center = new HBox();
-        center.setAlignment(Pos.CENTER);
-        StackPane.setAlignment(center, Pos.CENTER);
-
         right = new HBox();
+        left.getStyleClass().add("right");
         right.setAlignment(Pos.CENTER_RIGHT);
         StackPane.setAlignment(right, Pos.CENTER_RIGHT);
 
-        pane.getChildren().addAll(left, center, right);
+        pane = new StackPane(left, right);
+        pane.setId("status-bar");
+
+        ActionManager actionManager = ActionManager.getInstance();
+        ContextMenu statusBarPopupMenu = actionManager.createContextMenu((ActionGroup) actionManager.getAction("StatusBarPopupMenu"));
+        pane.setOnContextMenuRequested(event -> {
+            statusBarPopupMenu.show(pane, event.getScreenX(), event.getScreenY());
+            event.consume();
+        });
+
+        initialize();
+    }
+
+    private void initialize() {
+        StatusBarWidgetManager manager = StatusBarWidgetManager.getInstance();
+        for (StatusBarWidgetProvider provider : manager.getProviders()) {
+            if (manager.isEnabled(provider) && provider.isAvailable(project)) {
+                String id = provider.getId();
+                StatusBarWidget widget = provider.createWidget(project);
+                StatusBarPosition position = provider.getPosition();
+                Node node = widget.getNode();
+                WidgetBean widgetBean = new WidgetBean(widget, position, node, manager.getIndex(id));
+                idToBeanMap.put(id, widgetBean);
+                nodeToBeanMap.put(node, widgetBean);
+                getChildren(position).add(node);
+            }
+        }
     }
 
     public StackPane getNode() {
@@ -56,108 +80,58 @@ public class StatusBarImpl implements StatusBar {
 
     @Override
     public StatusBarWidget getWidget(String id) {
-        WidgetBean widgetBean = widgetMap.get(id);
-        return widgetBean != null ? widgetBean.getWidget() : null;
+        WidgetBean widgetBean = idToBeanMap.get(id);
+        return widgetBean != null ? widgetBean.widget : null;
     }
 
     @Override
     public boolean hasWidget(String id) {
-        return widgetMap.containsKey(id);
+        return idToBeanMap.containsKey(id);
     }
 
     @Override
-    public void addWidget(@NotNull StatusBarWidget widget) {
-        addWidget(widget, Position.RIGHT, null, null);
-    }
-
-    @Override
-    public void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position) {
-        addWidget(widget, position, null, null);
-    }
-
-    @Override
-    public void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position, Anchor anchor) {
-        addWidget(widget, position, anchor, null);
-    }
-
-    @Override
-    public void addWidget(@NotNull StatusBarWidget widget, Anchor anchor, String anchorId) {
-        addWidget(widget, Position.RIGHT, anchor, anchorId);
-    }
-
-    @Override
-    public void addWidget(@NotNull StatusBarWidget widget, Position position, Anchor anchor, String anchorId) {
-        String id = Validate.notEmpty(widget.getId(), "id");
-        Node content = Validate.notNull(widget.getContent(), "content");
-        Validate.notNull(position, "position");
-
-        ObservableList<Node> children = getChildren(position);
-        WidgetBean anchorWidget = widgetMap.get(anchorId);
-
-        widgetMap.put(id, new WidgetBean(widget, content, position, anchor, anchorId));
-
-        if (anchorWidget != null && anchor != null) {
-            int anchorIndex = children.indexOf(anchorWidget.getContent());
-            if (anchorIndex == -1) {
-                children.add(content);
-            } else {
-                children.add(anchor == Anchor.BEFORE ? anchorIndex : anchorIndex + 1, content);
-            }
-        } else {
-            children.add(anchor == Anchor.BEFORE ? 0 : children.size(), content);
+    public void addWidget(String id) {
+        StatusBarWidgetManager manager = StatusBarWidgetManager.getInstance();
+        StatusBarWidgetProvider provider = manager.getProvider(id);
+        if (provider == null) {
+            throw new IllegalArgumentException("Not found StatusBarWidgetProvider (id=" + id + ")");
         }
-
-        widget.install(this);
+        if (manager.isEnabled(provider) && provider.isAvailable(project)) {
+            StatusBarWidget widget = provider.createWidget(project);
+            StatusBarPosition position = provider.getPosition();
+            Node node = widget.getNode();
+            WidgetBean widgetBean = new WidgetBean(widget, position, node, manager.getIndex(id));
+            idToBeanMap.put(id, widgetBean);
+            nodeToBeanMap.put(node, widgetBean);
+            ListUtils.binarySearchInsert(getChildren(position), node, nodeComparator);
+        }
     }
 
     @Override
     public boolean removeWidget(String id) {
-        WidgetBean widgetBean = widgetMap.remove(id);
+        WidgetBean widgetBean = idToBeanMap.remove(id);
         if (widgetBean == null) return false;
 
-        getChildren(widgetBean.getPosition()).remove(widgetBean.getContent());
+        getChildren(widgetBean.position).remove(widgetBean.node);
         return true;
     }
 
-    private ObservableList<Node> getChildren(Position position) {
-        if (position == Position.LEFT) return left.getChildren();
-        else if (position == Position.CENTER) return center.getChildren();
+    private ObservableList<Node> getChildren(StatusBarPosition position) {
+        if (position == StatusBarPosition.LEFT) return left.getChildren();
         else return right.getChildren();
     }
 
-    public static class WidgetBean {
-        private final StatusBarWidget widget;
-        private final Node content;
-        private final StatusBar.Position position;
-        private final StatusBar.Anchor anchor;
-        private final String anchorId;
+    private static final class WidgetBean {
+        final StatusBarWidget widget;
+        final StatusBarPosition position;
+        final Node node;
+        final int index;
 
-        public WidgetBean(StatusBarWidget widget, Node content, Position position, Anchor anchor, String anchorId) {
+        public WidgetBean(StatusBarWidget widget, StatusBarPosition position, Node node, int index) {
             this.widget = widget;
-            this.content = content;
             this.position = position;
-            this.anchor = anchor;
-            this.anchorId = anchorId;
-        }
-
-        public StatusBarWidget getWidget() {
-            return widget;
-        }
-
-        public Node getContent() {
-            return content;
-        }
-
-        public Position getPosition() {
-            return position;
-        }
-
-        public Anchor getAnchor() {
-            return anchor;
-        }
-
-        public String getAnchorId() {
-            return anchorId;
+            this.node = node;
+            this.index = index;
         }
     }
 }

@@ -1,32 +1,18 @@
 package com.github.mouse0w0.peach.window.status;
 
 import com.github.mouse0w0.peach.project.Project;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.ApiStatus;
 
 public interface StatusBar {
-    enum Position {
-        LEFT, CENTER, RIGHT
-    }
-
-    enum Anchor {
-        BEFORE, AFTER
-    }
-
     Project getProject();
 
     StatusBarWidget getWidget(String id);
 
     boolean hasWidget(String id);
 
-    void addWidget(@NotNull StatusBarWidget widget);
+    @ApiStatus.Internal
+    void addWidget(String id);
 
-    void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position);
-
-    void addWidget(@NotNull StatusBarWidget widget, @NotNull Position position, Anchor anchor);
-
-    void addWidget(@NotNull StatusBarWidget widget, Anchor anchor, String anchorId);
-
-    void addWidget(@NotNull StatusBarWidget widget, Position position, Anchor anchor, String anchorId);
-
+    @ApiStatus.Internal
     boolean removeWidget(String id);
 }

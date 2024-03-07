@@ -11,6 +11,8 @@
         <extensionPoint name="fileAppearance" interface="com.github.mouse0w0.peach.file.FileAppearance"/>
         <extensionPoint name="fileEditorProvider" interface="com.github.mouse0w0.peach.fileEditor.FileEditorProvider"/>
         <extensionPoint name="newProjectProvider" interface="com.github.mouse0w0.peach.newProject.NewProjectProvider"/>
+        <extensionPoint name="statusBarWidgetProvider"
+                        interface="com.github.mouse0w0.peach.window.status.StatusBarWidgetProvider"/>
 
         <extensionPoint name="vanillaData" beanClass="com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataEP"/>
     </extensionPoints>
@@ -39,6 +41,8 @@
         <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <applicationService interface="com.github.mouse0w0.peach.project.ProjectManager"
                             implementation="com.github.mouse0w0.peach.project.ProjectManagerImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.window.status.StatusBarWidgetManager"
+                            implementation="com.github.mouse0w0.peach.window.status.StatusBarWidgetManagerImpl"/>
 
         <projectService interface="com.github.mouse0w0.peach.service.store.ServiceStore"
                         implementation="com.github.mouse0w0.peach.service.store.ProjectServiceStore"/>
@@ -48,6 +52,9 @@
         <projectService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
         <projectService interface="com.github.mouse0w0.peach.fileEditor.FileEditorManager"
                         implementation="com.github.mouse0w0.peach.fileEditor.FileEditorManagerImpl"/>
+
+        <statusBarWidgetProvider id="Text" implementation="com.github.mouse0w0.peach.window.status.TextWidget$Provider"
+                                 order="first"/>
 
         <projectService implementation="com.github.mouse0w0.peach.projectView.ProjectView"/>
         <view id="Project" icon="View.Project" position="LEFT_TOP"
@@ -152,6 +159,11 @@
                     class="com.github.mouse0w0.peach.welcome.RecentProjectOpenAction"/>
             <action id="WelcomeWindow.RecentProjectRemove"
                     class="com.github.mouse0w0.peach.welcome.RecentProjectRemoveAction"/>
+        </group>
+
+        <group id="StatusBarPopupMenu" popup="true">
+            <group id="StatusBarWidgetGroup"
+                   class="com.github.mouse0w0.peach.window.status.StatusBarWidgetGroup"/>
         </group>
     </actions>
 </plugin>

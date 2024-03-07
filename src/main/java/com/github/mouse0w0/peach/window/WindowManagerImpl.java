@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.FocusUtils;
-import com.github.mouse0w0.peach.window.status.StatusBarInfo;
+import com.github.mouse0w0.peach.window.status.TextWidget;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import com.sun.javafx.scene.control.MenuBarButton;
 import javafx.beans.InvalidationListener;
@@ -50,15 +50,18 @@ public class WindowManagerImpl implements WindowManager {
     }
 
     private static final InvalidationListener HOVER_LISTENER = observable -> {
+        TextWidget textWidget = TextWidget.getFocusedInstance();
+        if (textWidget == null) return;
+
         ReadOnlyBooleanProperty hoverProperty = (ReadOnlyBooleanProperty) observable;
         if (hoverProperty.get()) {
             Node node = (Node) hoverProperty.getBean();
             MenuItem menuItem = FXUtils.getProperty(node, MenuItem.class);
             assert menuItem != null;
             Action action = ((ActionHolder) menuItem).getAction();
-            StatusBarInfo.getFocusedInstance().setText(action.getDescription());
+            textWidget.setText(action.getDescription());
         } else {
-            StatusBarInfo.getFocusedInstance().setText(null);
+            textWidget.setText(null);
         }
     };
 
