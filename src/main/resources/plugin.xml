@@ -55,6 +55,8 @@
 
         <statusBarWidgetProvider id="Text" implementation="com.github.mouse0w0.peach.window.status.TextWidget$Provider"
                                  order="first"/>
+        <applicationListener topic="AppLifecycleListener"
+                             listener="com.github.mouse0w0.peach.window.status.TextWidget$Listener"/>
 
         <projectService implementation="com.github.mouse0w0.peach.projectView.ProjectView"/>
         <view id="Project" icon="View.Project" position="LEFT_TOP"
