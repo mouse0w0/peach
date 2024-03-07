@@ -17,7 +17,7 @@ public final class ActionContextMenu extends ContextMenu implements ActionHolder
         this.group = group;
         this.presentation = new Presentation(group, null);
 
-        setOnShowing(this::updateChildren);
+        addEventFilter(ActionMenu.ON_SHOWING, this::updateChildren);
     }
 
     @Override

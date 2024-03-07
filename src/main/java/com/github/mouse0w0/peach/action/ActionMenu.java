@@ -20,7 +20,7 @@ public final class ActionMenu extends Menu implements ActionHolder, Updatable {
         setText(presentation.getText());
         Utils.setIcon(graphicProperty(), presentation.getIcon());
 
-        setOnShowing(this::updateChildren);
+        addEventFilter(ON_SHOWING, this::updateChildren);
 
         // Fix JavaFX don't show empty menu.
         getItems().add(placeholder);
