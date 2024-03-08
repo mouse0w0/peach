@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.util;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
@@ -69,13 +68,5 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         }
         substrings.add(str.substring(start));
         return substrings.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
-    }
-
-    public static String join(Stream<?> stream, char delimiter) {
-        return join(stream.iterator(), delimiter);
-    }
-
-    public static String join(Stream<?> stream, String delimiter) {
-        return join(stream.iterator(), delimiter);
     }
 }
