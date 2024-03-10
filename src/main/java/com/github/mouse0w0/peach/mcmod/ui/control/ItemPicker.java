@@ -4,11 +4,13 @@ import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.dialog.ItemChooser;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.EventHandler;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 
 public class ItemPicker extends ItemView {
-
     public ItemPicker() {
         initialize();
     }
@@ -25,29 +27,37 @@ public class ItemPicker extends ItemView {
         initialize();
     }
 
+    private static final EventHandler<DragEvent> ON_DRAG_OVER = event -> {
+        event.consume();
+        if (event.getGestureSource() == event.getTarget()) return;
+
+        IdMetadata item = (IdMetadata) event.getDragboard().getContent(ITEM);
+        if (item == null) return;
+
+        event.acceptTransferModes(TransferMode.LINK);
+    };
+
+    public static final EventHandler<DragEvent> ON_DRAG_DROPPED = event -> {
+        event.consume();
+        ItemPicker itemPicker = (ItemPicker) event.getSource();
+        itemPicker.setItem((IdMetadata) event.getDragboard().getContent(ITEM));
+        event.setDropCompleted(true);
+    };
+
+    private static final EventHandler<MouseEvent> ON_MOUSE_CLICKED = event -> {
+        ItemPicker itemPicker = (ItemPicker) event.getSource();
+        if (event.getButton() == MouseButton.MIDDLE) {
+            itemPicker.setItem(IdMetadata.AIR);
+        } else if (event.getClickCount() == 2) {
+            itemPicker.show();
+        }
+    };
+
     private void initialize() {
         getStyleClass().add("item-picker");
-        setOnDragOver(event -> {
-            event.consume();
-            if (event.getGestureSource() == event.getTarget()) return;
-
-            IdMetadata item = (IdMetadata) event.getDragboard().getContent(ITEM);
-            if (item == null) return;
-
-            event.acceptTransferModes(TransferMode.LINK);
-        });
-        setOnDragDropped(event -> {
-            event.consume();
-            setItem((IdMetadata) event.getDragboard().getContent(ITEM));
-            event.setDropCompleted(true);
-        });
-        setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.MIDDLE) {
-                setItem(IdMetadata.AIR);
-            } else if (event.getClickCount() == 2) {
-                show();
-            }
-        });
+        setOnDragOver(ON_DRAG_OVER);
+        setOnDragDropped(ON_DRAG_DROPPED);
+        setOnMouseClicked(ON_MOUSE_CLICKED);
     }
 
     private BooleanProperty enableIgnoreMetadata;

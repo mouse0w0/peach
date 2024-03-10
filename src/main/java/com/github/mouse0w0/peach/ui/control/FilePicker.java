@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.ui.control.skin.FilePickerSkin;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.input.DragEvent;
@@ -19,10 +20,33 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class FilePicker extends Control {
-
     public enum Type {
         OPEN_FILE, OPEN_DIRECTORY, SAVE_FILE
     }
+
+    private static final EventHandler<DragEvent> ON_DRAG_OVER = event -> {
+        event.consume();
+        if (event.getGestureSource() == event.getTarget()) return;
+
+        Dragboard dragboard = event.getDragboard();
+        if (!dragboard.hasFiles()) return;
+
+        List<File> files = dragboard.getFiles();
+        if (files.size() != 1) return;
+
+        File file = files.get(0);
+        FilePicker filePicker = (FilePicker) event.getSource();
+        if (!Utils.checkExtensions(file, filePicker.extensionFilters)) return;
+
+        event.acceptTransferModes(TransferMode.COPY);
+    };
+
+    private static final EventHandler<DragEvent> ON_DRAG_DROPPED = event -> {
+        event.consume();
+        FilePicker filePicker = (FilePicker) event.getSource();
+        filePicker.setFile(event.getDragboard().getFiles().get(0));
+        event.setDropCompleted(true);
+    };
 
     public FilePicker(Type type) {
         this();
@@ -32,27 +56,8 @@ public class FilePicker extends Control {
     public FilePicker() {
         getStyleClass().add("file-picker");
         setFocusTraversable(true);
-
-        addEventHandler(DragEvent.DRAG_OVER, event -> {
-            event.consume();
-            if (event.getGestureSource() == event.getTarget()) return;
-
-            Dragboard dragboard = event.getDragboard();
-            if (!dragboard.hasFiles()) return;
-
-            List<File> files = dragboard.getFiles();
-            if (files.size() != 1) return;
-
-            File file = files.get(0);
-            if (!Utils.checkExtensions(file, extensionFilters)) return;
-
-            event.acceptTransferModes(TransferMode.COPY);
-        });
-        addEventHandler(DragEvent.DRAG_DROPPED, event -> {
-            event.consume();
-            setFile(event.getDragboard().getFiles().get(0));
-            event.setDropCompleted(true);
-        });
+        setOnDragOver(ON_DRAG_OVER);
+        setOnDragDropped(ON_DRAG_DROPPED);
     }
 
     private ObjectProperty<Type> type;

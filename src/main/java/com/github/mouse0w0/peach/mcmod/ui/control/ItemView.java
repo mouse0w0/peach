@@ -10,13 +10,11 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.beans.property.*;
 import javafx.css.Styleable;
+import javafx.event.EventHandler;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.control.Tooltip;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 
 import java.util.List;
 
@@ -54,22 +52,23 @@ public class ItemView extends Control {
         return tooltip;
     }
 
+    private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
+        ItemView itemView = (ItemView) event.getSource();
+        IdMetadata item = itemView.getItem();
+        if (item == null || item.isAir()) return;
+
+        Dragboard dragboard = itemView.startDragAndDrop(TransferMode.LINK);
+
+        ClipboardContent content = new ClipboardContent();
+        content.put(ITEM, item);
+        dragboard.setContent(content);
+    };
+
     public ItemView() {
         getStyleClass().add("item-view");
-
         setPickOnBounds(true);
         setTooltip(TOOLTIP);
-
-        setOnDragDetected(event -> {
-            IdMetadata item = getItem();
-            if (item == null || item.isAir()) return;
-
-            Dragboard dragboard = startDragAndDrop(TransferMode.LINK);
-
-            ClipboardContent content = new ClipboardContent();
-            content.put(ITEM, item);
-            dragboard.setContent(content);
-        });
+        setOnDragDetected(ON_DRAG_DETECTED);
     }
 
     public ItemView(double size) {

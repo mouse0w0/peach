@@ -18,7 +18,7 @@ import java.util.List;
 public class ItemStackView extends Control {
 
     public ItemStackView() {
-        getStyleClass().setAll("item-stack-view");
+        getStyleClass().add("item-stack-view");
     }
 
     public ItemStackView(double size) {

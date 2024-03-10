@@ -4,13 +4,11 @@ import com.github.mouse0w0.peach.ui.control.skin.ImagePickerSkin;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -18,45 +16,54 @@ import java.util.Collections;
 import java.util.List;
 
 public class ImagePicker extends Control {
+    private static final EventHandler<MouseEvent> ON_MOUSE_CLICKED = event -> {
+        event.consume();
+        ((ImagePicker) event.getSource()).showFileChooser();
+    };
+
+    private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
+        event.consume();
+
+        ImagePicker imagePicker = (ImagePicker) event.getSource();
+        File file = imagePicker.getFile();
+        if (file == null) return;
+
+        Dragboard dragboard = imagePicker.startDragAndDrop(TransferMode.COPY);
+        ClipboardContent content = new ClipboardContent();
+        content.put(DataFormat.FILES, Collections.singletonList(file));
+        dragboard.setContent(content);
+    };
+
+    private static final EventHandler<DragEvent> ON_DRAG_OVER = event -> {
+        event.consume();
+        if (event.getGestureSource() == event.getTarget()) return;
+
+        Dragboard dragboard = event.getDragboard();
+        if (!dragboard.hasFiles()) return;
+
+        List<File> files = dragboard.getFiles();
+        if (files.size() != 1) return;
+
+        File file = files.get(0);
+        ImagePicker imagePicker = (ImagePicker) event.getSource();
+        if (!Utils.checkExtensions(file, imagePicker.extensionFilters)) return;
+
+        event.acceptTransferModes(TransferMode.COPY);
+    };
+
+    private static final EventHandler<DragEvent> ON_DRAG_DROPPED = event -> {
+        event.consume();
+        ImagePicker imagePicker = (ImagePicker) event.getSource();
+        imagePicker.setFile(event.getDragboard().getFiles().get(0));
+        event.setDropCompleted(true);
+    };
 
     public ImagePicker() {
-        getStyleClass().setAll("image-picker");
-
-        setOnMouseClicked(event -> {
-            event.consume();
-            showFileChooser();
-        });
-        setOnDragDetected(event -> {
-            event.consume();
-
-            File file = getFile();
-            if (file == null) return;
-
-            Dragboard dragboard = startDragAndDrop(TransferMode.COPY);
-            ClipboardContent content = new ClipboardContent();
-            content.put(DataFormat.FILES, Collections.singletonList(file));
-            dragboard.setContent(content);
-        });
-        setOnDragOver(event -> {
-            event.consume();
-            if (event.getGestureSource() == event.getTarget()) return;
-
-            Dragboard dragboard = event.getDragboard();
-            if (!dragboard.hasFiles()) return;
-
-            List<File> files = dragboard.getFiles();
-            if (files.size() != 1) return;
-
-            File file = files.get(0);
-            if (!Utils.checkExtensions(file, extensionFilters)) return;
-
-            event.acceptTransferModes(TransferMode.COPY);
-        });
-        setOnDragDropped(event -> {
-            event.consume();
-            setFile(event.getDragboard().getFiles().get(0));
-            event.setDropCompleted(true);
-        });
+        getStyleClass().add("image-picker");
+        setOnMouseClicked(ON_MOUSE_CLICKED);
+        setOnDragDetected(ON_DRAG_DETECTED);
+        setOnDragOver(ON_DRAG_OVER);
+        setOnDragDropped(ON_DRAG_DROPPED);
     }
 
     private ObjectProperty<File> file;
