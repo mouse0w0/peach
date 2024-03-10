@@ -12,7 +12,6 @@ import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
 import javafx.geometry.Orientation;
-import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.SelectionModel;
 import javafx.scene.control.Skin;
@@ -252,11 +251,6 @@ public class TagView<T> extends Control {
 
     public final void setOnEditCancel(EventHandler<TagEvent<T>> onEditCancel) {
         onEditCancelProperty().set(onEditCancel);
-    }
-
-    @SuppressWarnings("unchecked")
-    public final Node getAddButton() {
-        return ((TagViewSkin<T>) getSkin()).getAddButton();
     }
 
     @Override
