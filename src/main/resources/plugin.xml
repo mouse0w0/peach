@@ -38,7 +38,7 @@
                             implementation="com.github.mouse0w0.peach.windowState.WindowStateServiceImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.recentProject.RecentProjectsManager"
                             implementation="com.github.mouse0w0.peach.recentProject.RecentProjectsManagerImpl"/>
-        <applicationService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
+        <applicationService implementation="com.github.mouse0w0.peach.fileChooser.FileChooserHelper"/>
         <applicationService interface="com.github.mouse0w0.peach.project.ProjectManager"
                             implementation="com.github.mouse0w0.peach.project.ProjectManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.window.status.StatusBarWidgetManager"
@@ -49,7 +49,7 @@
         <projectService implementation="com.github.mouse0w0.peach.fileWatch.ProjectFileWatcher" preload="true"/>
         <projectService interface="com.github.mouse0w0.peach.windowState.WindowStateService"
                         implementation="com.github.mouse0w0.peach.windowState.WindowStateServiceImpl"/>
-        <projectService implementation="com.github.mouse0w0.peach.project.service.FileChooserHelper"/>
+        <projectService implementation="com.github.mouse0w0.peach.fileChooser.FileChooserHelper"/>
         <projectService interface="com.github.mouse0w0.peach.fileEditor.FileEditorManager"
                         implementation="com.github.mouse0w0.peach.fileEditor.FileEditorManagerImpl"/>
 

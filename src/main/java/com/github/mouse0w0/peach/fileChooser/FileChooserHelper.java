@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.project.service;
+package com.github.mouse0w0.peach.fileChooser;
 
 import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.project.Project;
