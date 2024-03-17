@@ -79,7 +79,7 @@ final class ExtensionPointImpl<T> implements ExtensionPoint<T> {
 
     private List<ExtensionWrapper<T>> getSortedWrappers() {
         List<ExtensionWrapper<T>> wrappers = this.wrappers;
-        if (wrappers.size() >= 2) {
+        if (wrappers.size() > 1) {
             wrappers = new ArrayList<>(wrappers); // Copy list.
             Map<String, ExtensionWrapper<T>> idMap = new HashMap<>();
             Multimap<String, ExtensionWrapper<T>> duplicateIdMap = ArrayListMultimap.create();
