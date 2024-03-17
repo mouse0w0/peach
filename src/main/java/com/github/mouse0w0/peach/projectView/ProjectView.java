@@ -40,7 +40,6 @@ public class ProjectView implements DataProvider, Disposable.Default {
     public static final PseudoClass DROP_HOVER = PseudoClass.getPseudoClass("drop-hover");
 
     private final Project project;
-    private final Path projectPath;
 
     private final Map<Path, TreeItem<Path>> itemMap = new HashMap<>();
     private final Map<Path, TreeItem<Path>> expandedItemMap = new HashMap<>();
@@ -64,9 +63,9 @@ public class ProjectView implements DataProvider, Disposable.Default {
         else return isDir1 ? -1 : 1;
     });
 
-    private TreeView<Path> treeView;
+    private final TreeView<Path> treeView;
 
-    private ContextMenu contextMenu;
+    private final ContextMenu contextMenu;
 
     public static ProjectView getInstance(Project project) {
         return project.getService(ProjectView.class);
@@ -74,10 +73,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
 
     public ProjectView(Project project) {
         this.project = project;
-        this.projectPath = project.getPath();
-    }
 
-    public Node initViewContent() {
         treeView = new TreeView<>();
         treeView.setId("project-view");
         treeView.setCellFactory(t -> new Cell());
@@ -88,7 +84,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
         ActionManager actionManager = ActionManager.getInstance();
         contextMenu = actionManager.createContextMenu((ActionGroup) actionManager.getAction("ProjectViewPopupMenu"));
 
-        TreeItem<Path> root = createTreeItem(projectPath);
+        TreeItem<Path> root = createTreeItem(project.getPath());
         root.setExpanded(true);
         treeView.setRoot(root);
 
@@ -103,6 +99,9 @@ public class ProjectView implements DataProvider, Disposable.Default {
                 ProjectView.this.onFileDelete(path);
             }
         });
+    }
+
+    private Node getNode() {
         return treeView;
     }
 
@@ -184,7 +183,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
     public static class Factory implements ViewFactory {
         @Override
         public Node createViewContent(Project project) {
-            return ProjectView.getInstance(project).initViewContent();
+            return ProjectView.getInstance(project).getNode();
         }
     }
 
