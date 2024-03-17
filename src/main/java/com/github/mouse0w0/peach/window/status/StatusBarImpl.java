@@ -59,14 +59,7 @@ public class StatusBarImpl implements StatusBar, Disposable {
         StatusBarWidgetManager manager = StatusBarWidgetManager.getInstance();
         for (StatusBarWidgetProvider provider : manager.getProviders()) {
             if (manager.isEnabled(provider) && provider.isAvailable(project)) {
-                String id = provider.getId();
-                StatusBarWidget widget = provider.createWidget(project);
-                StatusBarPosition position = provider.getPosition();
-                Node node = widget.getNode();
-                WidgetBean widgetBean = new WidgetBean(widget, position, node, manager.getIndex(id));
-                idToBeanMap.put(id, widgetBean);
-                nodeToBeanMap.put(node, widgetBean);
-                getChildren(position).add(node);
+                addWidget(provider.getId(), provider, manager);
             }
         }
     }
@@ -99,24 +92,28 @@ public class StatusBarImpl implements StatusBar, Disposable {
             throw new IllegalArgumentException("Not found StatusBarWidgetProvider (id=" + id + ")");
         }
         if (manager.isEnabled(provider) && provider.isAvailable(project)) {
-            StatusBarWidget widget = provider.createWidget(project);
-            StatusBarPosition position = provider.getPosition();
-            Node node = widget.getNode();
-            WidgetBean widgetBean = new WidgetBean(widget, position, node, manager.getIndex(id));
-            idToBeanMap.put(id, widgetBean);
-            nodeToBeanMap.put(node, widgetBean);
-            ListUtils.binarySearchInsert(getChildren(position), node, nodeComparator);
+            addWidget(id, provider, manager);
         }
     }
 
+    private void addWidget(String id, StatusBarWidgetProvider provider, StatusBarWidgetManager manager) {
+        StatusBarWidget widget = provider.createWidget(project);
+        StatusBarPosition position = provider.getPosition();
+        Node node = widget.getNode();
+        WidgetBean widgetBean = new WidgetBean(widget, position, node, manager.getIndex(id));
+        idToBeanMap.put(id, widgetBean);
+        nodeToBeanMap.put(node, widgetBean);
+        ListUtils.binarySearchInsert(getChildren(position), node, nodeComparator);
+    }
+
     @Override
-    public boolean removeWidget(String id) {
+    public void removeWidget(String id) {
         WidgetBean widgetBean = idToBeanMap.remove(id);
-        if (widgetBean == null) return false;
-        nodeToBeanMap.remove(widgetBean.node);
-        getChildren(widgetBean.position).remove(widgetBean.node);
-        Disposer.dispose(widgetBean.widget);
-        return true;
+        if (widgetBean != null) {
+            nodeToBeanMap.remove(widgetBean.node);
+            getChildren(widgetBean.position).remove(widgetBean.node);
+            Disposer.dispose(widgetBean.widget);
+        }
     }
 
     private ObservableList<Node> getChildren(StatusBarPosition position) {

@@ -14,5 +14,5 @@ public interface StatusBar {
     void addWidget(String id);
 
     @ApiStatus.Internal
-    boolean removeWidget(String id);
+    void removeWidget(String id);
 }
