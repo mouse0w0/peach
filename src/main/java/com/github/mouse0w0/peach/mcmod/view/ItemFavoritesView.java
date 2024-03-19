@@ -22,7 +22,6 @@ import java.util.Set;
 
 @Storage("itemFavorites.json")
 public class ItemFavoritesView implements PersistentService {
-
     private static ItemFavoritesView getInstance(Project project) {
         return project.getService(ItemFavoritesView.class);
     }
@@ -30,9 +29,9 @@ public class ItemFavoritesView implements PersistentService {
     private final ObservableList<IdMetadata> items = FXCollections.observableArrayList();
     private final Set<IdMetadata> itemSet = new HashSet<>();
 
-    private GridView<IdMetadata> content;
+    private final GridView<IdMetadata> content;
 
-    public Node initViewContent() {
+    public ItemFavoritesView() {
         content = new GridView<>();
         content.setId("item-favorites");
         content.setCellSize(32, 32);
@@ -56,6 +55,9 @@ public class ItemFavoritesView implements PersistentService {
             }
             event.setDropCompleted(true);
         });
+    }
+
+    private Node getNode() {
         return content;
     }
 
@@ -91,7 +93,7 @@ public class ItemFavoritesView implements PersistentService {
     public static class Factory implements ViewFactory {
         @Override
         public Node createViewContent(Project project) {
-            return ItemFavoritesView.getInstance(project).initViewContent();
+            return ItemFavoritesView.getInstance(project).getNode();
         }
     }
 }
