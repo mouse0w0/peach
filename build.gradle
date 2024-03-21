@@ -50,7 +50,7 @@ dependencies {
 }
 
 javafx {
-    version = '21'
+    version = '22'
     modules = ['javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
 
