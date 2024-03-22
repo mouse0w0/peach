@@ -6,9 +6,7 @@ import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 
 public class CraftingElement extends Element {
-
     private String identifier;
-    private String namespace;
     private String group;
     private IdMetadata[] inputs = ArrayUtils.fill(new IdMetadata[9], IdMetadata.AIR);
     private ItemStack output = ItemStack.EMPTY;
@@ -20,14 +18,6 @@ public class CraftingElement extends Element {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
-    }
-
-    public String getNamespace() {
-        return namespace;
-    }
-
-    public void setNamespace(String namespace) {
-        this.namespace = namespace;
     }
 
     public String getGroup() {

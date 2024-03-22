@@ -13,7 +13,6 @@ import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -27,8 +26,6 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
 
     @FXML
     private TextField identifier;
-    @FXML
-    private ChoiceBox<String> namespace;
     @FXML
     private ComboBox<String> group;
     @FXML
@@ -77,7 +74,6 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
     @Override
     protected void initialize(CraftingElement element) {
         identifier.setText(element.getIdentifier());
-        namespace.setValue(element.getNamespace());
         group.setValue(element.getGroup());
         shapeless.setSelected(element.isShapeless());
         ArrayUtils.biForEach(inputs, element.getInputs(), ItemView::setItem);
@@ -87,7 +83,6 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
     @Override
     protected void updateDataModel(CraftingElement element) {
         element.setIdentifier(identifier.getText().trim());
-        element.setNamespace(namespace.getValue());
         element.setGroup(group.getValue());
         element.setShapeless(shapeless.isSelected());
         element.setInputs(ArrayUtils.map(inputs, ItemView::getItem, IdMetadata[]::new));
