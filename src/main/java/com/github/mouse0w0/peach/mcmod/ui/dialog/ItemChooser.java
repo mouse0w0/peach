@@ -114,7 +114,7 @@ public class ItemChooser extends Stage {
 
         Scene scene = new Scene(borderPane);
         FXUtils.addStylesheet(scene, "style/style.css");
-        FXUtils.addStylesheet(scene, "ui/mcmod/ItemChooser.css");
+        FXUtils.addStylesheet(scene, "style/ItemChooser.css");
         setScene(scene);
     }
 
