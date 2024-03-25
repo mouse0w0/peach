@@ -5,15 +5,6 @@ public class ModelEntry {
     private String template;
     private String parent;
 
-    public ModelEntry() {
-    }
-
-    public ModelEntry(String name, String template, String parent) {
-        this.name = name;
-        this.template = template;
-        this.parent = parent;
-    }
-
     public String getName() {
         return name;
     }

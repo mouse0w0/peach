@@ -12,14 +12,6 @@ public class ModelPrototype {
     private List<String> textures;
     private Map<String, ModelEntry> models;
 
-    public ModelPrototype(Identifier id, Identifier item, List<String> groups, List<String> textures, Map<String, ModelEntry> models) {
-        this.id = id;
-        this.item = item;
-        this.groups = groups;
-        this.textures = textures;
-        this.models = models;
-    }
-
     public Identifier getId() {
         return id;
     }
