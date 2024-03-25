@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import java.util.List;
 import java.util.Map;
 
-public class ModelPrototype {
+public class ModelTemplate {
     private Identifier id;
     private Identifier item;
     private List<String> groups;

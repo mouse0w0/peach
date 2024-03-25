@@ -6,7 +6,7 @@ import com.github.mouse0w0.peach.mcmod.BoundingBox;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
-import com.github.mouse0w0.peach.mcmod.model.Blockstate;
+import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.GameDataCell;
@@ -234,9 +234,9 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         itemModel.setBlockstate("item");
         itemModel.inheritProperty().bind(Bindings.createBooleanBinding(() -> {
             ModelManager modelManager = ModelManager.getInstance();
-            Blockstate blockstate = modelManager.getBlockstate(type.getValue().getBlockstate());
-            if (blockstate.getItem() == null) return false;
-            return modelManager.hasModelProperty(blockstate.getItem());
+            BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate(type.getValue().getBlockstate());
+            if (blockstateTemplate.getItem() == null) return false;
+            return modelManager.hasModelProperty(blockstateTemplate.getItem());
         }, type.valueProperty()));
 
         itemTextures = new ModelTextureField(new ResourceStore(

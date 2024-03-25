@@ -142,7 +142,7 @@ public class ModelField extends Element {
     public final Map<String, String> getCustomModels() {
         if (ModelManager.CUSTOM.equals(getModel())) {
             final Map<String, String> result = new HashMap<>();
-            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
+            for (String modelKey : modelManager.getBlockstateTemplate(getBlockstate()).getModels().keySet()) {
                 result.put(modelKey, customModels.get(modelKey));
             }
             return result;
@@ -227,7 +227,7 @@ public class ModelField extends Element {
             if (isInherit()) {
                 modelList.add(ModelManager.INHERIT);
             }
-            modelList.addAll(modelManager.getModelPrototypes(blockstate));
+            modelList.addAll(modelManager.getModelTemplates(blockstate));
             modelList.add(ModelManager.CUSTOM);
         }
         comboBox.getItems().setAll(modelList);
@@ -248,12 +248,12 @@ public class ModelField extends Element {
         } else if (ModelManager.CUSTOM.equals(model)) {
             textures.clear();
             fileToModelKey.clear();
-            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
+            for (String modelKey : modelManager.getBlockstateTemplate(getBlockstate()).getModels().keySet()) {
                 fileToModelKey.put(resourceStore.toAbsolutePath(customModels.get(modelKey)), modelKey);
             }
             loadTexture();
         } else {
-            textures.setAll(modelManager.getModelPrototype(model).getTextures());
+            textures.setAll(modelManager.getModelTemplate(model).getTextures());
         }
     }
 
@@ -263,7 +263,7 @@ public class ModelField extends Element {
             children.removeIf(node -> node != label && node != comboBox);
 
             int row = 1;
-            for (String modelKey : modelManager.getBlockstate(getBlockstate()).getModels().keySet()) {
+            for (String modelKey : modelManager.getBlockstateTemplate(getBlockstate()).getModels().keySet()) {
                 Label label = new Label(modelKey);
                 label.getStyleClass().add(Field.FORM_FIELD_LABEL_CLASS);
                 label.setWrapText(true);

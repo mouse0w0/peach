@@ -22,9 +22,9 @@ public class ModelManager {
     public static final Identifier CUSTOM = new Identifier("buildin:custom");
     public static final Identifier INHERIT = new Identifier("buildin:inherit");
 
-    private final Map<String, Blockstate> blockstateMap = new HashMap<>();
-    private final Map<Identifier, ModelPrototype> modelPrototypes = new HashMap<>();
-    private final Multimap<String, Identifier> groupToModelPrototypes = HashMultimap.create();
+    private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
+    private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
+    private final Multimap<String, Identifier> groupToModelTemplates = HashMultimap.create();
 
     public static ModelManager getInstance() {
         return Peach.getInstance().getService(ModelManager.class);
@@ -40,7 +40,7 @@ public class ModelManager {
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(state)) {
                 for (Path path : stream) {
                     if (FileUtils.getFileName(path).endsWith(".json")) {
-                        loadStateTemplate(path);
+                        loadBlockstateTemplate(path);
                     }
                 }
             }
@@ -58,12 +58,12 @@ public class ModelManager {
         }
     }
 
-    private void loadStateTemplate(Path file) {
+    private void loadBlockstateTemplate(Path file) {
         try {
-            Blockstate template = JsonUtils.readJson(file, Blockstate.class);
+            BlockstateTemplate template = JsonUtils.readJson(file, BlockstateTemplate.class);
             String fileName = FileUtils.getFileName(file);
             String identifier = StringUtils.substringBefore(fileName, '.');
-            blockstateMap.put(identifier, template);
+            blockstateTemplateMap.put(identifier, template);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -71,11 +71,11 @@ public class ModelManager {
 
     private void loadModelTemplate(Path file) {
         try {
-            ModelPrototype template = JsonUtils.readJson(file, ModelPrototype.class);
-            modelPrototypes.put(template.getId(), template);
+            ModelTemplate template = JsonUtils.readJson(file, ModelTemplate.class);
+            modelTemplateMap.put(template.getId(), template);
             if (template.getGroups() != null) {
                 for (String group : template.getGroups()) {
-                    groupToModelPrototypes.put(group, template.getId());
+                    groupToModelTemplates.put(group, template.getId());
                 }
             }
         } catch (RuntimeException e) {
@@ -85,19 +85,19 @@ public class ModelManager {
         }
     }
 
-    public Blockstate getBlockstate(String blockstate) {
-        return blockstateMap.get(blockstate);
+    public BlockstateTemplate getBlockstateTemplate(String blockstate) {
+        return blockstateTemplateMap.get(blockstate);
     }
 
-    public ModelPrototype getModelPrototype(Identifier identifier) {
-        return modelPrototypes.get(identifier);
+    public ModelTemplate getModelTemplate(Identifier identifier) {
+        return modelTemplateMap.get(identifier);
     }
 
     public boolean hasModelProperty(Identifier identifier) {
-        return modelPrototypes.containsKey(identifier);
+        return modelTemplateMap.containsKey(identifier);
     }
 
-    public Collection<Identifier> getModelPrototypes(String group) {
-        return groupToModelPrototypes.get(group);
+    public Collection<Identifier> getModelTemplates(String group) {
+        return groupToModelTemplates.get(group);
     }
 }

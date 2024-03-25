@@ -12,7 +12,7 @@ import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.ItemClassGener
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.ItemLoaderClassGenerator;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.item.ItemBlockBase;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.item.ItemSlabBase;
-import com.github.mouse0w0.peach.mcmod.model.Blockstate;
+import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -135,14 +135,14 @@ public class GenItem implements Task {
 
             // Generate models
             ModelManager modelManager = context.getModelManager();
-            Blockstate blockstate = modelManager.getBlockstate("item");
+            BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate("item");
             Identifier model = item.getModel();
             Map<String, String> textures = ModelUtils.processTextures(namespace, item.getTextures());
             if (ModelManager.CUSTOM.equals(model)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, item.getCustomModels(), context.getModelsFolder(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, item.getCustomModels(), context.getModelsFolder(),
                         textures, null, assetsFiler.getRoot(), new HashMap<>());
             } else {
-                ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(model),
                         textures, null, assetsFiler.getRoot(), new HashMap<>());
             }
         }

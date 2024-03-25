@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 
 import java.util.Map;
 
-public class Blockstate {
+public class BlockstateTemplate {
     private String template;
     private Identifier item;
     private Map<String, String> models;

@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.mcmod.generator.util;
 
-import com.github.mouse0w0.peach.mcmod.model.Blockstate;
+import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelEntry;
-import com.github.mouse0w0.peach.mcmod.model.ModelPrototype;
+import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.google.gson.JsonElement;
@@ -20,13 +20,13 @@ public class ModelUtils {
 
     public static void generateModel(String namespace,
                                      String identifier,
-                                     Blockstate blockstate,
-                                     ModelPrototype prototype,
+                                     BlockstateTemplate blockstateTemplate,
+                                     ModelTemplate modelTemplate,
                                      Map<String, String> textures,
                                      String particleTexture,
                                      Path output,
                                      Map<String, String> outputModels) throws IOException {
-        for (Map.Entry<String, ModelEntry> entry : prototype.getModels().entrySet()) {
+        for (Map.Entry<String, ModelEntry> entry : modelTemplate.getModels().entrySet()) {
             String modelKey = entry.getKey();
             ModelEntry modelEntry = entry.getValue();
             String modelPath = processModelPath(identifier, modelEntry.getName());
@@ -40,14 +40,14 @@ public class ModelUtils {
 
     public static void generateCustomModel(String namespace,
                                            String identifier,
-                                           Blockstate blockstate,
+                                           BlockstateTemplate blockstateTemplate,
                                            Map<String, String> models,
                                            Path input,
                                            Map<String, String> textures,
                                            String particleTexture,
                                            Path output,
                                            Map<String, String> outputModels) throws IOException {
-        for (Map.Entry<String, String> entry : blockstate.getModels().entrySet()) {
+        for (Map.Entry<String, String> entry : blockstateTemplate.getModels().entrySet()) {
             String modelKey = entry.getKey();
             String modelPath = processModelPath(identifier, entry.getValue());
             Path source = input.resolve(models.get(modelKey) + ".json");

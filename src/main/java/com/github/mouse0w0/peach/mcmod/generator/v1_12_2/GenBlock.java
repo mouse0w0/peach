@@ -11,7 +11,7 @@ import com.github.mouse0w0.peach.mcmod.generator.util.ModelUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockClassGenerator;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockLoaderClassGenerator;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.block.*;
-import com.github.mouse0w0.peach.mcmod.model.Blockstate;
+import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import freemarker.template.Configuration;
@@ -168,7 +168,7 @@ public class GenBlock implements Task {
             }
             // Generate models
             ModelManager modelManager = context.getModelManager();
-            Blockstate blockstate = modelManager.getBlockstate(block.getType().getBlockstate());
+            BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate(block.getType().getBlockstate());
             Identifier model = block.getModel();
             Map<String, String> outputModels = new HashMap<>();
 
@@ -176,29 +176,29 @@ public class GenBlock implements Task {
             String particleTexture = block.getParticleTexture() != null ?
                     ModelUtils.processResourcePath(namespace, block.getParticleTexture()) : null;
             if (ModelManager.CUSTOM.equals(model)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getCustomModels(), context.getModelsFolder(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomModels(), context.getModelsFolder(),
                         textures, particleTexture, assetsFiler.getRoot(), outputModels);
             } else {
-                ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(model),
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(model),
                         textures, particleTexture, assetsFiler.getRoot(), outputModels);
             }
 
             Identifier itemModel = block.getItemModel();
             Map<String, String> itemTextures = ModelUtils.processTextures(namespace, block.getItemTextures());
             if (ModelManager.CUSTOM.equals(itemModel)) {
-                ModelUtils.generateCustomModel(namespace, identifier, blockstate, block.getCustomModels(), context.getModelsFolder(),
+                ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomModels(), context.getModelsFolder(),
                         itemTextures, null, assetsFiler.getRoot(), outputModels);
             } else if (ModelManager.INHERIT.equals(itemModel)) {
-                ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(blockstate.getItem()),
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(blockstateTemplate.getItem()),
                         itemTextures, null, assetsFiler.getRoot(), outputModels);
             } else {
-                ModelUtils.generateModel(namespace, identifier, blockstate, modelManager.getModelPrototype(itemModel),
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(itemModel),
                         itemTextures, null, assetsFiler.getRoot(), outputModels);
             }
 
             // Generate Blockstate
             Configuration templateManager = context.getTemplateManager();
-            Template template = templateManager.getTemplate(blockstate.getTemplate());
+            Template template = templateManager.getTemplate(blockstateTemplate.getTemplate());
             template.process(ModelUtils.processBlockstateModels(namespace, outputModels), assetsFiler.newWriter("blockstates/" + identifier + ".json"));
         }
 
