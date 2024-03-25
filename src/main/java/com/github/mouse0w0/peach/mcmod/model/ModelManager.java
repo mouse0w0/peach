@@ -93,7 +93,7 @@ public class ModelManager {
         return modelTemplateMap.get(identifier);
     }
 
-    public boolean hasModelProperty(Identifier identifier) {
+    public boolean hasModelTemplate(Identifier identifier) {
         return modelTemplateMap.containsKey(identifier);
     }
 

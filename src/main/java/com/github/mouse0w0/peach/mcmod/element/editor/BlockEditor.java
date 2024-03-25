@@ -236,7 +236,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
             ModelManager modelManager = ModelManager.getInstance();
             BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate(type.getValue().getBlockstate());
             if (blockstateTemplate.getItem() == null) return false;
-            return modelManager.hasModelProperty(blockstateTemplate.getItem());
+            return modelManager.hasModelTemplate(blockstateTemplate.getItem());
         }, type.valueProperty()));
 
         itemTextures = new ModelTextureField(new ResourceStore(
