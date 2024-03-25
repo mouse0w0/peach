@@ -1,7 +1,7 @@
 {
     "id": "minecraft:trapdoor",
     "item": "minecraft:trapdoor_item",
-    "groups": [
+    "blockstates": [
         "trapdoor"
     ],
     "textures": [

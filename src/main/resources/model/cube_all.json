@@ -1,7 +1,7 @@
 {
     "id": "minecraft:cube_all",
     "item": "minecraft:block_item",
-    "groups": [
+    "blockstates": [
         "normal", "dirt"
     ],
     "textures": [

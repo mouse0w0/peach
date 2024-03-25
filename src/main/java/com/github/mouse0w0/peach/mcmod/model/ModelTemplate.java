@@ -8,7 +8,7 @@ import java.util.Map;
 public class ModelTemplate {
     private Identifier id;
     private Identifier item;
-    private List<String> groups;
+    private List<String> blockstates;
     private List<String> textures;
     private Map<String, ModelEntry> models;
 
@@ -20,8 +20,8 @@ public class ModelTemplate {
         return item;
     }
 
-    public List<String> getGroups() {
-        return groups;
+    public List<String> getBlockstates() {
+        return blockstates;
     }
 
     public List<String> getTextures() {

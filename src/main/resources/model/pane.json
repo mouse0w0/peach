@@ -1,7 +1,7 @@
 {
     "id": "minecraft:pane",
     "item": "minecraft:pane_item",
-    "groups": [
+  "blockstates": [
         "pane"
     ],
     "textures": [

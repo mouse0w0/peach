@@ -1,7 +1,7 @@
 {
     "id": "minecraft:wall",
     "item": "minecraft:wall_item",
-    "groups": [
+  "blockstates": [
         "wall"
     ],
     "textures": [

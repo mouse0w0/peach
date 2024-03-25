@@ -227,7 +227,7 @@ public class ModelField extends Element {
             if (isInherit()) {
                 modelList.add(ModelManager.INHERIT);
             }
-            modelList.addAll(modelManager.getModelTemplates(blockstate));
+            modelList.addAll(modelManager.getModelTemplatesByBlockstate(blockstate));
             modelList.add(ModelManager.CUSTOM);
         }
         comboBox.getItems().setAll(modelList);

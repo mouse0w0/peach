@@ -1,7 +1,7 @@
 {
     "id": "minecraft:slab",
     "item": "minecraft:slab_item",
-    "groups": [
+    "blockstates": [
         "slab"
     ],
     "textures": [

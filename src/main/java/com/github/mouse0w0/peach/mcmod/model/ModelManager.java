@@ -24,7 +24,7 @@ public class ModelManager {
 
     private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
     private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
-    private final Multimap<String, Identifier> groupToModelTemplates = HashMultimap.create();
+    private final Multimap<String, Identifier> blockstateToModelTemplates = HashMultimap.create();
 
     public static ModelManager getInstance() {
         return Peach.getInstance().getService(ModelManager.class);
@@ -73,9 +73,9 @@ public class ModelManager {
         try {
             ModelTemplate template = JsonUtils.readJson(file, ModelTemplate.class);
             modelTemplateMap.put(template.getId(), template);
-            if (template.getGroups() != null) {
-                for (String group : template.getGroups()) {
-                    groupToModelTemplates.put(group, template.getId());
+            if (template.getBlockstates() != null) {
+                for (String group : template.getBlockstates()) {
+                    blockstateToModelTemplates.put(group, template.getId());
                 }
             }
         } catch (RuntimeException e) {
@@ -97,7 +97,7 @@ public class ModelManager {
         return modelTemplateMap.containsKey(identifier);
     }
 
-    public Collection<Identifier> getModelTemplates(String group) {
-        return groupToModelTemplates.get(group);
+    public Collection<Identifier> getModelTemplatesByBlockstate(String blockstate) {
+        return blockstateToModelTemplates.get(blockstate);
     }
 }

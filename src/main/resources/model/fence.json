@@ -1,7 +1,7 @@
 {
     "id": "minecraft:fence",
     "item": "minecraft:fence_item",
-    "groups": [
+  "blockstates": [
         "fence"
     ],
     "textures": [

@@ -1,7 +1,7 @@
 {
     "id": "minecraft:stone",
     "item": "minecraft:block_item",
-    "groups": [
+    "blockstates": [
         "stone"
     ],
     "textures": [

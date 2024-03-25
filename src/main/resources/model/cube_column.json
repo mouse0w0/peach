@@ -1,7 +1,7 @@
 {
     "id": "minecraft:cube_column",
     "item": "minecraft:block_item",
-    "groups": [
+  "blockstates": [
         "normal", "directional", "horizontal", "pillar", "dirt"
     ],
     "textures": [
