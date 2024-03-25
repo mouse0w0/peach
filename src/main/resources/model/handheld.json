@@ -1,6 +1,6 @@
 {
     "id": "minecraft:handheld",
-  "blockstates": [
+    "blockstates": [
         "item"
     ],
     "textures": [

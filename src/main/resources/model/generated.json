@@ -1,6 +1,6 @@
 {
     "id": "minecraft:generated",
-  "blockstates": [
+    "blockstates": [
         "item"
     ],
     "textures": [

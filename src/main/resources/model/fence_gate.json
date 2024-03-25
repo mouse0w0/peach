@@ -1,7 +1,7 @@
 {
     "id": "minecraft:fence_gate",
     "item": "minecraft:fence_gate_item",
-  "blockstates": [
+    "blockstates": [
         "fence_gate"
     ],
     "textures": [
