@@ -47,11 +47,11 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         }
         imageView.setImage(null);
 
-        IdMetadata itemSelector = itemView.getItem();
-        if (itemSelector == null) {
+        IdMetadata idMetadata = itemView.getItem();
+        if (idMetadata == null) {
             itemData = itemView.getIndex().get(IdMetadata.AIR);
         } else {
-            itemData = itemView.getIndex().get(itemSelector);
+            itemData = itemView.getIndex().get(idMetadata);
         }
 
         if (itemData == null || itemData.isEmpty()) {

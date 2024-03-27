@@ -19,9 +19,9 @@ import javafx.scene.input.*;
 import java.util.List;
 
 public class ItemView extends Control {
-    private static final Tooltip TOOLTIP = createTooltip();
-
     public static final DataFormat ITEM = new DataFormat("peach/item");
+
+    private static final Tooltip TOOLTIP = createTooltip();
 
     private static Tooltip createTooltip() {
         Tooltip tooltip = new Tooltip();
