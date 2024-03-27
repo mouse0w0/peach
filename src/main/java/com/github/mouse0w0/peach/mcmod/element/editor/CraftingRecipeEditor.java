@@ -11,6 +11,7 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.ArrayUtils;
+import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -56,10 +57,17 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
         inputGridPane.setHgap(8);
         inputGridPane.setVgap(8);
         recipeView.getChildren().add(inputGridPane);
+
+        InvalidationListener onItemInvalidated = (observable) -> {
+            for (ItemPicker input : inputs) {
+                input.resetAnimation();
+            }
+        };
         for (int i = 0; i < 9; i++) {
-            ItemView itemViews = inputs[i] = new ItemPicker(64, true, true);
-            itemViews.setPlayAnimation(true);
-            inputGridPane.add(itemViews, i % 3, i / 3);
+            ItemPicker input = inputs[i] = new ItemPicker(64, true, true);
+            input.itemProperty().addListener(onItemInvalidated);
+            input.setPlayAnimation(true);
+            inputGridPane.add(input, i % 3, i / 3);
         }
 
         output = new ItemStackView(64);

@@ -127,6 +127,13 @@ public class ItemView extends Control {
         playAnimationProperty().set(playAnimation);
     }
 
+    public final void resetAnimation() {
+        Skin<?> skin = getSkin();
+        if (skin != null) {
+            ((ItemViewSkin) skin).resetAnimation();
+        }
+    }
+
     private ObjectProperty<Index<IdMetadata, List<ItemData>>> index;
 
     public final ObjectProperty<Index<IdMetadata, List<ItemData>>> indexProperty() {

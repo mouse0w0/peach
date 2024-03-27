@@ -43,6 +43,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         if (timeline != null) {
             timeline.stop();
+            timeline = null;
         }
         imageView.setImage(null);
 
@@ -53,7 +54,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             itemData = itemView.getIndex().get(itemSelector);
         }
 
-        if (itemData == null || itemData.size() == 0) {
+        if (itemData == null || itemData.isEmpty()) {
             imageView.setImage(MISSING);
             return;
         }
@@ -75,6 +76,12 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             keyFrames.add(new KeyFrame(Duration.seconds(i), event -> imageView.setImage(image)));
         }
         return timeline;
+    }
+
+    public void resetAnimation() {
+        if (timeline != null) {
+            timeline.jumpTo(Duration.ZERO);
+        }
     }
 
     @Override
