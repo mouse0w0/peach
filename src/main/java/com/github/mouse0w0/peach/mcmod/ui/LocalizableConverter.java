@@ -14,7 +14,7 @@ public class LocalizableConverter<T extends Localizable> extends StringConverter
 
     @Override
     public String toString(T object) {
-        return object.getLocalizedText();
+        return object != null ? object.getLocalizedText() : null;
     }
 
     @Override
