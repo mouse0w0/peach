@@ -63,8 +63,7 @@ class Utils {
     }
 
     public static void setIcon(ObjectProperty<Node> graphicProperty, @Nullable Icon icon) {
-        Node graphic = graphicProperty.get();
-        if (graphic instanceof ImageView imageView) {
+        if (graphicProperty.get() instanceof ImageView imageView) {
             imageView.setImage(icon != null ? icon.getImage() : null);
         } else if (icon != null) {
             graphicProperty.set(new ImageView(icon.getImage()));
