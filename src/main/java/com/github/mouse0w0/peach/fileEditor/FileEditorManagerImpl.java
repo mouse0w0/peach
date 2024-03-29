@@ -6,11 +6,8 @@ import com.github.mouse0w0.peach.file.FileAppearance;
 import com.github.mouse0w0.peach.file.FileCell;
 import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
-import javafx.scene.Node;
 import javafx.scene.control.Tab;
-import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +22,7 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
     private static final Logger LOGGER = LoggerFactory.getLogger("FileEditor");
 
     private final Project project;
-
-    private final Map<Path, OpenedEditor> openedEditors = new HashMap<>();
+    private final Map<Path, FileEditorTab> fileEditorTabs = new HashMap<>();
 
     public FileEditorManagerImpl(Project project) {
         this.project = project;
@@ -34,12 +30,12 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
 
     @Override
     public FileEditor getFileEditor(Path file) {
-        return openedEditors.get(file).getEditor();
+        return fileEditorTabs.get(file).getFileEditor();
     }
 
     @Override
     public boolean isFileOpened(Path file) {
-        return openedEditors.containsKey(file);
+        return fileEditorTabs.containsKey(file);
     }
 
     @Override
@@ -63,9 +59,9 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
     }
 
     private void focusFileEditor(Path file) {
-        OpenedEditor openedEditor = openedEditors.get(file);
-        if (openedEditor != null) {
-            WindowManager.getInstance().getWindow(project).selectTab(openedEditor.getTab());
+        FileEditorTab fileEditorTab = fileEditorTabs.get(file);
+        if (fileEditorTab != null) {
+            WindowManager.getInstance().getWindow(project).selectTab(fileEditorTab);
         }
     }
 
@@ -75,25 +71,12 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
             return; // 由FileEditorProvider接管文件编辑，可能是打开了外部编辑器。
         }
 
-        FileTab tab = new FileTab(null, fileEditor.getNode());
-        tab.getProperties().put(FileEditor.class, fileEditor);
-        FileAppearance.process(file, tab);
-
-        String name = fileEditor.getName();
-        if (name != null) tab.setText(FileUtils.getFileName(file));
-        Icon icon = fileEditor.getIcon();
-        if (icon != null) tab.setIcon(icon);
-
-        tab.setClosable(true);
-        tab.setOnCloseRequest(event -> {
-            event.consume();
-            close(file);
-        });
-
         Disposer.register(this, fileEditor);
 
-        openedEditors.put(file, new OpenedEditor(fileEditor, tab));
-        WindowManager.getInstance().getWindow(project).openTab(tab);
+        FileEditorTab fileEditorTab = new FileEditorTab(fileEditor);
+        FileAppearance.process(file, fileEditorTab);
+        fileEditorTabs.put(file, fileEditorTab);
+        WindowManager.getInstance().getWindow(project).openTab(fileEditorTab);
     }
 
     private void doOpenSystemEditor(Path file) {
@@ -111,20 +94,32 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
 
     @Override
     public boolean close(Path file) {
-        OpenedEditor openedEditor = openedEditors.remove(file);
-        if (openedEditor == null) return false;
+        FileEditorTab fileEditorTab = fileEditorTabs.remove(file);
+        if (fileEditorTab == null) return false;
 
-        WindowManager.getInstance().getWindow(project).removeTab(openedEditor.getTab());
-        Disposer.dispose(openedEditor.getEditor());
+        WindowManager.getInstance().getWindow(project).removeTab(fileEditorTab);
+        Disposer.dispose(fileEditorTab.getFileEditor());
         return true;
     }
 
-    private static final class FileTab extends Tab implements FileCell {
-        private Icon icon;
-        private ImageView imageView;
+    private final class FileEditorTab extends Tab implements FileCell, FileEditorHolder {
+        private final FileEditor fileEditor;
 
-        public FileTab(String text, Node content) {
-            super(text, content);
+        private Icon icon;
+
+        public FileEditorTab(FileEditor fileEditor) {
+            super(null, fileEditor.getNode());
+            this.fileEditor = fileEditor;
+
+            setClosable(true);
+            setOnCloseRequest(event -> {
+                event.consume();
+                close(fileEditor.getFile());
+            });
+        }
+
+        public FileEditor getFileEditor() {
+            return fileEditor;
         }
 
         @Override
@@ -135,34 +130,7 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
         @Override
         public void setIcon(Icon icon) {
             this.icon = icon;
-
-            if (imageView == null) {
-                imageView = new ImageView();
-            }
-
-            imageView.setImage(icon.getImage());
-
-            if (getGraphic() == null) {
-                setGraphic(imageView);
-            }
-        }
-    }
-
-    private static final class OpenedEditor {
-        private final FileEditor fileEditor;
-        private final FileTab tab;
-
-        public OpenedEditor(FileEditor fileEditor, FileTab tab) {
-            this.fileEditor = fileEditor;
-            this.tab = tab;
-        }
-
-        public FileEditor getEditor() {
-            return fileEditor;
-        }
-
-        public FileTab getTab() {
-            return tab;
+            Icon.apply(graphicProperty(), icon);
         }
     }
 }
