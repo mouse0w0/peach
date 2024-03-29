@@ -17,4 +17,8 @@ public interface FileEditor extends Disposable {
     ReadOnlyBooleanProperty modifiedProperty();
 
     boolean isModified();
+
+    default void onSelected() {}
+
+    default void onDeselected() {}
 }

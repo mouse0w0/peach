@@ -116,6 +116,13 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
                 event.consume();
                 close(fileEditor.getFile());
             });
+            selectedProperty().addListener(observable -> {
+                if (isSelected()) {
+                    fileEditor.onSelected();
+                } else {
+                    fileEditor.onDeselected();
+                }
+            });
         }
 
         public FileEditor getFileEditor() {
