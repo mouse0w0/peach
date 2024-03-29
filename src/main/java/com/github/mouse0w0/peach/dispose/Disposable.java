@@ -5,7 +5,6 @@ public interface Disposable {
 
     interface Default extends Disposable {
         @Override
-        default void dispose() {
-        }
+        default void dispose() {}
     }
 }

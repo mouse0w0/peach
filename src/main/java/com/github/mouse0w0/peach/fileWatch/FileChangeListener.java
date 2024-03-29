@@ -8,12 +8,9 @@ import java.nio.file.Path;
 public interface FileChangeListener {
     Topic<FileChangeListener> TOPIC = new Topic<>("FileChangeListener", FileChangeListener.class, BroadcastDirection.NONE);
 
-    default void onFileCreate(Path path) {
-    }
+    default void onFileCreate(Path path) {}
 
-    default void onFileDelete(Path path) {
-    }
+    default void onFileDelete(Path path) {}
 
-    default void onFileModify(Path path) {
-    }
+    default void onFileModify(Path path) {}
 }
