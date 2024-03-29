@@ -14,13 +14,13 @@ public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder,
         this.presentation = new Presentation(action, this::onPropertyChanged);
 
         setText(presentation.getText());
-        Utils.setIcon(graphicProperty(), presentation.getIcon());
+        Icon.apply(graphicProperty(), presentation.getIcon());
 
         selectedProperty().addListener(observable -> {
             if (isSelected()) {
-                Utils.setIcon(graphicProperty(), null);
+                Icon.apply(graphicProperty(), null);
             } else {
-                Utils.setIcon(graphicProperty(), presentation.getIcon());
+                Icon.apply(graphicProperty(), presentation.getIcon());
             }
         });
         setOnAction(this::perform);
@@ -29,7 +29,7 @@ public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder,
     private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
         switch (propertyName) {
             case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
+            case Presentation.ICON_PROP -> Icon.apply(graphicProperty(), (Icon) newValue);
             case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
             case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
             case Presentation.SELECTED_PROP -> setSelected((boolean) newValue);

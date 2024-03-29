@@ -14,7 +14,7 @@ public final class ActionButton extends Button implements ActionHolder {
         this.presentation = new Presentation(action, this::onPropertyChanged);
 
         setText(action.getText());
-        Utils.setIcon(graphicProperty(), action.getIcon());
+        Icon.apply(graphicProperty(), action.getIcon());
 
         skinProperty().addListener(observable -> update());
         setOnAction(this::perform);
@@ -23,7 +23,7 @@ public final class ActionButton extends Button implements ActionHolder {
     private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
         switch (propertyName) {
             case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
+            case Presentation.ICON_PROP -> Icon.apply(graphicProperty(), (Icon) newValue);
             case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
             case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
         }

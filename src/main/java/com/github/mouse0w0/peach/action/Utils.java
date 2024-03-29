@@ -1,13 +1,8 @@
 package com.github.mouse0w0.peach.action;
 
-import com.github.mouse0w0.peach.icon.Icon;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.image.ImageView;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -59,14 +54,6 @@ class Utils {
         }
         if (separator != null) {
             separator.setVisible(false);
-        }
-    }
-
-    public static void setIcon(ObjectProperty<Node> graphicProperty, @Nullable Icon icon) {
-        if (graphicProperty.get() instanceof ImageView imageView) {
-            imageView.setImage(icon != null ? icon.getImage() : null);
-        } else if (icon != null) {
-            graphicProperty.set(new ImageView(icon.getImage()));
         }
     }
 

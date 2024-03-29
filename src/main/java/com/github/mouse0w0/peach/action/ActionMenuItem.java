@@ -14,7 +14,7 @@ public final class ActionMenuItem extends MenuItem implements ActionHolder, Upda
         this.presentation = new Presentation(action, this::onPropertyChanged);
 
         setText(presentation.getText());
-        Utils.setIcon(graphicProperty(), presentation.getIcon());
+        Icon.apply(graphicProperty(), presentation.getIcon());
 
         setOnAction(this::perform);
     }
@@ -22,7 +22,7 @@ public final class ActionMenuItem extends MenuItem implements ActionHolder, Upda
     private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
         switch (propertyName) {
             case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Utils.setIcon(graphicProperty(), (Icon) newValue);
+            case Presentation.ICON_PROP -> Icon.apply(graphicProperty(), (Icon) newValue);
             case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
             case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
         }
