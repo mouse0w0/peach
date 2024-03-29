@@ -52,6 +52,7 @@ public final class ProjectWindowImpl implements ProjectWindow, DataProvider, Dis
 
         tabPane = new TabPane();
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+        tabPane.setTabDragPolicy(TabPane.TabDragPolicy.REORDER);
         viewPane.setCenter(tabPane);
 
         statusBar = new StatusBarImpl(project);
