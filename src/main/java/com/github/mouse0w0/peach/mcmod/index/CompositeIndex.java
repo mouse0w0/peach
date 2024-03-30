@@ -1,35 +1,31 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
 import org.apache.commons.collections4.collection.CompositeCollection;
-import org.apache.commons.collections4.set.CompositeSet;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.BiConsumer;
 
-@SuppressWarnings({"unchecked", "SuspiciousMethodCalls"})
+@SuppressWarnings("SuspiciousMethodCalls")
 final class CompositeIndex<K, V> implements Index<K, V> {
-    private Map<K, V>[] composite;
-
-    public CompositeIndex() {
-        this.composite = new Map[0];
-    }
+    private final List<Map<K, V>> all = new ArrayList<>();
 
     public void addComposited(Map<K, V> map) {
         if (map != null) {
-            Map<K, V>[] oldComposite = composite;
-            Map<K, V>[] newComposite = new Map[oldComposite.length + 1];
-            System.arraycopy(oldComposite, 0, newComposite, 0, oldComposite.length);
-            newComposite[oldComposite.length] = map;
-            composite = newComposite;
+            all.add(map);
         }
+    }
+
+    public void removeComposited(Map<K, V> map) {
+        all.remove(map);
     }
 
     @Override
     public int size() {
         int size = 0;
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             size += map.size();
         }
         return size;
@@ -37,7 +33,7 @@ final class CompositeIndex<K, V> implements Index<K, V> {
 
     @Override
     public boolean isEmpty() {
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             if (!map.isEmpty()) {
                 return false;
             }
@@ -47,7 +43,7 @@ final class CompositeIndex<K, V> implements Index<K, V> {
 
     @Override
     public boolean containsKey(Object key) {
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             if (map.containsKey(key)) {
                 return true;
             }
@@ -57,7 +53,7 @@ final class CompositeIndex<K, V> implements Index<K, V> {
 
     @Override
     public boolean containsValue(Object value) {
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             if (map.containsValue(value)) {
                 return true;
             }
@@ -67,7 +63,7 @@ final class CompositeIndex<K, V> implements Index<K, V> {
 
     @Override
     public V get(Object key) {
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             if (map.containsKey(key)) {
                 return map.get(key);
             }
@@ -77,7 +73,7 @@ final class CompositeIndex<K, V> implements Index<K, V> {
 
     @Override
     public V getOrDefault(Object key, V defaultValue) {
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             if (map.containsKey(key)) {
                 return map.get(key);
             }
@@ -86,35 +82,35 @@ final class CompositeIndex<K, V> implements Index<K, V> {
     }
 
     @Override
-    public Set<K> keySet() {
-        CompositeSet<K> compositeSet = new CompositeSet<>();
-        for (Map<K, V> map : composite) {
-            compositeSet.addComposited(map.keySet());
+    public Collection<K> keys() {
+        CompositeCollection<K> compositeCollection = new CompositeCollection<>();
+        for (Map<K, V> map : all) {
+            compositeCollection.addComposited(map.keySet());
         }
-        return compositeSet;
+        return compositeCollection;
     }
 
     @Override
     public Collection<V> values() {
         CompositeCollection<V> compositeCollection = new CompositeCollection<>();
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             compositeCollection.addComposited(map.values());
         }
         return compositeCollection;
     }
 
     @Override
-    public Set<Map.Entry<K, V>> entrySet() {
-        CompositeSet<Map.Entry<K, V>> compositeSet = new CompositeSet<>();
-        for (Map<K, V> map : composite) {
-            compositeSet.addComposited(map.entrySet());
+    public Collection<Map.Entry<K, V>> entries() {
+        CompositeCollection<Map.Entry<K, V>> compositeCollection = new CompositeCollection<>();
+        for (Map<K, V> map : all) {
+            compositeCollection.addComposited(map.entrySet());
         }
-        return compositeSet;
+        return compositeCollection;
     }
 
     @Override
     public void forEach(BiConsumer<? super K, ? super V> action) {
-        for (Map<K, V> map : composite) {
+        for (Map<K, V> map : all) {
             map.forEach(action);
         }
     }

@@ -127,7 +127,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         itemGroup.setColSpan(ColSpan.HALF);
         itemGroup.setCellFactory(IconicDataCell.factory(itemGroupMap));
         itemGroup.setButtonCell(IconicDataCell.create(itemGroupMap));
-        itemGroup.getItems().addAll(itemGroupMap.keySet());
+        itemGroup.getItems().addAll(itemGroupMap.keys());
 
         maxStackSize = new IntegerField(1, 64, 64);
         maxStackSize.setLabel(AppL10n.localize("item.properties.maxStackSize"));
@@ -217,7 +217,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setLabel(AppL10n.localize("item.properties.acceptableEnchantments"));
         acceptableEnchantments.setConverter(GameDataConverter.create(enchantmentTypeIndex));
-        acceptableEnchantments.getItems().addAll(enchantmentTypeIndex.keySet());
+        acceptableEnchantments.getItems().addAll(enchantmentTypeIndex.keys());
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
@@ -244,7 +244,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
         useAnimation.setCellFactory(GameDataCell.factory(useAnimationIndex));
         useAnimation.setButtonCell(GameDataCell.create(useAnimationIndex));
-        useAnimation.getItems().addAll(useAnimationIndex.keySet());
+        useAnimation.getItems().addAll(useAnimationIndex.keys());
         useAnimation.setColSpan(ColSpan.HALF);
 
         useDuration = new IntegerField(0, Integer.MAX_VALUE, 0);
@@ -351,7 +351,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         equipSound.setColSpan(ColSpan.HALF);
         equipSound.setCellFactory(GameDataCell.factory(soundEventIndex));
         equipSound.setButtonCell(GameDataCell.create(soundEventIndex));
-        equipSound.getItems().addAll(soundEventIndex.keySet());
+        equipSound.getItems().addAll(soundEventIndex.keys());
         equipSound.disableProperty().bind(isNotArmor);
 
         hunger = new IntegerField(0, Integer.MAX_VALUE, 0);

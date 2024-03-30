@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.mcmod.index;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.BiConsumer;
 
 public interface Index<K, V> {
@@ -18,11 +17,11 @@ public interface Index<K, V> {
 
     V getOrDefault(Object key, V defaultValue);
 
-    Set<K> keySet();
+    Collection<K> keys();
 
     Collection<V> values();
 
-    Set<Map.Entry<K, V>> entrySet();
+    Collection<Map.Entry<K, V>> entries();
 
     void forEach(BiConsumer<? super K, ? super V> action);
 }

@@ -145,7 +145,7 @@ public class ItemChooser extends Stage {
     }
 
     private void updateItem() {
-        gridView.getItems().setAll(ListUtils.filter(itemIndex.keySet(), buildItemFilter()));
+        gridView.getItems().setAll(ListUtils.filter(itemIndex.keys(), buildItemFilter()));
     }
 
     private Predicate<IdMetadata> buildItemFilter() {

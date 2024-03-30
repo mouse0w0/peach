@@ -32,7 +32,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         block.setFile(file);
         block.setIdentifier(identifier);
         block.setDisplayName(name);
-        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keySet(), null));
+        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keys(), null));
         block.setModel(new Identifier("minecraft:cube_all"));
         block.setItemModel(ModelManager.INHERIT);
         return block;
