@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
 import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,17 +24,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 import java.nio.file.Path;
 
 public class NewElementDialog extends Stage {
-    public static void show(Project project, Path path, Window window) {
-        new NewElementDialog(project, path, window).showAndWait();
+    public static void show(Project project, Path path) {
+        new NewElementDialog(project, path).showAndWait();
     }
 
-    public NewElementDialog(Project project, Path path, Window owner) {
+    public NewElementDialog(Project project, Path path) {
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(12));
 
@@ -109,6 +109,6 @@ public class NewElementDialog extends Stage {
         getIcons().add(AppIcon.Peach.getImage());
         setResizable(false);
         initModality(Modality.APPLICATION_MODAL);
-        initOwner(owner);
+        initOwner(WindowManager.getInstance().getWindow(project).getStage());
     }
 }
