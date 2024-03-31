@@ -9,7 +9,7 @@ public interface RecentProjectsManager {
         return Peach.getInstance().getService(RecentProjectsManager.class);
     }
 
-    Collection<RecentProjectInfo> getRecentProjects();
+    Collection<RecentProject> getRecentProjects();
 
     void removeRecentProject(String path);
 }

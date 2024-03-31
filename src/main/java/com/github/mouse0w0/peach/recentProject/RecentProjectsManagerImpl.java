@@ -20,7 +20,7 @@ import java.util.Map;
 @Storage("recentProjects.json")
 public final class RecentProjectsManagerImpl implements RecentProjectsManager, PersistentService, Disposable {
 
-    private final Map<String, RecentProjectInfo> recentProjects = new HashMap<>();
+    private final Map<String, RecentProject> recentProjects = new HashMap<>();
     private final RecentProjectsChange publisher;
     private final MessageBusConnection connection;
 
@@ -37,7 +37,7 @@ public final class RecentProjectsManagerImpl implements RecentProjectsManager, P
     }
 
     @Override
-    public Collection<RecentProjectInfo> getRecentProjects() {
+    public Collection<RecentProject> getRecentProjects() {
         return recentProjects.values();
     }
 
@@ -49,7 +49,7 @@ public final class RecentProjectsManagerImpl implements RecentProjectsManager, P
 
     private void updateRecentProject(Project project) {
         String path = project.getPath().toString();
-        RecentProjectInfo info = recentProjects.computeIfAbsent(path, RecentProjectInfo::new);
+        RecentProject info = recentProjects.computeIfAbsent(path, RecentProject::new);
         info.setName(project.getName());
         info.setLatestOpenTimestamp(System.currentTimeMillis());
         publisher.onChanged();
@@ -62,7 +62,7 @@ public final class RecentProjectsManagerImpl implements RecentProjectsManager, P
 
     @Override
     public void loadState(JsonElement state) {
-        JsonUtils.<List<RecentProjectInfo>>fromJson(state, TypeUtils.parameterize(List.class, RecentProjectInfo.class))
+        JsonUtils.<List<RecentProject>>fromJson(state, TypeUtils.parameterize(List.class, RecentProject.class))
                 .forEach(info -> recentProjects.put(info.getPath(), info));
     }
 

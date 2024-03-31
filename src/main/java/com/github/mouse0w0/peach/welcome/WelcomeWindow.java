@@ -11,7 +11,7 @@ import com.github.mouse0w0.peach.message.MessageBusConnection;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
+import com.github.mouse0w0.peach.recentProject.RecentProject;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -37,7 +37,7 @@ public final class WelcomeWindow extends Stage {
     private final MessageBusConnection connection;
 
     private final ContextMenu contextMenu;
-    private final ListView<RecentProjectInfo> projectListView;
+    private final ListView<RecentProject> projectListView;
 
     public static void showIfNoProjectOpened() {
         if (ProjectManager.getInstance().getOpenedProjects().isEmpty()) {
@@ -108,12 +108,12 @@ public final class WelcomeWindow extends Stage {
     }
 
     private void updateRecentProjects() {
-        ObservableList<RecentProjectInfo> items = projectListView.getItems();
+        ObservableList<RecentProject> items = projectListView.getItems();
         items.setAll(RecentProjectsManager.getInstance().getRecentProjects());
-        items.sort(Comparator.comparingLong(RecentProjectInfo::getLatestOpenTimestamp).reversed());
+        items.sort(Comparator.comparingLong(RecentProject::getLatestOpenTimestamp).reversed());
     }
 
-    private class Cell extends ListCell<RecentProjectInfo> {
+    private class Cell extends ListCell<RecentProject> {
         public Cell() {
             setOnMouseClicked(event -> {
                 if (isEmpty()) return;
@@ -126,7 +126,7 @@ public final class WelcomeWindow extends Stage {
         }
 
         @Override
-        protected void updateItem(RecentProjectInfo item, boolean empty) {
+        protected void updateItem(RecentProject item, boolean empty) {
             super.updateItem(item, empty);
             getStyleClass().remove(NOT_EXISTS_CLASS);
             if (empty) {

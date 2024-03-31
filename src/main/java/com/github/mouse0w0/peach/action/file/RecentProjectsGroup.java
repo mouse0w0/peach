@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.action.ActionEvent;
 import com.github.mouse0w0.peach.action.ActionGroup;
 import com.github.mouse0w0.peach.data.DataKeys;
 import com.github.mouse0w0.peach.project.ProjectManager;
-import com.github.mouse0w0.peach.recentProject.RecentProjectInfo;
+import com.github.mouse0w0.peach.recentProject.RecentProject;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +21,7 @@ public final class RecentProjectsGroup extends ActionGroup {
             currentProjectPath = DataKeys.PROJECT.get(event).getPath().toString();
         }
         List<Action> children = new ArrayList<>();
-        for (RecentProjectInfo recentProject : RecentProjectsManager.getInstance().getRecentProjects()) {
+        for (RecentProject recentProject : RecentProjectsManager.getInstance().getRecentProjects()) {
             if (!recentProject.getPath().equals(currentProjectPath)) {
                 children.add(new OpenAction(recentProject.getPath(), recentProject.getName()));
             }

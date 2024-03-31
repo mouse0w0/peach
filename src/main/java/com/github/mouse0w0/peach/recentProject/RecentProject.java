@@ -1,11 +1,11 @@
 package com.github.mouse0w0.peach.recentProject;
 
-public class RecentProjectInfo {
+public class RecentProject {
     private String path;
     private String name;
     private long latestOpenTimestamp;
 
-    public RecentProjectInfo(String path) {
+    public RecentProject(String path) {
         this.path = path;
     }
 
