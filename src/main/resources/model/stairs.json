@@ -1,7 +1,7 @@
 {
     "id": "minecraft:stairs",
     "item": "minecraft:stairs_item",
-  "blockstates": [
+    "blockstates": [
         "stairs"
     ],
     "textures": [
