@@ -9,7 +9,7 @@
     "models": {
         "item": {
             "name": "item/${id}",
-            "template": "model/generated.json"
+            "template": "model/handheld.json"
         }
     }
 }
