@@ -166,34 +166,34 @@ public class GenBlock implements Task {
             for (String texture : block.getItemTextures().values()) {
                 assetsFiler.copy(texturesPath.resolve(texture + ".png"), "textures/" + texture + ".png");
             }
-            // Generate models
+
+            // Generate block model
             ModelManager modelManager = context.getModelManager();
             BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate(block.getType().getBlockstate());
-            Identifier model = block.getModel();
+            Identifier blockModel = block.getModel();
+            Map<String, String> blockTextures = ModelUtils.processTextures(namespace, block.getTextures());
             Map<String, String> outputModels = new HashMap<>();
-
-            Map<String, String> textures = ModelUtils.processTextures(namespace, block.getTextures());
             String particleTexture = block.getParticleTexture() != null ?
                     ModelUtils.processResourcePath(namespace, block.getParticleTexture()) : null;
-            if (ModelManager.CUSTOM.equals(model)) {
+            if (ModelManager.CUSTOM.equals(blockModel)) {
                 ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomModels(), context.getModelsFolder(),
-                        textures, particleTexture, assetsFiler.getRoot(), outputModels);
+                        blockTextures, particleTexture, assetsFiler.getRoot(), outputModels);
             } else {
-                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(model),
-                        textures, particleTexture, assetsFiler.getRoot(), outputModels);
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(blockModel),
+                        blockTextures, particleTexture, assetsFiler.getRoot(), outputModels);
             }
 
+            // Generate block item model
             Identifier itemModel = block.getItemModel();
-            Map<String, String> itemTextures = ModelUtils.processTextures(namespace, block.getItemTextures());
             if (ModelManager.CUSTOM.equals(itemModel)) {
                 ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomItemModels(), context.getModelsFolder(),
-                        itemTextures, null, assetsFiler.getRoot(), outputModels);
+                        ModelUtils.processTextures(namespace, block.getItemTextures()), null, assetsFiler.getRoot(), outputModels);
             } else if (ModelManager.INHERIT.equals(itemModel)) {
                 ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(blockstateTemplate.getItem()),
-                        itemTextures, null, assetsFiler.getRoot(), outputModels);
+                        blockTextures, null, assetsFiler.getRoot(), outputModels);
             } else {
                 ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(itemModel),
-                        itemTextures, null, assetsFiler.getRoot(), outputModels);
+                        ModelUtils.processTextures(namespace, block.getItemTextures()), null, assetsFiler.getRoot(), outputModels);
             }
 
             // Generate Blockstate
