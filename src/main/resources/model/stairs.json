@@ -1,6 +1,5 @@
 {
     "id": "minecraft:stairs",
-    "item": "minecraft:stairs_item",
     "blockstates": [
         "stairs"
     ],

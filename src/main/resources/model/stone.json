@@ -1,6 +1,5 @@
 {
     "id": "minecraft:stone",
-    "item": "minecraft:block_item",
     "blockstates": [
         "stone"
     ],

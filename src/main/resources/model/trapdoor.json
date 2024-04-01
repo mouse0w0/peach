@@ -1,6 +1,5 @@
 {
     "id": "minecraft:trapdoor",
-    "item": "minecraft:trapdoor_item",
     "blockstates": [
         "trapdoor"
     ],

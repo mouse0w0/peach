@@ -1,6 +1,5 @@
 {
     "id": "minecraft:fence_gate",
-    "item": "minecraft:fence_gate_item",
     "blockstates": [
         "fence_gate"
     ],

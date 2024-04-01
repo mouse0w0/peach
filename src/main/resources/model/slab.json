@@ -1,6 +1,5 @@
 {
     "id": "minecraft:slab",
-    "item": "minecraft:slab_item",
     "blockstates": [
         "slab"
     ],

@@ -1,6 +1,5 @@
 {
     "id": "minecraft:pane",
-    "item": "minecraft:pane_item",
     "blockstates": [
         "pane"
     ],

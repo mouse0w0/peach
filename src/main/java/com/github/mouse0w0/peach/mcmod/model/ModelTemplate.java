@@ -7,17 +7,12 @@ import java.util.Map;
 
 public class ModelTemplate {
     private Identifier id;
-    private Identifier item;
     private List<String> blockstates;
     private List<String> textures;
     private Map<String, ModelEntry> models;
 
     public Identifier getId() {
         return id;
-    }
-
-    public Identifier getItem() {
-        return item;
     }
 
     public List<String> getBlockstates() {

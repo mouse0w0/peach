@@ -1,6 +1,5 @@
 {
     "id": "minecraft:cube",
-    "item": "minecraft:block_item",
     "blockstates": [
         "normal", "directional", "horizontal", "dirt"
     ],
