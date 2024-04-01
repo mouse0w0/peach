@@ -4,7 +4,7 @@
         "item"
     ],
     "textures": [
-        "layer0"
+        "texture"
     ],
     "models": {
         "item": {
