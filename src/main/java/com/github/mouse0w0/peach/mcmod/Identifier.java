@@ -18,16 +18,19 @@ public final class Identifier implements Comparable<Identifier> {
     private final String namespace;
     private final String name;
 
-    public Identifier(String identifier) {
+    public static Identifier of(String identifier) {
         int separatorIndex = identifier.indexOf(':');
         if (separatorIndex == -1) {
             throw new IllegalArgumentException("namespace not specified, identifier: '" + identifier + "'");
         }
-        namespace = identifier.substring(0, separatorIndex);
-        name = identifier.substring(separatorIndex + 1);
+        return new Identifier(identifier.substring(0, separatorIndex), identifier.substring(separatorIndex + 1));
     }
 
-    public Identifier(String namespace, String name) {
+    public static Identifier of(String namespace, String name) {
+        return new Identifier(namespace, name);
+    }
+
+    private Identifier(String namespace, String name) {
         checkNamespace(namespace);
         checkName(name);
         this.namespace = namespace;
@@ -102,7 +105,7 @@ public final class Identifier implements Comparable<Identifier> {
                 in.nextNull();
                 return null;
             } else {
-                return new Identifier(in.nextString());
+                return Identifier.of(in.nextString());
             }
         }
     }

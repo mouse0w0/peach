@@ -35,7 +35,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         item.setIdentifier(identifier);
         item.setDisplayName(name);
         item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keys(), null));
-        item.setModel(new Identifier("minecraft:generated"));
+        item.setModel(Identifier.of("minecraft:generated"));
         item.setEquipSound("minecraft:item.armor.equip_generic");
         return item;
     }
