@@ -9,6 +9,7 @@ import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexType;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.plugin.Plugin;
+import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -63,11 +64,8 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private void loadItemData() {
-        JsonArray array = loadRawData("item");
-        if (array == null) return;
-
         Map<IdMetadata, List<ItemData>> map = getIndex(IndexTypes.ITEM);
-        for (JsonElement element : array) {
+        for (JsonElement element : loadRawData("item")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
                 String id = object.get("id").getAsString();
@@ -85,11 +83,8 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private void loadOreDictionaryData() {
-        JsonArray array = loadRawData("ore_dictionary");
-        if (array == null) return;
-
         Map<IdMetadata, List<ItemData>> map = getIndex(IndexTypes.ITEM);
-        for (JsonElement element : array) {
+        for (JsonElement element : loadRawData("ore_dictionary")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
                 String id = object.get("id").getAsString();
@@ -109,22 +104,16 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private void loadGameData(IndexType<String, GameData> indexType) {
-        JsonArray array = loadRawData(indexType.getName());
-        if (array == null) return;
-
         Map<String, GameData> map = getIndex(indexType);
-        for (JsonElement element : array) {
+        for (JsonElement element : loadRawData(indexType.getName())) {
             String id = element.getAsString();
             map.put(id, new GameData(id, l10n.localize(getTranslationKey(indexType.getLowerCamelName(), id))));
         }
     }
 
     private void loadIconicData(IndexType<String, IconicData> indexType) {
-        JsonArray array = loadRawData(indexType.getName());
-        if (array == null) return;
-
         Map<String, IconicData> map = getIndex(indexType);
-        for (JsonElement element : array) {
+        for (JsonElement element : loadRawData(indexType.getName())) {
             JsonObject object = element.getAsJsonObject();
             String id = object.get("id").getAsString();
             IdMetadata icon = JsonUtils.fromJson(object.get("icon").getAsJsonObject(), IdMetadata.class);
@@ -133,11 +122,9 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private JsonArray loadRawData(String name) {
-        URL resource = plugin.getClassLoader().getResource("data/" + name + ".json");
-        if (resource == null) return null;
+        URL resource = ClassPathUtils.getResource("data/" + name + ".json", plugin.getClassLoader());
         try {
-            JsonElement element = JsonUtils.readJson(resource);
-            return element.isJsonArray() ? element.getAsJsonArray() : null;
+            return JsonUtils.readJson(resource).getAsJsonArray();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
