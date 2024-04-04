@@ -52,6 +52,8 @@ public final class PluginManagerCore {
     }
 
     public static void loadPlugins() {
+        LOGGER.info("Loading plugins.");
+
         ClassLoader coreClassLoader = PluginManagerCore.class.getClassLoader();
 
         List<CompletableFuture<PluginImpl>> futures = new ArrayList<>();
@@ -119,6 +121,7 @@ public final class PluginManagerCore {
             }
         }
 
+        LOGGER.info("Enabling plugins.");
         Set<ClassLoader> classLoaders = new LinkedHashSet<>();
         Deque<PluginImpl> pluginQueue = new ArrayDeque<>();
         for (PluginImpl plugin : enabledPlugins) {
@@ -162,6 +165,8 @@ public final class PluginManagerCore {
         PluginManagerCore.plugins = ImmutableList.copyOf(plugins);
         PluginManagerCore.enabledPlugins = ImmutableList.copyOf(enabledPlugins);
         PluginManagerCore.idToPluginMap = ImmutableMap.copyOf(idToPluginMap);
+
+        logEnabledPlugins(enabledPlugins);
     }
 
     private static void logDuplicatePlugins(Multimap<String, PluginImpl> duplicatePlugins) {
@@ -196,6 +201,15 @@ public final class PluginManagerCore {
         }
         String errorMessage = errorMessageBuilder.toString();
         LOGGER.error(errorMessage);
+    }
+
+    private static void logEnabledPlugins(List<PluginImpl> plugins) {
+        if (!LOGGER.isInfoEnabled()) return;
+        StringJoiner stringJoiner = new StringJoiner(", ", "Enabled plugins: ", "");
+        for (PluginImpl plugin : plugins) {
+            stringJoiner.add(plugin.getId() + "@" + plugin.getVersion());
+        }
+        LOGGER.info(stringJoiner.toString());
     }
 
     private static void loadFromClasspath(ClassLoader coreClassLoader, List<CompletableFuture<PluginImpl>> futures) {

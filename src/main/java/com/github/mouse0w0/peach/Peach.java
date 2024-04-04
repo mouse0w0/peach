@@ -66,9 +66,7 @@ public final class Peach extends ServiceManagerImpl {
         LOGGER.info("Launching application.");
         initUncaughtExceptionHandler();
         printSystemInfo();
-        LOGGER.info("Loading plugins.");
         PluginManagerCore.loadPlugins();
-        LOGGER.info("Loading extensions.");
         Extensions.loadExtensions();
         LOGGER.info("Initializing application.");
         // Fix program pause when initializing Image class.

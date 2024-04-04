@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.plugin.ExtensionDescriptor;
 import com.github.mouse0w0.peach.plugin.ExtensionPointDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginManagerCore;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@ApiStatus.Internal
 public final class Extensions {
     private static final Logger LOGGER = LoggerFactory.getLogger("Extension");
 
@@ -28,6 +30,7 @@ public final class Extensions {
     }
 
     public static void loadExtensions() {
+        LOGGER.info("Loading extensions.");
         for (Plugin plugin : PluginManagerCore.getEnabledPlugins()) {
             String pluginId = plugin.getId();
             ClassLoader classLoader = plugin.getClassLoader();
