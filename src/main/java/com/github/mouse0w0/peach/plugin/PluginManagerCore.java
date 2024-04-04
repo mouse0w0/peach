@@ -37,7 +37,6 @@ public final class PluginManagerCore {
     private static List<? extends Plugin> plugins;
     private static List<? extends Plugin> enabledPlugins;
     private static Map<String, ? extends Plugin> idToPluginMap;
-    private static List<String> errorMessages;
 
     public static List<? extends Plugin> getPlugins() {
         return plugins;
@@ -52,13 +51,7 @@ public final class PluginManagerCore {
         return idToPluginMap.get(id);
     }
 
-    public static List<String> getErrorMessages() {
-        return errorMessages;
-    }
-
     public static void loadPlugins() {
-        ImmutableList.Builder<String> errorMessagesBuilder = ImmutableList.builder();
-
         ClassLoader coreClassLoader = PluginManagerCore.class.getClassLoader();
 
         List<CompletableFuture<PluginImpl>> futures = new ArrayList<>();
@@ -86,10 +79,9 @@ public final class PluginManagerCore {
             } catch (CompletionException e) {
                 Throwable cause = e.getCause();
                 LOGGER.error("An exception occurred while loading the plugin.", cause);
-                errorMessagesBuilder.add("An exception occurred while loading the plugin.\n" + cause.getMessage());
             }
         }
-        logDuplicatePlugins(duplicatePlugins, errorMessagesBuilder);
+        logDuplicatePlugins(duplicatePlugins);
 
         Collection<PluginImpl> plugins = idToPluginMap.values();
         Multimap<PluginImpl, PluginDependency> missingDependency = ArrayListMultimap.create();
@@ -103,7 +95,7 @@ public final class PluginManagerCore {
                 }
             }
         }
-        logMissingDependency(missingDependency, errorMessagesBuilder);
+        logMissingDependency(missingDependency);
 
         DirectedGraph<PluginImpl> pluginGraph = new DirectedGraph<>();
         for (PluginImpl plugin : plugins) {
@@ -123,7 +115,7 @@ public final class PluginManagerCore {
             if (scc.size() == 1) {
                 enabledPlugins.add(scc.get(0));
             } else {
-                logCircularDependency(scc, errorMessagesBuilder);
+                logCircularDependency(scc);
             }
         }
 
@@ -170,10 +162,9 @@ public final class PluginManagerCore {
         PluginManagerCore.plugins = ImmutableList.copyOf(plugins);
         PluginManagerCore.enabledPlugins = ImmutableList.copyOf(enabledPlugins);
         PluginManagerCore.idToPluginMap = ImmutableMap.copyOf(idToPluginMap);
-        PluginManagerCore.errorMessages = errorMessagesBuilder.build();
     }
 
-    private static void logDuplicatePlugins(Multimap<String, PluginImpl> duplicatePlugins, ImmutableList.Builder<String> errorMessagesBuilder) {
+    private static void logDuplicatePlugins(Multimap<String, PluginImpl> duplicatePlugins) {
         for (String pluginId : duplicatePlugins.keySet()) {
             StringBuilder errorMessageBuilder = new StringBuilder();
             errorMessageBuilder.append("Duplicate plugin with id `").append(pluginId).append("`, as follows:");
@@ -182,11 +173,10 @@ public final class PluginManagerCore {
             }
             String errorMessage = errorMessageBuilder.toString();
             LOGGER.error(errorMessage);
-            errorMessagesBuilder.add(errorMessage);
         }
     }
 
-    private static void logMissingDependency(Multimap<PluginImpl, PluginDependency> missingDependency, ImmutableList.Builder<String> errorMessagesBuilder) {
+    private static void logMissingDependency(Multimap<PluginImpl, PluginDependency> missingDependency) {
         for (PluginImpl plugin : missingDependency.keySet()) {
             StringBuilder errorMessageBuilder = new StringBuilder();
             errorMessageBuilder.append("Missing dependency with plugin `").append(plugin.getId()).append("`, as follows:");
@@ -195,11 +185,10 @@ public final class PluginManagerCore {
             }
             String errorMessage = errorMessageBuilder.toString();
             LOGGER.error(errorMessage);
-            errorMessagesBuilder.add(errorMessage);
         }
     }
 
-    private static void logCircularDependency(List<PluginImpl> scc, ImmutableList.Builder<String> errorMessagesBuilder) {
+    private static void logCircularDependency(List<PluginImpl> scc) {
         StringBuilder errorMessageBuilder = new StringBuilder();
         errorMessageBuilder.append("Circular dependency detected, as follows:");
         for (PluginImpl plugin : scc) {
@@ -207,7 +196,6 @@ public final class PluginManagerCore {
         }
         String errorMessage = errorMessageBuilder.toString();
         LOGGER.error(errorMessage);
-        errorMessagesBuilder.add(errorMessage);
     }
 
     private static void loadFromClasspath(ClassLoader coreClassLoader, List<CompletableFuture<PluginImpl>> futures) {
