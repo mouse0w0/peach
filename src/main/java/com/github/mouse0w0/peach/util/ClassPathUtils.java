@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.util;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,9 +15,8 @@ public class ClassPathUtils {
         return getPath(name, Thread.currentThread().getContextClassLoader());
     }
 
-    public static Path getPath(String name, ClassLoader classLoader) throws IOException {
-        URL resource = classLoader.getResource(name);
-        if (resource == null) throw new FileNotFoundException(name);
+    public static Path getPath(String name, ClassLoader classLoader) throws IOException, ResourceNotFoundException {
+        URL resource = getResource(name, classLoader);
         try {
             URI uri = resource.toURI();
             if ("jar".equals(uri.getScheme())) {
@@ -32,5 +30,15 @@ public class ClassPathUtils {
         } catch (URISyntaxException e) {
             throw new Error(e);
         }
+    }
+
+    public static URL getResource(String name) throws ResourceNotFoundException {
+        return getResource(name, Thread.currentThread().getContextClassLoader());
+    }
+
+    public static URL getResource(String name, ClassLoader classLoader) throws ResourceNotFoundException {
+        URL resource = classLoader.getResource(name);
+        if (resource == null) throw new ResourceNotFoundException(name);
+        return resource;
     }
 }
