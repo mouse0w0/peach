@@ -107,23 +107,6 @@ public class ModelField extends Element {
         blockstateProperty().set(blockstate);
     }
 
-    private BooleanProperty inherit;
-
-    public final BooleanProperty inheritProperty() {
-        if (inherit == null) {
-            inherit = new SimpleBooleanProperty(this, "inherit");
-        }
-        return inherit;
-    }
-
-    public final boolean isInherit() {
-        return inherit != null && inherit.get();
-    }
-
-    public final void setInherit(boolean inherit) {
-        inheritProperty().set(inherit);
-    }
-
     private final ObjectProperty<Identifier> model = new SimpleObjectProperty<>(this, "model");
 
     public final ObjectProperty<Identifier> modelProperty() {
@@ -136,6 +119,23 @@ public class ModelField extends Element {
 
     public final void setModel(Identifier model) {
         modelProperty().set(model);
+    }
+
+    private BooleanProperty hasDefaultItemModel;
+
+    public final BooleanProperty hasDefaultItemModelProperty() {
+        if (hasDefaultItemModel == null) {
+            hasDefaultItemModel = new SimpleBooleanProperty(this, "hasDefaultItemModel");
+        }
+        return hasDefaultItemModel;
+    }
+
+    public final boolean hasDefaultBlockItemModel() {
+        return hasDefaultItemModel != null && hasDefaultItemModel.get();
+    }
+
+    public final void setHasDefaultItemModel(boolean hasDefaultItemModel) {
+        hasDefaultItemModelProperty().set(hasDefaultItemModel);
     }
 
     private final ObservableMap<String, String> customModels = FXCollections.observableHashMap();
@@ -217,7 +217,7 @@ public class ModelField extends Element {
 
         modelProperty().addListener(observable -> updateModelPrototype());
         blockstateProperty().addListener(observable -> updateBlockstate());
-        inheritProperty().addListener(observable -> updateBlockstate());
+        hasDefaultItemModelProperty().addListener(observable -> updateBlockstate());
         updateBlockstate();
 
         return pane;
@@ -228,8 +228,8 @@ public class ModelField extends Element {
         final Identifier model = getModel();
         final List<Identifier> modelList = new ArrayList<>();
         if (blockstate != null) {
-            if (isInherit()) {
-                modelList.add(ModelManager.INHERIT);
+            if (hasDefaultBlockItemModel()) {
+                modelList.add(ModelManager.DEFAULT);
             }
             modelList.addAll(modelManager.getModelTemplatesByBlockstate(blockstate));
             modelList.add(ModelManager.CUSTOM);
@@ -247,7 +247,7 @@ public class ModelField extends Element {
         if (updating) return;
         final Identifier model = getModel();
         if (model == null) return;
-        if (ModelManager.INHERIT.equals(model)) {
+        if (ModelManager.DEFAULT.equals(model)) {
             textures.clear();
         } else if (ModelManager.CUSTOM.equals(model)) {
             textures.clear();

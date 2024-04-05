@@ -232,7 +232,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         itemModel.setText(AppL10n.localize("block.appearance.itemModel"));
         itemModel.setBlockstate("item");
         var modelManager = ModelManager.getInstance(getProject());
-        itemModel.inheritProperty().bind(type.valueProperty().map(type -> modelManager.getBlockstateTemplate(type.getBlockstate()).getItem() != null));
+        itemModel.hasDefaultItemModelProperty().bind(type.valueProperty().map(type -> modelManager.getBlockstateTemplate(type.getBlockstate()).getItem() != null));
 
         itemTextures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),

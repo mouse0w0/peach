@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ModelManager {
     public static final Identifier CUSTOM = Identifier.of("buildin:custom");
-    public static final Identifier INHERIT = Identifier.of("buildin:inherit");
+    public static final Identifier DEFAULT = Identifier.of("buildin:default");
 
     private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
     private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();

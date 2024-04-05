@@ -187,7 +187,7 @@ public class GenBlock implements Task {
             if (ModelManager.CUSTOM.equals(itemModel)) {
                 ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomItemModels(), context.getModelsFolder(),
                         ModelUtils.processTextures(namespace, block.getItemTextures()), null, assetsFiler.getRoot(), outputModels);
-            } else if (ModelManager.INHERIT.equals(itemModel)) {
+            } else if (ModelManager.DEFAULT.equals(itemModel)) {
                 ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(blockstateTemplate.getItem()),
                         blockTextures, null, assetsFiler.getRoot(), outputModels);
             } else {
