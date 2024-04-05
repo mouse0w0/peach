@@ -73,9 +73,8 @@
                             implementation="com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataManagerImpl"
                             preload="true"/>
         <applicationService implementation="com.github.mouse0w0.peach.mcmod.element.ElementRegistry" preload="true"/>
-        <applicationService implementation="com.github.mouse0w0.peach.mcmod.model.ModelManager" preload="true"/>
 
-        <projectService implementation="com.github.mouse0w0.peach.mcmod.project.ModProjectService"/>
+        <projectService implementation="com.github.mouse0w0.peach.mcmod.project.ModProjectService" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.IndexManager" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider" preload="true"/>
         <projectService implementation="com.github.mouse0w0.peach.mcmod.element.ElementManager" preload="true"/>

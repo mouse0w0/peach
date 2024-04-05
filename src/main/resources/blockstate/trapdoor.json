@@ -1,9 +1,0 @@
-{
-    "template": "blockstate/trapdoor.json.ftl",
-    "item": "minecraft:trapdoor_item",
-    "models": {
-        "trapdoor_bottom": "block/${id}_bottom",
-        "trapdoor_top": "block/${id}_top",
-        "trapdoor_open": "block/${id}_open"
-    }
-}

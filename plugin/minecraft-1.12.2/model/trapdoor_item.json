@@ -1,0 +1,10 @@
+{
+    "id": "minecraft:trapdoor_item",
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "parent": "trapdoor_bottom",
+            "template": "parent.json"
+        }
+    }
+}

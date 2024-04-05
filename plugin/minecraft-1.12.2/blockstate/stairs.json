@@ -1,0 +1,9 @@
+{
+    "template": "stairs.json.ftl",
+    "item": "minecraft:stairs_item",
+    "models": {
+        "stairs": "block/${id}",
+        "outer_stairs": "block/${id}_outer",
+        "inner_stairs": "block/${id}_inner"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "id": "minecraft:fence_gate_item",
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "parent": "fence_gate_closed",
+            "template": "parent.json"
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "id": "minecraft:slab",
+    "blockstates": [
+        "slab"
+    ],
+    "textures": [
+        "bottom", "top", "side"
+    ],
+    "models": {
+        "slab_bottom": {
+            "name": "block/${id}_bottom",
+            "template": "slab_bottom.json"
+        },
+        "slab_top": {
+            "name": "block/${id}_top",
+            "template": "slab_top.json"
+        },
+        "slab_double": {
+            "name": "block/${id}_double",
+            "template": "cube_bottom_top.json"
+        }
+    }
+}

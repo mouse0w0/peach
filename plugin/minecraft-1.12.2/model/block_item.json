@@ -1,0 +1,10 @@
+{
+    "id": "minecraft:block_item",
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "parent": "block",
+            "template": "parent.json"
+        }
+    }
+}

@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.binding.BidirectionalValueBinding;
@@ -43,7 +44,7 @@ public class ModelField extends Element {
     private final ResourceStore resourceStore;
 
     public ModelField(Project project, Disposable parentDisposable, ResourceStore resourceStore) {
-        this.modelManager = ModelManager.getInstance();
+        this.modelManager = ModelManager.getInstance(project);
         this.resourceStore = resourceStore;
 
         modelProperty().addListener(observable -> updateTexture());
@@ -200,8 +201,11 @@ public class ModelField extends Element {
         comboBox.disableProperty().bind(disableProperty());
         comboBox.setConverter(new StringConverter<>() {
             @Override
-            public String toString(Identifier object) {
-                return object != null ? AppL10n.localize("model." + object.getNamespace() + "." + object.getName()) : null;
+            public String toString(Identifier id) {
+                if (id == null) return null;
+                ModelTemplate modelTemplate = modelManager.getModelTemplate(id);
+                if (modelTemplate != null) return modelTemplate.getLocalizedName();
+                return AppL10n.localize("model." + id.getNamespace() + "." + id.getName());
             }
 
             @Override

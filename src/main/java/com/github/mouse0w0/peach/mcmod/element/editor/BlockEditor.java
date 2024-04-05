@@ -6,7 +6,6 @@ import com.github.mouse0w0.peach.mcmod.BoundingBox;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
-import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.GameDataCell;
@@ -232,12 +231,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
         itemModel.setText(AppL10n.localize("block.appearance.itemModel"));
         itemModel.setBlockstate("item");
-        itemModel.inheritProperty().bind(Bindings.createBooleanBinding(() -> {
-            ModelManager modelManager = ModelManager.getInstance();
-            BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate(type.getValue().getBlockstate());
-            if (blockstateTemplate.getItem() == null) return false;
-            return modelManager.hasModelTemplate(blockstateTemplate.getItem());
-        }, type.valueProperty()));
+        var modelManager = ModelManager.getInstance(getProject());
+        itemModel.inheritProperty().bind(type.valueProperty().map(type -> modelManager.getBlockstateTemplate(type.getBlockstate()).getItem() != null));
 
         itemTextures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),

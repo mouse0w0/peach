@@ -1,0 +1,7 @@
+{
+    "template": "pillar.json.ftl",
+    "item": "minecraft:block_item",
+    "models": {
+        "block": "block/${id}"
+    }
+}

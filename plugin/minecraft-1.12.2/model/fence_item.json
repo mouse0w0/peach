@@ -1,0 +1,14 @@
+{
+    "id": "minecraft:fence_item",
+    "models": {
+        "fence_inventory": {
+            "name": "block/${id}_inventory",
+            "template": "fence_inventory.json"
+        },
+        "item": {
+            "name": "item/${id}",
+            "parent": "fence_inventory",
+            "template": "parent.json"
+        }
+    }
+}

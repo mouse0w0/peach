@@ -1,0 +1,15 @@
+{
+    "id": "minecraft:cube",
+    "blockstates": [
+        "normal", "directional", "horizontal", "dirt"
+    ],
+    "textures": [
+        "down", "up", "north", "south", "west", "east"
+    ],
+    "models": {
+        "block": {
+            "name": "block/${id}",
+            "template": "cube.json"
+        }
+    }
+}

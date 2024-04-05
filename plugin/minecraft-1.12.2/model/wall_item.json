@@ -1,0 +1,14 @@
+{
+    "id": "minecraft:wall_item",
+    "models": {
+        "wall_inventory": {
+            "name": "block/${id}_inventory",
+            "template": "wall_inventory.json"
+        },
+        "item": {
+            "name": "item/${id}",
+            "parent": "wall_inventory",
+            "template": "parent.json"
+        }
+    }
+}

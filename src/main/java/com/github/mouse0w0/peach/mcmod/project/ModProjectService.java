@@ -2,6 +2,8 @@ package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaData;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
@@ -19,6 +21,8 @@ public final class ModProjectService implements Disposable {
     private final Path metadataFile;
 
     private ModProjectMetadata metadata;
+    private final VanillaData vanillaData;
+    private final ModelManager modelManager;
 
     public static ModProjectService getInstance(Project project) {
         return project.getService(ModProjectService.class);
@@ -39,7 +43,9 @@ public final class ModProjectService implements Disposable {
             this.metadata = new ModProjectMetadata();
         }
 
-        IndexManager.getInstance(project).addProvider(VanillaDataManager.getInstance().getVanillaData(metadata.getMcVersion()));
+        vanillaData = VanillaDataManager.getInstance().getVanillaData(metadata.getMcVersion());
+        modelManager = new ModelManager(vanillaData);
+        IndexManager.getInstance(project).addProvider(vanillaData);
     }
 
     public Project getProject() {
@@ -56,6 +62,14 @@ public final class ModProjectService implements Disposable {
 
     public ModProjectMetadata getMetadata() {
         return metadata;
+    }
+
+    public VanillaData getVanillaData() {
+        return vanillaData;
+    }
+
+    public ModelManager getModelManager() {
+        return modelManager;
     }
 
     public void saveMetadata() {

@@ -1,0 +1,23 @@
+{
+    "id": "minecraft:stairs",
+    "blockstates": [
+        "stairs"
+    ],
+    "textures": [
+        "bottom", "top", "side"
+    ],
+    "models": {
+        "stairs": {
+            "name": "block/${id}",
+            "template": "stairs.json"
+        },
+        "outer_stairs": {
+            "name": "block/${id}_outer",
+            "template": "outer_stairs.json"
+        },
+        "inner_stairs": {
+            "name": "block/${id}_inner",
+            "template": "inner_stairs.json"
+        }
+    }
+}

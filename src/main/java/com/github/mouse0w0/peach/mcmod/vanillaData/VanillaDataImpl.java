@@ -1,15 +1,15 @@
 package com.github.mouse0w0.peach.mcmod.vanillaData;
 
 import com.github.mouse0w0.peach.l10n.L10n;
-import com.github.mouse0w0.peach.mcmod.GameData;
-import com.github.mouse0w0.peach.mcmod.IconicData;
-import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.ItemData;
+import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexType;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
+import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
+import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.util.ClassPathUtils;
+import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,7 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +55,8 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         loadGameData(IndexTypes.RENDER_TYPE);
         loadGameData(IndexTypes.TOOL_TYPE);
         loadGameData(IndexTypes.USE_ANIMATION);
+        loadBlockstateTemplates();
+        loadModelTemplates();
     }
 
     @Override
@@ -61,6 +67,73 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     @Override
     public Plugin getPlugin() {
         return plugin;
+    }
+
+    private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
+
+    @Override
+    public Map<String, BlockstateTemplate> getBlockstateTemplateMap() {
+        return blockstateTemplateMap;
+    }
+
+    private void loadBlockstateTemplates() {
+        try {
+            Path state = ClassPathUtils.getPath("blockstate", plugin.getClassLoader());
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(state)) {
+                for (Path path : stream) {
+                    if (FileUtils.getFileName(path).endsWith(".json")) {
+                        loadBlockstateTemplate(path);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private void loadBlockstateTemplate(Path file) {
+        try {
+            BlockstateTemplate blockstateTemplate = JsonUtils.readJson(file, BlockstateTemplate.class);
+            blockstateTemplate.setPlugin(plugin);
+            blockstateTemplateMap.put(FileUtils.getFileNameWithoutExtension(file), blockstateTemplate);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+
+    private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
+
+    @Override
+    public Map<Identifier, ModelTemplate> getModelTemplateMap() {
+        return modelTemplateMap;
+    }
+
+    private void loadModelTemplates() {
+        try {
+            Path model = ClassPathUtils.getPath("model", plugin.getClassLoader());
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(model)) {
+                for (Path path : stream) {
+                    if (FileUtils.getFileName(path).endsWith(".json")) {
+                        loadModelTemplate(path);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private void loadModelTemplate(Path file) {
+        try {
+            ModelTemplate modelTemplate = JsonUtils.readJson(file, ModelTemplate.class);
+            Identifier modelTemplateId = modelTemplate.getId();
+            modelTemplate.setPlugin(plugin);
+            modelTemplate.setLocalizedName(l10n.localize("model." + modelTemplateId.getNamespace() + "." + modelTemplateId.getName()));
+            modelTemplateMap.put(modelTemplateId, modelTemplate);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private void loadItemData() {

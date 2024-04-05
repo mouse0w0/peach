@@ -1,7 +1,0 @@
-{
-    "template": "blockstate/directional.json.ftl",
-    "item": "minecraft:block_item",
-    "models": {
-        "block": "block/${id}"
-    }
-}

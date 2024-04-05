@@ -30,10 +30,9 @@ public class ModelUtils {
             String modelKey = entry.getKey();
             ModelEntry modelEntry = entry.getValue();
             String modelPath = processModelPath(identifier, modelEntry.getName());
-            String parent = modelEntry.getParent();
-            Path source = ClassPathUtils.getPath("template/" + modelEntry.getTemplate());
+            Path source = ClassPathUtils.getPath("model/template/" + modelEntry.getTemplate(), modelTemplate.getPlugin().getClassLoader());
             Path target = output.resolve("models/" + modelPath + ".json");
-            processModel(source, target, StringUtils.isNotEmpty(parent) ? processResourcePath(namespace, outputModels.get(parent)) : null, textures, particleTexture);
+            processModel(source, target, getActualParent(modelEntry.getParent(), namespace, outputModels), textures, particleTexture);
             outputModels.put(modelKey, modelPath);
         }
     }
@@ -55,6 +54,10 @@ public class ModelUtils {
             processModel(source, target, null, textures, particleTexture);
             outputModels.put(modelKey, modelPath);
         }
+    }
+
+    public static String getActualParent(String parent, String namespace, Map<String, String> models) {
+        return StringUtils.isNotEmpty(parent) ? processResourcePath(namespace, models.get(parent)) : null;
     }
 
     public static Map<String, String> processTextures(String namespace, Map<String, String> textures) {
@@ -93,18 +96,5 @@ public class ModelUtils {
             }
         }
         return model;
-    }
-
-    public static Map<String, String> processBlockstateModels(String namespace, Map<String, String> models) {
-        Map<String, String> result = new HashMap<>();
-        for (Map.Entry<String, String> entry : models.entrySet()) {
-            String modelKey = entry.getKey();
-            String modelPath = entry.getValue();
-            if (modelPath.startsWith("block/")) {
-                // ”block/".length() == 6
-                result.put(modelKey, processResourcePath(namespace, modelPath.substring(6)));
-            }
-        }
-        return result;
     }
 }

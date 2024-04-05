@@ -1,0 +1,15 @@
+{
+    "id": "minecraft:handheld",
+    "blockstates": [
+        "item"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "template": "handheld.json"
+        }
+    }
+}

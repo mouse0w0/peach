@@ -1,0 +1,27 @@
+{
+    "id": "minecraft:fence_gate",
+    "blockstates": [
+        "fence_gate"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "fence_gate_closed": {
+            "name": "block/${id}_closed",
+            "template": "fence_gate_closed.json"
+        },
+        "fence_gate_open": {
+            "name": "block/${id}_open",
+            "template": "fence_gate_open.json"
+        },
+        "wall_gate_closed": {
+            "name": "block/${id}_wall_closed",
+            "template": "wall_gate_closed.json"
+        },
+        "wall_gate_open": {
+            "name": "block/${id}_wall_open",
+            "template": "wall_gate_open.json"
+        }
+    }
+}

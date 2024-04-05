@@ -1,0 +1,10 @@
+{
+    "id": "minecraft:stairs_item",
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "parent": "stairs",
+            "template": "parent.json"
+        }
+    }
+}

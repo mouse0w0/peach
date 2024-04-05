@@ -16,8 +16,6 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import freemarker.template.Configuration;
-import freemarker.template.TemplateExceptionHandler;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,7 +23,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 public final class Generator implements Context {
 
@@ -42,7 +39,6 @@ public final class Generator implements Context {
     private ModelManager modelManager;
     private ElementRegistry elementRegistry;
     private ElementManager elementManager;
-    private Configuration templateManager;
     private Messager messager;
 
     private String rootPackage;
@@ -115,11 +111,6 @@ public final class Generator implements Context {
     }
 
     @Override
-    public Configuration getTemplateManager() {
-        return templateManager;
-    }
-
-    @Override
     public Filer getClassesFiler() {
         return classesFiler;
     }
@@ -179,14 +170,9 @@ public final class Generator implements Context {
             this.metadata = ModProjectService.getInstance(project).getMetadata();
             this.id = metadata.getId();
             this.outputFolder = project.getPath().resolve("build");
-            this.modelManager = ModelManager.getInstance();
+            this.modelManager = ModelManager.getInstance(project);
             this.elementRegistry = ElementRegistry.getInstance();
             this.elementManager = ElementManager.getInstance(project);
-            this.templateManager = new Configuration(Configuration.VERSION_2_3_31);
-            this.templateManager.setDefaultEncoding("UTF-8");
-            this.templateManager.setLocale(Locale.US);
-            this.templateManager.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-            this.templateManager.setClassLoaderForTemplateLoading(ClassLoader.getSystemClassLoader(), "template");
             this.messager = new MessagerImpl();
 
             FileUtils.createDirectoriesIfNotExists(getOutputFolder());

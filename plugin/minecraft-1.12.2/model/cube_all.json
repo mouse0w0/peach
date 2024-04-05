@@ -1,0 +1,15 @@
+{
+    "id": "minecraft:cube_all",
+    "blockstates": [
+        "normal", "dirt"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "block": {
+            "name": "block/${id}",
+            "template": "cube_all.json"
+        }
+    }
+}

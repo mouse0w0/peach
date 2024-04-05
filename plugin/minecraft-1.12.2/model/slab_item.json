@@ -1,0 +1,10 @@
+{
+    "id": "minecraft:slab_item",
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "parent": "slab_bottom",
+            "template": "parent.json"
+        }
+    }
+}

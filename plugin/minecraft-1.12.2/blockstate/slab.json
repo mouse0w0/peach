@@ -1,0 +1,9 @@
+{
+    "template": "slab.json.ftl",
+    "item": "minecraft:slab_item",
+    "models": {
+        "slab_bottom": "block/${id}_bottom",
+        "slab_top": "block/${id}_top",
+        "slab_double": "block/${id}_double"
+    }
+}

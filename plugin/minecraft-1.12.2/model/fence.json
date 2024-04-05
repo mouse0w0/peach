@@ -1,0 +1,19 @@
+{
+    "id": "minecraft:fence",
+    "blockstates": [
+        "fence"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "fence_post": {
+            "name": "block/${id}_post",
+            "template": "fence_post.json"
+        },
+        "fence_side": {
+            "name": "block/${id}_side",
+            "template": "fence_side.json"
+        }
+    }
+}

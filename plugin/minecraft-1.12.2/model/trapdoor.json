@@ -1,0 +1,23 @@
+{
+    "id": "minecraft:trapdoor",
+    "blockstates": [
+        "trapdoor"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "trapdoor_bottom": {
+            "name": "block/${id}_bottom",
+            "template": "trapdoor_bottom.json"
+        },
+        "trapdoor_top": {
+            "name": "block/${id}_top",
+            "template": "trapdoor_top.json"
+        },
+        "trapdoor_open": {
+            "name": "block/${id}_open",
+            "template": "trapdoor_open.json"
+        }
+    }
+}

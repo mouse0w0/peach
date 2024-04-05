@@ -1,0 +1,19 @@
+{
+    "id": "minecraft:wall",
+    "blockstates": [
+        "wall"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "wall_post": {
+            "name": "block/${id}_post",
+            "template": "wall_post.json"
+        },
+        "wall_side": {
+            "name": "block/${id}_side",
+            "template": "wall_side.json"
+        }
+    }
+}

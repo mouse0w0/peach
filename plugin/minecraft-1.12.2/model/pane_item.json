@@ -1,0 +1,12 @@
+{
+    "id": "minecraft:pane_item",
+    "textures": [
+        "pane"
+    ],
+    "models": {
+        "item": {
+            "name": "item/${id}",
+            "template": "pane_item.json"
+        }
+    }
+}

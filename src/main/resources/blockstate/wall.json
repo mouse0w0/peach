@@ -1,8 +1,0 @@
-{
-    "template": "blockstate/wall.json.ftl",
-    "item": "minecraft:wall_item",
-    "models": {
-        "wall_post": "block/${id}_post",
-        "wall_side": "block/${id}_side"
-    }
-}

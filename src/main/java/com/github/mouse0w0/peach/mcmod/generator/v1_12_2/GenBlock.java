@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.Filer;
 import com.github.mouse0w0.peach.mcmod.generator.task.Task;
+import com.github.mouse0w0.peach.mcmod.generator.util.BlockstateUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.ModelUtils;
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockClassGenerator;
@@ -14,8 +15,6 @@ import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.block.*;
 import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.util.ArrayUtils;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import javafx.scene.paint.Color;
 
 import java.nio.file.Path;
@@ -197,9 +196,7 @@ public class GenBlock implements Task {
             }
 
             // Generate Blockstate
-            Configuration templateManager = context.getTemplateManager();
-            Template template = templateManager.getTemplate(blockstateTemplate.getTemplate());
-            template.process(ModelUtils.processBlockstateModels(namespace, outputModels), assetsFiler.newWriter("blockstates/" + identifier + ".json"));
+            BlockstateUtils.generateBlockstate(blockstateTemplate, namespace, outputModels, assetsFiler.resolve("blockstates/" + identifier + ".json"));
         }
 
         context.getClassesFiler().write(loader.getThisName() + ".class", loader.toByteArray());

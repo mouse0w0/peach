@@ -1,0 +1,19 @@
+{
+    "id": "minecraft:stone",
+    "blockstates": [
+        "stone"
+    ],
+    "textures": [
+        "texture"
+    ],
+    "models": {
+        "block": {
+            "name": "block/${id}",
+            "template": "cube_all.json"
+        },
+        "block_mirrored": {
+            "name": "block/${id}_mirrored",
+            "template": "cube_mirrored_all.json"
+        }
+    }
+}
