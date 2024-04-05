@@ -49,10 +49,10 @@ public class ItemProvider extends ElementProvider<ItemElement> {
     public Object[] addIndex(Project project, IndexProvider provider, ItemElement element) {
         String modId = ModProjectService.getInstance(project).getModId();
 
-        String layer0 = element.getTextures().get("layer0");
+        String texture = element.getTextures().get("texture");
         Image image;
-        if (StringUtils.isNotEmpty(layer0)) {
-            image = ImageUtils.of(ResourceUtils.getTextureFile(project, layer0), 64, 64, true, false);
+        if (StringUtils.isNotEmpty(texture)) {
+            image = ImageUtils.of(ResourceUtils.getTextureFile(project, texture), 64, 64, true, false);
         } else {
             image = ResourceUtils.MISSING_TEXTURE;
         }
