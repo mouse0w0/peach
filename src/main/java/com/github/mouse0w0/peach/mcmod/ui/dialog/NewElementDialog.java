@@ -7,14 +7,15 @@ import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
+import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -35,9 +36,9 @@ public class NewElementDialog extends Stage {
 
     public NewElementDialog(Project project, Path path) {
         BorderPane root = new BorderPane();
-        root.setPadding(new Insets(12));
 
         GridPane grid = new GridPane(12, 12);
+        grid.setPadding(new Insets(12, 12, 0, 12));
         grid.getColumnConstraints().addAll(
                 new ColumnConstraints(60, 60, Double.MAX_VALUE),
                 new ColumnConstraints(180, 180, Double.MAX_VALUE)
@@ -87,8 +88,8 @@ public class NewElementDialog extends Stage {
         identifier.textProperty().bind(name.textProperty().map(IdentifierUtils::tryConvertToIdentifier));
         grid.add(identifier, 1, 2);
 
-        Button finishButton = ButtonType.FINISH.createButton();
-        finishButton.setOnAction(event -> {
+        Button finish = ButtonType.FINISH.createButton();
+        finish.setOnAction(event -> {
             if (!Validator.validate(name)) return;
 
             ElementManager.getInstance(project).createElement(path, type.getValue(), name.getText());
@@ -96,15 +97,15 @@ public class NewElementDialog extends Stage {
             hide();
         });
 
-        Button cancelButton = ButtonType.CANCEL.createButton();
-        cancelButton.setOnAction(event -> hide());
+        Button cancel = ButtonType.CANCEL.createButton();
+        cancel.setOnAction(event -> hide());
 
-        ButtonBar buttonBar = new ButtonBar();
-        buttonBar.setPadding(new Insets(12, 0, 0, 0));
-        buttonBar.getButtons().addAll(finishButton, cancelButton);
-        root.setBottom(buttonBar);
+        root.setBottom(new ButtonBar(finish, cancel));
 
-        setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        FXUtils.addStylesheet(scene, "style/style.css");
+
+        setScene(scene);
         setTitle(AppL10n.localize("dialog.newElement.title"));
         getIcons().add(AppIcon.Peach.getImage());
         setResizable(false);

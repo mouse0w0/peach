@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.icon.AppIcon;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.ui.layout.Container;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
@@ -14,7 +15,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,6 +41,8 @@ public class NewProjectDialog extends Stage {
         setHeight(600);
         initModality(Modality.APPLICATION_MODAL);
 
+        BorderPane root = new BorderPane();
+
         ListView<NewProjectProvider> listView = new ListView<>(FXCollections.observableList(NewProjectProvider.EXTENSION_POINT.getExtensions()));
         listView.setCellFactory(view -> new Cell());
         MultipleSelectionModel<NewProjectProvider> selectionModel = listView.getSelectionModel();
@@ -59,6 +61,7 @@ public class NewProjectDialog extends Stage {
         scrollPane.setFitToWidth(true);
 
         SplitPane splitPane = new SplitPane(listView, scrollPane);
+        root.setCenter(scrollPane);
 
         Button finish = new Button(AppL10n.localize("button.create"));
         finish.setDefaultButton(true);
@@ -86,14 +89,9 @@ public class NewProjectDialog extends Stage {
         cancel.setCancelButton(true);
         cancel.setOnAction(event -> hide());
 
-        HBox buttonBar = new HBox(finish, cancel);
-        buttonBar.getStyleClass().add("button-bar");
+        root.setBottom(new ButtonBar(finish, cancel));
 
-        BorderPane borderPane = new BorderPane();
-        borderPane.setCenter(splitPane);
-        borderPane.setBottom(buttonBar);
-
-        Scene scene = new Scene(borderPane);
+        Scene scene = new Scene(root);
         FXUtils.addStylesheet(scene, "style/style.css");
         FXUtils.addStylesheet(scene, "style/NewProjectDialog.css");
         setScene(scene);

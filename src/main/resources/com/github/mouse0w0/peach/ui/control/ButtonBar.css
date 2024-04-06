@@ -1,0 +1,9 @@
+.button-bar {
+    -fx-alignment: center-right;
+    -fx-padding: 0.833em;
+    -fx-spacing: 10px;
+}
+
+.button-bar > .button {
+    -fx-min-width: 75;
+}

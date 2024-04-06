@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.ListUtils;
@@ -116,10 +117,7 @@ public class ItemChooser extends Stage {
             selectionModel.select(item);
             hide();
         });
-
-        ButtonBar buttonBar = new ButtonBar();
-        buttonBar.getButtons().addAll(ok, cancel);
-        root.setBottom(buttonBar);
+        root.setBottom(new ButtonBar(ok, cancel));
 
         Scene scene = new Scene(root);
         FXUtils.addStylesheet(scene, "style/style.css");
