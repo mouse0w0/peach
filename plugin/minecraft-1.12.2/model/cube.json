@@ -4,7 +4,7 @@
         "normal", "directional", "horizontal", "dirt"
     ],
     "textures": [
-        "down", "up", "north", "south", "west", "east"
+        "top", "bottom", "north", "south", "west", "east"
     ],
     "models": {
         "block": {
