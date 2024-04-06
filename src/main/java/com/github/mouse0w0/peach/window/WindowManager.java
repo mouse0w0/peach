@@ -17,7 +17,5 @@ public interface WindowManager {
 
     ProjectWindow getWindow(Window window);
 
-    Project getFocusedProject();
-
     ProjectWindow getFocusedWindow();
 }

@@ -54,12 +54,6 @@ public class WindowManagerImpl implements WindowManager {
         return null;
     }
 
-    @Override
-    public Project getFocusedProject() {
-        ProjectWindow projectWindow = getFocusedWindow();
-        return projectWindow != null ? projectWindow.getProject() : null;
-    }
-
     public ProjectWindow getOrCreateWindow(Project project) {
         ProjectWindow window = getWindow(project);
         if (window != null) {
