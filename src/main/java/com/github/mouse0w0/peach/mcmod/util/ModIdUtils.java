@@ -13,20 +13,16 @@ public class ModIdUtils {
 
     public static String toModId(String s) {
         StringBuilder sb = new StringBuilder();
-        boolean prevIsUnderline = false;
         for (int i = 0; i < s.length(); i++) {
             String trans = AnyAscii.transliterate(s.codePointAt(i));
             for (int j = 0; j < trans.length(); j++) {
                 char transChar = trans.charAt(j);
                 if (isModIdPart(transChar)) {
                     sb.append(transChar);
-                    prevIsUnderline = false;
                 } else if (Character.isUpperCase(transChar)) {
                     sb.append(Character.toLowerCase(transChar));
-                    prevIsUnderline = false;
-                } else if (!prevIsUnderline) {
+                } else {
                     sb.append('_');
-                    prevIsUnderline = true;
                 }
             }
         }
