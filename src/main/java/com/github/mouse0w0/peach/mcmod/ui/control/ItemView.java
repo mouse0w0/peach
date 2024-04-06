@@ -1,56 +1,16 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.ItemData;
-import com.github.mouse0w0.peach.mcmod.index.Index;
-import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.beans.property.*;
-import javafx.css.Styleable;
 import javafx.event.EventHandler;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
-import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
-
-import java.util.List;
 
 public class ItemView extends Control {
     public static final DataFormat ITEM = new DataFormat("peach/item");
-
-    private static final Tooltip TOOLTIP = createTooltip();
-
-    private static Tooltip createTooltip() {
-        Tooltip tooltip = new Tooltip();
-        tooltip.setOnShowing(event -> {
-            Styleable parent = tooltip.getStyleableParent();
-            if (parent == null) return;
-
-            ItemView itemView = (ItemView) parent;
-            IdMetadata idMetadata = itemView.getItem();
-
-            StringBuilder sb = new StringBuilder();
-            sb.append(idMetadata.getId());
-            if (idMetadata.isNormal()) {
-                sb.append('#').append(idMetadata.getMetadata());
-            }
-
-            sb.append("\n--------------------");
-
-            List<ItemData> itemDataList = itemView.getIndex().get(idMetadata);
-            if (itemDataList != null) {
-                for (ItemData itemData : itemDataList) {
-                    sb.append('\n').append(itemData.getName());
-                }
-            }
-
-            tooltip.setText(sb.toString());
-        });
-        return tooltip;
-    }
 
     private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
         ItemView itemView = (ItemView) event.getSource();
@@ -64,22 +24,28 @@ public class ItemView extends Control {
         dragboard.setContent(content);
     };
 
-    public ItemView() {
+    private final Project project;
+
+    public ItemView(Project project) {
+        this.project = project;
         getStyleClass().add("item-view");
         setPickOnBounds(true);
-        setTooltip(TOOLTIP);
         setOnDragDetected(ON_DRAG_DETECTED);
     }
 
-    public ItemView(double size) {
-        this();
+    public ItemView(Project project, double size) {
+        this(project);
         setSize(size);
     }
 
-    public ItemView(IdMetadata item, double size) {
-        this();
+    public ItemView(Project project, IdMetadata item, double size) {
+        this(project);
         setItem(item);
         setSize(size);
+    }
+
+    public final Project getProject() {
+        return project;
     }
 
     private final DoubleProperty size = new SimpleDoubleProperty(this, "size");
@@ -132,29 +98,6 @@ public class ItemView extends Control {
         if (skin != null) {
             ((ItemViewSkin) skin).resetAnimation();
         }
-    }
-
-    private ObjectProperty<Index<IdMetadata, List<ItemData>>> index;
-
-    public final ObjectProperty<Index<IdMetadata, List<ItemData>>> indexProperty() {
-        if (index == null) {
-            index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
-        }
-        return index;
-    }
-
-    public final Index<IdMetadata, List<ItemData>> getIndex() {
-        return indexProperty().get();
-    }
-
-    public final void setIndex(Index<IdMetadata, List<ItemData>> index) {
-        indexProperty().set(index);
-    }
-
-    private Index<IdMetadata, List<ItemData>> getDefaultIndex() {
-        Project project = WindowManager.getInstance().getFocusedProject();
-        if (project == null) return null;
-        return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
     }
 
     @Override

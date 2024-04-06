@@ -10,6 +10,7 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.ButtonType;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -33,119 +34,107 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class ItemChooser extends Stage {
+    private final Project project;
+    private final Index<IdMetadata, List<ItemData>> index;
+
     private final TextField filter;
     private final RadioButton defaultMode;
     private final RadioButton ignoreMetadataMode;
     private final RadioButton oreDictMode;
     private final GridView<IdMetadata> gridView;
 
-    private Index<IdMetadata, List<ItemData>> itemIndex;
-
-    private IdMetadata defaultItem;
-
     private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
 
-    public static IdMetadata pick(Node ownerNode, IdMetadata defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        return pick(ownerNode.getScene().getWindow(), defaultItem, enableIgnoreMetadata, enableOreDict);
+    public static IdMetadata pick(Node ownerNode, IdMetadata item, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        return pick(ownerNode.getScene().getWindow(), item, enableIgnoreMetadata, enableOreDict);
     }
 
-    public static IdMetadata pick(Window window, IdMetadata defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        ItemChooser itemChooser = new ItemChooser();
-        Project project = WindowManager.getInstance().getWindow(window).getProject();
-        itemChooser.init(project, defaultItem != null ? defaultItem : IdMetadata.AIR, enableIgnoreMetadata, enableOreDict);
-        itemChooser.initOwner(window);
+    public static IdMetadata pick(Window window, IdMetadata item, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        ItemChooser itemChooser = new ItemChooser(window, item, enableIgnoreMetadata, enableOreDict);
         itemChooser.showAndWait();
         return itemChooser.getSelectedItem();
     }
 
-    private ItemChooser() {
+    private ItemChooser(Window owner, IdMetadata item, boolean enableIgnoreMetadata, boolean enableOreDict) {
+        this.project = WindowManager.getInstance().getWindow(owner).getProject();
+        this.index = IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
+
         setTitle(AppL10n.localize("dialog.itemChooser.title"));
         setWidth(802);
         setHeight(600);
         initModality(Modality.APPLICATION_MODAL);
+        initOwner(owner);
+
+        BorderPane root = new BorderPane();
 
         Label filterLabel = new Label(AppL10n.localize("dialog.itemChooser.filter"));
+
         filter = new TextField();
         filter.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 updateItem();
+                filterTimeline.stop();
                 event.consume();
             }
         });
         filter.textProperty().addListener(observable -> filterTimeline.playFromStart());
 
         defaultMode = new RadioButton(AppL10n.localize("dialog.itemChooser.mode.default"));
+
         ignoreMetadataMode = new RadioButton(AppL10n.localize("dialog.itemChooser.mode.ignoreMetadata"));
+        ignoreMetadataMode.setDisable(!enableIgnoreMetadata);
+
         oreDictMode = new RadioButton(AppL10n.localize("dialog.itemChooser.mode.oreDict"));
+        oreDictMode.setDisable(!enableOreDict);
+
+        if (item.isOreDictionary()) oreDictMode.setSelected(true);
+        else if (item.isIgnoreMetadata()) ignoreMetadataMode.setSelected(true);
+        else defaultMode.setSelected(true);
 
         ToggleGroup modeGroup = new ToggleGroup();
         modeGroup.getToggles().addAll(defaultMode, ignoreMetadataMode, oreDictMode);
         modeGroup.selectedToggleProperty().addListener(observable -> updateItem());
 
-        HBox headerBar = new HBox(10, filterLabel, filter, defaultMode, ignoreMetadataMode, oreDictMode);
-        headerBar.setPadding(new Insets(10));
+        HBox headerBar = new HBox(12, filterLabel, filter, defaultMode, ignoreMetadataMode, oreDictMode);
+        headerBar.setPadding(new Insets(12));
         headerBar.setAlignment(Pos.CENTER_LEFT);
+        root.setTop(headerBar);
 
         gridView = new GridView<>();
         gridView.setCellWidth(32);
         gridView.setCellHeight(32);
-        gridView.setVerticalCellSpacing(0);
-        gridView.setHorizontalCellSpacing(0);
-        gridView.setCellFactory(view -> new Cell());
+        gridView.setCellFactory(view -> new Cell(project));
+        gridView.getSelectionModel().select(item);
+        root.setCenter(gridView);
 
-        Button ok = new Button(AppL10n.localize("button.ok"));
-        ok.setDefaultButton(true);
+        Button ok = ButtonType.OK.createButton();
         ok.setOnAction(event -> hide());
-        Button cancel = new Button(AppL10n.localize("button.cancel"));
-        cancel.setCancelButton(true);
+        Button cancel = ButtonType.CANCEL.createButton();
         cancel.setOnAction(event -> {
             MultipleSelectionModel<IdMetadata> selectionModel = gridView.getSelectionModel();
             selectionModel.clearSelection();
-            selectionModel.select(defaultItem);
+            selectionModel.select(item);
             hide();
         });
-        HBox buttonBar = new HBox(ok, cancel);
-        buttonBar.getStyleClass().add("button-bar");
 
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(headerBar);
-        borderPane.setCenter(gridView);
-        borderPane.setBottom(buttonBar);
+        ButtonBar buttonBar = new ButtonBar();
+        buttonBar.getButtons().addAll(ok, cancel);
+        root.setBottom(buttonBar);
 
-        Scene scene = new Scene(borderPane);
+        Scene scene = new Scene(root);
         FXUtils.addStylesheet(scene, "style/style.css");
         FXUtils.addStylesheet(scene, "style/ItemChooser.css");
         setScene(scene);
-    }
 
-    public IdMetadata getDefaultItem() {
-        return defaultItem;
+        updateItem();
     }
 
     public IdMetadata getSelectedItem() {
         return gridView.getSelectionModel().getSelectedItem();
     }
 
-    private void init(Project project, IdMetadata defaultItem, boolean enableIgnoreMetadata, boolean enableOreDict) {
-        this.defaultItem = defaultItem;
-        this.itemIndex = IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
-
-//        filter.setText(null);
-
-        ignoreMetadataMode.setDisable(!enableIgnoreMetadata);
-        oreDictMode.setDisable(!enableOreDict);
-
-        if (defaultItem.isOreDictionary()) oreDictMode.setSelected(true);
-        else if (defaultItem.isIgnoreMetadata()) ignoreMetadataMode.setSelected(true);
-        else defaultMode.setSelected(true);
-
-        updateItem();
-
-        gridView.getSelectionModel().select(defaultItem);
-    }
-
     private void updateItem() {
-        gridView.getItems().setAll(ListUtils.filter(itemIndex.keys(), buildItemFilter()));
+        gridView.getItems().setAll(ListUtils.filter(index.keys(), buildItemFilter()));
     }
 
     private Predicate<IdMetadata> buildItemFilter() {
@@ -168,7 +157,7 @@ public class ItemChooser extends Stage {
 
     private boolean filterItem(IdMetadata item, String pattern) {
         if (item.getId().contains(pattern)) return true;
-        for (ItemData data : itemIndex.get(item)) {
+        for (ItemData data : index.get(item)) {
             if (data.getName().contains(pattern)) {
                 return true;
             }
@@ -177,20 +166,17 @@ public class ItemChooser extends Stage {
     }
 
     private static class Cell extends GridCell<IdMetadata> {
-        private final ItemView itemView = new ItemView(32);
+        private final ItemView itemView;
 
-        public Cell() {
+        public Cell(Project project) {
+            itemView = new ItemView(project, 32);
             setGraphic(itemView);
         }
 
         @Override
         protected void updateItem(IdMetadata item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty) {
-                itemView.setItem(null);
-            } else {
-                itemView.setItem(item);
-            }
+            itemView.setItem(item);
         }
     }
 }

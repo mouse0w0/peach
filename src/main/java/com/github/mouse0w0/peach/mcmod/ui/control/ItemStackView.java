@@ -1,29 +1,28 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
-import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.ItemStack;
-import com.github.mouse0w0.peach.mcmod.index.Index;
-import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemStackViewSkin;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.beans.property.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
 
-import java.util.List;
-
 public class ItemStackView extends Control {
+    private final Project project;
 
-    public ItemStackView() {
+    public ItemStackView(Project project) {
+        this.project = project;
         getStyleClass().add("item-stack-view");
     }
 
-    public ItemStackView(double size) {
-        this();
+    public ItemStackView(Project project, double size) {
+        this(project);
         setSize(size);
+    }
+
+    public final Project getProject() {
+        return project;
     }
 
     private final DoubleProperty size = new SimpleDoubleProperty(this, "size", 16);
@@ -88,29 +87,6 @@ public class ItemStackView extends Control {
 
     public final ItemStack getItemStack() {
         return new ItemStack(getItem(), getAmount());
-    }
-
-    private ObjectProperty<Index<IdMetadata, List<ItemData>>> index;
-
-    public final ObjectProperty<Index<IdMetadata, List<ItemData>>> indexProperty() {
-        if (index == null) {
-            index = new SimpleObjectProperty<>(this, "index", getDefaultIndex());
-        }
-        return index;
-    }
-
-    public final Index<IdMetadata, List<ItemData>> getIndex() {
-        return indexProperty().get();
-    }
-
-    public final void setIndex(Index<IdMetadata, List<ItemData>> index) {
-        indexProperty().set(index);
-    }
-
-    private Index<IdMetadata, List<ItemData>> getDefaultIndex() {
-        Project project = WindowManager.getInstance().getFocusedProject();
-        if (project == null) return null;
-        return IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
     }
 
     @Override

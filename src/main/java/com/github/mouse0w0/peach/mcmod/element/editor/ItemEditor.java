@@ -125,8 +125,8 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
         itemGroup.setColSpan(ColSpan.HALF);
-        itemGroup.setCellFactory(IconicDataCell.factory(itemGroupMap));
-        itemGroup.setButtonCell(IconicDataCell.create(itemGroupMap));
+        itemGroup.setCellFactory(IconicDataCell.factory(getProject(), itemGroupMap));
+        itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupMap));
         itemGroup.getItems().addAll(itemGroupMap.keys());
 
         maxStackSize = new IntegerField(1, 64, 64);
@@ -228,13 +228,13 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         attributeModifiers.setItemFactory(() -> new AttributeModifier("generic.maxHealth", 0, AttributeModifier.Operation.ADD));
         attributeModifiers.setCellFactory(view -> new AttributeModifierCell(attributeIndex));
 
-        repairItem = new ItemPickerField();
+        repairItem = new ItemPickerField(getProject());
         repairItem.setSize(32);
         repairItem.setLabel(AppL10n.localize("item.properties.repairItem"));
         repairItem.setColSpan(ColSpan.HALF);
         repairItem.disableProperty().bind(isFood);
 
-        recipeRemain = new ItemPickerField();
+        recipeRemain = new ItemPickerField(getProject());
         recipeRemain.setSize(32);
         recipeRemain.setLabel(AppL10n.localize("item.properties.recipeRemain"));
         recipeRemain.setColSpan(ColSpan.HALF);
@@ -374,7 +374,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         alwaysEdible.setColSpan(ColSpan.HALF);
         alwaysEdible.disableProperty().bind(isNotFood);
 
-        foodContainer = new ItemPickerField();
+        foodContainer = new ItemPickerField(getProject());
         foodContainer.setSize(32);
         foodContainer.setLabel(AppL10n.localize("item.food.foodContainer"));
         foodContainer.setColSpan(ColSpan.HALF);

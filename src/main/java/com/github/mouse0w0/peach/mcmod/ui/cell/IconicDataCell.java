@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.mcmod.IconicData;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
+import com.github.mouse0w0.peach.project.Project;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
@@ -12,17 +13,17 @@ public class IconicDataCell extends ListCell<String> {
     private final Index<String, IconicData> index;
     private final ItemView itemView;
 
-    public static Callback<ListView<String>, ListCell<String>> factory(Index<String, IconicData> index) {
-        return $ -> new IconicDataCell(index);
+    public static Callback<ListView<String>, ListCell<String>> factory(Project project, Index<String, IconicData> index) {
+        return $ -> new IconicDataCell(project, index);
     }
 
-    public static ListCell<String> create(Index<String, IconicData> index) {
-        return new IconicDataCell(index);
+    public static ListCell<String> create(Project project, Index<String, IconicData> index) {
+        return new IconicDataCell(project, index);
     }
 
-    private IconicDataCell(Index<String, IconicData> index) {
+    private IconicDataCell(Project project, Index<String, IconicData> index) {
         this.index = index;
-        this.itemView = new ItemView(16);
+        this.itemView = new ItemView(project, 16);
     }
 
     @Override

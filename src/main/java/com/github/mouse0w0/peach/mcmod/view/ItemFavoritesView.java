@@ -31,12 +31,12 @@ public class ItemFavoritesView implements PersistentService {
 
     private final GridView<IdMetadata> content;
 
-    public ItemFavoritesView() {
+    public ItemFavoritesView(Project project) {
         content = new GridView<>();
         content.setId("item-favorites");
         content.setCellSize(32, 32);
         content.setCellSpacing(0, 0);
-        content.setCellFactory(view -> new Cell());
+        content.setCellFactory(view -> new Cell(project));
         content.setItems(items);
         content.setOnDragOver(event -> {
             event.consume();
@@ -73,20 +73,17 @@ public class ItemFavoritesView implements PersistentService {
     }
 
     private static class Cell extends GridCell<IdMetadata> {
-        private final ItemView itemView = new ItemView(32);
+        private final ItemView itemView;
 
-        public Cell() {
+        public Cell(Project project) {
+            itemView = new ItemView(project, 32);
             setGraphic(itemView);
         }
 
         @Override
         protected void updateItem(IdMetadata item, boolean empty) {
             super.updateItem(item, empty);
-            if (empty) {
-                itemView.setItem(null);
-            } else {
-                itemView.setItem(item);
-            }
+            itemView.setItem(item);
         }
     }
 

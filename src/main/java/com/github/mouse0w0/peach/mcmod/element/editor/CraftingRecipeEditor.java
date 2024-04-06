@@ -64,13 +64,13 @@ public class CraftingRecipeEditor extends ElementEditor<CraftingElement> {
             }
         };
         for (int i = 0; i < 9; i++) {
-            ItemPicker input = inputs[i] = new ItemPicker(64, true, true);
+            ItemPicker input = inputs[i] = new ItemPicker(getProject(), 64, true, true);
             input.itemProperty().addListener(onItemInvalidated);
             input.setPlayAnimation(true);
             inputGridPane.add(input, i % 3, i / 3);
         }
 
-        output = new ItemStackView(64);
+        output = new ItemStackView(getProject(), 64);
         FXUtils.setFixedSize(output, 72, 72);
         AnchorPane.setTopAnchor(output, 121d);
         AnchorPane.setLeftAnchor(output, 424d);

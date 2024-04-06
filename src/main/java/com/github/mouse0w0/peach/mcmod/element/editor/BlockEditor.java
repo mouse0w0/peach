@@ -114,24 +114,24 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         material = new ComboBoxField<>();
         material.setLabel(AppL10n.localize("block.properties.material"));
         material.setColSpan(ColSpan.HALF);
-        material.setCellFactory(IconicDataCell.factory(materialIndex));
-        material.setButtonCell(IconicDataCell.create(materialIndex));
+        material.setCellFactory(IconicDataCell.factory(getProject(), materialIndex));
+        material.setButtonCell(IconicDataCell.create(getProject(), materialIndex));
         material.getItems().addAll(materialIndex.keys());
 
         var itemGroupIndex = indexManager.getIndex(IndexTypes.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
         itemGroup.setColSpan(ColSpan.HALF);
-        itemGroup.setCellFactory(IconicDataCell.factory(itemGroupIndex));
-        itemGroup.setButtonCell(IconicDataCell.create(itemGroupIndex));
+        itemGroup.setCellFactory(IconicDataCell.factory(getProject(), itemGroupIndex));
+        itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupIndex));
         itemGroup.getItems().addAll(itemGroupIndex.keys());
 
         var soundTypeIndex = indexManager.getIndex(IndexTypes.SOUND_TYPE);
         soundType = new ComboBoxField<>();
         soundType.setLabel(AppL10n.localize("block.properties.soundType"));
         soundType.setColSpan(ColSpan.HALF);
-        soundType.setCellFactory(IconicDataCell.factory(soundTypeIndex));
-        soundType.setButtonCell(IconicDataCell.create(soundTypeIndex));
+        soundType.setCellFactory(IconicDataCell.factory(getProject(), soundTypeIndex));
+        soundType.setButtonCell(IconicDataCell.create(getProject(), soundTypeIndex));
         soundType.getItems().addAll(soundTypeIndex.keys());
 
         hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
@@ -296,8 +296,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         mapColor = new ComboBoxField<>();
         mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
         mapColor.setColSpan(ColSpan.HALF);
-        mapColor.setCellFactory(IconicDataCell.factory(mapColorIndex));
-        mapColor.setButtonCell(IconicDataCell.create(mapColorIndex));
+        mapColor.setCellFactory(IconicDataCell.factory(getProject(), mapColorIndex));
+        mapColor.setButtonCell(IconicDataCell.create(getProject(), mapColorIndex));
         mapColor.getItems().addAll(mapColorIndex.keys());
 
         beaconColor = new ColorPickerField();

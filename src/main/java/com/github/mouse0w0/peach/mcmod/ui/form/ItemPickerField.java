@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.form;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
+import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.form.field.ValueField;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -10,6 +11,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 
 public class ItemPickerField extends ValueField<IdMetadata> {
+    private final Project project;
+
+    public ItemPickerField(Project project) {
+        this.project = project;
+    }
+
     private final ObjectProperty<IdMetadata> value = new SimpleObjectProperty<>(this, "value");
 
     @Override
@@ -81,7 +88,7 @@ public class ItemPickerField extends ValueField<IdMetadata> {
 
     @Override
     protected Node createEditorNode() {
-        ItemPicker itemPicker = new ItemPicker();
+        ItemPicker itemPicker = new ItemPicker(project);
         itemPicker.getStyleClass().add("minecraft-small-slot-32x");
         itemPicker.itemProperty().bindBidirectional(valueProperty());
         itemPicker.disableProperty().bind(disableProperty());

@@ -75,7 +75,7 @@ public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
         });
         grid.add(background, 1, 3);
 
-        icon = new ItemPicker(32);
+        icon = new ItemPicker(getProject(), 32);
         icon.getStyleClass().add("minecraft-small-slot-32x");
         icon.setBackground(new Background(new BackgroundFill(Color.gray(0.8), null, null)));
         grid.add(icon, 1, 4);

@@ -7,6 +7,6 @@
     -fx-background-color: #cccccc;
 }
 
-.grid-view .grid-cell .tooltip {
-    -fx-font-size: 13px;
+.button-bar {
+    -fx-padding: 12px;
 }

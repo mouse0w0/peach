@@ -17,34 +17,33 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
     private final ItemPicker item;
     private final TextField amount;
 
-    public ItemStackViewSkin(ItemStackView control) {
-        super(control);
+    public ItemStackViewSkin(ItemStackView itemStackView) {
+        super(itemStackView);
 
-        item = new ItemPicker();
+        item = new ItemPicker(itemStackView.getProject());
         item.getStyleClass().setAll("item");
-        item.itemProperty().bindBidirectional(control.itemProperty());
-        item.sizeProperty().bind(control.sizeProperty());
-        item.indexProperty().bind(control.indexProperty());
+        item.itemProperty().bindBidirectional(itemStackView.itemProperty());
+        item.sizeProperty().bind(itemStackView.sizeProperty());
 
         amount = new TextField();
         amount.getStyleClass().setAll("amount");
         amount.setAlignment(Pos.CENTER_RIGHT);
-        amount.setText(Integer.toString(control.getAmount()));
+        amount.setText(Integer.toString(itemStackView.getAmount()));
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                control.setAmount(newValue.isEmpty() ? 1 : Integer.parseInt(newValue));
+                itemStackView.setAmount(newValue.isEmpty() ? 1 : Integer.parseInt(newValue));
                 if (newValue.isEmpty()) return;
-                amount.setText(Integer.toString(control.getAmount()));
+                amount.setText(Integer.toString(itemStackView.getAmount()));
             } catch (NumberFormatException e) {
                 amount.setText(oldValue);
             }
         });
         amount.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getCode() == KeyCode.UP) {
-                control.setAmount(control.getAmount() + 1);
+                itemStackView.setAmount(itemStackView.getAmount() + 1);
                 event.consume();
             } else if (event.getCode() == KeyCode.DOWN) {
-                control.setAmount(control.getAmount() - 1);
+                itemStackView.setAmount(itemStackView.getAmount() - 1);
                 event.consume();
             }
         });
@@ -62,8 +61,8 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
 
         getChildren().addAll(item, amount);
 
-        control.amountProperty().addListener(observable -> {
-            int newAmount = control.getAmount();
+        itemStackView.amountProperty().addListener(observable -> {
+            int newAmount = itemStackView.getAmount();
             if (newAmount == 1 && amount.getText().isEmpty()) return;
             amount.setText(Integer.toString(newAmount));
         });

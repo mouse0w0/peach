@@ -40,13 +40,13 @@ public class SmeltingRecipeEditor extends ElementEditor<SmeltingElement> {
         FXUtils.setFixedSize(recipeView, 560, 312);
         recipeView.setBackground(new Background(new BackgroundImage(BACKGROUND, null, null, null, null)));
 
-        input = new ItemPicker(64, true, false);
+        input = new ItemPicker(getProject(), 64, true, false);
         input.setPlayAnimation(true);
         AnchorPane.setTopAnchor(input, 52d);
         AnchorPane.setLeftAnchor(input, 120d);
         recipeView.getChildren().add(input);
 
-        output = new ItemStackView(64);
+        output = new ItemStackView(getProject(), 64);
         FXUtils.setFixedSize(output, 72, 72);
         AnchorPane.setTopAnchor(output, 120d);
         AnchorPane.setLeftAnchor(output, 356d);

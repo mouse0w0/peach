@@ -2,11 +2,16 @@ package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ItemData;
+import com.github.mouse0w0.peach.mcmod.index.Index;
+import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
+import javafx.css.Styleable;
 import javafx.scene.control.SkinBase;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -14,9 +19,40 @@ import javafx.util.Duration;
 import java.util.List;
 
 public class ItemViewSkin extends SkinBase<ItemView> {
-
     private static final Image MISSING = new Image("/image/mcmod/missing.png", 64, 64, true, false);
 
+    private static final Tooltip TOOLTIP = createTooltip();
+
+    private static Tooltip createTooltip() {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setOnShowing(event -> {
+            Styleable parent = tooltip.getStyleableParent();
+            if (parent == null) return;
+
+            ItemView itemView = (ItemView) parent;
+            IdMetadata idMetadata = itemView.getItem();
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(idMetadata.getId());
+            if (idMetadata.isNormal()) {
+                sb.append('#').append(idMetadata.getMetadata());
+            }
+
+            sb.append("\n--------------------");
+
+            List<ItemData> itemDataList = ((ItemViewSkin) itemView.getSkin()).index.get(idMetadata);
+            if (itemDataList != null) {
+                for (ItemData itemData : itemDataList) {
+                    sb.append('\n').append(itemData.getName());
+                }
+            }
+
+            tooltip.setText(sb.toString());
+        });
+        return tooltip;
+    }
+
+    private final Index<IdMetadata, List<ItemData>> index;
     private final ImageView imageView;
 
     private List<ItemData> itemData;
@@ -24,6 +60,10 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
     public ItemViewSkin(ItemView itemView) {
         super(itemView);
+
+        index = IndexManager.getInstance(itemView.getProject()).getIndex(IndexTypes.ITEM);
+
+        Tooltip.install(itemView, TOOLTIP);
 
         consumeMouseEvents(false);
 
@@ -49,9 +89,9 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         IdMetadata idMetadata = itemView.getItem();
         if (idMetadata == null) {
-            itemData = itemView.getIndex().get(IdMetadata.AIR);
+            itemData = index.get(IdMetadata.AIR);
         } else {
-            itemData = itemView.getIndex().get(idMetadata);
+            itemData = index.get(idMetadata);
         }
 
         if (itemData == null || itemData.isEmpty()) {
@@ -117,5 +157,10 @@ public class ItemViewSkin extends SkinBase<ItemView> {
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         imageView.resizeRelocate(contentX, contentY, contentWidth, contentHeight);
+    }
+
+    @Override
+    public void dispose() {
+        Tooltip.uninstall(getSkinnable(), TOOLTIP);
     }
 }
