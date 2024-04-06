@@ -85,7 +85,7 @@ public class NewElementDialog extends Stage {
         grid.add(new Text(AppL10n.localize("dialog.newElement.identifier")), 0, 2);
 
         Text identifier = new Text();
-        identifier.textProperty().bind(name.textProperty().map(IdentifierUtils::tryConvertToIdentifier));
+        identifier.textProperty().bind(name.textProperty().map(IdentifierUtils::toIdentifier));
         grid.add(identifier, 1, 2);
 
         Button finish = ButtonType.FINISH.createButton();
