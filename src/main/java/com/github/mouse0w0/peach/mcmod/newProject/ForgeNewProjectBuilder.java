@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
-import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
+import com.github.mouse0w0.peach.mcmod.util.ModIdUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.newProject.NewProjectBuilder;
 import com.github.mouse0w0.peach.newProject.NewProjectContext;
@@ -58,7 +58,7 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
     public void setupProject(Project project, NewProjectContext context) {
         ModProjectMetadata metadata = ModProjectService.getInstance(project).getMetadata();
         metadata.setName(context.getProjectName());
-        metadata.setId(IdentifierUtils.toIdentifier(context.getProjectName()));
+        metadata.setId(ModIdUtils.toModId(context.getProjectName()));
         Path projectPath = project.getPath();
         FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.SOURCES));
         FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.BLOCK_MODELS));
