@@ -64,7 +64,7 @@ final class FieldView extends Region {
         final double contentHeight = height - top - bottom;
         final double cellWidth = contentWidth / field.getColSpan();
         final double labelWidth = cellWidth * 2;
-        layoutInArea(label, left, top, labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
-        layoutInArea(editor, left + labelWidth, top, contentWidth - labelWidth, contentHeight, 0, HPos.LEFT, VPos.TOP);
+        layoutInArea(label, left, top, labelWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
+        layoutInArea(editor, left + labelWidth, top, contentWidth - labelWidth, contentHeight, 0, HPos.LEFT, VPos.CENTER);
     }
 }
