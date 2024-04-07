@@ -26,7 +26,7 @@ public class BlockstateUtils {
     private static Template getBlockstateTemplate(BlockstateTemplate blockstateTemplate) throws IOException {
         Path templateFile = ClassPathUtils.getPath("blockstate/template/" + blockstateTemplate.getTemplate(), blockstateTemplate.getPlugin().getClassLoader());
         try (BufferedReader reader = Files.newBufferedReader(templateFile)) {
-            return new Template(null, reader, null, "UTF-8");
+            return new Template(null, reader, null, "UTF-8");        // TODO: cache it
         }
     }
 
