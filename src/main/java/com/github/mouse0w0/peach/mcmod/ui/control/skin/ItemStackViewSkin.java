@@ -12,6 +12,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 
 public class ItemStackViewSkin extends SkinBase<ItemStackView> {
     private final ItemPicker item;
@@ -29,6 +30,9 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
         amount.getStyleClass().setAll("amount");
         amount.setAlignment(Pos.CENTER_RIGHT);
         amount.setText(Integer.toString(itemStackView.getAmount()));
+        // Fix JavaFX pass css font to ContextMenu
+        amount.fontProperty().bind(itemStackView.sizeProperty()
+                .map(size -> new Font("Minecraft", size.doubleValue() / 2)));
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
                 itemStackView.setAmount(newValue.isEmpty() ? 1 : Integer.parseInt(newValue));
