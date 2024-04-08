@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
+import com.sun.javafx.scene.control.ListenerHelper;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -13,7 +14,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class ItemStackViewSkin extends SkinBase<ItemStackView> {
-
     private final ItemPicker item;
     private final TextField amount;
 
@@ -61,7 +61,7 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
 
         getChildren().addAll(item, amount);
 
-        itemStackView.amountProperty().addListener(observable -> {
+        ListenerHelper.get(this).addInvalidationListener(itemStackView.amountProperty(), observable -> {
             int newAmount = itemStackView.getAmount();
             if (newAmount == 1 && amount.getText().isEmpty()) return;
             amount.setText(Integer.toString(newAmount));
@@ -102,5 +102,12 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         layoutInArea(item, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
         layoutInArea(amount, contentX - 3, contentY + 4, contentWidth, contentHeight, 0, HPos.RIGHT, VPos.BOTTOM);
+    }
+
+    @Override
+    public void dispose() {
+        getChildren().removeAll(item, amount);
+
+        super.dispose();
     }
 }

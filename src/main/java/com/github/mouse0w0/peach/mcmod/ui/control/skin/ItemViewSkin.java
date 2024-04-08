@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
+import com.sun.javafx.scene.control.ListenerHelper;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
@@ -72,9 +73,11 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         imageView.fitHeightProperty().bind(itemView.sizeProperty());
         getChildren().add(imageView);
 
-        itemView.sizeProperty().addListener(observable -> getSkinnable().requestLayout());
-        itemView.itemProperty().addListener(observable -> update());
-        itemView.playAnimationProperty().addListener(observable -> update());
+        ListenerHelper lh = ListenerHelper.get(this);
+        lh.addInvalidationListener(itemView.sizeProperty(), observable -> getSkinnable().requestLayout());
+        lh.addInvalidationListener(itemView.itemProperty(), observable -> update());
+        lh.addInvalidationListener(itemView.playAnimationProperty(), observable -> update());
+
         update();
     }
 
@@ -162,5 +165,9 @@ public class ItemViewSkin extends SkinBase<ItemView> {
     @Override
     public void dispose() {
         Tooltip.uninstall(getSkinnable(), TOOLTIP);
+
+        getChildren().remove(imageView);
+
+        super.dispose();
     }
 }
