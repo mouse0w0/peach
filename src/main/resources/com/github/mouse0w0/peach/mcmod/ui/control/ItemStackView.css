@@ -8,9 +8,9 @@
 
 .item-stack-view > .amount {
     -fx-font-family: Minecraft;
-    -fx-font-size: 32;
+    -fx-font-size: 32px;
     -fx-text-fill: white;
-    -fx-effect: dropshadow(one-pass-box, #3f3f3f, 0, 0, 2, 2);
+    -fx-effect: dropshadow(one-pass-box, #3f3f3f, 0, 0, 4, 4);
 }
 
 /*.item-stack-view > .amount > * > .text {*/

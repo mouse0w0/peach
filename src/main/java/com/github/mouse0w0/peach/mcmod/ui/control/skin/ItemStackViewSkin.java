@@ -101,6 +101,6 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         layoutInArea(item, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
-        layoutInArea(amount, contentX, contentY, contentWidth, contentHeight, 0, HPos.RIGHT, VPos.BOTTOM);
+        layoutInArea(amount, contentX - 3, contentY + 4, contentWidth, contentHeight, 0, HPos.RIGHT, VPos.BOTTOM);
     }
 }
