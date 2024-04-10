@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public final class ElementManager extends GenericIndexProvider {
@@ -51,8 +52,8 @@ public final class ElementManager extends GenericIndexProvider {
     }
 
     private void indexElements() {
-        try {
-            Iterator<Path> iterator = Files.walk(sourcesPath).iterator();
+        try (Stream<Path> stream = Files.walk(sourcesPath)) {
+            Iterator<Path> iterator = stream.iterator();
             while (iterator.hasNext()) {
                 Path file = iterator.next();
                 ElementProvider<?> provider = registry.getElementProvider(file);
