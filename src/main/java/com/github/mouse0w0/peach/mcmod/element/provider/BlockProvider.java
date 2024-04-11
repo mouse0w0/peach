@@ -13,10 +13,10 @@ import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -47,14 +47,13 @@ public class BlockProvider extends ElementProvider<BlockElement> {
     public Object[] addIndex(Project project, IndexProvider provider, BlockElement element) {
         if (element.isDoNotRegisterItem()) return null;
 
-        String modId = ModProjectService.getInstance(project).getModId();
-
-        ItemData itemData = new ItemData(element.getIdentifier(), 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE);
+        String itemId = ModProjectService.getInstance(project).getModId() + ":" + element.getIdentifier();
+        List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE));
         Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
-        IdMetadata item1 = IdMetadata.of(modId + ":" + itemData.getId(), itemData.getMetadata());
-        items.put(item1, Collections.singletonList(itemData));
-        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + itemData.getId());
-        items.put(item2, Collections.singletonList(itemData));
+        IdMetadata item1 = IdMetadata.of(itemId);
+        items.put(item1, itemDataList);
+        IdMetadata item2 = IdMetadata.ignoreMetadata(itemId);
+        items.put(item2, itemDataList);
         return new Object[]{item1, item2};
     }
 

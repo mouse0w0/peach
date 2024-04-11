@@ -14,11 +14,11 @@ import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.ImageUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import javafx.scene.image.Image;
 
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +47,6 @@ public class ItemProvider extends ElementProvider<ItemElement> {
 
     @Override
     public Object[] addIndex(Project project, IndexProvider provider, ItemElement element) {
-        String modId = ModProjectService.getInstance(project).getModId();
-
         String texture = element.getTextures().get("texture");
         Image image;
         if (StringUtils.isNotEmpty(texture)) {
@@ -57,12 +55,13 @@ public class ItemProvider extends ElementProvider<ItemElement> {
             image = ResourceUtils.MISSING_TEXTURE;
         }
 
-        ItemData itemData = new ItemData(element.getIdentifier(), 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), image);
+        String itemId = ModProjectService.getInstance(project).getModId() + ":" + element.getIdentifier();
+        List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), image));
         Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
-        IdMetadata item1 = IdMetadata.of(modId + ":" + itemData.getId(), itemData.getMetadata());
-        items.put(item1, Collections.singletonList(itemData));
-        IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + itemData.getId());
-        items.put(item2, Collections.singletonList(itemData));
+        IdMetadata item1 = IdMetadata.of(itemId);
+        items.put(item1, itemDataList);
+        IdMetadata item2 = IdMetadata.ignoreMetadata(itemId);
+        items.put(item2, itemDataList);
         return new Object[]{item1, item2};
     }
 
