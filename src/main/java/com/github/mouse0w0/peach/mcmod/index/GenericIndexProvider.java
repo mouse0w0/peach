@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class GenericIndexProvider implements IndexProvider {
-    private final Map<IndexType<?, ?>, Map<?, ?>> indexes = new HashMap<>();
+    private final Map<IndexKey<?, ?>, Map<?, ?>> indexes = new HashMap<>();
 
     private final String name;
     private final int order;
@@ -29,7 +29,7 @@ public class GenericIndexProvider implements IndexProvider {
 
     @Override
     @SuppressWarnings("unchecked")
-    public final <K, V> Map<K, V> getIndex(IndexType<K, V> indexType) {
-        return (Map<K, V>) indexes.computeIfAbsent(indexType, $ -> new LinkedHashMap<>());
+    public final <K, V> Map<K, V> getIndex(IndexKey<K, V> indexKey) {
+        return (Map<K, V>) indexes.computeIfAbsent(indexKey, $ -> new LinkedHashMap<>());
     }
 }

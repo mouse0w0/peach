@@ -6,8 +6,8 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
@@ -58,7 +58,7 @@ public class ItemChooser extends Stage {
 
     private ItemChooser(Window owner, IdMetadata item, boolean enableIgnoreMetadata, boolean enableOreDict) {
         this.project = WindowManager.getInstance().getWindow(owner).getProject();
-        this.index = IndexManager.getInstance(project).getIndex(IndexTypes.ITEM);
+        this.index = IndexManager.getInstance(project).getIndex(IndexKeys.ITEM);
 
         setTitle(AppL10n.localize("dialog.itemChooser.title"));
         setWidth(802);

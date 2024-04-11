@@ -6,9 +6,9 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.element.editor.BlockEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
@@ -32,7 +32,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         block.setFile(file);
         block.setIdentifier(identifier);
         block.setDisplayName(name);
-        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keys(), null));
+        block.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexKeys.ITEM_GROUP).keys(), null));
         block.setModel(Identifier.of("minecraft:cube_all"));
         block.setItemModel(ModelManager.DEFAULT);
         return block;
@@ -50,7 +50,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         String modId = ModProjectService.getInstance(project).getModId();
 
         ItemData itemData = new ItemData(element.getIdentifier(), 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE);
-        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         IdMetadata item1 = IdMetadata.of(modId + ":" + itemData.getId(), itemData.getMetadata());
         items.put(item1, Collections.singletonList(itemData));
         IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + itemData.getId());
@@ -60,7 +60,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

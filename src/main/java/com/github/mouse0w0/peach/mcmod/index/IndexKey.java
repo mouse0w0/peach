@@ -5,18 +5,18 @@ import com.google.common.base.CaseFormat;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class IndexType<K, V> {
-    private static final Map<String, IndexType<?, ?>> types = new ConcurrentHashMap<>();
+public final class IndexKey<K, V> {
+    private static final Map<String, IndexKey<?, ?>> KEYS = new ConcurrentHashMap<>();
 
     private final String name;
     private final String lowerCamelName;
 
     @SuppressWarnings("unchecked")
-    public static <K, V> IndexType<K, V> of(String name) {
-        return (IndexType<K, V>) types.computeIfAbsent(name, IndexType::new);
+    public static <K, V> IndexKey<K, V> of(String name) {
+        return (IndexKey<K, V>) KEYS.computeIfAbsent(name, IndexKey::new);
     }
 
-    private IndexType(String name) {
+    private IndexKey(String name) {
         this.name = name;
         this.lowerCamelName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name);
     }
@@ -33,8 +33,8 @@ public final class IndexType<K, V> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IndexType<?, ?> indexType = (IndexType<?, ?>) o;
-        return name.equals(indexType.name);
+        IndexKey<?, ?> indexKey = (IndexKey<?, ?>) o;
+        return name.equals(indexKey.name);
     }
 
     @Override

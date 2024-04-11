@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.mcmod.vanillaData;
 import com.github.mouse0w0.peach.l10n.L10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.IndexType;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
+import com.github.mouse0w0.peach.mcmod.index.IndexKey;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.plugin.Plugin;
@@ -40,21 +40,21 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         this.l10n = L10n.getL10n(plugin.getId());
         loadItemData();
         loadOreDictionaryData();
-        loadIconicData(IndexTypes.ITEM_GROUP);
-        loadIconicData(IndexTypes.MATERIAL);
-        loadIconicData(IndexTypes.SOUND_TYPE);
-        loadIconicData(IndexTypes.MAP_COLOR);
-        loadGameData(IndexTypes.SOUND_EVENT);
-        loadGameData(IndexTypes.ENCHANTMENT);
-        loadGameData(IndexTypes.ATTRIBUTE);
-        loadGameData(IndexTypes.ENCHANTMENT_TYPE);
-        loadGameData(IndexTypes.OFFSET_TYPE);
-        loadGameData(IndexTypes.AI_PATH_NODE_TYPE);
-        loadGameData(IndexTypes.PLANT_TYPE);
-        loadGameData(IndexTypes.PUSH_REACTION);
-        loadGameData(IndexTypes.RENDER_TYPE);
-        loadGameData(IndexTypes.TOOL_TYPE);
-        loadGameData(IndexTypes.USE_ANIMATION);
+        loadIconicData(IndexKeys.ITEM_GROUP);
+        loadIconicData(IndexKeys.MATERIAL);
+        loadIconicData(IndexKeys.SOUND_TYPE);
+        loadIconicData(IndexKeys.MAP_COLOR);
+        loadGameData(IndexKeys.SOUND_EVENT);
+        loadGameData(IndexKeys.ENCHANTMENT);
+        loadGameData(IndexKeys.ATTRIBUTE);
+        loadGameData(IndexKeys.ENCHANTMENT_TYPE);
+        loadGameData(IndexKeys.OFFSET_TYPE);
+        loadGameData(IndexKeys.AI_PATH_NODE_TYPE);
+        loadGameData(IndexKeys.PLANT_TYPE);
+        loadGameData(IndexKeys.PUSH_REACTION);
+        loadGameData(IndexKeys.RENDER_TYPE);
+        loadGameData(IndexKeys.TOOL_TYPE);
+        loadGameData(IndexKeys.USE_ANIMATION);
         loadBlockstateTemplates();
         loadModelTemplates();
     }
@@ -137,7 +137,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private void loadItemData() {
-        Map<IdMetadata, List<ItemData>> map = getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> map = getIndex(IndexKeys.ITEM);
         for (JsonElement element : loadRawData("item")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
@@ -156,7 +156,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private void loadOreDictionaryData() {
-        Map<IdMetadata, List<ItemData>> map = getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> map = getIndex(IndexKeys.ITEM);
         for (JsonElement element : loadRawData("ore_dictionary")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
@@ -176,21 +176,21 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         }
     }
 
-    private void loadGameData(IndexType<String, GameData> indexType) {
-        Map<String, GameData> map = getIndex(indexType);
-        for (JsonElement element : loadRawData(indexType.getName())) {
+    private void loadGameData(IndexKey<String, GameData> indexKey) {
+        Map<String, GameData> map = getIndex(indexKey);
+        for (JsonElement element : loadRawData(indexKey.getName())) {
             String id = element.getAsString();
-            map.put(id, new GameData(id, l10n.localize(getTranslationKey(indexType.getLowerCamelName(), id))));
+            map.put(id, new GameData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id))));
         }
     }
 
-    private void loadIconicData(IndexType<String, IconicData> indexType) {
-        Map<String, IconicData> map = getIndex(indexType);
-        for (JsonElement element : loadRawData(indexType.getName())) {
+    private void loadIconicData(IndexKey<String, IconicData> indexKey) {
+        Map<String, IconicData> map = getIndex(indexKey);
+        for (JsonElement element : loadRawData(indexKey.getName())) {
             JsonObject object = element.getAsJsonObject();
             String id = object.get("id").getAsString();
             IdMetadata icon = JsonUtils.fromJson(object.get("icon").getAsJsonObject(), IdMetadata.class);
-            map.put(id, new IconicData(id, l10n.localize(getTranslationKey(indexType.getLowerCamelName(), id)), icon));
+            map.put(id, new IconicData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id)), icon));
         }
     }
 

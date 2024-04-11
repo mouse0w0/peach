@@ -6,9 +6,9 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
@@ -34,7 +34,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         item.setFile(file);
         item.setIdentifier(identifier);
         item.setDisplayName(name);
-        item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexTypes.ITEM_GROUP).keys(), null));
+        item.setItemGroup(Iterables.getFirst(indexManager.getIndex(IndexKeys.ITEM_GROUP).keys(), null));
         item.setModel(Identifier.of("minecraft:generated"));
         item.setEquipSound("minecraft:item.armor.equip_generic");
         return item;
@@ -58,7 +58,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         }
 
         ItemData itemData = new ItemData(element.getIdentifier(), 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), image);
-        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         IdMetadata item1 = IdMetadata.of(modId + ":" + itemData.getId(), itemData.getMetadata());
         items.put(item1, Collections.singletonList(itemData));
         IdMetadata item2 = IdMetadata.ignoreMetadata(modId + ":" + itemData.getId());
@@ -68,7 +68,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
 
     @Override
     public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexTypes.ITEM);
+        Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         items.remove(objects[0]);
         items.remove(objects[1]);
     }

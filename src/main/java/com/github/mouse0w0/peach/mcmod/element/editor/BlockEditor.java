@@ -4,8 +4,8 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.BlockType;
 import com.github.mouse0w0.peach.mcmod.BoundingBox;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.GameDataCell;
@@ -110,7 +110,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         type.getItems().addAll(BlockType.VALUES);
         type.setValue(BlockType.NORMAL);
 
-        var materialIndex = indexManager.getIndex(IndexTypes.MATERIAL);
+        var materialIndex = indexManager.getIndex(IndexKeys.MATERIAL);
         material = new ComboBoxField<>();
         material.setLabel(AppL10n.localize("block.properties.material"));
         material.setColSpan(ColSpan.HALF);
@@ -118,7 +118,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         material.setButtonCell(IconicDataCell.create(getProject(), materialIndex));
         material.getItems().addAll(materialIndex.keys());
 
-        var itemGroupIndex = indexManager.getIndex(IndexTypes.ITEM_GROUP);
+        var itemGroupIndex = indexManager.getIndex(IndexKeys.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
         itemGroup.setColSpan(ColSpan.HALF);
@@ -126,7 +126,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupIndex));
         itemGroup.getItems().addAll(itemGroupIndex.keys());
 
-        var soundTypeIndex = indexManager.getIndex(IndexTypes.SOUND_TYPE);
+        var soundTypeIndex = indexManager.getIndex(IndexKeys.SOUND_TYPE);
         soundType = new ComboBoxField<>();
         soundType.setLabel(AppL10n.localize("block.properties.soundType"));
         soundType.setColSpan(ColSpan.HALF);
@@ -159,7 +159,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         opacity.setLabel(AppL10n.localize("block.properties.opacity"));
         opacity.setColSpan(ColSpan.HALF);
 
-        var toolTypeIndex = indexManager.getIndex(IndexTypes.TOOL_TYPE);
+        var toolTypeIndex = indexManager.getIndex(IndexKeys.TOOL_TYPE);
         harvestTool = new ComboBoxField<>();
         harvestTool.setLabel(AppL10n.localize("block.properties.harvestTool"));
         harvestTool.setColSpan(ColSpan.HALF);
@@ -210,7 +210,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         transparency.setColSpan(ColSpan.HALF);
         transparency.valueProperty().addListener(observable -> opacity.setValue(transparency.getValue() ? 0 : 255));
 
-        var renderTypeIndex = indexManager.getIndex(IndexTypes.RENDER_TYPE);
+        var renderTypeIndex = indexManager.getIndex(IndexKeys.RENDER_TYPE);
         renderType = new ComboBoxField<>();
         renderType.setLabel(AppL10n.localize("block.appearance.renderType"));
         renderType.setColSpan(ColSpan.HALF);
@@ -218,7 +218,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         renderType.setButtonCell(GameDataCell.create(renderTypeIndex));
         renderType.getItems().addAll(renderTypeIndex.keys());
 
-        var offsetTypeIndex = indexManager.getIndex(IndexTypes.OFFSET_TYPE);
+        var offsetTypeIndex = indexManager.getIndex(IndexKeys.OFFSET_TYPE);
         offsetType = new ComboBoxField<>();
         offsetType.setLabel(AppL10n.localize("block.appearance.offsetType"));
         offsetType.setColSpan(ColSpan.HALF);
@@ -292,7 +292,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         doNotRegisterItem.setLabel(AppL10n.localize("block.extra.doNotRegisterItem"));
         doNotRegisterItem.setColSpan(ColSpan.HALF);
 
-        var mapColorIndex = indexManager.getIndex(IndexTypes.MAP_COLOR);
+        var mapColorIndex = indexManager.getIndex(IndexKeys.MAP_COLOR);
         mapColor = new ComboBoxField<>();
         mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
         mapColor.setColSpan(ColSpan.HALF);
@@ -324,7 +324,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         redstonePower.setLabel(AppL10n.localize("block.extra.redstonePower"));
         redstonePower.setColSpan(ColSpan.HALF);
 
-        var plantTypeIndex = indexManager.getIndex(IndexTypes.PLANT_TYPE);
+        var plantTypeIndex = indexManager.getIndex(IndexKeys.PLANT_TYPE);
         canPlantPlant = new ComboBoxField<>();
         canPlantPlant.setLabel(AppL10n.localize("block.extra.canPlantPlant"));
         canPlantPlant.setColSpan(ColSpan.HALF);
@@ -344,7 +344,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         fireSpreadSpeed.setLabel(AppL10n.localize("block.extra.fireSpreadSpeed"));
         fireSpreadSpeed.setColSpan(ColSpan.HALF);
 
-        var pushReactionIndex = indexManager.getIndex(IndexTypes.PUSH_REACTION);
+        var pushReactionIndex = indexManager.getIndex(IndexKeys.PUSH_REACTION);
         pushReaction = new ComboBoxField<>();
         pushReaction.setLabel(AppL10n.localize("block.extra.pushReaction"));
         pushReaction.setColSpan(ColSpan.HALF);
@@ -352,7 +352,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         pushReaction.setButtonCell(GameDataCell.create(pushReactionIndex));
         pushReaction.getItems().addAll(pushReactionIndex.keys());
 
-        var aiPathNodeTypeIndex = indexManager.getIndex(IndexTypes.AI_PATH_NODE_TYPE);
+        var aiPathNodeTypeIndex = indexManager.getIndex(IndexKeys.AI_PATH_NODE_TYPE);
         aiPathNodeType = new ComboBoxField<>();
         aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
         aiPathNodeType.setColSpan(ColSpan.HALF);

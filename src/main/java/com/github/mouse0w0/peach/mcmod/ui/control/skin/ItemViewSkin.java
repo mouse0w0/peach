@@ -3,8 +3,8 @@ package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.sun.javafx.scene.control.ListenerHelper;
 import javafx.animation.KeyFrame;
@@ -62,7 +62,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
     public ItemViewSkin(ItemView itemView) {
         super(itemView);
 
-        index = IndexManager.getInstance(itemView.getProject()).getIndex(IndexTypes.ITEM);
+        index = IndexManager.getInstance(itemView.getProject()).getIndex(IndexKeys.ITEM);
 
         Tooltip.install(itemView, TOOLTIP);
 

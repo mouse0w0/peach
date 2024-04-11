@@ -10,7 +10,7 @@ public final class IndexManager {
     private static final Comparator<IndexProvider> INDEX_PROVIDER_COMPARATOR = Comparator.comparingInt(IndexProvider::getOrder);
 
     private final List<IndexProvider> providers = new ArrayList<>();
-    private final Map<IndexType<?, ?>, Index<?, ?>> indexes = new HashMap<>();
+    private final Map<IndexKey<?, ?>, Index<?, ?>> indexes = new HashMap<>();
 
     public static IndexManager getInstance(Project project) {
         return project.getService(IndexManager.class);
@@ -26,14 +26,14 @@ public final class IndexManager {
     }
 
     @SuppressWarnings("unchecked")
-    public <K, V> Index<K, V> getIndex(IndexType<K, V> indexType) {
-        return (Index<K, V>) indexes.computeIfAbsent(indexType, this::createIndex);
+    public <K, V> Index<K, V> getIndex(IndexKey<K, V> indexKey) {
+        return (Index<K, V>) indexes.computeIfAbsent(indexKey, this::createIndex);
     }
 
-    private <K, V> Index<K, V> createIndex(IndexType<K, V> indexType) {
+    private <K, V> Index<K, V> createIndex(IndexKey<K, V> indexKey) {
         CompositeIndex<K, V> index = new CompositeIndex<>();
         for (IndexProvider provider : providers) {
-            index.addComposited(provider.getIndex(indexType));
+            index.addComposited(provider.getIndex(indexKey));
         }
         return index;
     }

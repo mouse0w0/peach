@@ -7,5 +7,5 @@ public interface IndexProvider {
 
     int getOrder();
 
-    <K, V> Map<K, V> getIndex(IndexType<K, V> indexType);
+    <K, V> Map<K, V> getIndex(IndexKey<K, V> indexKey);
 }

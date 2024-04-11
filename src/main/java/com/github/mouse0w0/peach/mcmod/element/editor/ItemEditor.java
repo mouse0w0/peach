@@ -6,8 +6,8 @@ import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.ItemType;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
+import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.index.IndexTypes;
 import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.*;
@@ -121,7 +121,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         });
 
 
-        var itemGroupMap = indexManager.getIndex(IndexTypes.ITEM_GROUP);
+        var itemGroupMap = indexManager.getIndex(IndexKeys.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
         itemGroup.setColSpan(ColSpan.HALF);
@@ -172,7 +172,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             return false;
         }, type.valueProperty()));
 
-        var toolTypeIndex = indexManager.getIndex(IndexTypes.TOOL_TYPE);
+        var toolTypeIndex = indexManager.getIndex(IndexKeys.TOOL_TYPE);
         toolAttributes = new TagViewField<>();
         toolAttributes.setLabel(AppL10n.localize("item.properties.toolAttributes"));
         toolAttributes.setColSpan(ColSpan.HALF);
@@ -213,7 +213,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         enchantability.setColSpan(ColSpan.HALF);
         enchantability.disableProperty().bind(isFood);
 
-        var enchantmentTypeIndex = indexManager.getIndex(IndexTypes.ENCHANTMENT_TYPE);
+        var enchantmentTypeIndex = indexManager.getIndex(IndexKeys.ENCHANTMENT_TYPE);
         acceptableEnchantments = new CheckComboBoxField<>();
         acceptableEnchantments.setLabel(AppL10n.localize("item.properties.acceptableEnchantments"));
         acceptableEnchantments.setConverter(GameDataConverter.create(enchantmentTypeIndex));
@@ -221,7 +221,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
-        var attributeIndex = indexManager.getIndex(IndexTypes.ATTRIBUTE);
+        var attributeIndex = indexManager.getIndex(IndexKeys.ATTRIBUTE);
         attributeModifiers = new TagViewField<>();
         attributeModifiers.setLabel(AppL10n.localize("item.properties.attributeModifiers"));
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
@@ -239,7 +239,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         recipeRemain.setLabel(AppL10n.localize("item.properties.recipeRemain"));
         recipeRemain.setColSpan(ColSpan.HALF);
 
-        var useAnimationIndex = indexManager.getIndex(IndexTypes.USE_ANIMATION);
+        var useAnimationIndex = indexManager.getIndex(IndexKeys.USE_ANIMATION);
         useAnimation = new ComboBoxField<>();
         useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
         useAnimation.setCellFactory(GameDataCell.factory(useAnimationIndex));
@@ -345,7 +345,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         fuelBurnTime.setLabel(AppL10n.localize("item.fuel.fuelBurnTime"));
         fuelBurnTime.setColSpan(ColSpan.HALF);
 
-        var soundEventIndex = indexManager.getIndex(IndexTypes.SOUND_EVENT);
+        var soundEventIndex = indexManager.getIndex(IndexKeys.SOUND_EVENT);
         equipSound = new ComboBoxField<>();
         equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
