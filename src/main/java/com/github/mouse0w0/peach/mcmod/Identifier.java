@@ -10,10 +10,8 @@ import java.util.regex.Pattern;
 
 @JsonAdapter(Identifier.TypeAdapter.class)
 public final class Identifier implements Comparable<Identifier> {
-    private static final Pattern NAMESPACE_PATTERN = Pattern.compile("[a-z0-9._-]+");
-    private static final Pattern NAME_PATTERN = Pattern.compile("[a-z0-9/._-]+");
-
-    public static final Pattern PATTERN = Pattern.compile(NAMESPACE_PATTERN + ":" + NAME_PATTERN);
+    public static final Pattern VALID_NAMESPACE = Pattern.compile("[a-z0-9._-]+");
+    public static final Pattern VALID_NAME = Pattern.compile("[a-z0-9/._-]+");
 
     private final String namespace;
     private final String name;
@@ -31,28 +29,12 @@ public final class Identifier implements Comparable<Identifier> {
     }
 
     private Identifier(String namespace, String name) {
-        checkNamespace(namespace);
-        checkName(name);
-        this.namespace = namespace;
-        this.name = name;
-    }
-
-    private void checkNamespace(String namespace) {
         if (namespace == null) throw new NullPointerException("namespace");
         if (namespace.isEmpty()) throw new IllegalArgumentException("namespace is empty");
-        if (!NAMESPACE_PATTERN.matcher(namespace).matches()) {
-            throw new IllegalArgumentException("namespace is invalid, " +
-                    "namespace: '" + namespace + "', pattern: '" + NAMESPACE_PATTERN + "'");
-        }
-    }
-
-    private void checkName(String name) {
         if (name == null) throw new NullPointerException("name");
         if (name.isEmpty()) throw new IllegalArgumentException("name is empty");
-        if (!NAME_PATTERN.matcher(name).matches()) {
-            throw new IllegalArgumentException("name is invalid, " +
-                    "name: '" + name + "', pattern: '" + NAME_PATTERN + "'");
-        }
+        this.namespace = namespace;
+        this.name = name;
     }
 
     public String getNamespace() {
@@ -61,6 +43,10 @@ public final class Identifier implements Comparable<Identifier> {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isValid() {
+        return VALID_NAMESPACE.matcher(namespace).matches() && VALID_NAME.matcher(name).matches();
     }
 
     @Override
