@@ -60,6 +60,7 @@ public class ItemPicker extends ItemView {
         setOnDragOver(ON_DRAG_OVER);
         setOnDragDropped(ON_DRAG_DROPPED);
         setOnMouseClicked(ON_MOUSE_CLICKED);
+        ItemTooltipService.getInstance(getProject()).install(this);
     }
 
     private BooleanProperty enableIgnoreMetadata;
