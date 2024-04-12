@@ -154,7 +154,7 @@ public class ItemChooser extends Stage {
     }
 
     private boolean filterItem(IdMetadata item, String pattern) {
-        if (item.getId().getName().contains(pattern)) return true;
+        if (item.getId().getPath().contains(pattern)) return true;
         for (ItemData data : index.get(item)) {
             if (data.getName().contains(pattern)) {
                 return true;

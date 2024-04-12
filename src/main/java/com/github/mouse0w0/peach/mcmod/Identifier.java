@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 @JsonAdapter(Identifier.TypeAdapter.class)
 public final class Identifier implements Comparable<Identifier> {
     public static final Pattern VALID_NAMESPACE = Pattern.compile("[a-z0-9._-]+");
-    public static final Pattern VALID_NAME = Pattern.compile("[a-z0-9/._-]+");
+    public static final Pattern VALID_PATH = Pattern.compile("[a-z0-9/._-]+");
 
     private final String namespace;
-    private final String name;
+    private final String path;
 
     public static Identifier of(String identifier) {
         int separatorIndex = identifier.indexOf(':');
@@ -24,34 +24,34 @@ public final class Identifier implements Comparable<Identifier> {
         return new Identifier(identifier.substring(0, separatorIndex), identifier.substring(separatorIndex + 1));
     }
 
-    public static Identifier of(String namespace, String name) {
-        return new Identifier(namespace, name);
+    public static Identifier of(String namespace, String path) {
+        return new Identifier(namespace, path);
     }
 
-    private Identifier(String namespace, String name) {
+    private Identifier(String namespace, String path) {
         if (namespace == null) throw new NullPointerException("namespace");
         if (namespace.isEmpty()) throw new IllegalArgumentException("namespace is empty");
-        if (name == null) throw new NullPointerException("name");
-        if (name.isEmpty()) throw new IllegalArgumentException("name is empty");
+        if (path == null) throw new NullPointerException("path");
+        if (path.isEmpty()) throw new IllegalArgumentException("path is empty");
         this.namespace = namespace;
-        this.name = name;
+        this.path = path;
     }
 
     public String getNamespace() {
         return namespace;
     }
 
-    public String getName() {
-        return name;
+    public String getPath() {
+        return path;
     }
 
     public boolean isValid() {
-        return VALID_NAMESPACE.matcher(namespace).matches() && VALID_NAME.matcher(name).matches();
+        return VALID_NAMESPACE.matcher(namespace).matches() && VALID_PATH.matcher(path).matches();
     }
 
     @Override
     public String toString() {
-        return namespace + ":" + name;
+        return namespace + ":" + path;
     }
 
     @Override
@@ -62,20 +62,20 @@ public final class Identifier implements Comparable<Identifier> {
         Identifier that = (Identifier) o;
 
         if (!namespace.equals(that.namespace)) return false;
-        return name.equals(that.name);
+        return path.equals(that.path);
     }
 
     @Override
     public int hashCode() {
         int result = namespace.hashCode();
-        result = 31 * result + name.hashCode();
+        result = 31 * result + path.hashCode();
         return result;
     }
 
     @Override
     public int compareTo(Identifier o) {
         int result = namespace.compareTo(o.namespace);
-        return result == 0 ? name.compareTo(o.name) : result;
+        return result == 0 ? path.compareTo(o.path) : result;
     }
 
     public static final class TypeAdapter extends com.google.gson.TypeAdapter<Identifier> {

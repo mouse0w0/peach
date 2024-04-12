@@ -205,7 +205,7 @@ public class ModelField extends Element {
                 if (id == null) return null;
                 ModelTemplate modelTemplate = modelManager.getModelTemplate(id);
                 if (modelTemplate != null) return modelTemplate.getLocalizedName();
-                return AppL10n.localize("model." + id.getNamespace() + "." + id.getName());
+                return AppL10n.localize("model." + id.getNamespace() + "." + id.getPath());
             }
 
             @Override

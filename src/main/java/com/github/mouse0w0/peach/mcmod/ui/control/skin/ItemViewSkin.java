@@ -37,7 +37,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             if (!idMetadata.isOreDictionary()) {
                 sb.append(idMetadata.getId().getNamespace()).append(':');
             }
-            sb.append(idMetadata.getId().getName());
+            sb.append(idMetadata.getId().getPath());
 
             if (idMetadata.isNormal()) {
                 sb.append('#').append(idMetadata.getMetadata());

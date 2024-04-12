@@ -129,7 +129,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
             ModelTemplate modelTemplate = JsonUtils.readJson(file, ModelTemplate.class);
             Identifier modelTemplateId = modelTemplate.getId();
             modelTemplate.setPlugin(plugin);
-            modelTemplate.setLocalizedName(l10n.localize("model." + modelTemplateId.getNamespace() + "." + modelTemplateId.getName()));
+            modelTemplate.setLocalizedName(l10n.localize("model." + modelTemplateId.getNamespace() + "." + modelTemplateId.getPath()));
             modelTemplateMap.put(modelTemplateId, modelTemplate);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -217,11 +217,11 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private String getItemTranslationKey(Identifier id, int metadata) {
-        return "item." + id.getNamespace() + "." + id.getName() + "." + metadata;
+        return "item." + id.getNamespace() + "." + id.getPath() + "." + metadata;
     }
 
     private Image getItemTexture(Identifier id, int metadata) {
-        URL resource = plugin.getClassLoader().getResource("texture/item/" + id.getName() + "_" + metadata + ".png");
+        URL resource = plugin.getClassLoader().getResource("texture/item/" + id.getPath() + "_" + metadata + ".png");
         if (resource == null) return null;
         try (InputStream inputStream = resource.openStream()) {
             return new Image(inputStream);
