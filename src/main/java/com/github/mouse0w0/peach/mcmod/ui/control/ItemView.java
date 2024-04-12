@@ -4,33 +4,16 @@ import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ui.control.skin.ItemViewSkin;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.beans.property.*;
-import javafx.event.EventHandler;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
-import javafx.scene.input.*;
 
 public class ItemView extends Control {
-    public static final DataFormat ITEM = new DataFormat("peach/item");
-
-    private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
-        ItemView itemView = (ItemView) event.getSource();
-        IdMetadata item = itemView.getItem();
-        if (item == null || item.isAir()) return;
-
-        Dragboard dragboard = itemView.startDragAndDrop(TransferMode.LINK);
-
-        ClipboardContent content = new ClipboardContent();
-        content.put(ITEM, item);
-        dragboard.setContent(content);
-    };
-
     private final Project project;
 
     public ItemView(Project project) {
         this.project = project;
         getStyleClass().add("item-view");
         setPickOnBounds(true);
-        setOnDragDetected(ON_DRAG_DETECTED);
     }
 
     public ItemView(Project project, double size) {
