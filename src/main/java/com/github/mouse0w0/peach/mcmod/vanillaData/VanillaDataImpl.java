@@ -141,7 +141,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         for (JsonElement element : loadRawData("item")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
-                String id = object.get("id").getAsString();
+                Identifier id = Identifier.of(object.get("id").getAsString());
                 int metadata = object.get("metadata").getAsInt();
                 int maxStackSize = object.get("maxStackSize").getAsInt();
                 int maxDamage = object.get("maxDamage").getAsInt();
@@ -216,23 +216,12 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         return sb.toString();
     }
 
-    private String getItemTranslationKey(String identifier, int metadata) {
-        StringBuilder sb = new StringBuilder("item.");
-        for (int i = 0, len = identifier.length(); i < len; i++) {
-            char c = identifier.charAt(i);
-            if (c == ':') {
-                sb.append('.');
-            } else {
-                sb.append(c);
-            }
-        }
-        return sb.append('.').append(metadata).toString();
+    private String getItemTranslationKey(Identifier id, int metadata) {
+        return "item." + id.getNamespace() + "." + id.getName() + "." + metadata;
     }
 
-    private Image getItemTexture(String identifier, int metadata) {
-        int separatorIndex = identifier.indexOf(':');
-        String path = identifier.substring(separatorIndex + 1);
-        URL resource = plugin.getClassLoader().getResource("texture/item/" + path + "_" + metadata + ".png");
+    private Image getItemTexture(Identifier id, int metadata) {
+        URL resource = plugin.getClassLoader().getResource("texture/item/" + id.getName() + "_" + metadata + ".png");
         if (resource == null) return null;
         try (InputStream inputStream = resource.openStream()) {
             return new Image(inputStream);

@@ -47,7 +47,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
     public Object[] addIndex(Project project, IndexProvider provider, BlockElement element) {
         if (element.isDoNotRegisterItem()) return null;
 
-        String itemId = ModProjectService.getInstance(project).getModId() + ":" + element.getIdentifier();
+        Identifier itemId = Identifier.of(ModProjectService.getInstance(project).getModId(), element.getIdentifier());
         List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE));
         Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         IdMetadata item1 = IdMetadata.of(itemId);

@@ -55,7 +55,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
             image = ResourceUtils.MISSING_TEXTURE;
         }
 
-        String itemId = ModProjectService.getInstance(project).getModId() + ":" + element.getIdentifier();
+        Identifier itemId = Identifier.of(ModProjectService.getInstance(project).getModId(), element.getIdentifier());
         List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), image));
         Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         IdMetadata item1 = IdMetadata.of(itemId);
