@@ -50,7 +50,7 @@ public class ItemGroupClassGenerator extends ClassGenerator {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC, "ICON", "Lnet/minecraft/item/Item;", null, null);
             {
                 AnnotationVisitor av = fv.visitAnnotation("Lnet/minecraftforge/fml/common/registry/GameRegistry$ObjectHolder;", true);
-                av.visit("value", icon.getId());
+                av.visit("value", icon.getId().toString());
                 av.visitEnd();
             }
             fv.visitEnd();
