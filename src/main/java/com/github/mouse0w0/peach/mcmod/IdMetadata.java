@@ -8,31 +8,44 @@ public final class IdMetadata implements Serializable {
     public static final int METADATA_WILDCARD = Short.MAX_VALUE;
     public static final int ORE_DICTIONARY = Short.MAX_VALUE + 1;
 
-    private final String id;
+    private final Identifier id;
     private final int metadata;
 
     public static IdMetadata of(String id) {
+        return new IdMetadata(Identifier.of(id), 0);
+    }
+
+    public static IdMetadata of(Identifier id) {
         return new IdMetadata(id, 0);
     }
 
     public static IdMetadata of(String id, int metadata) {
+        return new IdMetadata(Identifier.of(id), metadata);
+    }
+
+    public static IdMetadata of(Identifier id, int metadata) {
         return new IdMetadata(id, metadata);
     }
 
     public static IdMetadata ignoreMetadata(String id) {
+        return new IdMetadata(Identifier.of(id), METADATA_WILDCARD);
+    }
+
+
+    public static IdMetadata ignoreMetadata(Identifier id) {
         return new IdMetadata(id, METADATA_WILDCARD);
     }
 
     public static IdMetadata oreDictionary(String id) {
-        return new IdMetadata(id, ORE_DICTIONARY);
+        return new IdMetadata(Identifier.of("ore", id), ORE_DICTIONARY);
     }
 
-    private IdMetadata(String id, int metadata) {
+    private IdMetadata(Identifier id, int metadata) {
         this.id = id;
         this.metadata = metadata;
     }
 
-    public String getId() {
+    public Identifier getId() {
         return id;
     }
 

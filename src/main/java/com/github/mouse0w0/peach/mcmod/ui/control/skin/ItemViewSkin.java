@@ -34,7 +34,11 @@ public class ItemViewSkin extends SkinBase<ItemView> {
             IdMetadata idMetadata = itemView.getItem();
 
             StringBuilder sb = new StringBuilder();
-            sb.append(idMetadata.getId());
+            if (!idMetadata.isOreDictionary()) {
+                sb.append(idMetadata.getId().getNamespace()).append(':');
+            }
+            sb.append(idMetadata.getId().getName());
+
             if (idMetadata.isNormal()) {
                 sb.append('#').append(idMetadata.getMetadata());
             }

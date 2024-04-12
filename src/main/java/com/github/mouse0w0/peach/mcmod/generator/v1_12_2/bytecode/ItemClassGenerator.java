@@ -267,7 +267,7 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitFieldInsn(GETSTATIC, thisName, "field_150901_e", "Lnet/minecraft/util/registry/RegistryNamespaced;");
             initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
             initMethod.visitInsn(DUP);
-            ASMUtils.push(initMethod, containerItem.getId());
+            ASMUtils.push(initMethod, containerItem.getId().toString());
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
             initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
@@ -310,7 +310,7 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitFieldInsn(GETSTATIC, thisName, "field_150901_e", "Lnet/minecraft/util/registry/RegistryNamespaced;");
             initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
             initMethod.visitInsn(DUP);
-            ASMUtils.push(initMethod, repairItem.getId());
+            ASMUtils.push(initMethod, repairItem.getId().toString());
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
             initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
@@ -492,7 +492,7 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitFieldInsn(GETSTATIC, thisName, "field_150901_e", "Lnet/minecraft/util/registry/RegistryNamespaced;");
             initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
             initMethod.visitInsn(DUP);
-            ASMUtils.push(initMethod, containerItem.getId());
+            ASMUtils.push(initMethod, containerItem.getId().toString());
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
             initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");

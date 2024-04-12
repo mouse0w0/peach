@@ -28,7 +28,7 @@ public class ItemStack {
         this.item = item;
     }
 
-    public String getId() {
+    public Identifier getId() {
         return item.getId();
     }
 
