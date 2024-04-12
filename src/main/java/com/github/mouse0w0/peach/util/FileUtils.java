@@ -221,6 +221,14 @@ public class FileUtils {
         deleteFile(file.toPath());
     }
 
+    public static long size(Path path) throws UncheckedIOException {
+        try {
+            return Files.size(path);
+        } catch (IOException e) {
+            throw unchecked(e);
+        }
+    }
+
     public static Path getDirectory(Path path) {
         return Files.isDirectory(path) ? path : path.getParent();
     }

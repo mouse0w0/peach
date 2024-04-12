@@ -45,6 +45,17 @@ public final class ElementManager {
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         FileUtils.createDirectoriesIfNotExists(sourcesPath);
         project.getMessageBus().connect().subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
+
+            @Override
+            public void onFileCreate(Path path) {
+                if (path.startsWith(sourcesPath) && FileUtils.size(path) != 0) {
+                    ElementProvider<?> provider = registry.getElementProvider(path);
+                    if (provider != null) {
+                        index(loadElement(path));
+                    }
+                }
+            }
+
             @Override
             public void onFileDelete(Path path) {
                 invalidate(path);
