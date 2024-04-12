@@ -1,11 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
-import java.util.Map;
+import java.util.Set;
 
 public interface IndexProvider {
-    String getName();
+    Set<IndexKey<?, ?>> getKeys();
 
-    int getOrder();
-
-    <K, V> Map<K, V> getIndex(IndexKey<K, V> indexKey);
+    <K, V> IndexEntries<K, V> getEntries(IndexKey<K, V> indexKey);
 }

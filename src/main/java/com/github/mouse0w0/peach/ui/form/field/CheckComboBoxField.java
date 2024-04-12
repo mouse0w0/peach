@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.ui.form.field;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.util.StringConverter;
@@ -11,6 +12,15 @@ import org.controlsfx.control.IndexedCheckModel;
 import java.util.Collection;
 
 public class CheckComboBoxField<T> extends MultiValueField<T> {
+    private final ObservableList<T> items;
+
+    public CheckComboBoxField() {
+        this(null);
+    }
+
+    public CheckComboBoxField(ObservableList<T> items) {
+        this.items = items != null ? items : FXCollections.observableArrayList();
+    }
 
     @Override
     public final ObservableList<T> getValues() {
@@ -35,7 +45,7 @@ public class CheckComboBoxField<T> extends MultiValueField<T> {
     }
 
     public final ObservableList<T> getItems() {
-        return getCheckComboBox().getItems();
+        return items;
     }
 
     public final ObjectProperty<IndexedCheckModel<T>> checkModelProperty() {
@@ -89,7 +99,7 @@ public class CheckComboBoxField<T> extends MultiValueField<T> {
 
     @Override
     protected Node createEditorNode() {
-        CheckComboBox<T> checkComboBox = new CheckComboBox<>();
+        CheckComboBox<T> checkComboBox = new CheckComboBox<>(items);
         checkComboBox.setMaxWidth(Double.MAX_VALUE);
         checkComboBox.disableProperty().bind(disableProperty());
         return checkComboBox;

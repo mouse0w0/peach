@@ -133,7 +133,7 @@ public class ItemChooser extends Stage {
     }
 
     private void updateItem() {
-        gridView.getItems().setAll(ListUtils.filter(index.keys(), buildItemFilter()));
+        gridView.getItems().setAll(ListUtils.filter(index.keyList(), buildItemFilter()));
     }
 
     private Predicate<IdMetadata> buildItemFilter() {

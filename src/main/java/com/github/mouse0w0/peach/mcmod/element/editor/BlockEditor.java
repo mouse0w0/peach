@@ -116,7 +116,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         material.setColSpan(ColSpan.HALF);
         material.setCellFactory(IconicDataCell.factory(getProject(), materialIndex));
         material.setButtonCell(IconicDataCell.create(getProject(), materialIndex));
-        material.getItems().addAll(materialIndex.keys());
+        material.setItems(materialIndex.keyList());
 
         var itemGroupIndex = indexManager.getIndex(IndexKeys.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
@@ -124,7 +124,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         itemGroup.setColSpan(ColSpan.HALF);
         itemGroup.setCellFactory(IconicDataCell.factory(getProject(), itemGroupIndex));
         itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupIndex));
-        itemGroup.getItems().addAll(itemGroupIndex.keys());
+        itemGroup.setItems(itemGroupIndex.keyList());
 
         var soundTypeIndex = indexManager.getIndex(IndexKeys.SOUND_TYPE);
         soundType = new ComboBoxField<>();
@@ -132,7 +132,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         soundType.setColSpan(ColSpan.HALF);
         soundType.setCellFactory(IconicDataCell.factory(getProject(), soundTypeIndex));
         soundType.setButtonCell(IconicDataCell.create(getProject(), soundTypeIndex));
-        soundType.getItems().addAll(soundTypeIndex.keys());
+        soundType.setItems(soundTypeIndex.keyList());
 
         hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
         hardness.setLabel(AppL10n.localize("block.properties.hardness"));
@@ -165,7 +165,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         harvestTool.setColSpan(ColSpan.HALF);
         harvestTool.setCellFactory(GameDataCell.factory(toolTypeIndex));
         harvestTool.setButtonCell(GameDataCell.create(toolTypeIndex));
-        harvestTool.getItems().addAll(toolTypeIndex.keys());
+        harvestTool.setItems(toolTypeIndex.keyList());
 
         harvestLevel = new IntegerField(0, Integer.MAX_VALUE, 0);
         harvestLevel.setLabel(AppL10n.localize("block.properties.harvestLevel"));
@@ -216,7 +216,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         renderType.setColSpan(ColSpan.HALF);
         renderType.setCellFactory(GameDataCell.factory(renderTypeIndex));
         renderType.setButtonCell(GameDataCell.create(renderTypeIndex));
-        renderType.getItems().addAll(renderTypeIndex.keys());
+        renderType.setItems(renderTypeIndex.keyList());
 
         var offsetTypeIndex = indexManager.getIndex(IndexKeys.OFFSET_TYPE);
         offsetType = new ComboBoxField<>();
@@ -224,7 +224,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         offsetType.setColSpan(ColSpan.HALF);
         offsetType.setCellFactory(GameDataCell.factory(offsetTypeIndex));
         offsetType.setButtonCell(GameDataCell.create(offsetTypeIndex));
-        offsetType.getItems().addAll(offsetTypeIndex.keys());
+        offsetType.setItems(offsetTypeIndex.keyList());
 
         itemModel = new ModelField(getProject(), this, new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
@@ -298,7 +298,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         mapColor.setColSpan(ColSpan.HALF);
         mapColor.setCellFactory(IconicDataCell.factory(getProject(), mapColorIndex));
         mapColor.setButtonCell(IconicDataCell.create(getProject(), mapColorIndex));
-        mapColor.getItems().addAll(mapColorIndex.keys());
+        mapColor.setItems(mapColorIndex.keyList());
 
         beaconColor = new ColorPickerField();
         beaconColor.setLabel(AppL10n.localize("block.extra.beaconColor"));
@@ -330,7 +330,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         canPlantPlant.setColSpan(ColSpan.HALF);
         canPlantPlant.setCellFactory(GameDataCell.factory(plantTypeIndex));
         canPlantPlant.setButtonCell(GameDataCell.create(plantTypeIndex));
-        canPlantPlant.getItems().addAll(plantTypeIndex.keys());
+        canPlantPlant.setItems(plantTypeIndex.keyList());
 
         enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
         enchantPowerBonus.setLabel(AppL10n.localize("block.extra.enchantPowerBonus"));
@@ -350,7 +350,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         pushReaction.setColSpan(ColSpan.HALF);
         pushReaction.setCellFactory(GameDataCell.factory(pushReactionIndex));
         pushReaction.setButtonCell(GameDataCell.create(pushReactionIndex));
-        pushReaction.getItems().addAll(pushReactionIndex.keys());
+        pushReaction.setItems(pushReactionIndex.keyList());
 
         var aiPathNodeTypeIndex = indexManager.getIndex(IndexKeys.AI_PATH_NODE_TYPE);
         aiPathNodeType = new ComboBoxField<>();
@@ -358,7 +358,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         aiPathNodeType.setColSpan(ColSpan.HALF);
         aiPathNodeType.setCellFactory(GameDataCell.factory(aiPathNodeTypeIndex));
         aiPathNodeType.setButtonCell(GameDataCell.create(aiPathNodeTypeIndex));
-        aiPathNodeType.getItems().addAll(aiPathNodeTypeIndex.keys());
+        aiPathNodeType.setItems(aiPathNodeTypeIndex.keyList());
 
         Section extra = new Section();
         extra.setText(AppL10n.localize("block.extra.title"));

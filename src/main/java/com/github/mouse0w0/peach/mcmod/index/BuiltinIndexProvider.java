@@ -5,17 +5,15 @@ import com.github.mouse0w0.peach.mcmod.GameData;
 import com.github.mouse0w0.peach.mcmod.IconicData;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 
-public class BuiltinIndexProvider extends GenericIndexProvider {
-    public BuiltinIndexProvider(IndexManager indexManager) {
-        super("builtin", 100);
+public final class BuiltinIndexProvider extends GenericIndexProvider {
+    public static final BuiltinIndexProvider INSTANCE = new BuiltinIndexProvider();
 
-        indexManager.addProvider(this);
-
-        getIndex(IndexKeys.ITEM_GROUP).put("NONE", new IconicData("NONE", AppL10n.localize("itemGroup.NONE"), IdMetadata.of("minecraft:barrier")));
-        getIndex(IndexKeys.MAP_COLOR).put("INHERIT", new IconicData("INHERIT", AppL10n.localize("mapColor.inherit"), IdMetadata.AIR));
-        getIndex(IndexKeys.PLANT_TYPE).put("NONE", new GameData("NONE", AppL10n.localize("plantType.NONE")));
-        getIndex(IndexKeys.AI_PATH_NODE_TYPE).put("INHERIT", new GameData("INHERIT", AppL10n.localize("pathNodeType.INHERIT")));
-        getIndex(IndexKeys.PUSH_REACTION).put("INHERIT", new GameData("INHERIT", AppL10n.localize("pushReaction.INHERIT")));
-        getIndex(IndexKeys.TOOL_TYPE).put("NONE", new GameData("NONE", AppL10n.localize("toolType.NONE")));
+    private BuiltinIndexProvider() {
+        getEntries(IndexKeys.ITEM_GROUP).add("NONE", new IconicData("NONE", AppL10n.localize("itemGroup.NONE"), IdMetadata.of("minecraft:barrier")));
+        getEntries(IndexKeys.MAP_COLOR).add("INHERIT", new IconicData("INHERIT", AppL10n.localize("mapColor.inherit"), IdMetadata.AIR));
+        getEntries(IndexKeys.PLANT_TYPE).add("NONE", new GameData("NONE", AppL10n.localize("plantType.NONE")));
+        getEntries(IndexKeys.AI_PATH_NODE_TYPE).add("INHERIT", new GameData("INHERIT", AppL10n.localize("pathNodeType.INHERIT")));
+        getEntries(IndexKeys.PUSH_REACTION).add("INHERIT", new GameData("INHERIT", AppL10n.localize("pushReaction.INHERIT")));
+        getEntries(IndexKeys.TOOL_TYPE).add("NONE", new GameData("NONE", AppL10n.localize("toolType.NONE")));
     }
 }

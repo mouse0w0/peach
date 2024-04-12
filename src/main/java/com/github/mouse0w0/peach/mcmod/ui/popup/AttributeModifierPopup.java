@@ -49,7 +49,7 @@ public final class AttributeModifierPopup extends PopOver {
 
         attribute = new ChoiceBox<>();
         attribute.setPrefWidth(150);
-        attribute.getItems().addAll(attributeIndex.keys());
+        attribute.setItems(attributeIndex.keyList());
         attribute.setConverter(GameDataConverter.create(attributeIndex));
         grid.addRow(0, new Text(AppL10n.localize("attributeModifier.attribute")), attribute);
 

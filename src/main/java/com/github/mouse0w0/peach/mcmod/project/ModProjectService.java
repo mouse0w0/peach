@@ -1,7 +1,10 @@
 package com.github.mouse0w0.peach.mcmod.project;
 
 import com.github.mouse0w0.peach.dispose.Disposable;
+import com.github.mouse0w0.peach.mcmod.element.ElementManager;
+import com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.IndexManagerImpl;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaData;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataManager;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.List;
 
 public final class ModProjectService implements Disposable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModProjectService.class);
@@ -22,6 +26,8 @@ public final class ModProjectService implements Disposable {
 
     private ModProjectMetadata metadata;
     private final VanillaData vanillaData;
+    private final IndexManagerImpl indexManager;
+    private final ElementManager elementManager;
     private final ModelManager modelManager;
 
     public static ModProjectService getInstance(Project project) {
@@ -44,8 +50,10 @@ public final class ModProjectService implements Disposable {
         }
 
         vanillaData = VanillaDataManager.getInstance().getVanillaData(metadata.getMcVersion());
+        indexManager = new IndexManagerImpl();
+        elementManager = new ElementManager(project, indexManager);
         modelManager = new ModelManager(vanillaData);
-        IndexManager.getInstance(project).addProvider(vanillaData);
+        indexManager.indexNonProjectEntries(List.of(BuiltinIndexProvider.INSTANCE, vanillaData));
     }
 
     public Project getProject() {
@@ -66,6 +74,14 @@ public final class ModProjectService implements Disposable {
 
     public VanillaData getVanillaData() {
         return vanillaData;
+    }
+
+    public ElementManager getElementManager() {
+        return elementManager;
+    }
+
+    public IndexManager getIndexManager() {
+        return indexManager;
     }
 
     public ModelManager getModelManager() {

@@ -4,48 +4,50 @@ import com.github.mouse0w0.peach.fileEditor.FileEditorManager;
 import com.github.mouse0w0.peach.fileWatch.FileChangeListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
-import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
-import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.index.IndexKey;
+import com.github.mouse0w0.peach.mcmod.index.IndexManagerEx;
+import com.github.mouse0w0.peach.mcmod.index.Indexer;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
-public final class ElementManager extends GenericIndexProvider {
+public final class ElementManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(ElementManager.class);
 
+    private final ElementRegistry registry = ElementRegistry.getInstance();
+
     private final Project project;
-    private final ElementRegistry registry;
+    private final IndexManagerEx indexManager;
     private final Path sourcesPath;
 
     public static ElementManager getInstance(Project project) {
-        return project.getService(ElementManager.class);
+        return ModProjectService.getInstance(project).getElementManager();
     }
 
-    public ElementManager(Project project, IndexManager indexManager, ElementRegistry registry) {
-        super("project", 0);
+    public ElementManager(Project project, IndexManagerEx indexManager) {
         this.project = project;
-        this.registry = registry;
+        this.indexManager = indexManager;
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
         FileUtils.createDirectoriesIfNotExists(sourcesPath);
-        indexManager.addProvider(this);
         project.getMessageBus().connect().subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
             @Override
             public void onFileDelete(Path path) {
-                removeIndex(path);
+                invalidate(path);
             }
         });
         indexElements();
@@ -58,7 +60,7 @@ public final class ElementManager extends GenericIndexProvider {
                 Path file = iterator.next();
                 ElementProvider<?> provider = registry.getElementProvider(file);
                 if (provider != null) {
-                    addIndex(loadElement(file));
+                    index(loadElement(file));
                 }
             }
         } catch (IOException e) {
@@ -95,8 +97,8 @@ public final class ElementManager extends GenericIndexProvider {
             // TODO: show dialog
         }
 
-        removeIndex(element.getFile());
-        addIndex(element);
+        invalidate(element.getFile());
+        index(element);
     }
 
     public void createElement(Path path, ElementProvider<?> provider, String name) {
@@ -112,19 +114,32 @@ public final class ElementManager extends GenericIndexProvider {
         FileEditorManager.getInstance(project).open(file);
     }
 
-    private final Map<Path, Object[]> indexData = new HashMap<>();
+    private final Multimap<Path, IndexEntry<?, ?>> indexEntries = HashMultimap.create();
 
-    public void addIndex(Element element) {
+    private void index(Element element) {
         ElementProvider provider = registry.getElementProvider(element.getClass());
-        Object[] objects = provider.addIndex(project, this, element);
-        if (objects == null) return;
-        indexData.put(element.getFile(), objects);
+        provider.index(project, element, new Indexer() {
+            @Override
+            public <K, V> void add(IndexKey<K, V> indexKey, K key, V value) {
+                indexManager.getIndexEx(indexKey).addProjectEntry(key, value);
+                indexEntries.put(element.getFile(), new IndexEntry<>(indexKey, key));
+            }
+        });
     }
 
-    public void removeIndex(Path file) {
-        Object[] objects = indexData.get(file);
-        if (objects == null) return;
-        ElementProvider provider = registry.getElementProvider(file);
-        provider.removeIndex(project, this, objects);
+    private void invalidate(Path file) {
+        for (IndexEntry<?, ?> indexEntry : indexEntries.get(file)) {
+            indexManager.getIndexEx(indexEntry.indexKey).removeProjectEntry(indexEntry.key);
+        }
+    }
+
+    private static final class IndexEntry<K, V> {
+        private final IndexKey<K, V> indexKey;
+        private final K key;
+
+        public IndexEntry(IndexKey<K, V> indexKey, K key) {
+            this.indexKey = indexKey;
+            this.key = key;
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.vanillaData;
 import com.github.mouse0w0.peach.l10n.L10n;
 import com.github.mouse0w0.peach.mcmod.*;
 import com.github.mouse0w0.peach.mcmod.index.GenericIndexProvider;
+import com.github.mouse0w0.peach.mcmod.index.IndexEntries;
 import com.github.mouse0w0.peach.mcmod.index.IndexKey;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
@@ -11,6 +12,7 @@ import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.google.common.collect.ImmutableList;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,10 +25,7 @@ import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     private final String version;
@@ -34,12 +33,16 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     private final L10n l10n;
 
     public VanillaDataImpl(String version, Plugin plugin) {
-        super("vanilla", 200);
         this.version = version;
         this.plugin = plugin;
         this.l10n = L10n.getL10n(plugin.getId());
-        loadItemData();
-        loadOreDictionaryData();
+
+        Map<IdMetadata, List<ItemData>> map = new LinkedHashMap<>();
+        loadItemData(map);
+        loadOreDictionaryData(map);
+        IndexEntries<IdMetadata, List<ItemData>> entries = getEntries(IndexKeys.ITEM);
+        map.forEach((key, value) -> entries.add(key, ImmutableList.copyOf(value)));
+
         loadIconicData(IndexKeys.ITEM_GROUP);
         loadIconicData(IndexKeys.MATERIAL);
         loadIconicData(IndexKeys.SOUND_TYPE);
@@ -136,8 +139,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         }
     }
 
-    private void loadItemData() {
-        Map<IdMetadata, List<ItemData>> map = getIndex(IndexKeys.ITEM);
+    private void loadItemData(Map<IdMetadata, List<ItemData>> map) {
         for (JsonElement element : loadRawData("item")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
@@ -155,8 +157,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         }
     }
 
-    private void loadOreDictionaryData() {
-        Map<IdMetadata, List<ItemData>> map = getIndex(IndexKeys.ITEM);
+    private void loadOreDictionaryData(Map<IdMetadata, List<ItemData>> map) {
         for (JsonElement element : loadRawData("ore_dictionary")) {
             if (element.isJsonObject()) {
                 JsonObject object = element.getAsJsonObject();
@@ -177,20 +178,20 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
     }
 
     private void loadGameData(IndexKey<String, GameData> indexKey) {
-        Map<String, GameData> map = getIndex(indexKey);
+        IndexEntries<String, GameData> entries = getEntries(indexKey);
         for (JsonElement element : loadRawData(indexKey.getName())) {
             String id = element.getAsString();
-            map.put(id, new GameData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id))));
+            entries.add(id, new GameData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id))));
         }
     }
 
     private void loadIconicData(IndexKey<String, IconicData> indexKey) {
-        Map<String, IconicData> map = getIndex(indexKey);
+        IndexEntries<String, IconicData> entries = getEntries(indexKey);
         for (JsonElement element : loadRawData(indexKey.getName())) {
             JsonObject object = element.getAsJsonObject();
             String id = object.get("id").getAsString();
             IdMetadata icon = JsonUtils.fromJson(object.get("icon").getAsJsonObject(), IdMetadata.class);
-            map.put(id, new IconicData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id)), icon));
+            entries.add(id, new IconicData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id)), icon));
         }
     }
 

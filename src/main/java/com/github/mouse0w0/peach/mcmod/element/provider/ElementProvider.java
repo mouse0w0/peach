@@ -2,7 +2,7 @@ package com.github.mouse0w0.peach.mcmod.element.provider;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditor;
 import com.github.mouse0w0.peach.mcmod.element.Element;
-import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
+import com.github.mouse0w0.peach.mcmod.index.Indexer;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.nio.file.Path;
@@ -34,10 +34,6 @@ public abstract class ElementProvider<T extends Element> {
 
     public abstract FileEditor newEditor(Project project, T element);
 
-    public Object[] addIndex(Project project, IndexProvider provider, T element) {
-        return null;
-    }
-
-    public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
+    public void index(Project project, T element, Indexer indexer) {
     }
 }

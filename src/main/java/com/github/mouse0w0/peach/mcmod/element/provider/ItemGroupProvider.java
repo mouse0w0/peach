@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.mcmod.IconicData;
 import com.github.mouse0w0.peach.mcmod.element.editor.ItemGroupEditor;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
-import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
+import com.github.mouse0w0.peach.mcmod.index.Indexer;
 import com.github.mouse0w0.peach.project.Project;
 
 import java.nio.file.Path;
@@ -30,13 +30,7 @@ public class ItemGroupProvider extends ElementProvider<ItemGroupElement> {
     }
 
     @Override
-    public Object[] addIndex(Project project, IndexProvider provider, ItemGroupElement element) {
-        provider.getIndex(IndexKeys.ITEM_GROUP).put(element.getIdentifier(), new IconicData(element.getIdentifier(), element.getDisplayName(), element.getIcon()));
-        return new Object[]{element.getIdentifier()};
-    }
-
-    @Override
-    public void removeIndex(Project project, IndexProvider provider, Object[] objects) {
-        provider.getIndex(IndexKeys.ITEM_GROUP).remove(objects[0]);
+    public void index(Project project, ItemGroupElement element, Indexer indexer) {
+        indexer.add(IndexKeys.ITEM_GROUP, element.getIdentifier(), new IconicData(element.getIdentifier(), element.getDisplayName(), element.getIcon()));
     }
 }

@@ -46,7 +46,7 @@ public final class ToolAttributePopup extends PopOver {
 
         type = new ChoiceBox<>();
         type.setPrefWidth(150);
-        type.getItems().addAll(toolTypeIndex.keys());
+        type.setItems(toolTypeIndex.keyList());
         type.getItems().remove("NONE");
         type.setConverter(GameDataConverter.create(toolTypeIndex));
         grid.addRow(0, new Text(AppL10n.localize("toolAttribute.type")), type);
