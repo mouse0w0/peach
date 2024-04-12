@@ -98,8 +98,8 @@ public class GenItem implements Task {
             for (String enchantmentType : item.getAcceptableEnchantments()) {
                 cg.visitAcceptableEnchantment(enchantmentType);
             }
-            if (!item.getRepairItem().isAir()) cg.visitRepairItem(item.getRepairItem());
-            if (!item.getRecipeRemain().isAir()) cg.visitContainerItem(item.getRecipeRemain());
+            if (!item.getRepairItem().isAir()) cg.visitRepairItem(context, item.getRepairItem());
+            if (!item.getRecipeRemain().isAir()) cg.visitContainerItem(context, item.getRecipeRemain());
             if (!"NONE".equals(item.getUseAnimation())) cg.visitUseAnimation(item.getUseAnimation());
             if (item.getUseDuration() != 0) cg.visitUseDuration(item.getUseDuration());
             if (item.getHitEntityLoss() != 0) cg.visitHitEntityLoss(item.getHitEntityLoss());
@@ -114,7 +114,7 @@ public class GenItem implements Task {
             if (item.getFuelBurnTime() != 0) cg.visitFuelBurnTime(item.getFuelBurnTime());
             if (type == ItemType.FOOD) {
                 if (item.isAlwaysEdible()) cg.visitAlwaysEdible();
-                if (!item.getFoodContainer().isAir()) cg.visitFoodContainerItem(item.getFoodContainer());
+                if (!item.getFoodContainer().isAir()) cg.visitFoodContainerItem(context, item.getFoodContainer());
             }
             context.getClassesFiler().write(cg.getThisName() + ".class", cg.toByteArray());
 

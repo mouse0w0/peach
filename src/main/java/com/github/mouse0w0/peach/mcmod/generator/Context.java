@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator;
 
+import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
@@ -41,6 +42,8 @@ public interface Context {
     String getRootPackage();
 
     String getNamespace();
+
+    String mapIdentifier(Identifier identifier);
 
     String getInternalName(String className);
 

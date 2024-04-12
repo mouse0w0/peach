@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode;
 
 import com.github.mouse0w0.peach.mcmod.element.impl.SmeltingElement;
+import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import org.objectweb.asm.MethodVisitor;
 
@@ -59,11 +60,11 @@ public class SmeltingRecipeLoaderClassGenerator extends ClassGenerator {
         }
     }
 
-    public void visitSmelting(SmeltingElement smelting) {
+    public void visitSmelting(Context context, SmeltingElement smelting) {
 
-        ASMUtils.push(initMethod, smelting.getInput().getId().toString());
+        ASMUtils.push(initMethod, context.mapIdentifier(smelting.getInput().getId()));
         ASMUtils.push(initMethod, smelting.getInput().getMetadata());
-        ASMUtils.push(initMethod, smelting.getOutput().getId().toString());
+        ASMUtils.push(initMethod, context.mapIdentifier(smelting.getOutput().getId()));
         ASMUtils.push(initMethod, smelting.getOutput().getAmount());
         ASMUtils.push(initMethod, smelting.getOutput().getMetadata());
         ASMUtils.push(initMethod, (float) smelting.getXp());

@@ -19,7 +19,7 @@ public class GenItemGroup implements Task {
             ItemGroupClassGenerator cg = new ItemGroupClassGenerator(className);
             cg.visitIdentifier(itemGroup.getIdentifier());
             cg.visitTranslationKey(context.getTranslationKey("itemGroup", itemGroup.getIdentifier()));
-            cg.visitIcon(itemGroup.getIcon());
+            cg.visitIcon(context, itemGroup.getIcon());
             if (itemGroup.isHasSearchBar()) {
                 cg.visitHasSearchBar();
             }

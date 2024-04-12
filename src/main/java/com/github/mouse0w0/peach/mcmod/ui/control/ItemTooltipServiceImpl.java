@@ -6,6 +6,7 @@ import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
+import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.css.Styleable;
 import javafx.scene.control.Tooltip;
@@ -16,6 +17,7 @@ public class ItemTooltipServiceImpl implements ItemTooltipService {
     private final Tooltip tooltip;
 
     public ItemTooltipServiceImpl(Project project) {
+        ModProjectService modProjectService = ModProjectService.getInstance(project);
         Index<IdMetadata, List<ItemData>> itemIndex = IndexManager.getInstance(project).getIndex(IndexKeys.ITEM);
 
         tooltip = new Tooltip();
@@ -29,7 +31,12 @@ public class ItemTooltipServiceImpl implements ItemTooltipService {
             StringBuilder sb = new StringBuilder();
             Identifier id = idMetadata.getId();
             if (!idMetadata.isOreDictionary()) {
-                sb.append(id.getNamespace()).append(':');
+                if (id.isProjectNamespace()) {
+                    sb.append(modProjectService.getModId());
+                } else {
+                    sb.append(id.getNamespace());
+                }
+                sb.append(':');
             }
             sb.append(id.getPath());
 

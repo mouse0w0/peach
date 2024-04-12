@@ -10,7 +10,7 @@ public class GenSmeltingRecipe implements Task {
     public void run(Context context) throws Exception {
         SmeltingRecipeLoaderClassGenerator loader = new SmeltingRecipeLoaderClassGenerator(context.getInternalName("SmeltingRecipeLoader"));
         for (SmeltingElement smelting : context.getElements(SmeltingElement.class)) {
-            loader.visitSmelting(smelting);
+            loader.visitSmelting(context, smelting);
         }
         context.getClassesFiler().write(loader.getThisName() + ".class", loader.toByteArray());
     }

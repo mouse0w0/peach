@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator;
 
+import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.element.Element;
 import com.github.mouse0w0.peach.mcmod.element.ElementManager;
 import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
@@ -133,6 +134,15 @@ public final class Generator implements Context {
     @Override
     public String getNamespace() {
         return metadata.getId();
+    }
+
+    @Override
+    public String mapIdentifier(Identifier identifier) {
+        if (identifier.isProjectNamespace()) {
+            return getNamespace() + ":" + identifier.getPath();
+        } else {
+            return identifier.toString();
+        }
     }
 
     @Override

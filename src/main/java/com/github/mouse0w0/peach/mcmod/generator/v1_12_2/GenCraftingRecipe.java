@@ -18,25 +18,25 @@ public class GenCraftingRecipe implements Task {
         for (CraftingElement crafting : context.getElements(CraftingElement.class)) {
             JsonObject jo = new JsonObject();
             if (crafting.isShapeless()) {
-                generateShapeless(crafting, jo);
+                generateShapeless(context, crafting, jo);
             } else {
-                generateShaped(crafting, jo);
+                generateShaped(context, crafting, jo);
             }
-            generateResult(crafting, jo);
+            generateResult(context, crafting, jo);
             context.getAssetsFiler().write("recipes/" + crafting.getIdentifier() + ".json", jo.toString());
         }
     }
 
-    private void generateResult(CraftingElement recipe, JsonObject jo) {
+    private void generateResult(Context context, CraftingElement recipe, JsonObject jo) {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
-        result.addProperty("item", itemStack.getId().toString());
+        result.addProperty("item", context.mapIdentifier(itemStack.getId()));
         result.addProperty("data", itemStack.getMetadata());
         result.addProperty("count", itemStack.getAmount());
         jo.add("result", result);
     }
 
-    private void generateShaped(CraftingElement recipe, JsonObject jo) {
+    private void generateShaped(Context context, CraftingElement recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shaped");
         JsonArray pattern = new JsonArray();
         Map<IdMetadata, Character> keyMap = new HashMap<>();
@@ -46,7 +46,7 @@ public class GenCraftingRecipe implements Task {
         jo.add("pattern", pattern);
 
         JsonObject key = new JsonObject();
-        keyMap.forEach((itemToken, c) -> key.add(c.toString(), itemRefToJson(itemToken)));
+        keyMap.forEach((itemToken, c) -> key.add(c.toString(), itemToJson(context, itemToken)));
         jo.add("key", key);
     }
 
@@ -87,24 +87,24 @@ public class GenCraftingRecipe implements Task {
         return pattern;
     }
 
-    private void generateShapeless(CraftingElement recipe, JsonObject jo) {
+    private void generateShapeless(Context context, CraftingElement recipe, JsonObject jo) {
         jo.addProperty("type", "forge:ore_shapeless");
         JsonArray ingredients = new JsonArray();
         for (IdMetadata input : recipe.getInputs()) {
             if (input != null && !input.isAir()) {
-                ingredients.add(itemRefToJson(input));
+                ingredients.add(itemToJson(context, input));
             }
         }
         jo.add("ingredients", ingredients);
     }
 
-    private JsonObject itemRefToJson(IdMetadata idMetadata) {
+    private JsonObject itemToJson(Context context, IdMetadata idMetadata) {
         JsonObject result = new JsonObject();
         if (idMetadata.isOreDictionary()) {
             result.addProperty("type", "forge:ore_dict");
             result.addProperty("ore", idMetadata.getId().getPath());
         } else {
-            result.addProperty("item", idMetadata.getId().toString());
+            result.addProperty("item", context.mapIdentifier(idMetadata.getId()));
             result.addProperty("data", idMetadata.getMetadata());
         }
         return result;

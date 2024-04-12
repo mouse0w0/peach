@@ -13,6 +13,8 @@ public final class Identifier implements Comparable<Identifier> {
     public static final Pattern VALID_NAMESPACE = Pattern.compile("[a-z0-9._-]+");
     public static final Pattern VALID_PATH = Pattern.compile("[a-z0-9/._-]+");
 
+    public static final String PROJECT_NAMESPACE = "project";
+
     private final String namespace;
     private final String path;
 
@@ -26,6 +28,10 @@ public final class Identifier implements Comparable<Identifier> {
 
     public static Identifier of(String namespace, String path) {
         return new Identifier(namespace, path);
+    }
+
+    public static Identifier project(String name) {
+        return new Identifier(PROJECT_NAMESPACE, name);
     }
 
     private Identifier(String namespace, String path) {
@@ -43,6 +49,10 @@ public final class Identifier implements Comparable<Identifier> {
 
     public String getPath() {
         return path;
+    }
+
+    public boolean isProjectNamespace() {
+        return PROJECT_NAMESPACE.equals(namespace);
     }
 
     public boolean isValid() {

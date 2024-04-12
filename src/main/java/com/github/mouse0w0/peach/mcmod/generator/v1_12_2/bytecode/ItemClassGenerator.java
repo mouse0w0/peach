@@ -4,6 +4,7 @@ import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
+import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import com.github.mouse0w0.peach.mcmod.generator.util.JavaUtils;
 import org.objectweb.asm.AnnotationVisitor;
@@ -256,7 +257,7 @@ public class ItemClassGenerator extends ClassGenerator {
         mv.visitEnd();
     }
 
-    public void visitContainerItem(IdMetadata containerItem) {
+    public void visitContainerItem(Context context, IdMetadata containerItem) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "containerItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
@@ -267,7 +268,7 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitFieldInsn(GETSTATIC, thisName, "field_150901_e", "Lnet/minecraft/util/registry/RegistryNamespaced;");
             initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
             initMethod.visitInsn(DUP);
-            ASMUtils.push(initMethod, containerItem.getId().toString());
+            ASMUtils.push(initMethod, context.mapIdentifier(containerItem.getId()));
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
             initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
@@ -299,7 +300,7 @@ public class ItemClassGenerator extends ClassGenerator {
         }
     }
 
-    public void visitRepairItem(IdMetadata repairItem) {
+    public void visitRepairItem(Context context, IdMetadata repairItem) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "repairItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
@@ -310,7 +311,7 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitFieldInsn(GETSTATIC, thisName, "field_150901_e", "Lnet/minecraft/util/registry/RegistryNamespaced;");
             initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
             initMethod.visitInsn(DUP);
-            ASMUtils.push(initMethod, repairItem.getId().toString());
+            ASMUtils.push(initMethod, context.mapIdentifier(repairItem.getId()));
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
             initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");
@@ -481,7 +482,7 @@ public class ItemClassGenerator extends ClassGenerator {
         initMethod.visitInsn(POP);
     }
 
-    public void visitFoodContainerItem(IdMetadata containerItem) {
+    public void visitFoodContainerItem(Context context, IdMetadata containerItem) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL, "foodContainerItem", "Lnet/minecraft/item/Item;", null, null);
             fv.visitEnd();
@@ -492,7 +493,7 @@ public class ItemClassGenerator extends ClassGenerator {
             initMethod.visitFieldInsn(GETSTATIC, thisName, "field_150901_e", "Lnet/minecraft/util/registry/RegistryNamespaced;");
             initMethod.visitTypeInsn(NEW, "net/minecraft/util/ResourceLocation");
             initMethod.visitInsn(DUP);
-            ASMUtils.push(initMethod, containerItem.getId().toString());
+            ASMUtils.push(initMethod, context.mapIdentifier(containerItem.getId()));
             initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/util/ResourceLocation", "<init>", "(Ljava/lang/String;)V", false);
             initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/util/registry/RegistryNamespaced", "func_82594_a", "(Ljava/lang/Object;)Ljava/lang/Object;", false);
             initMethod.visitTypeInsn(CHECKCAST, "net/minecraft/item/Item");

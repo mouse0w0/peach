@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
+import com.github.mouse0w0.peach.mcmod.generator.Context;
 import com.github.mouse0w0.peach.mcmod.generator.util.ASMUtils;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.FieldVisitor;
@@ -45,12 +46,12 @@ public class ItemGroupClassGenerator extends ClassGenerator {
         mv.visitEnd();
     }
 
-    public void visitIcon(IdMetadata icon) {
+    public void visitIcon(Context context, IdMetadata icon) {
         {
             FieldVisitor fv = cw.visitField(ACC_PRIVATE | ACC_FINAL | ACC_STATIC, "ICON", "Lnet/minecraft/item/Item;", null, null);
             {
                 AnnotationVisitor av = fv.visitAnnotation("Lnet/minecraftforge/fml/common/registry/GameRegistry$ObjectHolder;", true);
-                av.visit("value", icon.getId().toString());
+                av.visit("value", context.mapIdentifier(icon.getId()));
                 av.visitEnd();
             }
             fv.visitEnd();

@@ -9,7 +9,6 @@ import com.github.mouse0w0.peach.mcmod.element.impl.ItemElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
-import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.util.ImageUtils;
@@ -55,7 +54,7 @@ public class ItemProvider extends ElementProvider<ItemElement> {
             image = ResourceUtils.MISSING_TEXTURE;
         }
 
-        Identifier itemId = Identifier.of(ModProjectService.getInstance(project).getModId(), element.getIdentifier());
+        Identifier itemId = Identifier.project(element.getIdentifier());
         List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), image));
         Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         IdMetadata item1 = IdMetadata.of(itemId);

@@ -10,7 +10,6 @@ import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexProvider;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
 import com.google.common.collect.ImmutableList;
@@ -47,7 +46,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
     public Object[] addIndex(Project project, IndexProvider provider, BlockElement element) {
         if (element.isDoNotRegisterItem()) return null;
 
-        Identifier itemId = Identifier.of(ModProjectService.getInstance(project).getModId(), element.getIdentifier());
+        Identifier itemId = Identifier.project(element.getIdentifier());
         List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE));
         Map<IdMetadata, List<ItemData>> items = provider.getIndex(IndexKeys.ITEM);
         IdMetadata item1 = IdMetadata.of(itemId);
