@@ -17,11 +17,9 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -44,15 +42,12 @@ public class ProjectView implements DataProvider, Disposable.Default {
     private final Map<Path, TreeItem<Path>> itemMap = new HashMap<>();
     private final Map<Path, TreeItem<Path>> expandedItemMap = new HashMap<>();
 
-    private final InvalidationListener expandedListener = new InvalidationListener() {
+    private final EventHandler<TreeItem.TreeModificationEvent<Path>> expandedEventHandler = new EventHandler<>() {
         @Override
-        @SuppressWarnings("unchecked")
-        public void invalidated(Observable observable) {
-            BooleanProperty expanded = (BooleanProperty) observable;
-            TreeItem<Path> item = (TreeItem<Path>) expanded.getBean();
-            if (expanded.get()) {
-                expand(item);
-            }
+        public void handle(TreeItem.TreeModificationEvent<Path> event) {
+            TreeItem<Path> treeItem = event.getTreeItem();
+            treeItem.removeEventHandler(TreeItem.branchExpandedEvent(), this);
+            expand(treeItem);
         }
     };
 
@@ -108,25 +103,23 @@ public class ProjectView implements DataProvider, Disposable.Default {
     private TreeItem<Path> createTreeItem(Path path) {
         TreeItem<Path> treeItem = new TreeItem<>(path);
 
-        if (Files.isDirectory(path)) {
-            treeItem.expandedProperty().addListener(expandedListener);
-            if (FileUtils.notEmptyDirectory(path)) {
-                treeItem.getChildren().add(new TreeItem<>());
-            }
+        if (Files.isDirectory(path) && FileUtils.notEmptyDirectory(path)) {
+            treeItem.addEventHandler(TreeItem.branchExpandedEvent(), expandedEventHandler);
+            treeItem.getChildren().add(new TreeItem<>());
         }
 
         itemMap.put(path, treeItem);
         return treeItem;
     }
 
-    private void expand(TreeItem<Path> parentItem) {
-        Path parent = parentItem.getValue();
-        if (expandedItemMap.containsKey(parent)) return;
+    private void expand(TreeItem<Path> treeItem) {
+        Path path = treeItem.getValue();
+        if (expandedItemMap.containsKey(path)) return;
 
-        ObservableList<TreeItem<Path>> children = parentItem.getChildren();
+        ObservableList<TreeItem<Path>> children = treeItem.getChildren();
         children.clear();
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(parent)) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             for (Path child : stream) {
                 children.add(createTreeItem(child));
             }
@@ -135,19 +128,18 @@ public class ProjectView implements DataProvider, Disposable.Default {
         }
 
         children.sort(comparator);
-        expandedItemMap.put(parent, parentItem);
+        expandedItemMap.put(path, treeItem);
     }
 
     private void onFileCreate(Path path) {
         Platform.runLater(() -> {
             Path parentPath = path.getParent();
             TreeItem<Path> parent = expandedItemMap.get(parentPath);
-            if (parent == null) { // Parent not expanded.
+            if (parent == null) { // Parent is not expanded.
                 parent = itemMap.get(parentPath);
-                if (parent == null) return;
-
-                // Parent can be expanded now.
-                if (parent.getChildren().isEmpty()) {
+                if (parent != null && parent.getChildren().isEmpty()) {
+                    // Parent is expandable now.
+                    parent.addEventHandler(TreeItem.branchExpandedEvent(), expandedEventHandler);
                     parent.getChildren().add(new TreeItem<>());
                 }
             } else {
