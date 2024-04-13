@@ -137,7 +137,7 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
         @Override
         public void setIcon(Icon icon) {
             this.icon = icon;
-            Icon.apply(graphicProperty(), icon);
+            Icon.setIcon(this, icon);
         }
     }
 }

@@ -22,7 +22,6 @@ import javafx.css.PseudoClass;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import org.jetbrains.annotations.NotNull;
 
@@ -183,7 +182,6 @@ public class ProjectView implements DataProvider, Disposable.Default {
 
     private class Cell extends TreeCell<Path> implements DataProvider, FileCell {
         private Icon icon;
-        private ImageView imageView;
 
         public Cell() {
             disableProperty().bind(emptyProperty());
@@ -251,7 +249,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
 
             if (empty) {
                 setText(null);
-                setGraphic(null);
+                Icon.setIcon(this, null);
             } else {
                 FileAppearance.process(item, this);
             }
@@ -270,16 +268,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
         @Override
         public void setIcon(Icon icon) {
             this.icon = icon;
-
-            if (imageView == null) {
-                imageView = new ImageView();
-            }
-
-            imageView.setImage(icon.getImage());
-
-            if (getGraphic() == null) {
-                setGraphic(imageView);
-            }
+            Icon.setIcon(this, icon);
         }
     }
 }

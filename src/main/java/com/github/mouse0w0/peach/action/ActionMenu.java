@@ -18,7 +18,7 @@ public final class ActionMenu extends Menu implements ActionHolder, Updatable {
         this.presentation = new Presentation(group, this::onPropertyChanged);
 
         setText(presentation.getText());
-        Icon.apply(graphicProperty(), presentation.getIcon());
+        Icon.setIcon(this, presentation.getIcon());
 
         addEventFilter(ON_SHOWING, this::updateChildren);
 
@@ -29,7 +29,7 @@ public final class ActionMenu extends Menu implements ActionHolder, Updatable {
     private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
         switch (propertyName) {
             case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Icon.apply(graphicProperty(), (Icon) newValue);
+            case Presentation.ICON_PROP -> Icon.setIcon(this, (Icon) newValue);
             case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
             case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
         }
