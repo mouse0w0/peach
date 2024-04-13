@@ -150,12 +150,9 @@ public class ProjectView implements DataProvider, Disposable.Default {
                 if (parent.getChildren().isEmpty()) {
                     parent.getChildren().add(new TreeItem<>());
                 }
-                return;
+            } else {
+                ListUtils.binarySearchInsert(parent.getChildren(), createTreeItem(path), comparator);
             }
-
-            ObservableList<TreeItem<Path>> children = parent.getChildren();
-            children.add(createTreeItem(path));
-            children.sort(comparator);
         });
     }
 
