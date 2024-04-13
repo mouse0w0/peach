@@ -17,7 +17,6 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -115,9 +114,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
         Path path = treeItem.getValue();
         if (expandedItemMap.containsKey(path)) return;
 
-        ObservableList<TreeItem<Path>> children = treeItem.getChildren();
-        children.clear();
-
+        List<TreeItem<Path>> children = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             for (Path child : stream) {
                 children.add(createTreeItem(child));
@@ -125,8 +122,9 @@ public class ProjectView implements DataProvider, Disposable.Default {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-
         children.sort(comparator);
+        treeItem.getChildren().setAll(children);
+
         expandedItemMap.put(path, treeItem);
     }
 
