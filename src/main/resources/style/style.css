@@ -90,9 +90,7 @@
 }
 
 #project-view,
-#project-view:focused,
-#item-favorites,
-#item-favorites:focused {
+#project-view:focused {
     -fx-padding: 0;
     -fx-background-color: -peach-foreground-color;
     -fx-background-insets: 0;
