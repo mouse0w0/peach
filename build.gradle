@@ -20,12 +20,12 @@ repositories {
 
 dependencies {
     api 'org.jetbrains:annotations:24.1.0'
-    api('com.google.guava:guava:33.0.0-jre') {
+    api('com.google.guava:guava:33.1.0-jre') {
         transitive = false
     }
     api 'org.apache.commons:commons-lang3:3.14.0'
     api 'org.apache.commons:commons-collections4:4.4'
-    api 'commons-io:commons-io:2.15.1'
+    api 'commons-io:commons-io:2.16.1'
     api 'org.ow2.asm:asm-commons:9.7'
     api 'com.google.code.gson:gson:2.10.1'
     api 'org.freemarker:freemarker:2.3.32'
@@ -40,12 +40,12 @@ dependencies {
     api 'org.apache.xmlgraphics:batik-bridge:1.17'
 
     api 'org.slf4j:slf4j-api:2.0.12'
-    runtimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.0'
+    runtimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
 
-    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.12'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.13'
 }
 
 javafx {
