@@ -10,7 +10,10 @@ import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
-import com.github.mouse0w0.peach.mcmod.ui.cell.*;
+import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.IconicDataCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
+import com.github.mouse0w0.peach.mcmod.ui.cell.ToolAttributeCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ItemPickerField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
@@ -241,8 +244,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         var useAnimationIndex = indexManager.getIndex(IndexKeys.USE_ANIMATION);
         useAnimation = new ComboBoxField<>();
         useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
-        useAnimation.setCellFactory(GameDataCell.factory(useAnimationIndex));
-        useAnimation.setButtonCell(GameDataCell.create(useAnimationIndex));
+        useAnimation.setConverter(GameDataConverter.create(useAnimationIndex));
         useAnimation.setItems(useAnimationIndex.keyList());
         useAnimation.setColSpan(ColSpan.HALF);
 
@@ -348,8 +350,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         equipSound = new ComboBoxField<>();
         equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
         equipSound.setColSpan(ColSpan.HALF);
-        equipSound.setCellFactory(GameDataCell.factory(soundEventIndex));
-        equipSound.setButtonCell(GameDataCell.create(soundEventIndex));
+        equipSound.setConverter(GameDataConverter.create(soundEventIndex));
         equipSound.setItems(soundEventIndex.keyList());
         equipSound.disableProperty().bind(isNotArmor);
 

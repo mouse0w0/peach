@@ -7,8 +7,8 @@ import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
-import com.github.mouse0w0.peach.mcmod.ui.cell.GameDataCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.IconicDataCell;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
 import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
@@ -163,8 +163,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         harvestTool = new ComboBoxField<>();
         harvestTool.setLabel(AppL10n.localize("block.properties.harvestTool"));
         harvestTool.setColSpan(ColSpan.HALF);
-        harvestTool.setCellFactory(GameDataCell.factory(toolTypeIndex));
-        harvestTool.setButtonCell(GameDataCell.create(toolTypeIndex));
+        harvestTool.setConverter(GameDataConverter.create(toolTypeIndex));
         harvestTool.setItems(toolTypeIndex.keyList());
 
         harvestLevel = new IntegerField(0, Integer.MAX_VALUE, 0);
@@ -214,16 +213,14 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         renderType = new ComboBoxField<>();
         renderType.setLabel(AppL10n.localize("block.appearance.renderType"));
         renderType.setColSpan(ColSpan.HALF);
-        renderType.setCellFactory(GameDataCell.factory(renderTypeIndex));
-        renderType.setButtonCell(GameDataCell.create(renderTypeIndex));
+        renderType.setConverter(GameDataConverter.create(renderTypeIndex));
         renderType.setItems(renderTypeIndex.keyList());
 
         var offsetTypeIndex = indexManager.getIndex(IndexKeys.OFFSET_TYPE);
         offsetType = new ComboBoxField<>();
         offsetType.setLabel(AppL10n.localize("block.appearance.offsetType"));
         offsetType.setColSpan(ColSpan.HALF);
-        offsetType.setCellFactory(GameDataCell.factory(offsetTypeIndex));
-        offsetType.setButtonCell(GameDataCell.create(offsetTypeIndex));
+        offsetType.setConverter(GameDataConverter.create(offsetTypeIndex));
         offsetType.setItems(offsetTypeIndex.keyList());
 
         itemModel = new ModelField(getProject(), this, new ResourceStore(
@@ -328,8 +325,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         canPlantPlant = new ComboBoxField<>();
         canPlantPlant.setLabel(AppL10n.localize("block.extra.canPlantPlant"));
         canPlantPlant.setColSpan(ColSpan.HALF);
-        canPlantPlant.setCellFactory(GameDataCell.factory(plantTypeIndex));
-        canPlantPlant.setButtonCell(GameDataCell.create(plantTypeIndex));
+        canPlantPlant.setConverter(GameDataConverter.create(plantTypeIndex));
         canPlantPlant.setItems(plantTypeIndex.keyList());
 
         enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
@@ -348,16 +344,14 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         pushReaction = new ComboBoxField<>();
         pushReaction.setLabel(AppL10n.localize("block.extra.pushReaction"));
         pushReaction.setColSpan(ColSpan.HALF);
-        pushReaction.setCellFactory(GameDataCell.factory(pushReactionIndex));
-        pushReaction.setButtonCell(GameDataCell.create(pushReactionIndex));
+        pushReaction.setConverter(GameDataConverter.create(pushReactionIndex));
         pushReaction.setItems(pushReactionIndex.keyList());
 
         var aiPathNodeTypeIndex = indexManager.getIndex(IndexKeys.AI_PATH_NODE_TYPE);
         aiPathNodeType = new ComboBoxField<>();
         aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
         aiPathNodeType.setColSpan(ColSpan.HALF);
-        aiPathNodeType.setCellFactory(GameDataCell.factory(aiPathNodeTypeIndex));
-        aiPathNodeType.setButtonCell(GameDataCell.create(aiPathNodeTypeIndex));
+        aiPathNodeType.setConverter(GameDataConverter.create(aiPathNodeTypeIndex));
         aiPathNodeType.setItems(aiPathNodeTypeIndex.keyList());
 
         Section extra = new Section();
