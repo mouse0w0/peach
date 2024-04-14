@@ -24,7 +24,6 @@ dependencies {
         transitive = false
     }
     api 'org.apache.commons:commons-lang3:3.14.0'
-    api 'org.apache.commons:commons-collections4:4.4'
     api 'commons-io:commons-io:2.16.1'
     api 'org.ow2.asm:asm-commons:9.7'
     api 'com.google.code.gson:gson:2.10.1'
