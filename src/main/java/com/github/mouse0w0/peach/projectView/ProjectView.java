@@ -178,7 +178,68 @@ public class ProjectView implements DataProvider, Disposable.Default {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private class Cell extends TreeCell<Path> implements DataProvider, FileCell {
+        private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
+            TreeCell<Path> treeCell = (TreeCell<Path>) event.getSource();
+            MultipleSelectionModel<TreeItem<Path>> selectionModel = treeCell.getTreeView().getSelectionModel();
+            if (selectionModel.isEmpty()) return;
+            Dragboard dragboard = treeCell.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.put(ClipboardUtils.TRANSFER_MODE, ClipboardUtils.TRANSFER_MODE_MOVE);
+            List<TreeItem<Path>> selectedItems = selectionModel.getSelectedItems();
+            List<File> files = new ArrayList<>(selectedItems.size());
+            for (TreeItem<Path> selectedItem : selectedItems) {
+                files.add(selectedItem.getValue().toFile());
+            }
+            content.putFiles(files);
+            dragboard.setContent(content);
+        };
+
+        private static final EventHandler<DragEvent> ON_DRAG_OVER = event -> {
+            event.consume();
+            if (event.getGestureSource() == event.getSource()) return;
+
+            TreeCell<Path> treeCell = (TreeCell<Path>) event.getSource();
+            Path path = treeCell.getItem();
+            if (path == null || Files.isRegularFile(path)) return;
+
+            Dragboard dragboard = event.getDragboard();
+            if (!dragboard.hasFiles()) return;
+
+            File file = path.toFile();
+            if (dragboard.getFiles().contains(file)) return;
+
+            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        };
+
+        private static final EventHandler<DragEvent> ON_DRAG_DROPPED = event -> {
+            event.consume();
+            Dragboard dragboard = event.getDragboard();
+            Clipboard systemClipboard = Clipboard.getSystemClipboard();
+            ClipboardContent content = ClipboardUtils.copyOf(systemClipboard);
+            systemClipboard.setContent(Collections.singletonMap(DataFormat.FILES, dragboard.getFiles()));
+            ActionManager.getInstance().perform("Paste", event.getSource());
+            systemClipboard.setContent(content);
+            event.setDropCompleted(true);
+            TreeCell<Path> treeCell = (TreeCell<Path>) event.getSource();
+            treeCell.getTreeView().getSelectionModel().clearAndSelect(treeCell.getIndex());
+        };
+
+        private static final EventHandler<DragEvent> ON_DRAG_ENTERED = event -> {
+            if (event.getGestureSource() == event.getSource()) return;
+
+            if (event.getDragboard().hasFiles()) {
+                TreeCell<Path> treeCell = (TreeCell<Path>) event.getSource();
+                treeCell.pseudoClassStateChanged(DROP_HOVER, true);
+            }
+        };
+
+        private static final EventHandler<DragEvent> ON_DRAG_EXITED = event -> {
+            TreeCell<Path> treeCell = (TreeCell<Path>) event.getSource();
+            treeCell.pseudoClassStateChanged(DROP_HOVER, false);
+        };
+
         private Icon icon;
 
         public Cell() {
@@ -191,54 +252,11 @@ public class ProjectView implements DataProvider, Disposable.Default {
                     FileEditorManager.getInstance(project).open(file);
                 }
             });
-            setOnDragDetected(event -> {
-                MultipleSelectionModel<TreeItem<Path>> selectionModel = getTreeView().getSelectionModel();
-                if (selectionModel.isEmpty()) return;
-                Dragboard dragboard = startDragAndDrop(TransferMode.COPY_OR_MOVE);
-                ClipboardContent content = new ClipboardContent();
-                content.put(ClipboardUtils.TRANSFER_MODE, ClipboardUtils.TRANSFER_MODE_MOVE);
-                List<TreeItem<Path>> selectedItems = selectionModel.getSelectedItems();
-                List<File> files = new ArrayList<>(selectedItems.size());
-                for (TreeItem<Path> selectedItem : selectedItems) {
-                    files.add(selectedItem.getValue().toFile());
-                }
-                content.putFiles(files);
-                dragboard.setContent(content);
-            });
-            setOnDragOver(event -> {
-                event.consume();
-                if (event.getGestureSource() == event.getTarget()) return;
-
-                Path path = getItem();
-                if (path == null || Files.isRegularFile(path)) return;
-
-                Dragboard dragboard = event.getDragboard();
-                if (!dragboard.hasFiles()) return;
-
-                File file = path.toFile();
-                if (dragboard.getFiles().contains(file)) return;
-
-                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            });
-            setOnDragDropped(event -> {
-                event.consume();
-                Dragboard dragboard = event.getDragboard();
-                Clipboard systemClipboard = Clipboard.getSystemClipboard();
-                ClipboardContent content = ClipboardUtils.copyOf(systemClipboard);
-                systemClipboard.setContent(Collections.singletonMap(DataFormat.FILES, dragboard.getFiles()));
-                ActionManager.getInstance().perform("Paste", event.getSource());
-                systemClipboard.setContent(content);
-                event.setDropCompleted(true);
-                requestFocus();
-            });
-            setOnDragEntered(event -> {
-                if (event.getGestureSource() == event.getTarget()) return;
-
-                if (event.getDragboard().hasFiles()) {
-                    pseudoClassStateChanged(DROP_HOVER, true);
-                }
-            });
-            setOnDragExited(event -> pseudoClassStateChanged(DROP_HOVER, false));
+            setOnDragDetected(ON_DRAG_DETECTED);
+            setOnDragOver(ON_DRAG_OVER);
+            setOnDragDropped(ON_DRAG_DROPPED);
+            setOnDragEntered(ON_DRAG_ENTERED);
+            setOnDragExited(ON_DRAG_EXITED);
         }
 
         @Override
