@@ -10,13 +10,13 @@ import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaData;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataManager;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.util.List;
 
 public final class ModProjectService implements Disposable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ModProjectService.class);
@@ -53,7 +53,7 @@ public final class ModProjectService implements Disposable {
         indexManager = new IndexManagerImpl();
         elementManager = new ElementManager(project, indexManager);
         modelManager = new ModelManager(vanillaData);
-        indexManager.indexNonProjectEntries(List.of(BuiltinIndexProvider.INSTANCE, vanillaData));
+        indexManager.indexNonProjectEntries(ImmutableList.of(BuiltinIndexProvider.INSTANCE, vanillaData));
     }
 
     public Project getProject() {
