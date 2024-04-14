@@ -17,6 +17,7 @@ import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.view.ViewFactory;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.css.PseudoClass;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -37,17 +38,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
 
     private final Project project;
 
-    private final Map<Path, TreeItem<Path>> itemMap = new HashMap<>();
-    private final Map<Path, TreeItem<Path>> expandedItemMap = new HashMap<>();
-
-    private final EventHandler<TreeItem.TreeModificationEvent<Path>> expandedEventHandler = new EventHandler<>() {
-        @Override
-        public void handle(TreeItem.TreeModificationEvent<Path> event) {
-            TreeItem<Path> treeItem = event.getTreeItem();
-            treeItem.removeEventHandler(TreeItem.branchExpandedEvent(), this);
-            expand(treeItem);
-        }
-    };
+    private final Map<Path, PathTreeItem> treeItemMap = new HashMap<>();
 
     private final Comparator<TreeItem<Path>> comparator = Comparator.comparing(TreeItem::getValue, (o1, o2) -> {
         boolean isDir1 = Files.isDirectory(o1);
@@ -77,7 +68,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
         ActionManager actionManager = ActionManager.getInstance();
         contextMenu = actionManager.createContextMenu((ActionGroup) actionManager.getAction("ProjectViewPopupMenu"));
 
-        TreeItem<Path> root = createTreeItem(project.getPath());
+        PathTreeItem root = createTreeItem(project.getPath());
         root.setExpanded(true);
         treeView.setRoot(root);
 
@@ -98,63 +89,28 @@ public class ProjectView implements DataProvider, Disposable.Default {
         return treeView;
     }
 
-    private TreeItem<Path> createTreeItem(Path path) {
-        TreeItem<Path> treeItem = new TreeItem<>(path);
-
-        if (Files.isDirectory(path) && FileUtils.notEmptyDirectory(path)) {
-            treeItem.addEventHandler(TreeItem.branchExpandedEvent(), expandedEventHandler);
-            treeItem.getChildren().add(new TreeItem<>());
-        }
-
-        itemMap.put(path, treeItem);
+    private PathTreeItem createTreeItem(Path path) {
+        PathTreeItem treeItem = new PathTreeItem(path);
+        treeItemMap.put(path, treeItem);
         return treeItem;
-    }
-
-    private void expand(TreeItem<Path> treeItem) {
-        Path path = treeItem.getValue();
-        if (expandedItemMap.containsKey(path)) return;
-
-        List<TreeItem<Path>> children = new ArrayList<>();
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-            for (Path child : stream) {
-                children.add(createTreeItem(child));
-            }
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-        children.sort(comparator);
-        treeItem.getChildren().setAll(children);
-
-        expandedItemMap.put(path, treeItem);
     }
 
     private void onFileCreate(Path path) {
         Platform.runLater(() -> {
-            Path parentPath = path.getParent();
-            TreeItem<Path> parent = expandedItemMap.get(parentPath);
-            if (parent == null) { // Parent is not expanded.
-                parent = itemMap.get(parentPath);
-                if (parent != null && parent.getChildren().isEmpty()) {
-                    // Parent is expandable now.
-                    parent.addEventHandler(TreeItem.branchExpandedEvent(), expandedEventHandler);
-                    parent.getChildren().add(new TreeItem<>());
-                }
-            } else {
-                ListUtils.binarySearchInsert(parent.getChildren(), createTreeItem(path), comparator);
-            }
+            PathTreeItem parentTreeItem = treeItemMap.get(path.getParent());
+            if (parentTreeItem == null || parentTreeItem.needInitialize) return;
+            ListUtils.binarySearchInsert(parentTreeItem.getChildren(), createTreeItem(path), comparator);
         });
     }
 
     private void onFileDelete(Path path) {
         Platform.runLater(() -> {
-            TreeItem<Path> treeItem = itemMap.remove(path);
+            PathTreeItem treeItem = treeItemMap.remove(path);
             if (treeItem != null) {
                 TreeItem<Path> parent = treeItem.getParent();
                 if (parent != null) {
                     parent.getChildren().remove(treeItem);
                 }
-
-                expandedItemMap.remove(path);
             }
         });
     }
@@ -175,6 +131,41 @@ public class ProjectView implements DataProvider, Disposable.Default {
         @Override
         public Node createViewContent(Project project) {
             return ProjectView.getInstance(project).getNode();
+        }
+    }
+
+    private class PathTreeItem extends TreeItem<Path> {
+        private boolean needInitialize = true;
+
+        public PathTreeItem(Path value) {
+            super(value);
+        }
+
+        @Override
+        public boolean isLeaf() {
+            return needInitialize ? !Files.isDirectory(getValue()) || FileUtils.isEmptyDirectory(getValue()) : super.isLeaf();
+        }
+
+        @Override
+        public ObservableList<TreeItem<Path>> getChildren() {
+            if (needInitialize) {
+                needInitialize = false;
+                fillChildren();
+            }
+            return super.getChildren();
+        }
+
+        private void fillChildren() {
+            List<TreeItem<Path>> children = new ArrayList<>();
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(getValue())) {
+                for (Path child : stream) {
+                    children.add(createTreeItem(child));
+                }
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+            children.sort(comparator);
+            super.getChildren().addAll(children);
         }
     }
 
