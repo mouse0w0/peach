@@ -4,7 +4,7 @@ import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaData;
 import com.github.mouse0w0.peach.project.Project;
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import java.util.Collection;
@@ -18,7 +18,7 @@ public class ModelManager {
 
     private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
     private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
-    private final Multimap<String, Identifier> blockstateToModelTemplates = HashMultimap.create();
+    private final Multimap<String, Identifier> blockstateToModelTemplates = ArrayListMultimap.create();
 
     public static ModelManager getInstance(Project project) {
         return ModProjectService.getInstance(project).getModelManager();

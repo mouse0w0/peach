@@ -15,7 +15,7 @@ import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.util.FileUtils;
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import java.io.IOException;
@@ -216,7 +216,7 @@ public final class Generator implements Context {
     }
 
     private Multimap<Class<?>, Element> loadElements() throws IOException {
-        Multimap<Class<?>, Element> elements = HashMultimap.create();
+        Multimap<Class<?>, Element> elements = ArrayListMultimap.create();
 
         Files.walk(getSourceFolder())
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))

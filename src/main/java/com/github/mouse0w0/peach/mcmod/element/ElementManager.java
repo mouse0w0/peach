@@ -14,7 +14,7 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,7 +125,7 @@ public final class ElementManager {
         FileEditorManager.getInstance(project).open(file);
     }
 
-    private final Multimap<Path, IndexEntry<?, ?>> indexEntries = HashMultimap.create();
+    private final Multimap<Path, IndexEntry<?, ?>> indexEntries = ArrayListMultimap.create(12, 1);
 
     private void index(Element element) {
         ElementProvider provider = registry.getElementProvider(element.getClass());

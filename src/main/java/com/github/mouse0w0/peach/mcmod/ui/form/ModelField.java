@@ -14,7 +14,7 @@ import com.github.mouse0w0.peach.ui.form.Element;
 import com.github.mouse0w0.peach.ui.form.field.Field;
 import com.github.mouse0w0.peach.ui.util.ExtensionFilters;
 import com.github.mouse0w0.peach.util.JsonUtils;
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gson.JsonObject;
 import javafx.application.Platform;
@@ -298,7 +298,7 @@ public class ModelField extends Element {
 
     private boolean updating;
 
-    private final Multimap<Path, String> fileToModelKey = HashMultimap.create();
+    private final Multimap<Path, String> fileToModelKey = ArrayListMultimap.create(12, 1);
 
     private Future<?> loadTextureFuture;
 
