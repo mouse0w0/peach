@@ -10,16 +10,14 @@ import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import org.controlsfx.control.PopOver;
 
 public final class ToolAttributePopup extends PopOver {
-    private final Index<String, GameData> toolTypeIndex;
-
-    private final ChoiceBox<String> type;
+    private final ComboBox<String> type;
     private final Spinner<Integer> level;
 
     private TagCell<ToolAttribute> cell;
@@ -33,7 +31,6 @@ public final class ToolAttributePopup extends PopOver {
     };
 
     public ToolAttributePopup(Index<String, GameData> toolTypeIndex) {
-        this.toolTypeIndex = toolTypeIndex;
         getRoot().minHeightProperty().unbind();
         setArrowLocation(ArrowLocation.TOP_CENTER);
         setAnimated(false);
@@ -44,7 +41,7 @@ public final class ToolAttributePopup extends PopOver {
         grid.setPadding(new Insets(9));
         setContentNode(grid);
 
-        type = new ChoiceBox<>();
+        type = new ComboBox<>();
         type.setPrefWidth(150);
         type.setItems(toolTypeIndex.keyList().filtered(s -> !"NONE".equals(s)));
         type.setConverter(GameDataConverter.create(toolTypeIndex));

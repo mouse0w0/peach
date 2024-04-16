@@ -46,7 +46,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     private ComboBoxField<String> itemGroup;
     private IntegerField maxStackSize;
     private IntegerField durability;
-    private ChoiceBoxField<EquipmentSlot> equipmentSlot;
+    private ComboBoxField<EquipmentSlot> equipmentSlot;
     private TagViewField<ToolAttribute> toolAttributes;
     private DoubleField destroySpeed;
     private RadioButtonField canDestroyAnyBlock;
@@ -151,7 +151,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         durability.setColSpan(ColSpan.HALF);
         durability.disableProperty().bind(isFood);
 
-        equipmentSlot = new ChoiceBoxField<>();
+        equipmentSlot = new ComboBoxField<>();
         equipmentSlot.setLabel(AppL10n.localize("item.properties.equipmentSlot"));
         equipmentSlot.setConverter(LocalizableConverter.instance());
         equipmentSlot.getItems().addAll(EquipmentSlot.ALL_SLOTS);

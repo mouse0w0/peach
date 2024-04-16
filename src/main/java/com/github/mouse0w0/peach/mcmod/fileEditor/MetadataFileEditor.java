@@ -11,7 +11,6 @@ import com.github.mouse0w0.peach.ui.form.ColSpan;
 import com.github.mouse0w0.peach.ui.form.Form;
 import com.github.mouse0w0.peach.ui.form.FormView;
 import com.github.mouse0w0.peach.ui.form.Section;
-import com.github.mouse0w0.peach.ui.form.field.ChoiceBoxField;
 import com.github.mouse0w0.peach.ui.form.field.ComboBoxField;
 import com.github.mouse0w0.peach.ui.form.field.TextFieldField;
 import com.github.mouse0w0.peach.ui.util.Check;
@@ -31,7 +30,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
     private TextFieldField name;
     private TextFieldField id;
     private TextFieldField version;
-    private ChoiceBoxField<String> mcVersion;
+    private ComboBoxField<String> mcVersion;
     private ComboBoxField<Locale> language;
     private TextFieldField authors;
     private TextFieldField description;
@@ -67,7 +66,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         version.setColSpan(ColSpan.HALF);
         version.setValue(metadata.getVersion());
 
-        mcVersion = new ChoiceBoxField<>();
+        mcVersion = new ComboBoxField<>();
         mcVersion.setLabel(AppL10n.localize("metadata.general.mcVersion"));
         mcVersion.setColSpan(ColSpan.HALF);
         mcVersion.getItems().add("1.12.2");

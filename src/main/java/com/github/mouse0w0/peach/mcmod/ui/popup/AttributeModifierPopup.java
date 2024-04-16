@@ -11,17 +11,15 @@ import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import org.controlsfx.control.PopOver;
 
 public final class AttributeModifierPopup extends PopOver {
-    private final Index<String, GameData> attributeIndex;
-
-    private final ChoiceBox<String> attribute;
-    private final ChoiceBox<AttributeModifier.Operation> operation;
+    private final ComboBox<String> attribute;
+    private final ComboBox<AttributeModifier.Operation> operation;
     private final Spinner<Double> amount;
 
     private TagCell<AttributeModifier> cell;
@@ -35,8 +33,6 @@ public final class AttributeModifierPopup extends PopOver {
     };
 
     public AttributeModifierPopup(Index<String, GameData> attributeIndex) {
-        this.attributeIndex = attributeIndex;
-
         getRoot().minHeightProperty().unbind();
         setArrowLocation(ArrowLocation.TOP_CENTER);
         setAnimated(false);
@@ -47,13 +43,13 @@ public final class AttributeModifierPopup extends PopOver {
         grid.setPadding(new Insets(9));
         setContentNode(grid);
 
-        attribute = new ChoiceBox<>();
+        attribute = new ComboBox<>();
         attribute.setPrefWidth(150);
         attribute.setItems(attributeIndex.keyList());
         attribute.setConverter(GameDataConverter.create(attributeIndex));
         grid.addRow(0, new Text(AppL10n.localize("attributeModifier.attribute")), attribute);
 
-        operation = new ChoiceBox<>();
+        operation = new ComboBox<>();
         operation.setPrefWidth(150);
         operation.getItems().addAll(AttributeModifier.Operation.values());
         operation.setConverter(LocalizableConverter.instance());
