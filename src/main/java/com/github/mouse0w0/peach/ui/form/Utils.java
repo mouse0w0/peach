@@ -22,16 +22,15 @@ final class Utils {
     public static void layoutElements(GridPane gridPane, List<Element> elements) {
         gridPane.getChildren().clear();
 
-        int row = 0;
-        int column = 0;
+        int rowOffset = 0, colOffset = 0;
         for (Element element : elements) {
             int colSpan = element.getColSpan();
-            if (column + colSpan > COLUMN_COUNT) {
-                column = 0;
-                row++;
+            if (colOffset > 0 && colOffset + colSpan > COLUMN_COUNT) {
+                colOffset = 0;
+                rowOffset++;
             }
-            gridPane.add(element.getNode(), column, row, colSpan, 1);
-            column += colSpan;
+            gridPane.add(element.getNode(), colOffset, rowOffset, colSpan, 1);
+            colOffset += colSpan;
         }
     }
 }
