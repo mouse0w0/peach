@@ -45,7 +45,7 @@ public class ItemChooser extends Stage {
     private final RadioButton oreDictMode;
     private final GridView<IdMetadata> gridView;
 
-    private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateItem()));
+    private final Timeline filterTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> updateFilter()));
 
     public static IdMetadata pick(Node ownerNode, IdMetadata item, boolean enableIgnoreMetadata, boolean enableOreDict) {
         return pick(ownerNode.getScene().getWindow(), item, enableIgnoreMetadata, enableOreDict);
@@ -74,7 +74,7 @@ public class ItemChooser extends Stage {
         filter = new TextField();
         filter.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                updateItem();
+                updateFilter();
                 filterTimeline.stop();
                 event.consume();
             }
@@ -95,7 +95,7 @@ public class ItemChooser extends Stage {
 
         ToggleGroup modeGroup = new ToggleGroup();
         modeGroup.getToggles().addAll(defaultMode, ignoreMetadataMode, oreDictMode);
-        modeGroup.selectedToggleProperty().addListener(observable -> updateItem());
+        modeGroup.selectedToggleProperty().addListener(observable -> updateFilter());
 
         HBox headerBar = new HBox(12, filterLabel, filter, defaultMode, ignoreMetadataMode, oreDictMode);
         headerBar.setPadding(new Insets(12));
@@ -125,18 +125,19 @@ public class ItemChooser extends Stage {
         FXUtils.addStylesheet(scene, "style/ItemChooser.css");
         setScene(scene);
 
-        updateItem();
+        updateFilter();
     }
 
     public IdMetadata getSelectedItem() {
         return gridView.getSelectionModel().getSelectedItem();
     }
 
-    private void updateItem() {
-        gridView.getItems().setAll(ListUtils.filter(index.keyList(), buildItemFilter()));
+    private void updateFilter() {
+        gridView.getItems().clear();
+        ListUtils.filter(index.keyList(), createFilter(), gridView.getItems());
     }
 
-    private Predicate<IdMetadata> buildItemFilter() {
+    private Predicate<IdMetadata> createFilter() {
         Predicate<IdMetadata> predicate;
         if (ignoreMetadataMode.isSelected()) {
             predicate = IdMetadata::isIgnoreMetadata;
@@ -146,18 +147,18 @@ public class ItemChooser extends Stage {
             predicate = IdMetadata::isNormal;
         }
 
-        final String pattern = filter.getText();
-        if (StringUtils.isNotEmpty(pattern)) {
-            predicate = predicate.and(item -> filterItem(item, pattern));
+        String filterText = filter.getText();
+        if (StringUtils.isNotEmpty(filterText)) {
+            predicate = predicate.and(item -> filterByText(item, filterText));
         }
 
         return predicate;
     }
 
-    private boolean filterItem(IdMetadata item, String pattern) {
-        if (item.getId().getPath().contains(pattern)) return true;
+    private boolean filterByText(IdMetadata item, String filterText) {
+        if (item.getId().getPath().contains(filterText)) return true;
         for (ItemData data : index.get(item)) {
-            if (data.getName().contains(pattern)) {
+            if (data.getName().contains(filterText)) {
                 return true;
             }
         }
