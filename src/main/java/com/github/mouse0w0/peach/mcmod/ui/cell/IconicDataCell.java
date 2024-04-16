@@ -9,25 +9,25 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
-public class IconicDataCell extends ListCell<String> {
-    private final Index<String, IconicData> index;
+public class IconicDataCell<T> extends ListCell<T> {
+    private final Index<T, IconicData> index;
     private final ItemView itemView;
 
-    public static Callback<ListView<String>, ListCell<String>> factory(Project project, Index<String, IconicData> index) {
-        return $ -> new IconicDataCell(project, index);
+    public static <T> Callback<ListView<T>, ListCell<T>> factory(Project project, Index<T, IconicData> index) {
+        return $ -> create(project, index);
     }
 
-    public static ListCell<String> create(Project project, Index<String, IconicData> index) {
-        return new IconicDataCell(project, index);
+    public static <T> ListCell<T> create(Project project, Index<T, IconicData> index) {
+        return new IconicDataCell<>(project, index);
     }
 
-    private IconicDataCell(Project project, Index<String, IconicData> index) {
+    private IconicDataCell(Project project, Index<T, IconicData> index) {
         this.index = index;
         this.itemView = new ItemView(project, 16);
     }
 
     @Override
-    protected void updateItem(String item, boolean empty) {
+    protected void updateItem(T item, boolean empty) {
         super.updateItem(item, empty);
         if (empty) {
             setText(null);
@@ -37,12 +37,11 @@ public class IconicDataCell extends ListCell<String> {
             if (iconicData != null) {
                 itemView.setItem(iconicData.getIcon());
                 setText(iconicData.getName());
-                setGraphic(itemView);
             } else {
                 itemView.setItem(IdMetadata.AIR);
-                setText(item);
-                setGraphic(itemView);
+                setText(item.toString());
             }
+            setGraphic(itemView);
         }
     }
 }
