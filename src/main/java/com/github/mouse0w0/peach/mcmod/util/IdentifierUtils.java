@@ -5,7 +5,7 @@ import com.anyascii.AnyAscii;
 import java.util.regex.Pattern;
 
 public class IdentifierUtils {
-    public static final Pattern IDENTIFIER = Pattern.compile("^[a-z0-9/._-]+$");
+    public static final Pattern IDENTIFIER = Pattern.compile("^[a-z0-9_]+$");
 
     public static boolean validateIdentifier(String identifier) {
         return identifier != null && IDENTIFIER.matcher(identifier).matches();
@@ -30,6 +30,6 @@ public class IdentifierUtils {
     }
 
     private static boolean isIdentifierPart(char c) {
-        return c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '/' || c == '.' || c == '_' || c == '-';
+        return c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '_';
     }
 }
