@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'application'
+    id 'idea'
     id 'org.openjfx.javafxplugin' version '0.1.0'
 }
 
@@ -98,5 +99,11 @@ distributions {
             from('executable')
             from('CHANGELOG.md')
         }
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
     }
 }
