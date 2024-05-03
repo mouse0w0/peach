@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.newProject;
 
 import com.github.mouse0w0.peach.icon.AppIcon;
+import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
@@ -13,7 +14,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -100,21 +100,15 @@ public class NewProjectDialog extends Stage {
     }
 
     private static final class Cell extends ListCell<NewProjectProvider> {
-        private final ImageView graphic = new ImageView();
-
-        public Cell() {
-            setGraphic(graphic);
-        }
-
         @Override
         protected void updateItem(NewProjectProvider item, boolean empty) {
             super.updateItem(item, empty);
             if (empty) {
                 setText(null);
-                graphic.setImage(null);
+                Icon.setIcon(this, null);
             } else {
                 setText(item.getName());
-                graphic.setImage(item.getIcon().getImage());
+                Icon.setIcon(this, item.getIcon());
             }
         }
     }
