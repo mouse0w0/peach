@@ -39,17 +39,19 @@ public final class ActionContextMenu extends ContextMenu implements ActionHolder
 
     @Override
     public void show(Node anchor, double screenX, double screenY) {
-        fillMenu();
         // Fix JavaFX cannot get owner node of ContextMenu.
         getProperties().put(DataManagerImpl.OWNER_NODE, anchor);
+
+        fillMenu();
         super.show(anchor, screenX, screenY);
     }
 
     @Override
     public void show(Node anchor, Side side, double dx, double dy) {
-        fillMenu();
         // Fix JavaFX cannot get owner node of ContextMenu.
         getProperties().put(DataManagerImpl.OWNER_NODE, anchor);
+
+        fillMenu();
         super.show(anchor, side, dx, dy);
     }
 
