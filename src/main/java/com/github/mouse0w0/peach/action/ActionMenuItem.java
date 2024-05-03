@@ -5,27 +5,41 @@ import com.github.mouse0w0.peach.icon.Icon;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public final class ActionMenuItem extends MenuItem implements ActionHolder, Updatable {
+public final class ActionMenuItem extends MenuItem implements ActionHolder, Presentation, Updatable {
     private final Action action;
-    private final Presentation presentation;
 
     ActionMenuItem(Action action) {
         this.action = action;
-        this.presentation = new Presentation(action, this::onPropertyChanged);
 
-        setText(presentation.getText());
-        Icon.setIcon(this, presentation.getIcon());
+        setText(action.getText());
+        setIcon(action.getIcon());
 
         setOnAction(this::perform);
     }
 
-    private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
-        switch (propertyName) {
-            case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Icon.setIcon(this, (Icon) newValue);
-            case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
-            case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
-        }
+    private String description;
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String value) {
+        description = value;
+    }
+
+    private Icon icon;
+
+    @Override
+    public Icon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public void setIcon(Icon value) {
+        icon = value;
+        Icon.setIcon(this, value);
     }
 
     @Override
@@ -35,10 +49,10 @@ public final class ActionMenuItem extends MenuItem implements ActionHolder, Upda
 
     @Override
     public void update() {
-        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+        action.update(new ActionEvent(null, this, DataManager.getInstance().getDataContext(this)));
     }
 
     private void perform(javafx.event.ActionEvent event) {
-        action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+        action.perform(new ActionEvent(event, this, DataManager.getInstance().getDataContext(this)));
     }
 }

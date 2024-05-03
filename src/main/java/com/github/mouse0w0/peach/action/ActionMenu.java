@@ -7,18 +7,16 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public final class ActionMenu extends Menu implements ActionHolder, Updatable {
+public final class ActionMenu extends Menu implements ActionHolder, Presentation, Updatable {
     private final ActionGroup group;
-    private final Presentation presentation;
 
     private final MenuItem placeholder = new MenuItem();
 
     ActionMenu(ActionGroup group) {
         this.group = group;
-        this.presentation = new Presentation(group, this::onPropertyChanged);
 
-        setText(presentation.getText());
-        Icon.setIcon(this, presentation.getIcon());
+        setText(group.getText());
+        setIcon(group.getIcon());
 
         addEventFilter(ON_SHOWING, this::updateChildren);
 
@@ -26,13 +24,29 @@ public final class ActionMenu extends Menu implements ActionHolder, Updatable {
         getItems().add(placeholder);
     }
 
-    private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
-        switch (propertyName) {
-            case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Icon.setIcon(this, (Icon) newValue);
-            case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
-            case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
-        }
+    private String description;
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String value) {
+        description = value;
+    }
+
+    private Icon icon;
+
+    @Override
+    public Icon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public void setIcon(Icon value) {
+        icon = value;
+        Icon.setIcon(this, value);
     }
 
     @Override
@@ -51,12 +65,12 @@ public final class ActionMenu extends Menu implements ActionHolder, Updatable {
 
     @Override
     public void update() {
-        group.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+        group.update(new ActionEvent(null, this, DataManager.getInstance().getDataContext(this)));
     }
 
     private void fillMenu() {
         getItems().clear();
-        Utils.fillMenu(group, new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)), getItems());
+        Utils.fillMenu(group, new ActionEvent(null, this, DataManager.getInstance().getDataContext(this)), getItems());
     }
 
     private void updateChildren(Event event) {

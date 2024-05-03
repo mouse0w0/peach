@@ -5,35 +5,48 @@ import com.github.mouse0w0.peach.icon.Icon;
 import javafx.scene.control.CheckMenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder, Updatable {
+public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder, Presentation, Updatable {
     private final ToggleAction action;
-    private final Presentation presentation;
 
     ActionToggleMenuItem(ToggleAction action) {
         this.action = action;
-        this.presentation = new Presentation(action, this::onPropertyChanged);
 
-        setText(presentation.getText());
-        Icon.setIcon(this, presentation.getIcon());
+        setText(action.getText());
+        setIcon(action.getIcon());
 
         selectedProperty().addListener(observable -> {
             if (isSelected()) {
                 Icon.setIcon(this, null);
             } else {
-                Icon.setIcon(this, presentation.getIcon());
+                Icon.setIcon(this, getIcon());
             }
         });
         setOnAction(this::perform);
     }
 
-    private void onPropertyChanged(String propertyName, Object oldValue, Object newValue) {
-        switch (propertyName) {
-            case Presentation.TEXT_PROP -> setText((String) newValue);
-            case Presentation.ICON_PROP -> Icon.setIcon(this, (Icon) newValue);
-            case Presentation.DISABLE_PROP -> setDisable((boolean) newValue);
-            case Presentation.VISIBLE_PROP -> setVisible((boolean) newValue);
-            case Presentation.SELECTED_PROP -> setSelected((boolean) newValue);
-        }
+    private String description;
+
+    @Override
+    public String getDescription() {
+        return description;
+    }
+
+    @Override
+    public void setDescription(String value) {
+        description = value;
+    }
+
+    private Icon icon;
+
+    @Override
+    public Icon getIcon() {
+        return icon;
+    }
+
+    @Override
+    public void setIcon(Icon value) {
+        icon = value;
+        Icon.setIcon(this, value);
     }
 
     @Override
@@ -43,10 +56,10 @@ public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder,
 
     @Override
     public void update() {
-        action.update(new ActionEvent(null, presentation, DataManager.getInstance().getDataContext(this)));
+        action.update(new ActionEvent(null, this, DataManager.getInstance().getDataContext(this)));
     }
 
     private void perform(javafx.event.ActionEvent event) {
-        action.perform(new ActionEvent(event, presentation, DataManager.getInstance().getDataContext(this)));
+        action.perform(new ActionEvent(event, this, DataManager.getInstance().getDataContext(this)));
     }
 }
