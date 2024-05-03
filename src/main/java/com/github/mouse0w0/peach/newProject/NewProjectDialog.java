@@ -61,7 +61,7 @@ public class NewProjectDialog extends Stage {
         scrollPane.setFitToWidth(true);
 
         SplitPane splitPane = new SplitPane(listView, scrollPane);
-        root.setCenter(scrollPane);
+        root.setCenter(splitPane);
 
         Button finish = new Button(AppL10n.localize("button.create"));
         finish.setDefaultButton(true);
