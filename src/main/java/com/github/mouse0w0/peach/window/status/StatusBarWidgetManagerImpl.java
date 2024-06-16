@@ -4,8 +4,8 @@ import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.IterableUtils;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.github.mouse0w0.peach.util.TypeUtils;
 import com.google.gson.JsonElement;
-import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +62,6 @@ public class StatusBarWidgetManagerImpl implements StatusBarWidgetManager, Persi
 
     @Override
     public void loadState(JsonElement state) {
-        widgetEnabledMap.putAll(JsonUtils.fromJson(state, TypeUtils.parameterize(Map.class, String.class, Boolean.class)));
+        widgetEnabledMap.putAll(JsonUtils.fromJson(state, TypeUtils.map(String.class, Boolean.class)));
     }
 }

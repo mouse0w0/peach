@@ -1,7 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.generator.v1_12_2;
 
 import com.github.mouse0w0.peach.util.JsonUtils;
-import org.apache.commons.lang3.reflect.TypeUtils;
+import com.github.mouse0w0.peach.util.TypeUtils;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 public final class Srgs {
-    private static final Type STRING_TO_STRING_MAP = TypeUtils.parameterize(Map.class, String.class, String.class);
+    private static final Type STRING_TO_STRING_MAP = TypeUtils.map(String.class, String.class);
 
     public static final Map<String, String> MATERIALS = load("material.srg.json");
     public static final Map<String, String> MAP_COLORS = load("map_color.srg.json");

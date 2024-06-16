@@ -9,8 +9,8 @@ import com.github.mouse0w0.peach.project.ProjectLifecycleListener;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.github.mouse0w0.peach.util.TypeUtils;
 import com.google.gson.JsonElement;
-import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -62,7 +62,7 @@ public final class RecentProjectsManagerImpl implements RecentProjectsManager, P
 
     @Override
     public void loadState(JsonElement state) {
-        JsonUtils.<List<RecentProject>>fromJson(state, TypeUtils.parameterize(List.class, RecentProject.class))
+        JsonUtils.<List<RecentProject>>fromJson(state, TypeUtils.list(RecentProject.class))
                 .forEach(info -> recentProjects.put(info.getPath(), info));
     }
 

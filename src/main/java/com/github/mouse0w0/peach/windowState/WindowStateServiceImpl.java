@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.windowState;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.util.JsonUtils;
+import com.github.mouse0w0.peach.util.TypeUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import javafx.beans.InvalidationListener;
@@ -14,7 +15,6 @@ import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
-import org.apache.commons.lang3.reflect.TypeUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -97,7 +97,7 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
 
     @Override
     public void loadState(JsonElement state) {
-        windowStates.putAll(JsonUtils.fromJson(state, TypeUtils.parameterize(Map.class, String.class, WindowState.class)));
+        windowStates.putAll(JsonUtils.fromJson(state, TypeUtils.map(String.class, WindowState.class)));
     }
 
     private static final class WindowState {
