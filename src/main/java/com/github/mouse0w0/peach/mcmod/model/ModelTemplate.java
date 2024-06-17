@@ -10,7 +10,7 @@ public class ModelTemplate {
     private Identifier id;
     private List<String> blockstates;
     private List<String> textures;
-    private Map<String, ModelEntry> models;
+    private Map<String, Entry> models;
 
     private transient Plugin plugin;
     private transient String localizedName;
@@ -27,7 +27,7 @@ public class ModelTemplate {
         return textures;
     }
 
-    public Map<String, ModelEntry> getModels() {
+    public Map<String, Entry> getModels() {
         return models;
     }
 
@@ -45,5 +45,23 @@ public class ModelTemplate {
 
     public void setLocalizedName(String localizedName) {
         this.localizedName = localizedName;
+    }
+
+    public static class Entry {
+        private String name;
+        private String template;
+        private String parent;
+
+        public String getName() {
+            return name;
+        }
+
+        public String getTemplate() {
+            return template;
+        }
+
+        public String getParent() {
+            return parent;
+        }
     }
 }

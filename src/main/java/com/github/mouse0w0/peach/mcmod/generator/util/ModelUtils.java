@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.mcmod.generator.util;
 
 import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
-import com.github.mouse0w0.peach.mcmod.model.ModelEntry;
 import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
@@ -26,9 +25,9 @@ public class ModelUtils {
                                      String particleTexture,
                                      Path output,
                                      Map<String, String> outputModels) throws IOException {
-        for (Map.Entry<String, ModelEntry> entry : modelTemplate.getModels().entrySet()) {
+        for (Map.Entry<String, ModelTemplate.Entry> entry : modelTemplate.getModels().entrySet()) {
             String modelKey = entry.getKey();
-            ModelEntry modelEntry = entry.getValue();
+            ModelTemplate.Entry modelEntry = entry.getValue();
             String modelPath = processModelPath(identifier, modelEntry.getName());
             Path source = ClassPathUtils.getPath("model/template/" + modelEntry.getTemplate(), modelTemplate.getPlugin().getClassLoader());
             Path target = output.resolve("models/" + modelPath + ".json");
