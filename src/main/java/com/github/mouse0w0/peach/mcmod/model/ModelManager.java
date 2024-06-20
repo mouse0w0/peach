@@ -15,6 +15,8 @@ import java.util.Map;
 public class ModelManager {
     public static final Identifier CUSTOM = Identifier.of("buildin:custom");
     public static final Identifier DEFAULT = Identifier.of("buildin:default");
+    public static final Identifier GENERATED = Identifier.of("minecraft:generated");
+    public static final Identifier HANDHELD = Identifier.of("minecraft:handheld");
 
     private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
     private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();

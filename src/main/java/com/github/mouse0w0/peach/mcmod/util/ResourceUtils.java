@@ -32,14 +32,17 @@ public class ResourceUtils {
     public static final String GUI_TEXTURES = TEXTURES + "/gui";
 
     public static final Image MISSING_TEXTURE = new Image(ResourceUtils.class.getResourceAsStream("/image/mcmod/missing.png"), 64, 64, true, false);
-    public static final Image CUBE_TEXTURE = new Image(ResourceUtils.class.getResourceAsStream("/image/mcmod/cube.png"), 64, 64, true, false);
 
     public static Path getResourcePath(Project project, String resource) {
         return project.getPath().resolve(resource);
     }
 
     public static Path getTextureFile(Project project, String textureName) {
-        return project.getPath().resolve(ResourceUtils.TEXTURES + "/" + textureName + ".png");
+        return project.getPath().resolve(TEXTURES + "/" + textureName + ".png");
+    }
+
+    public static Path getModelFile(Project project, String modelPath) {
+        return project.getPath().resolve(MODELS + "/" + modelPath + ".json");
     }
 
     public static String relativize(Path path, Path other) {

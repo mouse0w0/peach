@@ -1,5 +1,6 @@
 {
     "id": "minecraft:wall",
+    "preview": "wall.json",
     "blockstates": [
         "wall"
     ],

@@ -1,5 +1,6 @@
 {
     "id": "minecraft:pane",
+    "preview": "pane.json",
     "blockstates": [
         "pane"
     ],

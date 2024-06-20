@@ -6,6 +6,8 @@ import com.github.mouse0w0.peach.mcmod.index.BuiltinIndexProvider;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.IndexManagerImpl;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.preview.PreviewManager;
+import com.github.mouse0w0.peach.mcmod.preview.PreviewManagerImpl;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaData;
 import com.github.mouse0w0.peach.mcmod.vanillaData.VanillaDataManager;
 import com.github.mouse0w0.peach.project.Project;
@@ -29,6 +31,7 @@ public final class ModProjectService implements Disposable {
     private final IndexManagerImpl indexManager;
     private final ElementManager elementManager;
     private final ModelManager modelManager;
+    private final PreviewManager previewManager;
 
     public static ModProjectService getInstance(Project project) {
         return project.getService(ModProjectService.class);
@@ -53,6 +56,7 @@ public final class ModProjectService implements Disposable {
         indexManager = new IndexManagerImpl();
         elementManager = new ElementManager(project, indexManager);
         modelManager = new ModelManager(vanillaData);
+        previewManager = new PreviewManagerImpl(project, modelManager);
         indexManager.indexNonProjectEntries(ImmutableList.of(BuiltinIndexProvider.INSTANCE, vanillaData));
     }
 
@@ -86,6 +90,10 @@ public final class ModProjectService implements Disposable {
 
     public ModelManager getModelManager() {
         return modelManager;
+    }
+
+    public PreviewManager getPreviewManager() {
+        return previewManager;
     }
 
     public void saveMetadata() {

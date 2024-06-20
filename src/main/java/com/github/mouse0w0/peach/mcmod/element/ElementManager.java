@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
@@ -60,7 +61,7 @@ public final class ElementManager {
                 invalidate(path);
             }
         });
-        indexElements();
+        CompletableFuture.runAsync(() -> ElementManager.getInstance(project).indexElements());
     }
 
     private void indexElements() {

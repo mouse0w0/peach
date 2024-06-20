@@ -35,6 +35,7 @@ dependencies {
     }
     api 'com.github.mouse0w0:version:1.4.0'
     api 'com.github.mouse0w0:gridview:17.0.0'
+    api 'com.github.mouse0w0:software-renderer:6f7dc5c2b5'
     api 'com.anyascii:anyascii:0.3.2'
     api 'org.controlsfx:controlsfx:11.2.1'
     api 'org.apache.xmlgraphics:batik-bridge:1.17'

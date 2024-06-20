@@ -1,5 +1,6 @@
 {
     "id": "minecraft:cube_bottom_top",
+    "preview": "cube_bottom_top.json",
     "blockstates": [
         "normal", "directional", "horizontal", "dirt"
     ],

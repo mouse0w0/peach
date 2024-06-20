@@ -1,5 +1,6 @@
 {
     "id": "minecraft:stairs",
+    "preview": "stairs.json",
     "blockstates": [
         "stairs"
     ],
