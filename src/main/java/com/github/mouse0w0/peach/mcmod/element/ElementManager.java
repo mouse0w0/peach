@@ -139,7 +139,7 @@ public final class ElementManager {
     }
 
     private void invalidate(Path file) {
-        for (IndexEntry<?, ?> indexEntry : indexEntries.get(file)) {
+        for (IndexEntry<?, ?> indexEntry : indexEntries.removeAll(file)) {
             indexManager.getIndexEx(indexEntry.indexKey).removeProjectEntry(indexEntry.key);
         }
     }
