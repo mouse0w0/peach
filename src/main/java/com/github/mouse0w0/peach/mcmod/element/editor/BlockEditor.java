@@ -36,8 +36,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     private TextFieldField identifier;
     private TextFieldField displayName;
     private ComboBoxField<BlockType> type;
-    private ComboBoxField<String> material;
     private ComboBoxField<String> itemGroup;
+    private ComboBoxField<String> material;
     private ComboBoxField<String> soundType;
     private DoubleField hardness;
     private RadioButtonField unbreakable;
@@ -110,14 +110,6 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         type.getItems().addAll(BlockType.VALUES);
         type.setValue(BlockType.NORMAL);
 
-        var materialIndex = indexManager.getIndex(IndexKeys.MATERIAL);
-        material = new ComboBoxField<>();
-        material.setLabel(AppL10n.localize("block.properties.material"));
-        material.setColSpan(ColSpan.HALF);
-        material.setCellFactory(IconicDataCell.factory(getProject(), materialIndex));
-        material.setButtonCell(IconicDataCell.create(getProject(), materialIndex));
-        material.setItems(materialIndex.keyList());
-
         var itemGroupIndex = indexManager.getIndex(IndexKeys.ITEM_GROUP);
         itemGroup = new ComboBoxField<>();
         itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
@@ -125,6 +117,14 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         itemGroup.setCellFactory(IconicDataCell.factory(getProject(), itemGroupIndex));
         itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupIndex));
         itemGroup.setItems(itemGroupIndex.keyList());
+
+        var materialIndex = indexManager.getIndex(IndexKeys.MATERIAL);
+        material = new ComboBoxField<>();
+        material.setLabel(AppL10n.localize("block.properties.material"));
+        material.setColSpan(ColSpan.HALF);
+        material.setCellFactory(IconicDataCell.factory(getProject(), materialIndex));
+        material.setButtonCell(IconicDataCell.create(getProject(), materialIndex));
+        material.setItems(materialIndex.keyList());
 
         var soundTypeIndex = indexManager.getIndex(IndexKeys.SOUND_TYPE);
         soundType = new ComboBoxField<>();
@@ -178,8 +178,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         properties.setText(AppL10n.localize("block.properties.title"));
         properties.getElements().addAll(
                 identifier, displayName,
-                type, material,
-                itemGroup, soundType,
+                type, itemGroup,
+                material, soundType,
                 hardness, unbreakable,
                 resistance, slipperiness,
                 brightness, opacity,
@@ -376,8 +376,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         identifier.setValue(element.getIdentifier());
         displayName.setValue(element.getDisplayName());
         type.setValue(element.getType());
-        material.setValue(element.getMaterial());
         itemGroup.setValue(element.getItemGroup());
+        material.setValue(element.getMaterial());
         soundType.setValue(element.getSoundType());
         hardness.setValue(element.getHardness());
         unbreakable.set(element.isUnbreakable());
@@ -430,8 +430,8 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         element.setIdentifier(identifier.getValue().trim());
         element.setDisplayName(displayName.getValue());
         element.setType(type.getValue());
-        element.setMaterial(material.getValue());
         element.setItemGroup(itemGroup.getValue());
+        element.setMaterial(material.getValue());
         element.setSoundType(soundType.getValue());
         element.setHardness(hardness.getValue());
         element.setUnbreakable(unbreakable.get());

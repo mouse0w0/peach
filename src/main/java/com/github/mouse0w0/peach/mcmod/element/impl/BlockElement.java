@@ -17,8 +17,8 @@ public class BlockElement extends Element implements LocalizableElement {
     private String identifier;
     private String displayName;
     private BlockType type = BlockType.NORMAL;
-    private String material = "ROCK";
     private String itemGroup;
+    private String material = "ROCK";
     private String soundType = "STONE";
     private double hardness;
     private boolean unbreakable; // set hardness -1.
