@@ -43,7 +43,6 @@ public final class ElementManager {
         this.project = project;
         this.indexManager = indexManager;
         this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
-        FileUtils.createDirectoriesIfNotExists(sourcesPath);
         project.getMessageBus().connect().subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
 
             @Override
@@ -65,6 +64,7 @@ public final class ElementManager {
     }
 
     private void indexElements() {
+        if (Files.notExists(sourcesPath)) return;
         try (Stream<Path> stream = Files.walk(sourcesPath)) {
             Iterator<Path> iterator = stream.iterator();
             while (iterator.hasNext()) {
