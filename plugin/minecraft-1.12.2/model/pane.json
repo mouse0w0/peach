@@ -6,6 +6,7 @@
     "textures": [
         "pane", "edge"
     ],
+    "item": "minecraft:pane_item",
     "models": {
         "pane_post": {
             "name": "block/${id}_post",

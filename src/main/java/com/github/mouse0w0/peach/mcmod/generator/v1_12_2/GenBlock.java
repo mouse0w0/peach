@@ -14,6 +14,7 @@ import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.BlockLoaderCla
 import com.github.mouse0w0.peach.mcmod.generator.v1_12_2.bytecode.block.*;
 import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
+import com.github.mouse0w0.peach.mcmod.model.ModelTemplate;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import javafx.scene.paint.Color;
 
@@ -170,15 +171,17 @@ public class GenBlock implements Task {
             ModelManager modelManager = context.getModelManager();
             BlockstateTemplate blockstateTemplate = modelManager.getBlockstateTemplate(block.getType().getBlockstate());
             Identifier blockModel = block.getModel();
+            boolean isCustomBlockModel = ModelManager.CUSTOM.equals(blockModel);
+            ModelTemplate blockModelTemplate = isCustomBlockModel ? null : modelManager.getModelTemplate(blockModel);
             Map<String, String> blockTextures = ModelUtils.processTextures(namespace, block.getTextures());
             Map<String, String> outputModels = new HashMap<>();
             String particleTexture = block.getParticleTexture() != null ?
                     ModelUtils.processResourcePath(namespace, block.getParticleTexture()) : null;
-            if (ModelManager.CUSTOM.equals(blockModel)) {
+            if (isCustomBlockModel) {
                 ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomModels(), context.getModelsFolder(),
                         blockTextures, particleTexture, assetsFiler.getRoot(), outputModels);
             } else {
-                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(blockModel),
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, blockModelTemplate,
                         blockTextures, particleTexture, assetsFiler.getRoot(), outputModels);
             }
 
@@ -188,7 +191,14 @@ public class GenBlock implements Task {
                 ModelUtils.generateCustomModel(namespace, identifier, blockstateTemplate, block.getCustomItemModels(), context.getModelsFolder(),
                         ModelUtils.processTextures(namespace, block.getItemTextures()), null, assetsFiler.getRoot(), outputModels);
             } else if (ModelManager.DEFAULT.equals(itemModel)) {
-                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(blockstateTemplate.getItem()),
+                Identifier defaultItemModel = null;
+                if (blockModelTemplate != null) {
+                    defaultItemModel = blockModelTemplate.getItem();
+                }
+                if (defaultItemModel == null) {
+                    defaultItemModel = blockstateTemplate.getItem();
+                }
+                ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(defaultItemModel),
                         blockTextures, null, assetsFiler.getRoot(), outputModels);
             } else {
                 ModelUtils.generateModel(namespace, identifier, blockstateTemplate, modelManager.getModelTemplate(itemModel),

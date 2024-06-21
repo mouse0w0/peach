@@ -3,6 +3,7 @@ package com.github.mouse0w0.peach.mcmod.element.editor;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.BlockType;
 import com.github.mouse0w0.peach.mcmod.BoundingBox;
+import com.github.mouse0w0.peach.mcmod.Identifier;
 import com.github.mouse0w0.peach.mcmod.element.impl.BlockElement;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
@@ -67,7 +68,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     private ModelField itemModel;
     private ModelTextureField itemTextures;
 
-//    private Object dropItem; // TODO
+    //    private Object dropItem; // TODO
 
     private RadioButtonField doNotRegisterItem;
     private ComboBoxField<String> mapColor;
@@ -82,7 +83,7 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     private IntegerField fireSpreadSpeed;
     private ComboBoxField<String> pushReaction;
     private ComboBoxField<String> aiPathNodeType;
-//    private Object pickItem; // TODO
+    //    private Object pickItem; // TODO
 
     public BlockEditor(@NotNull Project project, @NotNull BlockElement element) {
         super(project, element);
@@ -229,7 +230,12 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         itemModel.setText(AppL10n.localize("block.appearance.itemModel"));
         itemModel.setBlockstate("item");
         var modelManager = ModelManager.getInstance(getProject());
-        itemModel.hasDefaultItemModelProperty().bind(type.valueProperty().map(type -> modelManager.getBlockstateTemplate(type.getBlockstate()).getItem() != null));
+        itemModel.hasDefaultItemModelProperty().bind(Bindings.createBooleanBinding(() -> {
+            if (modelManager.getBlockstateTemplate(type.getValue().getBlockstate()).getItem() != null) return true;
+            Identifier blockModelId = model.getModel();
+            if (ModelManager.CUSTOM.equals(blockModelId)) return false;
+            return modelManager.getModelTemplate(blockModelId).getItem() != null;
+        }, type.valueProperty(), model.modelProperty()));
 
         itemTextures = new ModelTextureField(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
