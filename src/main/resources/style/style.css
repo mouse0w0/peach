@@ -147,6 +147,17 @@
     -fx-background-color: -peach-hover-color;
 }
 
+.item-tooltip {
+    -fx-padding: 4px;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+    -fx-background-color: #100010F0;
+    -fx-background-insets: 4px;
+    -fx-border-image-source: url("/image/mcmod/tooltip.png");
+    -fx-border-image-slice: 4px;
+    -fx-border-image-width: 4px;
+}
+
 .minecraft-style .item-picker,
 .minecraft-style .item-stack-view > .item {
     -fx-background-color: transparent;

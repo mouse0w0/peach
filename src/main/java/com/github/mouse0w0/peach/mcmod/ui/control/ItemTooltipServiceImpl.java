@@ -8,8 +8,8 @@ import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.ui.control.Tooltip;
 import javafx.css.Styleable;
-import javafx.scene.control.Tooltip;
 
 import java.util.List;
 
@@ -21,6 +21,7 @@ public class ItemTooltipServiceImpl implements ItemTooltipService {
         Index<IdMetadata, List<ItemData>> itemIndex = IndexManager.getInstance(project).getIndex(IndexKeys.ITEM);
 
         tooltip = new Tooltip();
+        tooltip.getStyleClass().setAll("item-tooltip");
         tooltip.setOnShowing(event -> {
             Styleable parent = tooltip.getStyleableParent();
             if (parent == null) return;
