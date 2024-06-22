@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.ui.control;
 
 import com.github.mouse0w0.peach.ui.control.skin.TipSkin;
-import com.sun.javafx.stage.PopupWindowHelper;
 import com.sun.javafx.util.Utils;
 import javafx.beans.property.*;
 import javafx.geometry.HPos;
@@ -9,17 +8,11 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Side;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.PopupControl;
 import javafx.scene.control.Skin;
 
 public class Tip extends PopupControl {
-
     public Tip() {
-        bridge = new CSSBridge();
-        PopupWindowHelper.getContent(this).setAll(bridge);
-
         getStyleClass().add("tip");
-        setAnchorLocation(AnchorLocation.CONTENT_TOP_LEFT);
     }
 
     private StringProperty text;
@@ -93,10 +86,8 @@ public class Tip extends PopupControl {
         return new TipSkin(this);
     }
 
-    private final class CSSBridge extends PopupControl.CSSBridge {
-        @Override
-        public String getUserAgentStylesheet() {
-            return Tip.class.getResource("Tip.css").toExternalForm();
-        }
+    @Override
+    public String getUserAgentStylesheet() {
+        return Tip.class.getResource("Tip.css").toExternalForm();
     }
 }

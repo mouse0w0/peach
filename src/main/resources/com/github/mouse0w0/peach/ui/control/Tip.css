@@ -1,20 +1,20 @@
-.tip > .content {
+.tip > .root {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 2;
     -fx-padding: 0.25em;
 }
 
-.tip > .content > .label {
+.tip > .root > .label {
     -fx-fill: black;
     -fx-padding: 0.25em;
 }
 
-.tip > .content > .close-button {
+.tip > .root > .close-button {
     -fx-padding: 0.25em;
 }
 
-.tip > .content > .close-button > .close {
+.tip > .root > .close-button > .close {
     -fx-background-color: #808080;
     -fx-shape: "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z";
     -fx-min-width: 1em;

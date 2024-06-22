@@ -12,13 +12,12 @@ import javafx.scene.layout.StackPane;
 public class TipSkin implements Skin<Tip> {
     private Tip skinnable;
 
-    private final HBox content;
+    private final HBox root;
 
     public TipSkin(Tip skinnable) {
         this.skinnable = skinnable;
 
         Label label = new Label();
-        label.getStyleClass().setAll("label");
         label.textProperty().bind(skinnable.textProperty());
         label.graphicProperty().bind(skinnable.graphicProperty());
 
@@ -27,14 +26,13 @@ public class TipSkin implements Skin<Tip> {
 
         StackPane closeButton = new StackPane(close);
         closeButton.setAccessibleRole(AccessibleRole.BUTTON);
-        closeButton.getStyleClass().setAll("close-button");
+        closeButton.getStyleClass().add("close-button");
         closeButton.visibleProperty().bind(skinnable.closableProperty());
         closeButton.managedProperty().bind(skinnable.closableProperty());
         closeButton.setOnMousePressed(event -> getSkinnable().hide());
 
-        content = new HBox();
-        content.getStyleClass().setAll("content");
-        content.getChildren().setAll(label, closeButton);
+        root = new HBox(label, closeButton);
+        root.getStyleClass().add("root");
     }
 
     @Override
@@ -44,7 +42,7 @@ public class TipSkin implements Skin<Tip> {
 
     @Override
     public Node getNode() {
-        return content;
+        return root;
     }
 
     @Override
