@@ -3,15 +3,13 @@ package com.github.mouse0w0.peach.mcmod.ui.control.skin;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemStackView;
 import com.sun.javafx.scene.control.ListenerHelper;
+import javafx.event.Event;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.SkinBase;
 import javafx.scene.control.TextField;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.text.Font;
 
 public class ItemStackViewSkin extends SkinBase<ItemStackView> {
@@ -31,6 +29,7 @@ public class ItemStackViewSkin extends SkinBase<ItemStackView> {
         amount.setAlignment(Pos.CENTER_RIGHT);
         amount.setText(Integer.toString(itemStackView.getAmount()));
         // Fix JavaFX pass css font to ContextMenu
+        amount.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, Event::consume);
         amount.fontProperty().bind(itemStackView.sizeProperty()
                 .map(size -> new Font("Minecraft", size.doubleValue() / 2)));
         amount.textProperty().addListener((observable, oldValue, newValue) -> {
