@@ -182,8 +182,3 @@
 .minecraft-small-slot-32x:disabled {
     -fx-opacity: 0.4;
 }
-
-.form-view > .scroll-pane > .scroll-bar:vertical {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-}

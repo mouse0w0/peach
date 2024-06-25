@@ -11,6 +11,10 @@
     -fx-spacing: 1em;
 }
 
+.form > .scroll-pane > .scroll-bar {
+    -fx-background-color: transparent;
+}
+
 .form-section > .content {
     -fx-background-color: white;
 }
