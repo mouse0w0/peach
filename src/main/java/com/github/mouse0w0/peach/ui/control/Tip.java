@@ -8,6 +8,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Side;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.Skin;
 
 public class Tip extends PopupControl {
@@ -84,10 +85,5 @@ public class Tip extends PopupControl {
     @Override
     protected Skin<?> createDefaultSkin() {
         return new TipSkin(this);
-    }
-
-    @Override
-    public String getUserAgentStylesheet() {
-        return Tip.class.getResource("Tip.css").toExternalForm();
     }
 }

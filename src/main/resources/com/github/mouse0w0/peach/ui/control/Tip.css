@@ -1,24 +1,23 @@
-.tip > .root {
+.tip {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;
     -fx-background-radius: 2;
-    -fx-padding: 0.25em;
+    -fx-padding: 0.333333em;
 }
 
-.tip > .root > .label {
-    -fx-fill: black;
-    -fx-padding: 0.25em;
+.tip > .label {
+    -fx-fill: -fx-text-base-color;
 }
 
-.tip > .root > .close-button {
-    -fx-padding: 0.25em;
+.tip > .close-button {
+    -fx-background-color: -fx-mark-color;
+    -fx-shape: "M 0,0 H1 L 4,3 7,0 H8 V1 L 5,4 8,7 V8 H7 L 4,5 1,8 H0 V7 L 3,4 0,1 Z";
+    -fx-scale-shape: false;
+    -fx-effect: dropshadow(two-pass-box, rgba(255, 255, 255, 0.4), 1, 0.0, 0, 1);
+    -fx-pref-width: 16px;
+    -fx-pref-height: 16px;
 }
 
-.tip > .root > .close-button > .close {
-    -fx-background-color: #808080;
-    -fx-shape: "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z";
-    -fx-min-width: 1em;
-    -fx-min-height: 1em;
-    -fx-max-width: 1em;
-    -fx-max-height: 1em;
+.tip > .close-button:hover {
+    -fx-background-color: derive(-fx-mark-color, -30%);
 }
