@@ -8,8 +8,8 @@ import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.control.Tooltip;
 import javafx.css.Styleable;
+import javafx.scene.control.Tooltip;
 
 import java.util.List;
 
