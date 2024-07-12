@@ -21,14 +21,14 @@ repositories {
 
 dependencies {
     api 'org.jetbrains:annotations:24.1.0'
-    api('com.google.guava:guava:33.1.0-jre') {
+    api('com.google.guava:guava:33.2.1-jre') {
         transitive = false
     }
     api 'org.apache.commons:commons-lang3:3.14.0'
     api 'commons-io:commons-io:2.16.1'
     api 'org.ow2.asm:asm-commons:9.7'
-    api 'com.google.code.gson:gson:2.10.1'
-    api 'org.freemarker:freemarker:2.3.32'
+    api 'com.google.code.gson:gson:2.11.0'
+    api 'org.freemarker:freemarker:2.3.33'
     api 'it.unimi.dsi:fastutil:8.5.13'
     api('org.dom4j:dom4j:2.1.4') {
         transitive = false
@@ -40,11 +40,11 @@ dependencies {
     api 'org.controlsfx:controlsfx:11.2.1'
     api 'org.apache.xmlgraphics:batik-bridge:1.17'
 
-    api 'org.slf4j:slf4j-api:2.0.12'
+    api 'org.slf4j:slf4j-api:2.0.13'
     runtimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
 
     testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.13'
 }
