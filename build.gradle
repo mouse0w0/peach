@@ -24,12 +24,12 @@ dependencies {
     api('com.google.guava:guava:33.2.1-jre') {
         transitive = false
     }
-    api 'org.apache.commons:commons-lang3:3.14.0'
+    api 'org.apache.commons:commons-lang3:3.15.0'
     api 'commons-io:commons-io:2.16.1'
     api 'org.ow2.asm:asm-commons:9.7'
     api 'com.google.code.gson:gson:2.11.0'
     api 'org.freemarker:freemarker:2.3.33'
-    api 'it.unimi.dsi:fastutil:8.5.13'
+    api 'it.unimi.dsi:fastutil:8.5.14'
     api('org.dom4j:dom4j:2.1.4') {
         transitive = false
     }
