@@ -12,7 +12,7 @@ public class DonateAction extends Action {
         try {
             Desktop desktop = Desktop.getDesktop();
             if (Desktop.isDesktopSupported() && desktop.isSupported(Desktop.Action.BROWSE)) {
-                desktop.browse(new URI("https://afdian.net/@mouse"));
+                desktop.browse(new URI("https://afdian.com/a/mouse"));
             }
         } catch (Exception ignored) {
         }
