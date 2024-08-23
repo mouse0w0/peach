@@ -67,8 +67,6 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
         FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ITEM_TEXTURES));
         FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ARMOR_TEXTURES));
         FileUtils.createDirectories(projectPath.resolve(ResourceUtils.GUI_TEXTURES));
-        Path metadataFile = projectPath.resolve(ModProjectMetadata.FILE_NAME);
-        FileUtils.ensureFileExists(metadataFile);
-        FileEditorManager.getInstance(project).open(metadataFile);
+        FileEditorManager.getInstance(project).open(FileUtils.ensureFileExists(projectPath.resolve(ModProjectMetadata.FILE_NAME)));
     }
 }
