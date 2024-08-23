@@ -81,7 +81,7 @@ public class NewProjectDialog extends Stage {
                     return;
                 }
             }
-            Project project = ProjectManager.getInstance().createProject(context.getProjectName(), projectDirectory);
+            Project project = ProjectManager.getInstance().createProject(projectDirectory, context.getProjectName());
             newProjectBuilder.setupProject(project, context);
             hide();
         });

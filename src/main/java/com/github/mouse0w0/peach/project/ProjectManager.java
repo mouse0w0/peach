@@ -19,7 +19,7 @@ public interface ProjectManager {
     @Nullable
     Project getProject(Path path);
 
-    Project createProject(@Nullable String name, @NotNull Path path);
+    Project createProject(@NotNull Path path, @Nullable String name);
 
     Project openProject(@NotNull Path path);
 

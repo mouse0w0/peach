@@ -44,7 +44,7 @@ public final class ProjectManagerImpl implements ProjectManager {
     }
 
     @Override
-    public Project createProject(@Nullable String name, @NotNull Path path) {
+    public Project createProject(@NotNull Path path, @Nullable String name) {
         Project project = openProject(FileUtils.createDirectories(path));
         project.setName(name);
         return project;
