@@ -17,7 +17,7 @@ public class Filer {
     private final Path root;
 
     public Filer(Path root) throws IOException {
-        FileUtils.createDirectoriesIfNotExists(root);
+        FileUtils.createDirectories(root);
         if (!Files.isDirectory(root)) throw new IllegalArgumentException();
         if (!root.isAbsolute()) throw new IllegalArgumentException();
         this.root = root;
@@ -61,7 +61,7 @@ public class Filer {
 
     public void write(Path path, byte[] bytes) throws IOException {
         Path resolved = root.resolve(path);
-        FileUtils.createDirectoriesIfNotExists(resolved.getParent());
+        FileUtils.createDirectories(resolved.getParent());
         Files.write(resolved, bytes);
     }
 

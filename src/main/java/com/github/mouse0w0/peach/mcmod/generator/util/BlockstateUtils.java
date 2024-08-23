@@ -17,8 +17,7 @@ import java.util.Map;
 public class BlockstateUtils {
 
     public static void generateBlockstate(BlockstateTemplate blockstateTemplate, String namespace, Map<String, String> models, Path output) throws IOException, TemplateException {
-        FileUtils.createFileIfNotExists(output);
-        try (BufferedWriter writer = Files.newBufferedWriter(output)) {
+        try (BufferedWriter writer = FileUtils.newBufferedWriter(output)) {
             getBlockstateTemplate(blockstateTemplate).process(processBlockstateModels(namespace, models), writer);
         }
     }

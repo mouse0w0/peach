@@ -185,7 +185,7 @@ public final class Generator implements Context {
             this.elementManager = ElementManager.getInstance(project);
             this.messager = new MessagerImpl();
 
-            FileUtils.createDirectoriesIfNotExists(getOutputFolder());
+            FileUtils.createDirectories(getOutputFolder());
 
             rootPackage = "peach.generated." + getMetadata().getId();
 

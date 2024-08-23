@@ -60,15 +60,15 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
         metadata.setName(context.getProjectName());
         metadata.setId(ModIdUtils.toModId(context.getProjectName()));
         Path projectPath = project.getPath();
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.SOURCES));
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.BLOCK_MODELS));
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.ITEM_MODELS));
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.BLOCK_TEXTURES));
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.ITEM_TEXTURES));
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.ARMOR_TEXTURES));
-        FileUtils.createDirectoriesIfNotExists(projectPath.resolve(ResourceUtils.GUI_TEXTURES));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.SOURCES));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.BLOCK_MODELS));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ITEM_MODELS));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.BLOCK_TEXTURES));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ITEM_TEXTURES));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ARMOR_TEXTURES));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.GUI_TEXTURES));
         Path metadataFile = projectPath.resolve(ModProjectMetadata.FILE_NAME);
-        FileUtils.createFileIfNotExists(metadataFile);
+        FileUtils.ensureFileExists(metadataFile);
         FileEditorManager.getInstance(project).open(metadataFile);
     }
 }

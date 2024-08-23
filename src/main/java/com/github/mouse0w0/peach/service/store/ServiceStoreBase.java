@@ -18,8 +18,7 @@ public abstract class ServiceStoreBase implements ServiceStore {
     private final Path storePath;
 
     public ServiceStoreBase(Path storePath) {
-        this.storePath = storePath;
-        FileUtils.createDirectoriesIfNotExists(storePath);
+        this.storePath = FileUtils.createDirectories(storePath);
     }
 
     public Path getStorePath() {

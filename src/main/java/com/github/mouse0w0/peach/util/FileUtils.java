@@ -44,30 +44,43 @@ public class FileUtils {
         return FILE_NAME_WITHOUT_EXTENSION.matcher(fileName).matches();
     }
 
-    public static void createDirectoriesIfNotExists(Path path) throws UncheckedIOException {
-        if (Files.notExists(path)) {
-            try {
-                Files.createDirectories(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
-            } catch (IOException e) {
-                throw unchecked(e);
-            }
+    public static Path createDirectories(Path dir) throws UncheckedIOException {
+        try {
+            return Files.createDirectories(dir, EMPTY_FILE_ATTRIBUTE_ARRAY);
+        } catch (IOException e) {
+            throw unchecked(e);
         }
     }
 
-    public static void createFileIfNotExists(Path path) throws UncheckedIOException {
+    public static Path ensureFileExists(Path path) throws UncheckedIOException {
         if (Files.notExists(path)) {
-            createDirectoriesIfNotExists(path.getParent());
             try {
-                Files.createFile(path, EMPTY_FILE_ATTRIBUTE_ARRAY);
+                Files.createFile(ensureParentExists0(path), EMPTY_FILE_ATTRIBUTE_ARRAY);
             } catch (IOException e) {
                 throw unchecked(e);
             }
         }
+        return path;
+    }
+
+    public static Path ensureParentExists(Path path) throws UncheckedIOException {
+        try {
+            return ensureParentExists0(path);
+        } catch (IOException e) {
+            throw unchecked(e);
+        }
+    }
+
+    private static Path ensureParentExists0(Path path) throws IOException {
+        Path parent = path.getParent();
+        if (parent != null) {
+            Files.createDirectories(parent, EMPTY_FILE_ATTRIBUTE_ARRAY);
+        }
+        return path;
     }
 
     public static OutputStream newOutputStream(Path path) throws IOException {
-        createDirectoriesIfNotExists(path.getParent());
-        return Files.newOutputStream(path, EMPTY_OPEN_OPTION_ARRAY);
+        return Files.newOutputStream(ensureParentExists0(path), EMPTY_OPEN_OPTION_ARRAY);
     }
 
     public static BufferedWriter newBufferedWriter(Path path) throws IOException {
@@ -75,8 +88,7 @@ public class FileUtils {
     }
 
     public static BufferedWriter newBufferedWriter(Path path, Charset charset) throws IOException {
-        createDirectoriesIfNotExists(path.getParent());
-        return Files.newBufferedWriter(path, charset, EMPTY_OPEN_OPTION_ARRAY);
+        return Files.newBufferedWriter(ensureParentExists0(path), charset, EMPTY_OPEN_OPTION_ARRAY);
     }
 
     public static Path copyIfNotExists(Path source, Path target) throws UncheckedIOException {
@@ -88,9 +100,8 @@ public class FileUtils {
             throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
         }
         if (Files.notExists(target)) {
-            createDirectoriesIfNotExists(target.getParent());
             try {
-                return Files.copy(source, target, options);
+                return Files.copy(source, ensureParentExists0(target), options);
             } catch (IOException e) {
                 throw unchecked(e);
             }
@@ -102,9 +113,8 @@ public class FileUtils {
         if (Files.notExists(source)) {
             throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
         }
-        createDirectoriesIfNotExists(target.getParent());
         try {
-            return Files.copy(source, target, REPLACE_EXISTING);
+            return Files.copy(source, ensureParentExists0(target), REPLACE_EXISTING);
         } catch (IOException e) {
             throw unchecked(e);
         }
