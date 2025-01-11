@@ -101,6 +101,7 @@ public class GenBlock implements Task {
                 case TRAPDOOR:
                     cg.visitBlock("net/minecraft/block/BlockTrapDoor", block.getMaterial());
                     cg.visitMapColor(block.getMapColor());
+                    break;
                 case PANE:
                     if (classPaneBlock == null) {
                         classPaneBlock = context.getInternalName("block/base/BlockPaneBase");
