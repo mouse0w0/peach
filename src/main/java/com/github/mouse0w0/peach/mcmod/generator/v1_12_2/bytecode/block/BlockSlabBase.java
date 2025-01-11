@@ -311,21 +311,20 @@ public class BlockSlabBase extends ClassGenerator {
             mv.visitEnd();
         }
         {
-            mv = cw.visitMethod(ACC_PUBLIC, "getLightOpacity", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)I", null, null);
+            mv = cw.visitMethod(ACC_PUBLIC, "func_149710_n", "(Lnet/minecraft/block/state/IBlockState;)Z", null, null);
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 1);
             mv.visitMethodInsn(INVOKESTATIC, className, "isDouble", "(Lnet/minecraft/block/state/IBlockState;)Z", false);
             Label label0 = new Label();
-            mv.visitJumpInsn(IFEQ, label0);
-            mv.visitVarInsn(ALOAD, 0);
-            mv.visitFieldInsn(GETFIELD, className, "field_149786_r", "I");
+            mv.visitJumpInsn(IFNE, label0);
+            mv.visitInsn(ICONST_1);
             Label label1 = new Label();
             mv.visitJumpInsn(GOTO, label1);
             mv.visitLabel(label0);
             mv.visitInsn(ICONST_0);
             mv.visitLabel(label1);
             mv.visitInsn(IRETURN);
-            mv.visitMaxs(1, 4);
+            mv.visitMaxs(1, 2);
             mv.visitEnd();
         }
         {

@@ -66,6 +66,10 @@ public class BlockClassGenerator extends ClassGenerator {
         initMethod.visitMethodInsn(INVOKEVIRTUAL, "net/minecraft/block/Block", "func_176223_P", "()Lnet/minecraft/block/state/IBlockState;", false);
         initMethod.visitMethodInsn(INVOKESPECIAL, "net/minecraft/block/BlockStairs", "<init>", "(Lnet/minecraft/block/state/IBlockState;)V", false);
 
+        initMethod.visitVarInsn(ALOAD, 0);
+        initMethod.visitInsn(ICONST_1);
+        initMethod.visitFieldInsn(PUTFIELD, thisName, "field_149783_u", "Z");
+
         visitMapColor(mapColor);
     }
 
