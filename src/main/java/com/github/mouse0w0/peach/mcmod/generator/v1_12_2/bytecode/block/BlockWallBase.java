@@ -368,6 +368,14 @@ public class BlockWallBase extends ClassGenerator {
             mv.visitEnd();
         }
         {
+            mv = cw.visitMethod(ACC_PUBLIC, "func_176201_c", "(Lnet/minecraft/block/state/IBlockState;)I", null, null);
+            mv.visitCode();
+            mv.visitInsn(ICONST_0);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(1, 2);
+            mv.visitEnd();
+        }
+        {
             mv = cw.visitMethod(ACC_PUBLIC, "func_176221_a", "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;", null, null);
             mv.visitCode();
             mv.visitVarInsn(ALOAD, 0);
