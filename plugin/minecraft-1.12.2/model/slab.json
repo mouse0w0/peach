@@ -1,5 +1,6 @@
 {
     "id": "minecraft:slab",
+    "preview": "slab.json",
     "blockstates": [
         "slab"
     ],

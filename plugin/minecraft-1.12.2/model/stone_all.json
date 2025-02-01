@@ -1,5 +1,6 @@
 {
     "id": "minecraft:stone_all",
+    "preview": "cube_all.json",
     "blockstates": [
         "stone"
     ],

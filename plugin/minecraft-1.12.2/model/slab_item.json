@@ -1,5 +1,6 @@
 {
     "id": "minecraft:slab_item",
+    "preview": "#slab_bottom",
     "models": {
         "item": {
             "name": "item/${id}",

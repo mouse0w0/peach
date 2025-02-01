@@ -1,5 +1,6 @@
 {
     "id": "minecraft:stairs_item",
+    "preview": "#stairs",
     "models": {
         "item": {
             "name": "item/${id}",

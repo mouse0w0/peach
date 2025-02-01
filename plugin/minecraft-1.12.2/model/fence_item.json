@@ -1,5 +1,9 @@
 {
     "id": "minecraft:fence_item",
+    "preview": "fence.json",
+    "textures": [
+        "texture"
+    ],
     "models": {
         "fence_inventory": {
             "name": "block/${id}_inventory",

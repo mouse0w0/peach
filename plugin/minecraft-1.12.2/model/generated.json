@@ -1,5 +1,6 @@
 {
     "id": "minecraft:generated",
+    "preview": "generated.json",
     "blockstates": [
         "item"
     ],

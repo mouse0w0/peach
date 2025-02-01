@@ -10,12 +10,12 @@ import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.index.Indexer;
 import com.github.mouse0w0.peach.mcmod.model.ModelManager;
-import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
+import com.github.mouse0w0.peach.mcmod.preview.PreviewManager;
 import com.github.mouse0w0.peach.project.Project;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.List;
 
 public class BlockProvider extends ElementProvider<BlockElement> {
@@ -46,8 +46,7 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         if (element.isDoNotRegisterItem()) return;
 
         Identifier itemId = Identifier.project(element.getIdentifier());
-        List<ItemData> itemDataList = Collections.singletonList(new ItemData(itemId, 0, 64, 0, true, element.getDisplayName(), ResourceUtils.CUBE_TEXTURE));
-
+        List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, 64, 0, true, element.getDisplayName(), PreviewManager.getInstance(project).renderBlockItem(element)));
         indexer.add(IndexKeys.ITEM, IdMetadata.of(itemId), itemDataList);
         indexer.add(IndexKeys.ITEM, IdMetadata.ignoreMetadata(itemId), itemDataList);
     }

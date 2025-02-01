@@ -1,5 +1,6 @@
 {
     "id": "minecraft:fence_gate",
+    "preview": "fence_gate.json",
     "blockstates": [
         "fence_gate"
     ],

@@ -21,9 +21,10 @@ public final class Identifier implements Comparable<Identifier> {
     public static Identifier of(String identifier) {
         int separatorIndex = identifier.indexOf(':');
         if (separatorIndex == -1) {
-            throw new IllegalArgumentException("namespace not specified, identifier: '" + identifier + "'");
+            return new Identifier("minecraft", identifier);
+        } else {
+            return new Identifier(identifier.substring(0, separatorIndex), identifier.substring(separatorIndex + 1));
         }
-        return new Identifier(identifier.substring(0, separatorIndex), identifier.substring(separatorIndex + 1));
     }
 
     public static Identifier of(String namespace, String path) {

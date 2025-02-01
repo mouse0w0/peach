@@ -1,6 +1,14 @@
 {
     "id": "minecraft:wall_item",
+    "preview": "wall.json",
+    "textures": [
+        "texture"
+    ],
     "models": {
+        "wall_inventory": {
+            "name": "block/${id}_inventory",
+            "template": "wall_inventory.json"
+        },
         "item": {
             "name": "item/${id}",
             "parent": "wall_inventory",

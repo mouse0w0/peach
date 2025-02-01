@@ -79,21 +79,28 @@ public class ModelUtils {
         writeJson(gsonPrettyPrinting(), target, processModel(readJson(source).getAsJsonObject(), parent, textures, particleTexture));
     }
 
-    public static JsonObject processModel(JsonObject model, String parent, Map<String, String> textures, String particleTexture) {
+    public static JsonObject processModel(JsonObject jsonModel, String parent, Map<String, String> textures, String particleTexture) {
         if (StringUtils.isNotEmpty(parent)) {
-            model.addProperty("parent", parent);
+            jsonModel.addProperty("parent", parent);
         }
-        JsonObject tex = model.getAsJsonObject("textures");
-        if (tex != null) {
-            for (Map.Entry<String, JsonElement> entry : tex.entrySet()) {
-                String key = entry.getKey();
-                String overrideKey = entry.getValue().getAsString();
-                tex.addProperty(key, textures.getOrDefault(overrideKey.startsWith("$") ? overrideKey.substring(1) : key, MISSING));
+        JsonObject jsonTextures = jsonModel.getAsJsonObject("textures");
+        if (jsonTextures != null) {
+            for (Map.Entry<String, JsonElement> entry : jsonTextures.entrySet()) {
+                jsonTextures.addProperty(entry.getKey(), resolveTexture(entry.getKey(), entry.getValue().getAsString(), textures));
             }
             if (StringUtils.isNotEmpty(particleTexture)) {
-                tex.addProperty("particle", particleTexture);
+                jsonTextures.addProperty("particle", particleTexture);
             }
         }
-        return model;
+        return jsonModel;
+    }
+
+    private static String resolveTexture(String textureKey, String textureReference, Map<String, String> textures) {
+        String texture = textures.get(textureKey);
+        if (texture != null) return texture;
+        if (textureReference.isEmpty()) return MISSING;
+        if (textureReference.charAt(0) == '#')
+            return textures.getOrDefault(textureReference.substring(1), textureReference);
+        return textureReference;
     }
 }

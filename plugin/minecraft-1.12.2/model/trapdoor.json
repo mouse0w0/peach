@@ -1,5 +1,6 @@
 {
     "id": "minecraft:trapdoor",
+    "preview": "trapdoor.json",
     "blockstates": [
         "trapdoor"
     ],

@@ -1,5 +1,6 @@
 {
     "id": "minecraft:cube_all",
+    "preview": "cube_all.json",
     "blockstates": [
         "normal", "dirt"
     ],

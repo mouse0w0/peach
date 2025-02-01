@@ -1,5 +1,6 @@
 {
     "id": "minecraft:cube_column",
+    "preview": "cube_column.json",
     "blockstates": [
         "normal", "directional", "horizontal", "pillar", "dirt"
     ],

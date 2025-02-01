@@ -1,5 +1,6 @@
 {
     "id": "minecraft:trapdoor_item",
+    "preview": "#trapdoor_bottom",
     "models": {
         "item": {
             "name": "item/${id}",

@@ -9,6 +9,7 @@ import java.util.Map;
 public class ModelTemplate {
     private Identifier id;
     private Identifier item;
+    private String preview;
     private List<String> blockstates;
     private List<String> textures;
     private Map<String, Entry> models;
@@ -22,6 +23,10 @@ public class ModelTemplate {
 
     public Identifier getItem() {
         return item;
+    }
+
+    public String getPreview() {
+        return preview;
     }
 
     public List<String> getBlockstates() {

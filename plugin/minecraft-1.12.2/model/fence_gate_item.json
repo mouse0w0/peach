@@ -1,5 +1,6 @@
 {
     "id": "minecraft:fence_gate_item",
+    "preview": "#fence_gate_closed",
     "models": {
         "item": {
             "name": "item/${id}",

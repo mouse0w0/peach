@@ -1,5 +1,6 @@
 {
     "id": "minecraft:pane_item",
+    "preview": "pane.json",
     "textures": [
         "pane"
     ],

@@ -1,5 +1,6 @@
 {
     "id": "minecraft:block_item",
+    "preview": "#block",
     "models": {
         "item": {
             "name": "item/${id}",

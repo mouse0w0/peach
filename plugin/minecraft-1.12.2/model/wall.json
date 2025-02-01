@@ -14,10 +14,6 @@
         "wall_side": {
             "name": "block/${id}_side",
             "template": "wall_side.json"
-        },
-        "wall_inventory": {
-            "name": "block/${id}_inventory",
-            "template": "wall_inventory.json"
         }
     }
 }

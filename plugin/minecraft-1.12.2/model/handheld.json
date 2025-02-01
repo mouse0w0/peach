@@ -1,5 +1,6 @@
 {
     "id": "minecraft:handheld",
+    "preview": "handheld.json",
     "blockstates": [
         "item"
     ],
