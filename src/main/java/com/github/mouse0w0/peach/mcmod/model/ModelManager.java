@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ModelManager {
-    public static final Identifier CUSTOM = Identifier.of("buildin:custom");
-    public static final Identifier DEFAULT = Identifier.of("buildin:default");
+    public static final Identifier CUSTOM = Identifier.of("builtin:custom");
+    public static final Identifier DEFAULT = Identifier.of("builtin:default");
     public static final Identifier GENERATED = Identifier.of("minecraft:generated");
 
     private final Map<String, BlockstateTemplate> blockstateTemplateMap = new HashMap<>();
