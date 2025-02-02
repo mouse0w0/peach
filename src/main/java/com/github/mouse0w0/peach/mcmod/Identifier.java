@@ -13,6 +13,7 @@ public final class Identifier implements Comparable<Identifier> {
     public static final Pattern VALID_NAMESPACE = Pattern.compile("[a-z0-9._-]+");
     public static final Pattern VALID_PATH = Pattern.compile("[a-z0-9/._-]+");
 
+    public static final String DEFAULT_NAMESPACE = "minecraft";
     public static final String PROJECT_NAMESPACE = "project";
 
     private final String namespace;
@@ -21,7 +22,7 @@ public final class Identifier implements Comparable<Identifier> {
     public static Identifier of(String identifier) {
         int separatorIndex = identifier.indexOf(':');
         if (separatorIndex == -1) {
-            return new Identifier("minecraft", identifier);
+            return new Identifier(DEFAULT_NAMESPACE, identifier);
         } else {
             return new Identifier(identifier.substring(0, separatorIndex), identifier.substring(separatorIndex + 1));
         }
@@ -31,8 +32,8 @@ public final class Identifier implements Comparable<Identifier> {
         return new Identifier(namespace, path);
     }
 
-    public static Identifier project(String name) {
-        return new Identifier(PROJECT_NAMESPACE, name);
+    public static Identifier ofProject(String path) {
+        return new Identifier(PROJECT_NAMESPACE, path);
     }
 
     private Identifier(String namespace, String path) {
@@ -67,26 +68,21 @@ public final class Identifier implements Comparable<Identifier> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Identifier that = (Identifier) o;
-
-        if (!namespace.equals(that.namespace)) return false;
-        return path.equals(that.path);
+        return namespace.equals(that.namespace) && path.equals(that.path);
     }
 
     @Override
     public int hashCode() {
-        int result = namespace.hashCode();
-        result = 31 * result + path.hashCode();
-        return result;
+        return 31 * namespace.hashCode() + path.hashCode();
     }
 
     @Override
     public int compareTo(Identifier o) {
-        int result = namespace.compareTo(o.namespace);
-        return result == 0 ? path.compareTo(o.path) : result;
+        int result = path.compareTo(o.path);
+        return result != 0 ? result : namespace.compareTo(o.namespace);
     }
 
     public static final class TypeAdapter extends com.google.gson.TypeAdapter<Identifier> {
