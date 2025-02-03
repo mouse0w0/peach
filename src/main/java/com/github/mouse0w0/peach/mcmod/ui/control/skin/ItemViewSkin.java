@@ -57,7 +57,7 @@ public class ItemViewSkin extends SkinBase<ItemView> {
 
         IdMetadata idMetadata = itemView.getItem();
         if (idMetadata == null) {
-            itemData = index.get(IdMetadata.AIR);
+            itemData = index.get(IdMetadata.air());
         } else {
             itemData = index.get(idMetadata);
         }

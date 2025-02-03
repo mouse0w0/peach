@@ -22,8 +22,8 @@ public class ItemElement extends Element implements LocalizableElement {
     private AttributeModifier[] attributeModifiers = AttributeModifier.EMPTY_ARRAY;
     private int enchantability;
     private String[] acceptableEnchantments = ArrayUtils.EMPTY_STRING_ARRAY;
-    private IdMetadata repairItem = IdMetadata.AIR;
-    private IdMetadata recipeRemain = IdMetadata.AIR;
+    private IdMetadata repairItem = IdMetadata.air();
+    private IdMetadata recipeRemain = IdMetadata.air();
     private EquipmentSlot equipmentSlot = EquipmentSlot.NONE;
     private String useAnimation = "NONE";
     private int useDuration;
@@ -45,7 +45,7 @@ public class ItemElement extends Element implements LocalizableElement {
     private double saturation = 0.6D;
     private boolean isWolfFood;
     private boolean alwaysEdible;
-    private IdMetadata foodContainer = IdMetadata.AIR;
+    private IdMetadata foodContainer = IdMetadata.air();
 
     public String getIdentifier() {
         return identifier;

@@ -30,7 +30,7 @@ public class ItemTooltipServiceImpl implements ItemTooltipService {
             IdMetadata idMetadata = itemView.getItem();
 
             StringBuilder sb = new StringBuilder();
-            Identifier id = idMetadata.getId();
+            Identifier id = idMetadata.getIdentifier();
             if (!idMetadata.isOreDictionary()) {
                 if (id.isProjectNamespace()) {
                     sb.append(modProjectService.getModId());

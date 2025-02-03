@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import java.util.Objects;
+import com.github.mouse0w0.peach.util.Validate;
 
 public class ItemStack {
-    public static final ItemStack EMPTY = new ItemStack(IdMetadata.AIR);
+    public static final ItemStack EMPTY = new ItemStack(IdMetadata.air());
 
     private IdMetadata item;
     private int amount;
@@ -22,14 +22,11 @@ public class ItemStack {
     }
 
     public void setItem(IdMetadata item) {
-        if (item == null) {
-            throw new NullPointerException("item");
-        }
-        this.item = item;
+        this.item = Validate.notNull(item);
     }
 
-    public Identifier getId() {
-        return item.getId();
+    public Identifier getIdentifier() {
+        return item.getIdentifier();
     }
 
     public int getMetadata() {
@@ -45,21 +42,20 @@ public class ItemStack {
     }
 
     public boolean isEmpty() {
-        return this.equals(EMPTY);
+        return amount <= 0 || item.isAir();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ItemStack itemStack = (ItemStack) o;
-        return amount == itemStack.amount &&
-                item.equals(itemStack.item);
+
+        ItemStack that = (ItemStack) o;
+        return amount == that.amount && item.equals(that.item);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(item, amount);
+        return item.hashCode() * 31 + amount;
     }
 
     @Override

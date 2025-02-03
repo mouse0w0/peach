@@ -46,6 +46,6 @@ public class ItemProvider extends ElementProvider<ItemElement> {
         Identifier itemId = Identifier.ofProject(element.getIdentifier());
         List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, element.getMaxStackSize(), element.getDurability(), false, element.getDisplayName(), PreviewManager.getInstance(project).renderItem(element)));
         indexer.add(IndexKeys.ITEM, IdMetadata.of(itemId), itemDataList);
-        indexer.add(IndexKeys.ITEM, IdMetadata.ignoreMetadata(itemId), itemDataList);
+        indexer.add(IndexKeys.ITEM, IdMetadata.ofIgnoreMetadata(itemId), itemDataList);
     }
 }

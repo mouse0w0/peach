@@ -10,7 +10,7 @@ public final class BuiltinIndexProvider extends GenericIndexProvider {
 
     private BuiltinIndexProvider() {
         getEntries(IndexKeys.ITEM_GROUP).add("NONE", new IconicData("NONE", AppL10n.localize("itemGroup.NONE"), IdMetadata.of("minecraft:barrier")));
-        getEntries(IndexKeys.MAP_COLOR).add("INHERIT", new IconicData("INHERIT", AppL10n.localize("mapColor.inherit"), IdMetadata.AIR));
+        getEntries(IndexKeys.MAP_COLOR).add("INHERIT", new IconicData("INHERIT", AppL10n.localize("mapColor.inherit"), IdMetadata.air()));
         getEntries(IndexKeys.PLANT_TYPE).add("NONE", new GameData("NONE", AppL10n.localize("plantType.NONE")));
         getEntries(IndexKeys.AI_PATH_NODE_TYPE).add("INHERIT", new GameData("INHERIT", AppL10n.localize("pathNodeType.INHERIT")));
         getEntries(IndexKeys.PUSH_REACTION).add("INHERIT", new GameData("INHERIT", AppL10n.localize("pushReaction.INHERIT")));

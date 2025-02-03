@@ -39,7 +39,7 @@ public class ItemStackView extends Control {
         size.set(value);
     }
 
-    private final ObjectProperty<IdMetadata> item = new SimpleObjectProperty<>(this, "item", IdMetadata.AIR);
+    private final ObjectProperty<IdMetadata> item = new SimpleObjectProperty<>(this, "item", IdMetadata.air());
 
     public final ObjectProperty<IdMetadata> itemProperty() {
         return item;
@@ -77,7 +77,7 @@ public class ItemStackView extends Control {
 
     public final void setItemStack(ItemStack itemStack) {
         if (itemStack == null) {
-            setItem(IdMetadata.AIR);
+            setItem(IdMetadata.air());
             setAmount(1);
         } else {
             setItem(itemStack.getItem());

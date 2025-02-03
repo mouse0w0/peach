@@ -156,7 +156,7 @@ public class ItemChooser extends Stage {
     }
 
     private boolean filterByText(IdMetadata item, String filterText) {
-        if (item.getId().getPath().contains(filterText)) return true;
+        if (item.getIdentifier().getPath().contains(filterText)) return true;
         for (ItemData data : index.get(item)) {
             if (data.getName().contains(filterText)) {
                 return true;

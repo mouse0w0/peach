@@ -152,7 +152,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
                 Image texture = getItemTexture(id, metadata);
                 ItemData itemData = new ItemData(id, metadata, maxStackSize, maxDamage, isBlock, name, texture);
                 map.computeIfAbsent(IdMetadata.of(id, metadata), k -> new ArrayList<>()).add(itemData);
-                map.computeIfAbsent(IdMetadata.ignoreMetadata(id), k -> new ArrayList<>()).add(itemData);
+                map.computeIfAbsent(IdMetadata.ofIgnoreMetadata(id), k -> new ArrayList<>()).add(itemData);
             }
         }
     }
@@ -163,7 +163,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
                 JsonObject object = element.getAsJsonObject();
                 String id = object.get("id").getAsString();
                 JsonArray entries = object.get("entries").getAsJsonArray();
-                List<ItemData> oreDictionaryEntries = map.computeIfAbsent(IdMetadata.oreDictionary(id), k -> new ArrayList<>());
+                List<ItemData> oreDictionaryEntries = map.computeIfAbsent(IdMetadata.ofOreDictionary(id), k -> new ArrayList<>());
                 for (JsonElement entry : entries) {
                     JsonObject entryObject = entry.getAsJsonObject();
                     String entryId = entryObject.get("id").getAsString();

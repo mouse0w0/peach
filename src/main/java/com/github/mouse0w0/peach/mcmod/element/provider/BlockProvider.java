@@ -48,6 +48,6 @@ public class BlockProvider extends ElementProvider<BlockElement> {
         Identifier itemId = Identifier.ofProject(element.getIdentifier());
         List<ItemData> itemDataList = ImmutableList.of(new ItemData(itemId, 0, 64, 0, true, element.getDisplayName(), PreviewManager.getInstance(project).renderBlockItem(element)));
         indexer.add(IndexKeys.ITEM, IdMetadata.of(itemId), itemDataList);
-        indexer.add(IndexKeys.ITEM, IdMetadata.ignoreMetadata(itemId), itemDataList);
+        indexer.add(IndexKeys.ITEM, IdMetadata.ofIgnoreMetadata(itemId), itemDataList);
     }
 }

@@ -45,7 +45,7 @@ public class ItemView extends Control {
         size.set(value);
     }
 
-    private final ObjectProperty<IdMetadata> item = new SimpleObjectProperty<>(this, "item", IdMetadata.AIR);
+    private final ObjectProperty<IdMetadata> item = new SimpleObjectProperty<>(this, "item", IdMetadata.air());
 
     public final ObjectProperty<IdMetadata> itemProperty() {
         return item;

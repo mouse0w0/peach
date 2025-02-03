@@ -8,7 +8,7 @@ import com.github.mouse0w0.peach.util.ArrayUtils;
 public class CraftingElement extends Element {
     private String identifier;
     private String group;
-    private IdMetadata[] inputs = ArrayUtils.fill(new IdMetadata[9], IdMetadata.AIR);
+    private IdMetadata[] inputs = ArrayUtils.fill(new IdMetadata[9], IdMetadata.air());
     private ItemStack output = ItemStack.EMPTY;
     private boolean shapeless;
 

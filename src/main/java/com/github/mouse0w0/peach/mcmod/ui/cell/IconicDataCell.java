@@ -38,7 +38,7 @@ public class IconicDataCell<T> extends ListCell<T> {
                 itemView.setItem(iconicData.getIcon());
                 setText(iconicData.getName());
             } else {
-                itemView.setItem(IdMetadata.AIR);
+                itemView.setItem(IdMetadata.air());
                 setText(item.toString());
             }
             setGraphic(itemView);

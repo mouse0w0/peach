@@ -30,7 +30,7 @@ public class ItemPicker extends ItemView {
     private static final EventHandler<MouseEvent> ON_MOUSE_CLICKED = event -> {
         ItemPicker itemPicker = (ItemPicker) event.getSource();
         if (event.getButton() == MouseButton.MIDDLE) {
-            itemPicker.setItem(IdMetadata.AIR);
+            itemPicker.setItem(IdMetadata.air());
         } else if (event.getClickCount() == 2) {
             itemPicker.show();
         }

@@ -1,52 +1,59 @@
 package com.github.mouse0w0.peach.mcmod;
 
+import com.github.mouse0w0.peach.util.Validate;
+
 import java.io.Serializable;
 
 public final class IdMetadata implements Serializable {
-    public static IdMetadata AIR = IdMetadata.of("minecraft:air");
-
     public static final int METADATA_WILDCARD = Short.MAX_VALUE;
     public static final int ORE_DICTIONARY = Short.MAX_VALUE + 1;
 
-    private final Identifier id;
+    public static final String ORE_NAMESPACE = "ore";
+
+    private static final IdMetadata AIR = IdMetadata.of("minecraft:air");
+
+    private final Identifier identifier;
     private final int metadata;
 
-    public static IdMetadata of(String id) {
-        return new IdMetadata(Identifier.of(id), 0);
+    public static IdMetadata air() {
+        return AIR;
     }
 
-    public static IdMetadata of(Identifier id) {
-        return new IdMetadata(id, 0);
+    public static IdMetadata of(String identifier) {
+        return new IdMetadata(Identifier.of(identifier), 0);
     }
 
-    public static IdMetadata of(String id, int metadata) {
-        return new IdMetadata(Identifier.of(id), metadata);
+    public static IdMetadata of(Identifier identifier) {
+        return new IdMetadata(identifier, 0);
     }
 
-    public static IdMetadata of(Identifier id, int metadata) {
-        return new IdMetadata(id, metadata);
+    public static IdMetadata of(String identifier, int metadata) {
+        return new IdMetadata(Identifier.of(identifier), metadata);
     }
 
-    public static IdMetadata ignoreMetadata(String id) {
-        return new IdMetadata(Identifier.of(id), METADATA_WILDCARD);
+    public static IdMetadata of(Identifier identifier, int metadata) {
+        return new IdMetadata(identifier, metadata);
     }
 
-
-    public static IdMetadata ignoreMetadata(Identifier id) {
-        return new IdMetadata(id, METADATA_WILDCARD);
+    public static IdMetadata ofIgnoreMetadata(String identifier) {
+        return new IdMetadata(Identifier.of(identifier), METADATA_WILDCARD);
     }
 
-    public static IdMetadata oreDictionary(String id) {
-        return new IdMetadata(Identifier.of("ore", id), ORE_DICTIONARY);
+    public static IdMetadata ofIgnoreMetadata(Identifier identifier) {
+        return new IdMetadata(identifier, METADATA_WILDCARD);
     }
 
-    private IdMetadata(Identifier id, int metadata) {
-        this.id = id;
+    public static IdMetadata ofOreDictionary(String ore) {
+        return new IdMetadata(Identifier.of(ORE_NAMESPACE, ore), ORE_DICTIONARY);
+    }
+
+    private IdMetadata(Identifier identifier, int metadata) {
+        this.identifier = Validate.notNull(identifier);
         this.metadata = metadata;
     }
 
-    public Identifier getId() {
-        return id;
+    public Identifier getIdentifier() {
+        return identifier;
     }
 
     public int getMetadata() {
@@ -71,14 +78,14 @@ public final class IdMetadata implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         IdMetadata that = (IdMetadata) o;
-        return metadata == that.metadata && id.equals(that.id);
+        return metadata == that.metadata && identifier.equals(that.identifier);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode() * 31 + metadata;
+        return identifier.hashCode() * 31 + metadata;
     }
 }

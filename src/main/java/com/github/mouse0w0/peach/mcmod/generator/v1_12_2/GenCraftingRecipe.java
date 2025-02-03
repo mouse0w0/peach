@@ -30,7 +30,7 @@ public class GenCraftingRecipe implements Task {
     private void generateResult(Context context, CraftingElement recipe, JsonObject jo) {
         ItemStack itemStack = recipe.getOutput();
         JsonObject result = new JsonObject();
-        result.addProperty("item", context.mapIdentifier(itemStack.getId()));
+        result.addProperty("item", context.mapIdentifier(itemStack.getIdentifier()));
         result.addProperty("data", itemStack.getMetadata());
         result.addProperty("count", itemStack.getAmount());
         jo.add("result", result);
@@ -102,9 +102,9 @@ public class GenCraftingRecipe implements Task {
         JsonObject result = new JsonObject();
         if (idMetadata.isOreDictionary()) {
             result.addProperty("type", "forge:ore_dict");
-            result.addProperty("ore", idMetadata.getId().getPath());
+            result.addProperty("ore", idMetadata.getIdentifier().getPath());
         } else {
-            result.addProperty("item", context.mapIdentifier(idMetadata.getId()));
+            result.addProperty("item", context.mapIdentifier(idMetadata.getIdentifier()));
             result.addProperty("data", idMetadata.getMetadata());
         }
         return result;

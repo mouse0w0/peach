@@ -62,9 +62,9 @@ public class SmeltingRecipeLoaderClassGenerator extends ClassGenerator {
 
     public void visitSmelting(Context context, SmeltingElement smelting) {
 
-        ASMUtils.push(initMethod, context.mapIdentifier(smelting.getInput().getId()));
+        ASMUtils.push(initMethod, context.mapIdentifier(smelting.getInput().getIdentifier()));
         ASMUtils.push(initMethod, smelting.getInput().getMetadata());
-        ASMUtils.push(initMethod, context.mapIdentifier(smelting.getOutput().getId()));
+        ASMUtils.push(initMethod, context.mapIdentifier(smelting.getOutput().getIdentifier()));
         ASMUtils.push(initMethod, smelting.getOutput().getAmount());
         ASMUtils.push(initMethod, smelting.getOutput().getMetadata());
         ASMUtils.push(initMethod, (float) smelting.getXp());

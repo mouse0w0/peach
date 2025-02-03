@@ -12,7 +12,7 @@ public class ItemGroupElement extends Element implements LocalizableElement {
     private String displayName;
     private boolean hasSearchBar;
     private String background;
-    private IdMetadata icon = IdMetadata.AIR;
+    private IdMetadata icon = IdMetadata.air();
 
     public String getIdentifier() {
         return identifier;
