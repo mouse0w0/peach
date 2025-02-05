@@ -123,10 +123,6 @@ public class ItemGroupClassGenerator extends ClassGenerator {
         mv.visitEnd();
     }
 
-    public String getThisName() {
-        return thisName;
-    }
-
     public byte[] toByteArray() {
         return cw.toByteArray();
     }
