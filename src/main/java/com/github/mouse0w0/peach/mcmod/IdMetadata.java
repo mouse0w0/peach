@@ -12,7 +12,7 @@ public final class IdMetadata implements Serializable {
 
     private static final IdMetadata AIR = IdMetadata.of("minecraft:air");
 
-    private final Identifier identifier;
+    private final Identifier id;
     private final int metadata;
 
     public static IdMetadata air() {
@@ -48,12 +48,12 @@ public final class IdMetadata implements Serializable {
     }
 
     private IdMetadata(Identifier identifier, int metadata) {
-        this.identifier = Validate.notNull(identifier);
+        this.id = Validate.notNull(identifier);
         this.metadata = metadata;
     }
 
     public Identifier getIdentifier() {
-        return identifier;
+        return id;
     }
 
     public int getMetadata() {
@@ -81,11 +81,11 @@ public final class IdMetadata implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
 
         IdMetadata that = (IdMetadata) o;
-        return metadata == that.metadata && identifier.equals(that.identifier);
+        return metadata == that.metadata && id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return identifier.hashCode() * 31 + metadata;
+        return id.hashCode() * 31 + metadata;
     }
 }
