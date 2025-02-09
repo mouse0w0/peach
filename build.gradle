@@ -10,7 +10,7 @@ String buildNumber = 'git rev-list --count HEAD'.execute().text.trim()
 group = 'com.github.mouse0w0'
 version = "0.1.0.${buildNumber}-SNAPSHOT"
 mainClassName = 'com.github.mouse0w0.peach.Peach'
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
