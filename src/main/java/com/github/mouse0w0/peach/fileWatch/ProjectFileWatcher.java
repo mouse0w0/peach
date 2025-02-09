@@ -3,7 +3,6 @@ package com.github.mouse0w0.peach.fileWatch;
 import com.github.mouse0w0.peach.dispose.Disposable;
 import com.github.mouse0w0.peach.project.Project;
 import com.sun.nio.file.ExtendedWatchEventModifier;
-import com.sun.nio.file.SensitivityWatchEventModifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,7 @@ public class ProjectFileWatcher implements Disposable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProjectFileWatcher.class);
 
     private static final WatchEvent.Kind<?>[] KINDS = {OVERFLOW, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY};
-    private static final WatchEvent.Modifier[] MODIFIERS = {SensitivityWatchEventModifier.HIGH, ExtendedWatchEventModifier.FILE_TREE};
+    private static final WatchEvent.Modifier[] MODIFIERS = {ExtendedWatchEventModifier.FILE_TREE};
 
     private static final AtomicInteger NEXT_THREAD_ID = new AtomicInteger();
 
