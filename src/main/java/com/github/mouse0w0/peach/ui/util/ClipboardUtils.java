@@ -13,7 +13,7 @@ public final class ClipboardUtils {
     public static final DataFormat TRANSFER_MODE = new DataFormat("transfer-mode");
 
     /**
-     * See <a href="https://docs.microsoft.com/zh-cn/windows/win32/com/dropeffect-constants">DROPEFFECT Constants</a>
+     * See <a href="https://docs.microsoft.com/en-us/windows/win32/com/dropeffect-constants">DROPEFFECT Constants</a>
      */
     public static final DataFormat WINDOWS_DROPEFFECT = new DataFormat("ms-stuff/preferred-drop-effect");
 
