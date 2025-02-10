@@ -33,6 +33,10 @@ public class LowerCaseEnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> 
 
     @Override
     public void write(JsonWriter out, T value) throws IOException {
-        out.value(value == null ? null : constantsToName.get(value));
+        if (value == null) {
+            out.nullValue();
+        } else {
+            out.value(constantsToName.get(value));
+        }
     }
 }
