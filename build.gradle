@@ -27,7 +27,9 @@ dependencies {
     api 'org.apache.commons:commons-lang3:3.17.0'
     api 'commons-io:commons-io:2.18.0'
     api 'org.ow2.asm:asm-commons:9.7.1'
-    api 'com.google.code.gson:gson:2.12.1'
+    api('com.google.code.gson:gson:2.12.1') {
+        transitive = false
+    }
     api 'org.freemarker:freemarker:2.3.34'
     api 'it.unimi.dsi:fastutil:8.5.15'
     api('org.dom4j:dom4j:2.1.4') {
