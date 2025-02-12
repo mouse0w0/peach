@@ -88,8 +88,11 @@ public final class Identifier implements Comparable<Identifier> {
     public static final class TypeAdapter extends com.google.gson.TypeAdapter<Identifier> {
         @Override
         public void write(JsonWriter out, Identifier value) throws IOException {
-            if (value == null) out.nullValue();
-            else out.value(value.toString());
+            if (value == null) {
+                out.nullValue();
+            } else {
+                out.value(value.toString());
+            }
         }
 
         @Override
