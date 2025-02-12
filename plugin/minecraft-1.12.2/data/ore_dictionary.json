@@ -1,1549 +1,970 @@
 [
-  {
-    "id": "logWood",
-    "entries": [
-      {
-        "id": "minecraft:log",
-        "metadata": 32767
-      },
-      {
-        "id": "minecraft:log2",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "plankWood",
-    "entries": [
-      {
-        "id": "minecraft:planks",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "slabWood",
-    "entries": [
-      {
-        "id": "minecraft:wooden_slab",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "stairWood",
-    "entries": [
-      {
-        "id": "minecraft:oak_stairs",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:spruce_stairs",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:birch_stairs",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:jungle_stairs",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:acacia_stairs",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:dark_oak_stairs",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "fenceWood",
-    "entries": [
-      {
-        "id": "minecraft:fence",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:spruce_fence",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:birch_fence",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:jungle_fence",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:dark_oak_fence",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:acacia_fence",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "fenceGateWood",
-    "entries": [
-      {
-        "id": "minecraft:fence_gate",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:spruce_fence_gate",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:birch_fence_gate",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:jungle_fence_gate",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:dark_oak_fence_gate",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:acacia_fence_gate",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "doorWood",
-    "entries": [
-      {
-        "id": "minecraft:acacia_door",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:birch_door",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:dark_oak_door",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:wooden_door",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:jungle_door",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:spruce_door",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "stickWood",
-    "entries": [
-      {
-        "id": "minecraft:stick",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "treeSapling",
-    "entries": [
-      {
-        "id": "minecraft:sapling",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "treeLeaves",
-    "entries": [
-      {
-        "id": "minecraft:leaves",
-        "metadata": 32767
-      },
-      {
-        "id": "minecraft:leaves2",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "vine",
-    "entries": [
-      {
-        "id": "minecraft:vine",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreGold",
-    "entries": [
-      {
-        "id": "minecraft:gold_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreIron",
-    "entries": [
-      {
-        "id": "minecraft:iron_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreLapis",
-    "entries": [
-      {
-        "id": "minecraft:lapis_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreDiamond",
-    "entries": [
-      {
-        "id": "minecraft:diamond_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreRedstone",
-    "entries": [
-      {
-        "id": "minecraft:redstone_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreEmerald",
-    "entries": [
-      {
-        "id": "minecraft:emerald_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreQuartz",
-    "entries": [
-      {
-        "id": "minecraft:quartz_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "oreCoal",
-    "entries": [
-      {
-        "id": "minecraft:coal_ore",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "ingotIron",
-    "entries": [
-      {
-        "id": "minecraft:iron_ingot",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "ingotGold",
-    "entries": [
-      {
-        "id": "minecraft:gold_ingot",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "ingotBrick",
-    "entries": [
-      {
-        "id": "minecraft:brick",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "ingotBrickNether",
-    "entries": [
-      {
-        "id": "minecraft:netherbrick",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "nuggetGold",
-    "entries": [
-      {
-        "id": "minecraft:gold_nugget",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "nuggetIron",
-    "entries": [
-      {
-        "id": "minecraft:iron_nugget",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gemDiamond",
-    "entries": [
-      {
-        "id": "minecraft:diamond",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gemEmerald",
-    "entries": [
-      {
-        "id": "minecraft:emerald",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gemQuartz",
-    "entries": [
-      {
-        "id": "minecraft:quartz",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gemPrismarine",
-    "entries": [
-      {
-        "id": "minecraft:prismarine_shard",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "dustPrismarine",
-    "entries": [
-      {
-        "id": "minecraft:prismarine_crystals",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "dustRedstone",
-    "entries": [
-      {
-        "id": "minecraft:redstone",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "dustGlowstone",
-    "entries": [
-      {
-        "id": "minecraft:glowstone_dust",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gemLapis",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 4
-      }
-    ]
-  },
-  {
-    "id": "blockGold",
-    "entries": [
-      {
-        "id": "minecraft:gold_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockIron",
-    "entries": [
-      {
-        "id": "minecraft:iron_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockLapis",
-    "entries": [
-      {
-        "id": "minecraft:lapis_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockDiamond",
-    "entries": [
-      {
-        "id": "minecraft:diamond_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockRedstone",
-    "entries": [
-      {
-        "id": "minecraft:redstone_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockEmerald",
-    "entries": [
-      {
-        "id": "minecraft:emerald_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockQuartz",
-    "entries": [
-      {
-        "id": "minecraft:quartz_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockCoal",
-    "entries": [
-      {
-        "id": "minecraft:coal_block",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "cropWheat",
-    "entries": [
-      {
-        "id": "minecraft:wheat",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "cropPotato",
-    "entries": [
-      {
-        "id": "minecraft:potato",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "cropCarrot",
-    "entries": [
-      {
-        "id": "minecraft:carrot",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "cropNetherWart",
-    "entries": [
-      {
-        "id": "minecraft:nether_wart",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "sugarcane",
-    "entries": [
-      {
-        "id": "minecraft:reeds",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockCactus",
-    "entries": [
-      {
-        "id": "minecraft:cactus",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "dye",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "paper",
-    "entries": [
-      {
-        "id": "minecraft:paper",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "slimeball",
-    "entries": [
-      {
-        "id": "minecraft:slime_ball",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "enderpearl",
-    "entries": [
-      {
-        "id": "minecraft:ender_pearl",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "bone",
-    "entries": [
-      {
-        "id": "minecraft:bone",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gunpowder",
-    "entries": [
-      {
-        "id": "minecraft:gunpowder",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "string",
-    "entries": [
-      {
-        "id": "minecraft:string",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "netherStar",
-    "entries": [
-      {
-        "id": "minecraft:nether_star",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "leather",
-    "entries": [
-      {
-        "id": "minecraft:leather",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "feather",
-    "entries": [
-      {
-        "id": "minecraft:feather",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "egg",
-    "entries": [
-      {
-        "id": "minecraft:egg",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "record",
-    "entries": [
-      {
-        "id": "minecraft:record_13",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_cat",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_blocks",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_chirp",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_far",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_mall",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_mellohi",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_stal",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_strad",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_ward",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_11",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:record_wait",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "dirt",
-    "entries": [
-      {
-        "id": "minecraft:dirt",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "grass",
-    "entries": [
-      {
-        "id": "minecraft:grass",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "stone",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "cobblestone",
-    "entries": [
-      {
-        "id": "minecraft:cobblestone",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "gravel",
-    "entries": [
-      {
-        "id": "minecraft:gravel",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "sand",
-    "entries": [
-      {
-        "id": "minecraft:sand",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "sandstone",
-    "entries": [
-      {
-        "id": "minecraft:sandstone",
-        "metadata": 32767
-      },
-      {
-        "id": "minecraft:red_sandstone",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "netherrack",
-    "entries": [
-      {
-        "id": "minecraft:netherrack",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "obsidian",
-    "entries": [
-      {
-        "id": "minecraft:obsidian",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "glowstone",
-    "entries": [
-      {
-        "id": "minecraft:glowstone",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "endstone",
-    "entries": [
-      {
-        "id": "minecraft:end_stone",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "torch",
-    "entries": [
-      {
-        "id": "minecraft:torch",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "workbench",
-    "entries": [
-      {
-        "id": "minecraft:crafting_table",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockSlime",
-    "entries": [
-      {
-        "id": "minecraft:slime",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockPrismarine",
-    "entries": [
-      {
-        "id": "minecraft:prismarine",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockPrismarineBrick",
-    "entries": [
-      {
-        "id": "minecraft:prismarine",
-        "metadata": 1
-      }
-    ]
-  },
-  {
-    "id": "blockPrismarineDark",
-    "entries": [
-      {
-        "id": "minecraft:prismarine",
-        "metadata": 2
-      }
-    ]
-  },
-  {
-    "id": "stoneGranite",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 1
-      }
-    ]
-  },
-  {
-    "id": "stoneGranitePolished",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 2
-      }
-    ]
-  },
-  {
-    "id": "stoneDiorite",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 3
-      }
-    ]
-  },
-  {
-    "id": "stoneDioritePolished",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 4
-      }
-    ]
-  },
-  {
-    "id": "stoneAndesite",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 5
-      }
-    ]
-  },
-  {
-    "id": "stoneAndesitePolished",
-    "entries": [
-      {
-        "id": "minecraft:stone",
-        "metadata": 6
-      }
-    ]
-  },
-  {
-    "id": "blockGlassColorless",
-    "entries": [
-      {
-        "id": "minecraft:glass",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockGlass",
-    "entries": [
-      {
-        "id": "minecraft:glass",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "paneGlassColorless",
-    "entries": [
-      {
-        "id": "minecraft:glass_pane",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "paneGlass",
-    "entries": [
-      {
-        "id": "minecraft:glass_pane",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "wool",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 32767
-      }
-    ]
-  },
-  {
-    "id": "chest",
-    "entries": [
-      {
-        "id": "minecraft:chest",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:ender_chest",
-        "metadata": 0
-      },
-      {
-        "id": "minecraft:trapped_chest",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "chestWood",
-    "entries": [
-      {
-        "id": "minecraft:chest",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "chestEnder",
-    "entries": [
-      {
-        "id": "minecraft:ender_chest",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "chestTrapped",
-    "entries": [
-      {
-        "id": "minecraft:trapped_chest",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "dyeBlack",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "woolBlack",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 15
-      }
-    ]
-  },
-  {
-    "id": "blockGlassBlack",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 15
-      }
-    ]
-  },
-  {
-    "id": "paneGlassBlack",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 15
-      }
-    ]
-  },
-  {
-    "id": "dyeRed",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 1
-      }
-    ]
-  },
-  {
-    "id": "woolRed",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 14
-      }
-    ]
-  },
-  {
-    "id": "blockGlassRed",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 14
-      }
-    ]
-  },
-  {
-    "id": "paneGlassRed",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 14
-      }
-    ]
-  },
-  {
-    "id": "dyeGreen",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 2
-      }
-    ]
-  },
-  {
-    "id": "woolGreen",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 13
-      }
-    ]
-  },
-  {
-    "id": "blockGlassGreen",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 13
-      }
-    ]
-  },
-  {
-    "id": "paneGlassGreen",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 13
-      }
-    ]
-  },
-  {
-    "id": "dyeBrown",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 3
-      }
-    ]
-  },
-  {
-    "id": "woolBrown",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 12
-      }
-    ]
-  },
-  {
-    "id": "blockGlassBrown",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 12
-      }
-    ]
-  },
-  {
-    "id": "paneGlassBrown",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 12
-      }
-    ]
-  },
-  {
-    "id": "dyeBlue",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 4
-      }
-    ]
-  },
-  {
-    "id": "woolBlue",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 11
-      }
-    ]
-  },
-  {
-    "id": "blockGlassBlue",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 11
-      }
-    ]
-  },
-  {
-    "id": "paneGlassBlue",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 11
-      }
-    ]
-  },
-  {
-    "id": "dyePurple",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 5
-      }
-    ]
-  },
-  {
-    "id": "woolPurple",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 10
-      }
-    ]
-  },
-  {
-    "id": "blockGlassPurple",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 10
-      }
-    ]
-  },
-  {
-    "id": "paneGlassPurple",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 10
-      }
-    ]
-  },
-  {
-    "id": "dyeCyan",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 6
-      }
-    ]
-  },
-  {
-    "id": "woolCyan",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 9
-      }
-    ]
-  },
-  {
-    "id": "blockGlassCyan",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 9
-      }
-    ]
-  },
-  {
-    "id": "paneGlassCyan",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 9
-      }
-    ]
-  },
-  {
-    "id": "dyeLightGray",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 7
-      }
-    ]
-  },
-  {
-    "id": "woolLightGray",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 8
-      }
-    ]
-  },
-  {
-    "id": "blockGlassLightGray",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 8
-      }
-    ]
-  },
-  {
-    "id": "paneGlassLightGray",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 8
-      }
-    ]
-  },
-  {
-    "id": "dyeGray",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 8
-      }
-    ]
-  },
-  {
-    "id": "woolGray",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 7
-      }
-    ]
-  },
-  {
-    "id": "blockGlassGray",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 7
-      }
-    ]
-  },
-  {
-    "id": "paneGlassGray",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 7
-      }
-    ]
-  },
-  {
-    "id": "dyePink",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 9
-      }
-    ]
-  },
-  {
-    "id": "woolPink",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 6
-      }
-    ]
-  },
-  {
-    "id": "blockGlassPink",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 6
-      }
-    ]
-  },
-  {
-    "id": "paneGlassPink",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 6
-      }
-    ]
-  },
-  {
-    "id": "dyeLime",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 10
-      }
-    ]
-  },
-  {
-    "id": "woolLime",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 5
-      }
-    ]
-  },
-  {
-    "id": "blockGlassLime",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 5
-      }
-    ]
-  },
-  {
-    "id": "paneGlassLime",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 5
-      }
-    ]
-  },
-  {
-    "id": "dyeYellow",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 11
-      }
-    ]
-  },
-  {
-    "id": "woolYellow",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 4
-      }
-    ]
-  },
-  {
-    "id": "blockGlassYellow",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 4
-      }
-    ]
-  },
-  {
-    "id": "paneGlassYellow",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 4
-      }
-    ]
-  },
-  {
-    "id": "dyeLightBlue",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 12
-      }
-    ]
-  },
-  {
-    "id": "woolLightBlue",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 3
-      }
-    ]
-  },
-  {
-    "id": "blockGlassLightBlue",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 3
-      }
-    ]
-  },
-  {
-    "id": "paneGlassLightBlue",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 3
-      }
-    ]
-  },
-  {
-    "id": "dyeMagenta",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 13
-      }
-    ]
-  },
-  {
-    "id": "woolMagenta",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 2
-      }
-    ]
-  },
-  {
-    "id": "blockGlassMagenta",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 2
-      }
-    ]
-  },
-  {
-    "id": "paneGlassMagenta",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 2
-      }
-    ]
-  },
-  {
-    "id": "dyeOrange",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 14
-      }
-    ]
-  },
-  {
-    "id": "woolOrange",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 1
-      }
-    ]
-  },
-  {
-    "id": "blockGlassOrange",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 1
-      }
-    ]
-  },
-  {
-    "id": "paneGlassOrange",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 1
-      }
-    ]
-  },
-  {
-    "id": "dyeWhite",
-    "entries": [
-      {
-        "id": "minecraft:dye",
-        "metadata": 15
-      }
-    ]
-  },
-  {
-    "id": "woolWhite",
-    "entries": [
-      {
-        "id": "minecraft:wool",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "blockGlassWhite",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass",
-        "metadata": 0
-      }
-    ]
-  },
-  {
-    "id": "paneGlassWhite",
-    "entries": [
-      {
-        "id": "minecraft:stained_glass_pane",
-        "metadata": 0
-      }
-    ]
-  }
+    {
+        "id": "logWood",
+        "entries": [
+            "minecraft:log#32767",
+            "minecraft:log2#32767"
+        ]
+    },
+    {
+        "id": "plankWood",
+        "entries": [
+            "minecraft:planks#32767"
+        ]
+    },
+    {
+        "id": "slabWood",
+        "entries": [
+            "minecraft:wooden_slab#32767"
+        ]
+    },
+    {
+        "id": "stairWood",
+        "entries": [
+            "minecraft:oak_stairs",
+            "minecraft:spruce_stairs",
+            "minecraft:birch_stairs",
+            "minecraft:jungle_stairs",
+            "minecraft:acacia_stairs",
+            "minecraft:dark_oak_stairs"
+        ]
+    },
+    {
+        "id": "fenceWood",
+        "entries": [
+            "minecraft:fence",
+            "minecraft:spruce_fence",
+            "minecraft:birch_fence",
+            "minecraft:jungle_fence",
+            "minecraft:dark_oak_fence",
+            "minecraft:acacia_fence"
+        ]
+    },
+    {
+        "id": "fenceGateWood",
+        "entries": [
+            "minecraft:fence_gate",
+            "minecraft:spruce_fence_gate",
+            "minecraft:birch_fence_gate",
+            "minecraft:jungle_fence_gate",
+            "minecraft:dark_oak_fence_gate",
+            "minecraft:acacia_fence_gate"
+        ]
+    },
+    {
+        "id": "doorWood",
+        "entries": [
+            "minecraft:acacia_door",
+            "minecraft:birch_door",
+            "minecraft:dark_oak_door",
+            "minecraft:wooden_door",
+            "minecraft:jungle_door",
+            "minecraft:spruce_door"
+        ]
+    },
+    {
+        "id": "stickWood",
+        "entries": [
+            "minecraft:stick"
+        ]
+    },
+    {
+        "id": "treeSapling",
+        "entries": [
+            "minecraft:sapling#32767"
+        ]
+    },
+    {
+        "id": "treeLeaves",
+        "entries": [
+            "minecraft:leaves#32767",
+            "minecraft:leaves2#32767"
+        ]
+    },
+    {
+        "id": "vine",
+        "entries": [
+            "minecraft:vine"
+        ]
+    },
+    {
+        "id": "oreGold",
+        "entries": [
+            "minecraft:gold_ore"
+        ]
+    },
+    {
+        "id": "oreIron",
+        "entries": [
+            "minecraft:iron_ore"
+        ]
+    },
+    {
+        "id": "oreLapis",
+        "entries": [
+            "minecraft:lapis_ore"
+        ]
+    },
+    {
+        "id": "oreDiamond",
+        "entries": [
+            "minecraft:diamond_ore"
+        ]
+    },
+    {
+        "id": "oreRedstone",
+        "entries": [
+            "minecraft:redstone_ore"
+        ]
+    },
+    {
+        "id": "oreEmerald",
+        "entries": [
+            "minecraft:emerald_ore"
+        ]
+    },
+    {
+        "id": "oreQuartz",
+        "entries": [
+            "minecraft:quartz_ore"
+        ]
+    },
+    {
+        "id": "oreCoal",
+        "entries": [
+            "minecraft:coal_ore"
+        ]
+    },
+    {
+        "id": "ingotIron",
+        "entries": [
+            "minecraft:iron_ingot"
+        ]
+    },
+    {
+        "id": "ingotGold",
+        "entries": [
+            "minecraft:gold_ingot"
+        ]
+    },
+    {
+        "id": "ingotBrick",
+        "entries": [
+            "minecraft:brick"
+        ]
+    },
+    {
+        "id": "ingotBrickNether",
+        "entries": [
+            "minecraft:netherbrick"
+        ]
+    },
+    {
+        "id": "nuggetGold",
+        "entries": [
+            "minecraft:gold_nugget"
+        ]
+    },
+    {
+        "id": "nuggetIron",
+        "entries": [
+            "minecraft:iron_nugget"
+        ]
+    },
+    {
+        "id": "gemDiamond",
+        "entries": [
+            "minecraft:diamond"
+        ]
+    },
+    {
+        "id": "gemEmerald",
+        "entries": [
+            "minecraft:emerald"
+        ]
+    },
+    {
+        "id": "gemQuartz",
+        "entries": [
+            "minecraft:quartz"
+        ]
+    },
+    {
+        "id": "gemPrismarine",
+        "entries": [
+            "minecraft:prismarine_shard"
+        ]
+    },
+    {
+        "id": "dustPrismarine",
+        "entries": [
+            "minecraft:prismarine_crystals"
+        ]
+    },
+    {
+        "id": "dustRedstone",
+        "entries": [
+            "minecraft:redstone"
+        ]
+    },
+    {
+        "id": "dustGlowstone",
+        "entries": [
+            "minecraft:glowstone_dust"
+        ]
+    },
+    {
+        "id": "gemLapis",
+        "entries": [
+            "minecraft:dye#4"
+        ]
+    },
+    {
+        "id": "blockGold",
+        "entries": [
+            "minecraft:gold_block"
+        ]
+    },
+    {
+        "id": "blockIron",
+        "entries": [
+            "minecraft:iron_block"
+        ]
+    },
+    {
+        "id": "blockLapis",
+        "entries": [
+            "minecraft:lapis_block"
+        ]
+    },
+    {
+        "id": "blockDiamond",
+        "entries": [
+            "minecraft:diamond_block"
+        ]
+    },
+    {
+        "id": "blockRedstone",
+        "entries": [
+            "minecraft:redstone_block"
+        ]
+    },
+    {
+        "id": "blockEmerald",
+        "entries": [
+            "minecraft:emerald_block"
+        ]
+    },
+    {
+        "id": "blockQuartz",
+        "entries": [
+            "minecraft:quartz_block"
+        ]
+    },
+    {
+        "id": "blockCoal",
+        "entries": [
+            "minecraft:coal_block"
+        ]
+    },
+    {
+        "id": "cropWheat",
+        "entries": [
+            "minecraft:wheat"
+        ]
+    },
+    {
+        "id": "cropPotato",
+        "entries": [
+            "minecraft:potato"
+        ]
+    },
+    {
+        "id": "cropCarrot",
+        "entries": [
+            "minecraft:carrot"
+        ]
+    },
+    {
+        "id": "cropNetherWart",
+        "entries": [
+            "minecraft:nether_wart"
+        ]
+    },
+    {
+        "id": "sugarcane",
+        "entries": [
+            "minecraft:reeds"
+        ]
+    },
+    {
+        "id": "blockCactus",
+        "entries": [
+            "minecraft:cactus"
+        ]
+    },
+    {
+        "id": "dye",
+        "entries": [
+            "minecraft:dye#32767"
+        ]
+    },
+    {
+        "id": "paper",
+        "entries": [
+            "minecraft:paper"
+        ]
+    },
+    {
+        "id": "slimeball",
+        "entries": [
+            "minecraft:slime_ball"
+        ]
+    },
+    {
+        "id": "enderpearl",
+        "entries": [
+            "minecraft:ender_pearl"
+        ]
+    },
+    {
+        "id": "bone",
+        "entries": [
+            "minecraft:bone"
+        ]
+    },
+    {
+        "id": "gunpowder",
+        "entries": [
+            "minecraft:gunpowder"
+        ]
+    },
+    {
+        "id": "string",
+        "entries": [
+            "minecraft:string"
+        ]
+    },
+    {
+        "id": "netherStar",
+        "entries": [
+            "minecraft:nether_star"
+        ]
+    },
+    {
+        "id": "leather",
+        "entries": [
+            "minecraft:leather"
+        ]
+    },
+    {
+        "id": "feather",
+        "entries": [
+            "minecraft:feather"
+        ]
+    },
+    {
+        "id": "egg",
+        "entries": [
+            "minecraft:egg"
+        ]
+    },
+    {
+        "id": "record",
+        "entries": [
+            "minecraft:record_13",
+            "minecraft:record_cat",
+            "minecraft:record_blocks",
+            "minecraft:record_chirp",
+            "minecraft:record_far",
+            "minecraft:record_mall",
+            "minecraft:record_mellohi",
+            "minecraft:record_stal",
+            "minecraft:record_strad",
+            "minecraft:record_ward",
+            "minecraft:record_11",
+            "minecraft:record_wait"
+        ]
+    },
+    {
+        "id": "dirt",
+        "entries": [
+            "minecraft:dirt"
+        ]
+    },
+    {
+        "id": "grass",
+        "entries": [
+            "minecraft:grass"
+        ]
+    },
+    {
+        "id": "stone",
+        "entries": [
+            "minecraft:stone"
+        ]
+    },
+    {
+        "id": "cobblestone",
+        "entries": [
+            "minecraft:cobblestone"
+        ]
+    },
+    {
+        "id": "gravel",
+        "entries": [
+            "minecraft:gravel"
+        ]
+    },
+    {
+        "id": "sand",
+        "entries": [
+            "minecraft:sand#32767"
+        ]
+    },
+    {
+        "id": "sandstone",
+        "entries": [
+            "minecraft:sandstone#32767",
+            "minecraft:red_sandstone#32767"
+        ]
+    },
+    {
+        "id": "netherrack",
+        "entries": [
+            "minecraft:netherrack"
+        ]
+    },
+    {
+        "id": "obsidian",
+        "entries": [
+            "minecraft:obsidian"
+        ]
+    },
+    {
+        "id": "glowstone",
+        "entries": [
+            "minecraft:glowstone"
+        ]
+    },
+    {
+        "id": "endstone",
+        "entries": [
+            "minecraft:end_stone"
+        ]
+    },
+    {
+        "id": "torch",
+        "entries": [
+            "minecraft:torch"
+        ]
+    },
+    {
+        "id": "workbench",
+        "entries": [
+            "minecraft:crafting_table"
+        ]
+    },
+    {
+        "id": "blockSlime",
+        "entries": [
+            "minecraft:slime"
+        ]
+    },
+    {
+        "id": "blockPrismarine",
+        "entries": [
+            "minecraft:prismarine"
+        ]
+    },
+    {
+        "id": "blockPrismarineBrick",
+        "entries": [
+            "minecraft:prismarine#1"
+        ]
+    },
+    {
+        "id": "blockPrismarineDark",
+        "entries": [
+            "minecraft:prismarine#2"
+        ]
+    },
+    {
+        "id": "stoneGranite",
+        "entries": [
+            "minecraft:stone#1"
+        ]
+    },
+    {
+        "id": "stoneGranitePolished",
+        "entries": [
+            "minecraft:stone#2"
+        ]
+    },
+    {
+        "id": "stoneDiorite",
+        "entries": [
+            "minecraft:stone#3"
+        ]
+    },
+    {
+        "id": "stoneDioritePolished",
+        "entries": [
+            "minecraft:stone#4"
+        ]
+    },
+    {
+        "id": "stoneAndesite",
+        "entries": [
+            "minecraft:stone#5"
+        ]
+    },
+    {
+        "id": "stoneAndesitePolished",
+        "entries": [
+            "minecraft:stone#6"
+        ]
+    },
+    {
+        "id": "blockGlassColorless",
+        "entries": [
+            "minecraft:glass"
+        ]
+    },
+    {
+        "id": "blockGlass",
+        "entries": [
+            "minecraft:glass",
+            "minecraft:stained_glass#32767"
+        ]
+    },
+    {
+        "id": "paneGlassColorless",
+        "entries": [
+            "minecraft:glass_pane"
+        ]
+    },
+    {
+        "id": "paneGlass",
+        "entries": [
+            "minecraft:glass_pane",
+            "minecraft:stained_glass_pane#32767"
+        ]
+    },
+    {
+        "id": "wool",
+        "entries": [
+            "minecraft:wool#32767"
+        ]
+    },
+    {
+        "id": "chest",
+        "entries": [
+            "minecraft:chest",
+            "minecraft:ender_chest",
+            "minecraft:trapped_chest"
+        ]
+    },
+    {
+        "id": "chestWood",
+        "entries": [
+            "minecraft:chest"
+        ]
+    },
+    {
+        "id": "chestEnder",
+        "entries": [
+            "minecraft:ender_chest"
+        ]
+    },
+    {
+        "id": "chestTrapped",
+        "entries": [
+            "minecraft:trapped_chest"
+        ]
+    },
+    {
+        "id": "dyeBlack",
+        "entries": [
+            "minecraft:dye"
+        ]
+    },
+    {
+        "id": "woolBlack",
+        "entries": [
+            "minecraft:wool#15"
+        ]
+    },
+    {
+        "id": "blockGlassBlack",
+        "entries": [
+            "minecraft:stained_glass#15"
+        ]
+    },
+    {
+        "id": "paneGlassBlack",
+        "entries": [
+            "minecraft:stained_glass_pane#15"
+        ]
+    },
+    {
+        "id": "dyeRed",
+        "entries": [
+            "minecraft:dye#1"
+        ]
+    },
+    {
+        "id": "woolRed",
+        "entries": [
+            "minecraft:wool#14"
+        ]
+    },
+    {
+        "id": "blockGlassRed",
+        "entries": [
+            "minecraft:stained_glass#14"
+        ]
+    },
+    {
+        "id": "paneGlassRed",
+        "entries": [
+            "minecraft:stained_glass_pane#14"
+        ]
+    },
+    {
+        "id": "dyeGreen",
+        "entries": [
+            "minecraft:dye#2"
+        ]
+    },
+    {
+        "id": "woolGreen",
+        "entries": [
+            "minecraft:wool#13"
+        ]
+    },
+    {
+        "id": "blockGlassGreen",
+        "entries": [
+            "minecraft:stained_glass#13"
+        ]
+    },
+    {
+        "id": "paneGlassGreen",
+        "entries": [
+            "minecraft:stained_glass_pane#13"
+        ]
+    },
+    {
+        "id": "dyeBrown",
+        "entries": [
+            "minecraft:dye#3"
+        ]
+    },
+    {
+        "id": "woolBrown",
+        "entries": [
+            "minecraft:wool#12"
+        ]
+    },
+    {
+        "id": "blockGlassBrown",
+        "entries": [
+            "minecraft:stained_glass#12"
+        ]
+    },
+    {
+        "id": "paneGlassBrown",
+        "entries": [
+            "minecraft:stained_glass_pane#12"
+        ]
+    },
+    {
+        "id": "dyeBlue",
+        "entries": [
+            "minecraft:dye#4"
+        ]
+    },
+    {
+        "id": "woolBlue",
+        "entries": [
+            "minecraft:wool#11"
+        ]
+    },
+    {
+        "id": "blockGlassBlue",
+        "entries": [
+            "minecraft:stained_glass#11"
+        ]
+    },
+    {
+        "id": "paneGlassBlue",
+        "entries": [
+            "minecraft:stained_glass_pane#11"
+        ]
+    },
+    {
+        "id": "dyePurple",
+        "entries": [
+            "minecraft:dye#5"
+        ]
+    },
+    {
+        "id": "woolPurple",
+        "entries": [
+            "minecraft:wool#10"
+        ]
+    },
+    {
+        "id": "blockGlassPurple",
+        "entries": [
+            "minecraft:stained_glass#10"
+        ]
+    },
+    {
+        "id": "paneGlassPurple",
+        "entries": [
+            "minecraft:stained_glass_pane#10"
+        ]
+    },
+    {
+        "id": "dyeCyan",
+        "entries": [
+            "minecraft:dye#6"
+        ]
+    },
+    {
+        "id": "woolCyan",
+        "entries": [
+            "minecraft:wool#9"
+        ]
+    },
+    {
+        "id": "blockGlassCyan",
+        "entries": [
+            "minecraft:stained_glass#9"
+        ]
+    },
+    {
+        "id": "paneGlassCyan",
+        "entries": [
+            "minecraft:stained_glass_pane#9"
+        ]
+    },
+    {
+        "id": "dyeLightGray",
+        "entries": [
+            "minecraft:dye#7"
+        ]
+    },
+    {
+        "id": "woolLightGray",
+        "entries": [
+            "minecraft:wool#8"
+        ]
+    },
+    {
+        "id": "blockGlassLightGray",
+        "entries": [
+            "minecraft:stained_glass#8"
+        ]
+    },
+    {
+        "id": "paneGlassLightGray",
+        "entries": [
+            "minecraft:stained_glass_pane#8"
+        ]
+    },
+    {
+        "id": "dyeGray",
+        "entries": [
+            "minecraft:dye#8"
+        ]
+    },
+    {
+        "id": "woolGray",
+        "entries": [
+            "minecraft:wool#7"
+        ]
+    },
+    {
+        "id": "blockGlassGray",
+        "entries": [
+            "minecraft:stained_glass#7"
+        ]
+    },
+    {
+        "id": "paneGlassGray",
+        "entries": [
+            "minecraft:stained_glass_pane#7"
+        ]
+    },
+    {
+        "id": "dyePink",
+        "entries": [
+            "minecraft:dye#9"
+        ]
+    },
+    {
+        "id": "woolPink",
+        "entries": [
+            "minecraft:wool#6"
+        ]
+    },
+    {
+        "id": "blockGlassPink",
+        "entries": [
+            "minecraft:stained_glass#6"
+        ]
+    },
+    {
+        "id": "paneGlassPink",
+        "entries": [
+            "minecraft:stained_glass_pane#6"
+        ]
+    },
+    {
+        "id": "dyeLime",
+        "entries": [
+            "minecraft:dye#10"
+        ]
+    },
+    {
+        "id": "woolLime",
+        "entries": [
+            "minecraft:wool#5"
+        ]
+    },
+    {
+        "id": "blockGlassLime",
+        "entries": [
+            "minecraft:stained_glass#5"
+        ]
+    },
+    {
+        "id": "paneGlassLime",
+        "entries": [
+            "minecraft:stained_glass_pane#5"
+        ]
+    },
+    {
+        "id": "dyeYellow",
+        "entries": [
+            "minecraft:dye#11"
+        ]
+    },
+    {
+        "id": "woolYellow",
+        "entries": [
+            "minecraft:wool#4"
+        ]
+    },
+    {
+        "id": "blockGlassYellow",
+        "entries": [
+            "minecraft:stained_glass#4"
+        ]
+    },
+    {
+        "id": "paneGlassYellow",
+        "entries": [
+            "minecraft:stained_glass_pane#4"
+        ]
+    },
+    {
+        "id": "dyeLightBlue",
+        "entries": [
+            "minecraft:dye#12"
+        ]
+    },
+    {
+        "id": "woolLightBlue",
+        "entries": [
+            "minecraft:wool#3"
+        ]
+    },
+    {
+        "id": "blockGlassLightBlue",
+        "entries": [
+            "minecraft:stained_glass#3"
+        ]
+    },
+    {
+        "id": "paneGlassLightBlue",
+        "entries": [
+            "minecraft:stained_glass_pane#3"
+        ]
+    },
+    {
+        "id": "dyeMagenta",
+        "entries": [
+            "minecraft:dye#13"
+        ]
+    },
+    {
+        "id": "woolMagenta",
+        "entries": [
+            "minecraft:wool#2"
+        ]
+    },
+    {
+        "id": "blockGlassMagenta",
+        "entries": [
+            "minecraft:stained_glass#2"
+        ]
+    },
+    {
+        "id": "paneGlassMagenta",
+        "entries": [
+            "minecraft:stained_glass_pane#2"
+        ]
+    },
+    {
+        "id": "dyeOrange",
+        "entries": [
+            "minecraft:dye#14"
+        ]
+    },
+    {
+        "id": "woolOrange",
+        "entries": [
+            "minecraft:wool#1"
+        ]
+    },
+    {
+        "id": "blockGlassOrange",
+        "entries": [
+            "minecraft:stained_glass#1"
+        ]
+    },
+    {
+        "id": "paneGlassOrange",
+        "entries": [
+            "minecraft:stained_glass_pane#1"
+        ]
+    },
+    {
+        "id": "dyeWhite",
+        "entries": [
+            "minecraft:dye#15"
+        ]
+    },
+    {
+        "id": "woolWhite",
+        "entries": [
+            "minecraft:wool"
+        ]
+    },
+    {
+        "id": "blockGlassWhite",
+        "entries": [
+            "minecraft:stained_glass"
+        ]
+    },
+    {
+        "id": "paneGlassWhite",
+        "entries": [
+            "minecraft:stained_glass_pane"
+        ]
+    }
 ]

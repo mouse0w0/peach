@@ -165,10 +165,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
                 JsonArray entries = object.get("entries").getAsJsonArray();
                 List<ItemData> oreDictionaryEntries = map.computeIfAbsent(IdMetadata.ofOreDictionary(id), k -> new ArrayList<>());
                 for (JsonElement entry : entries) {
-                    JsonObject entryObject = entry.getAsJsonObject();
-                    String entryId = entryObject.get("id").getAsString();
-                    int entryMetadata = entryObject.get("metadata").getAsInt();
-                    List<ItemData> entryItemDatumData = map.get(IdMetadata.of(entryId, entryMetadata));
+                    List<ItemData> entryItemDatumData = map.get(IdMetadata.of(entry.getAsString()));
                     if (entryItemDatumData != null) {
                         oreDictionaryEntries.addAll(entryItemDatumData);
                     }
@@ -190,7 +187,7 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
         for (JsonElement element : loadRawData(indexKey.getName())) {
             JsonObject object = element.getAsJsonObject();
             String id = object.get("id").getAsString();
-            IdMetadata icon = JsonUtils.fromJson(object.get("icon").getAsJsonObject(), IdMetadata.class);
+            IdMetadata icon = IdMetadata.of(object.get("icon").getAsString());
             entries.add(id, new IconicData(id, l10n.localize(getTranslationKey(indexKey.getLowerCamelName(), id)), icon));
         }
     }

@@ -1,65 +1,38 @@
 [
-  {
-    "id": "buildingBlocks",
-    "icon": {
-      "id": "minecraft:brick_block",
-      "metadata": 0
+    {
+        "id": "buildingBlocks",
+        "icon": "minecraft:brick_block"
+    },
+    {
+        "id": "decorations",
+        "icon": "minecraft:double_plant#5"
+    },
+    {
+        "id": "redstone",
+        "icon": "minecraft:redstone"
+    },
+    {
+        "id": "transportation",
+        "icon": "minecraft:golden_rail"
+    },
+    {
+        "id": "misc",
+        "icon": "minecraft:lava_bucket"
+    },
+    {
+        "id": "food",
+        "icon": "minecraft:apple"
+    },
+    {
+        "id": "tools",
+        "icon": "minecraft:iron_axe"
+    },
+    {
+        "id": "combat",
+        "icon": "minecraft:golden_sword"
+    },
+    {
+        "id": "brewing",
+        "icon": "minecraft:potion"
     }
-  },
-  {
-    "id": "decorations",
-    "icon": {
-      "id": "minecraft:double_plant",
-      "metadata": 5
-    }
-  },
-  {
-    "id": "redstone",
-    "icon": {
-      "id": "minecraft:redstone",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "transportation",
-    "icon": {
-      "id": "minecraft:golden_rail",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "misc",
-    "icon": {
-      "id": "minecraft:lava_bucket",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "food",
-    "icon": {
-      "id": "minecraft:apple",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "tools",
-    "icon": {
-      "id": "minecraft:iron_axe",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "combat",
-    "icon": {
-      "id": "minecraft:golden_sword",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "brewing",
-    "icon": {
-      "id": "minecraft:potion",
-      "metadata": 0
-    }
-  }
 ]

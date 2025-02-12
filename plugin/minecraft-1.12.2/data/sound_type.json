@@ -1,86 +1,50 @@
 [
-  {
-    "id": "WOOD",
-    "icon": {
-      "id": "minecraft:log",
-      "metadata": 0
+    {
+        "id": "WOOD",
+        "icon": "minecraft:log"
+    },
+    {
+        "id": "GROUND",
+        "icon": "minecraft:dirt"
+    },
+    {
+        "id": "PLANT",
+        "icon": "minecraft:grass"
+    },
+    {
+        "id": "STONE",
+        "icon": "minecraft:stone"
+    },
+    {
+        "id": "METAL",
+        "icon": "minecraft:iron_block"
+    },
+    {
+        "id": "GLASS",
+        "icon": "minecraft:glass"
+    },
+    {
+        "id": "CLOTH",
+        "icon": "minecraft:wool"
+    },
+    {
+        "id": "SAND",
+        "icon": "minecraft:sand"
+    },
+    {
+        "id": "SNOW",
+        "icon": "minecraft:snow"
+    },
+    {
+        "id": "LADDER",
+        "icon": "minecraft:ladder"
+    },
+    {
+        "id": "ANVIL",
+        "icon": "minecraft:anvil"
+    },
+    {
+        "id": "SLIME",
+        "icon": "minecraft:slime"
     }
-  },
-  {
-    "id": "GROUND",
-    "icon": {
-      "id": "minecraft:dirt",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "PLANT",
-    "icon": {
-      "id": "minecraft:grass",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "STONE",
-    "icon": {
-      "id": "minecraft:stone",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "METAL",
-    "icon": {
-      "id": "minecraft:iron_block",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "GLASS",
-    "icon": {
-      "id": "minecraft:glass",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "CLOTH",
-    "icon": {
-      "id": "minecraft:wool",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "SAND",
-    "icon": {
-      "id": "minecraft:sand",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "SNOW",
-    "icon": {
-      "id": "minecraft:snow",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "LADDER",
-    "icon": {
-      "id": "minecraft:ladder",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "ANVIL",
-    "icon": {
-      "id": "minecraft:anvil",
-      "metadata": 0
-    }
-  },
-  {
-    "id": "SLIME",
-    "icon": {
-      "id": "minecraft:slime",
-      "metadata": 0
-    }
-  }
 ]
