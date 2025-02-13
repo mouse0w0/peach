@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -40,5 +41,15 @@ public class ClassPathUtils {
         URL resource = classLoader.getResource(name);
         if (resource == null) throw new ResourceNotFoundException(name);
         return resource;
+    }
+
+    public static InputStream getResourceAsStream(String name) throws ResourceNotFoundException {
+        return getResourceAsStream(name, Thread.currentThread().getContextClassLoader());
+    }
+
+    public static InputStream getResourceAsStream(String name, ClassLoader classLoader) throws ResourceNotFoundException {
+        InputStream stream = classLoader.getResourceAsStream(name);
+        if (stream == null) throw new ResourceNotFoundException(name);
+        return stream;
     }
 }
