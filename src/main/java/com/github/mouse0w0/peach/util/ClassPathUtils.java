@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 
 public class ClassPathUtils {
-    public static Path getPath(String name) throws IOException {
+    public static Path getPath(String name) throws IOException, ResourceNotFoundException {
         return getPath(name, Thread.currentThread().getContextClassLoader());
     }
 
