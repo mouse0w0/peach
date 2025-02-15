@@ -14,7 +14,6 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
-import com.github.mouse0w0.peach.util.ListUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.animation.KeyFrame;
@@ -133,8 +132,7 @@ public class ItemChooser extends Stage {
     }
 
     private void updateFilter() {
-        gridView.getItems().clear();
-        ListUtils.filter(index.keyList(), createFilter(), gridView.getItems());
+        gridView.getItems().setAll(index.keyList().parallelStream().filter(createFilter()).toArray(IdMetadata[]::new));
     }
 
     private Predicate<IdMetadata> createFilter() {
@@ -165,7 +163,7 @@ public class ItemChooser extends Stage {
         return false;
     }
 
-    private static class Cell extends GridCell<IdMetadata> {
+    private static final class Cell extends GridCell<IdMetadata> {
         private final ItemView itemView;
 
         public Cell(Project project) {
