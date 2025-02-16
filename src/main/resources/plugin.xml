@@ -26,6 +26,8 @@
                             implementation="com.github.mouse0w0.peach.l10n.L10nManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.icon.IconManager"
                             implementation="com.github.mouse0w0.peach.icon.IconManagerImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.icon.SVGIconRenderer"
+                            implementation="com.github.mouse0w0.peach.icon.SVGIconRendererImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
                             implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.action.ActionManager"

@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.icon;
 
 import com.github.mouse0w0.peach.util.FileUtils;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 
-class IconImpl implements Icon {
+final class IconImpl implements Icon {
     private static final Logger LOGGER = LoggerFactory.getLogger("Icon");
 
     private static final Image NO_INIT = new WritableImage(1, 1);
@@ -43,12 +42,13 @@ class IconImpl implements Icon {
         if (url == null) {
             return null;
         }
+        String fileExtension = FileUtils.getFileExtension(url.getPath());
         try {
-            String fileExtension = FileUtils.getFileExtension(url.getPath());
-            if (fileExtension.equals("svg")) {
-                return SwingFXUtils.toFXImage(SVGRasterizer.load(url, 0, 0), null);
+            if ("svg".equals(fileExtension)) {
+                return SVGIconRenderer.getInstance().render(url);
+            } else {
+                return new Image(url.toExternalForm());
             }
-            return new Image(url.toExternalForm());
         } catch (Exception e) {
             LOGGER.warn("Cannot load icon, name={}, url={}", name, url, e);
             return null;

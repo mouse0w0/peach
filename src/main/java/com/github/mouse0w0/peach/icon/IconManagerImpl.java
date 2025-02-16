@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-public class IconManagerImpl implements IconManager {
+public final class IconManagerImpl implements IconManager {
     private static final Logger LOGGER = LoggerFactory.getLogger("Icon");
 
     private final Map<String, URL> iconUrls = new HashMap<>();
