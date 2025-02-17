@@ -2,6 +2,7 @@ package com.github.mouse0w0.peach.util;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
+import java.util.Objects;
 import java.util.function.Function;
 
 public final class LazyInitializer<T, R> {
@@ -14,12 +15,12 @@ public final class LazyInitializer<T, R> {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new IllegalArgumentException("Cannot find VarHandle", e);
         }
-        this.factory = Validate.notNull(factory);
+        this.factory = Objects.requireNonNull(factory);
     }
 
     public LazyInitializer(VarHandle varHandle, Function<T, R> factory) {
-        this.varHandle = Validate.notNull(varHandle);
-        this.factory = Validate.notNull(factory);
+        this.varHandle = Objects.requireNonNull(varHandle);
+        this.factory = Objects.requireNonNull(factory);
     }
 
     @SuppressWarnings("unchecked")

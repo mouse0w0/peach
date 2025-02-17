@@ -1,6 +1,6 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.peach.util.Validate;
+import java.util.Objects;
 
 public class ItemStack {
     public static final ItemStack EMPTY = new ItemStack(IdMetadata.air());
@@ -22,7 +22,7 @@ public class ItemStack {
     }
 
     public void setItem(IdMetadata item) {
-        this.item = Validate.notNull(item);
+        this.item = Objects.requireNonNull(item);
     }
 
     public Identifier getIdentifier() {

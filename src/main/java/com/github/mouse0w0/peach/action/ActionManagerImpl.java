@@ -7,7 +7,6 @@ import com.github.mouse0w0.peach.plugin.ActionDescriptor;
 import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.plugin.PluginManagerCore;
 import com.github.mouse0w0.peach.util.StringUtils;
-import com.github.mouse0w0.peach.util.Validate;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import javafx.scene.control.Button;
@@ -18,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
 
 public final class ActionManagerImpl implements ActionManager {
     private static final Logger LOGGER = LoggerFactory.getLogger("Action");
@@ -64,19 +65,17 @@ public final class ActionManagerImpl implements ActionManager {
 
     @Override
     public @NotNull Menu createMenu(@NotNull ActionGroup group) {
-        Validate.notNull(group);
-        return new ActionMenu(group);
+        return new ActionMenu(Objects.requireNonNull(group));
     }
 
     @Override
     public @NotNull ContextMenu createContextMenu(@NotNull ActionGroup group) {
-        Validate.notNull(group);
-        return new ActionContextMenu(group);
+        return new ActionContextMenu(Objects.requireNonNull(group));
     }
 
     @Override
     public @NotNull Button createButton(@NotNull Action action) {
-        Validate.notNull(action);
+        Objects.requireNonNull(action);
         if (action instanceof ActionGroup || action instanceof Separator) {
             throw new IllegalArgumentException("The action cannot be ActionGroup and Separator");
         }

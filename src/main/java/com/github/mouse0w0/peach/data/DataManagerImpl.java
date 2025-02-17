@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.data;
 
-import com.github.mouse0w0.peach.util.Validate;
 import com.github.mouse0w0.peach.util.WeakValueMap;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -18,6 +17,7 @@ import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @ApiStatus.Internal
 public final class DataManagerImpl implements DataManager {
@@ -27,7 +27,7 @@ public final class DataManagerImpl implements DataManager {
 
     @Override
     public DataContext getDataContext(@NotNull Object source) {
-        return new DataContextImpl(this, Validate.notNull(source));
+        return new DataContextImpl(this, Objects.requireNonNull(source));
     }
 
     @Override

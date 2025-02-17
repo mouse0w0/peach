@@ -3,6 +3,8 @@ package com.github.mouse0w0.peach.message;
 import com.github.mouse0w0.peach.util.Validate;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public final class Topic<T> {
     private final String name;
     private final Class<T> listenerClass;
@@ -14,8 +16,8 @@ public final class Topic<T> {
 
     public Topic(@NotNull String name, @NotNull Class<T> listenerClass, @NotNull BroadcastDirection broadcastDirection) {
         this.name = Validate.notEmpty(name);
-        this.listenerClass = Validate.notNull(listenerClass);
-        this.broadcastDirection = Validate.notNull(broadcastDirection);
+        this.listenerClass = Objects.requireNonNull(listenerClass);
+        this.broadcastDirection = Objects.requireNonNull(broadcastDirection);
     }
 
     @NotNull

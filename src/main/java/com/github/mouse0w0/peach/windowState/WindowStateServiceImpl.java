@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Storage("windowState.json")
 public class WindowStateServiceImpl implements WindowStateService, PersistentService {
@@ -73,7 +74,7 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
 
     @Override
     public void setup(@NotNull Window window, @NotNull String stateId) {
-        Validate.notNull(window);
+        Objects.requireNonNull(window);
         Validate.notEmpty(stateId);
 
         WindowState state = getWindowState(stateId);

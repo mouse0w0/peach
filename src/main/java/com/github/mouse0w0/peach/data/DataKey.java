@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.data;
 
 import com.github.mouse0w0.peach.action.ActionEvent;
-import com.github.mouse0w0.peach.util.Validate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -20,7 +19,7 @@ public final class DataKey<T> {
     }
 
     private DataKey(@NotNull String name) {
-        this.name = Validate.notNull(name);
+        this.name = Objects.requireNonNull(name);
     }
 
     public String getName() {

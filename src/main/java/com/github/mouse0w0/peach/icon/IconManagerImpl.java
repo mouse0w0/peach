@@ -1,7 +1,6 @@
 package com.github.mouse0w0.peach.icon;
 
 import com.github.mouse0w0.peach.plugin.Plugin;
-import com.github.mouse0w0.peach.util.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 public final class IconManagerImpl implements IconManager {
@@ -56,7 +56,7 @@ public final class IconManagerImpl implements IconManager {
 
     @Override
     public Icon getIcon(@NotNull String name) {
-        Validate.notNull(name);
+        Objects.requireNonNull(name);
         Icon icon = icons.get(name);
         if (icon == null) {
             icon = new IconImpl(name, iconUrls.get(name));

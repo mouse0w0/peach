@@ -8,7 +8,6 @@ import com.github.mouse0w0.peach.plugin.Plugin;
 import com.github.mouse0w0.peach.service.ServiceDescriptor;
 import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.service.store.ProjectServiceStore;
-import com.github.mouse0w0.peach.util.Validate;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.peach.window.WindowManager;
 import org.jetbrains.annotations.NotNull;
@@ -18,13 +17,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 public class ProjectImpl extends ServiceManagerImpl implements Project {
     private final Path path;
 
     public ProjectImpl(@NotNull Path path) throws IOException {
         super(Peach.getInstance());
-        this.path = Validate.notNull(path);
+        this.path = Objects.requireNonNull(path);
         if (!Files.exists(path)) {
             throw new IllegalStateException("Project path must be exists");
         }

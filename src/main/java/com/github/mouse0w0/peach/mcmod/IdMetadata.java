@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod;
 
-import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -8,6 +7,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Objects;
 
 @JsonAdapter(IdMetadata.TypeAdapter.class)
 public final class IdMetadata implements Serializable {
@@ -59,7 +59,7 @@ public final class IdMetadata implements Serializable {
     }
 
     private IdMetadata(Identifier identifier, int metadata) {
-        this.identifier = Validate.notNull(identifier);
+        this.identifier = Objects.requireNonNull(identifier);
         this.metadata = metadata;
     }
 

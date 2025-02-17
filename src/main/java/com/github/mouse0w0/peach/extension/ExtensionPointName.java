@@ -1,9 +1,9 @@
 package com.github.mouse0w0.peach.extension;
 
-import com.github.mouse0w0.peach.util.Validate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 public final class ExtensionPointName<T> {
     private final String name;
@@ -15,7 +15,7 @@ public final class ExtensionPointName<T> {
     }
 
     private ExtensionPointName(String name) {
-        this.name = Validate.notNull(name);
+        this.name = Objects.requireNonNull(name);
     }
 
     @NotNull

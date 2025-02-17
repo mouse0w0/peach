@@ -1,13 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.index;
 
-import com.github.mouse0w0.peach.util.Validate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.ListIterator;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 @SuppressWarnings("SuspiciousMethodCalls")
@@ -85,8 +81,7 @@ public class IndexImpl<K, V> implements IndexEx<K, V> {
 
     @Override
     public boolean addProjectEntry(K key, V value) {
-        Validate.notNull(value);
-        if (map.putIfAbsent(key, value) == null) {
+        if (map.putIfAbsent(key, Objects.requireNonNull(value)) == null) {
             keyList.add(projectEntryCount++, key);
             return true;
         }
@@ -95,8 +90,7 @@ public class IndexImpl<K, V> implements IndexEx<K, V> {
 
     @Override
     public boolean addNonProjectEntry(K key, V value) {
-        Validate.notNull(value);
-        if (map.putIfAbsent(key, value) == null) {
+        if (map.putIfAbsent(key, Objects.requireNonNull(value)) == null) {
             keyList.add(key);
             return true;
         }

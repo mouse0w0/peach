@@ -3,13 +3,13 @@ package com.github.mouse0w0.peach.fileEditor;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
-import com.github.mouse0w0.peach.util.Validate;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 public abstract class FileEditorWithButtonBar extends BaseFileEditor {
     private final Project project;
@@ -22,7 +22,7 @@ public abstract class FileEditorWithButtonBar extends BaseFileEditor {
 
     public FileEditorWithButtonBar(@NotNull Project project, @NotNull Path file) {
         super(file);
-        this.project = Validate.notNull(project);
+        this.project = Objects.requireNonNull(project);
     }
 
     protected abstract Node getContent();

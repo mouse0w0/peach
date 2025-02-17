@@ -5,7 +5,6 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.service.PersistentService;
 import com.github.mouse0w0.peach.service.Storage;
 import com.github.mouse0w0.peach.ui.control.FilePicker;
-import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.beans.InvalidationListener;
@@ -19,6 +18,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Storage("fileChooserState.json")
 public class FileChooserHelper implements PersistentService {
@@ -59,7 +59,7 @@ public class FileChooserHelper implements PersistentService {
     }
 
     public File open(Window owner, String id, String title, File initialDirectory, FileChooser.ExtensionFilter... filters) {
-        Validate.notNull(id);
+        Objects.requireNonNull(id);
         FileChooser fileChooser = createFileChooser(id, title, initialDirectory, filters);
         File file = fileChooser.showOpenDialog(owner);
         if (file != null) {
@@ -69,7 +69,7 @@ public class FileChooserHelper implements PersistentService {
     }
 
     public List<File> openMultiple(Window owner, String title, String id, File initialDirectory, FileChooser.ExtensionFilter... filters) {
-        Validate.notNull(id);
+        Objects.requireNonNull(id);
         FileChooser fileChooser = createFileChooser(id, title, initialDirectory, filters);
         List<File> file = fileChooser.showOpenMultipleDialog(owner);
         if (file != null) {
@@ -79,7 +79,7 @@ public class FileChooserHelper implements PersistentService {
     }
 
     public File save(Window owner, String id, String title, File initialDirectory, String initialFileName, FileChooser.ExtensionFilter... filters) {
-        Validate.notNull(id);
+        Objects.requireNonNull(id);
         FileChooser fileChooser = createFileChooser(id, title, initialDirectory, filters);
         fileChooser.setInitialFileName(initialFileName);
         File file = fileChooser.showSaveDialog(owner);
@@ -101,7 +101,7 @@ public class FileChooserHelper implements PersistentService {
     }
 
     public File openDirectory(Window owner, String id, String title, File initialDirectory) {
-        Validate.notNull(id);
+        Objects.requireNonNull(id);
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle(title);
         File realInitialDirectory = lastInitialDirectories.getOrDefault(id, initialDirectory);

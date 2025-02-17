@@ -2,10 +2,11 @@ package com.github.mouse0w0.peach.action;
 
 import com.github.mouse0w0.peach.data.DataContext;
 import com.github.mouse0w0.peach.data.DataKey;
-import com.github.mouse0w0.peach.util.Validate;
 import javafx.event.Event;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public final class ActionEvent {
     private final Event event;
@@ -14,8 +15,8 @@ public final class ActionEvent {
 
     public ActionEvent(@Nullable Event event, @NotNull Presentation presentation, @NotNull DataContext dataContext) {
         this.event = event;
-        this.presentation = Validate.notNull(presentation);
-        this.dataContext = Validate.notNull(dataContext);
+        this.presentation = Objects.requireNonNull(presentation);
+        this.dataContext = Objects.requireNonNull(dataContext);
     }
 
     @Nullable

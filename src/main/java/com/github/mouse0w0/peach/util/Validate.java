@@ -10,20 +10,6 @@ public class Validate {
     private static final String DEFAULT_EXCLUSIVE_BETWEEN_EX_MESSAGE =
             "The value %s is not in the specified exclusive range of %s to %s";
 
-    public static <T> T notNull(T object) {
-        if (object == null) {
-            throw new NullPointerException();
-        }
-        return object;
-    }
-
-    public static <T> T notNull(T object, String message) {
-        if (object == null) {
-            throw new NullPointerException(message);
-        }
-        return object;
-    }
-
     public static <T> T notNull(T object, String message, Object... args) {
         if (object == null) {
             throw new NullPointerException(String.format(message, args));
