@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class PluginManagerImpl implements PluginManager {
+public final class PluginManagerImpl implements PluginManager {
     @Override
     public List<? extends Plugin> getPlugins() {
         return PluginManagerCore.getPlugins();

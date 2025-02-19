@@ -7,7 +7,7 @@ import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-public class PluginClassLoader extends URLClassLoader {
+public final class PluginClassLoader extends URLClassLoader {
     static {
         registerAsParallelCapable();
     }
