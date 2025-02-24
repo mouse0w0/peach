@@ -1,6 +1,7 @@
 package com.github.mouse0w0.peach.mcmod.ui.control;
 
 import com.github.mouse0w0.peach.mcmod.IdMetadata;
+import com.github.mouse0w0.peach.mcmod.tooltip.ItemTooltipService;
 import com.github.mouse0w0.peach.mcmod.ui.dialog.ItemChooser;
 import com.github.mouse0w0.peach.project.Project;
 import javafx.beans.property.BooleanProperty;

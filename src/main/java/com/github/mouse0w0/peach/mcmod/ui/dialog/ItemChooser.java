@@ -8,7 +8,7 @@ import com.github.mouse0w0.peach.mcmod.ItemData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.index.IndexKeys;
 import com.github.mouse0w0.peach.mcmod.index.IndexManager;
-import com.github.mouse0w0.peach.mcmod.ui.control.ItemTooltipService;
+import com.github.mouse0w0.peach.mcmod.tooltip.ItemTooltipService;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;

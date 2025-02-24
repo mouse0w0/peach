@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.ui.control;
+package com.github.mouse0w0.peach.mcmod.tooltip;
 
 import com.github.mouse0w0.peach.project.Project;
 
@@ -7,7 +7,7 @@ public interface ItemTooltipService {
         return project.getService(ItemTooltipService.class);
     }
 
-    void install(ItemView itemView);
+    void install(ItemTooltipProvider provider);
 
-    void uninstall(ItemView itemView);
+    void uninstall(ItemTooltipProvider provider);
 }

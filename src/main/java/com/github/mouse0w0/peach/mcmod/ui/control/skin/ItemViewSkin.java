@@ -86,6 +86,10 @@ public class ItemViewSkin extends SkinBase<ItemView> {
         return timeline;
     }
 
+    public Index<IdMetadata, List<ItemData>> getIndex() {
+        return index;
+    }
+
     public void resetAnimation() {
         if (timeline != null) {
             timeline.jumpTo(Duration.ZERO);
