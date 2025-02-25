@@ -19,6 +19,7 @@ public final class ItemTooltipServiceImpl implements ItemTooltipService {
             ItemTooltipProvider provider = (ItemTooltipProvider) parent;
             List<String> tooltips = new ArrayList<>();
             provider.addToTooltip(tooltips);
+            if (tooltips.isEmpty()) return;
 
             tooltip.setText(String.join("\n", tooltips));
         });
