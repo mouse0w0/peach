@@ -32,7 +32,7 @@ public final class Generator implements Context {
     private ModProjectMetadata metadata;
     private String id;
     private Path projectFolder;
-    private Path sourceFolder;
+    private Path elementFolder;
     private Path resourceFolder;
     private Path modelsFolder;
     private Path texturesFolder;
@@ -72,8 +72,8 @@ public final class Generator implements Context {
     }
 
     @Override
-    public Path getSourceFolder() {
-        return sourceFolder;
+    public Path getElementFolder() {
+        return elementFolder;
     }
 
     @Override
@@ -173,7 +173,7 @@ public final class Generator implements Context {
     private void doInitialize() {
         try {
             this.projectFolder = project.getPath();
-            this.sourceFolder = projectFolder.resolve("sources");
+            this.elementFolder = projectFolder.resolve("elements");
             this.resourceFolder = projectFolder.resolve("resources");
             this.modelsFolder = resourceFolder.resolve("models");
             this.texturesFolder = resourceFolder.resolve("textures");
@@ -218,7 +218,7 @@ public final class Generator implements Context {
     private Multimap<Class<?>, Element> loadElements() throws IOException {
         Multimap<Class<?>, Element> elements = ArrayListMultimap.create();
 
-        Files.walk(getSourceFolder())
+        Files.walk(getElementFolder())
                 .filter(path -> Files.isRegularFile(path) && path.getFileName().toString().endsWith(".json"))
                 .forEach(file -> {
                     ElementProvider<?> provider = elementRegistry.getElementProvider(file);

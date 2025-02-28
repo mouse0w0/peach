@@ -60,7 +60,7 @@ public final class ForgeNewProjectBuilder implements NewProjectBuilder {
         metadata.setName(context.getProjectName());
         metadata.setId(ModIdUtils.toModId(context.getProjectName()));
         Path projectPath = project.getPath();
-        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.SOURCES));
+        FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ELEMENTS));
         FileUtils.createDirectories(projectPath.resolve(ResourceUtils.BLOCK_MODELS));
         FileUtils.createDirectories(projectPath.resolve(ResourceUtils.ITEM_MODELS));
         FileUtils.createDirectories(projectPath.resolve(ResourceUtils.BLOCK_TEXTURES));

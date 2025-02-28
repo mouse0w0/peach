@@ -24,7 +24,7 @@ public class McModFileAppearance implements FileAppearance {
 
     public McModFileAppearance() {
         localizablePathMap.put(Paths.get("build"), "mod.folder.build");
-        localizablePathMap.put(Paths.get("sources"), "mod.folder.source");
+        localizablePathMap.put(Paths.get("elements"), "mod.folder.element");
         localizablePathMap.put(Paths.get("resources"), "mod.folder.resource");
         localizablePathMap.put(Paths.get("resources/models"), "mod.folder.model");
         localizablePathMap.put(Paths.get("resources/models/block"), "mod.folder.model.block");

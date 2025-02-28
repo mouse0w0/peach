@@ -15,7 +15,7 @@ public class NewModElementAction extends Action {
     public void update(ActionEvent event) {
         Project project = DataKeys.PROJECT.get(event);
         Path path = DataKeys.PATH.get(event);
-        Path sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
+        Path sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.ELEMENTS);
         if (path == null) {
             event.getPresentation().setVisible(true);
         } else {
@@ -27,7 +27,7 @@ public class NewModElementAction extends Action {
     public void perform(ActionEvent event) {
         Project project = DataKeys.PROJECT.get(event);
         Path path = DataKeys.PATH.get(event);
-        Path sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
+        Path sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.ELEMENTS);
         if (path == null) {
             NewElementDialog.show(project, sourcesPath);
         } else if (path.startsWith(sourcesPath)) {

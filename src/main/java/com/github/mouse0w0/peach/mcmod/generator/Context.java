@@ -17,7 +17,7 @@ public interface Context {
 
     Path getProjectFolder();
 
-    Path getSourceFolder();
+    Path getElementFolder();
 
     Path getResourceFolder();
 

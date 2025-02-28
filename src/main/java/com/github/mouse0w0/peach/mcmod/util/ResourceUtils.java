@@ -14,7 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class ResourceUtils {
-    public static final String SOURCES = "sources";
+    public static final String ELEMENTS = "elements";
     public static final String RESOURCES = "resources";
 
     public static final String LANG = "resources/lang";

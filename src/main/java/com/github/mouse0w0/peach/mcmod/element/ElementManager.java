@@ -43,7 +43,7 @@ public final class ElementManager {
     public ElementManager(Project project, IndexManagerEx indexManager) {
         this.project = project;
         this.indexManager = indexManager;
-        this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.SOURCES);
+        this.sourcesPath = ResourceUtils.getResourcePath(project, ResourceUtils.ELEMENTS);
         project.getMessageBus().connect().subscribe(FileChangeListener.TOPIC, new FileChangeListener() {
 
             @Override
