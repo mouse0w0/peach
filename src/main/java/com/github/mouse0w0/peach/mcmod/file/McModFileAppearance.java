@@ -18,8 +18,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class McModFileAppearance implements FileAppearance {
-
+public final class McModFileAppearance implements FileAppearance {
     private final Map<Path, String> localizablePathMap = new HashMap<>();
 
     public McModFileAppearance() {
@@ -46,13 +45,11 @@ public class McModFileAppearance implements FileAppearance {
 
         final String fileName = FileUtils.getFileName(file);
         if (Files.isDirectory(file)) {
-            final Path relativePath = project.getPath().relativize(file);
-            for (Path path : localizablePathMap.keySet()) {
-                if (relativePath.equals(path)) {
-                    cell.setText(AppL10n.localize(localizablePathMap.get(path), fileName));
-                    cell.setIcon(AppIcon.File.Folder);
-                    return true;
-                }
+            final String localizationKey = localizablePathMap.get(project.getPath().relativize(file));
+            if (localizationKey != null) {
+                cell.setText(AppL10n.localize(localizationKey, fileName));
+                cell.setIcon(AppIcon.File.Folder);
+                return true;
             }
         } else {
             if (ModProjectMetadata.FILE_NAME.equals(fileName)) {
