@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 final class PluginImpl implements Plugin {
-    private static final Version DEFAULT_VERSION = new Version("1.0.0");
+    private static final Version DEFAULT_VERSION = new Version("0.0.1");
 
     private final String id;
     private final String name;
