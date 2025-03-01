@@ -79,8 +79,7 @@ public final class PluginManagerCore {
                     }
                 }
             } catch (CompletionException e) {
-                Throwable cause = e.getCause();
-                LOGGER.error("An exception occurred while loading the plugin.", cause);
+                LOGGER.error("An exception occurred while loading the plugin.", e.getCause());
             }
         }
         logDuplicatePlugins(duplicatePlugins);
@@ -176,8 +175,7 @@ public final class PluginManagerCore {
             for (PluginImpl plugin1 : duplicatePlugins.get(pluginId)) {
                 errorMessageBuilder.append("\n    - ").append(plugin1.getClasspath());
             }
-            String errorMessage = errorMessageBuilder.toString();
-            LOGGER.error(errorMessage);
+            LOGGER.error(errorMessageBuilder.toString());
         }
     }
 
@@ -188,8 +186,7 @@ public final class PluginManagerCore {
             for (PluginDependency dependency : missingDependency.get(plugin)) {
                 errorMessageBuilder.append("\n    - ").append(dependency);
             }
-            String errorMessage = errorMessageBuilder.toString();
-            LOGGER.error(errorMessage);
+            LOGGER.error(errorMessageBuilder.toString());
         }
     }
 
@@ -199,8 +196,7 @@ public final class PluginManagerCore {
         for (PluginImpl plugin : scc) {
             errorMessageBuilder.append("\n    - ").append(plugin.getId()).append(" ").append(plugin.getClasspath());
         }
-        String errorMessage = errorMessageBuilder.toString();
-        LOGGER.error(errorMessage);
+        LOGGER.error(errorMessageBuilder.toString());
     }
 
     private static void logEnabledPlugins(List<PluginImpl> plugins) {
