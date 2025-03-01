@@ -12,7 +12,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,10 +23,8 @@ import static javax.xml.stream.XMLStreamConstants.*;
 final class PluginXmlReader {
     private static final Logger LOGGER = LoggerFactory.getLogger(PluginXmlReader.class);
 
-    public static PluginXml read(String systemId, InputStream inputStream) throws IOException, XMLStreamException {
-        try (BufferedInputStream bis = new BufferedInputStream(inputStream)) {
-            return read(XMLInputFactory.newDefaultFactory().createXMLStreamReader(systemId, bis));
-        }
+    public static PluginXml read(String systemId, InputStream inputStream) throws XMLStreamException {
+        return read(XMLInputFactory.newDefaultFactory().createXMLStreamReader(systemId, new BufferedInputStream(inputStream)));
     }
 
     public static PluginXml read(XMLStreamReader reader) throws XMLStreamException {
