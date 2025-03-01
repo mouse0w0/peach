@@ -138,7 +138,7 @@ public final class Peach extends ServiceManagerImpl {
 
     private static String getImplementationVersion() {
         String version = Peach.class.getPackage().getImplementationVersion();
-        return version != null && !version.isEmpty() ? version : "99.0.0.0-INDEV";
+        return version != null && !version.isEmpty() ? version : "99999.0.0";
     }
 
     @Override
