@@ -1,5 +1,6 @@
 package com.github.mouse0w0.peach.plugin;
 
+import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.graph.DirectedGraph;
 import com.github.mouse0w0.peach.util.graph.TopoSort;
@@ -12,7 +13,9 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -29,6 +32,8 @@ import java.util.zip.ZipFile;
 @ApiStatus.Internal
 public final class PluginManagerCore {
     public static final String PLUGIN_XML = "plugin.xml";
+
+    public static final String CORE_PLUGIN_ID = "peach";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PluginManagerCore.class);
 
@@ -272,7 +277,7 @@ public final class PluginManagerCore {
         }
 
         try {
-            return new PluginImpl(PluginXmlReader.read(FileUtils.toURLString(pluginXmlFile), Files.newInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
+            return new PluginImpl(loadPluginXml(FileUtils.toURLString(pluginXmlFile), Files.newInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
         } catch (Exception e) {
             throw new PluginLoadException(e, classpath);
         }
@@ -287,10 +292,20 @@ public final class PluginManagerCore {
                 return null;
             }
 
-            return new PluginImpl(PluginXmlReader.read("jar:" + FileUtils.toURLString(zip) + "!/" + PLUGIN_XML, zipFile.getInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
+            return new PluginImpl(loadPluginXml("jar:" + FileUtils.toURLString(zip) + "!/" + PLUGIN_XML, zipFile.getInputStream(pluginXmlFile)), classpath, useCoreClassLoader);
         } catch (Exception e) {
             throw new PluginLoadException(e, classpath);
         }
+    }
+
+    private static PluginXml loadPluginXml(String systemId, InputStream inputStream) throws XMLStreamException {
+        PluginXml pluginXml = PluginXmlReader.read(systemId, inputStream);
+
+        if (CORE_PLUGIN_ID.equals(pluginXml.id)) {
+            pluginXml.version = Peach.getInstance().getVersion().toString();
+        }
+
+        return pluginXml;
     }
 
     private PluginManagerCore() {
