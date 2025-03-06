@@ -54,7 +54,7 @@ public class NewElementDialog extends Stage {
         grid.add(new Text(AppL10n.localize("dialog.newElement.type")), 0, 1);
 
         ComboBox<ElementProvider<?>> type = new ComboBox<>();
-        type.setMaxWidth(10000);
+        type.setMaxWidth(Double.MAX_VALUE);
         type.setConverter(new StringConverter<>() {
             @Override
             public String toString(ElementProvider<?> object) {
