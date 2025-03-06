@@ -7,7 +7,6 @@ import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
-import com.github.mouse0w0.peach.ui.layout.Container;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;
@@ -15,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -23,7 +23,7 @@ import java.nio.file.Path;
 
 public class NewProjectDialog extends Stage {
     private final NewProjectContext context;
-    private final Container container;
+    private final StackPane container;
 
     private NewProjectBuilder newProjectBuilder;
 
@@ -31,7 +31,7 @@ public class NewProjectDialog extends Stage {
         context = new NewProjectContext();
         context.setProjectName("untitled");
 
-        container = new Container();
+        container = new StackPane();
 
         setTitle(AppL10n.localize("dialog.newProject.title"));
         getIcons().add(AppIcon.Peach.getImage());
@@ -52,7 +52,8 @@ public class NewProjectDialog extends Stage {
             }
 
             newProjectBuilder = selectionModel.getSelectedItem().createBuilder();
-            container.setContent(newProjectBuilder.getNode());
+            container.getChildren().clear();
+            container.getChildren().add(newProjectBuilder.getNode());
             newProjectBuilder.initialize(context);
         });
         selectionModel.selectFirst();
