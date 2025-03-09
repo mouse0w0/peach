@@ -55,7 +55,7 @@ public final class AttributeModifierPopup extends PopOver {
         operation.setConverter(LocalizableConverter.instance());
         grid.addRow(1, new Text(AppL10n.localize("attributeModifier.operation")), operation);
 
-        amount = Spinners.create(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
+        amount = Spinners.createDoubleSpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
         amount.setPrefWidth(150);
         grid.addRow(2, new Text(AppL10n.localize("attributeModifier.amount")), amount);
 

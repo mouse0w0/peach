@@ -5,17 +5,21 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 
 public final class Spinners {
-    public static Spinner<Integer> create(int min, int max, int initialValue) {
-        return create(min, max, initialValue, 1);
+    public static Spinner<Integer> createIntegerSpinner(int min, int max) {
+        return createIntegerSpinner(min, max, 0, 1);
     }
 
-    public static Spinner<Integer> create(int min, int max, int initialValue, int amountToStepBy) {
+    public static Spinner<Integer> createIntegerSpinner(int min, int max, int initialValue) {
+        return createIntegerSpinner(min, max, initialValue, 1);
+    }
+
+    public static Spinner<Integer> createIntegerSpinner(int min, int max, int initialValue, int amountToStepBy) {
         Spinner<Integer> spinner = new Spinner<>(min, max, initialValue, amountToStepBy);
-        setupIntegerEditor(spinner);
+        setupIntegerSpinner(spinner);
         return spinner;
     }
 
-    public static void setupIntegerEditor(Spinner<Integer> spinner) {
+    public static void setupIntegerSpinner(Spinner<Integer> spinner) {
         spinner.setEditable(true);
         Integer initialValue = spinner.getValue();
         TextField editor = spinner.getEditor();
@@ -40,17 +44,21 @@ public final class Spinners {
         });
     }
 
-    public static Spinner<Double> create(double min, double max, double initialValue) {
-        return create(min, max, initialValue, 1);
+    public static Spinner<Double> createDoubleSpinner(double min, double max) {
+        return createDoubleSpinner(min, max, 0, 1);
     }
 
-    public static Spinner<Double> create(double min, double max, double initialValue, double amountToStepBy) {
+    public static Spinner<Double> createDoubleSpinner(double min, double max, double initialValue) {
+        return createDoubleSpinner(min, max, initialValue, 1);
+    }
+
+    public static Spinner<Double> createDoubleSpinner(double min, double max, double initialValue, double amountToStepBy) {
         Spinner<Double> spinner = new Spinner<>(min, max, initialValue, amountToStepBy);
-        setupDoubleEditor(spinner);
+        setupDoubleSpinner(spinner);
         return spinner;
     }
 
-    public static void setupDoubleEditor(Spinner<Double> spinner) {
+    public static void setupDoubleSpinner(Spinner<Double> spinner) {
         spinner.setEditable(true);
         Double initialValue = spinner.getValue();
         TextField editor = spinner.getEditor();

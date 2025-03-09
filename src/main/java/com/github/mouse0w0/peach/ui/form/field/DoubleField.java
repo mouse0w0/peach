@@ -74,7 +74,7 @@ public class DoubleField extends ValueField<Double> {
         Spinner<Double> spinner = new Spinner<>(valueFactory);
         spinner.setMaxWidth(Double.MAX_VALUE);
         spinner.disableProperty().bind(disableProperty());
-        Spinners.setupDoubleEditor(spinner);
+        Spinners.setupDoubleSpinner(spinner);
         return spinner;
     }
 }

@@ -74,7 +74,7 @@ public class IntegerField extends ValueField<Integer> {
         Spinner<Integer> spinner = new Spinner<>(valueFactory);
         spinner.setMaxWidth(Double.MAX_VALUE);
         spinner.disableProperty().bind(disableProperty());
-        Spinners.setupIntegerEditor(spinner);
+        Spinners.setupIntegerSpinner(spinner);
         return spinner;
     }
 }

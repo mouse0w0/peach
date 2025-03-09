@@ -47,7 +47,7 @@ public final class ToolAttributePopup extends PopOver {
         type.setConverter(GameDataConverter.create(toolTypeIndex));
         grid.addRow(0, new Text(AppL10n.localize("toolAttribute.type")), type);
 
-        level = Spinners.create(0, Integer.MAX_VALUE, 0);
+        level = Spinners.createIntegerSpinner(0, Integer.MAX_VALUE, 0);
         level.setPrefWidth(150);
         grid.addRow(1, new Text(AppL10n.localize("toolAttribute.level")), level);
 
