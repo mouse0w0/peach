@@ -19,9 +19,27 @@ import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 public class MetadataFileEditor extends FileEditorWithButtonBar {
+    private static final List<Locale> LOCALES;
+
+    static {
+        List<Locale> locales = new ArrayList<>();
+        for (Locale locale : Locale.getAvailableLocales()) {
+            if (locale.getLanguage().isEmpty()) continue;
+            if (!locale.getVariant().isEmpty()) continue;
+            if (!locale.getScript().isEmpty()) continue;
+            if (locale.hasExtensions()) continue;
+            locales.add(locale);
+        }
+        locales.sort(Comparator.comparing(Locale::toString));
+        LOCALES = locales;
+    }
+
     private final ModProjectService descriptor;
     private final ModProjectMetadata metadata;
 
@@ -53,24 +71,20 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         name = new TextFieldField();
         name.setLabel(AppL10n.localize("metadata.general.name"));
         name.setColSpan(ColSpan.HALF);
-        name.setValue(metadata.getName());
 
         id = new TextFieldField();
         id.setLabel(AppL10n.localize("metadata.general.id"));
         id.setColSpan(ColSpan.HALF);
         id.getChecks().add(Check.of(AppL10n.localize("validate.invalidModId"), ModIdUtils::validateModId));
-        id.setValue(metadata.getId());
 
         version = new TextFieldField();
         version.setLabel(AppL10n.localize("metadata.general.version"));
         version.setColSpan(ColSpan.HALF);
-        version.setValue(metadata.getVersion());
 
         mcVersion = new ComboBoxField<>();
         mcVersion.setLabel(AppL10n.localize("metadata.general.mcVersion"));
         mcVersion.setColSpan(ColSpan.HALF);
         mcVersion.getItems().add("1.12.2");
-        mcVersion.setValue(metadata.getMcVersion());
 
         language = new ComboBoxField<>();
         language.setLabel(AppL10n.localize("metadata.general.language"));
@@ -78,7 +92,7 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         language.setConverter(new StringConverter<>() {
             @Override
             public String toString(Locale object) {
-                return object.getDisplayName() + " (" + object.toLanguageTag() + ")";
+                return object.getDisplayName(object) + " (" + object + ")";
             }
 
             @Override
@@ -86,29 +100,23 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
                 throw new UnsupportedOperationException();
             }
         });
-        language.getItems().addAll(Locale.getAvailableLocales());
-        language.setValue(metadata.getLanguage());
+        language.getItems().addAll(LOCALES);
 
         authors = new TextFieldField();
         authors.setLabel(AppL10n.localize("metadata.general.author"));
         authors.setColSpan(ColSpan.HALF);
-        authors.setValue(metadata.getAuthor());
 
         description = new TextFieldField();
         description.setLabel(AppL10n.localize("metadata.general.description"));
-        description.setValue(metadata.getDescription());
 
         credits = new TextFieldField();
         credits.setLabel(AppL10n.localize("metadata.general.credits"));
-        credits.setValue(metadata.getCredits());
 
         url = new TextFieldField();
         url.setLabel(AppL10n.localize("metadata.general.url"));
-        url.setValue(metadata.getUrl());
 
         updateUrl = new TextFieldField();
         updateUrl.setLabel(AppL10n.localize("metadata.general.updateUrl"));
-        updateUrl.setValue(metadata.getUpdateUrl());
 
         Section general = new Section();
         general.setText(AppL10n.localize("metadata.general.title"));
@@ -123,7 +131,22 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
 
         form.getGroups().add(general);
 
+        initialize();
+
         return new FormView(form);
+    }
+
+    private void initialize() {
+        name.setValue(metadata.getName());
+        id.setValue(metadata.getId());
+        version.setValue(metadata.getVersion());
+        mcVersion.setValue(metadata.getMcVersion());
+        language.setValue(metadata.getLanguage());
+        authors.setValue(metadata.getAuthor());
+        description.setValue(metadata.getDescription());
+        credits.setValue(metadata.getCredits());
+        url.setValue(metadata.getUrl());
+        updateUrl.setValue(metadata.getUpdateUrl());
     }
 
     @Override
