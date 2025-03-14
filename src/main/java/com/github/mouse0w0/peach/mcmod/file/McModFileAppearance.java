@@ -8,7 +8,6 @@ import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 
@@ -39,10 +38,7 @@ public final class McModFileAppearance implements FileAppearance {
     }
 
     @Override
-    public boolean apply(Path file, FileCell cell) {
-        final Project project = ProjectManager.getInstance().getProject(file);
-        if (project == null) return false;
-
+    public boolean apply(Project project, Path file, FileCell cell) {
         final String fileName = FileUtils.getFileName(file);
         if (Files.isDirectory(file)) {
             final String localizationKey = localizablePathMap.get(project.getPath().relativize(file));

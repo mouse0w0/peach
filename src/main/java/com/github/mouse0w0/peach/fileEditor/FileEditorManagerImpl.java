@@ -74,7 +74,7 @@ public class FileEditorManagerImpl implements FileEditorManager, Disposable.Defa
         Disposer.register(this, fileEditor);
 
         FileEditorTab fileEditorTab = new FileEditorTab(fileEditor);
-        FileAppearance.process(file, fileEditorTab);
+        FileAppearance.process(project, file, fileEditorTab);
         fileEditorTabs.put(file, fileEditorTab);
         WindowManager.getInstance().getWindow(project).openTab(fileEditorTab);
     }

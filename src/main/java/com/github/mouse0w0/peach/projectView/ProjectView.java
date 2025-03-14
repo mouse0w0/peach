@@ -258,7 +258,7 @@ public class ProjectView implements DataProvider, Disposable.Default {
                 setText(null);
                 Icon.setIcon(this, null);
             } else {
-                FileAppearance.process(item, this);
+                FileAppearance.process(project, item, this);
             }
         }
 
