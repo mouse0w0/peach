@@ -1,11 +1,13 @@
 package com.github.mouse0w0.peach.util;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
+@ApiStatus.Internal
 public class ArrayUtils extends org.apache.commons.lang3.ArrayUtils {
-
     public static <T, U> void biForEach(T[] t, U[] u, BiConsumer<T, U> consumer) {
         biForEach(t, u, Math.min(t.length, u.length), consumer);
     }

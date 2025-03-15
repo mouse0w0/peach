@@ -1,9 +1,11 @@
 package com.github.mouse0w0.peach.util;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import java.util.ArrayList;
 
+@ApiStatus.Internal
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
-
     public static String substringBeforeLast(String str, int separator) {
         if (isEmpty(str)) {
             return str;
