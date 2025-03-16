@@ -5,6 +5,7 @@ import com.github.mouse0w0.peach.action.ActionHolder;
 import com.github.mouse0w0.peach.application.AppLifecycleListener;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.peach.window.WindowManager;
 import com.sun.javafx.scene.control.ContextMenuContent;
 import javafx.beans.InvalidationListener;
@@ -26,7 +27,8 @@ public class TextWidget implements StatusBarWidget {
     }
 
     public static TextWidget getFocusedInstance() {
-        return (TextWidget) WindowManager.getInstance().getFocusedWindow().getStatusBar().getWidget(ID);
+        ProjectWindow projectWindow = WindowManager.getInstance().getFocusedWindow();
+        return projectWindow == null ? null : (TextWidget) projectWindow.getStatusBar().getWidget(ID);
     }
 
     private final Text text = new Text();
