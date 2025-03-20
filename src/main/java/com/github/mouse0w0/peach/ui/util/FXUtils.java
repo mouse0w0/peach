@@ -96,6 +96,18 @@ public final class FXUtils {
         region.setMaxSize(width, height);
     }
 
+    public static void setFixedWidth(Region region, double width) {
+        region.setMinWidth(width);
+        region.setPrefWidth(width);
+        region.setMaxWidth(width);
+    }
+
+    public static void setFixedHeight(Region region, double height) {
+        region.setMinHeight(height);
+        region.setPrefHeight(height);
+        region.setMaxHeight(height);
+    }
+
     public static void setFitToAnchorPane(Node node) {
         AnchorPane.setTopAnchor(node, 0D);
         AnchorPane.setLeftAnchor(node, 0D);
