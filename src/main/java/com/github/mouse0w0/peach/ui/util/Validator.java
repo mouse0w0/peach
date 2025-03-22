@@ -39,6 +39,15 @@ public final class Validator<T> {
         return of(textInput, textInput.textProperty(), Check.of(message, predicate));
     }
 
+    public static Validator<String> of(TextInputControl textInput, Collection<Check<? super String>> checks) {
+        return new Validator<>(textInput, textInput.textProperty(), checks);
+    }
+
+    @SafeVarargs
+    public static Validator<String> of(TextInputControl textInput, Check<? super String>... checks) {
+        return new Validator<>(textInput, textInput.textProperty(), checks);
+    }
+
     public static <T> Validator<T> of(Node node, Property<T> property, Collection<Check<? super T>> checks) {
         return new Validator<>(node, property, checks);
     }
@@ -54,19 +63,19 @@ public final class Validator<T> {
 
     public static boolean validate(Node... nodes) {
         boolean result = true;
-        Validator<?> firstInvalidationValidator = null;
+        Validator<?> firstInvalidValidator = null;
         for (Node node : nodes) {
             Validator<?> validator = getValidator(node);
             if (validator != null && !validator.validate()) {
                 result = false;
-                if (firstInvalidationValidator == null) {
-                    firstInvalidationValidator = validator;
+                if (firstInvalidValidator == null) {
+                    firstInvalidValidator = validator;
                 }
             }
         }
 
-        if (firstInvalidationValidator != null) {
-            Node node = firstInvalidationValidator.getNode();
+        if (firstInvalidValidator != null) {
+            Node node = firstInvalidValidator.getNode();
             node.requestFocus();
             if (node instanceof TextInputControl) {
                 ((TextInputControl) node).selectAll();
