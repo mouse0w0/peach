@@ -48,10 +48,10 @@ public class ItemView extends Region implements ItemTooltipProvider {
         setSize(size);
     }
 
-    public ItemView(Project project, IdMetadata item, double size) {
+    public ItemView(Project project, double size, IdMetadata item) {
         this(project);
-        setItem(item);
         setSize(size);
+        setItem(item);
     }
 
     public final Project getProject() {
