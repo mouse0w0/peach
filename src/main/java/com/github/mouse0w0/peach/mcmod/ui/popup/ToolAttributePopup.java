@@ -5,8 +5,8 @@ import com.github.mouse0w0.peach.mcmod.GameData;
 import com.github.mouse0w0.peach.mcmod.ToolAttribute;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
+import com.github.mouse0w0.peach.ui.control.IntegerSpinner;
 import com.github.mouse0w0.peach.ui.control.TagCell;
-import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -47,7 +47,7 @@ public final class ToolAttributePopup extends PopOver {
         type.setConverter(GameDataConverter.create(toolTypeIndex));
         grid.addRow(0, new Text(AppL10n.localize("toolAttribute.type")), type);
 
-        level = Spinners.createIntegerSpinner(0, Integer.MAX_VALUE, 0);
+        level = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         level.setPrefWidth(150);
         grid.addRow(1, new Text(AppL10n.localize("toolAttribute.level")), level);
 

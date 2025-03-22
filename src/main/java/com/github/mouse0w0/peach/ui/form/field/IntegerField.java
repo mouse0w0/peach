@@ -1,10 +1,9 @@
 package com.github.mouse0w0.peach.ui.form.field;
 
-import com.github.mouse0w0.peach.ui.util.Spinners;
+import com.github.mouse0w0.peach.ui.control.IntegerSpinner;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
 public class IntegerField extends ValueField<Integer> {
@@ -71,10 +70,9 @@ public class IntegerField extends ValueField<Integer> {
 
     @Override
     protected Node createEditorNode() {
-        Spinner<Integer> spinner = new Spinner<>(valueFactory);
+        IntegerSpinner spinner = new IntegerSpinner(valueFactory);
         spinner.setMaxWidth(Double.MAX_VALUE);
         spinner.disableProperty().bind(disableProperty());
-        Spinners.setupIntegerSpinner(spinner);
         return spinner;
     }
 }

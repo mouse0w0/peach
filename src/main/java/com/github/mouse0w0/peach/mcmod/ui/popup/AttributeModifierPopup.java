@@ -6,8 +6,8 @@ import com.github.mouse0w0.peach.mcmod.GameData;
 import com.github.mouse0w0.peach.mcmod.index.Index;
 import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
+import com.github.mouse0w0.peach.ui.control.DoubleSpinner;
 import com.github.mouse0w0.peach.ui.control.TagCell;
-import com.github.mouse0w0.peach.ui.util.Spinners;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.geometry.Insets;
@@ -55,7 +55,7 @@ public final class AttributeModifierPopup extends PopOver {
         operation.setConverter(LocalizableConverter.instance());
         grid.addRow(1, new Text(AppL10n.localize("attributeModifier.operation")), operation);
 
-        amount = Spinners.createDoubleSpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
+        amount = new DoubleSpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 0);
         amount.setPrefWidth(150);
         grid.addRow(2, new Text(AppL10n.localize("attributeModifier.amount")), amount);
 

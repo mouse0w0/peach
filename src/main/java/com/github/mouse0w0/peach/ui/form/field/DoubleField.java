@@ -1,10 +1,9 @@
 package com.github.mouse0w0.peach.ui.form.field;
 
-import com.github.mouse0w0.peach.ui.util.Spinners;
+import com.github.mouse0w0.peach.ui.control.DoubleSpinner;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.Node;
-import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 
 public class DoubleField extends ValueField<Double> {
@@ -71,10 +70,9 @@ public class DoubleField extends ValueField<Double> {
 
     @Override
     protected Node createEditorNode() {
-        Spinner<Double> spinner = new Spinner<>(valueFactory);
+        DoubleSpinner spinner = new DoubleSpinner(valueFactory);
         spinner.setMaxWidth(Double.MAX_VALUE);
         spinner.disableProperty().bind(disableProperty());
-        Spinners.setupDoubleSpinner(spinner);
         return spinner;
     }
 }
