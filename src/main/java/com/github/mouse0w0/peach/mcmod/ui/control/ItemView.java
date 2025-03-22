@@ -14,6 +14,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.*;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
@@ -103,32 +105,32 @@ public class ItemView extends Region implements ItemTooltipProvider {
 
     @Override
     protected double computeMinWidth(double height) {
-        return snappedLeftInset() + imageView.minWidth(-1) + snappedRightInset();
+        return computePrefWidth(height);
     }
 
     @Override
     protected double computeMinHeight(double width) {
-        return snappedTopInset() + imageView.minHeight(-1) + snappedBottomInset();
+        return computePrefHeight(width);
     }
 
     @Override
     protected double computePrefWidth(double height) {
-        return snappedLeftInset() + imageView.prefWidth(-1) + snappedRightInset();
+        return snappedLeftInset() + snapSizeX(getSize()) + snappedRightInset();
     }
 
     @Override
     protected double computePrefHeight(double width) {
-        return snappedTopInset() + imageView.prefHeight(-1) + snappedBottomInset();
+        return snappedTopInset() + snapSizeY(getSize()) + snappedBottomInset();
     }
 
     @Override
     protected double computeMaxWidth(double height) {
-        return snappedLeftInset() + imageView.maxWidth(-1) + snappedRightInset();
+        return computePrefWidth(height);
     }
 
     @Override
     protected double computeMaxHeight(double width) {
-        return snappedTopInset() + imageView.maxHeight(-1) + snappedBottomInset();
+        return computePrefHeight(width);
     }
 
     @Override
@@ -137,7 +139,7 @@ public class ItemView extends Region implements ItemTooltipProvider {
         final double y = snappedTopInset();
         final double w = snapSizeX(getWidth()) - x - snappedRightInset();
         final double h = snapSizeY(getHeight()) - y - snappedBottomInset();
-        imageView.resizeRelocate(x, y, w, h);
+        layoutInArea(imageView, x, y, w, h, -1, HPos.CENTER, VPos.CENTER);
     }
 
     private List<ItemData> itemDataList;
