@@ -6,9 +6,11 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 
 public class IntegerSpinner extends Spinner<Integer> {
+
     private final SpinnerValueFactory.IntegerSpinnerValueFactory valueFactory;
 
     public IntegerSpinner(int min, int max) {
@@ -36,6 +38,25 @@ public class IntegerSpinner extends Spinner<Integer> {
                 valueFactory.setValue(getDefaultValue());
             }
         });
+        getEditor().setTextFormatter(new TextFormatter<>(change -> {
+            String text = change.getControlNewText();
+            if (text.isEmpty()) {
+                return change;
+            }
+            if (getMin() < 0 && "-".equals(text)) {
+                return change;
+            }
+            int value;
+            try {
+                value = Integer.parseInt(text);
+            } catch (NumberFormatException e) {
+                return null;
+            }
+            if (value < getMin() || value > getMax()) {
+                return null;
+            }
+            return change;
+        }));
     }
 
     public final void setValue(Integer value) {
