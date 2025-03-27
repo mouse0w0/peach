@@ -93,6 +93,7 @@ final class ObjectTree {
     }
 
     synchronized void checkAllDisposed() {
+        if (disposable2NodeMap.isEmpty()) return;
         Logger logger = LoggerFactory.getLogger(ObjectTree.class);
         disposable2NodeMap.forEach((disposable, node) -> {
             if (node.getParent() != null) return;
