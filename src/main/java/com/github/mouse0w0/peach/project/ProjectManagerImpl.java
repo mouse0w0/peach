@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
@@ -64,8 +63,8 @@ public final class ProjectManagerImpl implements ProjectManager {
 
         try {
             project = new ProjectImpl(path);
-        } catch (IOException e) {
-            LOGGER.error("Failed to open the project.", e);
+        } catch (Exception e) {
+            LOGGER.error("Failed to open project.", e);
             // TODO: error report
             throw new Error();
         }
@@ -90,8 +89,8 @@ public final class ProjectManagerImpl implements ProjectManager {
         publisher.projectClosingBeforeSave(project);
         try {
             project.save();
-        } catch (IOException e) {
-            LOGGER.error("Failed to save the project.", e);
+        } catch (Exception e) {
+            LOGGER.error("Failed to save project.", e);
             // TODO: error report
         }
 

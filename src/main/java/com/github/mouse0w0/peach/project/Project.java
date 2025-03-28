@@ -4,7 +4,6 @@ import com.github.mouse0w0.peach.service.ServiceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 public interface Project extends ServiceManager {
@@ -19,5 +18,5 @@ public interface Project extends ServiceManager {
 
     boolean isOpened();
 
-    void save() throws IOException;
+    void save();
 }

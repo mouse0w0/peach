@@ -10,19 +10,20 @@ import com.github.mouse0w0.peach.service.ServiceManagerImpl;
 import com.github.mouse0w0.peach.service.store.ProjectServiceStore;
 import com.github.mouse0w0.peach.window.ProjectWindow;
 import com.github.mouse0w0.peach.window.WindowManager;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-public class ProjectImpl extends ServiceManagerImpl implements Project {
+@ApiStatus.Internal
+public final class ProjectImpl extends ServiceManagerImpl implements Project {
     private final Path path;
 
-    public ProjectImpl(@NotNull Path path) throws IOException {
+    public ProjectImpl(@NotNull Path path) {
         super(Peach.getInstance());
         this.path = Objects.requireNonNull(path);
         if (!Files.exists(path)) {
@@ -67,7 +68,7 @@ public class ProjectImpl extends ServiceManagerImpl implements Project {
     }
 
     @Override
-    public void save() throws IOException {
+    public void save() {
         saveServices();
     }
 
