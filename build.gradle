@@ -25,9 +25,9 @@ dependencies {
         transitive = false
     }
     api 'org.apache.commons:commons-lang3:3.17.0'
-    api 'commons-io:commons-io:2.18.0'
-    api 'org.ow2.asm:asm-commons:9.7.1'
-    api('com.google.code.gson:gson:2.12.1') {
+    api 'commons-io:commons-io:2.19.0'
+    api 'org.ow2.asm:asm-commons:9.8'
+    api('com.google.code.gson:gson:2.13.0') {
         transitive = false
     }
     api 'org.freemarker:freemarker:2.3.34'
@@ -39,16 +39,15 @@ dependencies {
     api 'com.github.mouse0w0:gridview:17.0.0'
     api 'com.github.mouse0w0:software-renderer:8acdb5f0a4'
     api 'com.anyascii:anyascii:0.3.2'
-    api 'org.controlsfx:controlsfx:11.2.1'
-    api 'com.github.weisj:jsvg:1.7.0'
+    api 'org.controlsfx:controlsfx:11.2.2'
+    api 'com.github.weisj:jsvg:1.7.2'
+    api 'org.slf4j:slf4j-api:2.0.17'
 
-    api 'org.slf4j:slf4j-api:2.0.16'
     runtimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.24.3'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
-
-    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.16'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.2'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.17'
 }
 
 javafx {
