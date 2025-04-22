@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class ModelUtils {
             String modelKey = entry.getKey();
             ModelTemplate.Entry modelEntry = entry.getValue();
             String modelPath = processModelPath(identifier, modelEntry.getName());
-            Path source = ClassPathUtils.getPath("model/template/" + modelEntry.getTemplate(), modelTemplate.getPlugin().getClassLoader());
+            URL source = ClassPathUtils.getResource("model/template/" + modelEntry.getTemplate(), modelTemplate.getPlugin().getClassLoader());
             Path target = output.resolve("models/" + modelPath + ".json");
             processModel(source, target, getActualParent(modelEntry.getParent(), namespace, outputModels), textures, particleTexture);
             outputModels.put(modelKey, modelPath);
@@ -75,8 +76,16 @@ public class ModelUtils {
         return path.replace("${id}", identifier);
     }
 
+    public static void processModel(URL source, Path target, String parent, Map<String, String> textures, String particleTexture) throws IOException {
+        processModel(readJson(source).getAsJsonObject(), target, parent, textures, particleTexture);
+    }
+
     public static void processModel(Path source, Path target, String parent, Map<String, String> textures, String particleTexture) throws IOException {
-        writeJson(gsonPrettyPrinting(), target, processModel(readJson(source).getAsJsonObject(), parent, textures, particleTexture));
+        processModel(readJson(source).getAsJsonObject(), target, parent, textures, particleTexture);
+    }
+
+    public static void processModel(JsonObject model, Path target, String parent, Map<String, String> textures, String particleTexture) throws IOException {
+        writeJson(gsonPrettyPrinting(), target, processModel(model, parent, textures, particleTexture));
     }
 
     public static JsonObject processModel(JsonObject jsonModel, String parent, Map<String, String> textures, String particleTexture) {

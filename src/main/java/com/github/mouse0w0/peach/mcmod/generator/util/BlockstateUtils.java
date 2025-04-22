@@ -3,13 +3,14 @@ package com.github.mouse0w0.peach.mcmod.generator.util;
 import com.github.mouse0w0.peach.mcmod.model.BlockstateTemplate;
 import com.github.mouse0w0.peach.util.ClassPathUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
+import com.github.mouse0w0.peach.util.URLUtils;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +24,8 @@ public class BlockstateUtils {
     }
 
     private static Template getBlockstateTemplate(BlockstateTemplate blockstateTemplate) throws IOException {
-        Path templateFile = ClassPathUtils.getPath("blockstate/template/" + blockstateTemplate.getTemplate(), blockstateTemplate.getPlugin().getClassLoader());
-        try (BufferedReader reader = Files.newBufferedReader(templateFile)) {
+        URL url = ClassPathUtils.getResource("blockstate/template/" + blockstateTemplate.getTemplate(), blockstateTemplate.getPlugin().getClassLoader());
+        try (BufferedReader reader = URLUtils.newBufferedReader(url)) {
             return new Template(null, reader, null, "UTF-8");        // TODO: cache it
         }
     }

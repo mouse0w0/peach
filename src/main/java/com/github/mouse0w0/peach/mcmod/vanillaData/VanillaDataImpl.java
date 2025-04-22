@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.net.URL;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
@@ -81,20 +79,17 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
 
     private void loadBlockstateTemplates() {
         try {
-            Path state = ClassPathUtils.getPath("blockstate", plugin.getClassLoader());
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(state)) {
-                for (Path path : stream) {
-                    if (FileUtils.getFileName(path).endsWith(".json")) {
-                        loadBlockstateTemplate(path);
-                    }
+            ClassPathUtils.forEachResources("blockstate", plugin.getClassLoader(), (path) -> {
+                if (FileUtils.getFileName(path).endsWith(".json")) {
+                    loadBlockstateTemplate(path);
                 }
-            }
+            });
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    private void loadBlockstateTemplate(Path file) {
+    private void loadBlockstateTemplate(Path file) throws IOException {
         try {
             BlockstateTemplate blockstateTemplate = JsonUtils.readJson(file, BlockstateTemplate.class);
             blockstateTemplate.setPlugin(plugin);
@@ -103,7 +98,6 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
             throw new UncheckedIOException(e);
         }
     }
-
 
     private final Map<Identifier, ModelTemplate> modelTemplateMap = new HashMap<>();
 
@@ -114,14 +108,11 @@ class VanillaDataImpl extends GenericIndexProvider implements VanillaData {
 
     private void loadModelTemplates() {
         try {
-            Path model = ClassPathUtils.getPath("model", plugin.getClassLoader());
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(model)) {
-                for (Path path : stream) {
-                    if (FileUtils.getFileName(path).endsWith(".json")) {
-                        loadModelTemplate(path);
-                    }
+            ClassPathUtils.forEachResources("model", plugin.getClassLoader(), (path) -> {
+                if (FileUtils.getFileName(path).endsWith(".json")) {
+                    loadModelTemplate(path);
                 }
-            }
+            });
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
