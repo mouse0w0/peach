@@ -4,7 +4,6 @@ import com.github.mouse0w0.peach.Peach;
 import com.github.mouse0w0.peach.dispose.Disposer;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -80,9 +79,12 @@ public final class ProjectManagerImpl implements ProjectManager {
             return false;
         }
 
-        MutableBoolean cancelled = new MutableBoolean();
-        publisher.canCloseProject(project, cancelled);
-        if (cancelled.isTrue()) {
+        LOGGER.info("Closing project: {}", project.getName());
+
+        boolean cancelled = Peach.getInstance().getMessageBus().processSubscribers(ProjectLifecycleListener.TOPIC,
+                listeners -> listeners.stream().anyMatch(listener -> !listener.canCloseProject(project)));
+        if (cancelled) {
+            LOGGER.info("Cancelled close project: {}", project.getName());
             return false;
         }
 
@@ -94,7 +96,6 @@ public final class ProjectManagerImpl implements ProjectManager {
             // TODO: error report
         }
 
-        LOGGER.info("Closing project: {}", project.getName());
         publisher.projectClosing(project);
 
         Disposer.dispose(project);
@@ -107,6 +108,8 @@ public final class ProjectManagerImpl implements ProjectManager {
 
     @Override
     public void closeAllProjects() {
-        getOpenedProjects().forEach(this::closeProject);
+        for (Project project : getOpenedProjects()) {
+            closeProject(project);
+        }
     }
 }

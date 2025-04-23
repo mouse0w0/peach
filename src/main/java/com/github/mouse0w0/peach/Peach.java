@@ -17,7 +17,6 @@ import com.github.mouse0w0.version.Version;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,9 +115,9 @@ public final class Peach extends ServiceManagerImpl {
         appLifecycle.appClosing();
 
         if (!force) {
-            MutableBoolean cancelled = new MutableBoolean();
-            appLifecycle.canExitApp(cancelled);
-            if (cancelled.isTrue()) {
+            boolean cancelled = getMessageBus().processSubscribers(AppLifecycleListener.TOPIC,
+                    listeners -> listeners.stream().anyMatch(listener -> !listener.canExitApp()));
+            if (cancelled) {
                 LOGGER.info("Cancelled exit application.");
                 return;
             }
