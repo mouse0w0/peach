@@ -20,11 +20,6 @@ public class CompositeMessageBus extends MessageBusImpl {
     }
 
     @Override
-    boolean hasChildren() {
-        return true;
-    }
-
-    @Override
     void invalidateChildren(Topic<?> topic) {
         for (MessageBusImpl child : children) {
             child.subscriberCache.remove(topic);

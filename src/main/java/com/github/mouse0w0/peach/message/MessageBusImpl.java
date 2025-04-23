@@ -12,16 +12,12 @@ import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @ApiStatus.Internal
 public class MessageBusImpl implements MessageBus {
-
     interface SubscriberHolder {
         <T> void collectSubscribers(Topic<T> topic, List<? super T> result);
 
@@ -66,6 +62,7 @@ public class MessageBusImpl implements MessageBus {
 
     @Override
     public <T> T getPublisher(@NotNull Topic<T> topic) {
+        // noinspection unchecked
         return (T) publisherCache.computeIfAbsent(topic, this::createPublisher);
     }
 
@@ -76,12 +73,10 @@ public class MessageBusImpl implements MessageBus {
     private <T> Object createPublisher(Topic<T> topic) {
         Class<?> subscriberType = topic.getListenerClass();
         return Proxy.newProxyInstance(subscriberType.getClassLoader(), new Class[]{subscriberType},
-                topic.getBroadcastDirection() == BroadcastDirection.TO_PARENT ?
-                        new ToParentMessagePublisher<>(this, topic) :
-                        new MessagePublisher<>(this, topic));
+                new MessagePublisher<>(this, topic));
     }
 
-    <T> Object[] getSubscribers(Topic<T> topic) {
+    private <T> Object[] getSubscribers(@NotNull Topic<T> topic) {
         return subscriberCache.computeIfAbsent(topic, this::computeSubscribers);
     }
 
@@ -92,14 +87,23 @@ public class MessageBusImpl implements MessageBus {
     }
 
     <T> void collectSubscribers(Topic<T> topic, List<? super T> result) {
+        collectSelfSubscribers(topic, result);
+
+        switch (topic.getBroadcastDirection()) {
+            case TO_CHILDREN -> collectChildrenSubscribers(topic, result);
+            case TO_PARENT -> {
+                for (MessageBusImpl p = parent; p != null; p = p.parent) {
+                    p.collectSelfSubscribers(topic, result);
+                }
+            }
+        }
+    }
+
+    <T> void collectSelfSubscribers(Topic<T> topic, List<? super T> result) {
         for (SubscriberHolder subscriberHolder : subscriberHolders) {
             if (!subscriberHolder.isDisposed()) {
                 subscriberHolder.collectSubscribers(topic, result);
             }
-        }
-
-        if (hasChildren() && topic.getBroadcastDirection() == BroadcastDirection.TO_CHILDREN) {
-            collectChildrenSubscribers(topic, result);
         }
     }
 
@@ -128,10 +132,6 @@ public class MessageBusImpl implements MessageBus {
         return disposed;
     }
 
-    boolean hasChildren() {
-        return false;
-    }
-
     void notifySubscription(Topic<?> topic) {
         invalidate(topic);
     }
@@ -147,15 +147,13 @@ public class MessageBusImpl implements MessageBus {
     void invalidate(Topic<?> topic) {
         subscriberCache.remove(topic);
 
-        BroadcastDirection broadcastDirection = topic.getBroadcastDirection();
-        if (broadcastDirection == BroadcastDirection.TO_CHILDREN) {
-            for (MessageBusImpl p = parent; p != null; p = p.parent) {
-                p.subscriberCache.clear();
+        switch (topic.getBroadcastDirection()) {
+            case TO_CHILDREN -> {
+                for (MessageBusImpl p = parent; p != null; p = p.parent) {
+                    p.subscriberCache.remove(topic);
+                }
             }
-
-            if (hasChildren()) {
-                invalidateChildren(topic);
-            }
+            case TO_PARENT -> invalidateChildren(topic);
         }
     }
 
@@ -214,30 +212,6 @@ public class MessageBusImpl implements MessageBus {
         void publishWithoutArgs(MethodHandle handle) throws Throwable {
             for (Object subscriber : messageBus.getSubscribers(topic)) {
                 handle.invoke(subscriber);
-            }
-        }
-    }
-
-    private static final class ToParentMessagePublisher<T> extends MessagePublisher<T> {
-        public ToParentMessagePublisher(MessageBusImpl messageBus, Topic<T> topic) {
-            super(messageBus, topic);
-        }
-
-        @Override
-        void publish(MethodHandle handle, Object[] args) throws Throwable {
-            for (MessageBusImpl bus = messageBus; bus != null; bus = bus.parent) {
-                for (Object subscriber : bus.getSubscribers(topic)) {
-                    handle.bindTo(subscriber).invokeExact(args);
-                }
-            }
-        }
-
-        @Override
-        void publishWithoutArgs(MethodHandle handle) throws Throwable {
-            for (MessageBusImpl bus = messageBus; bus != null; bus = bus.parent) {
-                for (Object subscriber : bus.getSubscribers(topic)) {
-                    handle.invoke(subscriber);
-                }
             }
         }
     }
