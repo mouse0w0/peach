@@ -15,6 +15,7 @@ import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Function;
 
 @ApiStatus.Internal
 public class MessageBusImpl implements MessageBus {
@@ -64,6 +65,13 @@ public class MessageBusImpl implements MessageBus {
     public <T> T getPublisher(@NotNull Topic<T> topic) {
         // noinspection unchecked
         return (T) publisherCache.computeIfAbsent(topic, this::createPublisher);
+    }
+
+    @Override
+    public <T, R> R processSubscribers(@NotNull Topic<T> topic, @NotNull Function<List<T>, R> processor) {
+        // noinspection unchecked
+        T[] subscribers = (T[]) getSubscribers(topic);
+        return processor.apply(Collections.unmodifiableList(Arrays.asList(subscribers)));
     }
 
     public void addLazyListeners(Map<String, List<ListenerDescriptor>> lazyListenersMap) {
