@@ -18,12 +18,14 @@ import java.util.ResourceBundle;
 import java.util.function.Function;
 
 public final class FXUtils {
+    private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+
     public static void loadFXML(Object root, String location, ResourceBundle resources) {
-        loadFXML(root, root, getCallerClassLoader(), location, resources);
+        loadFXML(root, root, STACK_WALKER.getCallerClass().getClassLoader(), location, resources);
     }
 
     public static <T> T loadFXML(Object root, Object controller, String location, ResourceBundle resourceBundle) {
-        return loadFXML(root, controller, getCallerClassLoader(), location, resourceBundle);
+        return loadFXML(root, controller, STACK_WALKER.getCallerClass().getClassLoader(), location, resourceBundle);
     }
 
     public static <T> T loadFXML(Object root, Object controller, ClassLoader classLoader, String location, ResourceBundle resourceBundle) {
@@ -45,17 +47,8 @@ public final class FXUtils {
         }
     }
 
-    private static ClassLoader getCallerClassLoader() {
-        try {
-            // new Throwable().getStackTrace() faster than Thread.currentThread().getStackTrace().
-            return Class.forName(new Throwable().getStackTrace()[2].getClassName()).getClassLoader();
-        } catch (ClassNotFoundException e) {
-            return Thread.currentThread().getContextClassLoader();
-        }
-    }
-
     public static void addStylesheet(Scene scene, String location) {
-        ClassLoader classLoader = getCallerClassLoader();
+        ClassLoader classLoader = STACK_WALKER.getCallerClass().getClassLoader();
         URL resource = classLoader.getResource(location);
         if (resource == null) {
             throw new IllegalArgumentException("Not found resource, location=" + location);
@@ -64,7 +57,7 @@ public final class FXUtils {
     }
 
     public static void addStylesheet(Parent parent, String location) {
-        ClassLoader classLoader = getCallerClassLoader();
+        ClassLoader classLoader = STACK_WALKER.getCallerClass().getClassLoader();
         URL resource = classLoader.getResource(location);
         if (resource == null) {
             throw new IllegalArgumentException("Not found resource, location=" + location);
