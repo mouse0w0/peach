@@ -81,9 +81,9 @@ public final class ProjectManagerImpl implements ProjectManager {
 
         LOGGER.info("Closing project: {}", project.getName());
 
-        boolean cancelled = Peach.getInstance().getMessageBus().processSubscribers(ProjectLifecycleListener.TOPIC,
-                listeners -> listeners.stream().anyMatch(listener -> !listener.canCloseProject(project)));
-        if (cancelled) {
+        boolean canClose = Peach.getInstance().getMessageBus().processSubscribers(ProjectLifecycleListener.TOPIC,
+                listeners -> listeners.stream().allMatch(listener -> listener.canCloseProject(project)));
+        if (!canClose) {
             LOGGER.info("Cancelled close project: {}", project.getName());
             return false;
         }

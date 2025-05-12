@@ -115,9 +115,9 @@ public final class Peach extends ServiceManagerImpl {
         appLifecycle.appClosing();
 
         if (!force) {
-            boolean cancelled = getMessageBus().processSubscribers(AppLifecycleListener.TOPIC,
-                    listeners -> listeners.stream().anyMatch(listener -> !listener.canExitApp()));
-            if (cancelled) {
+            boolean canExit = getMessageBus().processSubscribers(AppLifecycleListener.TOPIC,
+                    listeners -> listeners.stream().allMatch(AppLifecycleListener::canExitApp));
+            if (!canExit) {
                 LOGGER.info("Cancelled exit application.");
                 return;
             }

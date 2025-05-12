@@ -15,5 +15,5 @@ public interface MessageBus extends Disposable {
 
     <T> T getPublisher(@NotNull Topic<T> topic);
 
-    <T, R> R processSubscribers(@NotNull Topic<T> topic, @NotNull Function<List<T>, R> processor);
+    <T, R> R processSubscribers(@NotNull Topic<T> topic, @NotNull Function<? super List<? extends T>, ? extends R> processor);
 }

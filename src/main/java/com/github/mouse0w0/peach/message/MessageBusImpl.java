@@ -68,7 +68,7 @@ public class MessageBusImpl implements MessageBus {
     }
 
     @Override
-    public <T, R> R processSubscribers(@NotNull Topic<T> topic, @NotNull Function<List<T>, R> processor) {
+    public <T, R> R processSubscribers(@NotNull Topic<T> topic, @NotNull Function<? super List<? extends T>, ? extends R> processor) {
         // noinspection unchecked
         T[] subscribers = (T[]) getSubscribers(topic);
         return processor.apply(Collections.unmodifiableList(Arrays.asList(subscribers)));
