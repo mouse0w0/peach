@@ -73,10 +73,16 @@ public final class ProjectManagerImpl implements ProjectManager {
         return project;
     }
 
+    /**
+     * Close a project.
+     *
+     * @param project the project to close.
+     * @return false if the project cannot be closed.
+     */
     @Override
     public boolean closeProject(@NotNull Project project) {
         if (!project.isOpened()) {
-            return false;
+            return true;
         }
 
         LOGGER.info("Closing project: {}", project.getName());
