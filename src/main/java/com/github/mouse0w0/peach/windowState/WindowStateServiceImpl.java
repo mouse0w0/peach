@@ -7,8 +7,8 @@ import com.github.mouse0w0.peach.util.TypeUtils;
 import com.github.mouse0w0.peach.util.Validate;
 import com.google.gson.JsonElement;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyDoubleProperty;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
@@ -22,54 +22,43 @@ import java.util.Map;
 import java.util.Objects;
 
 @Storage("windowState.json")
-public class WindowStateServiceImpl implements WindowStateService, PersistentService {
+public final class WindowStateServiceImpl implements WindowStateService, PersistentService {
     private static final String STATE_ID = "StateId";
     private static final String LAST_X = "LastX";
     private static final String LAST_Y = "LastY";
 
     private final EventHandler<WindowEvent> hidden = event -> {
         Window window = (Window) event.getSource();
-        String stateId = getStateId(window);
-        getOrCreateWindowState(stateId).store(window);
+        getOrCreateState(window).onHidden(window);
     };
     private final ChangeListener<Number> xListener = (observable, oldValue, newValue) -> {
         ReadOnlyDoubleProperty xProperty = (ReadOnlyDoubleProperty) observable;
         Stage stage = (Stage) xProperty.getBean();
-        if (!stage.isMaximized()) {
+        if (isNormal(stage)) {
             stage.getProperties().put(LAST_X, oldValue);
         }
     };
     private final ChangeListener<Number> yListener = (observable, oldValue, newValue) -> {
         ReadOnlyDoubleProperty yProperty = (ReadOnlyDoubleProperty) observable;
         Stage stage = (Stage) yProperty.getBean();
-        if (!stage.isMaximized()) {
+        if (isNormal(stage)) {
             stage.getProperties().put(LAST_Y, oldValue);
         }
     };
-    private final InvalidationListener maximizedListener = (observable) -> {
-        ReadOnlyBooleanProperty maximizedProperty = (ReadOnlyBooleanProperty) observable;
-        Window window = (Window) maximizedProperty.getBean();
-        String stateId = getStateId(window);
-        if (maximizedProperty.get()) {
-            getOrCreateWindowState(stateId).storeWhenMaximized(window);
-        } else {
-            WindowState state = getWindowState(stateId);
-            if (state != null) state.applyLocationAndSize(window);
-        }
+    private final InvalidationListener maximizedOrIconifiedListener = observable -> {
+        ReadOnlyProperty<?> property = (ReadOnlyProperty<?>) observable;
+        Stage stage = (Stage) property.getBean();
+        getOrCreateState(stage).onMaximizedOrIconified(stage);
     };
 
-    private static String getStateId(Window window) {
-        return (String) window.getProperties().get(STATE_ID);
+    private static boolean isNormal(Stage stage) {
+        return !stage.isMaximized() && !stage.isIconified();
     }
 
     private final Map<String, WindowState> windowStates = new HashMap<>();
 
-    private WindowState getWindowState(String stateId) {
-        return windowStates.get(stateId);
-    }
-
-    private WindowState getOrCreateWindowState(String stateId) {
-        return windowStates.computeIfAbsent(stateId, k -> new WindowState());
+    private WindowState getOrCreateState(Window window) {
+        return windowStates.computeIfAbsent((String) window.getProperties().get(STATE_ID), $ -> new WindowState());
     }
 
     @Override
@@ -77,17 +66,18 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
         Objects.requireNonNull(window);
         Validate.notEmpty(stateId);
 
-        WindowState state = getWindowState(stateId);
+        WindowState state = windowStates.get(stateId);
         if (state != null) {
             state.apply(window);
         }
 
         window.getProperties().put(STATE_ID, stateId);
         window.addEventFilter(WindowEvent.WINDOW_HIDDEN, hidden);
-        if (window instanceof Stage) {
+        if (window instanceof Stage stage) {
             window.xProperty().addListener(xListener);
             window.yProperty().addListener(yListener);
-            ((Stage) window).maximizedProperty().addListener(maximizedListener);
+            stage.maximizedProperty().addListener(maximizedOrIconifiedListener);
+            stage.iconifiedProperty().addListener(maximizedOrIconifiedListener);
         }
     }
 
@@ -107,12 +97,11 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
         private double width;
         private double height;
         private boolean maximized;
+        private transient boolean iconified;
+        // TODO: full screen?
 
-        public void store(Window window) {
-            if (window instanceof Stage) {
-                maximized = ((Stage) window).isMaximized();
-            }
-            if (!maximized) {
+        public void onHidden(Window window) {
+            if (isNormal()) {
                 x = window.getX();
                 y = window.getY();
                 width = window.getWidth();
@@ -120,29 +109,34 @@ public class WindowStateServiceImpl implements WindowStateService, PersistentSer
             }
         }
 
-        public void storeWhenMaximized(Window window) {
-            ObservableMap<Object, Object> properties = window.getProperties();
-            Double lastX = (Double) properties.get(LAST_X);
-            Double lastY = (Double) properties.get(LAST_Y);
-            x = lastX != null ? lastX : window.getX();
-            y = lastY != null ? lastY : window.getY();
-            width = window.getWidth();
-            height = window.getHeight();
+        public void onMaximizedOrIconified(Stage stage) {
+            if (isNormal()) {
+                ObservableMap<Object, Object> properties = stage.getProperties();
+                Double lastX = (Double) properties.get(LAST_X);
+                Double lastY = (Double) properties.get(LAST_Y);
+                x = lastX != null ? lastX : stage.getX();
+                y = lastY != null ? lastY : stage.getY();
+                width = stage.getWidth();
+                height = stage.getHeight();
+            }
+
+            maximized = stage.isMaximized();
+            iconified = stage.isIconified();
+        }
+
+        private boolean isNormal() {
+            return !maximized && !iconified;
         }
 
         public void apply(Window window) {
-            if (maximized && window instanceof Stage) {
-                ((Stage) window).setMaximized(true);
-            } else {
-                applyLocationAndSize(window);
-            }
-        }
-
-        public void applyLocationAndSize(Window window) {
             window.setX(x);
             window.setY(y);
             window.setWidth(width);
             window.setHeight(height);
+
+            if (maximized && window instanceof Stage stage) {
+                stage.setMaximized(true);
+            }
         }
     }
 }

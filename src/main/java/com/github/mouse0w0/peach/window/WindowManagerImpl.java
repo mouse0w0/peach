@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-public class WindowManagerImpl implements WindowManager {
+public final class WindowManagerImpl implements WindowManager {
     private final Map<Project, ProjectWindow> windowMap = new WeakHashMap<>();
     private final Map<Window, ProjectWindow> fxWindowToWindowMap = new WeakHashMap<>();
 
@@ -73,7 +73,7 @@ public class WindowManagerImpl implements WindowManager {
         }
 
         @Override
-        public void projectClosing(Project project) {
+        public void projectClosingBeforeSave(Project project) {
             WindowManager.getInstance().getWindow(project).hide();
         }
     }
