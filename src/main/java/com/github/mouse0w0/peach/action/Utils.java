@@ -6,21 +6,23 @@ import javafx.scene.control.SeparatorMenuItem;
 
 import java.util.List;
 
-class Utils {
+final class Utils {
     public static void fillMenu(ActionGroup parent, ActionEvent event, ObservableList<MenuItem> items) {
         for (Action action : parent.getChildren(event)) {
-            if (action instanceof ActionGroup group) {
-                if (group.isPopup()) {
-                    items.add(new ActionMenu(group));
-                } else {
-                    fillMenu(group, event, items);
+            switch (action) {
+                case null -> throw new NullPointerException("ActionGroup '" +
+                        ActionManager.getInstance().getActionId(parent) +
+                        "' contains a null child action");
+                case ActionGroup group -> {
+                    if (group.isPopup()) {
+                        items.add(new ActionMenu(group));
+                    } else {
+                        fillMenu(group, event, items);
+                    }
                 }
-            } else if (action instanceof ToggleAction toggleAction) {
-                items.add(new ActionToggleMenuItem(toggleAction));
-            } else if (action instanceof Separator) {
-                items.add(new ActionSeparatorMenuItem());
-            } else {
-                items.add(new ActionMenuItem(action));
+                case ToggleAction toggleAction -> items.add(new ActionToggleMenuItem(toggleAction));
+                case Separator separator -> items.add(new ActionSeparatorMenuItem());
+                default -> items.add(new ActionMenuItem(action));
             }
         }
     }
