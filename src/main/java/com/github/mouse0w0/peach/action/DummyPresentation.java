@@ -21,47 +21,47 @@ public final class DummyPresentation implements Presentation {
         return text;
     }
 
-    public void setText(String value) {
-        this.text = value;
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String value) {
-        this.description = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Icon getIcon() {
         return icon;
     }
 
-    public void setIcon(Icon value) {
-        this.icon = value;
+    public void setIcon(Icon icon) {
+        this.icon = icon;
     }
 
     public boolean isDisable() {
         return disable;
     }
 
-    public void setDisable(boolean value) {
-        this.disable = value;
+    public void setDisable(boolean disable) {
+        this.disable = disable;
     }
 
     public boolean isVisible() {
         return visible;
     }
 
-    public void setVisible(boolean value) {
-        this.visible = value;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public boolean isSelected() {
         return selected;
     }
 
-    public void setSelected(boolean value) {
-        this.selected = value;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

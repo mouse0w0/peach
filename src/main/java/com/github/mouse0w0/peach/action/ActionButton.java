@@ -26,8 +26,8 @@ public final class ActionButton extends Button implements ActionHolder, Presenta
     }
 
     @Override
-    public void setDescription(String value) {
-        description = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     private Icon icon;
@@ -38,9 +38,9 @@ public final class ActionButton extends Button implements ActionHolder, Presenta
     }
 
     @Override
-    public void setIcon(Icon value) {
-        icon = value;
-        Icon.setIcon(this, value);
+    public void setIcon(Icon icon) {
+        this.icon = icon;
+        Icon.setIcon(this, icon);
     }
 
     @Override

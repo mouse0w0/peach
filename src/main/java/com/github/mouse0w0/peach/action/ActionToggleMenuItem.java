@@ -32,8 +32,8 @@ public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder,
     }
 
     @Override
-    public void setDescription(String value) {
-        description = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     private Icon icon;
@@ -44,9 +44,9 @@ public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder,
     }
 
     @Override
-    public void setIcon(Icon value) {
-        icon = value;
-        Icon.setIcon(this, value);
+    public void setIcon(Icon icon) {
+        this.icon = icon;
+        Icon.setIcon(this, icon);
     }
 
     @Override
