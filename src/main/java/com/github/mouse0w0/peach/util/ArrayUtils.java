@@ -8,12 +8,12 @@ import java.util.function.IntFunction;
 
 @ApiStatus.Internal
 public class ArrayUtils extends org.apache.commons.lang3.ArrayUtils {
-    public static <T, U> void biForEach(T[] t, U[] u, BiConsumer<T, U> consumer) {
-        biForEach(t, u, Math.min(t.length, u.length), consumer);
+    public static <T, U> void biForEach(T[] t, U[] u, BiConsumer<? super T, ? super U> consumer) {
+        biForEach(t, u, 0, Math.min(t.length, u.length), consumer);
     }
 
-    public static <T, U> void biForEach(T[] t, U[] u, int length, BiConsumer<T, U> consumer) {
-        for (int i = 0; i < length; i++) {
+    public static <T, U> void biForEach(T[] t, U[] u, int fromIndex, int toIndex, BiConsumer<? super T, ? super U> consumer) {
+        for (int i = fromIndex; i < toIndex; i++) {
             consumer.accept(t[i], u[i]);
         }
     }
