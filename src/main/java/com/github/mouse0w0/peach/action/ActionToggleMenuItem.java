@@ -5,7 +5,7 @@ import com.github.mouse0w0.peach.icon.Icon;
 import javafx.scene.control.CheckMenuItem;
 import org.jetbrains.annotations.NotNull;
 
-public class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder, Presentation, Updatable {
+public final class ActionToggleMenuItem extends CheckMenuItem implements ActionHolder, Presentation, Updatable {
     private final ToggleAction action;
 
     ActionToggleMenuItem(ToggleAction action) {
