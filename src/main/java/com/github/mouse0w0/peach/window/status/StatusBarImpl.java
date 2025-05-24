@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatusBarImpl implements StatusBar, Disposable {
+public final class StatusBarImpl implements StatusBar, Disposable {
     private final Project project;
 
     private final StackPane pane;

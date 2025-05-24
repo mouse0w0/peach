@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Window;
 import org.jetbrains.annotations.NotNull;
 
-public class TextWidget implements StatusBarWidget {
+public final class TextWidget implements StatusBarWidget {
     public static final String ID = "Text";
 
     public static TextWidget getInstance(Project project) {
