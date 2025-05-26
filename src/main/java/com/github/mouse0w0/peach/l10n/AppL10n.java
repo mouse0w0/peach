@@ -7,7 +7,7 @@ import org.jetbrains.annotations.PropertyKey;
 import java.util.ResourceBundle;
 
 @ApiStatus.Internal
-public class AppL10n {
+public final class AppL10n {
     private static final String BUNDLE = "l10n.zh-CN";
     private static final L10n INSTANCE = L10n.getL10n("peach");
 
@@ -41,5 +41,8 @@ public class AppL10n {
 
     public static ResourceBundle getResourceBundle() {
         return INSTANCE.getResourceBundle();
+    }
+
+    private AppL10n() {
     }
 }
