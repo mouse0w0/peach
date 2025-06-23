@@ -1,6 +1,10 @@
 package com.github.mouse0w0.peach.ui.control;
 
 import com.github.mouse0w0.peach.ui.control.skin.FilePickerSkin;
+import com.sun.glass.ui.CommonDialogs;
+import com.sun.javafx.stage.WindowHelper;
+import com.sun.javafx.tk.FileChooserType;
+import com.sun.javafx.tk.Toolkit;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,13 +14,12 @@ import javafx.scene.control.Skin;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 import javafx.util.StringConverter;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 
 public class FilePicker extends Control {
@@ -266,52 +269,59 @@ public class FilePicker extends Control {
     }
 
     public void showDialog() {
-        Window owner = getScene().getWindow();
-        File result = switch (getType()) {
-            case OPEN_FILE -> createFileChooser().showOpenDialog(owner);
-            case SAVE_FILE -> createFileChooser().showSaveDialog(owner);
-            case OPEN_DIRECTORY -> createDirectoryChooser().showDialog(owner);
+        File file = switch (getType()) {
+            case OPEN_FILE -> showOpenDialog();
+            case SAVE_FILE -> showSaveDialog();
+            case OPEN_DIRECTORY -> showDirectoryChooser();
         };
 
-        if (result != null) {
-            setFile(result);
+        if (file != null) {
+            setFile(file);
         }
     }
 
-    private DirectoryChooser createDirectoryChooser() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle(getTitle());
-        File file = getFile();
-        if (file != null) {
-            directoryChooser.setInitialDirectory(file.getParentFile());
-        } else {
-            File initialDirectory = getInitialDirectory();
-            if (initialDirectory != null && initialDirectory.isDirectory()) {
-                directoryChooser.setInitialDirectory(getInitialDirectory());
-            }
-        }
-        return directoryChooser;
+    private File showOpenDialog() {
+        List<File> files = showFileChooser(FileChooserType.OPEN).getFiles();
+        return files != null && !files.isEmpty() ? files.get(0) : null;
     }
 
-    private FileChooser createFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(getTitle());
+    private File showSaveDialog() {
+        List<File> files = showFileChooser(FileChooserType.SAVE).getFiles();
+        return files != null && !files.isEmpty() ? files.get(0) : null;
+    }
+
+    private CommonDialogs.FileChooserResult showFileChooser(FileChooserType type) {
         File file = getFile();
+
+        File initialDirectory;
+        String initialFileName;
         if (file != null) {
-            fileChooser.setInitialDirectory(file.getParentFile());
-            fileChooser.setInitialFileName(file.getName());
+            initialDirectory = file.getParentFile();
+            initialFileName = file.getName();
         } else {
-            File initialDirectory = getInitialDirectory();
-            if (initialDirectory != null && initialDirectory.isDirectory()) {
-                fileChooser.setInitialDirectory(initialDirectory);
-            }
-            fileChooser.setInitialFileName(getInitialFileName());
+            initialDirectory = getInitialDirectory();
+            initialFileName = getInitialFileName();
         }
-        if (extensionFilters != null) {
-            fileChooser.getExtensionFilters().setAll(extensionFilters);
-        }
-        fileChooser.setSelectedExtensionFilter(getSelectedExtensionFilter());
-        return fileChooser;
+
+        return Toolkit.getToolkit().showFileChooser(
+                WindowHelper.getPeer(getScene().getWindow()),
+                getTitle(),
+                initialDirectory,
+                initialFileName,
+                type,
+                extensionFilters != null ? extensionFilters : Collections.emptyList(),
+                getSelectedExtensionFilter()
+        );
+    }
+
+    private File showDirectoryChooser() {
+        File file = getFile();
+
+        return Toolkit.getToolkit().showDirectoryChooser(
+                WindowHelper.getPeer(getScene().getWindow()),
+                getTitle(),
+                file != null ? file : getInitialDirectory()
+        );
     }
 
     @Override

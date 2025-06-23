@@ -22,8 +22,6 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
     public ImagePickerSkin(ImagePicker control) {
         super(control);
 
-        consumeMouseEvents(true);
-
         imageView = new ImageView();
         imageView.fitWidthProperty().bind(control.fitWidthProperty());
         imageView.fitHeightProperty().bind(control.fitHeightProperty());
@@ -71,13 +69,33 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
     }
 
     @Override
+    protected double computeMinWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + snapSizeX(imageOuter.minWidth(-1)) + rightInset;
+    }
+
+    @Override
+    protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + snapSizeY(imageOuter.minHeight(-1)) + bottomInset;
+    }
+
+    @Override
     protected double computePrefWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return leftInset + imageOuter.prefWidth(-1) + rightInset;
+        return leftInset + snapSizeX(imageOuter.prefWidth(-1)) + rightInset;
     }
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return topInset + imageOuter.prefHeight(-1) + bottomInset;
+        return topInset + snapSizeY(imageOuter.prefHeight(-1)) + bottomInset;
+    }
+
+    @Override
+    protected double computeMaxWidth(double height, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return leftInset + snapSizeX(imageOuter.maxWidth(-1)) + rightInset;
+    }
+
+    @Override
+    protected double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
+        return topInset + snapSizeY(imageOuter.maxHeight(-1)) + bottomInset;
     }
 
     @Override

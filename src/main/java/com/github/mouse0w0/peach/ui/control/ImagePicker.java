@@ -1,6 +1,10 @@
 package com.github.mouse0w0.peach.ui.control;
 
 import com.github.mouse0w0.peach.ui.control.skin.ImagePickerSkin;
+import com.sun.glass.ui.CommonDialogs;
+import com.sun.javafx.stage.WindowHelper;
+import com.sun.javafx.tk.FileChooserType;
+import com.sun.javafx.tk.Toolkit;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +22,7 @@ import java.util.List;
 public class ImagePicker extends Control {
     private static final EventHandler<MouseEvent> ON_MOUSE_CLICKED = event -> {
         event.consume();
-        ((ImagePicker) event.getSource()).showFileChooser();
+        ((ImagePicker) event.getSource()).showDialog();
     };
 
     private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
@@ -207,9 +211,12 @@ public class ImagePicker extends Control {
         initialFileNameProperty().set(value);
     }
 
-    private final ObservableList<FileChooser.ExtensionFilter> extensionFilters = FXCollections.observableArrayList();
+    private ObservableList<FileChooser.ExtensionFilter> extensionFilters;
 
     public final ObservableList<FileChooser.ExtensionFilter> getExtensionFilters() {
+        if (extensionFilters == null) {
+            extensionFilters = FXCollections.observableArrayList();
+        }
         return extensionFilters;
     }
 
@@ -230,22 +237,32 @@ public class ImagePicker extends Control {
         selectedExtensionFilterProperty().set(filter);
     }
 
-    public void showFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle(getTitle());
-        File oldFile = getFile();
-        if (oldFile == null) {
-            fileChooser.setInitialDirectory(getInitialDirectory());
-            fileChooser.setInitialFileName(getInitialFileName());
-        } else {
-            fileChooser.setInitialDirectory(oldFile.getParentFile());
-            fileChooser.setInitialFileName(oldFile.getName());
-        }
-        fileChooser.getExtensionFilters().setAll(getExtensionFilters());
-        fileChooser.setSelectedExtensionFilter(getSelectedExtensionFilter());
-        File file = fileChooser.showOpenDialog(getScene().getWindow());
+    public void showDialog() {
+        File file = getFile();
+
+        File initialDirectory;
+        String initialFileName;
         if (file != null) {
-            setFile(file);
+            initialDirectory = file.getParentFile();
+            initialFileName = file.getName();
+        } else {
+            initialDirectory = getInitialDirectory();
+            initialFileName = getInitialFileName();
+        }
+
+        CommonDialogs.FileChooserResult result = Toolkit.getToolkit().showFileChooser(
+                WindowHelper.getPeer(getScene().getWindow()),
+                getTitle(),
+                initialDirectory,
+                initialFileName,
+                FileChooserType.OPEN,
+                extensionFilters != null ? extensionFilters : Collections.emptyList(),
+                getSelectedExtensionFilter()
+        );
+
+        List<File> files = result.getFiles();
+        if (files != null && !files.isEmpty()) {
+            setFile(files.get(0));
         }
     }
 
