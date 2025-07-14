@@ -5,9 +5,9 @@ import com.github.mouse0w0.peach.icon.Icon;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.style.StyleManager;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -93,8 +93,7 @@ public class NewProjectDialog extends Stage {
         root.setBottom(new ButtonBar(finish, cancel));
 
         Scene scene = new Scene(root);
-        FXUtils.addStylesheet(scene, "style/style.css");
-        FXUtils.addStylesheet(scene, "style/NewProjectDialog.css");
+        StyleManager.getInstance().apply(scene, "NewProjectDialog");
         setScene(scene);
 
         setOnShown(event -> Platform.runLater(() -> splitPane.setDividerPosition(0, 0.2)));

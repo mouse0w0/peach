@@ -28,6 +28,8 @@
                             implementation="com.github.mouse0w0.peach.icon.IconManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.icon.SVGIconRenderer"
                             implementation="com.github.mouse0w0.peach.icon.SVGIconRendererImpl"/>
+        <applicationService interface="com.github.mouse0w0.peach.style.StyleManager"
+                            implementation="com.github.mouse0w0.peach.style.StyleManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.data.DataManager"
                             implementation="com.github.mouse0w0.peach.data.DataManagerImpl"/>
         <applicationService interface="com.github.mouse0w0.peach.action.ActionManager"

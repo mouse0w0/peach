@@ -7,9 +7,9 @@ import com.github.mouse0w0.peach.mcmod.element.ElementRegistry;
 import com.github.mouse0w0.peach.mcmod.element.provider.ElementProvider;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.style.StyleManager;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
@@ -103,7 +103,7 @@ public class NewElementDialog extends Stage {
         root.setBottom(new ButtonBar(finish, cancel));
 
         Scene scene = new Scene(root);
-        FXUtils.addStylesheet(scene, "style/style.css");
+        StyleManager.getInstance().apply(scene, "NewElementDialog");
 
         setScene(scene);
         setTitle(AppL10n.localize("dialog.newElement.title"));

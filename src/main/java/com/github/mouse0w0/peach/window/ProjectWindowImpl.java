@@ -14,10 +14,10 @@ import com.github.mouse0w0.peach.icon.IconManager;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.project.ProjectManager;
+import com.github.mouse0w0.peach.style.StyleManager;
 import com.github.mouse0w0.peach.ui.control.EightPos;
 import com.github.mouse0w0.peach.ui.control.ViewPane;
 import com.github.mouse0w0.peach.ui.control.ViewTab;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.view.ViewEP;
 import com.github.mouse0w0.peach.window.status.StatusBar;
 import com.github.mouse0w0.peach.window.status.StatusBarImpl;
@@ -61,7 +61,7 @@ public final class ProjectWindowImpl implements ProjectWindow, DataProvider, Dis
         root.setPrefSize(900, 600);
 
         Scene scene = new Scene(root);
-        FXUtils.addStylesheet(scene, "style/style.css");
+        StyleManager.getInstance().apply(scene, "MainWindow");
 
         stage = new Stage();
         stage.setScene(scene);

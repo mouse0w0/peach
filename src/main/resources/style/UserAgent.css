@@ -1,3 +1,100 @@
 Label {
     -fx-skin: "com.github.mouse0w0.peach.ui.control.skin.LabelSkin"
 }
+
+.scroll-pane,
+.scroll-pane > .viewport,
+.scroll-bar:horizontal,
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .corner,
+.list-view > .virtual-flow > .corner,
+.tree-view > .virtual-flow > .corner,
+.table-view > .virtual-flow > .corner,
+.tree-table-view > .virtual-flow > .corner {
+    -fx-background-color: transparent;
+}
+
+.menu-bar {
+    -fx-background-color: -peach-border-color, -peach-background-color;
+    -fx-background-insets: 0 0 0 0, 0 0 1 0;
+}
+
+.menu-item > .left-container {
+    -fx-padding: 0em -16px 0em 0em;
+}
+
+.menu-item > .graphic-container {
+    -fx-padding: 0em -12px 0em 0em;
+}
+
+.menu-item > .label {
+    -fx-padding: 0em 1em 0em 16px;
+}
+
+.menu-item > .right-container {
+    -fx-padding: 0em 0.333em 0em 0em;
+}
+
+.tab-pane {
+    -fx-open-tab-animation: none;
+    -fx-close-tab-animation: none;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+:invalid {
+    -fx-effect: dropshadow(three-pass-box, darkred, 6, 0, 0, 0);
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+:invalid:focused {
+    -fx-effect: null;
+}
+
+.item-picker,
+.item-stack-view > .item {
+    -fx-background-color: -peach-background-color;
+}
+
+.item-picker:hover,
+.item-stack-view:hover > .item {
+    -fx-background-color: -peach-hover-color;
+}
+
+.minecraft-style .item-picker,
+.minecraft-style .item-stack-view > .item {
+    -fx-background-color: transparent;
+}
+
+.minecraft-style .item-picker:hover,
+.minecraft-style .item-stack-view:hover > .item {
+    -fx-background-color: #c5c5c5;
+}
+
+.minecraft-small-slot-32x {
+    -fx-padding: 2px;
+    -fx-background-color: #8b8b8b, #373737, #ffffff, #8b8b8b;
+    -fx-background-insets: 0 0 0 0, 0 2 2 0, 2 0 0 2, 2 2 2 2;
+}
+
+.minecraft-small-slot-32x:hover {
+    -fx-background-color: #8b8b8b, #373737, #ffffff, #c5c5c5;
+    -fx-background-insets: 0 0 0 0, 0 2 2 0, 2 0 0 2, 2 2 2 2;
+}
+
+.minecraft-small-slot-32x:disabled {
+    -fx-opacity: 0.4;
+}
+
+.item-tooltip {
+    -fx-padding: 4px;
+    -fx-text-fill: white;
+    -fx-font-size: 1em;
+    -fx-background-color: #100010F0;
+    -fx-background-insets: 4px;
+    -fx-border-image-source: url("/image/mcmod/tooltip.png");
+    -fx-border-image-slice: 4px;
+    -fx-border-image-width: 4px;
+}

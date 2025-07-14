@@ -7,7 +7,7 @@
     -fx-text-fill: #0096c9;
 }
 
-#welcome-window #version {
+#version {
     -fx-padding: 0.5em;
     -fx-text-fill: #808080;
 }

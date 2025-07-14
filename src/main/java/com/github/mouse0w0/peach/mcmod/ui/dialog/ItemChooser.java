@@ -11,9 +11,9 @@ import com.github.mouse0w0.peach.mcmod.index.IndexManager;
 import com.github.mouse0w0.peach.mcmod.tooltip.ItemTooltipService;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
 import com.github.mouse0w0.peach.project.Project;
+import com.github.mouse0w0.peach.style.StyleManager;
 import com.github.mouse0w0.peach.ui.control.ButtonBar;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import com.github.mouse0w0.peach.window.WindowManager;
 import javafx.animation.KeyFrame;
@@ -120,8 +120,7 @@ public class ItemChooser extends Stage {
         root.setBottom(new ButtonBar(ok, cancel));
 
         Scene scene = new Scene(root);
-        FXUtils.addStylesheet(scene, "style/style.css");
-        FXUtils.addStylesheet(scene, "style/ItemChooser.css");
+        StyleManager.getInstance().apply(scene, "ItemChooser");
         setScene(scene);
 
         updateFilter();

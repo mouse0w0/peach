@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.ui;
 
 import com.github.mouse0w0.peach.Peach;
+import com.github.mouse0w0.peach.style.StyleManager;
 import com.github.mouse0w0.peach.welcome.WelcomeWindow;
-import com.sun.javafx.css.StyleManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -14,9 +14,7 @@ public final class FXApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         LOGGER.info("Starting JavaFX Application.");
-        setUserAgentStylesheet(STYLESHEET_MODENA);
-        StyleManager.getInstance().addUserAgentStylesheet(
-                FXApplication.class.getResource("/style/UserAgent.css").toExternalForm());
+        StyleManager.getInstance().reloadUserAgentStylesheet();
         WelcomeWindow.showNow();
         LOGGER.info("Started JavaFX Application.");
     }

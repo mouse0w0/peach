@@ -1,0 +1,7 @@
+.root {
+    -peach-foreground-color: #ffffff;
+    -peach-background-color: #f2f2f2; /* gray(242) 95% */
+    -peach-hover-color: #e6e6e6; /* gray(230) 90% */
+    -peach-focus-color: #d9d9d9; /* gray(217) 85% */
+    -peach-border-color: #cccccc; /* gray(204) 80% */
+}

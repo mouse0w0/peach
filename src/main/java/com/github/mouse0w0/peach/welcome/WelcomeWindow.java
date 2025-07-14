@@ -14,7 +14,7 @@ import com.github.mouse0w0.peach.project.ProjectManager;
 import com.github.mouse0w0.peach.recentProject.RecentProject;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsChange;
 import com.github.mouse0w0.peach.recentProject.RecentProjectsManager;
-import com.github.mouse0w0.peach.ui.util.FXUtils;
+import com.github.mouse0w0.peach.style.StyleManager;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -102,8 +102,7 @@ public final class WelcomeWindow extends Stage {
         root.setLeft(projectListView);
 
         Scene scene = new Scene(root);
-        FXUtils.addStylesheet(scene, "style/style.css");
-        FXUtils.addStylesheet(scene, "style/WelcomeWindow.css");
+        StyleManager.getInstance().apply(scene, "WelcomeWindow");
         setScene(scene);
     }
 

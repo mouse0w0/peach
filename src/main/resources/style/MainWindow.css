@@ -1,0 +1,79 @@
+.tab-pane > .tab-header-area > .tab-header-background,
+.view-pane > .side-bar-area {
+    -fx-background-color: -peach-background-color;
+    -fx-background-insets: 0;
+}
+
+.tab-pane > .tab-header-area {
+    -fx-padding: 0;
+}
+
+.tab {
+    -fx-padding: 0.25em 1em 0.25em 1em;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+}
+
+.tab:hover {
+    -fx-background-color: -peach-hover-color;
+    -fx-background-insets: 0;
+}
+
+.tab:selected {
+    -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
+}
+
+.tab:selected .focus-indicator {
+    -fx-border-color: transparent;
+    -fx-border-insets: 0;
+}
+
+.tab-pane > .tab-content-area {
+    -fx-background-color: -peach-foreground-color;
+}
+
+#status-bar {
+    -fx-background-color: -peach-border-color, -peach-background-color;
+    -fx-background-insets: 0 0 0 0, 1 0 0 0;
+    -fx-padding: 1 8 0 8;
+    -fx-pref-height: 1.75em;
+}
+
+#project-view,
+#project-view:focused {
+    -fx-padding: 0;
+    -fx-background-color: -peach-foreground-color;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+#project-view .tree-cell {
+    -fx-padding: 0.25em 0 0.25em 0.25em;
+}
+
+#project-view .tree-cell:filled:selected,
+#project-view .tree-cell:focused {
+    -fx-background-color: -peach-hover-color;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+#project-view:focused .tree-cell:filled:selected,
+#project-view:focused .tree-cell:focused {
+    -fx-background-color: -peach-focus-color;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+#project-view .tree-cell:filled:selected > .tree-disclosure-node > .arrow,
+#project-view .tree-cell:focused > .tree-disclosure-node > .arrow {
+    -fx-background-color: black;
+}
+
+#project-view .tree-cell:drop-hover {
+    -fx-background-color: -peach-focus-color;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
+}
