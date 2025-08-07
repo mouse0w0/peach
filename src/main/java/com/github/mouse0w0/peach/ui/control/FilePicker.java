@@ -282,12 +282,12 @@ public class FilePicker extends Control {
 
     private File showOpenDialog() {
         List<File> files = showFileChooser(FileChooserType.OPEN).getFiles();
-        return files != null && !files.isEmpty() ? files.get(0) : null;
+        return !files.isEmpty() ? files.get(0) : null;
     }
 
     private File showSaveDialog() {
         List<File> files = showFileChooser(FileChooserType.SAVE).getFiles();
-        return files != null && !files.isEmpty() ? files.get(0) : null;
+        return !files.isEmpty() ? files.get(0) : null;
     }
 
     private CommonDialogs.FileChooserResult showFileChooser(FileChooserType type) {

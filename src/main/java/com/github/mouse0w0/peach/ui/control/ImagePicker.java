@@ -261,7 +261,7 @@ public class ImagePicker extends Control {
         );
 
         List<File> files = result.getFiles();
-        if (files != null && !files.isEmpty()) {
+        if (!files.isEmpty()) {
             setFile(files.get(0));
         }
     }
