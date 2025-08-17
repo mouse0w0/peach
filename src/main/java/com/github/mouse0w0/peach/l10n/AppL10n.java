@@ -8,34 +8,34 @@ import java.util.ResourceBundle;
 
 @ApiStatus.Internal
 public final class AppL10n {
-    private static final String BUNDLE = "l10n.zh-CN";
-    private static final L10n INSTANCE = L10n.getL10n("peach");
+    public static final L10n INSTANCE = L10n.getL10n("peach");
+    public static final String BUNDLE_NAME = "l10n.zh-CN";
 
-    public static String localize(@PropertyKey(resourceBundle = BUNDLE) String key) {
+    public static String localize(@PropertyKey(resourceBundle = BUNDLE_NAME) String key) {
         return INSTANCE.localize(key);
     }
 
-    public static String localize(@PropertyKey(resourceBundle = BUNDLE) String key, Object... args) {
+    public static String localize(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... args) {
         return INSTANCE.localize(key, args);
     }
 
     @Nullable
-    public static String localizeOrNull(@PropertyKey(resourceBundle = BUNDLE) String key) {
+    public static String localizeOrNull(@PropertyKey(resourceBundle = BUNDLE_NAME) String key) {
         return INSTANCE.localizeOrNull(key);
     }
 
     @Nullable
-    public static String localizeOrNull(@PropertyKey(resourceBundle = BUNDLE) String key, Object... args) {
+    public static String localizeOrNull(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... args) {
         return INSTANCE.localizeOrNull(key, args);
     }
 
     @Nullable
-    public static String localizeOrDefault(@PropertyKey(resourceBundle = BUNDLE) String key, @Nullable String defaultValue) {
+    public static String localizeOrDefault(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, @Nullable String defaultValue) {
         return INSTANCE.localizeOrDefault(key, defaultValue);
     }
 
     @Nullable
-    public static String localizeOrDefault(@PropertyKey(resourceBundle = BUNDLE) String key, @Nullable String defaultValue, Object... args) {
+    public static String localizeOrDefault(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, @Nullable String defaultValue, Object... args) {
         return INSTANCE.localizeOrDefault(key, defaultValue, args);
     }
 

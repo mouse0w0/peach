@@ -8,6 +8,7 @@ import com.github.mouse0w0.peach.ui.dialog.Alert;
 import com.github.mouse0w0.peach.ui.util.ClipboardUtils;
 import com.github.mouse0w0.peach.util.FileUtils;
 import javafx.scene.input.Clipboard;
+import org.jetbrains.annotations.PropertyKey;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,7 +47,9 @@ public class PasteAction extends Action {
             }
         }
 
+        @PropertyKey(resourceBundle = AppL10n.BUNDLE_NAME)
         String titleKey;
+        @PropertyKey(resourceBundle = AppL10n.BUNDLE_NAME)
         String messageKey;
         if (move) {
             titleKey = "dialog.move.title";
