@@ -3,7 +3,7 @@ package com.github.mouse0w0.peach.action.edit;
 import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
 import com.github.mouse0w0.peach.ui.dialog.Alert;
-import com.github.mouse0w0.peach.ui.dialog.PasteDialog;
+import com.github.mouse0w0.peach.ui.dialog.FileConflictDialog;
 import com.github.mouse0w0.peach.ui.dialog.RenameDialog;
 import com.github.mouse0w0.peach.util.FileUtils;
 import org.slf4j.Logger;
@@ -70,22 +70,24 @@ public class PasteExecutor implements Runnable {
                 copyOrMove(source, target);
                 return;
             }
-            ButtonType buttonType = new PasteDialog(AppL10n.localize("dialog.paste.title"),
-                    AppL10n.localize("dialog.paste.error.existsSameFile", target, source.getFileName()), multiple)
-                    .showAndWait().orElse(PasteDialog.SKIP);
-            if (buttonType == PasteDialog.SKIP) {
+            ButtonType buttonType = new FileConflictDialog(
+                    FileUtils.getFileName(target.getParent()),
+                    FileUtils.getFileName(target),
+                    multiple
+            ).showAndWait().orElse(FileConflictDialog.SKIP);
+            if (buttonType == FileConflictDialog.SKIP) {
                 return;
-            } else if (buttonType == PasteDialog.SKIP_ALL) {
+            } else if (buttonType == FileConflictDialog.SKIP_ALL) {
                 skipAll = true;
                 return;
-            } else if (buttonType == PasteDialog.OVERWRITE) {
+            } else if (buttonType == FileConflictDialog.OVERWRITE) {
                 copyOrMove(source, target);
                 return;
-            } else if (buttonType == PasteDialog.OVERWRITE_ALL) {
+            } else if (buttonType == FileConflictDialog.OVERWRITE_ALL) {
                 overwriteAll = true;
                 copyOrMove(source, target);
                 return;
-            } else if (buttonType == PasteDialog.RENAME) {
+            } else if (buttonType == FileConflictDialog.RENAME) {
                 target = RenameDialog.create(target).showAndWait().orElse(null);
                 if (target == null) return;
             }

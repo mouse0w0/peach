@@ -1,10 +1,9 @@
 package com.github.mouse0w0.peach.mcmod.util;
 
-import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.project.Project;
 import com.github.mouse0w0.peach.ui.control.ButtonType;
+import com.github.mouse0w0.peach.ui.dialog.FileConflictDialog;
 import com.github.mouse0w0.peach.ui.dialog.LowercaseRenameDialog;
-import com.github.mouse0w0.peach.ui.dialog.PasteDialog;
 import com.github.mouse0w0.peach.util.FileUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
 import javafx.scene.image.Image;
@@ -51,18 +50,16 @@ public class ResourceUtils {
 
     public static Path copyToLowerCaseFile(Path source, Path target) throws IOException {
         while (true) {
-            String fileName = target.getFileName().toString();
+            String fileName = FileUtils.getFileName(target);
             if (StringUtils.hasUpperCase(fileName)) {
                 target = LowercaseRenameDialog.create(target, fileName.toLowerCase()).showAndWait().orElse(null);
                 if (target == null) return null;
             } else if (Files.exists(target)) {
-                ButtonType buttonType = new PasteDialog(AppL10n.localize("dialog.paste.title"),
-                        AppL10n.localize("dialog.paste.error.existsSameFile",
-                                FileUtils.getFileName(target.getParent()), FileUtils.getFileName(target)),
-                        false).showAndWait().orElse(PasteDialog.SKIP);
-                if (buttonType == PasteDialog.OVERWRITE) {
+                ButtonType buttonType = new FileConflictDialog(FileUtils.getFileName(target.getParent()), fileName, false)
+                        .showAndWait().orElse(FileConflictDialog.SKIP);
+                if (buttonType == FileConflictDialog.OVERWRITE) {
                     return FileUtils.forceCopy(source, target);
-                } else if (buttonType == PasteDialog.RENAME) {
+                } else if (buttonType == FileConflictDialog.RENAME) {
                     target = LowercaseRenameDialog.create(target, fileName.toLowerCase()).showAndWait().orElse(null);
                     if (target == null) return null;
                 } else {
