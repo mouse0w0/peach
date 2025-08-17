@@ -253,7 +253,7 @@ public class ModelField extends Element {
             textures.clear();
             fileToModelKey.clear();
             for (String modelKey : modelManager.getBlockstateTemplate(getBlockstate()).getModels().keySet()) {
-                fileToModelKey.put(resourceStore.toAbsolutePath(customModels.get(modelKey)), modelKey);
+                fileToModelKey.put(resourceStore.resolve(customModels.get(modelKey)), modelKey);
             }
             loadTexture();
         } else {
@@ -279,12 +279,12 @@ public class ModelField extends Element {
                     @Override
                     public String toString(File object) {
                         File result = resourceStore.store(object);
-                        return result != null ? resourceStore.toRelative(result) : filePicker.getValue();
+                        return result != null ? resourceStore.relativize(result) : filePicker.getValue();
                     }
 
                     @Override
                     public File fromString(String string) {
-                        return resourceStore.toAbsoluteFile(string);
+                        return resourceStore.resolveToFile(string);
                     }
                 });
                 BidirectionalValueBinding.bind(filePicker.valueProperty(), customModels, modelKey);

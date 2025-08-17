@@ -31,11 +31,11 @@ public class TextureField extends Field {
     }
 
     public String getTexture() {
-        return resourceStore.toRelative(getValue());
+        return resourceStore.relativize(getValue());
     }
 
     public void setTexture(String texture) {
-        setValue(resourceStore.toAbsoluteFile(texture));
+        setValue(resourceStore.resolveToFile(texture));
     }
 
     public void setFitSize(double fitWidth, double fitHeight) {

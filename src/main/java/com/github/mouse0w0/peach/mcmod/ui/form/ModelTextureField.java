@@ -73,12 +73,12 @@ public class ModelTextureField extends Field {
 
     public Map<String, String> getTextures() {
         Map<String, String> result = new HashMap<>();
-        textureKeys.forEach(k -> result.put(k, resourceStore.toRelative(textures.get(k))));
+        textureKeys.forEach(k -> result.put(k, resourceStore.relativize(textures.get(k))));
         return result;
     }
 
     public void setTextures(Map<String, String> map) {
-        map.forEach((k, v) -> textures.put(k, resourceStore.toAbsoluteFile(v)));
+        map.forEach((k, v) -> textures.put(k, resourceStore.resolveToFile(v)));
     }
 
     @Override

@@ -65,12 +65,12 @@ public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
             @Override
             public String toString(File object) {
                 File result = backgroundStore.store(object);
-                return result != null ? backgroundStore.toRelative(result) : background.getValue();
+                return result != null ? backgroundStore.relativize(result) : background.getValue();
             }
 
             @Override
             public File fromString(String string) {
-                return backgroundStore.toAbsoluteFile(string);
+                return backgroundStore.resolveToFile(string);
             }
         });
         grid.add(background, 1, 3);
