@@ -50,7 +50,7 @@ public class ImagePicker extends Control {
 
         File file = files.get(0);
         ImagePicker imagePicker = (ImagePicker) event.getSource();
-        if (!Utils.checkExtensions(file, imagePicker.extensionFilters)) return;
+        if (!Utils.testExtensionFilters(file, imagePicker.extensionFilters)) return;
 
         event.acceptTransferModes(TransferMode.COPY);
     };

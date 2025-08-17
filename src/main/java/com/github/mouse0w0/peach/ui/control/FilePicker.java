@@ -39,7 +39,7 @@ public class FilePicker extends Control {
 
         File file = files.get(0);
         FilePicker filePicker = (FilePicker) event.getSource();
-        if (!Utils.checkExtensions(file, filePicker.extensionFilters)) return;
+        if (!Utils.testExtensionFilters(file, filePicker.extensionFilters)) return;
 
         event.acceptTransferModes(TransferMode.COPY);
     };
