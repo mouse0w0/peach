@@ -16,8 +16,8 @@ class Utils {
             for (String extension : filter.getExtensions()) {
                 if (extension.equals("*.*")) {
                     return true;
-                } else if (extension.startsWith("*.")) {
-                    return fileName.endsWith(extension.substring(1));
+                } else if (extension.startsWith("*.") && fileName.endsWith(extension.substring(1))) {
+                    return true;
                 } else if (fileName.equals(extension)) {
                     return true;
                 }
