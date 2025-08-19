@@ -43,10 +43,11 @@ public class ProjectFileWatcher implements Disposable {
     private void run() {
         try (WatchService watchService = FileSystems.getDefault().newWatchService()) {
             initialize(watchService);
-            while (true) {
+            while (!thread.isInterrupted()) {
                 fireEvents(watchService.take());
             }
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
+            thread.interrupt();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
