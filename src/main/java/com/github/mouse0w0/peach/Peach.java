@@ -21,7 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.management.ManagementFactory;
+import java.lang.management.MonitorInfo;
 import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadInfo;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -59,6 +61,11 @@ public final class Peach extends ServiceManagerImpl {
 
     public Path getUserDataPath() {
         return userDataPath;
+    }
+
+    private static String getImplementationVersion() {
+        String version = Peach.class.getPackage().getImplementationVersion();
+        return version != null && !version.isEmpty() ? version : "99999.0.0";
     }
 
     public void launch(String[] args) {
@@ -131,13 +138,43 @@ public final class Peach extends ServiceManagerImpl {
         Disposer.dispose(INSTANCE);
         Disposer.checkAllDisposed();
 
+        startExitWatchdogThread();
+
         LOGGER.info("Exited application.");
-        System.exit(0);
     }
 
-    private static String getImplementationVersion() {
-        String version = Peach.class.getPackage().getImplementationVersion();
-        return version != null && !version.isEmpty() ? version : "99999.0.0";
+    private static void startExitWatchdogThread() {
+        Thread exitWatchdog = new Thread(() -> {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+
+            LOGGER.error("Application is not exited in 10 seconds. Dumping threads...");
+            for (ThreadInfo t : ManagementFactory.getThreadMXBean().dumpAllThreads(true, true)) {
+                LOGGER.error("---------------------------------------------------");
+                LOGGER.error("\"{}\" Id={} Daemon={} Suspended={} Native={} State={}",
+                        t.getThreadName(), t.getThreadId(), t.isDaemon(), t.isSuspended(), t.isInNative(), t.getThreadState());
+
+                if (t.getLockedMonitors().length != 0) {
+                    LOGGER.error("Waiting for lock(s):");
+                    for (MonitorInfo mi : t.getLockedMonitors()) {
+                        LOGGER.error("\tLocked on: {}", mi.getLockedStackFrame());
+                    }
+                }
+
+                LOGGER.error("Stack:");
+                for (StackTraceElement e : t.getStackTrace()) {
+                    LOGGER.error("\tat {}", e);
+                }
+            }
+            LOGGER.error("---------------------------------------------------");
+            LOGGER.error("Force exit application.");
+            System.exit(1);
+        }, "Exit Watchdog");
+        exitWatchdog.setDaemon(true);
+        exitWatchdog.start();
     }
 
     @Override
