@@ -97,7 +97,7 @@ public class FileUtils {
 
     public static Path copyIfNotExists(Path source, Path target, CopyOption... options) throws UncheckedIOException {
         if (Files.notExists(source)) {
-            throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
+            throw unchecked(new NoSuchFileException(source.toString()));
         }
         if (Files.notExists(target)) {
             try {
@@ -111,7 +111,7 @@ public class FileUtils {
 
     public static Path forceCopy(Path source, Path target) throws UncheckedIOException {
         if (Files.notExists(source)) {
-            throw new UncheckedIOException(source.toString(), new NoSuchFileException(source.toString()));
+            throw unchecked(new NoSuchFileException(source.toString()));
         }
         try {
             return Files.copy(source, ensureParentExists0(target), REPLACE_EXISTING);
