@@ -28,8 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.github.mouse0w0.peach.l10n.AppL10n.localize;
 import static com.github.mouse0w0.peach.ui.layout.Form.form;
-import static com.github.mouse0w0.peach.ui.layout.FormItem.half;
-import static com.github.mouse0w0.peach.ui.layout.FormItem.one;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.*;
 import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.scrollVBox;
 import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.titled;
 
@@ -236,12 +235,12 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         noCollision = new RadioButton();
 
         var collision = titled(localize("block.collision.title"), form(
-                half(localize("block.collision.minX"), minX),
-                half(localize("block.collision.minY"), minY),
-                half(localize("block.collision.minZ"), minZ),
-                half(localize("block.collision.maxX"), maxX),
-                half(localize("block.collision.maxY"), maxY),
-                half(localize("block.collision.maxZ"), maxZ),
+                third(localize("block.collision.minX"), minX),
+                third(localize("block.collision.minY"), minY),
+                third(localize("block.collision.minZ"), minZ),
+                third(localize("block.collision.maxX"), maxX),
+                third(localize("block.collision.maxY"), maxY),
+                third(localize("block.collision.maxZ"), maxZ),
                 half(localize("block.collision.noCollision"), noCollision)
         ));
 
