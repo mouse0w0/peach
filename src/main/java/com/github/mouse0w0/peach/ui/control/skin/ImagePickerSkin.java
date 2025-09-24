@@ -2,7 +2,6 @@ package com.github.mouse0w0.peach.ui.control.skin;
 
 import com.github.mouse0w0.peach.ui.control.ImagePicker;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.SkinBase;
 import javafx.scene.image.Image;
@@ -37,7 +36,6 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
 
         clearBtn = new StackPane();
         clearBtn.getStyleClass().add("clear-button");
-        clearBtn.setAlignment(Pos.TOP_RIGHT);
         clearBtn.setOnMouseClicked(event -> {
             event.consume();
             control.setFile(null);
