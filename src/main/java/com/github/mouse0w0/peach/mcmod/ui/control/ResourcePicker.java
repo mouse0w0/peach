@@ -12,14 +12,6 @@ public class ResourcePicker extends FilePicker {
 
     public ResourcePicker(ResourceStore resourceStore) {
         this.resourceStore = resourceStore;
-        valueProperty().addListener(observable -> {
-            File oldFile = getFile();
-            if (oldFile == null || !oldFile.isFile()) return;
-            File newFile = resourceStore.store(oldFile);
-            if (!Objects.equals(oldFile, newFile)) {
-                setFile(newFile);
-            }
-        });
         setConverter(new StringConverter<>() {
 
             @Override
@@ -30,6 +22,14 @@ public class ResourcePicker extends FilePicker {
             @Override
             public File fromString(String string) {
                 return resourceStore.resolveToFile(string);
+            }
+        });
+        fileProperty().addListener(observable -> {
+            File oldFile = getFile();
+            if (oldFile == null || !oldFile.isFile()) return;
+            File newFile = resourceStore.store(oldFile);
+            if (!Objects.equals(oldFile, newFile)) {
+                setFile(newFile);
             }
         });
     }

@@ -61,6 +61,22 @@ public class FilePicker extends Control {
         setFocusTraversable(true);
         addEventHandler(DragEvent.DRAG_OVER, ON_DRAG_OVER);
         addEventHandler(DragEvent.DRAG_DROPPED, ON_DRAG_DROPPED);
+
+        valueProperty().bindBidirectional(fileProperty(), new StringConverter<>() {
+            @Override
+            public String toString(File object) {
+                if (object == null) return "";
+                StringConverter<File> converter = getConverter();
+                return converter != null ? converter.toString(object) : object.toString();
+            }
+
+            @Override
+            public File fromString(String string) {
+                if (string == null || string.isEmpty()) return null;
+                StringConverter<File> converter = getConverter();
+                return converter != null ? converter.fromString(string) : new File(string);
+            }
+        });
     }
 
     private ObjectProperty<Type> type;
@@ -80,31 +96,41 @@ public class FilePicker extends Control {
         typeProperty().set(value);
     }
 
-    private StringProperty value;
+    private final StringProperty value = new SimpleStringProperty(this, "value");
 
     public final StringProperty valueProperty() {
-        if (value == null) {
-            value = new SimpleStringProperty(this, "value", "") {
-                @Override
-                public void set(String newValue) {
-                    super.set(newValue != null ? newValue : "");
-                }
-
-                @Override
-                protected void invalidated() {
-                    file = null;
-                }
-            };
-        }
         return value;
     }
 
     public final String getValue() {
-        return value != null ? value.get() : "";
+        return value.get();
     }
 
-    public final void setValue(String value) {
-        valueProperty().set(value);
+    public final void setValue(String newValue) {
+        value.set(newValue);
+    }
+
+    private final ObjectProperty<File> file = new SimpleObjectProperty<>(this, "file");
+
+    public final ObjectProperty<File> fileProperty() {
+        return file;
+    }
+
+    public final File getFile() {
+        return file.get();
+    }
+
+    public final void setFile(File value) {
+        file.set(value);
+    }
+
+    public final Path getPath() {
+        File file = getFile();
+        return file != null ? file.toPath() : null;
+    }
+
+    public final void setPath(Path value) {
+        setFile(value != null ? value.toFile() : null);
     }
 
     private ObjectProperty<StringConverter<File>> converter;
@@ -122,39 +148,6 @@ public class FilePicker extends Control {
 
     public final void setConverter(StringConverter<File> value) {
         converterProperty().set(value);
-    }
-
-    private File file;
-
-    public final File getFile() {
-        if (file != null) {
-            return file;
-        }
-        String value = getValue();
-        if (value == null || value.isEmpty()) {
-            return null;
-        }
-        StringConverter<File> converter = getConverter();
-        return file = converter != null ? converter.fromString(value) : new File(value);
-    }
-
-    public final Path getPath() {
-        File file = getFile();
-        return file != null ? file.toPath() : null;
-    }
-
-    public final void setFile(File value) {
-        if (value == null) {
-            setValue("");
-        } else {
-            StringConverter<File> converter = getConverter();
-            setValue(converter != null ? converter.toString(value) : value.toString());
-            file = value;
-        }
-    }
-
-    public final void setPath(Path value) {
-        setFile(value != null ? value.toFile() : null);
     }
 
     private StringProperty promptText;
