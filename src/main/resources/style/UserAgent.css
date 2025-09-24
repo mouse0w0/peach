@@ -3,6 +3,7 @@ Label {
 }
 
 .scroll-pane,
+.scroll-pane:focused,
 .scroll-pane > .viewport,
 .scroll-bar:horizontal,
 .scroll-bar:vertical {
