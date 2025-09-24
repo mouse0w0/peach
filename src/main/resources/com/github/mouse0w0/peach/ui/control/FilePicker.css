@@ -14,6 +14,10 @@
     -fx-background-radius: 3, 2, 4, 0;
 }
 
+.file-picker:disabled {
+    -fx-opacity: 0.4;
+}
+
 .file-picker > .editor {
     -fx-text-fill: -fx-text-inner-color;
     -fx-highlight-fill: derive(-fx-control-inner-background, -20%);
