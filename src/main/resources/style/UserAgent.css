@@ -2,6 +2,16 @@ Label {
     -fx-skin: "com.github.mouse0w0.peach.ui.control.skin.LabelSkin"
 }
 
+.scroll-vbox > .viewport > * > VBox {
+    -fx-padding: 1em;
+    -fx-spacing: 0.75em;
+}
+
+.scroll-vbox > .viewport > * > VBox > .form,
+.scroll-vbox > .viewport > * > VBox > .titled-pane > .content > .form {
+    -fx-padding: 0.75em 0.75em 0.75em 0;
+}
+
 .scroll-pane,
 .scroll-pane:focused,
 .scroll-pane > .viewport,
