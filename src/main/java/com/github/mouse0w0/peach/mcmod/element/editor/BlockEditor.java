@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.BlockType;
 import com.github.mouse0w0.peach.mcmod.BoundingBox;
 import com.github.mouse0w0.peach.mcmod.Identifier;
@@ -11,78 +10,77 @@ import com.github.mouse0w0.peach.mcmod.model.ModelManager;
 import com.github.mouse0w0.peach.mcmod.ui.GameDataConverter;
 import com.github.mouse0w0.peach.mcmod.ui.LocalizableConverter;
 import com.github.mouse0w0.peach.mcmod.ui.cell.IconicDataCell;
-import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
-import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
-import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
+import com.github.mouse0w0.peach.mcmod.ui.control.ModelPicker;
+import com.github.mouse0w0.peach.mcmod.ui.control.TexturePicker;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.form.ColSpan;
-import com.github.mouse0w0.peach.ui.form.Form;
-import com.github.mouse0w0.peach.ui.form.FormView;
-import com.github.mouse0w0.peach.ui.form.Section;
-import com.github.mouse0w0.peach.ui.form.field.*;
-import com.github.mouse0w0.peach.ui.util.Check;
+import com.github.mouse0w0.peach.ui.control.DoubleSpinner;
+import com.github.mouse0w0.peach.ui.control.IntegerSpinner;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.StringUtils;
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import org.jetbrains.annotations.NotNull;
 
+import static com.github.mouse0w0.peach.l10n.AppL10n.localize;
+import static com.github.mouse0w0.peach.ui.layout.Form.form;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.half;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.one;
+import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.scrollVBox;
+import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.titled;
+
 public class BlockEditor extends ElementEditor<BlockElement> {
-    private Form form;
+    private TextField identifier;
+    private TextField displayName;
+    private ComboBox<BlockType> type;
+    private ComboBox<String> itemGroup;
+    private ComboBox<String> material;
+    private ComboBox<String> soundType;
+    private DoubleSpinner hardness;
+    private RadioButton unbreakable;
+    private DoubleSpinner resistance;
+    private DoubleSpinner slipperiness;
+    private IntegerSpinner brightness;
+    private IntegerSpinner opacity;
+    private ComboBox<String> harvestTool;
+    private IntegerSpinner harvestLevel;
+    private RadioButton replaceable;
+    private TextArea information;
 
-    private TextFieldField identifier;
-    private TextFieldField displayName;
-    private ComboBoxField<BlockType> type;
-    private ComboBoxField<String> itemGroup;
-    private ComboBoxField<String> material;
-    private ComboBoxField<String> soundType;
-    private DoubleField hardness;
-    private RadioButtonField unbreakable;
-    private DoubleField resistance;
-    private DoubleField slipperiness;
-    private IntegerField brightness;
-    private IntegerField opacity;
-    private ComboBoxField<String> harvestTool;
-    private IntegerField harvestLevel;
-    private RadioButtonField replaceable;
-    private TextAreaField information;
+    private DoubleSpinner minX;
+    private DoubleSpinner minY;
+    private DoubleSpinner minZ;
+    private DoubleSpinner maxX;
+    private DoubleSpinner maxY;
+    private DoubleSpinner maxZ;
+    private RadioButton noCollision;
 
-    private DoubleField minX;
-    private DoubleField minY;
-    private DoubleField minZ;
-    private DoubleField maxX;
-    private DoubleField maxY;
-    private DoubleField maxZ;
-    private RadioButtonField noCollision;
-
-    private ModelField model;
-    private ModelTextureField textures;
-    private TextureField particleTexture;
-    private RadioButtonField transparency;
-    private ComboBoxField<String> renderType;
-    private ComboBoxField<String> offsetType;
-    private ModelField itemModel;
-    private ModelTextureField itemTextures;
+    private ModelPicker model;
+    private TexturePicker particleTexture;
+    private RadioButton transparency;
+    private ComboBox<String> renderType;
+    private ComboBox<String> offsetType;
+    private ModelPicker itemModel;
 
     //    private Object dropItem; // TODO
 
-    private RadioButtonField doNotRegisterItem;
-    private ComboBoxField<String> mapColor;
-    private ColorPickerField beaconColor;
-    private RadioButtonField beaconBase;
-    private RadioButtonField climbable;
-    private RadioButtonField canConnectRedstone;
-    private IntegerField redstonePower;
-    private ComboBoxField<String> canPlantPlant;
-    private DoubleField enchantPowerBonus;
-    private IntegerField flammability;
-    private IntegerField fireSpreadSpeed;
-    private ComboBoxField<String> pushReaction;
-    private ComboBoxField<String> aiPathNodeType;
+    private RadioButton doNotRegisterItem;
+    private ComboBox<String> mapColor;
+    private ColorPicker beaconColor;
+    private RadioButton beaconBase;
+    private RadioButton climbable;
+    private RadioButton canConnectRedstone;
+    private IntegerSpinner redstonePower;
+    private ComboBox<String> canPlantPlant;
+    private DoubleSpinner enchantPowerBonus;
+    private IntegerSpinner flammability;
+    private IntegerSpinner fireSpreadSpeed;
+    private ComboBox<String> pushReaction;
+    private ComboBox<String> aiPathNodeType;
     //    private Object pickItem; // TODO
 
     public BlockEditor(@NotNull Project project, @NotNull BlockElement element) {
@@ -93,320 +91,252 @@ public class BlockEditor extends ElementEditor<BlockElement> {
     protected Node getContent() {
         var indexManager = IndexManager.getInstance(getProject());
 
-        form = new Form();
+        identifier = new TextField();
+        Validator.of(identifier, localize("block.properties.identifier"), IdentifierUtils::validateIdentifier);
 
-        identifier = new TextFieldField();
-        identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier));
-        identifier.setLabel(AppL10n.localize("block.properties.identifier"));
-        identifier.setColSpan(ColSpan.HALF);
+        displayName = new TextField();
 
-        displayName = new TextFieldField();
-        displayName.setLabel(AppL10n.localize("block.properties.displayName"));
-        displayName.setColSpan(ColSpan.HALF);
-
-        type = new ComboBoxField<>();
-        type.setLabel(AppL10n.localize("block.properties.type"));
-        type.setColSpan(ColSpan.HALF);
+        type = new ComboBox<>();
         type.setConverter(LocalizableConverter.instance());
         type.getItems().addAll(BlockType.VALUES);
         type.setValue(BlockType.NORMAL);
 
         var itemGroupIndex = indexManager.getIndex(IndexKeys.ITEM_GROUP);
-        itemGroup = new ComboBoxField<>();
-        itemGroup.setLabel(AppL10n.localize("block.properties.itemGroup"));
-        itemGroup.setColSpan(ColSpan.HALF);
+        itemGroup = new ComboBox<>();
         itemGroup.setCellFactory(IconicDataCell.factory(getProject(), itemGroupIndex));
         itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupIndex));
         itemGroup.setItems(itemGroupIndex.keyList());
 
         var materialIndex = indexManager.getIndex(IndexKeys.MATERIAL);
-        material = new ComboBoxField<>();
-        material.setLabel(AppL10n.localize("block.properties.material"));
-        material.setColSpan(ColSpan.HALF);
+        material = new ComboBox<>();
         material.setCellFactory(IconicDataCell.factory(getProject(), materialIndex));
         material.setButtonCell(IconicDataCell.create(getProject(), materialIndex));
         material.setItems(materialIndex.keyList());
 
         var soundTypeIndex = indexManager.getIndex(IndexKeys.SOUND_TYPE);
-        soundType = new ComboBoxField<>();
-        soundType.setLabel(AppL10n.localize("block.properties.soundType"));
-        soundType.setColSpan(ColSpan.HALF);
+        soundType = new ComboBox<>();
         soundType.setCellFactory(IconicDataCell.factory(getProject(), soundTypeIndex));
         soundType.setButtonCell(IconicDataCell.create(getProject(), soundTypeIndex));
         soundType.setItems(soundTypeIndex.keyList());
 
-        hardness = new DoubleField(0D, Double.MAX_VALUE, 0D);
-        hardness.setLabel(AppL10n.localize("block.properties.hardness"));
-        hardness.setColSpan(ColSpan.HALF);
+        hardness = new DoubleSpinner(0D, Double.MAX_VALUE, 0D);
 
-        unbreakable = new RadioButtonField();
-        unbreakable.setLabel(AppL10n.localize("block.properties.unbreakable"));
-        unbreakable.setColSpan(ColSpan.HALF);
-        hardness.disableProperty().bind(unbreakable.valueProperty());
+        unbreakable = new RadioButton();
+        hardness.disableProperty().bind(unbreakable.selectedProperty());
 
-        resistance = new DoubleField(0D, Double.MAX_VALUE, 0D);
-        resistance.setLabel(AppL10n.localize("block.properties.resistance"));
-        resistance.setColSpan(ColSpan.HALF);
+        resistance = new DoubleSpinner(0D, Double.MAX_VALUE, 0D);
 
-        slipperiness = new DoubleField(0D, 1D, 0.6D);
-        slipperiness.setLabel(AppL10n.localize("block.properties.slipperiness"));
-        slipperiness.setColSpan(ColSpan.HALF);
+        slipperiness = new DoubleSpinner(0D, 1D, 0.6D);
 
-        brightness = new IntegerField(0, 15, 0);
-        brightness.setLabel(AppL10n.localize("block.properties.brightness"));
-        brightness.setColSpan(ColSpan.HALF);
+        brightness = new IntegerSpinner(0, 15, 0);
 
-        opacity = new IntegerField(0, 255, 255);
-        opacity.setLabel(AppL10n.localize("block.properties.opacity"));
-        opacity.setColSpan(ColSpan.HALF);
+        opacity = new IntegerSpinner(0, 255, 255);
 
         var toolTypeIndex = indexManager.getIndex(IndexKeys.TOOL_TYPE);
-        harvestTool = new ComboBoxField<>();
-        harvestTool.setLabel(AppL10n.localize("block.properties.harvestTool"));
-        harvestTool.setColSpan(ColSpan.HALF);
+        harvestTool = new ComboBox<>();
         harvestTool.setConverter(GameDataConverter.create(toolTypeIndex));
         harvestTool.setItems(toolTypeIndex.keyList());
 
-        harvestLevel = new IntegerField(0, Integer.MAX_VALUE, 0);
-        harvestLevel.setLabel(AppL10n.localize("block.properties.harvestLevel"));
-        harvestLevel.setColSpan(ColSpan.HALF);
+        harvestLevel = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         harvestLevel.disableProperty().bind(harvestTool.valueProperty().isEqualTo("NONE"));
 
-        information = new TextAreaField();
-        information.setLabel(AppL10n.localize("block.properties.information"));
+        information = new TextArea();
 
-        Section properties = new Section();
-        properties.setText(AppL10n.localize("block.properties.title"));
-        properties.getElements().addAll(
-                identifier, displayName,
-                type, itemGroup,
-                material, soundType,
-                hardness, unbreakable,
-                resistance, slipperiness,
-                brightness, opacity,
-                harvestTool, harvestLevel,
-                information);
+        var properties = titled(localize("block.properties.title"), form(
+                half(localize("block.properties.identifier"), identifier),
+                half(localize("block.properties.displayName"), displayName),
+                half(localize("block.properties.type"), type),
+                half(localize("block.properties.itemGroup"), itemGroup),
+                half(localize("block.properties.material"), material),
+                half(localize("block.properties.soundType"), soundType),
+                half(localize("block.properties.hardness"), hardness),
+                half(localize("block.properties.unbreakable"), unbreakable),
+                half(localize("block.properties.resistance"), resistance),
+                half(localize("block.properties.slipperiness"), slipperiness),
+                half(localize("block.properties.brightness"), brightness),
+                half(localize("block.properties.opacity"), opacity),
+                half(localize("block.properties.harvestTool"), harvestTool),
+                half(localize("block.properties.harvestLevel"), harvestLevel),
+                one(localize("block.properties.information"), information)
+        ));
 
-        model = new ModelField(getProject(), this, new ResourceStore(
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_MODELS), ".json"));
-        model.setText(AppL10n.localize("block.appearance.model"));
+        model = new ModelPicker(
+                getProject(),
+                localize("block.appearance.model"),
+                new ResourceStore(
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_MODELS), ".json"),
+                localize("block.appearance.texture"),
+                new ResourceStore(
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png")
+        );
         model.blockstateProperty().bind(Bindings.createStringBinding(() -> type.getValue().getBlockstate(), type.valueProperty()));
 
-        textures = new ModelTextureField(new ResourceStore(
+        particleTexture = new TexturePicker(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
-        textures.setLabel(AppL10n.localize("block.appearance.texture"));
-        model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
-
-        particleTexture = new TextureField(new ResourceStore(
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.BLOCK_TEXTURES), ".png"));
-        particleTexture.setLabel(AppL10n.localize("block.appearance.particleTexture"));
         particleTexture.setFitSize(64, 64);
+        particleTexture.setMaxSize(64, 64);
 
-        transparency = new RadioButtonField();
-        transparency.setLabel(AppL10n.localize("block.appearance.transparency"));
-        transparency.setColSpan(ColSpan.HALF);
-        transparency.valueProperty().addListener(observable -> opacity.setValue(transparency.getValue() ? 0 : 255));
+        transparency = new RadioButton();
+        transparency.selectedProperty().addListener(observable -> opacity.setValue(transparency.isSelected() ? 0 : 255));
 
         var renderTypeIndex = indexManager.getIndex(IndexKeys.RENDER_TYPE);
-        renderType = new ComboBoxField<>();
-        renderType.setLabel(AppL10n.localize("block.appearance.renderType"));
-        renderType.setColSpan(ColSpan.HALF);
+        renderType = new ComboBox<>();
         renderType.setConverter(GameDataConverter.create(renderTypeIndex));
         renderType.setItems(renderTypeIndex.keyList());
 
         var offsetTypeIndex = indexManager.getIndex(IndexKeys.OFFSET_TYPE);
-        offsetType = new ComboBoxField<>();
-        offsetType.setLabel(AppL10n.localize("block.appearance.offsetType"));
-        offsetType.setColSpan(ColSpan.HALF);
+        offsetType = new ComboBox<>();
         offsetType.setConverter(GameDataConverter.create(offsetTypeIndex));
         offsetType.setItems(offsetTypeIndex.keyList());
 
-        itemModel = new ModelField(getProject(), this, new ResourceStore(
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
-        itemModel.setText(AppL10n.localize("block.appearance.itemModel"));
+        itemModel = new ModelPicker(getProject(),
+                localize("block.appearance.itemModel"),
+                new ResourceStore(
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"),
+                localize("block.appearance.itemTexture"),
+                new ResourceStore(
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png")
+        );
         itemModel.setBlockstate("item");
         var modelManager = ModelManager.getInstance(getProject());
-        itemModel.hasDefaultItemModelProperty().bind(Bindings.createBooleanBinding(() -> {
+        itemModel.defaultModelEnabledProperty().bind(Bindings.createBooleanBinding(() -> {
             if (modelManager.getBlockstateTemplate(type.getValue().getBlockstate()).getItem() != null) return true;
-            Identifier blockModelId = model.getModel();
-            if (ModelManager.CUSTOM.equals(blockModelId)) return false;
-            return modelManager.getModelTemplate(blockModelId).getItem() != null;
+            Identifier blockModel = model.getModel();
+            if (blockModel == null) return false;
+            if (ModelManager.CUSTOM.equals(blockModel)) return false;
+            return modelManager.getModelTemplate(blockModel).getItem() != null;
         }, type.valueProperty(), model.modelProperty()));
 
-        itemTextures = new ModelTextureField(new ResourceStore(
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
-        itemTextures.setLabel(AppL10n.localize("block.appearance.itemTexture"));
-        itemTextures.visibleProperty().bind(Bindings.isNotEmpty(itemModel.getTextures()));
-        itemModel.getTextures().addListener((InvalidationListener) observable -> itemTextures.setTextureKeys(itemModel.getTextures()));
+        var appearance = titled(localize("block.appearance.title"), form(
+                one(model),
+                one(localize("block.appearance.particleTexture"), particleTexture),
+                half(localize("block.appearance.transparency"), transparency),
+                half(localize("block.appearance.renderType"), renderType),
+                half(localize("block.appearance.offsetType"), offsetType),
+                one(itemModel)
+        ));
 
-        Section appearance = new Section();
-        appearance.setText(AppL10n.localize("block.appearance.title"));
-        appearance.getElements().addAll(
-                model,
-                textures,
-                particleTexture,
-                transparency, renderType,
-                offsetType,
-                itemModel,
-                itemTextures
-        );
+        minX = new DoubleSpinner(0D, 16D, 0D);
 
-        minX = new DoubleField(0D, 16D, 0D);
-        minX.setLabel(AppL10n.localize("block.collision.minX"));
-        minX.setColSpan(ColSpan.THIRD);
+        minY = new DoubleSpinner(0D, 24D, 0D);
 
-        minY = new DoubleField(0D, 24D, 0D);
-        minY.setLabel(AppL10n.localize("block.collision.minY"));
-        minY.setColSpan(ColSpan.THIRD);
+        minZ = new DoubleSpinner(0D, 16D, 0D);
 
-        minZ = new DoubleField(0D, 16D, 0D);
-        minZ.setLabel(AppL10n.localize("block.collision.minZ"));
-        minZ.setColSpan(ColSpan.THIRD);
+        maxX = new DoubleSpinner(0D, 16D, 16D);
 
-        maxX = new DoubleField(0D, 16D, 16D);
-        maxX.setLabel(AppL10n.localize("block.collision.maxX"));
-        maxX.setColSpan(ColSpan.THIRD);
+        maxY = new DoubleSpinner(0D, 24D, 16D);
 
-        maxY = new DoubleField(0D, 24D, 16D);
-        maxY.setLabel(AppL10n.localize("block.collision.maxY"));
-        maxY.setColSpan(ColSpan.THIRD);
+        maxZ = new DoubleSpinner(0D, 16D, 16D);
 
-        maxZ = new DoubleField(0D, 16D, 16D);
-        maxZ.setLabel(AppL10n.localize("block.collision.maxZ"));
-        maxZ.setColSpan(ColSpan.THIRD);
+        noCollision = new RadioButton();
 
-        noCollision = new RadioButtonField();
-        noCollision.setLabel(AppL10n.localize("block.collision.noCollision"));
-        noCollision.setColSpan(ColSpan.HALF);
+        var collision = titled(localize("block.collision.title"), form(
+                half(localize("block.collision.minX"), minX),
+                half(localize("block.collision.minY"), minY),
+                half(localize("block.collision.minZ"), minZ),
+                half(localize("block.collision.maxX"), maxX),
+                half(localize("block.collision.maxY"), maxY),
+                half(localize("block.collision.maxZ"), maxZ),
+                half(localize("block.collision.noCollision"), noCollision)
+        ));
 
-        Section collision = new Section();
-        collision.setText(AppL10n.localize("block.collision.title"));
-        collision.getElements().addAll(
-                minX, minY, minZ,
-                maxX, maxY, maxZ,
-                noCollision);
-
-        doNotRegisterItem = new RadioButtonField();
-        doNotRegisterItem.setLabel(AppL10n.localize("block.extra.doNotRegisterItem"));
-        doNotRegisterItem.setColSpan(ColSpan.HALF);
+        doNotRegisterItem = new RadioButton();
 
         var mapColorIndex = indexManager.getIndex(IndexKeys.MAP_COLOR);
-        mapColor = new ComboBoxField<>();
-        mapColor.setLabel(AppL10n.localize("block.extra.mapColor"));
-        mapColor.setColSpan(ColSpan.HALF);
+        mapColor = new ComboBox<>();
         mapColor.setCellFactory(IconicDataCell.factory(getProject(), mapColorIndex));
         mapColor.setButtonCell(IconicDataCell.create(getProject(), mapColorIndex));
         mapColor.setItems(mapColorIndex.keyList());
 
-        beaconColor = new ColorPickerField();
-        beaconColor.setLabel(AppL10n.localize("block.extra.beaconColor"));
-        beaconColor.setColSpan(ColSpan.HALF);
+        beaconColor = new ColorPicker();
 
-        beaconBase = new RadioButtonField();
-        beaconBase.setLabel(AppL10n.localize("block.extra.beaconBase"));
-        beaconBase.setColSpan(ColSpan.HALF);
+        beaconBase = new RadioButton();
 
-        climbable = new RadioButtonField();
-        climbable.setLabel(AppL10n.localize("block.extra.climbable"));
-        climbable.setColSpan(ColSpan.HALF);
+        climbable = new RadioButton();
 
-        replaceable = new RadioButtonField();
-        replaceable.setLabel(AppL10n.localize("block.extra.replaceable"));
-        replaceable.setColSpan(ColSpan.HALF);
+        replaceable = new RadioButton();
 
-        canConnectRedstone = new RadioButtonField();
-        canConnectRedstone.setLabel(AppL10n.localize("block.extra.canConnectRedstone"));
-        canConnectRedstone.setColSpan(ColSpan.HALF);
+        canConnectRedstone = new RadioButton();
 
-        redstonePower = new IntegerField(0, 15, 0);
-        redstonePower.setLabel(AppL10n.localize("block.extra.redstonePower"));
-        redstonePower.setColSpan(ColSpan.HALF);
+        redstonePower = new IntegerSpinner(0, 15, 0);
 
         var plantTypeIndex = indexManager.getIndex(IndexKeys.PLANT_TYPE);
-        canPlantPlant = new ComboBoxField<>();
-        canPlantPlant.setLabel(AppL10n.localize("block.extra.canPlantPlant"));
-        canPlantPlant.setColSpan(ColSpan.HALF);
+        canPlantPlant = new ComboBox<>();
         canPlantPlant.setConverter(GameDataConverter.create(plantTypeIndex));
         canPlantPlant.setItems(plantTypeIndex.keyList());
 
-        enchantPowerBonus = new DoubleField(0, Double.MAX_VALUE, 0);
-        enchantPowerBonus.setLabel(AppL10n.localize("block.extra.enchantPowerBonus"));
-        enchantPowerBonus.setColSpan(ColSpan.HALF);
+        enchantPowerBonus = new DoubleSpinner(0, Double.MAX_VALUE, 0);
 
-        flammability = new IntegerField(0, Integer.MAX_VALUE, 0);
-        flammability.setLabel(AppL10n.localize("block.extra.flammability"));
-        flammability.setColSpan(ColSpan.HALF);
+        flammability = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
 
-        fireSpreadSpeed = new IntegerField(0, Integer.MAX_VALUE, 0);
-        fireSpreadSpeed.setLabel(AppL10n.localize("block.extra.fireSpreadSpeed"));
-        fireSpreadSpeed.setColSpan(ColSpan.HALF);
+        fireSpreadSpeed = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
 
         var pushReactionIndex = indexManager.getIndex(IndexKeys.PUSH_REACTION);
-        pushReaction = new ComboBoxField<>();
-        pushReaction.setLabel(AppL10n.localize("block.extra.pushReaction"));
-        pushReaction.setColSpan(ColSpan.HALF);
+        pushReaction = new ComboBox<>();
         pushReaction.setConverter(GameDataConverter.create(pushReactionIndex));
         pushReaction.setItems(pushReactionIndex.keyList());
 
         var aiPathNodeTypeIndex = indexManager.getIndex(IndexKeys.AI_PATH_NODE_TYPE);
-        aiPathNodeType = new ComboBoxField<>();
-        aiPathNodeType.setLabel(AppL10n.localize("block.extra.aiPathNodeType"));
-        aiPathNodeType.setColSpan(ColSpan.HALF);
+        aiPathNodeType = new ComboBox<>();
         aiPathNodeType.setConverter(GameDataConverter.create(aiPathNodeTypeIndex));
         aiPathNodeType.setItems(aiPathNodeTypeIndex.keyList());
 
-        Section extra = new Section();
-        extra.setText(AppL10n.localize("block.extra.title"));
-        extra.getElements().addAll(
-                doNotRegisterItem, mapColor,
-                beaconColor, beaconBase,
-                climbable, replaceable,
-                canConnectRedstone, redstonePower,
-                canPlantPlant, enchantPowerBonus,
-                flammability, fireSpreadSpeed,
-                pushReaction, aiPathNodeType
-        );
+        var extra = titled(localize("block.extra.title"), form(
+                half(localize("block.extra.doNotRegisterItem"), doNotRegisterItem),
+                half(localize("block.extra.mapColor"), mapColor),
+                half(localize("block.extra.beaconColor"), beaconColor),
+                half(localize("block.extra.beaconBase"), beaconBase),
+                half(localize("block.extra.climbable"), climbable),
+                half(localize("block.extra.replaceable"), replaceable),
+                half(localize("block.extra.canConnectRedstone"), canConnectRedstone),
+                half(localize("block.extra.redstonePower"), redstonePower),
+                half(localize("block.extra.canPlantPlant"), canPlantPlant),
+                half(localize("block.extra.enchantPowerBonus"), enchantPowerBonus),
+                half(localize("block.extra.flammability"), flammability),
+                half(localize("block.extra.fireSpreadSpeed"), fireSpreadSpeed),
+                half(localize("block.extra.pushReaction"), pushReaction),
+                half(localize("block.extra.aiPathNodeType"), aiPathNodeType)
+        ));
 
-        form.getGroups().addAll(properties, appearance, collision, extra);
 
-        return new FormView(form);
+        return scrollVBox(properties, appearance, collision, extra);
     }
 
     @Override
     protected void initialize(BlockElement element) {
-        identifier.setValue(element.getIdentifier());
-        displayName.setValue(element.getDisplayName());
+        identifier.setText(element.getIdentifier());
+        displayName.setText(element.getDisplayName());
         type.setValue(element.getType());
         itemGroup.setValue(element.getItemGroup());
         material.setValue(element.getMaterial());
         soundType.setValue(element.getSoundType());
         hardness.setValue(element.getHardness());
-        unbreakable.set(element.isUnbreakable());
+        unbreakable.setSelected(element.isUnbreakable());
         resistance.setValue(element.getResistance());
         slipperiness.setValue(element.getSlipperiness());
         brightness.setValue(element.getBrightness());
         opacity.setValue(element.getOpacity());
-        noCollision.set(element.isNoCollision());
-        replaceable.set(element.isReplaceable());
+        noCollision.setSelected(element.isNoCollision());
+        replaceable.setSelected(element.isReplaceable());
         harvestTool.setValue(element.getHarvestTool());
         harvestLevel.setValue(element.getHarvestLevel());
-        information.setValue(StringUtils.join(element.getInformation(), '\n'));
+        information.setText(StringUtils.join(element.getInformation(), '\n'));
 
         model.setModel(element.getModel());
         model.setCustomModels(element.getCustomModels());
-        textures.setTextures(element.getTextures());
-        particleTexture.setTexture(element.getParticleTexture());
-        transparency.set(element.isTransparency());
+        model.setTextures(element.getTextures());
+        particleTexture.setResource(element.getParticleTexture());
+        transparency.setSelected(element.isTransparency());
         renderType.setValue(element.getRenderType());
         offsetType.setValue(element.getOffsetType());
         itemModel.setModel(element.getItemModel());
         itemModel.setCustomModels(element.getCustomItemModels());
-        itemTextures.setTextures(element.getItemTextures());
+        itemModel.setTextures(element.getItemTextures());
 
         BoundingBox boundingBox = element.getBoundingBox();
         minX.setValue(boundingBox.minX() * 16);
@@ -416,12 +346,12 @@ public class BlockEditor extends ElementEditor<BlockElement> {
         maxY.setValue(boundingBox.maxY() * 16);
         maxZ.setValue(boundingBox.maxZ() * 16);
 
-        doNotRegisterItem.set(element.isDoNotRegisterItem());
+        doNotRegisterItem.setSelected(element.isDoNotRegisterItem());
         mapColor.setValue(element.getMapColor());
         beaconColor.setValue(Color.valueOf(element.getBeaconColor()));
-        beaconBase.set(element.isBeaconBase());
-        climbable.set(element.isClimbable());
-        canConnectRedstone.set(element.isCanConnectRedstone());
+        beaconBase.setSelected(element.isBeaconBase());
+        climbable.setSelected(element.isClimbable());
+        canConnectRedstone.setSelected(element.isCanConnectRedstone());
         redstonePower.setValue(element.getRedstonePower());
         canPlantPlant.setValue(element.getCanPlantPlant());
         enchantPowerBonus.setValue(element.getEnchantPowerBonus());
@@ -433,45 +363,45 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
     @Override
     protected void updateDataModel(BlockElement element) {
-        element.setIdentifier(identifier.getValue().trim());
-        element.setDisplayName(displayName.getValue());
+        element.setIdentifier(identifier.getText());
+        element.setDisplayName(displayName.getText());
         element.setType(type.getValue());
         element.setItemGroup(itemGroup.getValue());
         element.setMaterial(material.getValue());
         element.setSoundType(soundType.getValue());
         element.setHardness(hardness.getValue());
-        element.setUnbreakable(unbreakable.get());
+        element.setUnbreakable(unbreakable.isSelected());
         element.setResistance(resistance.getValue());
         element.setSlipperiness(slipperiness.getValue());
         element.setBrightness(brightness.getValue());
         element.setOpacity(opacity.getValue());
-        element.setNoCollision(noCollision.get());
-        element.setReplaceable(replaceable.get());
+        element.setNoCollision(noCollision.isSelected());
+        element.setReplaceable(replaceable.isSelected());
         element.setHarvestTool(harvestTool.getValue());
         element.setHarvestLevel(harvestLevel.getValue());
-        element.setInformation(StringUtils.splitByLineSeparator(information.getValue()));
+        element.setInformation(StringUtils.splitByLineSeparator(information.getText()));
 
         element.setModel(model.getModel());
         element.setCustomModels(model.getCustomModels());
-        element.setTextures(textures.getTextures());
-        element.setParticleTexture(particleTexture.getTexture());
-        element.setTransparency(transparency.get());
+        element.setTextures(model.getTextures());
+        element.setParticleTexture(particleTexture.getResource());
+        element.setTransparency(transparency.isSelected());
         element.setRenderType(renderType.getValue());
         element.setOffsetType(offsetType.getValue());
         element.setItemModel(itemModel.getModel());
         element.setCustomItemModels(itemModel.getCustomModels());
-        element.setItemTextures(itemTextures.getTextures());
+        element.setItemTextures(itemModel.getTextures());
 
         element.setBoundingBox(new BoundingBox(
                 minX.getValue() / 16, minY.getValue() / 16, minZ.getValue() / 16,
                 maxX.getValue() / 16, maxY.getValue() / 16, maxZ.getValue() / 16));
 
-        element.setDoNotRegisterItem(doNotRegisterItem.get());
+        element.setDoNotRegisterItem(doNotRegisterItem.isSelected());
         element.setMapColor(mapColor.getValue());
         element.setBeaconColor(beaconColor.getValue().toString());
-        element.setBeaconBase(beaconBase.get());
-        element.setClimbable(climbable.get());
-        element.setCanConnectRedstone(canConnectRedstone.get());
+        element.setBeaconBase(beaconBase.isSelected());
+        element.setClimbable(climbable.isSelected());
+        element.setCanConnectRedstone(canConnectRedstone.isSelected());
         element.setRedstonePower(redstonePower.getValue());
         element.setCanPlantPlant(canPlantPlant.getValue());
         element.setEnchantPowerBonus(enchantPowerBonus.getValue());
@@ -483,6 +413,6 @@ public class BlockEditor extends ElementEditor<BlockElement> {
 
     @Override
     protected boolean validate() {
-        return form.validate();
+        return Validator.validate(identifier);
     }
 }

@@ -1,6 +1,5 @@
 package com.github.mouse0w0.peach.mcmod.element.editor;
 
-import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.AttributeModifier;
 import com.github.mouse0w0.peach.mcmod.EquipmentSlot;
 import com.github.mouse0w0.peach.mcmod.ItemType;
@@ -14,69 +13,75 @@ import com.github.mouse0w0.peach.mcmod.ui.cell.AttributeModifierCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.IconicDataCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.LocalizableCell;
 import com.github.mouse0w0.peach.mcmod.ui.cell.ToolAttributeCell;
-import com.github.mouse0w0.peach.mcmod.ui.form.ItemPickerField;
-import com.github.mouse0w0.peach.mcmod.ui.form.ModelField;
-import com.github.mouse0w0.peach.mcmod.ui.form.ModelTextureField;
-import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
+import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
+import com.github.mouse0w0.peach.mcmod.ui.control.ModelPicker;
+import com.github.mouse0w0.peach.mcmod.ui.control.TexturePicker;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.form.ColSpan;
-import com.github.mouse0w0.peach.ui.form.Form;
-import com.github.mouse0w0.peach.ui.form.FormView;
-import com.github.mouse0w0.peach.ui.form.Section;
-import com.github.mouse0w0.peach.ui.form.field.*;
-import com.github.mouse0w0.peach.ui.util.Check;
+import com.github.mouse0w0.peach.ui.control.CheckComboBox;
+import com.github.mouse0w0.peach.ui.control.DoubleSpinner;
+import com.github.mouse0w0.peach.ui.control.IntegerSpinner;
+import com.github.mouse0w0.peach.ui.control.TagView;
+import com.github.mouse0w0.peach.ui.util.ExtensionFilters;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import com.github.mouse0w0.peach.util.ArrayUtils;
 import com.github.mouse0w0.peach.util.StringUtils;
-import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemEditor extends ElementEditor<ItemElement> {
-    private Form form;
+import static com.github.mouse0w0.peach.l10n.AppL10n.localize;
+import static com.github.mouse0w0.peach.ui.layout.Form.form;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.half;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.one;
+import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.scrollVBox;
+import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.titled;
 
+public class ItemEditor extends ElementEditor<ItemElement> {
     // Properties
-    private TextFieldField identifier;
-    private TextFieldField displayName;
-    private ComboBoxField<ItemType> type;
-    private ComboBoxField<String> itemGroup;
-    private IntegerField maxStackSize;
-    private IntegerField durability;
-    private ComboBoxField<EquipmentSlot> equipmentSlot;
-    private TagViewField<ToolAttribute> toolAttributes;
-    private DoubleField destroySpeed;
-    private RadioButtonField canDestroyAnyBlock;
-    private DoubleField attackDamage;
-    private DoubleField attackSpeed;
-    private IntegerField enchantability;
-    private CheckComboBoxField<String> acceptableEnchantments;
-    private TagViewField<AttributeModifier> attributeModifiers;
-    private ItemPickerField repairItem;
-    private ItemPickerField recipeRemain;
-    private ComboBoxField<String> useAnimation;
-    private IntegerField useDuration;
-    private IntegerField hitEntityLoss;
-    private IntegerField destroyBlockLoss;
-    private TextAreaField information;
+    private TextField identifier;
+    private TextField displayName;
+    private ComboBox<ItemType> type;
+    private ComboBox<String> itemGroup;
+    private IntegerSpinner maxStackSize;
+    private IntegerSpinner durability;
+    private ComboBox<EquipmentSlot> equipmentSlot;
+    private TagView<ToolAttribute> toolAttributes;
+    private DoubleSpinner destroySpeed;
+    private RadioButton canDestroyAnyBlock;
+    private DoubleSpinner attackDamage;
+    private DoubleSpinner attackSpeed;
+    private IntegerSpinner enchantability;
+    private CheckComboBox<String> acceptableEnchantments;
+    private TagView<AttributeModifier> attributeModifiers;
+    private ItemPicker repairItem;
+    private ItemPicker recipeRemain;
+    private ComboBox<String> useAnimation;
+    private IntegerSpinner useDuration;
+    private IntegerSpinner hitEntityLoss;
+    private IntegerSpinner destroyBlockLoss;
+    private TextArea information;
 
     // Appearance
-    private ModelField model;
-    private ModelTextureField textures;
-    private RadioButtonField hasEffect;
-    private TextureField armorTexture;
+    private ModelPicker model;
+    private RadioButton hasEffect;
+    private TexturePicker armorTexture;
 
     // Extra
-    private IntegerField fuelBurnTime;
-    private ComboBoxField<String> equipSound;
-    private IntegerField hunger;
-    private DoubleField saturation;
-    private RadioButtonField isWolfFood;
-    private RadioButtonField alwaysEdible;
-    private ItemPickerField foodContainer;
+    private IntegerSpinner fuelBurnTime;
+    private ComboBox<String> equipSound;
+    private IntegerSpinner hunger;
+    private DoubleSpinner saturation;
+    private RadioButton isWolfFood;
+    private RadioButton alwaysEdible;
+    private ItemPicker foodContainer;
 
     public ItemEditor(@NotNull Project project, @NotNull ItemElement element) {
         super(project, element);
@@ -86,30 +91,20 @@ public class ItemEditor extends ElementEditor<ItemElement> {
     protected Node getContent() {
         var indexManager = IndexManager.getInstance(getProject());
 
-        form = new Form();
+        identifier = new TextField();
+        Validator.of(identifier, localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier);
 
-        Section properties = new Section();
-        properties.setText(AppL10n.localize("item.properties.title"));
+        displayName = new TextField();
 
-        identifier = new TextFieldField();
-        identifier.getChecks().add(Check.of(AppL10n.localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier));
-        identifier.setLabel(AppL10n.localize("item.properties.identifier"));
-        identifier.setColSpan(ColSpan.HALF);
-
-        displayName = new TextFieldField();
-        displayName.setLabel(AppL10n.localize("item.properties.displayName"));
-        displayName.setColSpan(ColSpan.HALF);
-
-        type = new ComboBoxField<>();
-        type.setLabel(AppL10n.localize("item.properties.type"));
+        type = new ComboBox<>();
         type.setCellFactory(LocalizableCell.factory());
         type.setButtonCell(new LocalizableCell<>());
         type.getItems().setAll(ItemType.VALUES);
-        type.setColSpan(ColSpan.HALF);
+
         BooleanBinding isFood = type.valueProperty().isEqualTo(ItemType.FOOD);
-        BooleanBinding isNotFood = type.valueProperty().isNotEqualTo(ItemType.FOOD);
+        BooleanBinding isNotFood = isFood.not();
         BooleanBinding isArmor = type.valueProperty().isEqualTo(ItemType.ARMOR);
-        BooleanBinding isNotArmor = type.valueProperty().isNotEqualTo(ItemType.ARMOR);
+        BooleanBinding isNotArmor = isArmor.not();
         BooleanBinding isArmorOrFood = isArmor.or(isFood);
 
         isFood.addListener(observable -> {
@@ -123,18 +118,13 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             }
         });
 
-
         var itemGroupMap = indexManager.getIndex(IndexKeys.ITEM_GROUP);
-        itemGroup = new ComboBoxField<>();
-        itemGroup.setLabel(AppL10n.localize("item.properties.itemGroup"));
-        itemGroup.setColSpan(ColSpan.HALF);
+        itemGroup = new ComboBox<>();
         itemGroup.setCellFactory(IconicDataCell.factory(getProject(), itemGroupMap));
         itemGroup.setButtonCell(IconicDataCell.create(getProject(), itemGroupMap));
         itemGroup.setItems(itemGroupMap.keyList());
 
-        maxStackSize = new IntegerField(1, 64, 64);
-        maxStackSize.setLabel(AppL10n.localize("item.properties.maxStackSize"));
-        maxStackSize.setColSpan(ColSpan.HALF);
+        maxStackSize = new IntegerSpinner(1, 64, 64);
         maxStackSize.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             ItemType type = this.type.getValue();
             if (type == ItemType.NORMAL || type == ItemType.FOOD) {
@@ -146,16 +136,12 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             }
         }, type.valueProperty()));
 
-        durability = new IntegerField(0, Integer.MAX_VALUE, 0);
-        durability.setLabel(AppL10n.localize("item.properties.durability"));
-        durability.setColSpan(ColSpan.HALF);
+        durability = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         durability.disableProperty().bind(isFood);
 
-        equipmentSlot = new ComboBoxField<>();
-        equipmentSlot.setLabel(AppL10n.localize("item.properties.equipmentSlot"));
+        equipmentSlot = new ComboBox<>();
         equipmentSlot.setConverter(LocalizableConverter.instance());
         equipmentSlot.getItems().addAll(EquipmentSlot.ALL_SLOTS);
-        equipmentSlot.setColSpan(ColSpan.HALF);
         equipmentSlot.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             final ItemType type = this.type.getValue();
             if (type == ItemType.FOOD) {
@@ -176,30 +162,20 @@ public class ItemEditor extends ElementEditor<ItemElement> {
         }, type.valueProperty()));
 
         var toolTypeIndex = indexManager.getIndex(IndexKeys.TOOL_TYPE);
-        toolAttributes = new TagViewField<>();
-        toolAttributes.setLabel(AppL10n.localize("item.properties.toolAttributes"));
-        toolAttributes.setColSpan(ColSpan.HALF);
+        toolAttributes = new TagView<>();
         toolAttributes.disableProperty().bind(isArmorOrFood);
         toolAttributes.setItemFactory(() -> new ToolAttribute("axe", 0));
         toolAttributes.setCellFactory(view -> new ToolAttributeCell(toolTypeIndex));
 
-        destroySpeed = new DoubleField(0.0, Double.MAX_VALUE, 0D);
-        destroySpeed.setLabel(AppL10n.localize("item.properties.destroySpeed"));
-        destroySpeed.setColSpan(ColSpan.HALF);
+        destroySpeed = new DoubleSpinner(0, Double.MAX_VALUE, 0);
         destroySpeed.disableProperty().bind(isArmorOrFood);
 
-        canDestroyAnyBlock = new RadioButtonField();
-        canDestroyAnyBlock.setLabel(AppL10n.localize("item.properties.canDestroyAnyBlock"));
-        canDestroyAnyBlock.setColSpan(ColSpan.HALF);
+        canDestroyAnyBlock = new RadioButton();
         canDestroyAnyBlock.disableProperty().bind(isArmorOrFood);
 
-        attackDamage = new DoubleField(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
-        attackDamage.setLabel(AppL10n.localize("item.properties.attackDamage"));
-        attackDamage.setColSpan(ColSpan.HALF);
+        attackDamage = new DoubleSpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 1D);
 
-        attackSpeed = new DoubleField(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
-        attackSpeed.setLabel(AppL10n.localize("item.properties.attackSpeed"));
-        attackSpeed.setColSpan(ColSpan.HALF);
+        attackSpeed = new DoubleSpinner(-Double.MAX_VALUE, Double.MAX_VALUE, 4D);
         type.valueProperty().addListener(observable -> {
             ItemType type = this.type.getValue();
             if (type == ItemType.SWORD) {
@@ -211,50 +187,35 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             }
         });
 
-        enchantability = new IntegerField(0, Integer.MAX_VALUE, 0);
-        enchantability.setLabel(AppL10n.localize("item.properties.enchantability"));
-        enchantability.setColSpan(ColSpan.HALF);
+        enchantability = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         enchantability.disableProperty().bind(isFood);
 
         var enchantmentTypeIndex = indexManager.getIndex(IndexKeys.ENCHANTMENT_TYPE);
-        acceptableEnchantments = new CheckComboBoxField<>(enchantmentTypeIndex.keyList());
-        acceptableEnchantments.setLabel(AppL10n.localize("item.properties.acceptableEnchantments"));
+        acceptableEnchantments = new CheckComboBox<>(enchantmentTypeIndex.keyList());
         acceptableEnchantments.setConverter(GameDataConverter.create(enchantmentTypeIndex));
-        acceptableEnchantments.setColSpan(ColSpan.HALF);
         acceptableEnchantments.disableProperty().bind(isFood);
 
         var attributeIndex = indexManager.getIndex(IndexKeys.ATTRIBUTE);
-        attributeModifiers = new TagViewField<>();
-        attributeModifiers.setLabel(AppL10n.localize("item.properties.attributeModifiers"));
+        attributeModifiers = new TagView<>();
         attributeModifiers.disableProperty().bind(equipmentSlot.valueProperty().isEqualTo(EquipmentSlot.NONE));
         attributeModifiers.setItemFactory(() -> new AttributeModifier("generic.maxHealth", 0, AttributeModifier.Operation.ADD));
         attributeModifiers.setCellFactory(view -> new AttributeModifierCell(attributeIndex));
 
-        repairItem = new ItemPickerField(getProject());
-        repairItem.setSize(32);
-        repairItem.setLabel(AppL10n.localize("item.properties.repairItem"));
-        repairItem.setColSpan(ColSpan.HALF);
+        repairItem = new ItemPicker(getProject(), 32);
+        repairItem.getStyleClass().add("minecraft-small-slot-32x");
         repairItem.disableProperty().bind(isFood);
 
-        recipeRemain = new ItemPickerField(getProject());
-        recipeRemain.setSize(32);
-        recipeRemain.setLabel(AppL10n.localize("item.properties.recipeRemain"));
-        recipeRemain.setColSpan(ColSpan.HALF);
+        recipeRemain = new ItemPicker(getProject(), 32);
+        recipeRemain.getStyleClass().add("minecraft-small-slot-32x");
 
         var useAnimationIndex = indexManager.getIndex(IndexKeys.USE_ANIMATION);
-        useAnimation = new ComboBoxField<>();
-        useAnimation.setLabel(AppL10n.localize("item.properties.useAnimation"));
+        useAnimation = new ComboBox<>();
         useAnimation.setConverter(GameDataConverter.create(useAnimationIndex));
         useAnimation.setItems(useAnimationIndex.keyList());
-        useAnimation.setColSpan(ColSpan.HALF);
 
-        useDuration = new IntegerField(0, Integer.MAX_VALUE, 0);
-        useDuration.setLabel(AppL10n.localize("item.properties.useDuration"));
-        useDuration.setColSpan(ColSpan.HALF);
+        useDuration = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
 
-        hitEntityLoss = new IntegerField(0, Integer.MAX_VALUE, 0);
-        hitEntityLoss.setLabel(AppL10n.localize("item.properties.hitEntityLoss"));
-        hitEntityLoss.setColSpan(ColSpan.HALF);
+        hitEntityLoss = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         hitEntityLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
             ItemType type = this.type.getValue();
@@ -273,9 +234,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             }
         }, type.valueProperty(), durability.valueProperty()));
 
-        destroyBlockLoss = new IntegerField(0, Integer.MAX_VALUE, 0);
-        destroyBlockLoss.setLabel(AppL10n.localize("item.properties.destroyBlockLoss"));
-        destroyBlockLoss.setColSpan(ColSpan.HALF);
+        destroyBlockLoss = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         destroyBlockLoss.disableProperty().bind(Bindings.createBooleanBinding(() -> {
             if (durability.getValue() == 0) return true;
             ItemType type = this.type.getValue();
@@ -294,181 +253,181 @@ public class ItemEditor extends ElementEditor<ItemElement> {
             }
         }, type.valueProperty(), durability.valueProperty()));
 
-        information = new TextAreaField();
-        information.setLabel(AppL10n.localize("item.properties.information"));
+        information = new TextArea();
 
-        properties.getElements().addAll(
-                identifier, displayName,
-                type, itemGroup,
-                maxStackSize, durability,
-                equipmentSlot, toolAttributes,
-                destroySpeed, canDestroyAnyBlock,
-                attackDamage, attackSpeed,
-                enchantability, acceptableEnchantments,
-                attributeModifiers,
-                repairItem, recipeRemain,
-                useAnimation, useDuration,
-                hitEntityLoss, destroyBlockLoss,
-                information);
+        var properties = titled(localize("item.properties.title"), form(
+                half(localize("item.properties.identifier"), identifier),
+                half(localize("item.properties.displayName"), displayName),
+                half(localize("item.properties.type"), type),
+                half(localize("item.properties.itemGroup"), itemGroup),
+                half(localize("item.properties.maxStackSize"), maxStackSize),
+                half(localize("item.properties.durability"), durability),
+                half(localize("item.properties.equipmentSlot"), equipmentSlot),
+                half(localize("item.properties.toolAttributes"), toolAttributes),
+                half(localize("item.properties.destroySpeed"), destroySpeed),
+                half(localize("item.properties.canDestroyAnyBlock"), canDestroyAnyBlock),
+                half(localize("item.properties.attackDamage"), attackDamage),
+                half(localize("item.properties.attackSpeed"), attackSpeed),
+                half(localize("item.properties.enchantability"), enchantability),
+                half(localize("item.properties.acceptableEnchantments"), acceptableEnchantments),
+                one(localize("item.properties.attributeModifiers"), attributeModifiers),
+                half(localize("item.properties.repairItem"), repairItem),
+                half(localize("item.properties.recipeRemain"), recipeRemain),
+                half(localize("item.properties.useAnimation"), useAnimation),
+                half(localize("item.properties.useDuration"), useDuration),
+                half(localize("item.properties.hitEntityLoss"), hitEntityLoss),
+                half(localize("item.properties.destroyBlockLoss"), destroyBlockLoss),
+                one(localize("item.properties.information"), information)
+        ));
 
-        Section appearance = new Section();
-        appearance.setText(AppL10n.localize("item.appearance.title"));
-
-        model = new ModelField(getProject(), this, new ResourceStore(
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"));
-        model.setText(AppL10n.localize("item.appearance.model"));
+        model = new ModelPicker(
+                getProject(),
+                localize("item.appearance.model"),
+                new ResourceStore(
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.MODELS),
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_MODELS), ".json"),
+                localize("item.appearance.texture"),
+                new ResourceStore(
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
+                        ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png")
+        );
         model.setBlockstate("item");
 
-        textures = new ModelTextureField(new ResourceStore(
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
-                ResourceUtils.getResourcePath(getProject(), ResourceUtils.ITEM_TEXTURES), ".png"));
-        textures.setLabel(AppL10n.localize("item.appearance.texture"));
-        model.getTextures().addListener((InvalidationListener) observable -> textures.setTextureKeys(model.getTextures()));
+        hasEffect = new RadioButton();
 
-        hasEffect = new RadioButtonField();
-        hasEffect.setLabel(AppL10n.localize("item.appearance.hasEffect"));
-        hasEffect.setColSpan(ColSpan.HALF);
-
-        armorTexture = new TextureField(new ResourceStore(
+        armorTexture = new TexturePicker(new ResourceStore(
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.TEXTURES),
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
+        armorTexture.getExtensionFilters().add(ExtensionFilters.PNG);
         armorTexture.setFitSize(128, 64);
-        armorTexture.setLabel(AppL10n.localize("item.appearance.armorTexture"));
-        armorTexture.visibleProperty().bind(isArmor);
+//        armorTexture.setMaxSize(128, 64);
+        armorTexture.disableProperty().bind(isNotArmor);
 
-        appearance.getElements().addAll(model, textures, hasEffect, armorTexture);
+        var appearance = titled(localize("item.appearance.title"), form(
+                one(model),
+                half(localize("item.appearance.hasEffect"), hasEffect),
+                one(localize("item.appearance.armorTexture"), armorTexture)
+        ));
 
-        Section extra = new Section();
-        extra.setText(AppL10n.localize("item.extra.title"));
-
-        fuelBurnTime = new IntegerField(0, Integer.MAX_VALUE, 0);
-        fuelBurnTime.setLabel(AppL10n.localize("item.fuel.fuelBurnTime"));
-        fuelBurnTime.setColSpan(ColSpan.HALF);
+        fuelBurnTime = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
 
         var soundEventIndex = indexManager.getIndex(IndexKeys.SOUND_EVENT);
-        equipSound = new ComboBoxField<>();
-        equipSound.setLabel(AppL10n.localize("item.armor.equipSound"));
-        equipSound.setColSpan(ColSpan.HALF);
+        equipSound = new ComboBox<>();
         equipSound.setConverter(GameDataConverter.create(soundEventIndex));
         equipSound.setItems(soundEventIndex.keyList());
         equipSound.disableProperty().bind(isNotArmor);
 
-        hunger = new IntegerField(0, Integer.MAX_VALUE, 0);
-        hunger.setLabel(AppL10n.localize("item.food.hunger"));
-        hunger.setColSpan(ColSpan.HALF);
+        hunger = new IntegerSpinner(0, Integer.MAX_VALUE, 0);
         hunger.disableProperty().bind(isNotFood);
 
-        saturation = new DoubleField(0.0, Double.MAX_VALUE, 0.6);
-        saturation.setLabel(AppL10n.localize("item.food.saturation"));
-        saturation.setColSpan(ColSpan.HALF);
+        saturation = new DoubleSpinner(0.0, Double.MAX_VALUE, 0.6);
         saturation.disableProperty().bind(isNotFood);
 
-        isWolfFood = new RadioButtonField();
-        isWolfFood.setLabel(AppL10n.localize("item.food.isWolfFood"));
-        isWolfFood.setColSpan(ColSpan.HALF);
+        isWolfFood = new RadioButton();
         isWolfFood.disableProperty().bind(isNotFood);
 
-        alwaysEdible = new RadioButtonField();
-        alwaysEdible.setLabel(AppL10n.localize("item.food.alwaysEdible"));
-        alwaysEdible.setColSpan(ColSpan.HALF);
+        alwaysEdible = new RadioButton();
         alwaysEdible.disableProperty().bind(isNotFood);
 
-        foodContainer = new ItemPickerField(getProject());
-        foodContainer.setSize(32);
-        foodContainer.setLabel(AppL10n.localize("item.food.foodContainer"));
-        foodContainer.setColSpan(ColSpan.HALF);
+        foodContainer = new ItemPicker(getProject(), 32);
+        foodContainer.getStyleClass().add("minecraft-small-slot-32x");
         foodContainer.disableProperty().bind(isNotFood);
 
-        extra.getElements().addAll(fuelBurnTime, equipSound, hunger, saturation, isWolfFood, alwaysEdible, foodContainer);
+        var extra = titled(localize("item.extra.title"), form(
+                half(localize("item.fuel.fuelBurnTime"), fuelBurnTime),
+                half(localize("item.armor.equipSound"), equipSound),
+                half(localize("item.food.hunger"), hunger),
+                half(localize("item.food.saturation"), saturation),
+                half(localize("item.food.isWolfFood"), isWolfFood),
+                half(localize("item.food.alwaysEdible"), alwaysEdible),
+                half(localize("item.food.foodContainer"), foodContainer)
+        ));
 
-        form.getGroups().addAll(properties, appearance, extra);
-
-        return new FormView(form);
+        return scrollVBox(properties, appearance, extra);
     }
 
     @Override
     protected void initialize(ItemElement item) {
-        identifier.setValue(item.getIdentifier());
-        displayName.setValue(item.getDisplayName());
+        identifier.setText(item.getIdentifier());
+        displayName.setText(item.getDisplayName());
         type.setValue(item.getType());
         itemGroup.setValue(item.getItemGroup());
         maxStackSize.setValue(item.getMaxStackSize());
         durability.setValue(item.getDurability());
         equipmentSlot.setValue(item.getEquipmentSlot());
-        toolAttributes.setValues(item.getToolAttributes());
+        toolAttributes.getItems().addAll(item.getToolAttributes());
         destroySpeed.setValue(item.getDestroySpeed());
-        canDestroyAnyBlock.set(item.isCanDestroyAnyBlock());
+        canDestroyAnyBlock.setSelected(item.isCanDestroyAnyBlock());
         attackDamage.setValue(item.getAttackDamage());
         attackSpeed.setValue(item.getAttackSpeed());
-        attributeModifiers.setValues(item.getAttributeModifiers());
+        attributeModifiers.getItems().addAll(item.getAttributeModifiers());
         enchantability.setValue(item.getEnchantability());
-        acceptableEnchantments.setValues(item.getAcceptableEnchantments());
-        repairItem.setValue(item.getRepairItem());
-        recipeRemain.setValue(item.getRecipeRemain());
+        acceptableEnchantments.checkItems(item.getAcceptableEnchantments());
+        repairItem.setItem(item.getRepairItem());
+        recipeRemain.setItem(item.getRecipeRemain());
         useAnimation.setValue(item.getUseAnimation());
         useDuration.setValue(item.getUseDuration());
         hitEntityLoss.setValue(item.getHitEntityLoss());
         destroyBlockLoss.setValue(item.getDestroyBlockLoss());
-        information.setValue(StringUtils.join(item.getInformation(), '\n'));
+        information.setText(StringUtils.join(item.getInformation(), '\n'));
 
         model.setModel(item.getModel());
         model.setCustomModels(item.getCustomModels());
-        textures.setTextures(item.getTextures());
-        hasEffect.set(item.isHasEffect());
-        armorTexture.setTexture(item.getArmorTexture());
+        model.setTextures(item.getTextures());
+        hasEffect.setSelected(item.isHasEffect());
+        armorTexture.setResource(item.getArmorTexture());
 
         fuelBurnTime.setValue(item.getFuelBurnTime());
         equipSound.setValue(item.getEquipSound());
         hunger.setValue(item.getHunger());
         saturation.setValue(item.getSaturation());
-        isWolfFood.set(item.isWolfFood());
-        alwaysEdible.set(item.isAlwaysEdible());
-        foodContainer.setValue(item.getFoodContainer());
+        isWolfFood.setSelected(item.isWolfFood());
+        alwaysEdible.setSelected(item.isAlwaysEdible());
+        foodContainer.setItem(item.getFoodContainer());
     }
 
     @Override
     protected void updateDataModel(ItemElement item) {
-        item.setIdentifier(identifier.getValue().trim());
-        item.setDisplayName(displayName.getValue().trim());
+        item.setIdentifier(identifier.getText());
+        item.setDisplayName(displayName.getText());
         item.setType(type.getValue());
         item.setItemGroup(itemGroup.getValue());
         item.setMaxStackSize(maxStackSize.getValue());
         item.setDurability(durability.getValue());
         item.setEquipmentSlot(equipmentSlot.getValue());
-        item.setToolAttributes(toolAttributes.getValues().toArray(ToolAttribute.EMPTY_ARRAY));
+        item.setToolAttributes(toolAttributes.getItems().toArray(ToolAttribute.EMPTY_ARRAY));
         item.setDestroySpeed(destroySpeed.getValue());
-        item.setCanDestroyAnyBlock(canDestroyAnyBlock.get());
+        item.setCanDestroyAnyBlock(canDestroyAnyBlock.isSelected());
         item.setAttackDamage(attackDamage.getValue());
         item.setAttackSpeed(attackSpeed.getValue());
-        item.setAttributeModifiers(attributeModifiers.getValues().toArray(AttributeModifier.EMPTY_ARRAY));
+        item.setAttributeModifiers(attributeModifiers.getItems().toArray(AttributeModifier.EMPTY_ARRAY));
         item.setEnchantability(enchantability.getValue());
-        item.setAcceptableEnchantments(acceptableEnchantments.getValues().toArray(ArrayUtils.EMPTY_STRING_ARRAY));
-        item.setRepairItem(repairItem.getValue());
-        item.setRecipeRemain(recipeRemain.getValue());
+        item.setAcceptableEnchantments(acceptableEnchantments.getCheckedItems().toArray(ArrayUtils.EMPTY_STRING_ARRAY));
+        item.setRepairItem(repairItem.getItem());
+        item.setRecipeRemain(recipeRemain.getItem());
         item.setUseAnimation(useAnimation.getValue());
         item.setUseDuration(useDuration.getValue());
         item.setHitEntityLoss(hitEntityLoss.getValue());
         item.setDestroyBlockLoss(destroyBlockLoss.getValue());
-        item.setInformation(StringUtils.splitByLineSeparator(information.getValue()));
+        item.setInformation(StringUtils.splitByLineSeparator(information.getText()));
 
         item.setModel(model.getModel());
         item.setCustomModels(model.getCustomModels());
-        item.setTextures(textures.getTextures());
-        item.setHasEffect(hasEffect.get());
-        item.setArmorTexture(armorTexture.getTexture());
+        item.setTextures(model.getTextures());
+        item.setHasEffect(hasEffect.isSelected());
+        item.setArmorTexture(armorTexture.getResource());
 
         item.setFuelBurnTime(fuelBurnTime.getValue());
         item.setEquipSound(equipSound.getValue());
         item.setHunger(hunger.getValue());
         item.setSaturation(saturation.getValue());
-        item.setWolfFood(isWolfFood.get());
-        item.setAlwaysEdible(alwaysEdible.get());
-        item.setFoodContainer(foodContainer.getValue());
+        item.setWolfFood(isWolfFood.isSelected());
+        item.setAlwaysEdible(alwaysEdible.isSelected());
+        item.setFoodContainer(foodContainer.getItem());
     }
 
     @Override
     protected boolean validate() {
-        return form.validate();
+        return Validator.validate(identifier);
     }
 }

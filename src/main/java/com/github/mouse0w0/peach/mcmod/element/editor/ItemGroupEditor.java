@@ -4,11 +4,11 @@ import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.element.impl.ItemGroupElement;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemPicker;
 import com.github.mouse0w0.peach.mcmod.ui.control.ItemView;
+import com.github.mouse0w0.peach.mcmod.ui.control.ResourcePicker;
 import com.github.mouse0w0.peach.mcmod.util.IdentifierUtils;
 import com.github.mouse0w0.peach.mcmod.util.ResourceStore;
 import com.github.mouse0w0.peach.mcmod.util.ResourceUtils;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.control.FilePicker;
 import com.github.mouse0w0.peach.ui.util.ExtensionFilters;
 import com.github.mouse0w0.peach.ui.util.FXUtils;
 import com.github.mouse0w0.peach.ui.util.Validator;
@@ -21,12 +21,9 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.File;
 
 public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ItemGroupEditor.class);
@@ -43,7 +40,7 @@ public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
     @FXML
     private RadioButton hasSearchBar;
 
-    private FilePicker background;
+    private ResourcePicker background;
     private ItemView icon;
 
     public ItemGroupEditor(@NotNull Project project, @NotNull ItemGroupElement element) {
@@ -59,20 +56,8 @@ public class ItemGroupEditor extends ElementEditor<ItemGroupElement> {
 
         Validator.of(identifier, AppL10n.localize("validate.invalidIdentifier"), IdentifierUtils::validateIdentifier);
 
-        background = new FilePicker();
+        background = new ResourcePicker(backgroundStore);
         background.getExtensionFilters().add(ExtensionFilters.PNG);
-        background.setConverter(new StringConverter<>() {
-            @Override
-            public String toString(File object) {
-                File result = backgroundStore.store(object);
-                return result != null ? backgroundStore.relativize(result) : background.getValue();
-            }
-
-            @Override
-            public File fromString(String string) {
-                return backgroundStore.resolveToFile(string);
-            }
-        });
         grid.add(background, 1, 3);
 
         icon = new ItemPicker(getProject(), 32);

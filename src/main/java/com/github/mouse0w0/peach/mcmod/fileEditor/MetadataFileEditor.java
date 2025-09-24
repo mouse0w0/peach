@@ -1,61 +1,58 @@
 package com.github.mouse0w0.peach.mcmod.fileEditor;
 
 import com.github.mouse0w0.peach.fileEditor.FileEditorWithButtonBar;
-import com.github.mouse0w0.peach.l10n.AppL10n;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectMetadata;
 import com.github.mouse0w0.peach.mcmod.project.ModProjectService;
-import com.github.mouse0w0.peach.mcmod.ui.form.TextureField;
 import com.github.mouse0w0.peach.mcmod.util.ModIdUtils;
 import com.github.mouse0w0.peach.project.Project;
-import com.github.mouse0w0.peach.ui.form.ColSpan;
-import com.github.mouse0w0.peach.ui.form.Form;
-import com.github.mouse0w0.peach.ui.form.FormView;
-import com.github.mouse0w0.peach.ui.form.Section;
-import com.github.mouse0w0.peach.ui.form.field.ComboBoxField;
-import com.github.mouse0w0.peach.ui.form.field.TextFieldField;
-import com.github.mouse0w0.peach.ui.util.Check;
+import com.github.mouse0w0.peach.ui.util.Validator;
 import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+
+import static com.github.mouse0w0.peach.l10n.AppL10n.localize;
+import static com.github.mouse0w0.peach.ui.layout.Form.form;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.half;
+import static com.github.mouse0w0.peach.ui.layout.FormItem.one;
+import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.scrollVBox;
+import static com.github.mouse0w0.peach.ui.layout.LayoutUtils.titled;
 
 public class MetadataFileEditor extends FileEditorWithButtonBar {
-    private static final List<Locale> LOCALES;
+    private static final List<Locale> LOCALES = new ArrayList<>();
+    private static final Map<Locale, String> LOCALE_DISPLAY_NAME = new HashMap<>();
 
     static {
-        List<Locale> locales = new ArrayList<>();
         for (Locale locale : Locale.getAvailableLocales()) {
             if (locale.getLanguage().isEmpty()) continue;
+            if (locale.getCountry().isEmpty()) continue;
             if (!locale.getVariant().isEmpty()) continue;
             if (!locale.getScript().isEmpty()) continue;
             if (locale.hasExtensions()) continue;
-            locales.add(locale);
+            LOCALES.add(locale);
+            // TODO: Load it from file
+            LOCALE_DISPLAY_NAME.put(locale, locale.getDisplayName(locale));
         }
-        locales.sort(Comparator.comparing(Locale::toString));
-        LOCALES = locales;
+        LOCALES.sort(Comparator.comparing(Locale::toString));
     }
 
     private final ModProjectService descriptor;
     private final ModProjectMetadata metadata;
 
-    private Form form;
-
-    private TextFieldField name;
-    private TextFieldField id;
-    private TextFieldField version;
-    private ComboBoxField<String> mcVersion;
-    private ComboBoxField<Locale> language;
-    private TextFieldField authors;
-    private TextFieldField description;
-    private TextFieldField credits;
-    private TextFieldField url;
-    private TextFieldField updateUrl;
-    private TextureField logo;
+    private TextField name;
+    private TextField id;
+    private TextField version;
+    private ComboBox<String> mcVersion;
+    private ComboBox<Locale> language;
+    private TextField authors;
+    private TextField description;
+    private TextField credits;
+    private TextField url;
+    private TextField updateUrl;
 
     public MetadataFileEditor(@NotNull Project project, @NotNull Path file) {
         super(project, file);
@@ -66,33 +63,25 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
 
     @Override
     protected Node getContent() {
-        form = new Form();
+        name = new TextField();
+        id = new TextField();
+        version = new TextField();
+        mcVersion = new ComboBox<>();
+        language = new ComboBox<>();
+        authors = new TextField();
+        description = new TextField();
+        credits = new TextField();
+        url = new TextField();
+        updateUrl = new TextField();
 
-        name = new TextFieldField();
-        name.setLabel(AppL10n.localize("metadata.general.name"));
-        name.setColSpan(ColSpan.HALF);
+        Validator.of(id, localize("validate.invalidModId"), ModIdUtils::validateModId);
 
-        id = new TextFieldField();
-        id.setLabel(AppL10n.localize("metadata.general.id"));
-        id.setColSpan(ColSpan.HALF);
-        id.getChecks().add(Check.of(AppL10n.localize("validate.invalidModId"), ModIdUtils::validateModId));
-
-        version = new TextFieldField();
-        version.setLabel(AppL10n.localize("metadata.general.version"));
-        version.setColSpan(ColSpan.HALF);
-
-        mcVersion = new ComboBoxField<>();
-        mcVersion.setLabel(AppL10n.localize("metadata.general.mcVersion"));
-        mcVersion.setColSpan(ColSpan.HALF);
         mcVersion.getItems().add("1.12.2");
 
-        language = new ComboBoxField<>();
-        language.setLabel(AppL10n.localize("metadata.general.language"));
-        language.setColSpan(ColSpan.HALF);
         language.setConverter(new StringConverter<>() {
             @Override
             public String toString(Locale object) {
-                return object.getDisplayName(object) + " (" + object + ")";
+                return LOCALE_DISPLAY_NAME.get(object) + " (" + object + ")";
             }
 
             @Override
@@ -102,70 +91,54 @@ public class MetadataFileEditor extends FileEditorWithButtonBar {
         });
         language.getItems().addAll(LOCALES);
 
-        authors = new TextFieldField();
-        authors.setLabel(AppL10n.localize("metadata.general.author"));
-        authors.setColSpan(ColSpan.HALF);
-
-        description = new TextFieldField();
-        description.setLabel(AppL10n.localize("metadata.general.description"));
-
-        credits = new TextFieldField();
-        credits.setLabel(AppL10n.localize("metadata.general.credits"));
-
-        url = new TextFieldField();
-        url.setLabel(AppL10n.localize("metadata.general.url"));
-
-        updateUrl = new TextFieldField();
-        updateUrl.setLabel(AppL10n.localize("metadata.general.updateUrl"));
-
-        Section general = new Section();
-        general.setText(AppL10n.localize("metadata.general.title"));
-        general.getElements().addAll(
-                name, id,
-                version, mcVersion,
-                language, authors,
-                description,
-                credits,
-                url,
-                updateUrl);
-
-        form.getGroups().add(general);
-
         initialize();
 
-        return new FormView(form);
+        return scrollVBox(
+                titled(localize("metadata.general.title"), form(
+                        half(localize("metadata.general.name"), name),
+                        half(localize("metadata.general.id"), id),
+                        half(localize("metadata.general.version"), version),
+                        half(localize("metadata.general.mcVersion"), mcVersion),
+                        half(localize("metadata.general.language"), language),
+                        half(localize("metadata.general.author"), authors),
+                        one(localize("metadata.general.description"), description),
+                        one(localize("metadata.general.credits"), credits),
+                        one(localize("metadata.general.url"), url),
+                        one(localize("metadata.general.updateUrl"), updateUrl)
+                ))
+        );
     }
 
     private void initialize() {
-        name.setValue(metadata.getName());
-        id.setValue(metadata.getId());
-        version.setValue(metadata.getVersion());
+        name.setText(metadata.getName());
+        id.setText(metadata.getId());
+        version.setText(metadata.getVersion());
         mcVersion.setValue(metadata.getMcVersion());
         language.setValue(metadata.getLanguage());
-        authors.setValue(metadata.getAuthor());
-        description.setValue(metadata.getDescription());
-        credits.setValue(metadata.getCredits());
-        url.setValue(metadata.getUrl());
-        updateUrl.setValue(metadata.getUpdateUrl());
+        authors.setText(metadata.getAuthor());
+        description.setText(metadata.getDescription());
+        credits.setText(metadata.getCredits());
+        url.setText(metadata.getUrl());
+        updateUrl.setText(metadata.getUpdateUrl());
     }
 
     @Override
     protected void onApply() {
-        metadata.setName(name.getValue());
-        metadata.setId(id.getValue());
-        metadata.setVersion(version.getValue());
+        metadata.setName(name.getText());
+        metadata.setId(id.getText());
+        metadata.setVersion(version.getText());
         metadata.setMcVersion(mcVersion.getValue());
-        metadata.setDescription(description.getValue());
-        metadata.setAuthor(authors.getValue());
+        metadata.setDescription(description.getText());
+        metadata.setAuthor(authors.getText());
         metadata.setLanguage(language.getValue());
-        metadata.setUrl(url.getValue());
-        metadata.setUpdateUrl(updateUrl.getValue());
-        metadata.setCredits(credits.getValue());
+        metadata.setUrl(url.getText());
+        metadata.setUpdateUrl(updateUrl.getText());
+        metadata.setCredits(credits.getText());
         descriptor.saveMetadata();
     }
 
     @Override
     protected boolean validate() {
-        return form.validate();
+        return Validator.validate(id);
     }
 }
