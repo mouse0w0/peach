@@ -28,7 +28,6 @@ public class FilePicker extends Control {
     }
 
     private static final EventHandler<DragEvent> ON_DRAG_OVER = event -> {
-        event.consume();
         if (event.getGestureSource() == event.getTarget()) return;
 
         Dragboard dragboard = event.getDragboard();
@@ -42,13 +41,14 @@ public class FilePicker extends Control {
         if (!Utils.testExtensionFilters(file, filePicker.extensionFilters)) return;
 
         event.acceptTransferModes(TransferMode.COPY);
+        event.consume();
     };
 
     private static final EventHandler<DragEvent> ON_DRAG_DROPPED = event -> {
-        event.consume();
         FilePicker filePicker = (FilePicker) event.getSource();
         filePicker.setFile(event.getDragboard().getFiles().get(0));
         event.setDropCompleted(true);
+        event.consume();
     };
 
     public FilePicker(Type type) {
@@ -59,8 +59,8 @@ public class FilePicker extends Control {
     public FilePicker() {
         getStyleClass().add("file-picker");
         setFocusTraversable(true);
-        setOnDragOver(ON_DRAG_OVER);
-        setOnDragDropped(ON_DRAG_DROPPED);
+        addEventHandler(DragEvent.DRAG_OVER, ON_DRAG_OVER);
+        addEventHandler(DragEvent.DRAG_DROPPED, ON_DRAG_DROPPED);
     }
 
     private ObjectProperty<Type> type;
