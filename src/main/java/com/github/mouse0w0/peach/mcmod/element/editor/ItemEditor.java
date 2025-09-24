@@ -300,7 +300,7 @@ public class ItemEditor extends ElementEditor<ItemElement> {
                 ResourceUtils.getResourcePath(getProject(), ResourceUtils.ARMOR_TEXTURES)));
         armorTexture.getExtensionFilters().add(ExtensionFilters.PNG);
         armorTexture.setFitSize(128, 64);
-//        armorTexture.setMaxSize(128, 64);
+        armorTexture.setMaxSize(128, 64);
         armorTexture.disableProperty().bind(isNotArmor);
 
         var appearance = titled(localize("item.appearance.title"), form(
