@@ -15,7 +15,7 @@ import java.io.IOException;
 public class ImagePickerSkin extends SkinBase<ImagePicker> {
     private final ImageView imageView;
     private final StackPane imageOuter;
-    private final StackPane add;
+    private final StackPane icon;
     private final StackPane clearBtn;
 
     public ImagePickerSkin(ImagePicker control) {
@@ -30,9 +30,9 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
         imageOuter = new StackPane(imageView);
         imageOuter.getStyleClass().add("image-outer");
 
-        add = new StackPane();
-        add.getStyleClass().add("add");
-        add.visibleProperty().bind(control.fileProperty().isNull());
+        icon = new StackPane();
+        icon.getStyleClass().add("icon");
+        icon.visibleProperty().bind(control.fileProperty().isNull());
 
         clearBtn = new StackPane();
         clearBtn.getStyleClass().add("clear-button");
@@ -46,7 +46,7 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
         clear.getStyleClass().add("clear");
         clearBtn.getChildren().add(clear);
 
-        getChildren().addAll(imageOuter, add, clearBtn);
+        getChildren().addAll(imageOuter, icon, clearBtn);
 
         control.fileProperty().addListener(observable -> updateFile());
         updateFile();
@@ -99,7 +99,7 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
     @Override
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         layoutInArea(imageOuter, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
-        layoutInArea(add, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
+        layoutInArea(icon, contentX, contentY, contentWidth, contentHeight, 0, HPos.CENTER, VPos.CENTER);
         layoutInArea(clearBtn, contentX, contentY, contentWidth, contentHeight, 0, HPos.RIGHT, VPos.TOP);
     }
 }
