@@ -18,6 +18,24 @@ Label {
     -fx-background-color: transparent;
 }
 
+.form-item > .label {
+    -fx-padding: 0.25em 0.25em 0.25em 0.75em;
+}
+
+.form {
+    -fx-background-color: white;
+}
+
+.form > .grid {
+    -fx-alignment: center-left;
+    -fx-vgap: 0.75em;
+}
+
+.form-item > .combo-box-base,
+.form-item > .spinner {
+    -fx-max-width: 99999;
+}
+
 .menu-bar {
     -fx-background-color: -peach-border-color, -peach-background-color;
     -fx-background-insets: 0 0 0 0, 0 0 1 0;
