@@ -1,0 +1,10 @@
+.model-picker,
+.model-picker > .form-item > .custom-models-pane {
+    -fx-spacing: 0.75em;
+    -fx-fill-width: true;
+}
+
+.model-picker > .form-item > .textures-pane {
+    -fx-vgap: 0.75em;
+    -fx-hgap: 0.75em;
+}
