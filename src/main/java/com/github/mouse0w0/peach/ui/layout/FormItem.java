@@ -4,7 +4,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableBooleanValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.VPos;
@@ -194,41 +193,6 @@ public class FormItem extends Region {
         setSpan(span);
         setLabel(label);
         setField(field);
-    }
-
-    public final FormItem id(String id) {
-        setId(id);
-        return this;
-    }
-
-    public final FormItem styleClass(String styleClass) {
-        getStyleClass().add(styleClass);
-        return this;
-    }
-
-    public final FormItem styleClass(String... styleClasses) {
-        getStyleClass().addAll(styleClasses);
-        return this;
-    }
-
-    public final FormItem visible(boolean value) {
-        setVisible(value);
-        return this;
-    }
-
-    public final FormItem bindVisible(ObservableBooleanValue observable) {
-        visibleProperty().bind(observable);
-        return this;
-    }
-
-    public final FormItem managed(boolean value) {
-        setManaged(value);
-        return this;
-    }
-
-    public final FormItem bindManaged(ObservableBooleanValue observable) {
-        managedProperty().bind(observable);
-        return this;
     }
 
     private ObjectProperty<Node> label;
