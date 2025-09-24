@@ -37,8 +37,8 @@ public class ImagePickerSkin extends SkinBase<ImagePicker> {
         clearBtn = new StackPane();
         clearBtn.getStyleClass().add("clear-button");
         clearBtn.setOnMouseClicked(event -> {
-            event.consume();
             control.setFile(null);
+            event.consume();
         });
         clearBtn.visibleProperty().bind(control.hoverProperty().and(control.fileProperty().isNotNull()));
 

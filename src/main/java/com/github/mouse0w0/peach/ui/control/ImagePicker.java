@@ -21,13 +21,12 @@ import java.util.List;
 
 public class ImagePicker extends Control {
     private static final EventHandler<MouseEvent> ON_MOUSE_CLICKED = event -> {
+        ImagePicker imagePicker = (ImagePicker) event.getSource();
+        imagePicker.showDialog();
         event.consume();
-        ((ImagePicker) event.getSource()).showDialog();
     };
 
     private static final EventHandler<MouseEvent> ON_DRAG_DETECTED = event -> {
-        event.consume();
-
         ImagePicker imagePicker = (ImagePicker) event.getSource();
         File file = imagePicker.getFile();
         if (file == null) return;
@@ -36,10 +35,11 @@ public class ImagePicker extends Control {
         ClipboardContent content = new ClipboardContent();
         content.put(DataFormat.FILES, Collections.singletonList(file));
         dragboard.setContent(content);
+
+        event.consume();
     };
 
     private static final EventHandler<DragEvent> ON_DRAG_OVER = event -> {
-        event.consume();
         if (event.getGestureSource() == event.getTarget()) return;
 
         Dragboard dragboard = event.getDragboard();
@@ -53,21 +53,22 @@ public class ImagePicker extends Control {
         if (!Utils.testExtensionFilters(file, imagePicker.extensionFilters)) return;
 
         event.acceptTransferModes(TransferMode.COPY);
+        event.consume();
     };
 
     private static final EventHandler<DragEvent> ON_DRAG_DROPPED = event -> {
-        event.consume();
         ImagePicker imagePicker = (ImagePicker) event.getSource();
         imagePicker.setFile(event.getDragboard().getFiles().get(0));
         event.setDropCompleted(true);
+        event.consume();
     };
 
     public ImagePicker() {
         getStyleClass().add("image-picker");
-        setOnMouseClicked(ON_MOUSE_CLICKED);
-        setOnDragDetected(ON_DRAG_DETECTED);
-        setOnDragOver(ON_DRAG_OVER);
-        setOnDragDropped(ON_DRAG_DROPPED);
+        addEventHandler(MouseEvent.MOUSE_CLICKED, ON_MOUSE_CLICKED);
+        addEventHandler(MouseEvent.DRAG_DETECTED, ON_DRAG_DETECTED);
+        addEventHandler(DragEvent.DRAG_OVER, ON_DRAG_OVER);
+        addEventHandler(DragEvent.DRAG_DROPPED, ON_DRAG_DROPPED);
     }
 
     private ObjectProperty<File> file;
