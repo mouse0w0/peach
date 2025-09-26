@@ -41,6 +41,7 @@ public class TagView<T> extends Control {
 
     private static final EventType<?> REMOVE_EVENT = new EventType<>(anyEvent(), "REMOVE");
 
+    @SuppressWarnings("unchecked")
     public static <T> EventType<TagEvent<T>> editStartEvent() {
         return (EventType<TagEvent<T>>) EDIT_START_EVENT;
     }
