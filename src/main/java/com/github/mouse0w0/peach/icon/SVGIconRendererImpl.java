@@ -1,8 +1,8 @@
 package com.github.mouse0w0.peach.icon;
 
 import com.github.weisj.jsvg.SVGDocument;
-import com.github.weisj.jsvg.geometry.size.FloatSize;
 import com.github.weisj.jsvg.parser.SVGLoader;
+import com.github.weisj.jsvg.view.FloatSize;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
