@@ -98,7 +98,7 @@ public final class ExtensionOrder {
         return str;
     }
 
-    public static <T> void sort(List<ExtensionWrapper<T>> wrappers, Map<String, ExtensionWrapper<T>> idMap) {
+    static <T> void sort(List<ExtensionWrapper<T>> wrappers, Map<String, ExtensionWrapper<T>> idMap) {
         String firstFence = "first-fence";
         String lastFence = "last-fence";
         DirectedGraph<Object> graph = new DirectedGraph<>();
