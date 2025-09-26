@@ -9,8 +9,7 @@ String buildNumber = 'git rev-list --count HEAD'.execute().text.trim()
 
 group = 'com.github.mouse0w0'
 version = "0.1.0.${buildNumber}-SNAPSHOT"
-mainClassName = 'com.github.mouse0w0.peach.Peach'
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
@@ -50,15 +49,19 @@ dependencies {
 }
 
 javafx {
-    version = '23.0.2'
+    version = '25'
     modules = ['javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.swing']
+}
+
+application {
+    mainClass = 'com.github.mouse0w0.peach.Peach'
 }
 
 jar {
     String gitBranch = 'git name-rev --name-only HEAD'.execute().text.trim()
     String gitVersion = 'git rev-parse --short HEAD'.execute().text.trim()
     manifest.attributes([
-            "Main-Class"              : mainClassName,
+            "Main-Class": 'com.github.mouse0w0.peach.Peach',
             "Implementation-Title"    : rootProject.name,
             "Implementation-Version"  : rootProject.version,
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
