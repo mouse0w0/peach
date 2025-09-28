@@ -25,7 +25,7 @@ public class Alert extends Dialog<ButtonType> {
     }
 
     public static void warning(String title, String text) {
-        new Alert(title != null ? title : AppL10n.localize("dialog.warning.title"), text, ButtonType.OK).show();
+        new Alert(title != null ? title : AppL10n.localize("dialog.warning.title"), text, ButtonType.OK).showAndWait();
     }
 
     public static void error(String text) {
@@ -33,7 +33,7 @@ public class Alert extends Dialog<ButtonType> {
     }
 
     public static void error(String title, String text) {
-        new Alert(title != null ? title : AppL10n.localize("dialog.error.title"), text, ButtonType.OK).show();
+        new Alert(title != null ? title : AppL10n.localize("dialog.error.title"), text, ButtonType.OK).showAndWait();
     }
 
     public Alert(String title, String text, ButtonType... buttonTypes) {
