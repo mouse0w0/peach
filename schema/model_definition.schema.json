@@ -1,0 +1,52 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "Model Definition",
+    "type": "object",
+    "required": [
+        "id",
+        "models"
+    ],
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "preview": {
+            "type": "string"
+        },
+        "blockstates": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "textures": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "models": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "required": [
+                    "template",
+                    "name"
+                ],
+                "properties": {
+                    "template": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "parent": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    },
+    "additionalProperties": false
+}
