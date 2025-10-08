@@ -1,0 +1,14 @@
+{
+    "templates": [
+        {
+            "type": "json",
+            "template": "mcmod.info.ftl",
+            "path": "mcmod.info"
+        },
+        {
+            "type": "json",
+            "template": "pack.mcmeta.ftl",
+            "path": "pack.mcmeta"
+        }
+    ]
+}
