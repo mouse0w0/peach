@@ -1,4 +1,4 @@
-package com.github.mouse0w0.peach.mcmod.generator2;
+package com.github.mouse0w0.peach.mcmod.generator2.expression;
 
 import freemarker.template.Configuration;
 import org.junit.jupiter.api.Test;
