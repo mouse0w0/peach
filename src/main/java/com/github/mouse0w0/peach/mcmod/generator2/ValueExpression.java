@@ -10,13 +10,13 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Objects;
 
-public final class ExpressionImpl implements Expression {
+public final class ValueExpression implements Expression {
     private final String expression;
     private final Configuration configuration;
 
     private volatile Template template;
 
-    public ExpressionImpl(@NotNull String expression, @NotNull Configuration configuration) {
+    public ValueExpression(@NotNull String expression, @NotNull Configuration configuration) {
         this.expression = Objects.requireNonNull(expression, "expression");
         this.configuration = Objects.requireNonNull(configuration, "configuration");
     }
