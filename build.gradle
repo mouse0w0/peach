@@ -10,11 +10,15 @@ String buildNumber = 'git rev-list --count HEAD'.execute().text.trim()
 group = 'com.github.mouse0w0'
 version = "0.1.0.${buildNumber}-SNAPSHOT"
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
-compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
-    maven { url 'https://jitpack.io' }
+    maven { url = 'https://jitpack.io' }
+}
+
+javafx {
+    version = '25'
+    modules = ['javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
 
 dependencies {
@@ -43,18 +47,22 @@ dependencies {
 
     runtimeOnly 'org.apache.logging.log4j:log4j-slf4j2-impl:2.25.2'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.13.4'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.13.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.14.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.14.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.14.0'
     testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.17'
 }
 
-javafx {
-    version = '25'
-    modules = ['javafx.base', 'javafx.graphics', 'javafx.controls', 'javafx.fxml', 'javafx.swing']
+test {
+    useJUnitPlatform()
 }
 
 application {
     mainClass = 'com.github.mouse0w0.peach.Peach'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 jar {
@@ -84,7 +92,7 @@ file('plugin').eachDir { pluginDir ->
         task.from pluginDir
         task.destinationDirectory = layout.buildDirectory.dir("plugin")
         task.archiveFileName = pluginDir.getName() + '.zip'
-        task.group 'plugin'
+        task.group = 'plugin'
         task.mustRunAfter cleanPlugins
     }
 }
